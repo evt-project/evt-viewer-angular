@@ -21,6 +21,7 @@ import { ImagePanelComponent } from './panels/image-panel/image-panel.component'
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
 import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
+import { VersionPanelComponent } from './panels/version-panel/version-panel.component';
 
 const routes: Routes = [
 ];
@@ -54,6 +55,7 @@ const l10nConfig: L10nConfig = {
     ReadingTextComponent,
     SourcesPanelComponent,
     TextPanelComponent,
+    VersionPanelComponent,
   ],
   imports: [
     AppRoutingModule,
