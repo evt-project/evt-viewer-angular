@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { UiComponentsModule } from './ui-components/ui-components.module';
+import { GridsterModule } from 'angular-gridster2';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -56,6 +57,7 @@ const l10nConfig: L10nConfig = {
     AppRoutingModule,
     AppTranslationModule,
     BrowserModule,
+    GridsterModule,
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true }),
     TranslationModule.forRoot(l10nConfig),
