@@ -10,6 +10,7 @@
       [active]="getCurrentLanguage() === language.code"
       [disabled]="getCurrentLanguage() === language.code"
       [label]="language.label | translate:lang"
+      [iconLeft]="language.icon"
       type="button" 
       additionalClasses="btn-primary"></evt-button>
     <div>

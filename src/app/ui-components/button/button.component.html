@@ -9,5 +9,7 @@
     }"
   [ngStyle]="additionalStyle">
   <ng-content select="[label-left]"></ng-content>
+  <evt-icon [iconInfo]="iconLeft" *ngIf="iconLeft"></evt-icon>
   {{ label }}
+  <evt-icon [iconInfo]="iconRight" *ngIf="iconRight"></evt-icon>
 </button>

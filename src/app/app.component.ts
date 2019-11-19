@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { ThemesService, ColorTheme } from './services/themes.service';
+import { EvtIconInfo } from './ui-components/icon/icon.component';
 
 @Component({
   selector: 'evt-root',
@@ -23,13 +24,21 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getAvailableLanguages() {
+  getAvailableLanguages(): Array<{ code: string; label: string; icon: EvtIconInfo }> {
     return [{
       code: 'en',
-      label: 'languageEn'
+      label: 'languageEn',
+      icon: {
+        icon: 'language',
+        iconSet: 'fas'
+      }
     }, {
       code: 'it',
-      label: 'languageIt'
+      label: 'languageIt',
+      icon: {
+        icon: 'language',
+        iconSet: 'fas'
+      }
     }];
   }
 
