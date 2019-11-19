@@ -3,7 +3,7 @@
   <span> {{ title }} </span>
   <div>
     <evt-button additionalClasses="btn-no-border btn-inverted viewMode-btn"
-        [active]="viewMode === currentViewMode"
+        [active]="viewMode === currentViewMode" class="mr-1"
         *ngFor="let viewMode of viewModes trackBy: viewMode?.id" [title]="viewMode.label"
         (click)="selectViewMode(viewMode)" [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
     </evt-button>

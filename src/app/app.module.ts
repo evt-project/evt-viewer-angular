@@ -20,6 +20,7 @@ import { TextPanelComponent } from './panels/text-panel/text-panel.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
+import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
 
 const routes: Routes = [
 ];
@@ -51,6 +52,7 @@ const l10nConfig: L10nConfig = {
     ImagePanelComponent,
     ImageTextComponent,
     ReadingTextComponent,
+    SourcesPanelComponent,
     TextPanelComponent,
   ],
   imports: [
