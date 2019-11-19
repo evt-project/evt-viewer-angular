@@ -5,6 +5,7 @@ import { UiComponentsModule } from './ui-components/ui-components.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AppTranslationModule } from './app-translation.module';
 
 import { ThemesService } from './services/themes.service';
 
@@ -40,6 +41,7 @@ const l10nConfig: L10nConfig = {
   ],
   imports: [
     AppRoutingModule,
+    AppTranslationModule,
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true }),
