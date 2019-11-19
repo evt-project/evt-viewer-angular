@@ -116,6 +116,12 @@ export class AppComponent implements OnInit, OnDestroy {
       id: 'collation',
       label: 'Collation'
     });
+    this.viewModes.push({
+        icon: 'srcTxt',
+        iconSet: 'evt',
+        id: 'textSources',
+        label: 'Text Sources'
+    });
   }
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

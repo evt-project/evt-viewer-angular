@@ -25,6 +25,7 @@ import { VersionPanelComponent } from './panels/version-panel/version-panel.comp
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
+import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 
 const routes: Routes = [
 ];
@@ -59,6 +60,7 @@ const l10nConfig: L10nConfig = {
     ReadingTextComponent,
     SourcesPanelComponent,
     TextPanelComponent,
+    TextSourcesComponent,
     TextTextComponent,
     VersionPanelComponent,
     WitnessPanelComponent,
