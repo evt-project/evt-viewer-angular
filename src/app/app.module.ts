@@ -8,6 +8,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
 ];
 
+import { ThemesService } from './services/themes.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +20,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { useHash: true }),
   ],
   providers: [
+    ThemesService,
   ],
   bootstrap: [
     AppComponent,

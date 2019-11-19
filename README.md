@@ -127,12 +127,52 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-4 - EVT Manual
+4 - Main Development Instruction
+---------------------
+
+### 4.1 - Handle color theme
+This new version of EVT is able to handle multiple themes at runtime. A "theme" is intended as a particular palette or set of color used for the main UI components.
+
+In the file `assets/scss/_themes.scss` we defined a global variable `$theme` where we declare every single color used in the UI components. Each color must exist in every single theme.
+
+#### 4.1.1 - Add a new theme
+To add a new theme just follow the steps below:
+* add an object at the end of the current list of themes, which has all the properties of an existing one (we recommend doing copy-paste to be sure not to lose anything);
+* change the color codes as desired;
+* add the new theme id to the list of available themes in the `ThemeService` (`themes.service.ts`):
+    ```
+    {
+        value: 'myThemeKey',
+        label: 'My Theme Label'
+    }
+    ```
+  * the `value` is the ID of the new theme, the key of the object previously created;
+  * the `label` is the label to be displayed in the theme selector in the UI.
+
+#### 4.1.2 - Add new themed CSS rules
+To add new CSS rules so that colors are retrieved from the current theme (and change automatically when the theme changes at runtime), just follow the steps below:
+* import the file `_themes.scss` in the `*.scss` file of the component
+  ```
+	@import "path/to/_theme.scss";
+  ``` 
+* Embody every css rule to be themed in the following instruction:
+  ```
+	@include themify($themes){
+		[...]
+	}
+  ```
+    Within this instruction, every css rule that uses a color and need to be linked to the current theme, must be defined as
+    ```
+	    themed("colorKey");
+    ```
+    where `colorKey` is the key of the color within the object representing a theme defined in the file `_theme.scss`.
+
+5 - EVT Manual
 ---------------------
 
 Work in progress... stay in touch!
 
 
-5 - Feedback
+6 - Feedback
 -----------------
 User feedback is very much appreciated: please send all comments, suggestions, bug reports, etc. to evt.developers@gmail.com.

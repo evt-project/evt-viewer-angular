@@ -1,6 +1,18 @@
 <!-- Temporary -->
-<div style="width:100%; text-align: center;">
-  <img src="./assets/images/logo.png" style="width: 45%"/>
+<div class="temp-box" [attr.data-theme]="getCurrentTheme()">
+  <div>
+    Cambia tema
+    <ng-container *ngFor="let theme of getAvailableThemes()">
+      <input type="radio" name="theme" 
+          [value]="theme.value"
+          [checked]="theme.value === getCurrentTheme()"
+          (change)="selectTheme(theme)">
+          {{ theme.label }}
+    </ng-container>
+    
+  </div>
+  <p>Tema corrente: {{ getCurrentTheme() }}</p>
+  <img src="./assets/images/logo.png" style="width: 100%"/>
 </div>
 <!-- //= -->
 

@@ -1,0 +1,11 @@
+@import '../assets/scss/themes';
+
+// TEMP
+.temp-box {
+    width: 100%;
+    text-align: center;
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+    }
+}

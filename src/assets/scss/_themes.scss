@@ -1,0 +1,31 @@
+$themes: (
+    neutral: (
+        baseColorDark: #fff,
+        baseColorLight: #000,
+    ),    
+    blue: (
+        baseColorDark: #263238,
+        baseColorLight: #ECEFF1,
+    ),
+    brown: (
+        baseColorDark: rgb(54, 45, 40),
+        baseColorLight: rgb(245, 234, 212),
+    ),
+);
+
+@mixin themify($themes: $themes) {
+    @each $theme, $map in $themes {
+         &[data-theme="#{$theme}"] {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+@function themed($key) {
+    @return map-get($theme-map, $key);
+}
