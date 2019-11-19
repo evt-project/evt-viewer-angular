@@ -1,18 +1,19 @@
 <!-- Temporary -->
-<div class="temp-box" [attr.data-theme]="getCurrentTheme()">
+<div class="temp-box" [attr.data-theme]="getCurrentTheme().value">
+  <h1> {{ title }} </h1>
+  <h3>{{ 'changeLanguage' | translate:lang }}</h3>
+  <button (click)="selectLanguage('en')" [disabled]="getCurrentLanguage() === 'en'">{{ 'languageEn' | translate:lang }}</button>
+  <button (click)="selectLanguage('it')" [disabled]="getCurrentLanguage() === 'it'">{{ 'languageIt' | translate:lang }}</button>
   <div>
-    Cambia tema
+    <h3>{{ 'changeTheme' | translate:lang }}</h3>
     <ng-container *ngFor="let theme of getAvailableThemes()">
-      <input type="radio" name="theme" 
-          [value]="theme.value"
-          [checked]="theme.value === getCurrentTheme()"
-          (change)="selectTheme(theme)">
-          {{ theme.label }}
+      <input type="radio" name="theme" [value]="theme.value" [checked]="theme.value === getCurrentTheme().value"
+        (change)="selectTheme(theme)">
+      {{ theme.label | translate:lang }}
     </ng-container>
-    
+
   </div>
-  <p>Tema corrente: {{ getCurrentTheme() }}</p>
-  <img src="./assets/images/logo.png" style="width: 100%"/>
+  <img src="./assets/images/logo.png" style="width: 100%" />
 </div>
 <!-- //= -->
 

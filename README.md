@@ -167,6 +167,58 @@ To add new CSS rules so that colors are retrieved from the current theme (and ch
     ```
     where `colorKey` is the key of the color within the object representing a theme defined in the file `_theme.scss`.
 
+### 4.2 - Localization
+To handle localization we use the plugin angular-l10n[https://github.com/robisim74/angular-l10n]; in this way we can offer a runtime solution for language switching without fully reload the application.
+
+Translations are defined in a JSON file (one for each language), saved inside the folder `assets/l10n`. This JSON is organized as follows:
+```
+{
+	"KEY": "Text in a particular language",
+	...
+}
+```
+The `KEY` is the unique identifier used in the angular application (usually in the HTML template) whenever we need to retrieve a translated text.
+
+#### 4.2.1 - Add a text in the localization
+To add a new text in the localization, you just need to add a pair `"KEY": "Text"` for every language already esisting. 
+If you don't know the translation in a particular language use the English and let us know: we will handle the missing translations.
+
+#### 4.2.2 - Work with localization in angular templates
+To add a text in the UI so that it will be correctly translated when needed, just follow the steps below:
+* In the *component* where we want to add the localization, add the imports below:
+    ```
+    @import { localeService, TranslationService, language } from ‘angular-l10n’;
+    ```
+    and in the *Class* the property:
+    ```
+    @Language() lang: string;
+    ```
+* In the HTML template, use the *pipe* `translate:lang` whenever you need to insert a localized text, referring to the `KEY` that represents the text in question. (_NB: the KEY must exist in the JSON of the translations!_):
+    ```
+    <span [title]="'myTitle' | translate:lang">
+        {{'myText' | translate:lang}}
+    </span>
+    ```
+
+#### 4.2.3 - Add a new language
+To add a new language to the localization so that it is automatically displayed in the language selector, just follow the steps below:
+* Add the JSON file of the new language in the `assets/l10n` folder. 
+    * This file must be named as `"locale-LANGUAGE_CODE.json"`, where `"LANGUAGE_CODE"` is the reference code of the new language;
+    * this file must present ALL the keys that exist in the other files, so it is advisable to make a copy-paste of one of the files already present before starting with the translations.
+* In the `app.module.ts` file, add an element to the list of languages in the l10n configuration. This element must be structured as follows:
+    ```
+    {code: "CD", dir: "ltr"}
+    ```
+    * `code` indicates the language code (the one used to name the JSON file);
+    * `dir` indicates the language direction:
+      * `ltr` = left-to-right
+      * `rtl` = right-to-left
+* In every other JSON translations file the key `"language_LANGUAGE_CODE"` to have a translation of the name of the new language in all the others already present and managed.
+* Finally, add a `.png` file that depicts the flag identifying the new language in the `assets/images` folder. This file must be named with the code of the new language and must preferably be a square with not too large dimensions.
+
+
+
+
 5 - EVT Manual
 ---------------------
 

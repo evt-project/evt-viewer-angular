@@ -10,13 +10,13 @@ export class ThemesService {
     constructor() {
         this.themes = [{
             value: 'neutral',
-            label: 'Neutral'
+            label: 'themeNeutral'
         }, {
             value: 'blue',
-            label: 'Blue'
+            label: 'themeBlue'
         }, {
             value: 'brown',
-            label: 'Brown'
+            label: 'themeBrown'
         }];
         this.currentTheme = this.themes[0];
     }
@@ -36,5 +36,5 @@ export class ThemesService {
 
 export interface ColorTheme {
   value: string;
-  label: string;
+  label: string;  // Key in the JSON localization for the label
 }
