@@ -1,0 +1,21 @@
+<gridster [options]="options">
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="versionsPanelItem">
+        <div class="versionsPanel" #versionsPanel
+        [class.align-self-center]="getVersions().length === 0" 
+        [class.empty]="getVersions().length === 0">
+            <gridster [options]="versionsOptions" *ngIf="getVersions().length > 0">
+                <gridster-item [item]="version.itemConfig" *ngFor="let version of getVersions(); let i = index">
+                <evt-version-panel
+                    (hide)="removeVersion(i)" [version]="version.label">
+                </evt-version-panel>
+                </gridster-item>
+            </gridster>
+            <button type="button" class ="btn btn-primary shadow"
+            [class.btn-float-right]="getVersions().length > 0"
+            (click)="addVersion()">ADD VERSION </button>
+        </div> 
+    </gridster-item>
+</gridster>

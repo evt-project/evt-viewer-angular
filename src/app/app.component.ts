@@ -122,6 +122,12 @@ export class AppComponent implements OnInit, OnDestroy {
         id: 'textSources',
         label: 'Text Sources'
     });
+    this.viewModes.push({
+        icon: 'versions',
+        iconSet: 'evt',
+        id: 'textVersions',
+        label: 'Text Versions'
+    });
   }
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
