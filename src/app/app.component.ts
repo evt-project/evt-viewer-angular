@@ -105,6 +105,12 @@ export class AppComponent implements OnInit, OnDestroy {
       label: 'Image Text'
     });
     this.viewModes.push({
+      icon: 'txtTxt',
+      iconSet: 'evt',
+      id: 'textText',
+      label: 'Text Text'
+    });
+    this.viewModes.push({
       icon: 'collation',
       iconSet: 'evt',
       id: 'collation',
