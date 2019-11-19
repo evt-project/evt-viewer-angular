@@ -2,14 +2,23 @@ $themes: (
     neutral: (
         baseColorDark: #fff,
         baseColorLight: #000,
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(0, 0, 0, 0.35)
     ),    
     modern: (
         baseColorDark: #263238,
         baseColorLight: #ECEFF1,
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
     ),
     classic: (
         baseColorDark: rgb(54, 45, 40),
         baseColorLight: rgb(245, 234, 212),
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
     ),
 );
 
@@ -32,6 +41,7 @@ $themes: (
 // ```
 @mixin themify($themes: $themes) {
     @each $theme, $map in $themes {
+        :host-context([data-theme="#{$theme}"]) &,
         [data-theme="#{$theme}"] & {
             $theme-map: () !global;
             @each $key, $submap in $map {

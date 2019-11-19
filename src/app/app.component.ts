@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { ThemesService, ColorTheme } from './services/themes.service';
 import { EvtIconInfo } from './ui-components/icon/icon.component';
@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     public locale: LocaleService,
     public translation: TranslationService) { }
 
+  @HostBinding('attr.data-theme') get dataTheme() { return this.getCurrentTheme().value; }
 
   ngOnInit(): void {
     this.translation.translationChanged().subscribe(
