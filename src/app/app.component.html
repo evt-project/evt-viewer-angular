@@ -3,22 +3,27 @@
   <div class="temp-box">
     <h1> {{ title }} </h1>
     <h3>{{ 'changeLanguage' | translate:lang }}</h3>
-    <button type="button" class="btn btn-primary btn-sm"
-      *ngFor="let language of getAvailableLanguages()" 
-      (click)="selectLanguage(language.code)"
-      [class.active]="getCurrentLanguage() === language.code"
-      [disabled]="getCurrentLanguage() === language.code">
-      {{ language.label | translate:lang }}
-    </button>
+    <evt-button 
+      *ngFor="let language of getAvailableLanguages(); let last=last"
+      [class.mr-1]="!last"
+      (btnClick)="selectLanguage(language.code)"
+      [active]="getCurrentLanguage() === language.code"
+      [disabled]="getCurrentLanguage() === language.code"
+      [label]="language.label | translate:lang"
+      type="button" 
+      additionalClasses="btn-primary"></evt-button>
     <div>
       <h3>{{ 'changeTheme' | translate:lang }}</h3>
-      <button type="button" class="btn btn-primary btn-sm"
-        *ngFor="let theme of getAvailableThemes()" 
-        (click)="selectTheme(theme)"
-        [class.active]="theme.value === getCurrentTheme().value"
-        [disabled]="theme.value === getCurrentTheme().value">
-        {{ theme.label | translate:lang }}
-      </button>
+      <evt-button
+        *ngFor="let theme of getAvailableThemes(); let last=last" 
+        [class.mr-1]="!last"
+        type="button" 
+        additionalClasses="btn-primary"
+        (btnClick)="selectTheme(theme)"
+        [active]="theme.value === getCurrentTheme().value"
+        [disabled]="theme.value === getCurrentTheme().value"
+        [label]="theme.label | translate:lang">
+      </evt-button>
     </div>
     <img src="../assets/images/logo.png" style="width: 100%" />
   </div>

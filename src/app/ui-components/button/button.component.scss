@@ -1,0 +1,17 @@
+@import '../../../assets/scss/themes';
+
+.btn {
+    &.transparent{
+        &:hover {
+            // background: rgba(0, 0, 0, .1);
+            opacity: .7;
+        }
+        &.active {
+            @include themify($themes) { // TEMP
+                color: themed('baseColorLight');
+                background-color: themed('baseColorDark');
+                border-color: themed('baseColorDark');
+            }
+        }
+    }
+}

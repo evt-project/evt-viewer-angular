@@ -1,0 +1,13 @@
+<button [type]="type" (click)="clickButton($event)" 
+    class="btn btn-sm {{additionalClasses}}" 
+    [disabled]="disabled"
+    [ngClass]="{
+        'btn-light': !transparent,
+        'shadow-sm': !transparent,
+        transparent: transparent,
+        active: active
+    }"
+  [ngStyle]="additionalStyle">
+  <ng-content select="[label-left]"></ng-content>
+  {{ label }}
+</button>
