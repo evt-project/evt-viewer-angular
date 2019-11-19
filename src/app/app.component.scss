@@ -12,14 +12,20 @@
 }
 
 
-.viewMode-btn {
-    font-size: inherit;
+::ng-deep .viewMode-btn {
+    font-size: 1.6rem;
     padding: 0 5px;
     height: 38px;
     line-height: .9px;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 
     .viewMode-selector {
         line-height: 0;
         vertical-align: text-bottom;
+    }
+    &.active {
+        color: #cc0000 !important; // TEMP
     }
 }
