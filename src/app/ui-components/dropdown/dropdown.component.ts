@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Language } from 'angular-l10n';
 
 @Component({
@@ -6,7 +6,7 @@ import { Language } from 'angular-l10n';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   @Input() selectedItems: DropdownItem[];
   @Input() items: DropdownItem[];
@@ -86,6 +86,10 @@ export class DropdownComponent implements OnInit {
     } else {
       return this.placeholder;
     }
+  }
+
+  ngOnDestroy() {
+    // Needed for avoid l10n warning
   }
 }
 

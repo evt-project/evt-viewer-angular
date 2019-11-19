@@ -1,16 +1,18 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { ThemesService, ColorTheme } from './services/themes.service';
 import { DropdownItem } from './ui-components/dropdown/dropdown.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'evt-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   title: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     public themes: ThemesService,
@@ -20,9 +22,9 @@ export class AppComponent implements OnInit {
   @HostBinding('attr.data-theme') get dataTheme() { return this.getCurrentTheme().value; }
 
   ngOnInit(): void {
-    this.translation.translationChanged().subscribe(
+    this.subscriptions.push(this.translation.translationChanged().subscribe(
       () => { this.title = this.translation.translate('title'); }
-    );
+    ));
   }
 
   getAvailableLanguages(): DropdownItem[] {
@@ -57,5 +59,9 @@ export class AppComponent implements OnInit {
 
   getCurrentTheme() {
     return this.themes.getCurrentTheme();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
