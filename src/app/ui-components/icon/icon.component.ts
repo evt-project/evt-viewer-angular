@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'evt-icon',
@@ -27,4 +27,4 @@ export interface EvtIconInfo {
   mask?: any;
 }
 
-library.add(faLanguage);
+library.add(fas);
