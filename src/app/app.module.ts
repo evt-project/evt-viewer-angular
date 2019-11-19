@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
+import { UiComponentsModule } from './ui-components/ui-components.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,7 +12,6 @@ import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderTyp
 
 const routes: Routes = [
 ];
-
 const l10nConfig: L10nConfig = {
   logger: {
     level: LogLevel.Warn
@@ -45,6 +44,7 @@ const l10nConfig: L10nConfig = {
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true }),
     TranslationModule.forRoot(l10nConfig),
+    UiComponentsModule,
   ],
   providers: [
     ThemesService,
