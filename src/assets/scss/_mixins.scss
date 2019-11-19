@@ -1,0 +1,21 @@
+// ////////////////// //
+// GLOBAL SCSS MIXINS //
+// ////////////////// //
+
+// Set calculated property
+@mixin calc($property, $expression, $important:"") {
+  #{$property}: -moz-calc(#{$expression}) #{$important};
+  #{$property}: -o-calc(#{$expression}) #{$important};
+  #{$property}: -webkit-calc(#{$expression}) #{$important};
+  #{$property}: calc(#{$expression}) #{$important};
+}
+
+// Set CSS3 property for each different browser
+@mixin set($property, $value) {
+  -moz-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  -webkit-#{$property}: #{$value};
+  -khtml-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  #{$property}: #{$value};
+}

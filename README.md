@@ -240,8 +240,14 @@ To add a new language to the localization so that it is automatically displayed 
 * In every other JSON translations file the key `"language_LANGUAGE_CODE"` to have a translation of the name of the new language in all the others already present and managed.
 * Finally, add a `.png` file that depicts the flag identifying the new language in the `assets/images` folder. This file must be named with the code of the new language and must preferably be a square with not too large dimensions.
 
+### 4.3 - SCSS
+EVT uses `.scss` files.
+During development you can use some useful global variables and mixins.
+They are defined respectively in the files below:
+* `/assets/scss/_variables.scss`
+* `/assets/scss/_mixins.scss`
 
-
+To use them, please refer to official scss documentation.
 
 5 - EVT Manual
 ---------------------
