@@ -23,6 +23,7 @@ import { ReadingTextComponent } from './view-modes/reading-text/reading-text.com
 import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
 import { VersionPanelComponent } from './panels/version-panel/version-panel.component';
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
+import { CollationComponent } from './view-modes/collation/collation.component';
 
 const routes: Routes = [
 ];
@@ -51,6 +52,7 @@ const l10nConfig: L10nConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    CollationComponent,
     ImagePanelComponent,
     ImageTextComponent,
     ReadingTextComponent,

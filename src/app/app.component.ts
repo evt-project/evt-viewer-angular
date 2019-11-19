@@ -37,18 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.translation.translationChanged().subscribe(
       () => { this.title = this.translation.translate('title'); }
     ));
-    this.viewModes.push({
-      icon: 'txt',
-      iconSet: 'evt',
-      id: 'readingText',
-      label: 'Reading Text'
-    });
-    this.viewModes.push({
-      icon: 'imgTxt',
-      iconSet: 'evt',
-      id: 'imageText',
-      label: 'Image Text'
-    });
+    this.initViewModes();
   }
 
   getAvailableLanguages(): DropdownItem[] {
@@ -102,6 +91,26 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/' + viewMode.id, currentParams]);
   }
 
+  private initViewModes() {
+    this.viewModes.push({
+      icon: 'txt',
+      iconSet: 'evt',
+      id: 'readingText',
+      label: 'Reading Text'
+    });
+    this.viewModes.push({
+      icon: 'imgTxt',
+      iconSet: 'evt',
+      id: 'imageText',
+      label: 'Image Text'
+    });
+    this.viewModes.push({
+      icon: 'collation',
+      iconSet: 'evt',
+      id: 'collation',
+      label: 'Collation'
+    });
+  }
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }

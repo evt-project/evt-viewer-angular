@@ -1,0 +1,23 @@
+<gridster [options]="options">
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="collationPanelItem">
+        <div class="collationPanel" #collationPanel
+        [class.align-self-center]="getWitnesses().length === 0" 
+        [class.empty]="getWitnesses().length === 0">
+            <gridster [options]="collationOptions" *ngIf="getWitnesses().length > 0">
+                <gridster-item [item]="witness.itemConfig" 
+                *ngFor="let witness of getWitnesses(); let i = index">
+                <evt-witness-panel
+                    (hide)="removeWitness(i)" [witness]="witness.label">
+                </evt-witness-panel>
+                </gridster-item>
+            </gridster>
+            <button type="button" class ="btn btn-primary shadow"
+            [class.btn-float-right]="getWitnesses().length > 0"
+            (click)="addWitness()">ADD WITNESS </button>
+            <evt-button></evt-button>
+        </div> 
+    </gridster-item>
+</gridster>

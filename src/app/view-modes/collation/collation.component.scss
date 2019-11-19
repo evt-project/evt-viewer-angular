@@ -1,0 +1,25 @@
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
+
+.row {
+    height: 100%;
+}
+
+.collationPanel {
+    height: 100%;
+    &.empty {
+        display: flex;
+
+        .btn {
+            margin: auto;
+        }
+    }
+}
+
+.btn-float-right {
+    position: absolute;
+    left: 99%;
+    transform: translate(-100%,-50%);
+    top: 50%;
+    z-index: 99999;
+}
