@@ -131,9 +131,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ---------------------
 
 ### 4.1 - Handle color theme
-This new version of EVT is able to handle multiple themes at runtime. A "theme" is intended as a particular palette or set of color used for the main UI components.
+This new version of EVT is able to handle multiple themes at runtime. A "theme" is intended as a particular palette or set of color used for the main UI components. The theme can also change dimensions or other properties.
 
 In the file `assets/scss/_themes.scss` we defined a global variable `$theme` where we declare every single color used in the UI components. Each color must exist in every single theme.
+
+The themed rules depend on the `data-theme` attribute added to a `div` element of the `AppComponent` that encloses the whole application. The `data-theme` attribute is constantly linked to the current theme variable.
+We decided to embody everything in this external `div` in order to lighten the number of bindings of elements that need a connection to the current theme.
 
 #### 4.1.1 - Add a new theme
 To add a new theme just follow the steps below:
@@ -157,15 +160,36 @@ To add new CSS rules so that colors are retrieved from the current theme (and ch
   ``` 
 * Embody every css rule to be themed in the following instruction:
   ```
-	@include themify($themes){
-		[...]
-	}
+	h1 {
+        @include themify($themes){
+            color: themed('baseColorDark');
+        }
+    }
   ```
     Within this instruction, every css rule that uses a color and need to be linked to the current theme, must be defined as
     ```
 	    themed("colorKey");
     ```
     where `colorKey` is the key of the color within the object representing a theme defined in the file `_theme.scss`.
+
+#### 4.1.3 - The `themify` mixin
+The `themify` mixin will add a CSS rule for each theme for the CSS rules defined within it.
+The `@each $theme, $map in $themes` tell Sass to loop over the `$themes` map that was defined above.
+On each loop, it assigns these values to `$theme` and `$map` respectively.
+
+* `$theme` - Theme name
+* `$map` - Map of all theme variables
+
+Then the `map-get()` function is used to get any theme variable from `$map` and output the correct property for each theme.
+The `&` refer to parent selectors and placing it after `[data-theme="#{$theme}"]` tells Sass to output any parent selectors after the theme name.
+To use this mixin, just be sure that the element for which you are defining the CSS rules is included in a `*[data-theme]="theme-name"` element and embody every CSS rule that needs to be themified within the mixin:
+```
+btn-primary {
+    @include themify($themes) {
+        color: themed('baseColorDark');
+    }
+}
+```
 
 ### 4.2 - Localization
 To handle localization we use the plugin angular-l10n[https://github.com/robisim74/angular-l10n]; in this way we can offer a runtime solution for language switching without fully reload the application.

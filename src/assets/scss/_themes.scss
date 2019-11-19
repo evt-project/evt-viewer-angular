@@ -13,7 +13,54 @@ $themes: (
     ),
 );
 
+// Themify
+// This mixin will add a CSS rule for each theme for the CSS rules defined within it.
+// The `@each $theme, $map in $themes` tell Sass to loop over the `$themes` map that was defined above.
+// On each loop, it assigns these values to `$theme` and `$map` respectively.
+// - `$theme` - Theme name
+// - `$map` - Map of all theme variables
+// Then the `map-get()` function is used to get any theme variable from `$map` and output the correct property for each theme.
+// The `&` refer to parent selectors and placing it after `[data-theme="#{$theme}"]` tells Sass to output any parent selectors after the theme name.
+// To use this mixin, just be sure that the element for which you are defining the CSS rules is included in a `*[data-theme]="theme-name"` element
+// and embody every CSS rule that needs to be themified within the mixin:
+// ```
+//  btn-primary {
+    //  @include themify($themes) {
+        //  color: themed('baseColorDark');
+    //  }
+//  }
+// ```
 @mixin themify($themes: $themes) {
+    @each $theme, $map in $themes {
+        [data-theme="#{$theme}"] & {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+// ThemifySelf
+// This mixin will add a CSS rule for each theme for the CSS rules defined within it.
+// The `@each $theme, $map in $themes` tell Sass to loop over the `$themes` map that was defined above.
+// On each loop, it assigns these values to `$theme` and `$map` respectively.
+// - `$theme` - Theme name
+// - `$map` - Map of all theme variables
+// Then the `map-get()` function is used to get any theme variable from `$map` and output the correct property for each theme.
+// To use this mixin, just be sure that the element for which you are defining the CSS rules has the `[data-theme]="theme-name"` attribute
+// and embody every CSS rule that needs to be themified within the mixin:
+// ```
+//  btn-primary {
+    //  @include themifySelf($themes) {
+        //  color: themed('baseColorDark');
+    //  }
+//  }
+// ```
+@mixin themifySelf($themes: $themes) {
     @each $theme, $map in $themes {
          &[data-theme="#{$theme}"] {
             $theme-map: () !global;
@@ -26,6 +73,7 @@ $themes: (
         }
     }
 }
+
 @function themed($key) {
     @return map-get($theme-map, $key);
 }

@@ -1,26 +1,28 @@
-<!-- Temporary -->
-<div class="temp-box" [attr.data-theme]="getCurrentTheme().value">
-  <h1> {{ title }} </h1>
-  <h3>{{ 'changeLanguage' | translate:lang }}</h3>
-  <button type="button" class="btn btn-primary btn-sm"
-    *ngFor="let language of getAvailableLanguages()" 
-    (click)="selectLanguage(language.code)"
-    [class.active]="getCurrentLanguage() === language.code"
-    [disabled]="getCurrentLanguage() === language.code">
-    {{ language.label | translate:lang }}
-  </button>
-  <div>
-    <h3>{{ 'changeTheme' | translate:lang }}</h3>
+<div [attr.data-theme]="getCurrentTheme().value">
+  <!-- Temporary -->
+  <div class="temp-box">
+    <h1> {{ title }} </h1>
+    <h3>{{ 'changeLanguage' | translate:lang }}</h3>
     <button type="button" class="btn btn-primary btn-sm"
-      *ngFor="let theme of getAvailableThemes()" 
-      (click)="selectTheme(theme)"
-      [class.active]="theme.value === getCurrentTheme().value"
-      [disabled]="theme.value === getCurrentTheme().value">
-      {{ theme.label | translate:lang }}
+      *ngFor="let language of getAvailableLanguages()" 
+      (click)="selectLanguage(language.code)"
+      [class.active]="getCurrentLanguage() === language.code"
+      [disabled]="getCurrentLanguage() === language.code">
+      {{ language.label | translate:lang }}
     </button>
+    <div>
+      <h3>{{ 'changeTheme' | translate:lang }}</h3>
+      <button type="button" class="btn btn-primary btn-sm"
+        *ngFor="let theme of getAvailableThemes()" 
+        (click)="selectTheme(theme)"
+        [class.active]="theme.value === getCurrentTheme().value"
+        [disabled]="theme.value === getCurrentTheme().value">
+        {{ theme.label | translate:lang }}
+      </button>
+    </div>
+    <img src="../assets/images/logo.png" style="width: 100%" />
   </div>
-  <img src="./assets/images/logo.png" style="width: 100%" />
+  <!-- //= -->
+  
+  <router-outlet></router-outlet>
 </div>
-<!-- //= -->
-
-<router-outlet></router-outlet>
