@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { ThemesService, ColorTheme } from './services/themes.service';
-import { EvtIconInfo } from './ui-components/icon/icon.component';
+import { DropdownItem } from './ui-components/dropdown/dropdown.component';
 
 @Component({
   selector: 'evt-root',
@@ -25,30 +25,24 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getAvailableLanguages(): Array<{ code: string; label: string; icon: EvtIconInfo }> {
+  getAvailableLanguages(): DropdownItem[] {
     return [{
-      code: 'en',
+      id: 'en',
       label: 'languageEn',
-      icon: {
-        icon: 'language',
-        iconSet: 'fas'
-      }
+      title: 'languageEn'
     }, {
-      code: 'it',
+      id: 'it',
       label: 'languageIt',
-      icon: {
-        icon: 'language',
-        iconSet: 'fas'
-      }
+      title: 'languageIt'
     }];
   }
 
-  selectLanguage(language: string): void {
-    this.locale.setCurrentLanguage(language);
+  selectLanguage(languageSelected: DropdownItem[]): void {
+    this.locale.setCurrentLanguage(languageSelected[0].id);
   }
 
   getCurrentLanguage() {
-    return this.locale.getCurrentLanguage();
+    return this.getAvailableLanguages().find(language => language.id === this.locale.getCurrentLanguage());
   }
 
   // TEMP

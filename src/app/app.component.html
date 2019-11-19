@@ -15,16 +15,11 @@
       </evt-button>
     </div>
     <div header-right>
-        <evt-button 
-          *ngFor="let language of getAvailableLanguages(); let last=last"
-          [class.mr-1]="!last"
-          (btnClick)="selectLanguage(language.code)"
-          [active]="getCurrentLanguage() === language.code"
-          [disabled]="getCurrentLanguage() === language.code"
-          [label]="language.label | translate:lang"
-          [iconLeft]="language.icon"
-          type="button" 
-          additionalClasses="btn-primary"></evt-button>
+        <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
+          [items]="getAvailableLanguages()" [alignRight]="true"
+          (selectionChange)="selectLanguage($event)">
+          <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
+        </evt-dropdown>
       </div>
     <div content>
       <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili.</p>
@@ -41,16 +36,11 @@
         [disabled]="theme.value === getCurrentTheme().value"
         [label]="theme.label | translate:lang">
       </evt-button>
-      <evt-button 
-        *ngFor="let language of getAvailableLanguages(); let last=last"
-        [class.mr-1]="!last"
-        (btnClick)="selectLanguage(language.code)"
-        [active]="getCurrentLanguage() === language.code"
-        [disabled]="getCurrentLanguage() === language.code"
-        [label]="language.label | translate:lang"
-        [iconLeft]="language.icon"
-        type="button" 
-        additionalClasses="btn-primary"></evt-button>
+      <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
+        [items]="getAvailableLanguages()"
+        (selectionChange)="selectLanguage($event)">
+        <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
+      </evt-dropdown>
     </div>
   </evt-panel>
 </div>

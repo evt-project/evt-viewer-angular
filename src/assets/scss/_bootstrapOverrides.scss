@@ -7,3 +7,42 @@
         border-color: themed('baseColorLight');
     }
 }
+
+.dropdown-item.active,
+.dropdown-item:active {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+        border-color: themed('baseColorDark');
+    }
+}
+.show > .btn-primary.dropdown-toggle {
+    @include themify($themes) {
+        color: themed('baseColorDark');
+        background-color: themed('baseColorLight');
+        border-color: themed('baseColorLight');
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}
+.dropdown-item:not(.active):hover {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+        border-color: themed('baseColorDark');
+        opacity: .7;
+    }
+}
+
+.dropdown-menu {
+    @include themify($themes) {
+        color: themed('baseColorDark');
+        background-color: themed('baseColorLight');
+    }
+    &[x-placement^=top] {
+        .shadow-sm {
+            box-shadow: 0px -0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+        }
+    }
+}
