@@ -12,11 +12,11 @@ export class ThemesService {
             value: 'neutral',
             label: 'themeNeutral'
         }, {
-            value: 'blue',
-            label: 'themeBlue'
+            value: 'modern',
+            label: 'themeModern'
         }, {
-            value: 'brown',
-            label: 'themeBrown'
+            value: 'classic',
+            label: 'themeClassic'
         }];
         this.currentTheme = this.themes[0];
     }
