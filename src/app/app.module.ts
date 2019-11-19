@@ -13,6 +13,7 @@ import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderTyp
 
 import { TextPanelComponent } from './panels/text-panel/text-panel.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
+import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 
 const routes: Routes = [
 ];
@@ -42,6 +43,7 @@ const l10nConfig: L10nConfig = {
   declarations: [
     AppComponent,
     ImagePanelComponent,
+    ImageTextComponent,
     TextPanelComponent,
   ],
   imports: [

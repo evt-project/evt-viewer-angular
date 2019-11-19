@@ -15,14 +15,9 @@
     </evt-dropdown>
   </div>
 </nav>
-<div class="row w-100 m-0 temp-panel">
-  <div class="p-0 col-6">
-    <evt-image-panel></evt-image-panel>
-  </div>
-  <div class="p-0 col-6">
-    <evt-text-panel></evt-text-panel>
-  </div>
-</div>  
+<div class="temp-panel">
+  <evt-image-text></evt-image-text>
+</div>
 
 <evt-modal [headerIcon]="{icon: 'books', iconSet: 'evt'}" *ngIf="modalShown" 
   (hide)="hideModal()">
