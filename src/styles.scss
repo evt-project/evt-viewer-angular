@@ -3,3 +3,7 @@
 @import "node_modules/bootstrap/scss/bootstrap"; 
 @import "./assets/scss/themes";
 @import "./assets/scss/bootstrapOverrides";
+
+html, body {
+    height: 100%;
+}

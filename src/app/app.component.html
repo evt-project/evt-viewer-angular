@@ -1,19 +1,8 @@
-  <!-- Temporary -->
-  <div class="temp-box">
-    <h1> {{ title }} </h1>
-    <h3>{{ 'changeLanguage' | translate:lang }}</h3>
-    <evt-button 
-      *ngFor="let language of getAvailableLanguages(); let last=last"
-      [class.mr-1]="!last"
-      (btnClick)="selectLanguage(language.code)"
-      [active]="getCurrentLanguage() === language.code"
-      [disabled]="getCurrentLanguage() === language.code"
-      [label]="language.label | translate:lang"
-      [iconLeft]="language.icon"
-      type="button" 
-      additionalClasses="btn-primary"></evt-button>
-    <div>
-      <h3>{{ 'changeTheme' | translate:lang }}</h3>
+<!-- Temporary -->
+<div class="temp-header"><h1> {{ title }} </h1></div>
+<div class="temp-panel">
+  <evt-panel>
+    <div header-left>
       <evt-button
         *ngFor="let theme of getAvailableThemes(); let last=last" 
         [class.mr-1]="!last"
@@ -25,8 +14,46 @@
         [label]="theme.label | translate:lang">
       </evt-button>
     </div>
-    <img src="../assets/images/logo.png" style="width: 100%" />
-  </div>
-  <!-- //= -->
-  
-  <router-outlet></router-outlet>
+    <div header-right>
+        <evt-button 
+          *ngFor="let language of getAvailableLanguages(); let last=last"
+          [class.mr-1]="!last"
+          (btnClick)="selectLanguage(language.code)"
+          [active]="getCurrentLanguage() === language.code"
+          [disabled]="getCurrentLanguage() === language.code"
+          [label]="language.label | translate:lang"
+          [iconLeft]="language.icon"
+          type="button" 
+          additionalClasses="btn-primary"></evt-button>
+      </div>
+    <div content>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili.</p>
+      <img src="./assets/images/logo.png" style="width: 100%" />
+    </div>
+    <div footer>
+      <evt-button
+        *ngFor="let theme of getAvailableThemes(); let last=last" 
+        class="mr-1"
+        type="button" 
+        additionalClasses="btn-primary"
+        (btnClick)="selectTheme(theme)"
+        [active]="theme.value === getCurrentTheme().value"
+        [disabled]="theme.value === getCurrentTheme().value"
+        [label]="theme.label | translate:lang">
+      </evt-button>
+      <evt-button 
+        *ngFor="let language of getAvailableLanguages(); let last=last"
+        [class.mr-1]="!last"
+        (btnClick)="selectLanguage(language.code)"
+        [active]="getCurrentLanguage() === language.code"
+        [disabled]="getCurrentLanguage() === language.code"
+        [label]="language.label | translate:lang"
+        [iconLeft]="language.icon"
+        type="button" 
+        additionalClasses="btn-primary"></evt-button>
+    </div>
+  </evt-panel>
+</div>
+<!-- //= -->
+
+<router-outlet></router-outlet>

@@ -4,10 +4,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
+import { PanelComponent } from './panel/panel.component';
 @NgModule({
   declarations: [
     ButtonComponent,
-    IconComponent
+    IconComponent,
+    PanelComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,8 @@ import { IconComponent } from './icon/icon.component';
   ],
   exports: [
     ButtonComponent,
-    IconComponent
+    IconComponent,
+    PanelComponent
   ]
 })
 export class UiComponentsModule { }

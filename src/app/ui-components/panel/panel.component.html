@@ -1,0 +1,24 @@
+<div class="panel card" 
+    [class.comparable]="comparable"
+    [class.secondary]="secondary">
+    <div class="panel-header header card-header" *ngIf="!hideHeader">
+    	<nav class="navbar">
+            <div><ng-content select="[header-left]"></ng-content></div>
+            <div><ng-content select="[header-right]"></ng-content></div>
+            <evt-button *ngIf="closable" additionalClasses="rounded-circle" 
+                (btnClick)="emitHide()" [iconLeft]="{icon: 'times'}">
+            </evt-button>
+        </nav>
+    </div>
+    <div class="panel-content content card-content" (scroll)="onScroll($event)"
+        [class.noFooter]="hideFooter" [class.noHeader]="hideHeader"
+        [class.p-4]="!hideHeader || !hideFooter">
+        <ng-content select="[content]"></ng-content>
+    </div>
+    <div class="secondary-content card-content" [class.open]="isSecondaryContentOpened()">
+        <ng-content select="[secondary-content]"></ng-content>
+    </div>
+    <div class="footer card-footer" *ngIf="!hideFooter">
+        <ng-content select="[footer]"></ng-content>
+    </div>
+</div>

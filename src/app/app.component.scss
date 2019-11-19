@@ -1,11 +1,12 @@
 @import '../assets/scss/themes';
+@import '../assets/scss/mixins';
+@import '../assets/scss/variables';
 
 // TEMP
-.temp-box {
-    width: 100%;
-    text-align: center;
-    @include themify($themes) {
-        color: themed('baseColorLight');
-        background-color: themed('baseColorDark');
-    }
+.temp-panel {
+    height: 100%;
+    @include calc('height', '100% - #{$base-header-height}')
+}
+.temp-header {
+    height: #{$base-header-height};
 }
