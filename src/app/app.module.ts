@@ -11,6 +11,8 @@ import { ThemesService } from './services/themes.service';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 
+import { TextPanelComponent } from './panels/text-panel/text-panel.component';
+
 const routes: Routes = [
 ];
 const l10nConfig: L10nConfig = {
@@ -38,6 +40,7 @@ const l10nConfig: L10nConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    TextPanelComponent,
   ],
   imports: [
     AppRoutingModule,

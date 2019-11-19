@@ -1,0 +1,21 @@
+<evt-panel [showSecondaryContent]="isSecondaryContentOpened()" >
+    <div header-left>
+        <evt-button label="Info" [iconLeft]="{icon: 'info-circle'}" additionalClasses="mr-1"
+            (btnClick)="toggleSecondaryContent('INFO')" [active]="secondaryContent === 'INFO'"></evt-button>
+        <!-- TODO: add dropdowns for navigation -->
+    </div>
+    <div content>
+        Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Contra legem facit qui id facit quod lex prohibet. Quis aute iure reprehenderit in voluptate velit esse. Hi omnes lingua, institutis, legibus inter se differunt. Praeterea iter est quasdam res quas ex communi.
+    </div>
+    <div secondary-content>
+        {{ getSecondaryContent() }}
+    </div>
+
+    <div footer>
+        <evt-button [iconLeft]="{icon: 'search'}" label="Search" additionalClasses="mr-1"
+            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
+            [active]="secondaryContent === 'SEARCH_RESULTS'"></evt-button>
+        <!-- TODO: add dropdowns for entities selection -->
+    </div>
+</evt-panel>
+    
