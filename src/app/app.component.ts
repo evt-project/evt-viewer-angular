@@ -3,6 +3,7 @@ import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { ThemesService, ColorTheme } from './services/themes.service';
 import { DropdownItem } from './ui-components/dropdown/dropdown.component';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'evt-root',
@@ -13,19 +14,41 @@ export class AppComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   title: string;
   modalShown = false;
+  viewModes: ViewMode[] = [];
+  public currentViewMode: ViewMode;
   private subscriptions: Subscription[] = [];
 
   constructor(
     public themes: ThemesService,
     public locale: LocaleService,
-    public translation: TranslationService) { }
-
+    private router: Router,
+    public translation: TranslationService) {
+    // TEMP
+    const firstRouteSub$ = this.router.events.subscribe((routingData: any) => {
+      if (!this.currentViewMode) {
+        this.currentViewMode = this.viewModes.find(item => item.id === routingData.url.replace('/', ''));
+      }
+      firstRouteSub$.unsubscribe();
+    });
+  }
   @HostBinding('attr.data-theme') get dataTheme() { return this.getCurrentTheme().value; }
 
   ngOnInit(): void {
     this.subscriptions.push(this.translation.translationChanged().subscribe(
       () => { this.title = this.translation.translate('title'); }
     ));
+    this.viewModes.push({
+      icon: 'txt',
+      iconSet: 'evt',
+      id: 'readingText',
+      label: 'Reading Text'
+    });
+    this.viewModes.push({
+      icon: 'imgTxt',
+      iconSet: 'evt',
+      id: 'imageText',
+      label: 'Image Text'
+    });
   }
 
   getAvailableLanguages(): DropdownItem[] {
@@ -70,7 +93,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modalShown = false;
   }
 
+  selectViewMode(viewMode: ViewMode) {
+    this.currentViewMode = viewMode;
+    let currentParams;
+    try {
+      currentParams = this.router.routerState.root.firstChild.snapshot.params;
+    } catch (e) { currentParams = {}; }
+    this.router.navigate(['/' + viewMode.id, currentParams]);
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
+}
+
+export interface ViewMode {
+  id: string;
+  icon: string;
+  iconSet?: 'evt' | 'far' | 'fas';
+  label: string;
 }

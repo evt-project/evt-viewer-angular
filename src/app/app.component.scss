@@ -10,3 +10,16 @@
 .temp-header {
     height: #{$base-header-height};
 }
+
+
+.viewMode-btn {
+    font-size: inherit;
+    padding: 0 5px;
+    height: 38px;
+    line-height: .9px;
+
+    .viewMode-selector {
+        line-height: 0;
+        vertical-align: text-bottom;
+    }
+}

@@ -2,6 +2,11 @@
 <nav class="navbar navbar-light bg-light justify-content-between temp-header">
   <span> {{ title }} </span>
   <div>
+    <evt-button additionalClasses="btn-no-border btn-inverted viewMode-btn"
+        [active]="viewMode === currentViewMode"
+        *ngFor="let viewMode of viewModes trackBy: viewMode?.id" [title]="viewMode.label"
+        (click)="selectViewMode(viewMode)" [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
+    </evt-button>
     <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" [class.mr-1]="!last" 
       additionalClasses="btn-primary" (btnClick)="selectTheme(theme)"
       [active]="theme.value === getCurrentTheme().value" 
@@ -16,7 +21,7 @@
   </div>
 </nav>
 <div class="temp-panel">
-  <evt-image-text></evt-image-text>
+  <router-outlet></router-outlet>
 </div>
 
 <evt-modal [headerIcon]="{icon: 'books', iconSet: 'evt'}" *ngIf="modalShown" 
@@ -27,5 +32,3 @@
   </p>
 </evt-modal>
 <!-- //= -->
-
-<router-outlet></router-outlet>
