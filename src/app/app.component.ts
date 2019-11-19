@@ -7,7 +7,7 @@ import { ThemesService, ColorTheme } from './services/themes.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   @Language() lang: string;
   title: string;
 
@@ -21,6 +21,16 @@ export class AppComponent implements OnInit{
     this.translation.translationChanged().subscribe(
       () => { this.title = this.translation.translate('title'); }
     );
+  }
+
+  getAvailableLanguages() {
+    return [{
+      code: 'en',
+      label: 'languageEn'
+    }, {
+      code: 'it',
+      label: 'languageIt'
+    }];
   }
 
   selectLanguage(language: string): void {

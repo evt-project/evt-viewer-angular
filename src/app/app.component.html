@@ -2,16 +2,22 @@
 <div class="temp-box" [attr.data-theme]="getCurrentTheme().value">
   <h1> {{ title }} </h1>
   <h3>{{ 'changeLanguage' | translate:lang }}</h3>
-  <button (click)="selectLanguage('en')" [disabled]="getCurrentLanguage() === 'en'">{{ 'languageEn' | translate:lang }}</button>
-  <button (click)="selectLanguage('it')" [disabled]="getCurrentLanguage() === 'it'">{{ 'languageIt' | translate:lang }}</button>
+  <button type="button" class="btn btn-primary btn-sm"
+    *ngFor="let language of getAvailableLanguages()" 
+    (click)="selectLanguage(language.code)"
+    [class.active]="getCurrentLanguage() === language.code"
+    [disabled]="getCurrentLanguage() === language.code">
+    {{ language.label | translate:lang }}
+  </button>
   <div>
     <h3>{{ 'changeTheme' | translate:lang }}</h3>
-    <ng-container *ngFor="let theme of getAvailableThemes()">
-      <input type="radio" name="theme" [value]="theme.value" [checked]="theme.value === getCurrentTheme().value"
-        (change)="selectTheme(theme)">
+    <button type="button" class="btn btn-primary btn-sm"
+      *ngFor="let theme of getAvailableThemes()" 
+      (click)="selectTheme(theme)"
+      [class.active]="theme.value === getCurrentTheme().value"
+      [disabled]="theme.value === getCurrentTheme().value">
       {{ theme.label | translate:lang }}
-    </ng-container>
-
+    </button>
   </div>
   <img src="./assets/images/logo.png" style="width: 100%" />
 </div>
