@@ -31,7 +31,6 @@ export class ButtonComponent implements OnInit {
         ...this.iconLeft,
         additionalClasses: 'icon ' + (this.iconLeft.additionalClasses || '')
       };
-      console.log(this.iconLeft);
     }
     if (this.iconRight) {
       this.iconRight = {

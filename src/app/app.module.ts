@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { UiComponentsModule } from './ui-components/ui-components.module';
+
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -67,7 +71,9 @@ const l10nConfig: L10nConfig = {
 export class AppModule {
   constructor(
     public l10nLoader: L10nLoader,
+    library: FaIconLibrary,
   ) {
     this.l10nLoader.load();
+    library.addIconPacks(fas);
   }
 }
