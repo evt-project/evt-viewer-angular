@@ -1,49 +1,49 @@
 <!-- Temporary -->
-<div class="temp-header"><h1> {{ title }} </h1></div>
+<div class="temp-header">
+  <h1> {{ title }} </h1>
+</div>
 <div class="temp-panel">
   <evt-panel>
     <div header-left>
-      <evt-button
-        *ngFor="let theme of getAvailableThemes(); let last=last" 
-        [class.mr-1]="!last"
-        type="button" 
-        additionalClasses="btn-primary"
-        (btnClick)="selectTheme(theme)"
-        [active]="theme.value === getCurrentTheme().value"
-        [disabled]="theme.value === getCurrentTheme().value"
+      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" [class.mr-1]="!last" type="button"
+        additionalClasses="btn-primary" (btnClick)="selectTheme(theme)"
+        [active]="theme.value === getCurrentTheme().value" [disabled]="theme.value === getCurrentTheme().value"
         [label]="theme.label | translate:lang">
       </evt-button>
     </div>
     <div header-right>
-        <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
-          [items]="getAvailableLanguages()" [alignRight]="true"
-          (selectionChange)="selectLanguage($event)">
-          <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
-        </evt-dropdown>
-      </div>
+      <evt-button label="Test Modal" additionalClasses="btn-primary mr-1" (btnClick)="showModal()"></evt-button>
+      <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
+        [items]="getAvailableLanguages()" [alignRight]="true" (selectionChange)="selectLanguage($event)">
+        <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
+      </evt-dropdown>
+    </div>
     <div content>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna
+        aliqua. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili.</p>
       <img src="./assets/images/logo.png" style="width: 100%" />
     </div>
     <div footer>
-      <evt-button
-        *ngFor="let theme of getAvailableThemes(); let last=last" 
-        class="mr-1"
-        type="button" 
-        additionalClasses="btn-primary"
-        (btnClick)="selectTheme(theme)"
-        [active]="theme.value === getCurrentTheme().value"
-        [disabled]="theme.value === getCurrentTheme().value"
+      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" class="mr-1" type="button"
+        additionalClasses="btn-primary" (btnClick)="selectTheme(theme)"
+        [active]="theme.value === getCurrentTheme().value" [disabled]="theme.value === getCurrentTheme().value"
         [label]="theme.label | translate:lang">
       </evt-button>
       <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
-        [items]="getAvailableLanguages()"
-        (selectionChange)="selectLanguage($event)">
+        [items]="getAvailableLanguages()" (selectionChange)="selectLanguage($event)">
         <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
       </evt-dropdown>
     </div>
   </evt-panel>
 </div>
+
+<evt-modal [headerIcon]="{icon: 'books', iconSet: 'evt'}" *ngIf="modalShown" 
+  (hide)="hideModal()">
+  <span title class="ml-2">Lorem ipsum dolor</span>
+  <p body class="p-3">
+      Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Etiam habebis sem dicantur magna mollis euismod. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili. Magna pars studiorum, prodita quaerimus.
+  </p>
+</evt-modal>
 <!-- //= -->
 
 <router-outlet></router-outlet>

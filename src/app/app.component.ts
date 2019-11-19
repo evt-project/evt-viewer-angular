@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   title: string;
+  modalShown = false;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -59,6 +60,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getCurrentTheme() {
     return this.themes.getCurrentTheme();
+  }
+
+  showModal() {
+    this.modalShown = true;
+  }
+
+  hideModal() {
+    this.modalShown = false;
   }
 
   ngOnDestroy() {

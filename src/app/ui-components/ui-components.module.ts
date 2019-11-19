@@ -7,13 +7,15 @@ import { IconComponent } from './icon/icon.component';
 import { PanelComponent } from './panel/panel.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { AppTranslationModule } from '../app-translation.module';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     ButtonComponent,
     IconComponent,
     PanelComponent,
-    DropdownComponent
+    DropdownComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { AppTranslationModule } from '../app-translation.module';
     ButtonComponent,
     IconComponent,
     PanelComponent,
-    DropdownComponent
+    DropdownComponent,
+    ModalComponent
   ]
 })
 export class UiComponentsModule { }
