@@ -5,9 +5,10 @@
 <div class="temp-panel">
   <evt-panel>
     <div header-left>
-      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" [class.mr-1]="!last" type="button"
+      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" [class.mr-1]="!last" 
         additionalClasses="btn-primary" (btnClick)="selectTheme(theme)"
-        [active]="theme.value === getCurrentTheme().value" [disabled]="theme.value === getCurrentTheme().value"
+        [active]="theme.value === getCurrentTheme().value" 
+        [disabled]="theme.value === getCurrentTheme().value"
         [label]="theme.label | translate:lang">
       </evt-button>
     </div>
@@ -24,7 +25,7 @@
       <img src="./assets/images/logo.png" style="width: 100%" />
     </div>
     <div footer>
-      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" class="mr-1" type="button"
+      <evt-button *ngFor="let theme of getAvailableThemes(); let last=last" class="mr-1"
         additionalClasses="btn-primary" (btnClick)="selectTheme(theme)"
         [active]="theme.value === getCurrentTheme().value" [disabled]="theme.value === getCurrentTheme().value"
         [label]="theme.label | translate:lang">
