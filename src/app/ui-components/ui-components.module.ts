@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { DynamicModule } from 'ng-dynamic-component';
+
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
 import { PanelComponent } from './panel/panel.component';
@@ -20,7 +22,8 @@ import { ModalComponent } from './modal/modal.component';
   imports: [
     CommonModule,
     FontAwesomeModule,
-    AppTranslationModule
+    AppTranslationModule,
+    DynamicModule.withComponents([]),
   ],
   exports: [
     ButtonComponent,
