@@ -26,10 +26,6 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
-  constructor() {
-    this.tasksInQueue.subscribe((x) => console.log('pending task', x));
-  }
-
   parse(xml: HTMLElement): Observable<ParsedElement> {
     if (xml) {
       if (xml.nodeType === 3) {  // Text

@@ -15,9 +15,6 @@
         <ng-container *ngIf="selectedPage">
             <evt-page *ngIf="selectedPage" [data]="selectedPage"></evt-page>        
         </ng-container>
-        <ngx-spinner name="textPanelSpinner" type="ball-beat" 
-            [fullScreen]="false" bdColor="rgba(51,51,51,0.3)"
-            size="medium"></ngx-spinner>
     </div>
     <div secondary-content>
         {{ getSecondaryContent() }}

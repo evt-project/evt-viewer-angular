@@ -19,6 +19,7 @@ export class ContentViewerComponent implements OnDestroy {
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
   public parsedContent = this.contentChange.pipe(
     switchMap((xml) => this.parser.parse(xml)),
+    delay(0),
     shareReplay(1),
   );
 
