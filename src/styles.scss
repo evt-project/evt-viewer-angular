@@ -11,13 +11,17 @@ body {
 }
 
 // ng-select overwrites
-evt-root .ng-select {
+.ng-select {
     position: relative;
-    display: inline-flex;
+    display: inline-flex !important;
     vertical-align: middle;
     font-size: 0.875rem;
     line-height: 1.5;
     border-radius: 0.2rem;
+
+    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+        border-color: transparent;
+    }
 
     .ng-select-container {
         height: 31px !important;
@@ -36,7 +40,21 @@ evt-root .ng-select {
 
     .ng-dropdown-panel-items {
         @include set('box-shadow', '0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)');
+
+        .ng-option.ng-option-marked {
+            @include themify($themes) {
+                background-color: rgba(themed('baseColorDark'), .1) !important;
+            }
+        }
+
+        .ng-option.ng-option-selected {
+            @include themify($themes) {
+                background-color: themed('baseColorDark') !important;
+                color: themed('baseColorLight') !important;
+            }
+        }
     }
+
     &.ng-select-opened {
         .ng-arrow-wrapper .ng-arrow {
             border-width: 0 4px 4px;
