@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
+import { L10nConfig, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 
 
 const l10nConfig: L10nConfig = {
@@ -19,8 +19,7 @@ const l10nConfig: L10nConfig = {
       { type: ProviderType.Static, prefix: './assets/l10n/locale-' }
     ],
     caching: true,
-    composedKeySeparator: '.',
-    missingValue: 'No key'
+    composedKeySeparator: '.'
   }
 };
 

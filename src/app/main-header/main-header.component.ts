@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslationService, LocaleService, Language } from 'angular-l10n';
-import { DropdownItem } from '../ui-components/dropdown/dropdown.component';
-import { ColorTheme, ThemesService } from '../services/themes.service';
+import { ThemesService } from '../services/themes.service';
+import { EditionConfig, AppConfig } from '../app.config';
 
 @Component({
   selector: 'evt-main-header',
@@ -12,10 +12,10 @@ import { ColorTheme, ThemesService } from '../services/themes.service';
 export class MainHeaderComponent implements OnInit, OnDestroy {
   @Language() lang: string;
   public viewModes: ViewMode[] = [];
-  public title = 'title';
   public modalShown = false;
   public currentViewMode: ViewMode;
   public mainMenuOpened = false;
+  public editionConfig: EditionConfig;
 
   private subscriptions = [];
 
@@ -31,6 +31,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       }
       firstRouteSub$.unsubscribe();
     });
+    this.editionConfig = AppConfig.evtSettings.edition;
+    console.log('this.editionConfig', this.editionConfig);
   }
 
   ngOnInit() { }

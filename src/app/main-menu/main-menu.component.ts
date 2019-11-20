@@ -3,8 +3,8 @@ import { Component, OnInit, Output, EventEmitter, HostListener, OnDestroy } from
 
 import { ThemesService, ColorTheme } from '../services/themes.service';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
-import { DropdownItem } from '../ui-components/dropdown/dropdown.component';
 import { LocaleService, Language } from 'angular-l10n';
+import { UiConfig, AppConfig, FileConfig } from '../app.config';
 
 @Component({
   selector: 'evt-main-menu',
@@ -16,8 +16,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];
   public modalShown = false;
-  private isOpened = false;
+  public uiConfig: UiConfig = AppConfig.evtSettings.ui;
+  public fileConfig: FileConfig = AppConfig.evtSettings.files;
 
+  private isOpened = false;
   private subscriptions = [];
   constructor(
     public locale: LocaleService,
@@ -101,6 +103,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private downloadXML() {
     // TODO downloadXML
     this.itemClicked.emit('downloadXML');
+    if (this.fileConfig && this.fileConfig.editionUrls) {
+        this.fileConfig.editionUrls.forEach(url => window.open(url, '_blank'));
+    } else {
+        alert('Loading data... \nPlease try again later.');
+    }
   }
 
   openShortCuts() {

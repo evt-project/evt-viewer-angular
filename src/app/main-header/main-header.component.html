@@ -1,7 +1,7 @@
 <nav class="navbar justify-content-between temp-header">
     <a class="navbar-brand">
         <img src="../../assets/images/logo.png" height="30" class="d-inline-block align-top" alt="">
-        <span *ngIf="title">{{ title | translate:lang }}</span>
+        <span >{{ editionConfig?.title || 'defaultTitle' | translate:lang }}</span>
     </a>
     <div>
         <evt-button additionalClasses="btn-no-border viewMode-btn" 

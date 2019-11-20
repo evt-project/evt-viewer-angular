@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 import { GridsterModule } from 'angular-gridster2';
@@ -12,10 +12,10 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AppTranslationModule } from './app-translation.module';
 
-import { ThemesService } from './services/themes.service';
-
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
+import { AppConfig } from './app.config';
 
+import { ThemesService } from './services/themes.service';
 import { TextPanelComponent } from './panels/text-panel/text-panel.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
@@ -53,6 +53,9 @@ const l10nConfig: L10nConfig = {
     missingValue: 'No key'
   }
 };
+export function initializeApp(appConfig: AppConfig) {
+  return () => appConfig.load();
+}
 
 @NgModule({
   declarations: [
@@ -82,6 +85,12 @@ const l10nConfig: L10nConfig = {
     UiComponentsModule,
   ],
   providers: [
+    AppConfig,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig], multi: true
+    },
     ThemesService,
   ],
   bootstrap: [
