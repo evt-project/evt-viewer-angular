@@ -7,7 +7,7 @@
 
     </div>
     <div content>
-        <evt-content-viewer *ngFor="let el of currentPageContent; trackBy: el" [content]="el"></evt-content-viewer>
+        <evt-content-viewer *ngFor="let el of currentPageContent$ | async; trackBy: el" [content]="el"></evt-content-viewer>
     </div>
     <div secondary-content>
         {{ getSecondaryContent() }}

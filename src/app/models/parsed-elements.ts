@@ -18,3 +18,4 @@ export interface TextData extends GenericElementData {
 }
 
 export type NoteData = GenericElementData;
+export type CommentData = GenericElementData;

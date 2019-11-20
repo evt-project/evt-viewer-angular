@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
-import { PageData } from 'src/app/models/evt-models';
+import { Subject } from 'rxjs';
+import { StructureXmlParserService } from '../../services/xml-parsers/structure-xml-parser.service';
+import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { ParsedElement } from '../../services/xml-parsers/generic-parser.service';
 
 @Component({
   selector: 'evt-text-panel',
@@ -15,7 +17,7 @@ export class TextPanelComponent implements OnInit {
 
   public pages$ = this.editionStructure.getPages();
   public selectedPage;
-  public currentPageContent = [];
+  public currentPageContent$ = new Subject<ParsedElement[]>();
 
   constructor(
     public editionStructure: StructureXmlParserService,
@@ -28,13 +30,13 @@ export class TextPanelComponent implements OnInit {
     this.pages$.subscribe((pages) => {
       if (pages && pages.length > 0) {
         this.selectedPage = pages[0].id;
-        this.currentPageContent = pages[0].content;
+        this.currentPageContent$.next(pages[0].content);
       }
     });
   }
 
   changePage(page: PageData) {
-    this.currentPageContent = [...page.content];
+    this.currentPageContent$.next(page.content);
   }
 
   isSecondaryContentOpened(): boolean {

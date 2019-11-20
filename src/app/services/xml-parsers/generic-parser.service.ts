@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { TextComponent } from '../../components/text/text.component';
-import { TextData, GenericElementData, NoteData } from '../../models/parsed-elements';
+import { TextData, GenericElementData, NoteData, HTMLData, CommentData } from '../../models/parsed-elements';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import { Observable, of } from 'rxjs';
 import { NoteComponent } from 'src/app/components/note/note.component';
 import { xpath } from 'src/app/utils/domUtils';
 
+export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
+
 @Injectable()
 export class GenericParserService {
-  parse(xml: HTMLElement): Promise<any> {
+  parse(xml: HTMLElement): Observable<ParsedElement> {
     if (xml) {
       if (xml.nodeType === 3) {  // Text
         return this.parseText(xml);
       }
       if (xml.nodeType === 8) { // Comment
-        Promise.resolve({ type: 'comment' });
+        return of({} as CommentData);
       }
 
       switch (xml.tagName.toLowerCase()) {
@@ -24,39 +26,37 @@ export class GenericParserService {
           return this.parseElement(xml);
       }
     } else {
-      return Promise.resolve();
+      return of({ element: xml } as HTMLData);
     }
   }
 
-  private parseText(xml: HTMLElement): Promise<TextData> {
+  private parseText(xml: HTMLElement): Observable<TextData> {
     const text = {
       type: TextComponent,
       text: xml.textContent,
       attributes: {}
     } as TextData;
-    return Promise.resolve(text);
+    return of(text);
   }
 
-  private parseElement(xml: HTMLElement): Promise<GenericElementData> {
+  private parseElement(xml: HTMLElement): Observable<GenericElementData> {
     const genericElement: GenericElementData = {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: Array.from(xml.childNodes),
       attributes: this.getAttributes(xml)
     };
-    console.log('genericElement', genericElement);
-    return Promise.resolve(genericElement);
+    return of(genericElement);
   }
 
-  private parseNote(xml: HTMLElement): Promise<NoteData> {
+  private parseNote(xml: HTMLElement): Observable<NoteData> {
     const noteElement = {
       type: NoteComponent,
       path: xpath(xml),
       content: Array.from(xml.childNodes),
       attributes: this.getAttributes(xml)
     };
-    console.log('noteElement', noteElement);
-    return Promise.resolve(noteElement);
+    return of(noteElement);
   }
 
   private getAttributes(xml: HTMLElement) {
