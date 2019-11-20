@@ -10,7 +10,6 @@ import { ModalComponent } from '../ui-components/modal/modal.component';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { isNestedInElem } from '../utils/domUtils';
 
 @Component({
   selector: 'evt-main-menu',
