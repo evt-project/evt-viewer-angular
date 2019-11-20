@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemesService } from '../services/themes.service';
 import { EditionConfig, AppConfig } from '../app.config';
+import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 
 @Component({
   selector: 'evt-main-header',
@@ -41,8 +42,15 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/' + viewMode.id, currentParams]);
   }
 
-  toggleMainMenu(itemClicked: string) {
+  toggleMainMenu(clickEvent: EVTBtnClickEvent) {
+    clickEvent.event.stopPropagation();
     this.mainMenuOpened = !this.mainMenuOpened;
+  }
+
+  handleItemClicked(itemClicked: string) {
+    if (itemClicked) {
+      this.mainMenuOpened = (itemClicked === 'theme' || itemClicked === 'language');
+    }
   }
 
   ngOnDestroy() {

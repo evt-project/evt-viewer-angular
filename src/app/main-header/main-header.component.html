@@ -10,11 +10,11 @@
             (btnClick)="selectViewMode(viewMode)"
             [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
         </evt-button>
-        <evt-button (btnClick)="toggleMainMenu()" [inverted]="true" [toggler]="true"
+        <evt-button (btnClick)="toggleMainMenu($event)" [inverted]="true" [toggler]="true"
             additionalClasses="btn-no-border" [active]="mainMenuOpened"
             [iconLeft]="{icon: 'ellipsis-v'}">
         </evt-button>
     </div>
 </nav>
 
-<evt-main-menu *ngIf="mainMenuOpened" (itemClicked)=toggleMainMenu($event)></evt-main-menu>
+<evt-main-menu *ngIf="mainMenuOpened" (itemClicked)=handleItemClicked($event)></evt-main-menu>

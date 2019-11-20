@@ -10,6 +10,7 @@ import { ModalComponent } from '../ui-components/modal/modal.component';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { isNestedInElem } from '../utils/domUtils';
 
 @Component({
   selector: 'evt-main-menu',
@@ -37,12 +38,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.isOpened = true;
   }
 
-  @HostListener('document:click')
-  clickout() {
-    if (!this.isOpened) {
+  closeMenu() {
+    if (this.isOpened) {
+      this.isOpened = false;
       this.itemClicked.emit('close');
     }
-    this.isOpened = false;
   }
 
   private loadUiConfig(): void {
@@ -129,7 +129,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   // LANGUAGE
-  selectLanguage(languageSelected: Language) {
+  selectLanguage(event: MouseEvent, languageSelected: Language) {
+    event.stopPropagation();
     this.translate.use(languageSelected.code);
     this.itemClicked.emit('language');
   }
@@ -139,7 +140,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   // THEMES
-  selectTheme(theme: ColorTheme) {
+  selectTheme(event: MouseEvent, theme: ColorTheme) {
+    event.stopPropagation();
     this.itemClicked.emit('theme');
     this.themes.selectTheme(theme);
   }
