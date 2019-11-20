@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { EditionDataService } from 'src/app/services/edition-data.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'evt-text-panel',
@@ -10,6 +12,19 @@ export class TextPanelComponent {
   public secondaryContent = '';
   public selectedPage = 'p1';
   private showSecondaryContent = false;
+
+  public text = this.editionDataService.parsedEditionSource$
+    .pipe(map((data) => {
+      if (data) {
+        return data.outerHTML;
+      }
+    }));
+
+  constructor(
+    private editionDataService: EditionDataService,
+  ) {
+
+  }
 
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;

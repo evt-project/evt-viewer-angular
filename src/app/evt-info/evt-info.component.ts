@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './evt-info.component.html',
   styleUrls: ['./evt-info.component.scss']
 })
-export class EvtInfoComponent{
+export class EvtInfoComponent {
 }
