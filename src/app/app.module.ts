@@ -27,6 +27,7 @@ import { CollationComponent } from './view-modes/collation/collation.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
+import { MainHeaderComponent } from './main-header/main-header.component';
 
 const routes: Routes = [
 ];
@@ -58,6 +59,7 @@ const l10nConfig: L10nConfig = {
     CollationComponent,
     ImagePanelComponent,
     ImageTextComponent,
+    MainHeaderComponent,
     ReadingTextComponent,
     SourcesPanelComponent,
     TextPanelComponent,

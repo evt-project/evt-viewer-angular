@@ -1,34 +1,5 @@
-<!-- Temporary -->
-<nav class="navbar navbar-light bg-light justify-content-between temp-header">
-  <span> {{ title }} </span>
-  <div>
-    <evt-button additionalClasses="btn-no-border btn-inverted viewMode-btn"
-        [active]="viewMode === currentViewMode"
-        *ngFor="let viewMode of viewModes trackBy: viewMode?.id" [title]="viewMode.label"
-        (click)="selectViewMode(viewMode)" [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
-    </evt-button>
-    <evt-button *ngFor="let theme of getAvailableThemes(); let last=last"
-      additionalClasses="btn-primary" (btnClick)="selectTheme(theme)" class="ml-1"
-      [active]="theme.value === getCurrentTheme().value" 
-      [disabled]="theme.value === getCurrentTheme().value"
-      [label]="theme.label | translate:lang">
-    </evt-button>
-    <evt-button label="Test Modal" additionalClasses="btn-primary ml-1 mr-1" (btnClick)="showModal()"></evt-button>
-    <evt-dropdown [placeholder]="'changeLanguage' | translate:lang" [selectedItems]="[getCurrentLanguage()]"
-      [items]="getAvailableLanguages()" [alignRight]="true" (selectionChange)="selectLanguage($event)">
-      <evt-icon [iconInfo]="{icon: 'language'}" label-left></evt-icon>
-    </evt-dropdown>
-  </div>
-</nav>
+<evt-main-header></evt-main-header>
 <div class="temp-panel">
   <router-outlet></router-outlet>
 </div>
-
-<evt-modal [headerIcon]="{icon: 'books', iconSet: 'evt'}" *ngIf="modalShown" 
-  (hide)="hideModal()">
-  <span title class="ml-2">Lorem ipsum dolor</span>
-  <p body class="p-3">
-      Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Etiam habebis sem dicantur magna mollis euismod. Excepteur sint obcaecat cupiditat non proident culpa. Ab illo tempore, ab est sed immemorabili. Magna pars studiorum, prodita quaerimus.
-  </p>
-</evt-modal>
 <!-- //= -->

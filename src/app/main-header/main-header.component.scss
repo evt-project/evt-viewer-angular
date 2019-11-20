@@ -1,0 +1,47 @@
+@import "../../assets/scss/themes";
+@import "../../assets/scss/variables";
+
+.navbar {
+    height: $base-header-height;
+    padding: 0 5px;
+
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+
+        a.navbar-brand {
+            color: themed('baseColorLight') !important;
+        }
+    }
+
+    .right-btn-group {
+        height: $base-header-height;
+        margin-top: 1px;
+    }
+}
+
+::ng-deep .viewMode-btn {
+    font-size: 2rem;
+    padding: 0 5px;
+    height: 38px;
+    line-height: .9px;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    background: transparent;
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        &:hover,
+        &.btn-hovered {
+            background: rgba(themed('baseColorLight'), .2);
+        }
+    }
+    .viewMode-selector {
+        line-height: 0;
+        vertical-align: text-bottom;
+    }
+    &.active {
+        color: #ffcc00 !important; // TEMP
+    }
+}

@@ -7,25 +7,3 @@
     height: 100%;
     @include calc('height', '100% - #{$base-header-height}')
 }
-.temp-header {
-    height: #{$base-header-height};
-}
-
-
-::ng-deep .viewMode-btn {
-    font-size: 1.6rem;
-    padding: 0 5px;
-    height: 38px;
-    line-height: .9px;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-
-    .viewMode-selector {
-        line-height: 0;
-        vertical-align: text-bottom;
-    }
-    &.active {
-        color: #cc0000 !important; // TEMP
-    }
-}
