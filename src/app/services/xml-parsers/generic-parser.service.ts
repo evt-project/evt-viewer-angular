@@ -31,7 +31,8 @@ export class GenericParserService {
   private parseText(xml: HTMLElement): Promise<TextData> {
     const text = {
       type: TextComponent,
-      text: xml.textContent
+      text: xml.textContent,
+      attributes: {}
     } as TextData;
     return Promise.resolve(text);
   }
