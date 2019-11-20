@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -91,6 +92,7 @@ export function initializeApp(appConfig: AppConfig) {
     HttpClientModule,
     NgbModule,
     NgbPopoverModule,
+    NgxSpinnerModule,
     RouterModule.forRoot(routes, { useHash: true }),
     UiComponentsModule,
   ],
