@@ -14,4 +14,17 @@
             }
         }
     }
+    &.btn-inverted {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    
+        @include themify($themes) {
+            color: themed('baseColorLight');
+            &:hover,
+            &.btn-hovered {
+                background: rgba(themed('baseColorLight'), .2);
+            }
+        }
+    }
 }
