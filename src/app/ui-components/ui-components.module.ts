@@ -11,6 +11,7 @@ import { PanelComponent } from './panel/panel.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { AppTranslationModule } from '../app-translation.module';
 import { ModalComponent } from './modal/modal.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ModalComponent } from './modal/modal.component';
     IconComponent,
     PanelComponent,
     DropdownComponent,
-    ModalComponent
+    ModalComponent,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { ModalComponent } from './modal/modal.component';
     IconComponent,
     PanelComponent,
     DropdownComponent,
-    ModalComponent
+    ModalComponent,
+    ClickOutsideDirective
   ],
   entryComponents: [
     ModalComponent
