@@ -9,7 +9,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
 import { PanelComponent } from './panel/panel.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
 import { AppTranslationModule } from '../app-translation.module';
 import { ModalComponent } from './modal/modal.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
@@ -20,7 +19,6 @@ import { EscapeDirective } from './directives/escape.directive';
     ButtonComponent,
     IconComponent,
     PanelComponent,
-    DropdownComponent,
     ModalComponent,
     ClickOutsideDirective,
     EscapeDirective
@@ -37,7 +35,6 @@ import { EscapeDirective } from './directives/escape.directive';
     ButtonComponent,
     IconComponent,
     PanelComponent,
-    DropdownComponent,
     ModalComponent,
     ClickOutsideDirective,
     EscapeDirective,
