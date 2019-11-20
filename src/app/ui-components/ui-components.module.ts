@@ -12,6 +12,7 @@ import { DropdownComponent } from './dropdown/dropdown.component';
 import { AppTranslationModule } from '../app-translation.module';
 import { ModalComponent } from './modal/modal.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { EscapeDirective } from './directives/escape.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     PanelComponent,
     DropdownComponent,
     ModalComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    EscapeDirective
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     PanelComponent,
     DropdownComponent,
     ModalComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    EscapeDirective
   ],
   entryComponents: [
     ModalComponent
