@@ -1,0 +1,11 @@
+.evt-trigger {
+    text-decoration: none !important;
+    color: #000;
+    font-size: 90%;
+    opacity: .8;
+    padding: 0;
+    vertical-align: top;
+    &:hover {
+        opacity: 1;
+    }
+}

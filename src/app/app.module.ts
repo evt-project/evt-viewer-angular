@@ -5,6 +5,7 @@ import { UiComponentsModule } from './ui-components/ui-components.module';
 import { FormsModule } from '@angular/forms';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
+import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -36,6 +37,7 @@ import { GenericElementComponent } from './components/generic-element/generic-el
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { TextComponent } from './components/text/text.component';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
+import { NoteComponent } from './components/note/note.component';
 
 const routes: Routes = [
 ];
@@ -55,6 +57,7 @@ export function initializeApp(appConfig: AppConfig) {
     ImageTextComponent,
     MainHeaderComponent,
     MainMenuComponent,
+    NoteComponent,
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
@@ -73,10 +76,13 @@ export function initializeApp(appConfig: AppConfig) {
     DynamicModule.withComponents([
       TextComponent,
       GenericElementComponent,
+      NoteComponent,
     ]),
     FormsModule,
     GridsterModule,
     HttpClientModule,
+    NgbModule,
+    NgbPopoverModule,
     RouterModule.forRoot(routes, { useHash: true }),
     UiComponentsModule,
   ],
