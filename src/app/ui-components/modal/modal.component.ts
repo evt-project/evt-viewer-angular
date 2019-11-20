@@ -20,8 +20,8 @@ export class ModalComponent implements OnInit {
   @Input() wider: boolean;
   @Input() headerIcon: EvtIconInfo;
 
-  @Input() bodyComponent: Component;
-  @Input() footerComponent: Component;
+  @Input() bodyComponent: any;
+  @Input() footerComponent: any;
 
   @Input() bodyHTML: string;
   @Input() footerHTML: string;

@@ -8,6 +8,8 @@ import { UiConfig, AppConfig, FileConfig } from '../app.config';
 import { ModalService } from '../ui-components/modal/modal.service';
 import { ModalComponent } from '../ui-components/modal/modal.component';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
+import { EvtInfoComponent } from '../evt-info/evt-info.component';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'evt-main-menu',
@@ -17,7 +19,6 @@ import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];
-  public modalShown = false;
   public uiConfig: UiConfig = AppConfig.evtSettings.ui;
   public fileConfig: FileConfig = AppConfig.evtSettings.files;
 
@@ -118,11 +119,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   openShortCuts() {
     this.itemClicked.emit('shortcuts');
     const modalRef = this.modalService.open(ModalComponent, { id: 'shortcuts' });
-    modalRef.componentInstance.fixedHeight = true;
-    modalRef.componentInstance.modalId = 'shortcuts';
-    modalRef.componentInstance.title = 'Shortcuts';
-    modalRef.componentInstance.bodyContentClass = 'p-3';
-    modalRef.componentInstance.bodyComponent = ShortcutsComponent;
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.modalId = 'shortcuts';
+    modalComp.title = 'Shortcuts';
+    modalComp.bodyContentClass = 'p-3';
+    modalComp.bodyComponent = ShortcutsComponent;
   }
 
   // LANGUAGE
@@ -150,8 +152,15 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   openEVTInfo() {
-    // TODO: open info in modal
     this.itemClicked.emit('evtInfo');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'evtInfo' });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.modalId = 'evtInfo';
+    modalComp.title = 'AboutEVT';
+    modalComp.bodyContentClass = 'p-3';
+    modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.bodyComponent = EvtInfoComponent;
   }
 
   ngOnDestroy() {

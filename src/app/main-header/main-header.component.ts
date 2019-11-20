@@ -10,7 +10,6 @@ import { EditionConfig, AppConfig } from '../app.config';
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   public viewModes: ViewMode[] = [];
-  public modalShown = false;
   public currentViewMode: ViewMode;
   public mainMenuOpened = false;
   public editionConfig: EditionConfig;
@@ -44,10 +43,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   toggleMainMenu(itemClicked: string) {
     this.mainMenuOpened = !this.mainMenuOpened;
-    // TEMP
-    if (itemClicked === 'evtInfo') {
-      this.modalShown = true;
-    }
   }
 
   ngOnDestroy() {
