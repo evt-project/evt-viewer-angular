@@ -1,0 +1,3 @@
+<ng-container *ngIf="data">
+    <evt-content-viewer *ngFor="let element of data.content; trackBy: element" [content]="element"></evt-content-viewer>
+</ng-container>

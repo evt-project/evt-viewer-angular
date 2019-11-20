@@ -38,6 +38,7 @@ import { ContentViewerComponent } from './components/content-viewer/content-view
 import { TextComponent } from './components/text/text.component';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { NoteComponent } from './components/note/note.component';
+import { PageComponent } from './components/page/page.component';
 
 const routes: Routes = [
 ];
@@ -58,6 +59,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainHeaderComponent,
     MainMenuComponent,
     NoteComponent,
+    PageComponent,
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
