@@ -29,6 +29,7 @@ import { TextVersionsComponent } from './view-modes/text-versions/text-versions.
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
+import { EvtInfoComponent } from './evt-info/evt-info.component';
 
 const routes: Routes = [
 ];
@@ -41,6 +42,7 @@ export function initializeApp(appConfig: AppConfig) {
   declarations: [
     AppComponent,
     CollationComponent,
+    EvtInfoComponent,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
@@ -78,6 +80,7 @@ export function initializeApp(appConfig: AppConfig) {
   ],
   entryComponents: [
     ShortcutsComponent,
+    EvtInfoComponent,
   ],
 })
 export class AppModule {
