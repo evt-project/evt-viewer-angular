@@ -2,14 +2,14 @@
     <div header-left>
         <evt-button label="Info" [iconLeft]="{icon: 'info-circle'}" additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('INFO')" [active]="secondaryContent === 'INFO'"></evt-button>
-        <!-- TODO: add dropdowns for navigation -->
-        <!-- TEMP -->
-        <ng-select class="mr-1" [items]="pages$ | async" bindLabel="label" bindValue="id" [clearable]="false"
-            [(ngModel)]="selectedPage"></ng-select>
+        <ng-select class="mr-1" [items]="pages$ | async" bindValue="id" bindLabel="label" [clearable]="false"
+            [(ngModel)]="selectedPage" (change)="changePage($event)"></ng-select>
 
     </div>
     <div content>
-        <div [innerHTML]="text | async"></div>
+        <div *ngFor="let el of currentPageContent">
+            <div>{{el.textContent}}</div>
+        </div>
     </div>
     <div secondary-content>
         {{ getSecondaryContent() }}
@@ -19,10 +19,5 @@
         <evt-button [iconLeft]="{icon: 'search'}" label="Search" additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')" [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
-        <!-- TODO: add dropdowns for entities selection -->
-        <!-- TEMP -->
-        <ng-select class="mr-1"
-            [items]="[{id:'p1', label:'Page 1'},{id:'p2', label:'Page 2'},{id:'p3', label:'Page 3'}]" bindLabel="label"
-            bindValue="id" [clearable]="false" [(ngModel)]="selectedPage"></ng-select>
     </div>
 </evt-panel>

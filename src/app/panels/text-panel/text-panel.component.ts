@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EditionDataService } from 'src/app/services/edition-data.service';
-import { map } from 'rxjs/operators';
 import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
+import { PageData } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-text-panel',
@@ -9,36 +8,31 @@ import { StructureXmlParserService } from 'src/app/services/xml-parsers/structur
   styleUrls: ['./text-panel.component.scss']
 })
 export class TextPanelComponent implements OnInit {
-  // TEMP:
   public secondaryContent = '';
   private showSecondaryContent = false;
 
-  public pages$ = this.editionStructure.getPages().pipe(
-    map((pages) => pages.map((page) => ({ id: page.id, label: page.label }))));
-
+  public pages$ = this.editionStructure.getPages();
   public selectedPage;
-
-  public text = this.editionDataService.parsedEditionSource$
-    .pipe(map((data) => {
-      if (data) {
-        return data.outerHTML;
-      }
-    }));
+  public currentPageContent = [];
 
   constructor(
     public editionStructure: StructureXmlParserService,
-    private editionDataService: EditionDataService,
   ) {
 
   }
 
   ngOnInit() {
     // TEMP
-    this.editionStructure.getPages().subscribe((pages) => this.selectedPage = pages && pages.length > 0 ? pages[0].id : undefined);
+    this.pages$.subscribe((pages) => {
+      if (pages && pages.length > 0) {
+        this.selectedPage = pages[0].id;
+        this.currentPageContent = pages[0].content;
+      }
+    });
   }
 
-  pageSelected() {
-    console.log('pageSelected');
+  changePage(page: PageData) {
+    this.currentPageContent = [...page.content];
   }
 
   isSecondaryContentOpened(): boolean {
