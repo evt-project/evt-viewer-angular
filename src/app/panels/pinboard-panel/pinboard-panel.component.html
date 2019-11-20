@@ -2,8 +2,11 @@
     <div header-left>{{'pinboard' | translate}}</div>
     <evt-pinboard content [types]="selectedPinTypes"></evt-pinboard>
     <div footer>
-        <ng-select [items]="pinboardTypes$ | async" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
-            bindValue="id" bindLabel="label" [placeholder]="'filterPins' | translate" [(ngModel)]="selectedPinTypes">
+        <ng-select 
+            [items]="pinboardTypes$ | async" [multiple]="true" 
+            [closeOnSelect]="false" [searchable]="true"
+            bindValue="id" bindLabel="label" [placeholder]="'filterPins' | translate" 
+            [(ngModel)]="selectedPinTypes" [disabled]="(pinboardTypes$ | async).length === 0">
         </ng-select>
     </div>
 
