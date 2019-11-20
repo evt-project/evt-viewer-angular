@@ -30,6 +30,7 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 const routes: Routes = [
 ];
@@ -41,7 +42,9 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
+    ClickOutsideDirective,
     CollationComponent,
+    EvtInfoComponent,
     EvtInfoComponent,
     ImagePanelComponent,
     ImageTextComponent,
