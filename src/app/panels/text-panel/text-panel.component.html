@@ -3,11 +3,11 @@
         <evt-button label="Info" [iconLeft]="{icon: 'info-circle'}" additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('INFO')" [active]="secondaryContent === 'INFO'"></evt-button>
         <ng-select class="mr-1" [items]="pages$ | async" bindValue="id" bindLabel="label" [clearable]="false"
-            [(ngModel)]="selectedPage" (change)="changePage($event)"></ng-select>
+            [(ngModel)]="page" (change)="changePage($event)"></ng-select>
 
     </div>
     <div content>
-        <evt-content-viewer *ngFor="let el of currentPageContent$ | async; trackBy: el" [content]="el"></evt-content-viewer>
+        <evt-page [data]="selectedPage"></evt-page>
     </div>
     <div secondary-content>
         {{ getSecondaryContent() }}

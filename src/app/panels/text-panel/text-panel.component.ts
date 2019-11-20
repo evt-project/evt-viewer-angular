@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { StructureXmlParserService } from '../../services/xml-parsers/structure-xml-parser.service';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { ParsedElement } from '../../services/xml-parsers/generic-parser.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'evt-text-panel',
@@ -11,13 +10,16 @@ import { ParsedElement } from '../../services/xml-parsers/generic-parser.service
   styleUrls: ['./text-panel.component.scss']
 })
 @register
-export class TextPanelComponent implements OnInit {
+export class TextPanelComponent implements OnInit, OnDestroy {
+  @Input() page: string;
+  @Output() pageChange: EventEmitter<PageData> = new EventEmitter();
   public secondaryContent = '';
   private showSecondaryContent = false;
 
   public pages$ = this.editionStructure.getPages();
   public selectedPage;
-  public currentPageContent$ = new Subject<ParsedElement[]>();
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     public editionStructure: StructureXmlParserService,
@@ -26,17 +28,22 @@ export class TextPanelComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TEMP
-    this.pages$.subscribe((pages) => {
-      if (pages && pages.length > 0) {
-        this.selectedPage = pages[0].id;
-        this.currentPageContent$.next(pages[0].content);
-      }
-    });
+    this.subscriptions.push(
+      this.pages$.subscribe((pages) => {
+        if (pages && pages.length > 0) {
+          if (!this.page || !pages.find((p) => p.id === this.page)) {
+            this.page = pages[0].id;
+            this.changePage(pages[0]);
+          } else {
+            this.changePage(pages.find((p) => p.id === this.page));
+          }
+        }
+      }));
   }
 
   changePage(page: PageData) {
-    this.currentPageContent$.next(page.content);
+    this.selectedPage = page;
+    this.pageChange.emit(page);
   }
 
   isSecondaryContentOpened(): boolean {
@@ -55,5 +62,9 @@ export class TextPanelComponent implements OnInit {
 
   getSecondaryContent(): string {
     return this.secondaryContent;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
