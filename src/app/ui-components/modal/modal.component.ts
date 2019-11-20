@@ -6,6 +6,7 @@ import {
 import { ThemesService } from '../../services/themes.service';
 import { getEventKeyCode } from '../../utils/jsUtils';
 import { EvtIconInfo } from '../icon/icon.component';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'evt-modal',
@@ -33,7 +34,8 @@ export class ModalComponent implements OnInit {
     @Attribute('modalId') public modalId: string,
     @Attribute('title') public title: string,
     @Attribute('bodyContentClass') public bodyContentClass: string,
-    public themes: ThemesService) {
+    public themes: ThemesService,
+    private modalService: ModalService) {
   }
 
   ngOnInit() {
@@ -63,5 +65,6 @@ export class ModalComponent implements OnInit {
 
   closeDialog() {
     this.hide.emit(this.modalId);
+    this.modalService.close(this.modalId);
   }
 }
