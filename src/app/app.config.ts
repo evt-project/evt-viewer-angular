@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LocaleService } from 'angular-l10n';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class AppConfig {
@@ -12,8 +12,9 @@ export class AppConfig {
     private readonly editionConfigUrl = 'assets/config/edition_config.json';
 
     constructor(
-      private locale: LocaleService,
-      private http: HttpClient) { }
+        public translate: TranslateService,
+        private http: HttpClient,
+    ) { }
 
     load() {
         return new Promise<void>((resolve, reject) => {
@@ -26,7 +27,14 @@ export class AppConfig {
                     console.log(ui, edition, files);
                     // Handle default values => TODO: Decide how to handle defaults!!
                     if (ui.defaultLocalization) {
-                      this.locale.setCurrentLanguage(ui.defaultLocalization);
+                        if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enabled)) {
+                            this.translate.use(ui.defaultLocalization);
+                        } else {
+                            const firstAvailableLang = ui.availableLanguages.find((l) => l.enabled);
+                            if (firstAvailableLang) {
+                                this.translate.use(firstAvailableLang.code);
+                            }
+                        }
                     }
                     return { ui, edition, files };
                 })
@@ -47,6 +55,11 @@ export interface EVTConfig {
 export interface UiConfig {
     localization: boolean;
     defaultLocalization: string;
+    availableLanguages: Array<{
+        code: string;
+        label: string;
+        enabled: boolean;
+    }>;
 }
 
 export interface EditionConfig {

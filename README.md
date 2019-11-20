@@ -209,37 +209,47 @@ If you don't know the translation in a particular language use the English and l
 
 #### 4.2.2 - Work with localization in angular templates
 To add a text in the UI so that it will be correctly translated when needed, just follow the steps below:
-* In the *component* where we want to add the localization, add the imports below:
+* In the HTML template, use the *pipe* `translate` whenever you need to insert a localized text, referring to the `KEY` that represents the text in question. (_NB: the KEY must exist in the JSON of the translations!_):
     ```
-    @import { localeService, TranslationService, language } from ‘angular-l10n’;
-    ```
-    and in the *Class* the property:
-    ```
-    @Language() lang: string;
-    ```
-* In the HTML template, use the *pipe* `translate:lang` whenever you need to insert a localized text, referring to the `KEY` that represents the text in question. (_NB: the KEY must exist in the JSON of the translations!_):
-    ```
-    <span [title]="'myTitle' | translate:lang">
-        {{'myText' | translate:lang}}
+    <span [title]="'myTitle' | translate">
+        {{'myText' | translate}}
     </span>
     ```
-
+* In every existing json file for localization, add the new KEY and its translation:
+    ```
+    en.json
+    {
+        "myTitle": "My Title",
+        "myText": "This is my text"
+    }
+    it.json
+    {
+        "myTitle": "Il mio titolo",
+        "myText": "Questo è il mio testo"
+    }
+    ```
 #### 4.2.3 - Add a new language
 To add a new language to the localization so that it is automatically displayed in the language selector, just follow the steps below:
-* Add the JSON file of the new language in the `assets/l10n` folder. 
-    * This file must be named as `"locale-LANGUAGE_CODE.json"`, where `"LANGUAGE_CODE"` is the reference code of the new language;
+* Add the JSON file of the new language in the `assets/i18n` folder. 
+    * This file must be named as `"LANGUAGE_CODE.json"`, where `"LANGUAGE_CODE"` is the reference code of the new language;
     * this file must present ALL the keys that exist in the other files, so it is advisable to make a copy-paste of one of the files already present before starting with the translations.
-* In the `app.module.ts` file, add an element to the list of languages in the l10n configuration. This element must be structured as follows:
+* In the `ui_config.json` file, add an element to the list of `availableLanguages`. This element must be structured as follows:
     ```
-    {code: "CD", dir: "ltr"}
+    { 
+        "code": "CD", 
+        "dir": "ltr",
+        "label": "Lang Label",
+        "enabled": true
+    }
     ```
     * `code` indicates the language code (the one used to name the JSON file);
-    * `dir` indicates the language direction:
-      * `ltr` = left-to-right
-      * `rtl` = right-to-left
+    * `label` indicates the language label, to be shown in the UI
+    * `enabled` indicates if the language should be activated or deactivated
+  
 * In every other JSON translations file the key `"language_LANGUAGE_CODE"` to have a translation of the name of the new language in all the others already present and managed.
 * Finally, add a `.png` file that depicts the flag identifying the new language in the `assets/images` folder. This file must be named with the code of the new language and must preferably be a square with not too large dimensions.
-
+* For further information please refer to official documentation og [ngx-translate/core plugin](https://github.com/ngx-translate/core)
+  
 ### 4.3 - SCSS
 EVT uses `.scss` files.
 During development you can use some useful global variables and mixins.

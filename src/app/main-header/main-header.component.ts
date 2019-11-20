@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslationService, LocaleService, Language } from 'angular-l10n';
 import { ThemesService } from '../services/themes.service';
 import { EditionConfig, AppConfig } from '../app.config';
 
@@ -10,7 +9,6 @@ import { EditionConfig, AppConfig } from '../app.config';
   styleUrls: ['./main-header.component.scss']
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
-  @Language() lang: string;
   public viewModes: ViewMode[] = [];
   public modalShown = false;
   public currentViewMode: ViewMode;
@@ -21,8 +19,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     public themes: ThemesService,
-    public locale: LocaleService,
-    public translation: TranslationService,
     private router: Router) {
     this.initViewModes();
     const firstRouteSub$ = this.router.events.subscribe((routingData: any) => {

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { Language } from 'angular-l10n';
 
 @Component({
   selector: 'evt-dropdown',
@@ -7,7 +6,6 @@ import { Language } from 'angular-l10n';
   styleUrls: ['./dropdown.component.scss']
 })
 export class DropdownComponent implements OnInit, OnDestroy {
-  @Language() lang: string;
   @Input() selectedItems: DropdownItem[];
   @Input() items: DropdownItem[];
   @Input() multiSelection: boolean;

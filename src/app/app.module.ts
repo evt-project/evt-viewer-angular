@@ -99,10 +99,8 @@ export function initializeApp(appConfig: AppConfig) {
 })
 export class AppModule {
   constructor(
-    public l10nLoader: L10nLoader,
     library: FaIconLibrary,
   ) {
-    this.l10nLoader.load();
     library.addIconPacks(fas);
   }
 }

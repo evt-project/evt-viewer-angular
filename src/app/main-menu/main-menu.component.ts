@@ -1,9 +1,9 @@
 
 import { Component, OnInit, Output, EventEmitter, HostListener, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ThemesService, ColorTheme } from '../services/themes.service';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
-import { LocaleService, Language } from 'angular-l10n';
 import { UiConfig, AppConfig, FileConfig } from '../app.config';
 
 @Component({
@@ -12,7 +12,6 @@ import { UiConfig, AppConfig, FileConfig } from '../app.config';
   styleUrls: ['./main-menu.component.scss']
 })
 export class MainMenuComponent implements OnInit, OnDestroy {
-  @Language() lang: string;
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];
   public modalShown = false;
@@ -21,10 +20,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private isOpened = false;
   private subscriptions = [];
+  private availableLangs = AppConfig.evtSettings.ui.availableLanguages.filter((l) => l.enabled);
+
   constructor(
-    public locale: LocaleService,
-    public themes: ThemesService) {
-  }
+    public themes: ThemesService,
+    public translate: TranslateService,
+  ) { }
 
   ngOnInit() {
     this.loadUiConfig();
@@ -104,9 +105,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     // TODO downloadXML
     this.itemClicked.emit('downloadXML');
     if (this.fileConfig && this.fileConfig.editionUrls) {
-        this.fileConfig.editionUrls.forEach(url => window.open(url, '_blank'));
+      this.fileConfig.editionUrls.forEach(url => window.open(url, '_blank'));
     } else {
-        alert('Loading data... \nPlease try again later.');
+      alert('Loading data... \nPlease try again later.');
     }
   }
 
@@ -116,23 +117,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   // LANGUAGE
-  getAvailableLanguages(): Language[] {
-    return [{
-      code: 'en',
-      label: 'languageEn'
-    }, {
-      code: 'it',
-      label: 'languageIt'
-    }];
-  }
-
   selectLanguage(languageSelected: Language) {
-    this.locale.setCurrentLanguage(languageSelected.code);
+    this.translate.use(languageSelected.code);
     this.itemClicked.emit('language');
   }
 
-  getCurrentLanguage() {
-    return this.locale.getCurrentLanguage();
+  getAvailableLanguages() {
+    return this.availableLangs;
   }
 
   // THEMES

@@ -1,30 +1,23 @@
 import { NgModule } from '@angular/core';
-import { L10nConfig, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-
-const l10nConfig: L10nConfig = {
-  logger: {
-    level: LogLevel.Warn
-  },
-  locale: {
-    languages: [
-      { code: 'en', dir: 'ltr' },
-      { code: 'it', dir: 'ltr' }
-    ],
-    language: 'en',
-    storage: StorageStrategy.Cookie
-  },
-  translation: {
-    providers: [
-      { type: ProviderType.Static, prefix: './assets/l10n/locale-' }
-    ],
-    caching: true,
-    composedKeySeparator: '.'
-  }
-};
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
-  imports: [TranslationModule.forRoot(l10nConfig)],
-  exports: [TranslationModule]
+  imports: [
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })],
+  exports: [TranslateModule]
 })
 export class AppTranslationModule { }

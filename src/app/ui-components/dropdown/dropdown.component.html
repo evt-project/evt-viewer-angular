@@ -4,7 +4,7 @@
         <ng-content select="[label-left]"></ng-content>
         <span #transcludedLabel class="mr-2"><ng-content select="[label]"></ng-content></span>
         <span *ngIf="!transcludedLabel || transcludedLabel.children.length === 0" class="mr-2"> 
-            {{ getSelectedLabel() | translate:lang }}
+            {{ getSelectedLabel() | translate }}
         </span>
     </button>
     <div class="dropdown-menu shadow-sm" [class.dropdown-menu-right]="alignRight">
@@ -14,7 +14,7 @@
             *ngFor="let item of getItems(); trackBy:id" [title]="item.label || item.title"
             (click)="toggleItem(item)">
             <ng-content select="[item-left]"></ng-content>
-            {{ item.label | translate:lang }}
+            {{ item.label | translate }}
             <ng-content select="[item-right]"></ng-content>
         </span>
     </div>

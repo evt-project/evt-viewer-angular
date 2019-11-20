@@ -1,4 +1,16 @@
 {
 	"localization": true,
-	"defaultLocalization": "en"
+	"defaultLocalization": "en",
+	"availableLanguages": [
+		{
+			"code": "en",
+			"label": "languageEn",
+			"enabled": true
+		},
+		{
+			"code": "it",
+			"label": "languageIt",
+			"enabled": true
+		}
+	]
 }

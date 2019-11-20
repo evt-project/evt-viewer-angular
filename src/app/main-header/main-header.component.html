@@ -1,7 +1,7 @@
 <nav class="navbar justify-content-between temp-header">
     <a class="navbar-brand">
         <img src="../../assets/images/logo.png" height="30" class="d-inline-block align-top" alt="">
-        <span >{{ editionConfig?.title || 'defaultTitle' | translate:lang }}</span>
+        <span >{{ editionConfig?.title || 'defaultTitle' | translate }}</span>
     </a>
     <div>
         <evt-button additionalClasses="btn-no-border viewMode-btn" 
@@ -20,7 +20,7 @@
 <evt-main-menu *ngIf="mainMenuOpened" (itemClicked)=toggleMainMenu($event)></evt-main-menu>
 <!-- TEMP -->
 <evt-modal [headerIcon]="{icon: 'copyright', iconSet: 'fas'}" *ngIf="modalShown" (hide)="modalShown = false">
-    <span title class="ml-2">{{ 'aboutEVT' | translate:lang }}</span>
+    <span title class="ml-2">{{ 'aboutEVT' | translate }}</span>
     <p body class="p-3">
         Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna
         aliqua. Etiam habebis sem dicantur magna mollis euismod. Excepteur sint obcaecat cupiditat non proident culpa.

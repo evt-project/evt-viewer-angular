@@ -2,7 +2,7 @@
     <ul>
         <li *ngFor="let item of dynamicItems trackBy: item?.id">
             <span (click)="item.callback()">
-                <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate:lang}}
+                <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate}}
             </span>
         </li>
     </ul>
@@ -11,33 +11,33 @@
         <li *ngIf="uiConfig && uiConfig.localization">
             <span class="no-action">
                 <evt-icon [iconInfo]="{icon: 'language', additionalClasses: 'icon'}"></evt-icon>
-                {{ 'changeLanguage' | translate:lang }}
+                {{ 'changeLanguage' | translate }}
                 <img *ngFor="let language of getAvailableLanguages() trackBy: language?.code"
                     src="../../assets/images/{{language.code}}.png" class="flag"
-                    [class.active]="getCurrentLanguage() === language.code" [title]="language.lable | translate:lang"
+                    [class.active]="translate.currentLang === language.code" [title]="language.lable | translate"
                     (click)="selectLanguage(language);" />
             </span>
         </li>
         <li>
             <span class="no-action">
                 <evt-icon [iconInfo]="{icon: 'paint-brush', additionalClasses: 'icon'}"></evt-icon>
-                {{ 'changeTheme' | translate:lang }}
+                {{ 'changeTheme' | translate }}
                 <span class="theme-item" *ngFor="let theme of getAvailableThemes() trackBy: theme?.value"
                     [class.active]="getCurrentTheme() === theme" [attr.data-theme]="theme.value"
-                    [title]="theme.label | translate:lang" (click)="selectTheme(theme)">
+                    [title]="theme.label | translate" (click)="selectTheme(theme)">
                 </span>
             </span>
         </li>
         <li>
             <span (click)="openShortCuts()">
                 <evt-icon [iconInfo]="{icon: 'keyboard', additionalClasses: 'icon'}"></evt-icon>
-                {{ 'shortcuts' | translate:lang }}
+                {{ 'shortcuts' | translate }}
             </span>
         </li>
         <li>
             <span (click)="openEVTInfo()">
                 <evt-icon [iconInfo]="{icon: 'copyright', additionalClasses: 'icon'}"></evt-icon>
-                {{ 'aboutEVT' | translate:lang }}
+                {{ 'aboutEVT' | translate }}
             </span>
         </li>
     </ul>
