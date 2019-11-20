@@ -17,14 +17,13 @@ export class ModalComponent implements OnInit {
   @Input() closeOnEsc: boolean;
   @Input() fixedHeight: boolean;
   @Input() wider: boolean;
-  @Input() header: any;
   @Input() headerIcon: EvtIconInfo;
 
-  @Input() bodyComponent: any;
-  @Input() footerComponent: any;
+  @Input() bodyComponent: Component;
+  @Input() footerComponent: Component;
 
-  @Input() bodyHTML: any;
-  @Input() footerHTML: any;
+  @Input() bodyHTML: string;
+  @Input() footerHTML: string;
 
   @Output() hide = new EventEmitter<string>();
 

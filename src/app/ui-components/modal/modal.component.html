@@ -1,23 +1,27 @@
 <div class="modal fade show" [class.fixed-height]="fixedHeight" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" #modalDialog [class.wider]="wider">
-        <div class="modal-content">
-            <div class="modal-header">
-                <evt-icon *ngIf="headerIcon" [iconInfo]="headerIcon"></evt-icon>
-                <span class="modal-title">
-                    <ng-content select="[title]"></ng-content>
-                </span>
-                <button type="button" class="close" (click)="closeDialog()" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-0" [class.no-footer]="!footer">
-                <div class="{{bodyContentClass}}">
-                    <ng-content select="[body]"></ng-content>
-                </div>
-            </div>
-            <div class="modal-footer" *ngIf="footer">
-                <ng-content select="[footer]"></ng-content>
-            </div>
+  <div class="modal-dialog modal-dialog-centered" role="document" #modalDialog [class.wider]="wider">
+    <div class="modal-content">
+      <div class="modal-header">
+        <evt-icon *ngIf="headerIcon" [iconInfo]="headerIcon"></evt-icon>
+        <span class="modal-title">
+          <ng-content select="[title]"></ng-content>
+        </span>
+        <button type="button" class="close" (click)="closeDialog()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0" [class.no-footer]="!footer">
+        <div class="{{bodyContentClass}}">
+          <div class="{{bodyContentClass}}">
+            <div [innerHtml]="bodyHTML" *ngIf="bodyHTML"></div>
+            <ndc-dynamic [ndcDynamicComponent]="bodyComponent" *ngIf="bodyComponent"></ndc-dynamic>
+          </div>
         </div>
+      </div>
+      <div class="modal-footer" *ngIf="footer">
+        <div [innerHtml]="footerHTML" *ngIf="footerHTML" class="modal-footer"></div>
+        <ndc-dynamic [ndcDynamicComponent]="footerComponent" *ngIf="footerComponent"></ndc-dynamic>
+      </div>
     </div>
+  </div>
 </div>
