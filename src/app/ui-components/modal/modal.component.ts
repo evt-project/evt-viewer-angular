@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ElementRef,
-  HostListener, ViewChild, Attribute
+  HostListener, ViewChild, Attribute, HostBinding
 } from '@angular/core';
 
 import { ThemesService } from '../../services/themes.service';
@@ -29,6 +29,8 @@ export class ModalComponent implements OnInit {
   @Output() hide = new EventEmitter<string>();
 
   @ViewChild('modalDialog', { static: true }) modalDialog: ElementRef;
+
+  @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
 
   constructor(
     @Attribute('modalId') public modalId: string,
