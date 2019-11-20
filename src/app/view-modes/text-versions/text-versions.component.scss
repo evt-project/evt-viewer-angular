@@ -21,6 +21,7 @@
     transform: translate(-100%,-50%);
     top: 50%;
     z-index: 9999;
+    width: 140px;
 }
 
 :host ::ng-deep .versionsPanel gridster-item {

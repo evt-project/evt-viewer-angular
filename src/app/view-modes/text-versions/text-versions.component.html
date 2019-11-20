@@ -13,9 +13,9 @@
                 </evt-version-panel>
                 </gridster-item>
             </gridster>
-            <button type="button" class ="btn btn-primary shadow"
-            [class.btn-float-right]="getVersions().length > 0"
-            (click)="addVersion()">ADD VERSION </button>
+            <evt-button class="btn" additionalClasses="btn-primary shadow"
+                [class.btn-float-right]="getVersions().length > 0"
+                (btnClick)="addVersion()" label="ADD VERSION"></evt-button>
         </div> 
     </gridster-item>
 </gridster>

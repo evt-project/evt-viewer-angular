@@ -14,10 +14,9 @@
                 </evt-witness-panel>
                 </gridster-item>
             </gridster>
-            <button type="button" class ="btn btn-primary shadow"
-            [class.btn-float-right]="getWitnesses().length > 0"
-            (click)="addWitness()">ADD WITNESS </button>
-            <evt-button></evt-button>
+            <evt-button class="btn" additionalClasses="btn-primary shadow"
+                [class.btn-float-right]="getWitnesses().length > 0"
+                (btnClick)="addWitness()" label="ADD WITNESS"></evt-button>
         </div> 
     </gridster-item>
 </gridster>
