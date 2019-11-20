@@ -41,6 +41,7 @@ import { NoteComponent } from './components/note/note.component';
 import { PageComponent } from './components/page/page.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
+import { PinboardPanelComponent } from './panels/pinboard-panel/pinboard-panel.component';
 
 const routes: Routes = [
 ];
@@ -63,6 +64,7 @@ export function initializeApp(appConfig: AppConfig) {
     NoteComponent,
     PageComponent,
     PinboardComponent,
+    PinboardPanelComponent,
     PinnerComponent,
     ReadingTextComponent,
     ShortcutsComponent,

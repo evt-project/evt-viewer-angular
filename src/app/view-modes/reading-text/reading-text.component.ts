@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GridsterConfig, GridType, DisplayGrid, GridsterItem } from 'angular-gridster2';
+import { GridsterConfig, GridType, DisplayGrid, GridsterItem, CompactType } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { register } from '../../services/component-register.service';
@@ -46,13 +46,13 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleApparatuses() {
-    this.updateGridsterConfig();
-    this.apparatusesOpened = !this.apparatusesOpened;
-  }
-
   togglePinnedBoard() {
     this.pinnedBoardOpened = !this.pinnedBoardOpened;
+    this.updateGridsterConfig();
+  }
+
+  toggleApparatuses() {
+    this.apparatusesOpened = !this.apparatusesOpened;
     this.updateGridsterConfig();
   }
 
@@ -63,6 +63,7 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   }
 
   private updateGridsterConfig() {
+    this.pinnedBoardItem.x = this.apparatusesOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
     this.apparatusesItem.x = this.pinnedBoardOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
     this.changedOptions();
   }
@@ -76,6 +77,7 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     this.layoutOptions = {
       gridType: GridType.Fit,
       displayGrid: DisplayGrid.None,
+      compactType: CompactType.CompactLeft,
       margin: 0,
       maxCols: 3,
       maxRows: 1,

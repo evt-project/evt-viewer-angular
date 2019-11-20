@@ -1,0 +1,10 @@
+<evt-panel [closable]="true" [secondary]="true" (hide)="emitHide()">
+    <div header-left>{{'Pinboard' | translate}}</div>
+    <evt-pinboard content [types]="selectedPinTypes"></evt-pinboard>
+    <div footer>
+        <ng-select [items]="pinboardTypes$ | async" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+            bindValue="id" bindLabel="label" [placeholder]="'FilterPins' | translate" [(ngModel)]="selectedPinTypes">
+        </ng-select>
+    </div>
+
+</evt-panel>

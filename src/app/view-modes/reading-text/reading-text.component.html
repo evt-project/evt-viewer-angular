@@ -3,10 +3,7 @@
         <evt-text-panel [page]="currentPage" (pageChange)="handlePageChange($event)"></evt-text-panel>
     </gridster-item>
     <gridster-item *ngIf="pinnedBoardOpened" [item]="pinnedBoardItem">
-        <evt-panel [secondary]="true" [hideFooter]="true" [hideHeader]="true" [closable]="true"
-            (close)="togglePinnedBoard()">
-            <evt-pinboard content></evt-pinboard>
-        </evt-panel>
+        <evt-pinboard-panel content (hide)="togglePinnedBoard()"></evt-pinboard-panel>
     </gridster-item>
     <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
         <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">

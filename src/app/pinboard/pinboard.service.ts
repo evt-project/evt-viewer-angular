@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 })
 export class PinboardService {
   private items$ = new BehaviorSubject({});
-  @Output() pinboardChanged: EventEmitter<{ types?: any, items?: any }> = new EventEmitter();
 
   /**
    * @todo Handle Groups of similar elements
@@ -27,15 +26,12 @@ export class PinboardService {
         pinDate: item.pinDate ? item.pinDate : new Date()
       };
     }
-    console.log(items);
     this.items$.next(items);
-    this.getItemsTypes().subscribe(types => this.pinboardChanged.emit({ items, types }));
   }
 
   isItemPinned(item) {
     const itemId = item.id || item.path;
     const items = this.items$.getValue();
-    console.log(items[itemId]);
     return items[itemId];
   }
 
@@ -47,19 +43,6 @@ export class PinboardService {
           itemsArray = itemsArray.filter(item => item.pinType && types.indexOf(item.pinType) >= 0);
         }
         return itemsArray;
-      }));
-  }
-
-  getItemsTypes(): Observable<string[]> {
-    return this.items$.pipe(
-      map(items => {
-        const types = [];
-        for (const key in items) {
-          if (items[key].pinType && types.indexOf(items[key].pinType) < 0) {
-            types.push(items[key].pinType);
-          }
-        }
-        return types;
       }));
   }
 }
