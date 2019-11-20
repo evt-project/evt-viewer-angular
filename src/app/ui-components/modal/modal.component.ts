@@ -31,38 +31,38 @@ export class ModalComponent implements OnInit {
   @ViewChild('modalDialog', { static: true }) modalDialog: ElementRef;
 
   constructor(
-      @Attribute('modalId') public modalId: string,
-      @Attribute('title') public title: string,
-      @Attribute('bodyContentClass') public bodyContentClass: string,
-      public themes: ThemesService) {
+    @Attribute('modalId') public modalId: string,
+    @Attribute('title') public title: string,
+    @Attribute('bodyContentClass') public bodyContentClass: string,
+    public themes: ThemesService) {
   }
 
   ngOnInit() {
-      this.closeOnShadow = this.closeOnShadow === undefined ? true : this.closeOnShadow;
-      this.closeOnEsc = this.closeOnEsc === undefined ? true : this.closeOnEsc;
-      this.fixedHeight = this.fixedHeight === undefined ? false : this.fixedHeight;
+    this.closeOnShadow = this.closeOnShadow === undefined ? true : this.closeOnShadow;
+    this.closeOnEsc = this.closeOnEsc === undefined ? true : this.closeOnEsc;
+    this.fixedHeight = this.fixedHeight === undefined ? false : this.fixedHeight;
   }
 
   @HostListener('click', ['$event'])
   clickout(event) {
-      const modal = this.modalDialog.nativeElement;
-      const internalClick: boolean = event.path.find((o) => {
-          return o.className && o.className.indexOf && o.className.indexOf(modal.className) >= 0;
-      });
-      if (this.closeOnShadow && !internalClick) {
-          this.closeDialog();
-      }
+    const modal = this.modalDialog.nativeElement;
+    const internalClick: boolean = event.path.find((o) => {
+      return o.className && o.className.indexOf && o.className.indexOf(modal.className) >= 0;
+    });
+    if (this.closeOnShadow && !internalClick) {
+      this.closeDialog();
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-      const eKeyCode = getEventKeyCode(event);
-      if (this.closeOnEsc && eKeyCode === 27) {
-          this.closeDialog();
-      }
+    const eKeyCode = getEventKeyCode(event);
+    if (this.closeOnEsc && eKeyCode === 27) {
+      this.closeDialog();
+    }
   }
 
   closeDialog() {
-      this.hide.emit(this.modalId);
+    this.hide.emit(this.modalId);
   }
 }
