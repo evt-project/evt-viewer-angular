@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-panel',
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss']
 })
+@register
 export class PanelComponent implements OnInit {
   @Input() comparable: boolean;
   @Input() secondary: boolean;

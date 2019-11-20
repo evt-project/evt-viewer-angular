@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { GridsterConfig, GridsterItem, GridType, DisplayGrid } from 'angular-gridster2';
-
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-text',
   templateUrl: './text-text.component.html',
   styleUrls: ['./text-text.component.scss']
 })
+@register
 export class TextTextComponent implements OnInit {
   public options: GridsterConfig = {};
   public textPanel1Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

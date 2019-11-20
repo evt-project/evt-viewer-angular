@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
 import { PageData } from 'src/app/models/evt-models';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-panel',
   templateUrl: './text-panel.component.html',
   styleUrls: ['./text-panel.component.scss']
 })
+@register
 export class TextPanelComponent implements OnInit {
   public secondaryContent = '';
   private showSecondaryContent = false;

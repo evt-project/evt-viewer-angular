@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { EvtIconInfo } from '../icon/icon.component';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
+@register
 export class ButtonComponent implements OnInit, OnChanges {
   @Input() public iconLeft: EvtIconInfo;
   @Input() public iconRight: EvtIconInfo;

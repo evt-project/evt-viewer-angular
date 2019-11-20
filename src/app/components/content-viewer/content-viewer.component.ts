@@ -2,11 +2,13 @@ import { Component, OnInit, OnDestroy, Input, ViewChild, ViewContainerRef, Compo
 
 import { GenericParserService } from '../../services/xml-parsers/generic-parser.service';
 import { AttributesMap } from 'ng-dynamic-component';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-content-viewer',
   templateUrl: './content-viewer.component.html'
 })
+@register
 export class ContentViewerComponent implements OnInit, OnDestroy {
   @Input() content: HTMLElement;
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;

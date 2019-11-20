@@ -9,13 +9,14 @@ import { ModalService } from '../ui-components/modal/modal.service';
 import { ModalComponent } from '../ui-components/modal/modal.component';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { register } from '../services/component-register.service';
 
 @Component({
   selector: 'evt-main-menu',
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss']
 })
+@register
 export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];

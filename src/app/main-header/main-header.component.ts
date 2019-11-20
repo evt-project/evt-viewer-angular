@@ -3,12 +3,14 @@ import { Router } from '@angular/router';
 import { ThemesService } from '../services/themes.service';
 import { EditionConfig, AppConfig } from '../app.config';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
+import { register } from '../services/component-register.service';
 
 @Component({
   selector: 'evt-main-header',
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss']
 })
+@register
 export class MainHeaderComponent implements OnInit, OnDestroy {
   public viewModes: ViewMode[] = [];
   public currentViewMode: ViewMode;

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { GridsterConfig, GridType, DisplayGrid, GridsterItem } from 'angular-gridster2';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-reading-text',
   templateUrl: './reading-text.component.html',
   styleUrls: ['./reading-text.component.scss']
 })
+@register
 export class ReadingTextComponent implements OnInit {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

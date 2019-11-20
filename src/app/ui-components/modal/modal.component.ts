@@ -4,15 +4,16 @@ import {
 } from '@angular/core';
 
 import { ThemesService } from '../../services/themes.service';
-import { getEventKeyCode } from '../../utils/jsUtils';
 import { EvtIconInfo } from '../icon/icon.component';
 import { ModalService } from './modal.service';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
+@register
 export class ModalComponent implements OnInit {
   @Input() closeOnShadow: boolean;
   @Input() closeOnEsc: boolean;

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { GridsterConfig, GridsterItem, GridType, DisplayGrid } from 'angular-gridster2';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-sources',
   templateUrl: './text-sources.component.html',
   styleUrls: ['./text-sources.component.scss']
 })
+@register
 export class TextSourcesComponent implements OnInit {
 
   public options: GridsterConfig = {};

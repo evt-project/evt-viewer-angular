@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-versions',
   templateUrl: './text-versions.component.html',
   styleUrls: ['./text-versions.component.scss']
 })
+@register
 export class TextVersionsComponent implements OnInit {
   @ViewChild('versionsPanel', { static: true }) versionsPanel: ElementRef;
   private versions: VersionItem[] = [];

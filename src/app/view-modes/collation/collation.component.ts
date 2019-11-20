@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
-
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-collation',
   templateUrl: './collation.component.html',
   styleUrls: ['./collation.component.scss']
 })
+@register
 export class CollationComponent implements OnInit, OnDestroy {
   @ViewChild('collationPanel', { static: true }) collationPanel: ElementRef;
 
