@@ -9,6 +9,10 @@ export class ModalService {
   constructor(private ngbModal: NgbModal) { }
 
   open(componentToOpen: any, options?: ModalOptions): NgbModalRef<any> {
+    options = {
+      ...options || {},
+      keyboard: false
+    };
     const modalRef = this.ngbModal.open(componentToOpen, options);
     if (options && options.id) {
       this.openedModals[options.id] = modalRef;

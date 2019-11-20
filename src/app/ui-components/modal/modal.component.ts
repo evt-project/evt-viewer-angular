@@ -57,10 +57,8 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    const eKeyCode = getEventKeyCode(event);
-    if (this.closeOnEsc && eKeyCode === 27) {
+  handleEscape() {
+    if (this.closeOnEsc) {
       this.closeDialog();
     }
   }

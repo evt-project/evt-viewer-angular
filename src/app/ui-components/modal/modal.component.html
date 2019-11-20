@@ -1,4 +1,5 @@
-<div class="modal fade show" [class.fixed-height]="fixedHeight" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade show" [class.fixed-height]="fixedHeight" tabindex="-1" role="dialog" aria-hidden="true"
+  (escape)="handleEscape()">
   <div class="modal-dialog modal-dialog-centered" role="document" #modalDialog [class.wider]="wider">
     <div class="modal-content">
       <div class="modal-header">
