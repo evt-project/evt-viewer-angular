@@ -122,7 +122,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     const modalComp = modalRef.componentInstance as ModalComponent;
     modalComp.fixedHeight = true;
     modalComp.modalId = 'shortcuts';
-    modalComp.title = 'Shortcuts';
+    modalComp.title = 'shortcuts';
     modalComp.bodyContentClass = 'p-3';
     modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'mr-3' };
     modalComp.bodyComponent = ShortcutsComponent;
@@ -158,7 +158,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     const modalComp = modalRef.componentInstance as ModalComponent;
     modalComp.fixedHeight = true;
     modalComp.modalId = 'evtInfo';
-    modalComp.title = 'AboutEVT';
+    modalComp.title = 'aboutEVT';
     modalComp.bodyContentClass = 'p-3';
     modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'mr-3' };
     modalComp.bodyComponent = EvtInfoComponent;

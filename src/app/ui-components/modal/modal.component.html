@@ -4,7 +4,7 @@
       <div class="modal-header">
         <evt-icon *ngIf="headerIcon" [iconInfo]="headerIcon"></evt-icon>
         <span class="modal-title">
-          {{title}}
+          {{title | translate}}
           <ng-content select="[title]"></ng-content>
         </span>
         <button type="button" class="close" (click)="closeDialog()" data-dismiss="modal" aria-label="Close">
@@ -19,9 +19,9 @@
         </div>
       </div>
       <div class="modal-footer" *ngIf="footer || footerHTML || footerComponent">
-          <ng-container *ngIf="footer">
-            <ng-content select="[footer]"></ng-content>
-          </ng-container>
+        <ng-container *ngIf="footer">
+          <ng-content select="[footer]"></ng-content>
+        </ng-container>
         <div [innerHtml]="footerHTML" *ngIf="footerHTML" class="modal-footer"></div>
         <ndc-dynamic [ndcDynamicComponent]="footerComponent" *ngIf="footerComponent"></ndc-dynamic>
       </div>
