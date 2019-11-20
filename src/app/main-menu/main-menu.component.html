@@ -1,0 +1,44 @@
+<div class="mainMenu">
+    <ul>
+        <li *ngFor="let item of dynamicItems trackBy: item?.id">
+            <span (click)="item.callback()">
+                <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate:lang}}
+            </span>
+        </li>
+    </ul>
+    <hr />
+    <ul>
+        <li><!-- TODO: Disable if localization disabled from config-->
+            <span class="no-action">
+                <evt-icon [iconInfo]="{icon: 'language', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'changeLanguage' | translate:lang }}
+                <img *ngFor="let language of getAvailableLanguages() trackBy: language?.code"
+                    src="../../assets/images/{{language.code}}.png" class="flag"
+                    [class.active]="getCurrentLanguage() === language.code" [title]="language.lable | translate:lang"
+                    (click)="selectLanguage(language);" />
+            </span>
+        </li>
+        <li>
+            <span class="no-action">
+                <evt-icon [iconInfo]="{icon: 'paint-brush', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'changeTheme' | translate:lang }}
+                <span class="theme-item" *ngFor="let theme of getAvailableThemes() trackBy: theme?.value"
+                    [class.active]="getCurrentTheme() === theme" [attr.data-theme]="theme.value"
+                    [title]="theme.label | translate:lang" (click)="selectTheme(theme)">
+                </span>
+            </span>
+        </li>
+        <li>
+            <span (click)="openShortCuts()">
+                <evt-icon [iconInfo]="{icon: 'keyboard', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'shortcuts' | translate:lang }}
+            </span>
+        </li>
+        <li>
+            <span (click)="openEVTInfo()">
+                <evt-icon [iconInfo]="{icon: 'copyright', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'aboutEVT' | translate:lang }}
+            </span>
+        </li>
+    </ul>
+</div>

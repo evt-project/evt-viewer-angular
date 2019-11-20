@@ -28,6 +28,7 @@ import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
 
 const routes: Routes = [
 ];
@@ -60,6 +61,7 @@ const l10nConfig: L10nConfig = {
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
+    MainMenuComponent,
     ReadingTextComponent,
     SourcesPanelComponent,
     TextPanelComponent,

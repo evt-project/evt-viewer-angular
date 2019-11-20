@@ -6,5 +6,11 @@
     "changeTheme": "Cambia tema",
     "themeNeutral": "Neutro",
     "themeModern": "Moderno",
-    "themeClassic": "Classico"
+    "themeClassic": "Classico",
+    "shortcuts": "Scorciatoie da tastiera",
+    "aboutEVT": "Info su EVT",
+    "projectInfo": "Informazioni progetto",
+    "openLists": "Apri liste",
+    "bookmark": "Segnalibro",
+    "downloadXML": "Scarica XML"
 }

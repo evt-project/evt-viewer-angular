@@ -15,6 +15,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public title = 'title';
   public modalShown = false;
   public currentViewMode: ViewMode;
+  public mainMenuOpened = false;
 
   private subscriptions = [];
 
@@ -43,46 +44,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/' + viewMode.id, currentParams]);
   }
 
-  // TEMP
-  getAvailableLanguages(): DropdownItem[] {
-    return [{
-      id: 'en',
-      label: 'languageEn',
-      title: 'languageEn'
-    }, {
-      id: 'it',
-      label: 'languageIt',
-      title: 'languageIt'
-    }];
-  }
-
-  selectLanguage(languageSelected: DropdownItem[]): void {
-    this.locale.setCurrentLanguage(languageSelected[0].id);
-  }
-
-  getCurrentLanguage() {
-    return this.getAvailableLanguages().find(language => language.id === this.locale.getCurrentLanguage());
-  }
-
-  selectTheme(theme: ColorTheme) {
-    console.log('selectTheme', theme);
-    this.themes.selectTheme(theme);
-  }
-
-  getAvailableThemes(): ColorTheme[] {
-    return this.themes.getAvailableThemes();
-  }
-
-  getCurrentTheme() {
-    return this.themes.getCurrentTheme();
-  }
-
-  showModal() {
-    this.modalShown = true;
-  }
-
-  hideModal() {
-    this.modalShown = false;
+  toggleMainMenu(itemClicked: string) {
+    this.mainMenuOpened = !this.mainMenuOpened;
+    // TEMP
+    if (itemClicked === 'evtInfo') {
+      this.modalShown = true;
+    }
   }
 
   ngOnDestroy() {

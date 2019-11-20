@@ -21,25 +21,21 @@
 }
 
 ::ng-deep .viewMode-btn {
-    font-size: 2rem;
     padding: 0 5px;
     height: 38px;
     line-height: .9px;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-
-    background: transparent;
+    background: transparent !important;
+    
     @include themify($themes) {
         color: themed('baseColorLight');
-        &:hover,
-        &.btn-hovered {
+        &:hover {
             background: rgba(themed('baseColorLight'), .2);
         }
     }
     .viewMode-selector {
         line-height: 0;
         vertical-align: text-bottom;
+        font-size: 2rem;
     }
     &.active {
         color: #ffcc00 !important; // TEMP

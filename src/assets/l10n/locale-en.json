@@ -1,5 +1,5 @@
 {
-	"title": "EVT Viewer",
+    "title": "EVT Viewer",
     "changeLanguage": "Change language",
     "languageEn": "English",
     "languageIt": "Italian",
@@ -7,5 +7,11 @@
     "currentTheme": "Current theme",
     "themeNeutral": "Neutral",
     "themeModern": "Modern",
-    "themeClassic": "Classic"
+    "themeClassic": "Classic",
+    "shortcuts": "Shortcuts",
+    "aboutEVT": "About EVT",
+    "projectInfo": "Project Info",
+    "openLists": "Open Lists",
+    "bookmark": "Bookmark",
+    "downloadXML": "Download XML"
 }
