@@ -18,5 +18,6 @@
     "pinboardLoading": "Pinboard Loading...",
     "pinboardEmpty": "Your pinboard is empty.",
     "filteredPinboardEmpty": "No pin found for selected types.",
-    "filterPins": "Filter pins"
+    "filterPins": "Filter pins",
+    "more": "more"
 }
