@@ -18,11 +18,12 @@ export class ThemesService {
             value: 'classic',
             label: 'themeClassic'
         }];
-        this.currentTheme = this.themes[0];
+        this.selectTheme(this.themes[0]);
     }
 
     selectTheme(theme: ColorTheme) {
         this.currentTheme = theme;
+        document.body.setAttribute('data-theme', theme.value); // Needed to let ngb-popover and ngb-modals work properly with themes
     }
 
     getAvailableThemes(): ColorTheme[] {
