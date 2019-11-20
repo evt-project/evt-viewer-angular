@@ -21,7 +21,12 @@ export class GenericParserService {
 
       switch (xml.tagName.toLowerCase()) {
         case 'note':
-          return this.parseNote(xml);
+          const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
+          if (footerNote) {
+            return this.parseElement(xml);
+          } else {
+            return this.parseNote(xml);
+          }
         default:
           return this.parseElement(xml);
       }
