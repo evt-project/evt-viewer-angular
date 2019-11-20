@@ -9,5 +9,5 @@ export interface PageData {
     id: string;
     label: string;
     xmlSource: any;
-    content: any[];
+    content: ChildNode[];
 }
