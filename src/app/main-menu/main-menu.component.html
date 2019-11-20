@@ -1,4 +1,4 @@
-<div class="mainMenu" (clickOutside)="closeMenu()">
+<div class="mainMenu" (clickOutside)="closeMenu()" (escape)="closeMenu()">
     <ul>
         <li *ngFor="let item of dynamicItems trackBy: item?.id">
             <span (click)="item.callback()">
