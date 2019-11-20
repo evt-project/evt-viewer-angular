@@ -124,6 +124,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     modalComp.modalId = 'shortcuts';
     modalComp.title = 'Shortcuts';
     modalComp.bodyContentClass = 'p-3';
+    modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'mr-3' };
     modalComp.bodyComponent = ShortcutsComponent;
   }
 
