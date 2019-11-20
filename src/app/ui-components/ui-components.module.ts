@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { DynamicModule } from 'ng-dynamic-component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
@@ -30,6 +31,7 @@ import { EscapeDirective } from './directives/escape.directive';
     AppTranslationModule,
     DynamicModule.withComponents([]),
     NgbModule,
+    NgSelectModule,
   ],
   exports: [
     ButtonComponent,
@@ -38,7 +40,8 @@ import { EscapeDirective } from './directives/escape.directive';
     DropdownComponent,
     ModalComponent,
     ClickOutsideDirective,
-    EscapeDirective
+    EscapeDirective,
+    NgSelectModule
   ],
   entryComponents: [
     ModalComponent

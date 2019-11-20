@@ -28,6 +28,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@ng-bootstrap/ng-bootstrap": "^5.1.2",
+    "@ng-select/ng-select": "^3.5.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-gridster2": "^8.2.0",

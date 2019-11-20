@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { UiComponentsModule } from './ui-components/ui-components.module';
+import { FormsModule } from '@angular/forms';
 import { GridsterModule } from 'angular-gridster2';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -62,6 +63,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppRoutingModule,
     AppTranslationModule,
     BrowserModule,
+    FormsModule,
     GridsterModule,
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true }),

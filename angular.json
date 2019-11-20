@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -97,6 +98,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/styles.scss"
             ],
             "scripts": [

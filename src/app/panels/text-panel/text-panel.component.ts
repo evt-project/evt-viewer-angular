@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class TextPanelComponent {
   // TEMP:
   public secondaryContent = '';
+  public selectedPage = 'p1';
   private showSecondaryContent = false;
 
   isSecondaryContentOpened(): boolean {

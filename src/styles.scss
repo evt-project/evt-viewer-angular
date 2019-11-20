@@ -1,9 +1,45 @@
 /* Global styles. Place where eventually import other style files. */
 @import "./assets/scss/variables";
-@import "node_modules/bootstrap/scss/bootstrap"; 
+@import "node_modules/bootstrap/scss/bootstrap";
 @import "./assets/scss/themes";
+@import "./assets/scss/mixins";
 @import "./assets/scss/bootstrapOverrides";
 
-html, body {
+html,
+body {
     height: 100%;
+}
+
+// ng-select overwrites
+evt-root .ng-select {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+
+    .ng-select-container {
+        height: 31px !important;
+        min-height: 31px;
+        vertical-align: middle;
+        border-color: transparent;
+    }
+
+    .ng-arrow-wrapper {
+        padding-left: 6px;
+
+        .ng-arrow {
+            border-width: 4px 4px 2.5px;
+        }
+    }
+
+    .ng-dropdown-panel-items {
+        @include set('box-shadow', '0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)');
+    }
+    &.ng-select-opened {
+        .ng-arrow-wrapper .ng-arrow {
+            border-width: 0 4px 4px;
+        }
+    }
 }
