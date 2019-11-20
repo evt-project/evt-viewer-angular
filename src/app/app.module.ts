@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AppTranslationModule } from './app-translation.module';
 
-import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 import { AppConfig } from './app.config';
 
 import { ThemesService } from './services/themes.service';
@@ -29,30 +28,11 @@ import { TextSourcesComponent } from './view-modes/text-sources/text-sources.com
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 
 const routes: Routes = [
 ];
-const l10nConfig: L10nConfig = {
-  logger: {
-    level: LogLevel.Warn
-  },
-  locale: {
-    languages: [
-      { code: 'en', dir: 'ltr' },
-      { code: 'it', dir: 'ltr' },
-    ],
-    language: 'en',
-    storage: StorageStrategy.Cookie
-  },
-  translation: {
-    providers: [
-      { type: ProviderType.Static, prefix: './assets/l10n/locale-' },
-    ],
-    caching: true,
-    composedKeySeparator: '.',
-    missingValue: 'No key'
-  }
-};
+
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
@@ -66,6 +46,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainHeaderComponent,
     MainMenuComponent,
     ReadingTextComponent,
+    ShortcutsComponent,
     SourcesPanelComponent,
     TextPanelComponent,
     TextSourcesComponent,
@@ -81,7 +62,6 @@ export function initializeApp(appConfig: AppConfig) {
     GridsterModule,
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true }),
-    TranslationModule.forRoot(l10nConfig),
     UiComponentsModule,
   ],
   providers: [
@@ -95,6 +75,9 @@ export function initializeApp(appConfig: AppConfig) {
   ],
   bootstrap: [
     AppComponent,
+  ],
+  entryComponents: [
+    ShortcutsComponent,
   ],
 })
 export class AppModule {

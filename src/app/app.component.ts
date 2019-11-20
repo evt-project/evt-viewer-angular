@@ -1,6 +1,7 @@
-import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, HostListener } from '@angular/core';
 import { ThemesService } from './services/themes.service';
 import { Subscription } from 'rxjs';
+import { ShortcutsService } from './shortcuts/shortcuts.service';
 
 @Component({
   selector: 'evt-root',
@@ -10,7 +11,10 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
-  constructor(private themes: ThemesService) { }
+  constructor(
+    private shortcutsService: ShortcutsService,
+    private themes: ThemesService,
+  ) { }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
 
@@ -18,5 +22,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(e: KeyboardEvent) {
+    this.shortcutsService.handleKeyboardEvent(e);
   }
 }
