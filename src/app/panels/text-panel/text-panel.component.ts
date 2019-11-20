@@ -3,6 +3,7 @@ import { StructureXmlParserService } from '../../services/xml-parsers/structure-
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { Subscription } from 'rxjs';
+import { GenericParserService } from 'src/app/services/xml-parsers/generic-parser.service';
 
 @Component({
   selector: 'evt-text-panel',
@@ -23,6 +24,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   constructor(
     public editionStructure: StructureXmlParserService,
+    public genericParser: GenericParserService
   ) {
 
   }
@@ -42,7 +44,9 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: PageData) {
-    this.selectedPage = page;
+    if (page) {
+      this.genericParser.addTask.next(page.content.length);
+    }
     this.pageChange.emit(page);
   }
 
