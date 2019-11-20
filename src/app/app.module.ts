@@ -39,6 +39,8 @@ import { TextComponent } from './components/text/text.component';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { NoteComponent } from './components/note/note.component';
 import { PageComponent } from './components/page/page.component';
+import { PinboardComponent } from './pinboard/pinboard.component';
+import { PinnerComponent } from './pinboard/pinner/pinner.component';
 
 const routes: Routes = [
 ];
@@ -60,6 +62,8 @@ export function initializeApp(appConfig: AppConfig) {
     MainMenuComponent,
     NoteComponent,
     PageComponent,
+    PinboardComponent,
+    PinnerComponent,
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,

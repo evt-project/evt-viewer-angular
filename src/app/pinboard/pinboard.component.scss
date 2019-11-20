@@ -1,0 +1,38 @@
+.pinnedItem {
+  position: relative;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: .5rem;
+
+  &-header {
+    min-height: 31px;
+
+    .pin-type {
+      font-variant: small-caps;
+    }
+
+    .pin-type,
+    .pin-date {
+      font-size: .7rem;
+      color: grey;
+    }
+
+    .pin-remover {
+      float: right;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 99;
+
+      &:hover {
+        background: rgba(0, 0, 0, .1);
+      }
+    }
+  }
+}
+
+:host ::ng-deep .pinnedItems-container {
+  evt-pinner {
+    display: none !important;
+  }
+}

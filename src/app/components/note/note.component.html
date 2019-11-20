@@ -1,4 +1,5 @@
 <ng-template #popContent>
+    <evt-pinner [item]="data" pinType="Notes" [additionalStyle]="pinnerStyle"></evt-pinner>
     <div class="content">
         <evt-content-viewer *ngFor="let element of data.content trackBy: element" [content]="element">
         </evt-content-viewer>

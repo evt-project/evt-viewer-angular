@@ -2,6 +2,12 @@
     <gridster-item [item]="textPanelItem">
         <evt-text-panel [page]="currentPage" (pageChange)="handlePageChange($event)"></evt-text-panel>
     </gridster-item>
+    <gridster-item *ngIf="pinnedBoardOpened" [item]="pinnedBoardItem">
+        <evt-panel [secondary]="true" [hideFooter]="true" [hideHeader]="true" [closable]="true"
+            (close)="togglePinnedBoard()">
+            <evt-pinboard content></evt-pinboard>
+        </evt-panel>
+    </gridster-item>
     <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
         <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">
             <ngb-tabset [justify]="justified" content>
@@ -28,5 +34,9 @@
     <button type="button" class="btn btn-primary shadow rounded-circle" [class.active]="apparatusesOpened"
         (click)="toggleApparatuses()">
         <evt-icon class="icon" [iconInfo]="{icon: 'pen-square'}"></evt-icon>
+    </button>
+    <button type="button" class="btn btn-primary shadow rounded-circle" [class.active]="pinnedBoardOpened"
+        (click)="togglePinnedBoard()">
+        <evt-icon class="icon" [iconInfo]="{icon: 'thumbtack'}"></evt-icon>
     </button>
 </div>
