@@ -2,4 +2,31 @@
     <gridster-item [item]="textPanelItem">
         <evt-text-panel [page]="currentPage" (pageChange)="handlePageChange($event)"></evt-text-panel>
     </gridster-item>
+    <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
+        <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">
+            <ngb-tabset [justify]="justified" content>
+                <ngb-tab [title]="'CriticalApparatus' | translate">
+                    <ng-template ngbTabContent>
+                        {{ 'CriticalApparatus' | translate }}
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab [title]="'Sources' | translate">
+                    <ng-template ngbTabContent>
+                        {{ 'Sources' | translate }}
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab [title]="'Analogues' | translate">
+                    <ng-template ngbTabContent>
+                        {{ 'Analogues' | translate }}
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </evt-panel>
+    </gridster-item>
 </gridster>
+<div class="global-tools">
+    <button type="button" class="btn btn-primary shadow rounded-circle" [class.active]="apparatusesOpened"
+        (click)="toggleApparatuses()">
+        <evt-icon class="icon" [iconInfo]="{icon: 'pen-square'}"></evt-icon>
+    </button>
+</div>

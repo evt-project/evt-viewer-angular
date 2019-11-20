@@ -15,6 +15,10 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public currentPage: PageData;
+  public options: GridsterConfig = {};
+  public apparatusesOpened = true;
+  public apparatusesItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
+
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -38,9 +42,25 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     }
   }
 
+  // APPARATUSES 
+  toggleApparatuses() {
+    this.updateGridsterConfig();
+    this.apparatusesOpened = !this.apparatusesOpened;
+  }
+  changedOptions() {
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
+  }
+
+  private updateGridsterConfig() {
+    this.apparatusesItem.x = this.textPanelItem.x !== 0 ? 0 : 1;
+    this.changedOptions();
+  }
+
   private initPage() {
     this.subscriptions.push(
-      this.route.params.subscribe((params) => this.currentPage = params.page ));
+      this.route.params.subscribe((params) => this.currentPage = params.page));
   }
 
   private initGridster() {
