@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy, HostListener } from '@angular/core';
+import { Component, HostBinding, OnDestroy, HostListener } from '@angular/core';
 import { ThemesService } from './services/themes.service';
 import { Subscription } from 'rxjs';
 import { ShortcutsService } from './shortcuts/shortcuts.service';
@@ -8,7 +8,7 @@ import { ShortcutsService } from './shortcuts/shortcuts.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -17,8 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
-
-  ngOnInit() { }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

@@ -1,13 +1,12 @@
-<evt-panel [showSecondaryContent]="isSecondaryContentOpened()" >
+<evt-panel [showSecondaryContent]="isSecondaryContentOpened()">
     <div header-left>
         <evt-button label="Info" [iconLeft]="{icon: 'info-circle'}" additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('INFO')" [active]="secondaryContent === 'INFO'"></evt-button>
         <!-- TODO: add dropdowns for navigation -->
         <!-- TEMP -->
-        <ng-select class="mr-1"
-            [items]="[{id:'p1', label:'Page 1'},{id:'p2', label:'Page 2'},{id:'p3', label:'Page 3'}]"
-            bindLabel="label" bindValue="id" [clearable]="false"
+        <ng-select class="mr-1" [items]="pages$ | async" bindLabel="label" bindValue="id" [clearable]="false"
             [(ngModel)]="selectedPage"></ng-select>
+
     </div>
     <div content>
         <div [innerHTML]="text | async"></div>
@@ -18,14 +17,12 @@
 
     <div footer>
         <evt-button [iconLeft]="{icon: 'search'}" label="Search" additionalClasses="mr-1"
-            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
-            [active]="secondaryContent === 'SEARCH_RESULTS'"></evt-button>
+            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')" [active]="secondaryContent === 'SEARCH_RESULTS'">
+        </evt-button>
         <!-- TODO: add dropdowns for entities selection -->
         <!-- TEMP -->
         <ng-select class="mr-1"
-            [items]="[{id:'p1', label:'Page 1'},{id:'p2', label:'Page 2'},{id:'p3', label:'Page 3'}]"
-            bindLabel="label" bindValue="id" [clearable]="false"
-            [(ngModel)]="selectedPage"></ng-select>
+            [items]="[{id:'p1', label:'Page 1'},{id:'p2', label:'Page 2'},{id:'p3', label:'Page 3'}]" bindLabel="label"
+            bindValue="id" [clearable]="false" [(ngModel)]="selectedPage"></ng-select>
     </div>
 </evt-panel>
-    
