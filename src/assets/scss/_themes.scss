@@ -2,6 +2,8 @@ $themes: (
     neutral: (
         baseColorDark: #000,
         baseColorLight: #fff,
+        secondaryColorDark: #555,
+        secondaryColorLight: #fff,
         panelBackgroundColor: #fff,
         panelTextColor: #000,
         panelSecondaryBackgroundColor: rgba(255, 255, 255, 0.95)
@@ -9,6 +11,8 @@ $themes: (
     modern: (
         baseColorDark: #263238,
         baseColorLight: #ECEFF1,
+        secondaryColorDark: #607d8b,
+        secondaryColorLight: #ECEFF1,
         panelBackgroundColor: #fff,
         panelTextColor: #000,
         panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
@@ -16,6 +20,8 @@ $themes: (
     classic: (
         baseColorDark: rgb(54, 45, 40),
         baseColorLight: rgb(245, 234, 212),
+        secondaryColorDark: rgb(143, 119, 106),
+        secondaryColorLight: rgb(245, 234, 212),
         panelBackgroundColor: #fff,
         panelTextColor: #000,
         panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
