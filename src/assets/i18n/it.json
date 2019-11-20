@@ -12,5 +12,10 @@
     "projectInfo": "Informazioni progetto",
     "openLists": "Apri liste",
     "bookmark": "Segnalibro",
-    "downloadXML": "Scarica XML"
+    "downloadXML": "Scarica XML",
+    "pinboard": "Bacheca appunti",
+    "pinboardLoading": "Caricamento appunti...",
+    "pinboardEmpty": "Nessun appunto trovato.",
+    "filteredPinboardEmpty": "Nessun appunto trovato per i filtri impostati.",
+    "filterPins": "Filtra appunti"
 }

@@ -14,14 +14,14 @@
     </div>
     <div *ngIf="itemsPinned.length === 0 && types">
         <span *ngIf="types.length > 0">
-            {{ 'FilteredPinboardEmpty' | translate }}
+            {{ 'filteredPinboardEmpty' | translate }}
         </span>
         <span *ngIf="!types || types.length === 0">
-            {{ 'PinboardEmpty' | translate }}
+            {{ 'pinboardEmpty' | translate }}
         </span>
     </div>
 </div>
 
 <ng-template #loading>
-    {{ 'PinboardLoading' | translate }}
+    {{ 'pinboardLoading' | translate }}
 </ng-template>
