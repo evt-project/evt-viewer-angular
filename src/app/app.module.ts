@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 import { FormsModule } from '@angular/forms';
 import { GridsterModule } from 'angular-gridster2';
+import { DynamicModule } from 'ng-dynamic-component';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +32,10 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
+import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
+import { TextComponent } from './components/text/text.component';
+import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 
 const routes: Routes = [
 ];
@@ -43,8 +48,9 @@ export function initializeApp(appConfig: AppConfig) {
   declarations: [
     AppComponent,
     CollationComponent,
+    ContentViewerComponent,
     EvtInfoComponent,
-    EvtInfoComponent,
+    GenericElementComponent,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
@@ -52,6 +58,7 @@ export function initializeApp(appConfig: AppConfig) {
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
+    TextComponent,
     TextPanelComponent,
     TextSourcesComponent,
     TextTextComponent,
@@ -63,6 +70,10 @@ export function initializeApp(appConfig: AppConfig) {
     AppRoutingModule,
     AppTranslationModule,
     BrowserModule,
+    DynamicModule.withComponents([
+      TextComponent,
+      GenericElementComponent,
+    ]),
     FormsModule,
     GridsterModule,
     HttpClientModule,
@@ -76,6 +87,7 @@ export function initializeApp(appConfig: AppConfig) {
       useFactory: initializeApp,
       deps: [AppConfig], multi: true
     },
+    GenericParserService,
     ThemesService,
   ],
   bootstrap: [

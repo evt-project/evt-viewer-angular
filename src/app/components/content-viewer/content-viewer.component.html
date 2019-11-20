@@ -1,0 +1,10 @@
+<ng-container *ngIf="parsedContent">
+    <ng-container
+        *ngTemplateOutlet="dynamicTemplate;context:{parsedContent:parsedContent, inputs:inputs,outputs:outputs,attributes:attributes}">
+    </ng-container>
+</ng-container>
+<ng-template #dynamicTemplate let-parsedContent="parsedContent" let-inputs="inputs" let-outputs="outputs"
+    let-attributes="attributes">
+    <ndc-dynamic [ndcDynamicComponent]="parsedContent.type" [ndcDynamicInputs]="inputs" [ndcDynamicInputs]="outputs"
+        [ndcDynamicAttributes]="attributes"></ndc-dynamic>
+</ng-template>
