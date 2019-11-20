@@ -5,6 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ThemesService, ColorTheme } from '../services/themes.service';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
 import { UiConfig, AppConfig, FileConfig } from '../app.config';
+import { ModalService } from '../ui-components/modal/modal.service';
+import { ModalComponent } from '../ui-components/modal/modal.component';
+import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 
 @Component({
   selector: 'evt-main-menu',
@@ -25,6 +28,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   constructor(
     public themes: ThemesService,
     public translate: TranslateService,
+    private modalService: ModalService,
   ) { }
 
   ngOnInit() {
@@ -112,8 +116,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   openShortCuts() {
-    // TODO openShortCuts
     this.itemClicked.emit('shortcuts');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'shortcuts' });
+    modalRef.componentInstance.fixedHeight = true;
+    modalRef.componentInstance.modalId = 'shortcuts';
+    modalRef.componentInstance.title = 'Shortcuts';
+    modalRef.componentInstance.bodyContentClass = 'p-3';
+    modalRef.componentInstance.bodyComponent = ShortcutsComponent;
   }
 
   // LANGUAGE
