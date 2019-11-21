@@ -30,8 +30,6 @@ export class PageComponent implements OnDestroy, OnChanges {
         .subscribe(isBusy => {
           if (!isBusy) {
             this.spinner.hide('pageSpinner');
-          } else {
-            this.spinner.show('pageSpinner');
           }
         })
     );
@@ -40,6 +38,7 @@ export class PageComponent implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes.data && changes.data.currentValue !== changes.data.previousValue) {
       if (this.data.content.length) {
+        this.spinner.show('pageSpinner');
         this.genericParser.addTask.next(this.data.content.length);
       }
       setTimeout(() => this.contents = [...this.data.content]);
