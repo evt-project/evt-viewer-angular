@@ -12,7 +12,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body p-0" [class.no-footer]="!footer && !footerHTML && !footerComponent">
+      <div class="modal-body p-0" 
+        [ngClass]="{
+          'no-footer': !footer && !footerHTML && !footerComponent,
+          'no-scroll': scrollDisabled
+        }">
         <div class="{{bodyContentClass}}">
           <ng-content select="[body]"></ng-content>
           <div [innerHtml]="bodyHTML" *ngIf="bodyHTML"></div>

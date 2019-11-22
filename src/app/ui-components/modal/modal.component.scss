@@ -76,6 +76,10 @@
       overflow-y: auto;
     }
   }
+
+  .modal-body.no-scroll {
+    overflow: hidden !important;
+  }
 }
 
 button:focus {

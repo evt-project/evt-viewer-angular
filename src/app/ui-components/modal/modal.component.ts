@@ -18,6 +18,7 @@ export class ModalComponent implements OnInit {
   @Input() closeOnShadow: boolean;
   @Input() closeOnEsc: boolean;
   @Input() fixedHeight: boolean;
+  @Input() scrollDisabled: boolean;
   @Input() wider: boolean;
   @Input() headerIcon: EvtIconInfo;
 
