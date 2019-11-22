@@ -3,6 +3,7 @@ import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../app.config';
 import { map, publishReplay, refCount, catchError } from 'rxjs/operators';
+import { parseXml } from '../utils/xmlUtils';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,7 @@ export class EditionDataService {
       map(source => {
         let editionDoc: HTMLElement;
         if (typeof source !== 'object' && typeof source === 'string') {
-          // editionDoc = this.xmlUtils.parseXml(source);
-          editionDoc = document.createElement('div');
-          editionDoc.innerHTML = source;
+          editionDoc = parseXml(source);
         } else {
           editionDoc = source;
         }
