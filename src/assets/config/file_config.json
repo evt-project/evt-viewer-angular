@@ -1,3 +1,4 @@
 {
-	"editionUrls": ["assets/data/edition.xml"]
+	"editionUrls": ["assets/data/edition.xml"],
+	"manifestURL": "https://www.e-codices.unifr.ch/metadata/iiif/ubb-B-VI-0016/manifest.json"
 }

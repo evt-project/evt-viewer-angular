@@ -68,4 +68,5 @@ export interface EditionConfig {
 
 export interface FileConfig {
     editionUrls: string[];
+    manifestURL: string;
 }
