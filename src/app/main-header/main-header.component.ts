@@ -55,6 +55,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  trackViewModes(index, item: ViewMode) {
+    return item.id;
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }

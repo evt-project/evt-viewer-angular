@@ -7,7 +7,7 @@
     </gridster-item>
     <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
         <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">
-            <ngb-tabset [justify]="justified" content>
+            <ngb-tabset justify="justified" content>
                 <ngb-tab [title]="'CriticalApparatus' | translate">
                     <ng-template ngbTabContent>
                         {{ 'CriticalApparatus' | translate }}

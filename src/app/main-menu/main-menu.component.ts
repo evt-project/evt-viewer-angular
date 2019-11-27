@@ -166,6 +166,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     modalComp.bodyComponent = EvtInfoComponent;
   }
 
+  trackMenuItem(index, item: MainMenuItem) {
+    return item.id;
+  }
+
+  trackLanguages(index, item: Language) {
+    return item.code;
+  }
+
+  trackTheme(index, item: ColorTheme) {
+    return item.value;
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
