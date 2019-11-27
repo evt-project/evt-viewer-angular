@@ -7,6 +7,13 @@
   max-width: 100%;
   font-size: 1rem;
 
+  .modal-footer:empty {
+    height: 5px;
+    background: #fff;
+    padding: 0;
+    border: 0;
+  }
+
   @include themify($themes) {
     background: rgba(themed('baseColorDark'), .5);
 
@@ -48,11 +55,6 @@
     .close {
       text-shadow: none;
     }
-  }
-
-  .modal-body.no-footer {
-    border-bottom-left-radius: .3rem;
-    border-bottom-right-radius: .3rem;
   }
 
   &.fixed-height {

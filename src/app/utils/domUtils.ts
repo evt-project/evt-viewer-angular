@@ -37,7 +37,7 @@ export function isDirectlyNestedInElem(element: any, parentTagName: string, attr
  * @returns Whether the given element is nested in a node with given TagName or not
  */
 export function isNodeNestedInElem(element: any, parentTagName: string,
-  directCheck: boolean, attributes?: Array<{ key: string, value: any }>): boolean {
+                                   directCheck: boolean, attributes?: Array<{ key: string, value: any }>): boolean {
   if (element.parentNode !== null) {
     if (element.parentNode.tagName === 'text') {
       return false;
