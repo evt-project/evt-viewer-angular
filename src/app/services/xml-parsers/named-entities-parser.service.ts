@@ -55,15 +55,48 @@ export class NamedEntitiesParserService {
           parsedList.sublists.push(parsedSubList);
           parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
         } else {
-          parsedList.entities.push({ // TODO: push parser results
-            id: child.getAttribute('xml:id') || xpath(child),
-            label: child.textContent,
-          });
+          parsedList.entities.push(this.parseNamedEntity(child));
         }
       }
     });
 
     return parsedList;
+  }
+
+  private parseNamedEntity(xml: HTMLElement): NamedEntity {
+    switch (xml.tagName) {
+      case 'person':
+        return this.parsePerson(xml);
+      case 'place':
+        return this.parsePlace(xml);
+      case 'org':
+        return this.parseOrganization(xml);
+      default:
+        console.error('Warning! Parser not implemented for this element in list', xml);
+
+        return;
+    }
+  }
+
+  private parsePerson(xml: HTMLElement): NamedEntity {
+    return {
+      id: xml.getAttribute('xml:id') || xpath(xml),
+      label: xml.textContent,
+    };
+  }
+
+  private parsePlace(xml: HTMLElement): NamedEntity {
+    return {
+      id: xml.getAttribute('xml:id') || xpath(xml),
+      label: xml.textContent,
+    };
+  }
+
+  private parseOrganization(xml: HTMLElement): NamedEntity {
+    return {
+      id: xml.getAttribute('xml:id') || xpath(xml),
+      label: xml.textContent,
+    };
   }
 
   /**
