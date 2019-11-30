@@ -48,7 +48,9 @@ export class NamedEntitiesParserService {
       if (child.nodeType === 1) {
         if (child.tagName.toLowerCase() === 'head') {
           parsedList.label = child.textContent;
-        } else if (child.tagName === list.tagName) {
+        } else if (child.tagName.toLowerCase() === 'desc') {
+          parsedList.desc = child.textContent; // TODO: evaluate if save all XML element and delegate parser to content-viewer
+        } else if (this.getListsToParseTagName().indexOf(child.tagName) >= 0) {
           const parsedSubList = this.parseList(child);
           parsedList.sublists.push(parsedSubList);
           parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
