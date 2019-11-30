@@ -22,18 +22,18 @@ export class AppComponent implements OnDestroy {
   ) {
     this.router.events.subscribe((event) => {
       switch (true) {
-          case event instanceof NavigationStart:
-              this.spinner.show();
-              break;
-          case event instanceof NavigationEnd:
-          case event instanceof NavigationCancel:
-          case event instanceof NavigationError:
-              this.spinner.hide();
-              break;
-          default:
-              break;
+        case event instanceof NavigationStart:
+          this.spinner.show();
+          break;
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError:
+          this.spinner.hide();
+          break;
+        default:
+          break;
       }
-  });
+    });
   }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
