@@ -1,6 +1,4 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'evt-bibliography',
@@ -8,18 +6,24 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./bibliography.component.scss']
 })
 export class BibliographyComponent implements AfterViewInit {
-  subscription: Subscription;
-  pageData: import('src/app/models/evt-models').PageData[];
 
-  constructor(
-    public xmlParser: StructureXmlParserService,
-  ) {
-    console.log(`don't think the bibliography is here... but I am proud to have read this data with my new skills!`);
-    this.subscription = this.xmlParser.getPages().subscribe((response) => {
-      response.forEach((value) => {
-        console.log(value);
-      });
-    });
+  constructor( ) {
+    const xmlFile = 'assets/data/edition.xml';
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', xmlFile, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(this.response, 'text/xml');
+        const listBibl = xmlDoc.getElementsByTagName('listBibl');
+        listBibl[0].childNodes.forEach((field) => {
+          if (!field.nodeValue) {
+            console.log(field);
+          }
+        });
+      }
+    };
   }
 
   ngAfterViewInit() {
