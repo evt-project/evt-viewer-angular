@@ -91,7 +91,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private openGlobalDialogInfo() {
     // TODO openGlobalDialogInfo
-    (<HTMLElement>document.querySelectorAll('.biblSpace')[0]).style.display = "block"; 
+    (document.querySelectorAll('.biblSpace')[0] as HTMLElement).style.display = 'block';
     console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
   }

@@ -9,22 +9,22 @@ import { Subscription } from 'rxjs';
 })
 export class BibliographyComponent implements AfterViewInit {
   subscription: Subscription;
-  pageData: import("src/app/models/evt-models").PageData[];
+  pageData: import('src/app/models/evt-models').PageData[];
 
   constructor(
     public xmlParser: StructureXmlParserService,
   ) {
-    console.log("don't think the bibliography is here... but I am proud to have read this data with my new skills!");
+    console.log(`don't think the bibliography is here... but I am proud to have read this data with my new skills!`);
     this.subscription = this.xmlParser.getPages().subscribe((response) => {
-      response.forEach(function (value) {
+      response.forEach((value) => {
         console.log(value);
-      }); 
+      });
     });
   }
 
-  ngAfterViewInit(){
-    (<HTMLElement>document.querySelectorAll('.cloosingRood')[0]).onclick = function() {
-      (<HTMLElement>document.querySelectorAll('.biblSpace')[0]).style.display = "none";
-    }
+  ngAfterViewInit() {
+    (document.querySelectorAll('.cloosingRood')[0] as HTMLElement).onclick = () => {
+      (document.querySelectorAll('.biblSpace')[0] as HTMLElement).style.display = 'none';
+    };
   }
 }
