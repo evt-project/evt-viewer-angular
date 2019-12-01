@@ -16,11 +16,14 @@ export class BibliographyComponent implements AfterViewInit {
       if (this.readyState === 4 && this.status === 200) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(this.response, 'text/xml');
-        const listBibl = xmlDoc.getElementsByTagName('listBibl');
-        listBibl[0].childNodes.forEach((field) => {
-          if (!field.nodeValue) {
-            console.log(field);
-          }
+        const listsBibl = Array.from(xmlDoc.getElementsByTagName('listBibl'));
+        console.log(listsBibl.length);
+        listsBibl.forEach((l) => {
+          l.childNodes.forEach((field) => {
+            if (!field.nodeValue) {
+              console.log(field);
+            }
+          });
         });
       }
     };
