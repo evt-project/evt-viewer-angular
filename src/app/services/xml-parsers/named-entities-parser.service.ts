@@ -49,25 +49,33 @@ export class NamedEntitiesParserService {
     };
     list.childNodes.forEach((child: HTMLElement) => {
       if (child.nodeType === 1) {
-        if (child.tagName.toLowerCase() === 'head') {
-          parsedList.label = child.textContent;
-        } else if (child.tagName.toLowerCase() === 'desc') {
-          parsedList.desc = child.textContent; // TODO: evaluate if save all XML element and delegate parser to content-viewer
-        } else if (this.getListsToParseTagName().indexOf(child.tagName) >= 0) {
-          const parsedSubList = this.parseList(child);
-          parsedList.sublists.push(parsedSubList);
-          parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
-          parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
-        } else if (child.tagName.toLowerCase() === 'persongrp') {
-          console.log('TODO: Handle <personGrp>', child);
-        } else if (child.tagName.toLowerCase() === 'relation') {
-          parsedList.relations.push(this.parseRelation(child));
-        } else if (child.tagName.toLowerCase() === 'listrelation') {
-          child.querySelectorAll('relation').forEach((r: HTMLElement) => {
-            parsedList.relations.push(this.parseRelation(r));
-          });
-        } else {
-          parsedList.entities.push(this.parseNamedEntity(child));
+        switch (child.tagName.toLowerCase()) {
+          case 'head':
+            parsedList.label = child.textContent;
+            break;
+          case 'desc':
+            parsedList.desc = child.textContent; // TODO: evaluate if save all XML element and delegate parser to content-viewer
+            break;
+          case 'persongrp':
+            console.log('TODO: Handle <personGrp>', child);
+            break;
+          case 'relation':
+            parsedList.relations.push(this.parseRelation(child));
+            break;
+          case 'listrelation':
+            child.querySelectorAll('relation').forEach((r: HTMLElement) => {
+              parsedList.relations.push(this.parseRelation(r));
+            });
+            break;
+          default:
+            if (this.getListsToParseTagName().indexOf(child.tagName) >= 0) {
+              const parsedSubList = this.parseList(child);
+              parsedList.sublists.push(parsedSubList);
+              parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
+              parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
+            } else {
+              parsedList.entities.push(this.parseNamedEntity(child));
+            }
         }
       }
     });
