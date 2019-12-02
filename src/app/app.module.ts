@@ -34,8 +34,8 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
-import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
+import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { TextComponent } from './components/text/text.component';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { NoteComponent } from './components/note/note.component';
@@ -43,7 +43,7 @@ import { PageComponent } from './components/page/page.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
 import { PinboardPanelComponent } from './panels/pinboard-panel/pinboard-panel.component';
-import { BibliographyComponent } from './components/bibliography/bibliography.component';
+
 
 const routes: Routes = [
 ];
@@ -78,7 +78,6 @@ export function initializeApp(appConfig: AppConfig) {
     TextVersionsComponent,
     VersionPanelComponent,
     WitnessPanelComponent,
-    BibliographyComponent,
   ],
   imports: [
     AppRoutingModule,

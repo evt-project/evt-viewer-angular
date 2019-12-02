@@ -10,6 +10,7 @@ import { ModalComponent } from '../ui-components/modal/modal.component';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { register } from '../services/component-register.service';
+import { BibliographyParserService } from 'src/app/services/xml-parsers/bibliography-parser.service';
 
 @Component({
   selector: 'evt-main-menu',
@@ -27,10 +28,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private subscriptions = [];
   private availableLangs = AppConfig.evtSettings.ui.availableLanguages.filter((l) => l.enabled);
 
+  // private bps = BibliographyParserService;
+
   constructor(
     public themes: ThemesService,
     public translate: TranslateService,
     private modalService: ModalService,
+    private bps: BibliographyParserService,
   ) { }
 
   ngOnInit() {
@@ -91,7 +95,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private openGlobalDialogInfo() {
     // TODO openGlobalDialogInfo
-    (document.querySelectorAll('.biblSpace')[0] as HTMLElement).style.display = 'block';
+    this.bps.spotBibliographicCitations();
     console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
   }
