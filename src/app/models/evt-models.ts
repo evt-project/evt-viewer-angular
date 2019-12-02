@@ -21,7 +21,7 @@ export interface NamedEntitiesList {
     label: string;
     type?: string;
     icon?: string;
-    desc?: string;
+    desc?: HTMLElement;
     attributes?: Array<{key: string; value: string}>;
     sublists?: NamedEntitiesList[];
     entities?: NamedEntity[];

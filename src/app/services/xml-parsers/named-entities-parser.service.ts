@@ -54,7 +54,7 @@ export class NamedEntitiesParserService {
             parsedList.label = child.textContent;
             break;
           case 'desc':
-            parsedList.desc = child.textContent; // TODO: evaluate if save all XML element and delegate parser to content-viewer
+            parsedList.desc = child;
             break;
           case 'persongrp':
             console.log('TODO: Handle <personGrp>', child);
