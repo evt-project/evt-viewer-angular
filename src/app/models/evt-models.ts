@@ -38,7 +38,7 @@ export interface NamedEntity {
 }
 
 export interface NamedEntityInfo {
-    icon: string;
-    text: string;
-    label?: string;
+    label: string;
+    value: HTMLElement;
+    icon?: string;
 }

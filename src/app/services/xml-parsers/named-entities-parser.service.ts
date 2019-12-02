@@ -54,6 +54,8 @@ export class NamedEntitiesParserService {
           const parsedSubList = this.parseList(child);
           parsedList.sublists.push(parsedSubList);
           parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
+        } else if (child.tagName.toLowerCase() === 'persongrp') {
+          console.log('TODO: Handle <personGrp>', child);
         } else {
           parsedList.entities.push(this.parseNamedEntity(child));
         }
@@ -78,24 +80,59 @@ export class NamedEntitiesParserService {
     }
   }
 
-  private parsePerson(xml: HTMLElement): NamedEntity {
-    return {
-      id: xml.getAttribute('xml:id') || xpath(xml),
+  private parseGenericEntity(xml: HTMLElement): NamedEntity {
+    const elId = xml.getAttribute('xml:id') || xpath(xml);
+    const entity: NamedEntity = {
+      id: elId,
+      originalEncoding: xml,
       label: xml.textContent,
+      info: [],
+    };
+
+    xml.childNodes.forEach((subchild: HTMLElement) => {
+      if (subchild.nodeType === 1) {
+        entity.info.push({
+          label: subchild.tagName.toLowerCase(),
+          value: subchild,
+        });
+      }
+    });
+
+    return entity;
+  }
+
+  private parsePerson(xml: HTMLElement): NamedEntity {
+    const nameElement = xml.querySelector('name');
+    const forenameElement = xml.querySelector('forename');
+    const surnameElement = xml.querySelector('surname');
+    let label = 'No info';
+    if (forenameElement && surnameElement) {
+      label = `${forenameElement.textContent} ${surnameElement.textContent}`.trim();
+    } else if (nameElement) {
+      label = nameElement.textContent.trim();
+    }
+
+    return {
+      ...this.parseGenericEntity(xml),
+      label,
     };
   }
 
   private parsePlace(xml: HTMLElement): NamedEntity {
+    const placeNameElement = xml.querySelector('placeName');
+
     return {
-      id: xml.getAttribute('xml:id') || xpath(xml),
-      label: xml.textContent,
+      ...this.parseGenericEntity(xml),
+      label: placeNameElement ? placeNameElement.textContent.trim() : 'No info',
     };
   }
 
   private parseOrganization(xml: HTMLElement): NamedEntity {
+    const orgNameElement = xml.querySelector('orgName');
+
     return {
-      id: xml.getAttribute('xml:id') || xpath(xml),
-      label: xml.textContent,
+      ...this.parseGenericEntity(xml),
+      label: orgNameElement ? orgNameElement.textContent.trim() : 'No info',
     };
   }
 
