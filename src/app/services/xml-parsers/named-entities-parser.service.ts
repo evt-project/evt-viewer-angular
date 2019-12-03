@@ -190,10 +190,17 @@ export class NamedEntitiesParserService {
 
   private parsePlace(xml: HTMLElement): NamedEntity {
     const placeNameElement = xml.querySelector('placeName');
+    const settlementElement = xml.querySelector('settlement');
+    let label = 'No info';
+    if (placeNameElement) {
+      label = placeNameElement.textContent;
+    } else if (settlementElement) {
+      label = settlementElement.textContent;
+    }
 
     return {
       ...this.parseGenericEntity(xml),
-      label: placeNameElement ? placeNameElement.textContent.trim() : 'No info',
+      label: replaceMultispaces(label),
     };
   }
 
