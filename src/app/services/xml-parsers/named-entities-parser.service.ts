@@ -184,7 +184,7 @@ export class NamedEntitiesParserService {
 
     return {
       ...this.parseGenericEntity(xml),
-      label,
+      label: replaceMultispaces(label),
     };
   }
 
@@ -209,7 +209,7 @@ export class NamedEntitiesParserService {
 
     return {
       ...this.parseGenericEntity(xml),
-      label: orgNameElement ? orgNameElement.textContent.trim() : 'No info',
+      label: orgNameElement ? replaceMultispaces(orgNameElement.textContent) : 'No info',
     };
   }
 
