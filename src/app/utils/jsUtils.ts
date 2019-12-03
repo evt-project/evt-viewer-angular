@@ -2,6 +2,10 @@ export interface Map<T> {
     [key: string]: T;
 }
 
+export function uuid(prefix?: string): string { // TODO: use proper UUID generation
+    return !!prefix ? `${prefix}-${Math.random()}` : `${Math.random()}`;
+}
+
 export function mapToArray<T>(m: Map<T>) {
     return Object.keys(m).map((id) => m[id]);
 }
