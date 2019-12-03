@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { map, shareReplay, tap } from 'rxjs/operators';
-import { NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
+import { combineLatest, Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { EditionDataService } from '../edition-data.service';
 
@@ -8,16 +9,46 @@ import { EditionDataService } from '../edition-data.service';
   providedIn: 'root',
 })
 export class NamedEntitiesParserService {
-  public readonly parsedLists$ = this.editionDataService.parsedEditionSource$
-    .pipe(
-      tap((source) => console.log(source)),
-      map((source) => this.parseLists(source)),
-      tap((source) => console.log('parsedLists', source)),
-      shareReplay(1),
-    );
+  public readonly parsedLists$ = this.editionDataService.parsedEditionSource$.pipe(
+    map((source) => this.parseLists(source)),
+    shareReplay(1),
+  );
+
+  public readonly persons$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'person')),
+  );
+
+  public readonly places$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'place')),
+  );
+
+  public readonly organizations$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'org')),
+  );
+
+  public readonly relations$ = this.parsedLists$.pipe(
+    map(({ relations }) => relations),
+  );
+
+  public readonly namedEntities$: Observable<NamedEntities> = combineLatest([
+    this.persons$,
+    this.places$,
+    this.organizations$,
+    this.relations$,
+  ]).pipe(
+    map(([persons, places, organizations, relations]) => ({
+      persons,
+      places,
+      organizations,
+      relations,
+    })),
+    shareReplay(1),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
-  ) { }
+  ) {
+  }
 
   private parseLists(document: HTMLElement) {
     const lists = document.querySelectorAll(this.getListsToParseTagName());
@@ -104,6 +135,7 @@ export class NamedEntitiesParserService {
       id: elId,
       originalEncoding: xml,
       label: xml.textContent,
+      type: xml.tagName,
       info: [],
     };
 
@@ -175,6 +207,12 @@ export class NamedEntitiesParserService {
     return relation;
   }
 
+  private getResultsByType(lists, entities, type) {
+    return {
+      lists: lists.filter(list => list.type === type),
+      entities: entities.filter(entity => entity.type === type),
+    };
+  }
   /**
    * @todo: return tags depending on config
    */

@@ -16,13 +16,29 @@ export interface PageData {
     parsedContent: GenericElementData[];
 }
 
+export interface NamedEntities {
+    persons: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
+    places: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
+    organizations: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
+    relations: Relation[];
+}
+
 export interface NamedEntitiesList {
     id: string;
     label: string;
     type?: string;
     icon?: string;
     desc?: HTMLElement;
-    attributes?: Array<{key: string; value: string}>;
+    attributes?: Array<{ key: string; value: string }>;
     sublists?: NamedEntitiesList[];
     entities?: NamedEntity[];
     relations?: Relation[];
