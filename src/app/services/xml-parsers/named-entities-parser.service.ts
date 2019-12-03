@@ -15,15 +15,15 @@ export class NamedEntitiesParserService {
   );
 
   public readonly persons$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'person')),
+    map(({ lists, entities }) => (this.getResultsByType(lists, entities, ['person', 'personGrp']))),
   );
 
   public readonly places$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'place')),
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['place'])),
   );
 
   public readonly organizations$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, 'org')),
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['org'])),
   );
 
   public readonly relations$ = this.parsedLists$.pipe(
@@ -88,9 +88,6 @@ export class NamedEntitiesParserService {
           case 'desc':
             parsedList.desc = child;
             break;
-          case 'persongrp':
-            console.log('TODO: Handle <personGrp>', child);
-            break;
           case 'relation':
             parsedList.relations.push(this.parseRelation(child));
             break;
@@ -119,6 +116,8 @@ export class NamedEntitiesParserService {
     switch (xml.tagName) {
       case 'person':
         return this.parsePerson(xml);
+      case 'personGrp':
+        return this.parsePersonGroup(xml);
       case 'place':
         return this.parsePlace(xml);
       case 'org':
@@ -163,6 +162,21 @@ export class NamedEntitiesParserService {
       label = `${forenameElement.textContent} ${surnameElement.textContent}`.trim();
     } else if (nameElement) {
       label = nameElement.textContent.trim();
+    }
+
+    return {
+      ...this.parseGenericEntity(xml),
+      label,
+    };
+  }
+
+  private parsePersonGroup(xml: HTMLElement): NamedEntity {
+    const role = xml.getAttribute('role');
+    let label = 'No info';
+    if (role) {
+      label = role.trim();
+    } else if (xml.textContent) {
+      label = xml.textContent.trim();
     }
 
     return {
@@ -219,10 +233,10 @@ export class NamedEntitiesParserService {
     return attributes;
   }
 
-  private getResultsByType(lists, entities, type) {
+  private getResultsByType(lists, entities, type: string[]) {
     return {
-      lists: lists.filter(list => list.type === type),
-      entities: entities.filter(entity => entity.type === type),
+      lists: lists.filter(list => type.indexOf(list.type) >= 0),
+      entities: entities.filter(entity => type.indexOf(entity.type) >= 0),
     };
   }
   /**
