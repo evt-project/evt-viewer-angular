@@ -3,6 +3,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AttributesData, NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { replaceMultispaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
 
 @Injectable({
@@ -157,16 +158,18 @@ export class NamedEntitiesParserService {
     const nameElement = xml.querySelector('name');
     const forenameElement = xml.querySelector('forename');
     const surnameElement = xml.querySelector('surname');
+    const occupationElement = xml.querySelector('occupation');
     let label = 'No info';
-    if (forenameElement && surnameElement) {
-      label = `${forenameElement.textContent} ${surnameElement.textContent}`.trim();
+    if (forenameElement || surnameElement) {
+      label = `${forenameElement ? forenameElement.textContent : ''} ${surnameElement ? surnameElement.textContent : ''}`.trim();
+      label += occupationElement ? ` (${occupationElement.textContent.trim()})` : '';
     } else if (nameElement) {
-      label = nameElement.textContent.trim();
+      label = nameElement.textContent;
     }
 
     return {
       ...this.parseGenericEntity(xml),
-      label,
+      label: replaceMultispaces(label),
     };
   }
 
