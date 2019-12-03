@@ -32,13 +32,15 @@ export interface NamedEntities {
     relations: Relation[];
 }
 
+export type AttributesData = Array<{ key: string; value: string }>;
+
 export interface NamedEntitiesList {
     id: string;
     label: string;
     type?: string;
     icon?: string;
     desc?: HTMLElement;
-    attributes?: Array<{ key: string; value: string }>;
+    attributes?: AttributesData;
     sublists?: NamedEntitiesList[];
     entities?: NamedEntity[];
     relations?: Relation[];
@@ -50,6 +52,7 @@ export interface NamedEntity {
     label: string;
     type?: string;
     info?: NamedEntityInfo[];
+    attributes?: AttributesData;
     occurrences?: string[]; // TODO: evaluate which type assign
     originalEncoding?: HTMLElement; // TODO: evaluate if the assigned type is ok
 }
@@ -58,6 +61,7 @@ export interface NamedEntityInfo {
     label: string;
     value: HTMLElement;
     icon?: string;
+    attributes?: AttributesData;
 }
 
 export interface Relation {

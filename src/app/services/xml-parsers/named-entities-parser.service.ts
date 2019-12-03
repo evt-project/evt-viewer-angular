@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
+import { AttributesData, NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { EditionDataService } from '../edition-data.service';
 
@@ -77,6 +77,7 @@ export class NamedEntitiesParserService {
       sublists: [],
       originalEncoding: list,
       relations: [],
+      attributes: this.parseAttributes(list),
     };
     list.childNodes.forEach((child: HTMLElement) => {
       if (child.nodeType === 1) {
@@ -137,6 +138,7 @@ export class NamedEntitiesParserService {
       label: xml.textContent,
       type: xml.tagName,
       info: [],
+      attributes: this.parseAttributes(xml),
     };
 
     xml.childNodes.forEach((subchild: HTMLElement) => {
@@ -144,6 +146,7 @@ export class NamedEntitiesParserService {
         entity.info.push({
           label: subchild.tagName.toLowerCase(),
           value: subchild,
+          attributes: this.parseAttributes(subchild),
         });
       }
     });
@@ -205,6 +208,15 @@ export class NamedEntitiesParserService {
     }
 
     return relation;
+  }
+
+  private parseAttributes(xml: HTMLElement): AttributesData {
+    const attributes: Array<{ key: string; value: string }> = [];
+    Array.from(xml.attributes).forEach((attr) => {
+      attributes.push({ key: attr.name, value: attr.value });
+    });
+
+    return attributes;
   }
 
   private getResultsByType(lists, entities, type) {
