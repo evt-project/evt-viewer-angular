@@ -29,9 +29,6 @@ export class BibliographyParserService {
           } else {
             // TODO marked citation
           }
-          /* if (!this.bibliographicCitations.includes(citation.textContent)) {
-
-          }*/
           this.bibliographicCitations.push(citation.textContent);
         });
       });
