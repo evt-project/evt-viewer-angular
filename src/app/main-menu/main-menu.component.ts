@@ -95,7 +95,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private openGlobalDialogInfo() {
     // TODO openGlobalDialogInfo
-    this.bps.spotBibliographicCitations();
+    // tslint:disable-next-line: no-unused-expression
+    this.bps;
     console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
   }
