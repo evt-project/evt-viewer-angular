@@ -11,6 +11,7 @@ import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { register } from '../services/component-register.service';
 import { BibliographyParserService } from 'src/app/services/xml-parsers/bibliography-parser.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'evt-main-menu',
@@ -96,7 +97,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   private openGlobalDialogInfo() {
     // TODO openGlobalDialogInfo
     // tslint:disable-next-line: no-unused-expression
-    this.bps;
+    console.log(this.bps.getBibliographicCitations());
     console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
   }
