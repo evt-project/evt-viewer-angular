@@ -1,17 +1,16 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { Type } from '@angular/core';
-
 export interface GenericElementData {
     type: Type<any>;
-    class?: string;
-    content?: ChildNode[];
     path?: string;
+    class?: string;
     attributes: AttributesMap;
+    content: GenericElementData[];
 }
 
-export interface HTMLData extends GenericElementData {
-    element: HTMLElement;
-}
+export type HTMLData = GenericElementData & {
+    content: HTMLElement[];
+};
 
 export interface TextData extends GenericElementData {
     text: string;

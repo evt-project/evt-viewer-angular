@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
-import { PageData, EditionStructure } from '../../models/evt-models';
+import { PageData } from '../../models/evt-models';
 import { Map } from '../../utils/jsUtils';
 import { getElementsBetweenTreeNode, getElementsAfterTreeNode } from 'src/app/utils/domUtils';
 import { EditionDataService } from '../edition-data.service';
+import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,8 @@ export class StructureXmlParserService {
     );
 
   constructor(
-    private editionDataService: EditionDataService
+    private editionDataService: EditionDataService,
+    private genericParserService: GenericParserService
   ) {
 
   }
@@ -45,11 +46,12 @@ export class StructureXmlParserService {
           } else {
             pageContent = getElementsAfterTreeNode(element);
           }
+
           const page: PageData = {
             id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
             label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
-            xmlSource: element,
-            content: pageContent
+            originalContent: pageContent,
+            parsedContent: pageContent.map(child => this.genericParserService.parse(child as HTMLElement))
           };
           pages[page.id] = page;
           pagesIndexes.push(page.id);
@@ -58,11 +60,12 @@ export class StructureXmlParserService {
         // No <pb> used => TODO: Decide how to handle text division
         console.warn('TODO: Decide how to handle text division when there are no <pb>s');
         const mainText = document.querySelector('text');
+        const content = Array.from(mainText.childNodes);
         const page: PageData = {
           id: `page_${new Date().getTime()}`,
           label: 'Main Text',
-          xmlSource: mainText,
-          content: Array.from(mainText.childNodes)
+          originalContent: content,
+          parsedContent: content.map(child => this.genericParserService.parse(child as HTMLElement))
         };
         pages[page.id] = page;
         pagesIndexes.push(page.id);

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { TextComponent } from '../../components/text/text.component';
 import { TextData, GenericElementData, NoteData, HTMLData, CommentData } from '../../models/parsed-elements';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { NoteComponent } from 'src/app/components/note/note.component';
 import { xpath, isNestedInElem } from 'src/app/utils/domUtils';
-import { scan, map, tap } from 'rxjs/operators';
+import { scan, map } from 'rxjs/operators';
 
 export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
 
@@ -26,58 +26,62 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
-  parse(xml: HTMLElement): Observable<ParsedElement> {
+  parse(xml: HTMLElement): ParsedElement {
     if (xml) {
       if (xml.nodeType === 3) {  // Text
-        return this.parseText(xml).pipe(tap(() => this.addTask.next(-1)));
+        return this.parseText(xml);
       }
       if (xml.nodeType === 8) { // Comment
-        return of({} as CommentData).pipe(tap(() => this.addTask.next(-1)));
+        return {} as CommentData;
       }
       this.addTask.next(complexElements(xml.childNodes).length);
       switch (xml.tagName.toLowerCase()) {
         case 'note':
           const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
           if (footerNote) {
-            return this.parseElement(xml).pipe(tap(() => this.addTask.next(-1)));
+            return this.parseElement(xml);
           } else {
-            return this.parseNote(xml).pipe(tap(() => this.addTask.next(-(xml.childNodes.length + 1))));
+            return this.parseNote(xml);
           }
         default:
-          return this.parseElement(xml).pipe(tap(() => this.addTask.next(-1)));
+          return this.parseElement(xml);
       }
     } else {
-      return of({ element: xml } as HTMLData);
+      return { content: [xml] } as HTMLData;
     }
   }
 
-  private parseText(xml: HTMLElement): Observable<TextData> {
+  private parseText(xml: HTMLElement): TextData {
     const text = {
       type: TextComponent,
       text: xml.textContent,
       attributes: {}
     } as TextData;
-    return of(text);
+    return text;
   }
 
-  private parseElement(xml: HTMLElement): Observable<GenericElementData> {
+  private parseElement(xml: HTMLElement): GenericElementData {
     const genericElement: GenericElementData = {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
-      content: complexElements(xml.childNodes),
+      content: this.parseChildren(xml),
       attributes: this.getAttributes(xml)
     };
-    return of(genericElement);
+    return genericElement;
   }
 
-  private parseNote(xml: HTMLElement): Observable<NoteData> {
+  private parseNote(xml: HTMLElement): NoteData {
     const noteElement = {
       type: NoteComponent,
       path: xpath(xml),
-      content: complexElements(xml.childNodes),
+      content: this.parseChildren(xml),
       attributes: this.getAttributes(xml)
     };
-    return of(noteElement);
+    return noteElement;
+  }
+
+  private parseChildren(xml: HTMLElement) {
+    return complexElements(xml.childNodes).map(child => this.parse(child as HTMLElement));
   }
 
   private getAttributes(xml: HTMLElement) {

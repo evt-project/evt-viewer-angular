@@ -22,7 +22,8 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   constructor(
     public editionStructure: StructureXmlParserService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.subscriptions.push(

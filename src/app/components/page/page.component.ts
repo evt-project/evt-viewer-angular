@@ -1,10 +1,7 @@
-import { Component, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { Subscription } from 'rxjs';
-import { GenericParserService } from '../../services/xml-parsers/generic-parser.service';
-import { distinctUntilChanged, delay } from 'rxjs/operators';
+import { GenericElementData } from 'src/app/models/parsed-elements';
 
 @Component({
   selector: 'evt-page',
@@ -12,40 +9,13 @@ import { distinctUntilChanged, delay } from 'rxjs/operators';
   styleUrls: ['./page.component.scss']
 })
 @register
-export class PageComponent implements OnDestroy, OnChanges {
+export class PageComponent implements OnChanges {
   @Input() data: PageData;
-  public contents: ChildNode[] = [];
-  private subscriptions: Subscription[] = [];
-
-  constructor(
-    private spinner: NgxSpinnerService,
-    private genericParser: GenericParserService
-  ) {
-    this.subscriptions.push(
-      this.genericParser.isBusy
-        .pipe(
-          delay(0),
-          distinctUntilChanged(),
-        )
-        .subscribe(isBusy => {
-          if (!isBusy) {
-            this.spinner.hide('pageSpinner');
-          }
-        })
-    );
-  }
+  public contents: GenericElementData[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes.data && changes.data.currentValue !== changes.data.previousValue) {
-      if (this.data.content.length) {
-        this.spinner.show('pageSpinner');
-        this.genericParser.addTask.next(this.data.content.length);
-      }
-      setTimeout(() => this.contents = [...this.data.content]);
+      setTimeout(() => this.contents = [...this.data.parsedContent]);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
