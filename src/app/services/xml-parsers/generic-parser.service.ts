@@ -27,29 +27,19 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
+  parseF = {
+    note: this.parseNote,
+  };
+
   parse(xml: XMLElement): ParsedElement {
-    if (xml) {
-      if (xml.nodeType === 3) {  // Text
-        return this.parseText(xml);
-      }
-      if (xml.nodeType === 8) { // Comment
-        return {} as CommentData;
-      }
-      this.addTask.next(complexElements(xml.childNodes).length);
-      switch (xml.tagName.toLowerCase()) {
-        case 'note':
-          const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
-          if (footerNote) {
-            return this.parseElement(xml);
-          } else {
-            return this.parseNote(xml);
-          }
-        default:
-          return this.parseElement(xml);
-      }
-    } else {
-      return { content: [xml] } as HTMLData;
-    }
+    if (!xml) { return { content: [xml] } as HTMLData; }
+    // Text Node
+    if (xml.nodeType === 3) { return this.parseText(xml); }
+    // Comment
+    if (xml.nodeType === 8) { return {} as CommentData; }
+    const tagName = xml.tagName.toLowerCase();
+    const parseFunction = this.parseF[tagName] || this.parseElement;
+    return parseFunction.call(this, xml);
   }
 
   private parseText(xml: XMLElement): TextData {
@@ -72,13 +62,18 @@ export class GenericParserService {
   }
 
   private parseNote(xml: XMLElement): NoteData {
-    const noteElement = {
-      type: NoteComponent,
-      path: xpath(xml),
-      content: this.parseChildren(xml),
-      attributes: this.getAttributes(xml)
-    };
-    return noteElement;
+    const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
+    if (footerNote) {
+      return this.parseElement(xml);
+    } else {
+      const noteElement = {
+        type: NoteComponent,
+        path: xpath(xml),
+        content: this.parseChildren(xml),
+        attributes: this.getAttributes(xml)
+      };
+      return noteElement;
+    }
   }
 
   private parseChildren(xml: XMLElement) {
