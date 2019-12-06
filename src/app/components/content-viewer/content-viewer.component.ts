@@ -13,7 +13,9 @@ import { GenericElementData } from 'src/app/models/parsed-elements';
 @register
 export class ContentViewerComponent implements OnDestroy {
   @Input() set content(v: GenericElementData) {
-    this.contentChange.next(v);
+    if (v) {
+      this.contentChange.next(v);
+    }
   }
   contentChange = new Subject<GenericElementData>();
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
