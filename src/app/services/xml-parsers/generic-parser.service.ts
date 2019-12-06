@@ -86,13 +86,8 @@ export class GenericParserService {
   }
 
   private getAttributes(xml: XMLElement) {
-    const attributes = {};
-    for (const attribute of Array.from(xml.attributes)) {
-      if (attribute.specified) {
-        const attrName = attribute.name === 'xml:id' ? 'id' : attribute.name.replace(':', '-');
-        attributes[attrName] = attribute.value;
-      }
-    }
-    return attributes;
+    return Array.from(xml.attributes)
+      .map((a) => ({ [a.name === 'xml:id' ? 'id' : a.name.replace(':', '-')]: a.value }))
+      .reduce((x, y) => ({ ...x, ...y }), {});
   }
 }
