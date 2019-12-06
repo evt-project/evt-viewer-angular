@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { NoteComponent } from 'src/app/components/note/note.component';
 import { xpath, isNestedInElem } from 'src/app/utils/domUtils';
 import { scan, map } from 'rxjs/operators';
+import { XMLElement } from 'src/app/models/evt-models';
 
 export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
 
@@ -26,7 +27,7 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
-  parse(xml: HTMLElement): ParsedElement {
+  parse(xml: XMLElement): ParsedElement {
     if (xml) {
       if (xml.nodeType === 3) {  // Text
         return this.parseText(xml);
@@ -51,7 +52,7 @@ export class GenericParserService {
     }
   }
 
-  private parseText(xml: HTMLElement): TextData {
+  private parseText(xml: XMLElement): TextData {
     const text = {
       type: TextComponent,
       text: xml.textContent,
@@ -60,7 +61,7 @@ export class GenericParserService {
     return text;
   }
 
-  private parseElement(xml: HTMLElement): GenericElementData {
+  private parseElement(xml: XMLElement): GenericElementData {
     const genericElement: GenericElementData = {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
@@ -70,7 +71,7 @@ export class GenericParserService {
     return genericElement;
   }
 
-  private parseNote(xml: HTMLElement): NoteData {
+  private parseNote(xml: XMLElement): NoteData {
     const noteElement = {
       type: NoteComponent,
       path: xpath(xml),
@@ -80,11 +81,11 @@ export class GenericParserService {
     return noteElement;
   }
 
-  private parseChildren(xml: HTMLElement) {
-    return complexElements(xml.childNodes).map(child => this.parse(child as HTMLElement));
+  private parseChildren(xml: XMLElement) {
+    return complexElements(xml.childNodes).map(child => this.parse(child as XMLElement));
   }
 
-  private getAttributes(xml: HTMLElement) {
+  private getAttributes(xml: XMLElement) {
     const attributes = {};
     for (const attribute of Array.from(xml.attributes)) {
       if (attribute.specified) {

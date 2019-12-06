@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
 
-import { PageData } from '../../models/evt-models';
+import { PageData, XMLElement } from '../../models/evt-models';
 import { Map } from '../../utils/jsUtils';
 import { getElementsBetweenTreeNode, getElementsAfterTreeNode } from 'src/app/utils/domUtils';
 import { EditionDataService } from '../edition-data.service';
@@ -29,7 +29,7 @@ export class StructureXmlParserService {
       map(editionStructure => editionStructure.pagesIndexes.map(pageId => editionStructure.pages[pageId])));
   }
 
-  init(document: HTMLElement) {
+  init(document: XMLElement) {
     const pages: Map<PageData> = {};
     const pagesIndexes: string[] = [];
     const pageTagName = 'pb';
@@ -51,7 +51,7 @@ export class StructureXmlParserService {
             id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
             label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
             originalContent: pageContent,
-            parsedContent: pageContent.map(child => this.genericParserService.parse(child as HTMLElement))
+            parsedContent: pageContent.map(child => this.genericParserService.parse(child as XMLElement))
           };
           pages[page.id] = page;
           pagesIndexes.push(page.id);
@@ -64,8 +64,8 @@ export class StructureXmlParserService {
         const page: PageData = {
           id: `page_${new Date().getTime()}`,
           label: 'Main Text',
-          originalContent: content,
-          parsedContent: content.map(child => this.genericParserService.parse(child as HTMLElement))
+          originalContent: content as XMLElement[],
+          parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement)).filter(c => !!c.content)
         };
         pages[page.id] = page;
         pagesIndexes.push(page.id);

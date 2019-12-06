@@ -1,6 +1,8 @@
+import { XMLElement } from '../models/evt-models';
+
 declare var window: any;
 
-export function parseXml(xmlStr: string): HTMLElement {
+export function parseXml(xmlStr: string): XMLElement {
   if (typeof window.DOMParser !== 'undefined') {
     return (new window.DOMParser()).parseFromString(xmlStr, 'text/xml');
   } else if (typeof window.ActiveXObject !== 'undefined' &&
