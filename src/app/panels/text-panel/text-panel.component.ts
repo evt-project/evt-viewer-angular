@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { StructureXmlParserService } from '../../services/xml-parsers/structure-xml-parser.service';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { Subscription } from 'rxjs';
+import { EVTModelService } from 'src/app/services/evt-model.service';
 
 @Component({
   selector: 'evt-text-panel',
@@ -16,11 +16,12 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public secondaryContent = '';
   private showSecondaryContent = false;
 
-  public pages$ = this.editionStructure.getPages();
+  public pages$ = this.evtModelService.getPages();
+  public selectedPage;
   private subscriptions: Subscription[] = [];
 
   constructor(
-    public editionStructure: StructureXmlParserService,
+    public evtModelService: EVTModelService,
   ) {
   }
 
@@ -35,7 +36,8 @@ export class TextPanelComponent implements OnInit, OnDestroy {
             this.changePage(pages.find((p) => p.id === this.page));
           }
         }
-      }));
+      }),
+    );
   }
 
   changePage(page: PageData) {
