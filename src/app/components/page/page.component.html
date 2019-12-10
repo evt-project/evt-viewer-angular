@@ -1,4 +1,13 @@
-<evt-content-viewer *ngFor="let element of parsedContents$ | async" [content]="element"></evt-content-viewer>
-<span *ngIf="busy$ | async">Loading...</span>
-<ngx-spinner name="pageSpinner" type="ball-beat" [fullScreen]="false" bdColor="rgba(51,51,51,0.3)" size="medium">
-</ngx-spinner>
+<ng-container *ngIf="pageDataChange | async as pageData">
+    <evt-content-viewer
+        *ngFor="let element of  pageData.parsedContent"
+        [content]="element"></evt-content-viewer>
+    <ngx-spinner
+        *ngIf="busy | async"
+        name="pageSpinner"
+        type="ball-beat"
+        [fullScreen]="false"
+        bdColor="rgba(51,51,51,0.3)"
+        size="medium">
+    </ngx-spinner>
+</ng-container>
