@@ -12,9 +12,7 @@
 
     </div>
     <div content>
-        <ng-container *ngIf="selectedPage">
-            <evt-page [data]="selectedPage"></evt-page>        
-        </ng-container>
+        <evt-page [data]="pageChange | async"></evt-page>        
     </div>
     <div secondary-content>
         {{ getSecondaryContent() }}

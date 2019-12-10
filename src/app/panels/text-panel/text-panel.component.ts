@@ -12,12 +12,11 @@ import { Subscription } from 'rxjs';
 @register
 export class TextPanelComponent implements OnInit, OnDestroy {
   @Input() page: string;
-  @Output() pageChange: EventEmitter<PageData> = new EventEmitter();
+  @Output() pageChange = new EventEmitter<PageData>();
   public secondaryContent = '';
   private showSecondaryContent = false;
 
   public pages$ = this.editionStructure.getPages();
-  public selectedPage;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -40,8 +39,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: PageData) {
-    setTimeout(() => this.selectedPage = page);
-    this.pageChange.emit(page);
+    this.pageChange.next(page);
   }
 
   isSecondaryContentOpened(): boolean {
