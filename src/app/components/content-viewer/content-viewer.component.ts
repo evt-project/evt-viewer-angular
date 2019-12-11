@@ -3,7 +3,7 @@ import { Component, OnDestroy, Input, ViewChild, ViewContainerRef, ComponentRef 
 import { AttributesMap } from 'ng-dynamic-component';
 import { register } from '../../services/component-register.service';
 import { Subject, Observable, combineLatest } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, filter } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
 
 @Component({
@@ -14,10 +14,8 @@ import { GenericElementData } from 'src/app/models/parsed-elements';
 export class ContentViewerComponent implements OnDestroy {
   private v: GenericElementData;
   @Input() set content(v: GenericElementData) {
-    if (v) {
-      this.v = v;
-      this.contentChange.next(v);
-    }
+    this.v = v;
+    this.contentChange.next(v);
   }
   get content() { return this.v; }
 
@@ -38,6 +36,7 @@ export class ContentViewerComponent implements OnDestroy {
     shareReplay(1),
   );
   public attributes: Observable<AttributesMap> = this.contentChange.pipe(
+    filter(parsedContent => !!parsedContent),
     map((parsedContent) => ({ ...parsedContent.attributes || {}, ...{ class: parsedContent.class || '' } })),
     shareReplay(1),
   );
