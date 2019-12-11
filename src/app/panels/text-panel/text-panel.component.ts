@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, merge, combineLatest } from 'rxjs';
 import { EVTModelService } from 'src/app/services/evt-model.service';
+import { filter, shareReplay, map, distinctUntilChanged, tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'evt-text-panel',
@@ -10,38 +12,44 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
   styleUrls: ['./text-panel.component.scss']
 })
 @register
-export class TextPanelComponent implements OnInit, OnDestroy {
-  @Input() page: string;
-  @Output() pageChange = new EventEmitter<PageData>();
+export class TextPanelComponent implements OnDestroy {
+  private pid: string;
+  @Input() set pageID(v: string) {
+    this.pid = v;
+    this.pageIDChange.next(this.pid);
+  }
+  get pageID() { return this.pid; }
+  pageIDChange = new Subject<string>();
+
+  public pages$ = this.evtModelService.getPages().pipe(
+    shareReplay(1),
+  );
+
+  @Output() pageChange = combineLatest([
+    merge(
+      this.route.params.pipe(
+        map((params) => params.page)
+      ),
+      this.pageIDChange,
+    ),
+    this.pages$,
+  ]).pipe(
+    filter(([_, pages]) => !!pages && pages.length > 0),
+    map(([id, pages]) => !id ? pages[0] : pages.find((p) => p.id === id)),
+  ).pipe(
+    distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
+  );
+
   public secondaryContent = '';
   private showSecondaryContent = false;
 
-  public pages$ = this.evtModelService.getPages();
   public selectedPage;
   private subscriptions: Subscription[] = [];
 
   constructor(
     public evtModelService: EVTModelService,
+    private route: ActivatedRoute,
   ) {
-  }
-
-  ngOnInit() {
-    this.subscriptions.push(
-      this.pages$.subscribe((pages) => {
-        if (pages && pages.length > 0) {
-          if (!this.page || !pages.find((p) => p.id === this.page)) {
-            this.page = pages[0].id;
-            this.changePage(pages[0]);
-          } else {
-            this.changePage(pages.find((p) => p.id === this.page));
-          }
-        }
-      }),
-    );
-  }
-
-  changePage(page: PageData) {
-    this.pageChange.next(page);
   }
 
   isSecondaryContentOpened(): boolean {
