@@ -8,15 +8,19 @@ import { GenericElementData } from 'src/app/models/parsed-elements';
 
 @Component({
   selector: 'evt-content-viewer',
-  templateUrl: './content-viewer.component.html'
+  templateUrl: './content-viewer.component.html',
 })
 @register
 export class ContentViewerComponent implements OnDestroy {
+  private v: GenericElementData;
   @Input() set content(v: GenericElementData) {
     if (v) {
+      this.v = v;
       this.contentChange.next(v);
     }
   }
+  get content() { return this.v; }
+
   contentChange = new Subject<GenericElementData>();
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
