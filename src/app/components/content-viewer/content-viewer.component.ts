@@ -2,7 +2,7 @@ import { Component, OnDestroy, Input, ViewChild, ViewContainerRef, ComponentRef 
 
 import { AttributesMap } from 'ng-dynamic-component';
 import { register } from '../../services/component-register.service';
-import { Subject, Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { map, shareReplay, filter } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
 
@@ -19,7 +19,7 @@ export class ContentViewerComponent implements OnDestroy {
   }
   get content() { return this.v; }
 
-  contentChange = new Subject<GenericElementData>();
+  contentChange = new BehaviorSubject<GenericElementData>(undefined);
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
@@ -27,7 +27,7 @@ export class ContentViewerComponent implements OnDestroy {
   );
 
   public inputs: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
-    map((x) => ({ data: x })),
+    map((data) => ({ data })),
     shareReplay(1),
   );
   // tslint:disable-next-line: ban-types
@@ -52,13 +52,7 @@ export class ContentViewerComponent implements OnDestroy {
     )),
   );
 
-
   private componentRef: ComponentRef<{}>;
-
-  constructor(
-  ) {
-    this.context$.subscribe();
-  }
 
   ngOnDestroy() {
     if (this.componentRef) {

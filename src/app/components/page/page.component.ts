@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Subject, of } from 'rxjs';
-import { scan, map } from 'rxjs/operators';
+import { of, BehaviorSubject } from 'rxjs';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
@@ -18,7 +17,7 @@ export class PageComponent {
     this.pageDataChange.next(this.d);
   }
   get data() { return this.d; }
-  pageDataChange = new Subject<PageData>();
+  pageDataChange = new BehaviorSubject<PageData>(undefined);
 
   busy = of<boolean>(false); // TODO: manage loading
 }
