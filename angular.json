@@ -118,7 +118,12 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "**/e2e/**",
+              "**/*.spec.ts",
+              "src/test.ts",
+              "src/polyfills.ts",
+              "src/environments/**"
             ]
           }
         },
