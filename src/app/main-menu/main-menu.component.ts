@@ -31,7 +31,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public themes: ThemesService,
     public translate: TranslateService,
     private modalService: ModalService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.loadUiConfig();
@@ -51,42 +52,45 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private initDynamicItems() {
     // TODO Check if available from uiConfig
-    this.dynamicItems.push({
-      id: 'projectInfo',
-      iconInfo: {
-        icon: 'info-circle',
-        additionalClasses: 'icon',
+    this.dynamicItems = [
+      {
+        id: 'projectInfo',
+        iconInfo: {
+          icon: 'info-circle',
+          additionalClasses: 'icon',
+        },
+        label: 'projectInfo',
+        // callback: () => this.openGlobalDialogInfo,
+        callback: () => this.openGlobalDialogInfo(),
       },
-      label: 'projectInfo',
-      callback: this.openGlobalDialogInfo.bind(this),
-    });
-    this.dynamicItems.push({
-      id: 'openLists',
-      iconInfo: {
-        icon: 'clipboard-list',
-        additionalClasses: 'icon',
+      {
+        id: 'openLists',
+        iconInfo: {
+          icon: 'clipboard-list',
+          additionalClasses: 'icon',
+        },
+        label: 'openLists',
+        callback: () => this.openGlobalDialogLists(),
       },
-      label: 'openLists',
-      callback: this.openGlobalDialogLists.bind(this),
-    });
-    this.dynamicItems.push({
-      id: 'bookmark',
-      iconInfo: {
-        icon: 'bookmark',
-        additionalClasses: 'icon',
+      {
+        id: 'bookmark',
+        iconInfo: {
+          icon: 'bookmark',
+          additionalClasses: 'icon',
+        },
+        label: 'bookmark',
+        callback: () => this.generateBookmark(),
       },
-      label: 'bookmark',
-      callback: this.generateBookmark.bind(this),
-    });
-    this.dynamicItems.push({
-      id: 'downloadXML',
-      iconInfo: {
-        icon: 'download',
-        additionalClasses: 'icon',
+      {
+        id: 'downloadXML',
+        iconInfo: {
+          icon: 'download',
+          additionalClasses: 'icon',
+        },
+        label: 'downloadXML',
+        callback: () => this.downloadXML(),
       },
-      label: 'downloadXML',
-      callback: this.downloadXML.bind(this),
-    });
+    ];
   }
 
   private openGlobalDialogInfo() {
@@ -195,6 +199,5 @@ export interface MainMenuItem {
   id: string;
   iconInfo: EvtIconInfo;
   label: string;
-  // tslint:disable-next-line:ban-types
-  callback: Function;
+  callback: () => void;
 }
