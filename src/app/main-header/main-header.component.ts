@@ -63,42 +63,44 @@ export class MainHeaderComponent implements OnDestroy {
   }
 
   private initViewModes() {
-    this.viewModes.push({
-      icon: 'txt',
-      iconSet: 'evt',
-      id: 'readingText',
-      label: 'Reading Text',
-    });
-    this.viewModes.push({
-      icon: 'imgTxt',
-      iconSet: 'evt',
-      id: 'imageText',
-      label: 'Image Text',
-    });
-    this.viewModes.push({
-      icon: 'txtTxt',
-      iconSet: 'evt',
-      id: 'textText',
-      label: 'Text Text',
-    });
-    this.viewModes.push({
-      icon: 'collation',
-      iconSet: 'evt',
-      id: 'collation',
-      label: 'Collation',
-    });
-    this.viewModes.push({
-      icon: 'srcTxt',
-      iconSet: 'evt',
-      id: 'textSources',
-      label: 'Text Sources',
-    });
-    this.viewModes.push({
-      icon: 'versions',
-      iconSet: 'evt',
-      id: 'textVersions',
-      label: 'Text Versions',
-    });
+    this.viewModes = [
+      {
+        icon: 'txt',
+        iconSet: 'evt',
+        id: 'readingText',
+        label: 'Reading Text',
+      },
+      {
+        icon: 'imgTxt',
+        iconSet: 'evt',
+        id: 'imageText',
+        label: 'Image Text',
+      },
+      {
+        icon: 'txtTxt',
+        iconSet: 'evt',
+        id: 'textText',
+        label: 'Text Text',
+      },
+      {
+        icon: 'collation',
+        iconSet: 'evt',
+        id: 'collation',
+        label: 'Collation',
+      },
+      {
+        icon: 'srcTxt',
+        iconSet: 'evt',
+        id: 'textSources',
+        label: 'Text Sources',
+      },
+      {
+        icon: 'versions',
+        iconSet: 'evt',
+        id: 'textVersions',
+        label: 'Text Versions',
+      },
+    ];
   }
 }
 
