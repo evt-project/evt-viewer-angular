@@ -122,7 +122,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   openShortCuts() {
     this.itemClicked.emit('shortcuts');
-    const modalRef = this.modalService.open({ componentToOpen: ModalComponent, options: { id: 'shortcuts' } });
+    const modalRef = this.modalService.open(ModalComponent, { id: 'shortcuts' });
     const modalComp = modalRef.componentInstance as ModalComponent;
     modalComp.fixedHeight = true;
     modalComp.modalId = 'shortcuts';
@@ -160,7 +160,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   openEVTInfo() {
     this.itemClicked.emit('evtInfo');
-    const modalRef = this.modalService.open({ componentToOpen: ModalComponent, options: { id: 'evtInfo' } });
+    const modalRef = this.modalService.open(ModalComponent, { id: 'evtInfo' });
     const modalComp = modalRef.componentInstance as ModalComponent;
     modalComp.fixedHeight = true;
     modalComp.modalId = 'evtInfo';
