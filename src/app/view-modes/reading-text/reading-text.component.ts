@@ -3,7 +3,8 @@ import { GridsterConfig, GridType, DisplayGrid, GridsterItem, CompactType } from
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { register } from '../../services/component-register.service';
-import { EditionStructure, PageData } from '../../models/evt-models';
+import { PageData } from '../../models/evt-models';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'evt-reading-text',
@@ -14,7 +15,9 @@ import { EditionStructure, PageData } from '../../models/evt-models';
 export class ReadingTextComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
-  public currentPage: PageData;
+  public currentPage = this.route.params.pipe(
+    map((params) => params.page),
+  );
   public options: GridsterConfig = {};
 
   public apparatusesOpened = true;
@@ -31,7 +34,6 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.initPage();
     this.initGridster();
   }
 
@@ -66,11 +68,6 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     this.pinnedBoardItem.x = this.apparatusesOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
     this.apparatusesItem.x = this.pinnedBoardOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
     this.changedOptions();
-  }
-
-  private initPage() {
-    this.subscriptions.push(
-      this.route.params.subscribe((params) => this.currentPage = params.page));
   }
 
   private initGridster() {

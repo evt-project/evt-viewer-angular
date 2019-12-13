@@ -1,6 +1,6 @@
 <gridster [options]="layoutOptions">
     <gridster-item [item]="textPanelItem">
-        <evt-text-panel [page]="currentPage" (pageChange)="handlePageChange($event)"></evt-text-panel>
+        <evt-text-panel [pageID]="currentPage | async" (pageChange)="handlePageChange($event)"></evt-text-panel>
     </gridster-item>
     <gridster-item *ngIf="pinnedBoardOpened" [item]="pinnedBoardItem">
         <evt-pinboard-panel content (hide)="togglePinnedBoard()"></evt-pinboard-panel>

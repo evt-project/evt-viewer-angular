@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { TextComponent } from '../../components/text/text.component';
 import { TextData, GenericElementData, NoteData, HTMLData, CommentData } from '../../models/parsed-elements';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { NoteComponent } from 'src/app/components/note/note.component';
 import { xpath, isNestedInElem } from 'src/app/utils/domUtils';
-import { scan, map, tap } from 'rxjs/operators';
+import { scan, map } from 'rxjs/operators';
+import { XMLElement } from 'src/app/models/evt-models';
 
 export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
 
@@ -26,68 +27,62 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
-  parse(xml: HTMLElement): Observable<ParsedElement> {
-    if (xml) {
-      if (xml.nodeType === 3) {  // Text
-        return this.parseText(xml).pipe(tap(() => this.addTask.next(-1)));
-      }
-      if (xml.nodeType === 8) { // Comment
-        return of({} as CommentData).pipe(tap(() => this.addTask.next(-1)));
-      }
-      this.addTask.next(complexElements(xml.childNodes).length);
-      switch (xml.tagName.toLowerCase()) {
-        case 'note':
-          const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
-          if (footerNote) {
-            return this.parseElement(xml).pipe(tap(() => this.addTask.next(-1)));
-          } else {
-            return this.parseNote(xml).pipe(tap(() => this.addTask.next(-(xml.childNodes.length + 1))));
-          }
-        default:
-          return this.parseElement(xml).pipe(tap(() => this.addTask.next(-1)));
-      }
-    } else {
-      return of({ element: xml } as HTMLData);
-    }
+  parseF = {
+    note: this.parseNote,
+  };
+
+  parse(xml: XMLElement): ParsedElement {
+    if (!xml) { return { content: [xml] } as HTMLData; }
+    // Text Node
+    if (xml.nodeType === 3) { return this.parseText(xml); }
+    // Comment
+    if (xml.nodeType === 8) { return {} as CommentData; }
+    const tagName = xml.tagName.toLowerCase();
+    const parseFunction = this.parseF[tagName] || this.parseElement;
+    return parseFunction.call(this, xml);
   }
 
-  private parseText(xml: HTMLElement): Observable<TextData> {
+  private parseText(xml: XMLElement): TextData {
     const text = {
       type: TextComponent,
       text: xml.textContent,
       attributes: {}
     } as TextData;
-    return of(text);
+    return text;
   }
 
-  private parseElement(xml: HTMLElement): Observable<GenericElementData> {
+  private parseElement(xml: XMLElement): GenericElementData {
     const genericElement: GenericElementData = {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
-      content: complexElements(xml.childNodes),
+      content: this.parseChildren(xml),
       attributes: this.getAttributes(xml)
     };
-    return of(genericElement);
+    return genericElement;
   }
 
-  private parseNote(xml: HTMLElement): Observable<NoteData> {
-    const noteElement = {
-      type: NoteComponent,
-      path: xpath(xml),
-      content: complexElements(xml.childNodes),
-      attributes: this.getAttributes(xml)
-    };
-    return of(noteElement);
-  }
-
-  private getAttributes(xml: HTMLElement) {
-    const attributes = {};
-    for (const attribute of Array.from(xml.attributes)) {
-      if (attribute.specified) {
-        const attrName = attribute.name === 'xml:id' ? 'id' : attribute.name.replace(':', '-');
-        attributes[attrName] = attribute.value;
-      }
+  private parseNote(xml: XMLElement): NoteData {
+    const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
+    if (footerNote) {
+      return this.parseElement(xml);
+    } else {
+      const noteElement = {
+        type: NoteComponent,
+        path: xpath(xml),
+        content: this.parseChildren(xml),
+        attributes: this.getAttributes(xml)
+      };
+      return noteElement;
     }
-    return attributes;
+  }
+
+  private parseChildren(xml: XMLElement) {
+    return complexElements(xml.childNodes).map(child => this.parse(child as XMLElement));
+  }
+
+  private getAttributes(xml: XMLElement) {
+    return Array.from(xml.attributes)
+      .map((a) => ({ [a.name === 'xml:id' ? 'id' : a.name.replace(':', '-')]: a.value }))
+      .reduce((x, y) => ({ ...x, ...y }), {});
   }
 }

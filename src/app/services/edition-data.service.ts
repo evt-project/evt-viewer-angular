@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../app.config';
 import { map, publishReplay, refCount, catchError } from 'rxjs/operators';
 import { parseXml } from '../utils/xmlUtils';
+import { OriginalEncodingNodeType, XMLElement } from '../models/evt-models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditionDataService {
   private editionUrls = AppConfig.evtSettings.files.editionUrls || [];
-  public parsedEditionSource$: Observable<HTMLElement> = this.loadAndParseEditionData();
+  public parsedEditionSource$: Observable<OriginalEncodingNodeType> = this.loadAndParseEditionData();
 
   constructor(
     private http: HttpClient,
@@ -20,7 +21,7 @@ export class EditionDataService {
   private loadAndParseEditionData() {
     return this.http.get(this.editionUrls[0], { responseType: 'text' }).pipe(
       map(source => {
-        let editionDoc: HTMLElement;
+        let editionDoc: XMLElement;
         if (typeof source !== 'object' && typeof source === 'string') {
           editionDoc = parseXml(source);
         } else {

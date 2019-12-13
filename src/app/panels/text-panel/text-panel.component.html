@@ -1,28 +1,41 @@
 <evt-panel [showSecondaryContent]="isSecondaryContentOpened()">
     <div header-left>
-        <evt-button label="Info" [iconLeft]="{icon: 'info-circle'}" additionalClasses="mr-1"
-            (btnClick)="toggleSecondaryContent('INFO')" [active]="secondaryContent === 'INFO'"></evt-button>
-        <ng-select class="mr-1" [items]="pages$ | async" bindValue="id" bindLabel="label" [clearable]="false"
-            [(ngModel)]="page" (change)="changePage($event)">
-            <ng-template ng-label-tmp let-item="item">
-                <evt-icon [iconInfo]="{icon: 'file-alt', additionalClasses: 'mr-2'}" label-left></evt-icon>
+        <evt-button
+            label="Info"
+            [iconLeft]="{icon: 'info-circle'}"
+            additionalClasses="mr-1"
+            (btnClick)="toggleSecondaryContent('INFO')"
+            [active]="secondaryContent === 'INFO'"></evt-button>
+        <ng-select
+            class="mr-1"
+            [items]="pages$ | async"
+            bindLabel="label"
+            [clearable]="false"
+            [ngModel]="pageChange | async"
+            (change)="pageID = $event.id">
+            <ng-template
+                ng-label-tmp
+                let-item="item">
+                <evt-icon
+                    [iconInfo]="{icon: 'file-alt', additionalClasses: 'mr-2'}"
+                    label-left></evt-icon>
                 {{item.label}}
             </ng-template>
         </ng-select>
 
     </div>
     <div content>
-        <ng-container *ngIf="selectedPage">
-            <evt-page *ngIf="selectedPage" [data]="selectedPage"></evt-page>        
-        </ng-container>
+        <evt-page [data]="pageChange | async"></evt-page>
     </div>
-    <div secondary-content>
-        {{ getSecondaryContent() }}
-    </div>
+    <div secondary-content>{{ getSecondaryContent() }}</div>
 
     <div footer>
-        <evt-button [iconLeft]="{icon: 'search'}" label="Search" additionalClasses="mr-1"
-            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')" [active]="secondaryContent === 'SEARCH_RESULTS'">
+        <evt-button
+            [iconLeft]="{icon: 'search'}"
+            label="Search"
+            additionalClasses="mr-1"
+            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
+            [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
     </div>
 </evt-panel>

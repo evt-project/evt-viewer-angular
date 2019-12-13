@@ -1,4 +1,8 @@
 import { Map } from '../utils/jsUtils';
+import { GenericElementData } from './parsed-elements';
+
+export type XMLElement = HTMLElement;
+export type OriginalEncodingNodeType = XMLElement;
 
 export interface EditionStructure {
     pages: Map<PageData>;
@@ -8,6 +12,6 @@ export interface EditionStructure {
 export interface PageData {
     id: string;
     label: string;
-    xmlSource: any;
-    content: ChildNode[];
+    originalContent: OriginalEncodingNodeType[];
+    parsedContent: GenericElementData[];
 }

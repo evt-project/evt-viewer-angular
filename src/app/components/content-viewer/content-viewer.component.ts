@@ -1,39 +1,43 @@
 import { Component, OnDestroy, Input, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
 
-import { GenericParserService } from '../../services/xml-parsers/generic-parser.service';
 import { AttributesMap } from 'ng-dynamic-component';
 import { register } from '../../services/component-register.service';
-import { Subject, Observable, combineLatest } from 'rxjs';
-import { map, switchMap, shareReplay, delay } from 'rxjs/operators';
+import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { map, shareReplay, filter } from 'rxjs/operators';
+import { GenericElementData } from 'src/app/models/parsed-elements';
 
 @Component({
   selector: 'evt-content-viewer',
-  templateUrl: './content-viewer.component.html'
+  templateUrl: './content-viewer.component.html',
 })
 @register
 export class ContentViewerComponent implements OnDestroy {
-  @Input() set content(v: HTMLElement) {
+  private v: GenericElementData;
+  @Input() set content(v: GenericElementData) {
+    this.v = v;
     this.contentChange.next(v);
   }
-  contentChange = new Subject<HTMLElement>();
+  get content() { return this.v; }
+
+  contentChange = new BehaviorSubject<GenericElementData>(undefined);
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
-  public parsedContent = this.contentChange.pipe(
-    switchMap((xml) => this.parser.parse(xml)),
-    delay(0),
+
+  public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     shareReplay(1),
   );
 
-  public inputs: Observable<{ [keyName: string]: any }> = this.parsedContent.pipe(
-    map((x) => ({ data: x })),
+  public inputs: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
+    map((data) => ({ data })),
     shareReplay(1),
   );
   // tslint:disable-next-line: ban-types
-  public outputs: Observable<{ [keyName: string]: Function }> = this.parsedContent.pipe(
+  public outputs: Observable<{ [keyName: string]: Function }> = this.contentChange.pipe(
     map(() => ({})),
     shareReplay(1),
   );
-  public attributes: Observable<AttributesMap> = this.parsedContent.pipe(
-    map((parsedContent) => parsedContent.attributes || { class: parsedContent.class || '' }),
+  public attributes: Observable<AttributesMap> = this.contentChange.pipe(
+    filter(parsedContent => !!parsedContent),
+    map((parsedContent) => ({ ...parsedContent.attributes || {}, ...{ class: parsedContent.class || '' } })),
     shareReplay(1),
   );
 
@@ -48,14 +52,7 @@ export class ContentViewerComponent implements OnDestroy {
     )),
   );
 
-
   private componentRef: ComponentRef<{}>;
-
-  constructor(
-    private parser: GenericParserService,
-  ) {
-    this.context$.subscribe();
-  }
 
   ngOnDestroy() {
     if (this.componentRef) {
