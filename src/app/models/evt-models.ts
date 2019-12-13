@@ -1,4 +1,4 @@
-import { Map } from '../utils/jsUtils';
+import { Map } from '../utils/js-utils';
 import { GenericElementData } from './parsed-elements';
 
 export type XMLElement = HTMLElement;

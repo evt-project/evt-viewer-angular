@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { PageData, XMLElement } from '../../models/evt-models';
-import { Map } from '../../utils/jsUtils';
-import { getElementsBetweenTreeNode, getElementsAfterTreeNode } from 'src/app/utils/domUtils';
+import { getElementsAfterTreeNode, getElementsBetweenTreeNode } from '../../utils/dom-utils';
+import { Map } from '../../utils/js-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StructureXmlParserService {
   public readonly editionStructure$ = this.editionDataService.parsedEditionSource$
     .pipe(
       map((source) => this.init(source)),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   constructor(
     private editionDataService: EditionDataService,
-    private genericParserService: GenericParserService
+    private genericParserService: GenericParserService,
   ) {
 
   }
@@ -40,7 +40,7 @@ export class StructureXmlParserService {
       if (l > 0) {
         for (let i = 0; i < l; i++) {
           const element = pageElements[i];
-          let pageContent: any[] = [];
+          let pageContent = [];
           if (i < l - 1) { // TODO: handle last page
             pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
           } else {
@@ -51,7 +51,7 @@ export class StructureXmlParserService {
             id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
             label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
             originalContent: pageContent,
-            parsedContent: pageContent.map(child => this.genericParserService.parse(child as XMLElement))
+            parsedContent: pageContent.map(child => this.genericParserService.parse(child as XMLElement)),
           };
           pages[page.id] = page;
           pagesIndexes.push(page.id);
@@ -65,16 +65,17 @@ export class StructureXmlParserService {
           id: `page_${new Date().getTime()}`,
           label: 'Main Text',
           originalContent: content as XMLElement[],
-          parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement)).filter(c => !!c.content)
+          parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement)).filter(c => !!c.content),
         };
         pages[page.id] = page;
         pagesIndexes.push(page.id);
       }
       console.log(pages);
     }
+
     return {
       pages,
-      pagesIndexes
+      pagesIndexes,
     };
   }
 }

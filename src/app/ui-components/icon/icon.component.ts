@@ -4,7 +4,7 @@ import { register } from '../../services/component-register.service';
 @Component({
   selector: 'evt-icon',
   templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss']
+  styleUrls: ['./icon.component.scss'],
 })
 @register
 export class IconComponent implements OnInit {
@@ -24,5 +24,5 @@ export interface EvtIconInfo {
   additionalClasses?: string;
   rotate?: number;
   transform?: string;
-  mask?: any;
+  mask?;
 }

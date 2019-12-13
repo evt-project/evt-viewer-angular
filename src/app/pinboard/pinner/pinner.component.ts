@@ -1,16 +1,16 @@
-import { Component, Input, Attribute } from '@angular/core';
-import { PinboardService } from '../pinboard.service';
-import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
+import { Attribute, Component, Input } from '@angular/core';
 import { register } from '../../services/component-register.service';
+import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
+import { PinboardService } from '../pinboard.service';
 
 @Component({
   selector: 'evt-pinner',
   templateUrl: './pinner.component.html',
-  styleUrls: ['./pinner.component.scss']
+  styleUrls: ['./pinner.component.scss'],
 })
 @register
 export class PinnerComponent {
-  @Input() item: any;
+  @Input() item;
   @Input() additionalStyle: { [key: string]: string | number };
   constructor(
     @Attribute('pinType') public pinType: string,

@@ -1,15 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { PageData } from '../../models/evt-models';
-import { register } from '../../services/component-register.service';
-import { Subscription, Subject, merge, combineLatest } from 'rxjs';
-import { EVTModelService } from 'src/app/services/evt-model.service';
-import { filter, shareReplay, map, distinctUntilChanged, tap } from 'rxjs/operators';
+import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { combineLatest, merge, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { EVTModelService } from 'src/app/services/evt-model.service';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-panel',
   templateUrl: './text-panel.component.html',
-  styleUrls: ['./text-panel.component.scss']
+  styleUrls: ['./text-panel.component.scss'],
 })
 @register
 export class TextPanelComponent implements OnDestroy {
@@ -28,7 +27,7 @@ export class TextPanelComponent implements OnDestroy {
   @Output() pageChange = combineLatest([
     merge(
       this.route.params.pipe(
-        map((params) => params.page)
+        map((params) => params.page),
       ),
       this.pageIDChange,
     ),

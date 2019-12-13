@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { TextComponent } from '../../components/text/text.component';
-import { TextData, GenericElementData, NoteData, HTMLData, CommentData } from '../../models/parsed-elements';
-import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import { Subject } from 'rxjs';
+import { map, scan } from 'rxjs/operators';
 import { NoteComponent } from 'src/app/components/note/note.component';
-import { xpath, isNestedInElem } from 'src/app/utils/domUtils';
-import { scan, map } from 'rxjs/operators';
 import { XMLElement } from 'src/app/models/evt-models';
+import { isNestedInElem, xpath } from 'src/app/utils/dom-utils';
+import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
+import { TextComponent } from '../../components/text/text.component';
+import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
 
 export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
 
@@ -39,6 +39,7 @@ export class GenericParserService {
     if (xml.nodeType === 8) { return {} as CommentData; }
     const tagName = xml.tagName.toLowerCase();
     const parseFunction = this.parseF[tagName] || this.parseElement;
+
     return parseFunction.call(this, xml);
   }
 
@@ -46,8 +47,9 @@ export class GenericParserService {
     const text = {
       type: TextComponent,
       text: xml.textContent,
-      attributes: {}
+      attributes: {},
     } as TextData;
+
     return text;
   }
 
@@ -56,8 +58,9 @@ export class GenericParserService {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: this.parseChildren(xml),
-      attributes: this.getAttributes(xml)
+      attributes: this.getAttributes(xml),
     };
+
     return genericElement;
   }
 
@@ -65,15 +68,16 @@ export class GenericParserService {
     const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
     if (footerNote) {
       return this.parseElement(xml);
-    } else {
-      const noteElement = {
-        type: NoteComponent,
-        path: xpath(xml),
-        content: this.parseChildren(xml),
-        attributes: this.getAttributes(xml)
-      };
-      return noteElement;
     }
+    const noteElement = {
+      type: NoteComponent,
+      path: xpath(xml),
+      content: this.parseChildren(xml),
+      attributes: this.getAttributes(xml),
+    };
+
+    return noteElement;
+
   }
 
   private parseChildren(xml: XMLElement) {

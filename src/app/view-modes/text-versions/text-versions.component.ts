@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-versions',
   templateUrl: './text-versions.component.html',
-  styleUrls: ['./text-versions.component.scss']
+  styleUrls: ['./text-versions.component.scss'],
 })
 @register
 export class TextVersionsComponent implements OnInit {
@@ -16,8 +16,6 @@ export class TextVersionsComponent implements OnInit {
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public versionsPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
   public versionsOptions: GridsterConfig = {};
-
-  constructor() { }
 
   ngOnInit() {
     this.initGridster();
@@ -30,10 +28,10 @@ export class TextVersionsComponent implements OnInit {
 
   addVersion() {
     const newVersion = {
-      label: (this.versions.length + 1).toString(), // TEMP
-      itemConfig: { cols: 1, rows: 1, y: 0, x: this.versions.length + 1 }
+      label: (this.versions.length + 1).toString(), // TODO: TEMP
+      itemConfig: { cols: 1, rows: 1, y: 0, x: this.versions.length + 1 },
     };
-    this.versions.push(newVersion); // TEMP
+    this.versions.push(newVersion); // TODO: TEMP
     this.updateGridsterOptions();
     // TODO: Come gestiamo la rotta nel caso di più versioni selezionate?
   }
@@ -58,11 +56,11 @@ export class TextVersionsComponent implements OnInit {
         enabled: false,
         ignoreContent: false,
         ignoreContentClass: 'panel-content',
-        dragHandleClass: 'panel-header'
+        dragHandleClass: 'panel-header',
       },
       resizable: {
-        enabled: false
-      }
+        enabled: false,
+      },
     };
     this.versionsOptions = {
       gridType: GridType.Fit,
@@ -74,14 +72,14 @@ export class TextVersionsComponent implements OnInit {
       draggable: {
         enabled: true,
         ignoreContent: true,
-        dragHandleClass: 'panel-header'
+        dragHandleClass: 'panel-header',
       },
       resizable: {
-        enabled: false
+        enabled: false,
       },
       mobileBreakpoint: 0,
       itemResizeCallback: this.updateFixedColWidth.bind(this),
-      itemChangeCallback: this.itemChange.bind(this)
+      itemChangeCallback: this.itemChange.bind(this),
     };
   }
 

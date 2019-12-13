@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { EvtIconInfo } from '../icon/icon.component';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { register } from '../../services/component-register.service';
+import { EvtIconInfo } from '../icon/icon.component';
 
 @Component({
   selector: 'evt-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: ['./button.component.scss'],
 })
 @register
 export class ButtonComponent implements OnInit, OnChanges {
@@ -29,13 +29,13 @@ export class ButtonComponent implements OnInit, OnChanges {
     if (this.iconLeft) {
       this.iconLeft = {
         ...this.iconLeft,
-        additionalClasses: 'icon ' + (this.iconLeft.additionalClasses || '')
+        additionalClasses: 'icon ' + (this.iconLeft.additionalClasses || ''),
       };
     }
     if (this.iconRight) {
       this.iconRight = {
         ...this.iconRight,
-        additionalClasses: 'icon ' + (this.iconRight.additionalClasses || '')
+        additionalClasses: 'icon ' + (this.iconRight.additionalClasses || ''),
       };
     }
   }

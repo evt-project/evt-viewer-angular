@@ -1,17 +1,18 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { PinboardService } from './pinboard.service';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { register } from '../services/component-register.service';
+import { PinboardService } from './pinboard.service';
 
 @Component({
   selector: 'evt-pinboard',
   templateUrl: './pinboard.component.html',
-  styleUrls: ['./pinboard.component.scss']
+  styleUrls: ['./pinboard.component.scss'],
 })
 @register
 export class PinboardComponent implements OnInit, OnChanges {
   @Input() types: string[];
-  itemsPinned$: Observable<any[]>;
+  // tslint:disable-next-line: no-any
+  itemsPinned$: Observable<any[]>; // TODO: get rid of any
 
   constructor(private pinboard: PinboardService) {
   }

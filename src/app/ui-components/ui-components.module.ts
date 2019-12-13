@@ -1,18 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { DynamicModule } from 'ng-dynamic-component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DynamicModule } from 'ng-dynamic-component';
 
-import { ButtonComponent } from './button/button.component';
-import { IconComponent } from './icon/icon.component';
-import { PanelComponent } from './panel/panel.component';
 import { AppTranslationModule } from '../app-translation.module';
-import { ModalComponent } from './modal/modal.component';
+import { ButtonComponent } from './button/button.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { EscapeDirective } from './directives/escape.directive';
+import { IconComponent } from './icon/icon.component';
+import { ModalComponent } from './modal/modal.component';
+import { PanelComponent } from './panel/panel.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { EscapeDirective } from './directives/escape.directive';
     PanelComponent,
     ModalComponent,
     ClickOutsideDirective,
-    EscapeDirective
+    EscapeDirective,
   ],
   imports: [
     CommonModule,
@@ -38,10 +38,11 @@ import { EscapeDirective } from './directives/escape.directive';
     ModalComponent,
     ClickOutsideDirective,
     EscapeDirective,
-    NgSelectModule
+    NgSelectModule,
   ],
   entryComponents: [
-    ModalComponent
-  ]
+    ModalComponent,
+  ],
 })
-export class UiComponentsModule { }
+export class UiComponentsModule {
+}
