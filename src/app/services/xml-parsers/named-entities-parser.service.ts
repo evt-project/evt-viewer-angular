@@ -5,6 +5,7 @@ import { AttributesData, NamedEntities, NamedEntitiesList, NamedEntity, Relation
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
+import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,7 @@ export class NamedEntitiesParserService {
 
   constructor(
     private editionDataService: EditionDataService,
+    private genericParserService: GenericParserService,
   ) {
   }
 
@@ -145,7 +147,7 @@ export class NamedEntitiesParserService {
       if (subchild.nodeType === 1) {
         entity.info.push({
           label: subchild.tagName.toLowerCase(),
-          value: subchild,
+          value: this.genericParserService.parse(subchild),
           attributes: this.parseAttributes(subchild),
         });
       }
