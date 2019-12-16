@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { uuid } from 'src/app/utils/jsUtils';
+import { uuid } from 'src/app/utils/js-utils';
 
 declare var OpenSeadragon;
 
@@ -79,7 +79,7 @@ function manifestResourcetoTileSource(manifestResource) {
 @Component({
   selector: 'evt-osd',
   templateUrl: './osd.component.html',
-  styleUrls: ['./osd.component.scss']
+  styleUrls: ['./osd.component.scss'],
 })
 export class OsdComponent implements AfterViewInit, OnDestroy {
 
@@ -128,7 +128,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       map((manifest) => manifest // get the resource fields in the manifest json structure
         .sequences.map((seq) => seq.canvases.map((canv) => canv.images).reduce((x, y) => x.concat(y), []))
         .reduce((x, y) => x.concat(y), []).map((res) => res.resource)
-        .map(manifestResourcetoTileSource)
+        .map(manifestResourcetoTileSource),
       ),
     );
 
@@ -140,7 +140,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private modalService: NgbModal,
   ) {
     this.subscriptions.push(this.pageChange.pipe(
       distinctUntilChanged(),

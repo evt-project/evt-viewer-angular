@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { GridsterConfig, GridsterItem, GridType, DisplayGrid } from 'angular-gridster2';
+import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-text',
   templateUrl: './text-text.component.html',
-  styleUrls: ['./text-text.component.scss']
+  styleUrls: ['./text-text.component.scss'],
 })
 @register
 export class TextTextComponent implements OnInit {
   public options: GridsterConfig = {};
   public textPanel1Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public textPanel2Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
-
-  constructor() { }
 
   ngOnInit() {
     this.initGridster();
@@ -29,11 +27,11 @@ export class TextTextComponent implements OnInit {
       draggable: {
         enabled: true,
         ignoreContent: true,
-        dragHandleClass: 'panel-header'
+        dragHandleClass: 'panel-header',
       },
       resizable: {
-        enabled: false
-      }
+        enabled: false,
+      },
     };
   }
 }

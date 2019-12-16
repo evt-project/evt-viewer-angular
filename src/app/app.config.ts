@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class AppConfig {
@@ -17,11 +17,11 @@ export class AppConfig {
     ) { }
 
     load() {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             forkJoin(
                 this.http.get<UiConfig>(this.uiConfigUrl),
                 this.http.get<EditionConfig>(this.editionConfigUrl),
-                this.http.get<FileConfig>(this.fileConfigUrl)
+                this.http.get<FileConfig>(this.fileConfigUrl),
             ).pipe(
                 map(([ui, edition, files]) => {
                     console.log(ui, edition, files);
@@ -36,8 +36,9 @@ export class AppConfig {
                             }
                         }
                     }
+
                     return { ui, edition, files };
-                })
+                }),
             ).subscribe(evtConfig => {
                 AppConfig.evtSettings = evtConfig;
                 console.log('evtConfig', evtConfig);

@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'evt-shortcuts',
   templateUrl: './shortcuts.component.html',
-  styleUrls: ['./shortcuts.component.scss']
+  styleUrls: ['./shortcuts.component.scss'],
 })
 export class ShortcutsComponent {
-  public shortcuts: Array<{ label: string, instructions: any[] }> = [];
+  // tslint:disable-next-line: no-any
+  public shortcuts: Array<{ label: string, instructions: any[] }> = []; // TODO: get rid of instructions
 
   constructor() {
     this.initShortcuts();
@@ -18,21 +19,21 @@ export class ShortcutsComponent {
       instructions: [
         { type: 'key', text: 'ALT' },
         { text: '+' },
-        { type: 'key', text: 'I' }]
+        { type: 'key', text: 'I' }],
     });
     this.shortcuts.push({
       label: 'OpenLists',
       instructions: [
         { type: 'key', text: 'ALT' },
         { text: '+' },
-        { type: 'key', text: 'L' }]
+        { type: 'key', text: 'L' }],
     });
     this.shortcuts.push({
       label: 'OpenCurrentBookmark',
       instructions: [
         { type: 'key', text: 'ALT' },
         { text: '+' },
-        { type: 'key', text: 'B' }]
+        { type: 'key', text: 'B' }],
     });
     this.shortcuts.push({
       label: 'OpenEVTInfo',
@@ -41,7 +42,7 @@ export class ShortcutsComponent {
         { text: '+' },
         { type: 'key', text: 'SHIFT' },
         { text: '+' },
-        { type: 'key', text: 'E' }]
+        { type: 'key', text: 'E' }],
     });
     this.shortcuts.push({
       label: 'OpenShortcuts',
@@ -50,7 +51,7 @@ export class ShortcutsComponent {
         { text: '+' },
         { type: 'key', text: 'SHIFT' },
         { text: '+' },
-        { type: 'key', text: 'S' }]
+        { type: 'key', text: 'S' }],
     });
     // this.shortcuts.push({
     //   label: 'ChangeView',
@@ -109,7 +110,7 @@ export class ShortcutsComponent {
     this.shortcuts.push({
       label: 'CloseModalIfOpened',
       instructions: [
-        { type: 'key', text: 'ESC' }]
+        { type: 'key', text: 'ESC' }],
     });
   }
 }

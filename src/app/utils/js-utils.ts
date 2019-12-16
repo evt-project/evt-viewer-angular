@@ -18,9 +18,10 @@ export function uniqueObjCharKeys<T>(m: Map<T>) {
         }
     });
     keys.sort();
+
     return keys;
 }
-export function uniqueArrayCharKeys<T>(a: string[]) {
+export function uniqueArrayCharKeys(a: string[]) {
     const keys = [];
     a.forEach(key => {
         if (keys.indexOf(key[0].toLowerCase()) < 0) {
@@ -28,6 +29,7 @@ export function uniqueArrayCharKeys<T>(a: string[]) {
         }
     });
     keys.sort((strA, strB) => strA.toLowerCase().localeCompare(strB.toLowerCase()));
+
     return keys;
 }
 
@@ -56,7 +58,7 @@ export function mergeDeep(...objects) {
         });
 
         return prev;
-    }, {});
+    },                    {});
 }
 
 export function getEventKeyCode(event) {

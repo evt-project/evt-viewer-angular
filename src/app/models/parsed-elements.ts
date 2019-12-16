@@ -1,8 +1,9 @@
-import { AttributesMap } from 'ng-dynamic-component';
 import { Type } from '@angular/core';
+import { AttributesMap } from 'ng-dynamic-component';
 import { OriginalEncodingNodeType } from './evt-models';
 
 export interface GenericElementData {
+    // tslint:disable-next-line: no-any
     type: Type<any>;
     path?: string;
     class?: string;

@@ -1,12 +1,12 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { PinboardService } from '../../pinboard/pinboard.service';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
+import { PinboardService } from '../../pinboard/pinboard.service';
 import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-pinboard-panel',
   templateUrl: './pinboard-panel.component.html',
-  styleUrls: ['./pinboard-panel.component.scss']
+  styleUrls: ['./pinboard-panel.component.scss'],
 })
 @register
 export class PinboardPanelComponent {
@@ -22,6 +22,7 @@ export class PinboardPanelComponent {
           types.push({ id: pinType, label: pinType });
         }
       });
+
       return types;
     }),
     tap(types => {

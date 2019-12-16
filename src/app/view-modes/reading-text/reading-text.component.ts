@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GridsterConfig, GridType, DisplayGrid, GridsterItem, CompactType } from 'angular-gridster2';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { register } from '../../services/component-register.service';
-import { PageData } from '../../models/evt-models';
+import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PageData } from '../../models/evt-models';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-reading-text',
   templateUrl: './reading-text.component.html',
-  styleUrls: ['./reading-text.component.scss']
+  styleUrls: ['./reading-text.component.scss'],
 })
 @register
 export class ReadingTextComponent implements OnInit, OnDestroy {
@@ -79,10 +79,10 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
       maxCols: 3,
       maxRows: 1,
       draggable: {
-        enabled: false
+        enabled: false,
       },
       resizable: {
-        enabled: false
+        enabled: false,
       },
     };
   }

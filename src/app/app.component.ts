@@ -1,14 +1,14 @@
-import { Component, HostBinding, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { ThemesService } from './services/themes.service';
-import { Subscription } from 'rxjs';
-import { ShortcutsService } from './shortcuts/shortcuts.service';
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { Component, ElementRef, HostBinding, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { ThemesService } from './services/themes.service';
+import { ShortcutsService } from './shortcuts/shortcuts.service';
 
 @Component({
   selector: 'evt-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
   @ViewChild('mainSpinner', { static: false }) mainSpinner: ElementRef;

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PageData, OriginalEncodingNodeType } from '../models/evt-models';
-import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 import { map } from 'rxjs/operators';
+import { OriginalEncodingNodeType, PageData } from '../models/evt-models';
 import { EditionDataService } from './edition-data.service';
+import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EVTModelService {
 

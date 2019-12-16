@@ -1,10 +1,10 @@
-import { Component, OnDestroy, Input, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AttributesMap } from 'ng-dynamic-component';
-import { register } from '../../services/component-register.service';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map, shareReplay, filter } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, shareReplay } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
+import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-content-viewer',
@@ -22,10 +22,12 @@ export class ContentViewerComponent implements OnDestroy {
   contentChange = new BehaviorSubject<GenericElementData>(undefined);
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
+  // tslint:disable-next-line: no-any
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     shareReplay(1),
   );
 
+  // tslint:disable-next-line: no-any
   public inputs: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     map((data) => ({ data })),
     shareReplay(1),
@@ -57,7 +59,7 @@ export class ContentViewerComponent implements OnDestroy {
   ngOnDestroy() {
     if (this.componentRef) {
       this.componentRef.destroy();
-      this.componentRef = null;
+      this.componentRef = undefined;
     }
   }
 }

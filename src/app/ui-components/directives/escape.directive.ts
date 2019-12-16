@@ -1,9 +1,9 @@
-import { Directive, Output, EventEmitter, HostListener } from '@angular/core';
-import { getEventKeyCode } from '../../utils/jsUtils';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { getEventKeyCode } from '../../utils/js-utils';
 
 @Directive({
   // tslint:disable-next-line: directive-selector
-  selector: '[escape]'
+  selector: '[escape]',
 })
 export class EscapeDirective {
   @Output() escape = new EventEmitter<void>();

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GridsterConfig, GridsterItem, GridType, DisplayGrid } from 'angular-gridster2';
+import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-text-sources',
   templateUrl: './text-sources.component.html',
-  styleUrls: ['./text-sources.component.scss']
+  styleUrls: ['./text-sources.component.scss'],
 })
 @register
 export class TextSourcesComponent implements OnInit {
@@ -13,9 +13,6 @@ export class TextSourcesComponent implements OnInit {
   public options: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public sourcesPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
-
-
-  constructor() { }
 
   ngOnInit() {
     this.initGridster();
@@ -31,11 +28,11 @@ export class TextSourcesComponent implements OnInit {
       draggable: {
         enabled: true,
         ignoreContent: true,
-        dragHandleClass: 'panel-header'
+        dragHandleClass: 'panel-header',
       },
       resizable: {
-        enabled: false
-      }
+        enabled: false,
+      },
     };
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { getEventKeyCode } from '../utils/jsUtils';
+import { getEventKeyCode } from '../utils/js-utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShortcutsService {
   handleKeyboardEvent(e: KeyboardEvent) {
@@ -76,5 +76,3 @@ export class ShortcutsService {
     }
   }
 }
-
-

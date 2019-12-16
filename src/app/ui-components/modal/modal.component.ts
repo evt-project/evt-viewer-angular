@@ -1,17 +1,17 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ElementRef,
-  HostListener, ViewChild, Attribute, HostBinding
+  Attribute, Component, ElementRef, EventEmitter, HostBinding, HostListener,
+  Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 
+import { register } from '../../services/component-register.service';
 import { ThemesService } from '../../services/themes.service';
 import { EvtIconInfo } from '../icon/icon.component';
 import { ModalService } from './modal.service';
-import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
 })
 @register
 export class ModalComponent implements OnInit {
@@ -22,8 +22,8 @@ export class ModalComponent implements OnInit {
   @Input() wider: boolean;
   @Input() headerIcon: EvtIconInfo;
 
-  @Input() bodyComponent: any;
-  @Input() footerComponent: any;
+  @Input() bodyComponent;
+  @Input() footerComponent;
 
   @Input() bodyHTML: string;
   @Input() footerHTML: string;

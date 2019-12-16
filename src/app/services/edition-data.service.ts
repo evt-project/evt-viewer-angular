@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { catchError, map, publishReplay, refCount } from 'rxjs/operators';
 import { AppConfig } from '../app.config';
-import { map, publishReplay, refCount, catchError } from 'rxjs/operators';
-import { parseXml } from '../utils/xmlUtils';
 import { OriginalEncodingNodeType, XMLElement } from '../models/evt-models';
+import { parseXml } from '../utils/xml-utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditionDataService {
   private editionUrls = AppConfig.evtSettings.files.editionUrls || [];
@@ -27,6 +27,7 @@ export class EditionDataService {
         } else {
           editionDoc = source;
         }
+
         return editionDoc;
       }),
       publishReplay(1),
@@ -35,13 +36,14 @@ export class EditionDataService {
   }
 
   private handleLoadingError() {
-    // TEMP
+    // TODO: TEMP
     const errorEl = document.createElement('div');
     if (!this.editionUrls || this.editionUrls.length === 0) {
       errorEl.textContent = 'Missing configuration for edition files. Data cannot be loaded.';
     } else {
       errorEl.textContent = 'There was an error in loading edition files.';
     }
+
     return of(errorEl);
   }
 }

@@ -1,20 +1,20 @@
 
-import { Component, OnInit, Output, EventEmitter, HostListener, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ThemesService, ColorTheme } from '../services/themes.service';
-import { EvtIconInfo } from '../ui-components/icon/icon.component';
-import { UiConfig, AppConfig, FileConfig } from '../app.config';
-import { ModalService } from '../ui-components/modal/modal.service';
-import { ModalComponent } from '../ui-components/modal/modal.component';
-import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
+import { AppConfig, FileConfig, UiConfig } from '../app.config';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { register } from '../services/component-register.service';
+import { ColorTheme, ThemesService } from '../services/themes.service';
+import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
+import { EvtIconInfo } from '../ui-components/icon/icon.component';
+import { ModalComponent } from '../ui-components/modal/modal.component';
+import { ModalService } from '../ui-components/modal/modal.service';
 
 @Component({
   selector: 'evt-main-menu',
   templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss']
+  styleUrls: ['./main-menu.component.scss'],
 })
 @register
 export class MainMenuComponent implements OnInit, OnDestroy {
@@ -31,7 +31,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public themes: ThemesService,
     public translate: TranslateService,
     private modalService: ModalService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.loadUiConfig();
@@ -51,42 +52,45 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private initDynamicItems() {
     // TODO Check if available from uiConfig
-    this.dynamicItems.push({
-      id: 'projectInfo',
-      iconInfo: {
-        icon: 'info-circle',
-        additionalClasses: 'icon'
+    this.dynamicItems = [
+      {
+        id: 'projectInfo',
+        iconInfo: {
+          icon: 'info-circle',
+          additionalClasses: 'icon',
+        },
+        label: 'projectInfo',
+        // callback: () => this.openGlobalDialogInfo,
+        callback: () => this.openGlobalDialogInfo(),
       },
-      label: 'projectInfo',
-      callback: this.openGlobalDialogInfo.bind(this)
-    });
-    this.dynamicItems.push({
-      id: 'openLists',
-      iconInfo: {
-        icon: 'clipboard-list',
-        additionalClasses: 'icon'
+      {
+        id: 'openLists',
+        iconInfo: {
+          icon: 'clipboard-list',
+          additionalClasses: 'icon',
+        },
+        label: 'openLists',
+        callback: () => this.openGlobalDialogLists(),
       },
-      label: 'openLists',
-      callback: this.openGlobalDialogLists.bind(this)
-    });
-    this.dynamicItems.push({
-      id: 'bookmark',
-      iconInfo: {
-        icon: 'bookmark',
-        additionalClasses: 'icon'
+      {
+        id: 'bookmark',
+        iconInfo: {
+          icon: 'bookmark',
+          additionalClasses: 'icon',
+        },
+        label: 'bookmark',
+        callback: () => this.generateBookmark(),
       },
-      label: 'bookmark',
-      callback: this.generateBookmark.bind(this)
-    });
-    this.dynamicItems.push({
-      id: 'downloadXML',
-      iconInfo: {
-        icon: 'download',
-        additionalClasses: 'icon'
+      {
+        id: 'downloadXML',
+        iconInfo: {
+          icon: 'download',
+          additionalClasses: 'icon',
+        },
+        label: 'downloadXML',
+        callback: () => this.downloadXML(),
       },
-      label: 'downloadXML',
-      callback: this.downloadXML.bind(this)
-    });
+    ];
   }
 
   private openGlobalDialogInfo() {
@@ -166,15 +170,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     modalComp.bodyComponent = EvtInfoComponent;
   }
 
-  trackMenuItem(index, item: MainMenuItem) {
+  // tslint:disable-next-line: variable-name
+  trackMenuItem(_index: number, item: MainMenuItem) {
     return item.id;
   }
 
-  trackLanguages(index, item: Language) {
+  // tslint:disable-next-line: variable-name
+  trackLanguages(_index: number, item: Language) {
     return item.code;
   }
 
-  trackTheme(index, item: ColorTheme) {
+  // tslint:disable-next-line: variable-name
+  trackTheme(_index: number, item: ColorTheme) {
     return item.value;
   }
 
@@ -192,6 +199,5 @@ export interface MainMenuItem {
   id: string;
   iconInfo: EvtIconInfo;
   label: string;
-  // tslint:disable-next-line:ban-types
-  callback: Function;
+  callback: () => void;
 }

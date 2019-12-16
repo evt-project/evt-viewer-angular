@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { GridsterConfig, GridsterItem, GridType, DisplayGrid, CompactType } from 'angular-gridster2';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-collation',
   templateUrl: './collation.component.html',
-  styleUrls: ['./collation.component.scss']
+  styleUrls: ['./collation.component.scss'],
 })
 @register
 export class CollationComponent implements OnInit, OnDestroy {
@@ -21,8 +20,6 @@ export class CollationComponent implements OnInit, OnDestroy {
 
   private subscriptions = [];
 
-  constructor(private route: ActivatedRoute) { }
-
   ngOnInit() {
     this.initGridster();
     this.initPageAndWitnesses();
@@ -33,13 +30,13 @@ export class CollationComponent implements OnInit, OnDestroy {
   }
 
   addWitness() {
-    const id = (this.witnesses.length + 1).toString(); // TEMP
+    const id = (this.witnesses.length + 1).toString(); // TODO: TEMP
     const newWit = {
       label: id,
-      itemConfig: { cols: 1, rows: 1, y: 0, x: this.witnesses.length + 1, id }
+      itemConfig: { cols: 1, rows: 1, y: 0, x: this.witnesses.length + 1, id },
     };
 
-    this.witnesses.push(newWit); // TEMP
+    this.witnesses.push(newWit); // TODO: TEMP
     this.updateGridsterOptions();
     // TODO: Come gestiamo la rotta nel caso di testimoni collazionati?
   }
@@ -61,11 +58,11 @@ export class CollationComponent implements OnInit, OnDestroy {
       maxCols: 2,
       maxRows: 1,
       draggable: {
-        enabled: false
+        enabled: false,
       },
       resizable: {
-        enabled: false
-      }
+        enabled: false,
+      },
     };
     this.collationOptions = {
       gridType: GridType.Fit,
@@ -77,14 +74,14 @@ export class CollationComponent implements OnInit, OnDestroy {
       draggable: {
         enabled: true,
         ignoreContent: true,
-        dragHandleClass: 'panel-header'
+        dragHandleClass: 'panel-header',
       },
       resizable: {
-        enabled: false
+        enabled: false,
       },
       mobileBreakpoint: 0,
       itemResizeCallback: this.updateFixedColWidth.bind(this),
-      itemChangeCallback: this.itemChange.bind(this)
+      itemChangeCallback: this.itemChange.bind(this),
     };
   }
 
