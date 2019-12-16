@@ -34,7 +34,11 @@ export interface NamedEntities {
 
 export type AttributesData = Array<{ key: string; value: string }>;
 
-export interface NamedEntitiesList {
+export interface OriginalEncodingData {
+    originalEncoding: OriginalEncodingNodeType;
+}
+
+export type NamedEntitiesList = OriginalEncodingData & {
     id: string;
     label: string;
     type?: string;
@@ -44,18 +48,16 @@ export interface NamedEntitiesList {
     sublists?: NamedEntitiesList[];
     entities?: NamedEntity[];
     relations?: Relation[];
-    originalEncoding?: HTMLElement; // TODO: evaluate if the assigned type is ok
-}
+};
 
-export interface NamedEntity {
+export type NamedEntity = OriginalEncodingData & {
     id: string;
     label: string;
     type?: string;
     info?: NamedEntityInfo[];
     attributes?: AttributesData;
     occurrences?: string[]; // TODO: evaluate which type assign
-    originalEncoding?: HTMLElement; // TODO: evaluate if the assigned type is ok
-}
+};
 
 export interface NamedEntityInfo {
     label: string;
@@ -64,12 +66,11 @@ export interface NamedEntityInfo {
     attributes?: AttributesData;
 }
 
-export interface Relation {
+export type Relation = OriginalEncodingData & {
     name?: string;
     activeParts?: string[]; // Pointers to entities involved in relation
     mutualParts?: string[]; // Pointers to entities involved in relation
     passiveParts?: string[]; // Pointers to entities involved in relation
     description?: Element | string;
     type?: string;
-    originalEncoding?: HTMLElement; // TODO: evaluate if the assigned type is ok
-}
+};
