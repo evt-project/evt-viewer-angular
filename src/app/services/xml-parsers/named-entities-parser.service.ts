@@ -141,6 +141,7 @@ export class NamedEntitiesParserService {
       type: xml.tagName,
       info: [],
       attributes: this.parseAttributes(xml),
+      occurrences: [],
     };
 
     xml.childNodes.forEach((subchild: HTMLElement) => {

@@ -45,18 +45,18 @@ export type NamedEntitiesList = OriginalEncodingData & {
     icon?: string;
     desc?: HTMLElement;
     attributes?: AttributesData;
-    sublists?: NamedEntitiesList[];
-    entities?: NamedEntity[];
-    relations?: Relation[];
+    sublists: NamedEntitiesList[];
+    entities: NamedEntity[];
+    relations: Relation[];
 };
 
 export type NamedEntity = OriginalEncodingData & {
     id: string;
     label: string;
     type?: string;
-    info?: NamedEntityInfo[];
+    info: NamedEntityInfo[];
     attributes?: AttributesData;
-    occurrences?: string[]; // TODO: evaluate which type assign
+    occurrences: string[]; // TODO: evaluate which type assign
 };
 
 export interface NamedEntityInfo {
@@ -68,9 +68,9 @@ export interface NamedEntityInfo {
 
 export type Relation = OriginalEncodingData & {
     name?: string;
-    activeParts?: string[]; // Pointers to entities involved in relation
-    mutualParts?: string[]; // Pointers to entities involved in relation
-    passiveParts?: string[]; // Pointers to entities involved in relation
+    activeParts: string[]; // Pointers to entities involved in relation
+    mutualParts: string[]; // Pointers to entities involved in relation
+    passiveParts: string[]; // Pointers to entities involved in relation
     description?: Element | string;
     type?: string;
 };
