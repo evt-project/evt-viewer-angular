@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
+import { AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity, Relation, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
@@ -53,12 +53,12 @@ export class NamedEntitiesParserService {
   ) {
   }
 
-  private parseLists(document: HTMLElement) {
-    const lists = document.querySelectorAll(this.getListsToParseTagName());
+  private parseLists(document: XMLElement) {
+    const lists = document.querySelectorAll<XMLElement>(this.getListsToParseTagName());
     const parsedLists: NamedEntitiesList[] = [];
     let parsedEntities: NamedEntity[] = [];
     let parsedRelations: Relation[] = [];
-    lists.forEach((list: HTMLElement) => {
+    lists.forEach((list) => {
       // We consider only first level lists; inset lists will be considered differently
       if (!isNestedInElem(list, list.tagName)) {
         const parsedList = this.parseList(list);
@@ -71,7 +71,7 @@ export class NamedEntitiesParserService {
     return { lists: parsedLists, entities: parsedEntities, relations: parsedRelations };
   }
 
-  private parseList(list: HTMLElement) {
+  private parseList(list: XMLElement) {
     const parsedList: NamedEntitiesList = {
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
@@ -83,7 +83,7 @@ export class NamedEntitiesParserService {
       description: [],
       attributes: this.parseAttributes(list),
     };
-    list.childNodes.forEach((child: HTMLElement) => {
+    list.childNodes.forEach((child: XMLElement) => {
       if (child.nodeType === 1) {
         switch (child.tagName.toLowerCase()) {
           case 'head':
@@ -96,9 +96,7 @@ export class NamedEntitiesParserService {
             parsedList.relations.push(this.parseRelation(child));
             break;
           case 'listrelation':
-            child.querySelectorAll('relation').forEach((r: HTMLElement) => {
-              parsedList.relations.push(this.parseRelation(r));
-            });
+            child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
             break;
           default:
             if (this.getListsToParseTagName().indexOf(child.tagName) >= 0) {
@@ -116,7 +114,7 @@ export class NamedEntitiesParserService {
     return parsedList;
   }
 
-  private parseNamedEntity(xml: HTMLElement): NamedEntity {
+  private parseNamedEntity(xml: XMLElement): NamedEntity {
     switch (xml.tagName) {
       case 'person':
         return this.parsePerson(xml);
@@ -133,7 +131,7 @@ export class NamedEntitiesParserService {
     }
   }
 
-  private parseGenericEntity(xml: HTMLElement): NamedEntity {
+  private parseGenericEntity(xml: XMLElement): NamedEntity {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
     const entity: NamedEntity = {
       id: elId,
@@ -145,7 +143,7 @@ export class NamedEntitiesParserService {
       occurrences: [],
     };
 
-    xml.childNodes.forEach((subchild: HTMLElement) => {
+    xml.childNodes.forEach((subchild: XMLElement) => {
       if (subchild.nodeType === 1) {
         entity.info.push({
           label: subchild.tagName.toLowerCase(),
@@ -158,7 +156,7 @@ export class NamedEntitiesParserService {
     return entity;
   }
 
-  private parsePerson(xml: HTMLElement): NamedEntity {
+  private parsePerson(xml: XMLElement): NamedEntity {
     const nameElement = xml.querySelector('name');
     const forenameElement = xml.querySelector('forename');
     const surnameElement = xml.querySelector('surname');
@@ -177,7 +175,7 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private parsePersonGroup(xml: HTMLElement): NamedEntity {
+  private parsePersonGroup(xml: XMLElement): NamedEntity {
     const role = xml.getAttribute('role');
     let label = 'No info';
     if (role) {
@@ -192,9 +190,9 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private parsePlace(xml: HTMLElement): NamedEntity {
-    const placeNameElement = xml.querySelector('placeName');
-    const settlementElement = xml.querySelector('settlement');
+  private parsePlace(xml: XMLElement): NamedEntity {
+    const placeNameElement = xml.querySelector<XMLElement>('placeName');
+    const settlementElement = xml.querySelector<XMLElement>('settlement');
     let label = 'No info';
     if (placeNameElement) {
       label = placeNameElement.textContent;
@@ -208,8 +206,8 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private parseOrganization(xml: HTMLElement): NamedEntity {
-    const orgNameElement = xml.querySelector('orgName');
+  private parseOrganization(xml: XMLElement): NamedEntity {
+    const orgNameElement = xml.querySelector<XMLElement>('orgName');
 
     return {
       ...this.parseGenericEntity(xml),
@@ -217,11 +215,11 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private parseRelation(xml: HTMLElement): Relation {
+  private parseRelation(xml: XMLElement): Relation {
     const active = xml.getAttribute('active') || '';
     const mutual = xml.getAttribute('mutual') || '';
     const passive = xml.getAttribute('passive') || '';
-    const descriptionEls = xml.querySelectorAll<HTMLElement>('desc');
+    const descriptionEls = xml.querySelectorAll<XMLElement>('desc');
     const relation: Relation = {
       name: xml.getAttribute('name'),
       activeParts: active.replace(/#/g, '').split(' '),
@@ -244,7 +242,7 @@ export class NamedEntitiesParserService {
     return relation;
   }
 
-  private parseAttributes(xml: HTMLElement): AttributesData {
+  private parseAttributes(xml: XMLElement): AttributesData {
     const attributes: Array<{ key: string; value: string }> = [];
     Array.from(xml.attributes).forEach((attr) => {
       attributes.push({ key: attr.name, value: attr.value });
