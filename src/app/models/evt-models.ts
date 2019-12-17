@@ -43,7 +43,7 @@ export type NamedEntitiesList = OriginalEncodingData & {
     label: string;
     type?: string;
     icon?: string;
-    desc?: HTMLElement;
+    description?: Description;
     attributes?: AttributesData;
     sublists: NamedEntitiesList[];
     entities: NamedEntity[];
@@ -71,6 +71,8 @@ export type Relation = OriginalEncodingData & {
     activeParts: string[]; // Pointers to entities involved in relation
     mutualParts: string[]; // Pointers to entities involved in relation
     passiveParts: string[]; // Pointers to entities involved in relation
-    description?: Element | string;
+    description?: Description | string;
     type?: string;
 };
+
+export type Description = GenericElementData[];

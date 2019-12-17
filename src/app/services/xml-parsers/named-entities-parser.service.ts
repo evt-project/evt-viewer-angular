@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AttributesData, NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
+import { AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity, Relation } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
@@ -80,6 +80,7 @@ export class NamedEntitiesParserService {
       sublists: [],
       originalEncoding: list,
       relations: [],
+      description: [],
       attributes: this.parseAttributes(list),
     };
     list.childNodes.forEach((child: HTMLElement) => {
@@ -89,7 +90,7 @@ export class NamedEntitiesParserService {
             parsedList.label = child.textContent;
             break;
           case 'desc':
-            parsedList.desc = child;
+            parsedList.description.push(this.genericParserService.parse(child));
             break;
           case 'relation':
             parsedList.relations.push(this.parseRelation(child));
@@ -220,15 +221,21 @@ export class NamedEntitiesParserService {
     const active = xml.getAttribute('active') || '';
     const mutual = xml.getAttribute('mutual') || '';
     const passive = xml.getAttribute('passive') || '';
+    const descriptionEls = xml.querySelectorAll<HTMLElement>('desc');
     const relation: Relation = {
       name: xml.getAttribute('name'),
       activeParts: active.replace(/#/g, '').split(' '),
       mutualParts: mutual.replace(/#/g, '').split(' '),
       passiveParts: passive.replace(/#/g, '').split(' '),
-      description: xml.querySelector('desc') || xml.textContent,
       type: xml.getAttribute('type'),
       originalEncoding: xml,
     };
+    if (descriptionEls && descriptionEls.length > 0) {
+      relation.description = [];
+      descriptionEls.forEach((el) => (relation.description as Description).push(this.genericParserService.parse(el)));
+    } else {
+      relation.description = (xml.textContent || '').trim();
+    }
     const parentListEl = xml.parentElement.tagName === 'listRelation' ? xml.parentElement : undefined;
     if (parentListEl) {
       relation.type = `${(parentListEl.getAttribute('type') || '')} ${(relation.type || '')}`.trim();
