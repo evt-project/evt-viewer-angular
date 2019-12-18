@@ -160,13 +160,18 @@ export class NamedEntitiesParserService {
     const nameElement = xml.querySelector('name');
     const forenameElement = xml.querySelector('forename');
     const surnameElement = xml.querySelector('surname');
+    const persNameElement = xml.querySelector('persName');
     const occupationElement = xml.querySelector('occupation');
     let label = 'No info';
-    if (forenameElement || surnameElement) {
+    if (persNameElement) {
+      label = persNameElement.textContent || 'No info';
+    } else if (forenameElement || surnameElement) {
       label = `${forenameElement ? forenameElement.textContent : ''} ${surnameElement ? surnameElement.textContent : ''}`.trim();
       label += occupationElement ? ` (${occupationElement.textContent.trim()})` : '';
     } else if (nameElement) {
-      label = nameElement.textContent;
+      label = nameElement.textContent || 'No info';
+    } else {
+      label = xml.textContent || 'No info';
     }
 
     return {
