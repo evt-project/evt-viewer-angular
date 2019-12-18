@@ -30,6 +30,10 @@ export interface NamedEntities {
         entities: NamedEntity[];
     };
     relations: Relation[];
+    events: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
 }
 
 export type AttributesData = Array<{ key: string; value: string }>;

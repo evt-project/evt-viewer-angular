@@ -32,17 +32,23 @@ export class NamedEntitiesParserService {
     map(({ relations }) => relations),
   );
 
+  public readonly events$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['event'])),
+  );
+
   public readonly namedEntities$: Observable<NamedEntities> = combineLatest([
     this.persons$,
     this.places$,
     this.organizations$,
     this.relations$,
+    this.events$,
   ]).pipe(
-    map(([persons, places, organizations, relations]) => ({
+    map(([persons, places, organizations, relations, events]) => ({
       persons,
       places,
       organizations,
       relations,
+      events,
     })),
     shareReplay(1),
   );
@@ -110,6 +116,9 @@ export class NamedEntitiesParserService {
         }
       }
     });
+    if (!parsedList.label && list.getAttribute('type')) {
+      parsedList.label = list.getAttribute('type');
+    }
 
     return parsedList;
   }
@@ -124,6 +133,8 @@ export class NamedEntitiesParserService {
         return this.parsePlace(xml);
       case 'org':
         return this.parseOrganization(xml);
+      case 'event':
+        return this.parseEvent(xml);
       default:
         console.error('Warning! Parser not implemented for this element in list', xml);
 
@@ -142,7 +153,6 @@ export class NamedEntitiesParserService {
       attributes: this.parseAttributes(xml),
       occurrences: [],
     };
-
     xml.childNodes.forEach((subchild: XMLElement) => {
       if (subchild.nodeType === 1) {
         entity.info.push({
@@ -220,6 +230,15 @@ export class NamedEntitiesParserService {
     };
   }
 
+  private parseEvent(xml: XMLElement): NamedEntity {
+    const eventLabelElement = xml.querySelector<XMLElement>('label');
+
+    return {
+      ...this.parseGenericEntity(xml),
+      label: eventLabelElement ? replaceMultispaces(eventLabelElement.textContent) : 'No info',
+    };
+  }
+
   private parseRelation(xml: XMLElement): Relation {
     const active = xml.getAttribute('active') || '';
     const mutual = xml.getAttribute('mutual') || '';
@@ -266,6 +285,6 @@ export class NamedEntitiesParserService {
    * @todo: return tags depending on config
    */
   private getListsToParseTagName() {
-    return 'listPerson, listPlace, listOrg';
+    return 'listPerson, listPlace, listOrg, listEvent';
   }
 }
