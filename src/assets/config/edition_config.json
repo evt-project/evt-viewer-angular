@@ -1,3 +1,25 @@
 {
-	"title": "My Digital Edition"
+	"title": "My Digital Edition",
+	"namedEntitiesLists": {
+		"persons": {
+			"defaultLabel": "Persons",
+			"enabled": true
+		},
+		"places": {
+			"defaultLabel": "Places",
+			"enabled": true
+		},
+		"organizations": {
+			"defaultLabel": "Organizations",
+			"enabled": true
+		},
+		"relations": {
+			"defaultLabel": "Relations",
+			"enabled": true
+		},
+		"events": {
+			"defaultLabel": "Events",
+			"enabled": true
+		}
+	}
 }

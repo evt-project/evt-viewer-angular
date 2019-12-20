@@ -65,9 +65,21 @@ export interface UiConfig {
 
 export interface EditionConfig {
     title: string;
+    namedEntitiesLists: Partial<{
+        persons: NamedEntitiesListsConfig;
+        places: NamedEntitiesListsConfig;
+        organizations: NamedEntitiesListsConfig;
+        relations: NamedEntitiesListsConfig;
+        events: NamedEntitiesListsConfig;
+    }>;
 }
 
 export interface FileConfig {
     editionUrls: string[];
     manifestURL: string;
+}
+
+export interface NamedEntitiesListsConfig {
+    defaultLabel: string;
+    enabled: boolean;
 }

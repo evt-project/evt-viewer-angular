@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { AppConfig } from '../../app.config';
 import {
   AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity,
   NamedEntityType, Relation, XMLElement,
@@ -56,6 +57,15 @@ export class NamedEntitiesParserService {
     shareReplay(1),
   );
 
+  private neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
+  private tagNamesMap: { [key: string]: string } = {
+    persons: 'listPerson',
+    places: 'listPlace',
+    orgs: 'listOrg',
+    relations: 'listRelation',
+    events: 'listEvent',
+  };
+
   constructor(
     private editionDataService: EditionDataService,
     private genericParserService: GenericParserService,
@@ -63,10 +73,11 @@ export class NamedEntitiesParserService {
   }
 
   private parseLists(document: XMLElement) {
-    const lists = document.querySelectorAll<XMLElement>(this.getListsToParseTagName());
+    const listsToParse = this.getListsToParseTagNames();
     const parsedLists: NamedEntitiesList[] = [];
     let parsedEntities: NamedEntity[] = [];
     let parsedRelations: Relation[] = [];
+    const lists = document.querySelectorAll<XMLElement>(listsToParse.toString());
     lists.forEach((list) => {
       // We consider only first level lists; inset lists will be considered differently
       if (!isNestedInElem(list, list.tagName)) {
@@ -108,7 +119,7 @@ export class NamedEntitiesParserService {
             child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
             break;
           default:
-            if (this.getListsToParseTagName().indexOf(child.tagName) >= 0) {
+            if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
               const parsedSubList = this.parseList(child);
               parsedList.sublists.push(parsedSubList);
               parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
@@ -284,11 +295,11 @@ export class NamedEntitiesParserService {
       entities: entities.filter(entity => type.indexOf(entity.type) >= 0),
     };
   }
-  /**
-   * @todo: return tags depending on config
-   */
-  private getListsToParseTagName() {
-    return 'listPerson, listPlace, listOrg, listEvent';
+
+  private getListsToParseTagNames() {
+    return Object.keys(this.neListsConfig)
+      .map((i) => this.neListsConfig[i].enabled ? this.tagNamesMap[i] : undefined)
+      .filter(ne => !!ne);
   }
 
   private getListType(tagName): NamedEntityType {
