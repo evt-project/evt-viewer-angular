@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity, Relation, XMLElement } from '../../models/evt-models';
+import {
+  AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity,
+  NamedEntityType, Relation, XMLElement,
+} from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
@@ -81,7 +84,7 @@ export class NamedEntitiesParserService {
     const parsedList: NamedEntitiesList = {
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
-      type: list.tagName.replace('list', '').toLowerCase(),
+      type: this.getListType(list.tagName),
       entities: [],
       sublists: [],
       originalEncoding: list,
@@ -148,7 +151,7 @@ export class NamedEntitiesParserService {
       id: elId,
       originalEncoding: xml,
       label: xml.textContent,
-      type: xml.tagName,
+      type: this.getEntityType(xml.tagName),
       info: [],
       attributes: this.parseAttributes(xml),
       occurrences: [],
@@ -286,5 +289,13 @@ export class NamedEntitiesParserService {
    */
   private getListsToParseTagName() {
     return 'listPerson, listPlace, listOrg, listEvent';
+  }
+
+  private getListType(tagName): NamedEntityType {
+    return tagName.replace('list', '').toLowerCase();
+  }
+
+  private getEntityType(tagName): NamedEntityType {
+    return tagName.toLowerCase();
   }
 }

@@ -42,10 +42,11 @@ export interface OriginalEncodingData {
     originalEncoding: OriginalEncodingNodeType;
 }
 
+export type NamedEntityType = 'person' | 'personGrp' | 'place' | 'org' | 'relation' | 'event' | 'generic';
 export type NamedEntitiesList = OriginalEncodingData & {
     id: string;
     label: string;
-    type?: string;
+    type: NamedEntityType;
     icon?: string;
     description?: Description;
     attributes?: AttributesData;
@@ -57,7 +58,7 @@ export type NamedEntitiesList = OriginalEncodingData & {
 export type NamedEntity = OriginalEncodingData & {
     id: string;
     label: string;
-    type?: string;
+    type: NamedEntityType;
     info: NamedEntityInfo[];
     attributes?: AttributesData;
     occurrences: string[]; // TODO: evaluate which type assign
