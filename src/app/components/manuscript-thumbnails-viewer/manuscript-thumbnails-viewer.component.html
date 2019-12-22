@@ -1,1 +1,37 @@
-<p>manuscript-thumbnails-viewer works!</p>
+<div class="thumbnails-view">
+    <ng-container *ngIf="col != 0 && row != 0">
+      <ng-container *ngFor="let page of grid; let i = index">
+        <div id="page_{{i+1}}" class="page" [ngClass]="{'active': indexPage === i }">
+          <div class="d-flex row flex-row bd-highlight mb-3" *ngFor="let row of page">
+            <div class="p-2 bd-highlight item-content " *ngFor="let item of row" (click)="selectedItem(item, item.url)">
+                <img class="evt-img-page" src="{{item.url}}" alt="page" [style.width.px]="100" [ngClass]="{'selected-item': item.active }"/>
+                <p class="item-page-index"[ngClass]="{'selected-item-par': item.active }">{{item.name}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="change-page-container" [hidden] = "!(grid.length > 1)">
+        <img class="prew-page-button pages-controller" (click)="prewPage()" src="https://img.icons8.com/material/24/000000/sort-left--v1.png" alt="prev button">
+        <p class="current-page">{{indexPage+1}}/{{grid.length}}</p>
+        <img class="next-page-button pages-controller"(click)="nextPage()" src="https://img.icons8.com/material/24/000000/sort-right--v1.png" alt="next button">
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="col === 0">
+        <div class="d-flex flex-row bd-highlight mb-3" *ngFor="let item of grid" (click)="selectedItem(item, item.url)">
+            <div class="p-2 bd-highlight item-content">
+                <img class="evt-img-page" src="{{item.url}}" alt="page" [style.width.px]="100" [ngClass]="{'selected-item': item.active }"/>
+                <p class="item-page-index" [ngClass]="{'selected-item-par': item.active }">{{item.name}}</p>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="row === 0">
+        <div class="d-flex flex-row bd-highlight mb-3">
+            <div class="p-2 bd-highlight item-content" *ngFor="let item of grid" (click)="selectedItem(item, item.url)">
+                <img class="evt-img-page" src="{{item.urll}}" alt="page" [style.width.px]="100" [ngClass]="{'selected-item': item.active }"/>
+                <p class="item-page-index" [ngClass]="{'selected-item-par': item.active }">{{item.name}}</p>
+            </div>
+        </div>
+    </ng-container>
+  </div>
