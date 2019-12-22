@@ -20,6 +20,7 @@ import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
 import { NoteComponent } from './components/note/note.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
@@ -59,6 +60,7 @@ export function initializeApp(appConfig: AppConfig) {
     ContentViewerComponent,
     EvtInfoComponent,
     GenericElementComponent,
+    ManuscriptThumbnailsViewerComponent,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
