@@ -6,6 +6,7 @@ import { getElementsAfterTreeNode, getElementsBetweenTreeNode } from '../../util
 import { Map } from '../../utils/js-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
+import { WitnessesParserService } from './witnesses-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class StructureXmlParserService {
   constructor(
     private editionDataService: EditionDataService,
     private genericParserService: GenericParserService,
+    private witParserService: WitnessesParserService,
   ) {
 
   }
@@ -72,6 +74,8 @@ export class StructureXmlParserService {
       }
       console.log(pages);
     }
+
+    this.witParserService.parsedList$.subscribe(); //TEMP to test parser
 
     return {
       pages,
