@@ -20,3 +20,7 @@ export function parseXml(xmlStr: string): XMLElement {
   }
   throw new Error('No XML parser found');
 }
+
+export function normalizeContentSpaces(textContent: string) {
+  return textContent.replace(/\s{2,}/g, ' ');
+}
