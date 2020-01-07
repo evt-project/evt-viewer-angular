@@ -21,6 +21,6 @@ export function parseXml(xmlStr: string): XMLElement {
   throw new Error('No XML parser found');
 }
 
-export function normalizeContentSpaces(textContent: string) {
+export function replaceMultispaces(textContent: string) {
   return textContent.replace(/\s{2,}/g, ' ');
 }
