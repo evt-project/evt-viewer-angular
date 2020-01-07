@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
-import { NoteComponent } from 'src/app/components/note/note.component';
-import { XMLElement } from 'src/app/models/evt-models';
-import { isNestedInElem, xpath } from 'src/app/utils/dom-utils';
-import { replaceMultispaces } from 'src/app/utils/xml-utils';
+import { NoteComponent } from '../../../../src/app/components/note/note.component';
+import { XMLElement } from '../../../../src/app/models/evt-models';
+import { isNestedInElem, xpath } from '../../../../src/app/utils/dom-utils';
+import { replaceMultispaces } from '../../../../src/app/utils/xml-utils';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import { TextComponent } from '../../components/text/text.component';
 import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
