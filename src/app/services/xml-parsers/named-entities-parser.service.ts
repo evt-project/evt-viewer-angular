@@ -5,7 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import {
-  Description, NamedEntities, NamedEntitiesList, NamedEntity,
+  Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
   NamedEntityLabel, NamedEntityType, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
@@ -169,29 +169,10 @@ export class NamedEntitiesParserService {
       originalEncoding: xml,
       label: replaceNewLines(xml.textContent) || 'No info',
       namedEntityType: this.getEntityType(xml.tagName),
-      content: [],
+      content: Array.from(xml.childNodes).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
       occurrences: [],
     };
-    xml.childNodes.forEach((subchild: XMLElement) => {
-      if (subchild.nodeType === 1) {
-        if (subchild.tagName.toLowerCase() === 'listplace') {
-          entity.content.push({
-            type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
-            label: subchild.tagName.toLowerCase(),
-            content: [this.parseList(subchild)],
-            attributes: this.parseAttributes(subchild),
-          });
-        } else {
-          entity.content.push({
-            type: GenericElementComponent, // TODO: Set ListItemInfoComponent
-            label: subchild.tagName.toLowerCase(),
-            content: [this.genericParserService.parse(subchild)],
-            attributes: this.parseAttributes(subchild),
-          });
-        }
-      }
-    });
 
     return entity;
   }
@@ -295,6 +276,25 @@ export class NamedEntitiesParserService {
     }
 
     return relation;
+  }
+
+  private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
+    if (xml.nodeType === 1 && xml.tagName.toLowerCase() === 'listplace') {
+      return {
+        type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
+        label: xml.tagName.toLowerCase(),
+        content: [this.parseList(xml)],
+        attributes: this.parseAttributes(xml),
+      };
+    }
+
+    return {
+      type: GenericElementComponent, // TODO: Set ListItemInfoComponent
+      label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
+      content: [this.genericParserService.parse(xml)],
+      attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},
+    };
+
   }
 
   private parseAttributes(xml: XMLElement) {
