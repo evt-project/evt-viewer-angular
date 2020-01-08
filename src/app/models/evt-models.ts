@@ -42,33 +42,34 @@ export interface OriginalEncodingData {
     originalEncoding: OriginalEncodingNodeType;
 }
 
-export type NamedEntityType = 'person' | 'personGrp' | 'place' | 'org' | 'relation' | 'event' | 'generic';
-export type NamedEntitiesList = OriginalEncodingData & {
+export type NamedEntityType = 'person' | 'place' | 'org' | 'relation' | 'event' | 'generic';
+export interface NamedEntitiesList extends GenericElementData {
     id: string;
     label: string;
-    type: NamedEntityType;
+    namedEntityType: NamedEntityType;
     icon?: string;
     description?: Description;
-    attributes?: AttributesData;
     sublists: NamedEntitiesList[];
-    entities: NamedEntity[];
+    content: NamedEntity[];
     relations: Relation[];
-};
+    originalEncoding: OriginalEncodingNodeType;
+}
 
-export type NamedEntity = OriginalEncodingData & {
+export interface NamedEntity extends GenericElementData {
     id: string;
-    label: string;
-    type: NamedEntityType;
-    info: NamedEntityInfo[];
-    attributes?: AttributesData;
+    label: NamedEntityLabel;
+    namedEntityType: NamedEntityType | 'personGrp';
+    content: NamedEntityInfo[];
     occurrences: string[]; // TODO: evaluate which type assign
-};
+    originalEncoding: OriginalEncodingNodeType;
+}
 
-export interface NamedEntityInfo {
+export type NamedEntityLabel = string;
+
+export interface NamedEntityInfo extends GenericElementData {
     label: string;
-    value: GenericElementData;
+    content: Array<GenericElementData | NamedEntitiesList>;
     icon?: string;
-    attributes?: AttributesData;
 }
 
 export type Relation = OriginalEncodingData & {

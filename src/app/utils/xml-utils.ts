@@ -24,3 +24,7 @@ export function parseXml(xmlStr: string): XMLElement {
 export function replaceMultispaces(textContent: string) {
   return textContent.replace(/\s{2,}/g, ' ');
 }
+
+export function replaceNewLines(textContent: string) {
+  return replaceMultispaces(textContent.trim().replace(/\n/g, ' '));
+}

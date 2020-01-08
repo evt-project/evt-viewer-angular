@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+import { AttributesMap } from 'ng-dynamic-component';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
+import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import {
-  AttributesData, Description, NamedEntities, NamedEntitiesList, NamedEntity,
-  NamedEntityType, Relation, XMLElement,
+  Description, NamedEntities, NamedEntitiesList, NamedEntity,
+  NamedEntityLabel, NamedEntityType, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { replaceMultispaces } from '../../utils/xml-utils';
+import { replaceNewLines } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
@@ -77,26 +79,29 @@ export class NamedEntitiesParserService {
     const parsedLists: NamedEntitiesList[] = [];
     let parsedEntities: NamedEntity[] = [];
     let parsedRelations: Relation[] = [];
-    const lists = document.querySelectorAll<XMLElement>(listsToParse.toString());
-    lists.forEach((list) => {
-      // We consider only first level lists; inset lists will be considered differently
-      if (!isNestedInElem(list, list.tagName)) {
-        const parsedList = this.parseList(list);
-        parsedLists.push(parsedList);
-        parsedEntities = parsedEntities.concat(parsedList.entities);
-        parsedRelations = parsedRelations.concat(parsedList.relations);
-      }
-    });
+    if (listsToParse) {
+      const lists = document.querySelectorAll<XMLElement>(listsToParse.toString());
+      lists.forEach((list) => {
+        // We consider only first level lists; inset lists will be considered differently
+        if (!isNestedInElem(list, list.tagName)) {
+          const parsedList = this.parseList(list);
+          parsedLists.push(parsedList);
+          parsedEntities = parsedEntities.concat(parsedList.content);
+          parsedRelations = parsedRelations.concat(parsedList.relations);
+        }
+      });
+    }
 
     return { lists: parsedLists, entities: parsedEntities, relations: parsedRelations };
   }
 
   private parseList(list: XMLElement) {
     const parsedList: NamedEntitiesList = {
+      type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
-      type: this.getListType(list.tagName),
-      entities: [],
+      namedEntityType: this.getListType(list.tagName),
+      content: [],
       sublists: [],
       originalEncoding: list,
       relations: [],
@@ -107,7 +112,7 @@ export class NamedEntitiesParserService {
       if (child.nodeType === 1) {
         switch (child.tagName.toLowerCase()) {
           case 'head':
-            parsedList.label = child.textContent;
+            parsedList.label = replaceNewLines(child.textContent);
             break;
           case 'desc':
             parsedList.description.push(this.genericParserService.parse(child));
@@ -122,10 +127,10 @@ export class NamedEntitiesParserService {
             if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
               const parsedSubList = this.parseList(child);
               parsedList.sublists.push(parsedSubList);
-              parsedList.entities = parsedList.entities.concat(parsedSubList.entities);
+              parsedList.content = parsedList.content.concat(parsedSubList.content);
               parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
             } else {
-              parsedList.entities.push(this.parseNamedEntity(child));
+              parsedList.content.push(this.parseNamedEntity(child));
             }
         }
       }
@@ -159,21 +164,32 @@ export class NamedEntitiesParserService {
   private parseGenericEntity(xml: XMLElement): NamedEntity {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
     const entity: NamedEntity = {
+      type: GenericElementComponent, // TODO: Set NamedEntitiesComponent
       id: elId,
       originalEncoding: xml,
-      label: xml.textContent,
-      type: this.getEntityType(xml.tagName),
-      info: [],
+      label: replaceNewLines(xml.textContent) || 'No info',
+      namedEntityType: this.getEntityType(xml.tagName),
+      content: [],
       attributes: this.parseAttributes(xml),
       occurrences: [],
     };
     xml.childNodes.forEach((subchild: XMLElement) => {
       if (subchild.nodeType === 1) {
-        entity.info.push({
-          label: subchild.tagName.toLowerCase(),
-          value: this.genericParserService.parse(subchild),
-          attributes: this.parseAttributes(subchild),
-        });
+        if (subchild.tagName.toLowerCase() === 'listplace') {
+          entity.content.push({
+            type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
+            label: subchild.tagName.toLowerCase(),
+            content: [this.parseList(subchild)],
+            attributes: this.parseAttributes(subchild),
+          });
+        } else {
+          entity.content.push({
+            type: GenericElementComponent, // TODO: Set ListItemInfoComponent
+            label: subchild.tagName.toLowerCase(),
+            content: [this.genericParserService.parse(subchild)],
+            attributes: this.parseAttributes(subchild),
+          });
+        }
       }
     });
 
@@ -181,57 +197,58 @@ export class NamedEntitiesParserService {
   }
 
   private parsePerson(xml: XMLElement): NamedEntity {
-    const nameElement = xml.querySelector('name');
-    const forenameElement = xml.querySelector('forename');
-    const surnameElement = xml.querySelector('surname');
-    const persNameElement = xml.querySelector('persName');
-    const occupationElement = xml.querySelector('occupation');
-    let label = 'No info';
+    const nameElement = xml.querySelector<XMLElement>('name');
+    const forenameElement = xml.querySelector<XMLElement>('forename');
+    const surnameElement = xml.querySelector<XMLElement>('surname');
+    const persNameElement = xml.querySelector<XMLElement>('persName');
+    const occupationElement = xml.querySelector<XMLElement>('occupation');
+    let label: NamedEntityLabel = 'No info';
     if (persNameElement) {
-      label = persNameElement.textContent || 'No info';
+      label = replaceNewLines(persNameElement.textContent) || 'No info';
     } else if (forenameElement || surnameElement) {
-      label = `${forenameElement ? forenameElement.textContent : ''} ${surnameElement ? surnameElement.textContent : ''}`.trim();
-      label += occupationElement ? ` (${occupationElement.textContent.trim()})` : '';
+      label += forenameElement ? `${replaceNewLines(forenameElement.textContent)} ` : '';
+      label += surnameElement ? `${replaceNewLines(surnameElement.textContent)} ` : '';
+      label += occupationElement ? `(${replaceNewLines(occupationElement.textContent)})` : '';
     } else if (nameElement) {
-      label = nameElement.textContent || 'No info';
+      label = replaceNewLines(nameElement.textContent) || 'No info';
     } else {
-      label = xml.textContent || 'No info';
+      label = replaceNewLines(xml.textContent) || 'No info';
     }
 
     return {
       ...this.parseGenericEntity(xml),
-      label: replaceMultispaces(label),
+      label,
     };
   }
 
   private parsePersonGroup(xml: XMLElement): NamedEntity {
     const role = xml.getAttribute('role');
-    let label = 'No info';
+    let label: NamedEntityLabel = 'No info';
     if (role) {
       label = role.trim();
-    } else if (xml.textContent) {
-      label = xml.textContent.trim();
+    } else {
+      label = replaceNewLines(xml.textContent) || 'No info';
     }
 
     return {
       ...this.parseGenericEntity(xml),
-      label: replaceMultispaces(label),
+      label,
     };
   }
 
   private parsePlace(xml: XMLElement): NamedEntity {
     const placeNameElement = xml.querySelector<XMLElement>('placeName');
     const settlementElement = xml.querySelector<XMLElement>('settlement');
-    let label = 'No info';
+    let label: NamedEntityLabel = 'No info';
     if (placeNameElement) {
-      label = placeNameElement.textContent;
+      label = replaceNewLines(placeNameElement.textContent) || 'No info';
     } else if (settlementElement) {
-      label = settlementElement.textContent;
+      label = replaceNewLines(settlementElement.textContent) || 'No info';
     }
 
     return {
       ...this.parseGenericEntity(xml),
-      label: replaceMultispaces(label),
+      label,
     };
   }
 
@@ -240,7 +257,7 @@ export class NamedEntitiesParserService {
 
     return {
       ...this.parseGenericEntity(xml),
-      label: orgNameElement ? replaceMultispaces(orgNameElement.textContent) : 'No info',
+      label: (orgNameElement ? replaceNewLines(orgNameElement.textContent) : '') || 'No info',
     };
   }
 
@@ -249,7 +266,7 @@ export class NamedEntitiesParserService {
 
     return {
       ...this.parseGenericEntity(xml),
-      label: eventLabelElement ? replaceMultispaces(eventLabelElement.textContent) : 'No info',
+      label: (eventLabelElement ? replaceNewLines(eventLabelElement.textContent) : '') || 'No info',
     };
   }
 
@@ -280,19 +297,19 @@ export class NamedEntitiesParserService {
     return relation;
   }
 
-  private parseAttributes(xml: XMLElement): AttributesData {
-    const attributes: Array<{ key: string; value: string }> = [];
+  private parseAttributes(xml: XMLElement) {
+    const attributes: AttributesMap = {};
     Array.from(xml.attributes).forEach((attr) => {
-      attributes.push({ key: attr.name, value: attr.value });
+      attributes[attr.name] = attr.value;
     });
 
     return attributes;
   }
 
-  private getResultsByType(lists, entities, type: string[]) {
+  private getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
     return {
-      lists: lists.filter(list => type.indexOf(list.type) >= 0),
-      entities: entities.filter(entity => type.indexOf(entity.type) >= 0),
+      lists: lists.filter(list => type.indexOf(list.namedEntityType) >= 0),
+      entities: entities.filter(entity => type.indexOf(entity.namedEntityType) >= 0),
     };
   }
 
