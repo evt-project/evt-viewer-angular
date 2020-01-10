@@ -128,9 +128,7 @@ export class NamedEntitiesParserService {
         }
       }
     });
-    if (!parsedList.label && list.getAttribute('type')) {
-      parsedList.label = list.getAttribute('type');
-    }
+    parsedList.label = parsedList.label || list.getAttribute('type') || `List of ${parsedList.namedEntityType}`;
 
     return parsedList;
   }
