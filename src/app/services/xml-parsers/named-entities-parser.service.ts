@@ -76,23 +76,16 @@ export class NamedEntitiesParserService {
 
   private parseLists(document: XMLElement) {
     const listsToParse = this.getListsToParseTagNames();
-    const parsedLists: NamedEntitiesList[] = [];
-    let parsedEntities: NamedEntity[] = [];
-    let parsedRelations: Relation[] = [];
-    if (listsToParse) {
-      const lists = document.querySelectorAll<XMLElement>(listsToParse.toString());
-      lists.forEach((list) => {
-        // We consider only first level lists; inset lists will be considered differently
-        if (!isNestedInElem(list, list.tagName)) {
-          const parsedList = this.parseList(list);
-          parsedLists.push(parsedList);
-          parsedEntities = parsedEntities.concat(parsedList.content);
-          parsedRelations = parsedRelations.concat(parsedList.relations);
-        }
-      });
-    }
+    // We consider only first level lists; inset lists will be considered
+    const lists = Array.from(document.querySelectorAll<XMLElement>(listsToParse.toString()))
+      .filter((list) => !isNestedInElem(list, list.tagName))
+      .map((l) => this.parseList(l));
 
-    return { lists: parsedLists, entities: parsedEntities, relations: parsedRelations };
+    return {
+      lists,
+      entities: lists.map(({ content }) => content).reduce((a, b) => a.concat(b), []),
+      relations: lists.map(({ relations }) => relations).reduce((a, b) => a.concat(b), []),
+    };
   }
 
   private parseList(list: XMLElement) {
