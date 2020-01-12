@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="schema/tei_cp.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
    <teiHeader>
 
@@ -341,41 +340,7 @@
             </msDesc>
 
             <!-- ########## Lista Persone ########## -->
-            <listPerson>
-               <head>TEST Persons</head>
-               <listPerson>
-                <person xml:id="pp1">
-                  Person 1
-                </person>
-                <person xml:id="pp2">
-                Person 2
-                </person>
-                <person xml:id="pp3">
-                  Person 3
-                </person>
-                <person xml:id="pp4">
-                Person 4
-                </person>
-                <person xml:id="pp5">
-                Person 5
-                </person>
-                <person xml:id="pp6">
-                  Person 6
-                </person>
-                <person xml:id="pp7">
-                Person 7
-                </person>
-               </listPerson>
-               <listRelation type="personal">
-                <relation name="parent" active="#pp1 #pp2" passive="#pp3 #pp4"/>
-                <relation name="spouse" mutual="#pp1 #pp2"/>
-               </listRelation>
-               <listRelation type="social">
-                <relation name="employer" active="#pp1" passive="#pp3 #pp5 #pp6 #pp7"/>
-               </listRelation>
-               <relation type="personal" name="parentInLaw" active="#pp1 #pp2" passive="#pp6"/>
-               <relation type="personal" name="spouse" mutual="#pp3 #pp6"/>
-               <relation type="social" name="collegues" mutual="#pp3 #pp5 #pp6 #pp7"/>
+            <listPerson><head>From Codice Pelavicino</head><personGrp><ab>From Codice Pelavicino</ab></personGrp>
                <!-- ########## A ########## -->
                <person xml:id="AAAAATEST">
                   <persName>
@@ -391,7 +356,7 @@
                      Matrono</occupation>
                </person>
 
-               <person xml:id="A002750" source="WeGA" status="approved">
+               <person xml:id="A002750" source="WeGA" age="approved">
                   <idno type="gnd">11850004X</idno>
                   <persName type="reg"><surname>Abaelardus</surname>, <forename>Petrus</forename></persName>
                   <persName type="alt" xml:lang="de"><surname>Abälard</surname>, <forename>Peter</forename></persName>
@@ -409,7 +374,7 @@
                   <occupation>Philosoph</occupation>
                   <note type="bioSummary">Abt von St. Gildas.</note>
                </person>
-               <person xmlns="http://www.tei-c.org/ns/1.0" source="WeGA" xml:id="A007120" status="approved">
+               <person xmlns="http://www.tei-c.org/ns/1.0" source="WeGA" xml:id="A007120" age="approved">
                   <idno type="gnd">14003563X</idno>
                   <persName type="reg"><surname>Abbiate</surname>, <forename>Luigi</forename></persName>
                   <persName type="alt"><surname>Abbiate</surname>, <forename>Louis</forename></persName>
@@ -432,7 +397,7 @@
                      1901: Celloschule in drei Abteilungen (Verlag Enoch &amp; Cie, Paris, Anzeige: SmW 59 (1901), S. 64 (16.1.)).
                   </note>
                </person>
-               <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="A000008" source="WeGA" status="approved">
+               <person xmlns="http://www.tei-c.org/ns/1.0" xml:id="A000008" source="WeGA" age="approved">
                   <idno type="gnd">118917382</idno>
                   <persName type="reg"><surname>Agricola</surname>, <forename>Johann</forename> <forename>Friedrich</forename></persName>
                   <persName type="alt"><surname>Olibrius</surname>, <forename>Flavius</forename> <forename>Anicius</forename></persName>
@@ -459,7 +424,8 @@
                   <residence><settlement>Berlin</settlement></residence>
 
                </person>
-
+            </listPerson>
+            <listPerson>
                <head>People From CP</head>
                <person xml:id="AbraçaleneBarbazano">
                   <persName>
@@ -21373,14 +21339,6 @@
                </person>
             </listPerson>
 
-            <listPerson>
-               <person xml:id="ap1">
-                  Person a1
-                </person>
-                <person xml:id="ap2">
-                Person a2
-                </person>
-            </listPerson>
             <!-- ########## Lista dei luoghi ########## -->
             <listPlace>
                <head>TEST from TEI example</head>
@@ -21396,7 +21354,7 @@
                      <bloc type="sub-continent">Southeast Asia</bloc>
                   </placeName>
                </place>
-               <place xml:id="6eme_arondissement">
+               <place xml:id="sixEme_arondissement">
                   <placeName>
                      <district type="arondissement">6ème</district>
                      <settlement type="city">Paris, </settlement>
@@ -21480,7 +21438,8 @@
                   <relation name="contains" active="#MASC" passive="#ROD #MRU #REN"/>
                   <relation name="isPresidentOf" active="#ZitusAlbizi" passive="#MASC"/>
                </listPlace>
-
+               
+               <listPlace>
                <head>From CP</head>
                <place xml:id="Aciliano">
                   <settlement type="località">Aciliano</settlement>
@@ -24100,6 +24059,7 @@
                <place xml:id="Zugnaco">
                   <settlement type="località">Çugnaco</settlement>
                </place>
+               </listPlace>
             </listPlace>
 
             <!-- ########## Lista Enti (abbatia, capella, cella, diocesis, ecclesia, hopitalis, monasterium)   ########## -->
@@ -26745,6 +26705,7 @@
 
               <body>
                   <div xml:id="CI_div">
+                     <p>
                       <pb n="214v" xml:id="fol_214v"/>
                          <app resp="m1">
                         <lem wit="#A">magna</lem>
@@ -26786,7 +26747,7 @@
                         <rdg wit="#D" xml:id="app001_rdg2">aliquo</rdg>
                         <note>This is a note inside the apparatus</note>
                      </app>
-
+                     </p>
                       <p xml:id="CI_p_001" n="1">De <placeName ref="#Sarzanello">castro
                               Sarzane</placeName><note place="foot" n="a" xml:id="CI_n_001"><placeName
                                   xml:lang="latin">De castro Sarzane</placeName>

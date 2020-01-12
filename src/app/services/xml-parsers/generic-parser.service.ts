@@ -4,12 +4,12 @@ import { map, scan } from 'rxjs/operators';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import { NoteComponent } from '../../components/note/note.component';
 import { TextComponent } from '../../components/text/text.component';
-import { XMLElement } from '../../models/evt-models';
+import { NamedEntitiesList, XMLElement } from '../../models/evt-models';
 import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 
-export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData;
+export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData | NamedEntitiesList;
 
 function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] {
   return Array.from(nodes).filter((n) => n.nodeType !== 8);
