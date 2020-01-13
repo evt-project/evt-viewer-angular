@@ -66,13 +66,10 @@ export class GenericParserService {
   }
 
   private parseNote(xml: XMLElement): NoteData {
-    const footerNote = isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]);
-    if (footerNote) {
-      return this.parseElement(xml);
-    }
-    const namedEntityNote = isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org') ||
-      isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event');
-    if (namedEntityNote) {
+    if (isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]) // FOOTER NOTE
+      || isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org')
+      || isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event') // NAMED ENTITY NOTE
+    ) {
       return this.parseElement(xml);
     }
     const noteElement = {
