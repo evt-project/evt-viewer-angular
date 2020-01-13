@@ -118,8 +118,8 @@ export function initializeApp(appConfig: AppConfig) {
   entryComponents: [
     EvtInfoComponent,
     NamedEntityComponent,
+    NamedEntityDetailComponent,
     ShortcutsComponent,
-    EvtInfoComponent,
   ],
 })
 export class AppModule {

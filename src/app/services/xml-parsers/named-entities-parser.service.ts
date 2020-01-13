@@ -4,6 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
+import { NamedEntityDetailComponent } from '../../components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityComponent } from '../../components/named-entity/named-entity.component';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
@@ -272,7 +273,7 @@ export class NamedEntitiesParserService {
 
   private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
     return {
-      type: GenericElementComponent, // TODO: Set ListItemInfoComponent
+      type: NamedEntityDetailComponent,
       label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
       content: [this.genericParserService.parse(xml)],
       attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},
