@@ -20,6 +20,7 @@ import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
@@ -63,6 +64,7 @@ export function initializeApp(appConfig: AppConfig) {
     ImageTextComponent,
     MainHeaderComponent,
     MainMenuComponent,
+    NamedEntityComponent,
     NoteComponent,
     OsdComponent,
     PageComponent,
@@ -112,6 +114,8 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
   ],
   entryComponents: [
+    EvtInfoComponent,
+    NamedEntityComponent,
     ShortcutsComponent,
     EvtInfoComponent,
   ],
