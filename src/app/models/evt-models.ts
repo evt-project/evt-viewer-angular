@@ -71,7 +71,6 @@ export type NamedEntityLabel = string;
 export interface NamedEntityInfo extends GenericElementData {
     label: string;
     content: Array<GenericElementData | NamedEntitiesList>;
-    icon?: string;
 }
 
 export type Relation = OriginalEncodingData & {
