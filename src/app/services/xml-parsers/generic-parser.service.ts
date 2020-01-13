@@ -70,6 +70,11 @@ export class GenericParserService {
     if (footerNote) {
       return this.parseElement(xml);
     }
+    const namedEntityNote = isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org') ||
+      isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event');
+    if (namedEntityNote) {
+      return this.parseElement(xml);
+    }
     const noteElement = {
       type: NoteComponent,
       path: xpath(xml),
