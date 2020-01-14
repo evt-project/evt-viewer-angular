@@ -65,7 +65,7 @@ export class NamedEntitiesParserService {
   private tagNamesMap: { [key: string]: string } = {
     persons: 'listPerson',
     places: 'listPlace',
-    orgs: 'listOrg',
+    organizations: 'listOrg',
     relations: 'listRelation',
     events: 'listEvent',
   };
