@@ -156,11 +156,13 @@ export class NamedEntitiesParserService {
 
   private parseGenericEntity(xml: XMLElement): NamedEntity {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
+    const label = replaceNewLines(xml.textContent) || 'No info';
     const entity: NamedEntity = {
       type: NamedEntityComponent,
       id: elId,
+      sortKey: xml.getAttribute('sortKey') || (label ? label[0] : '') || xml.getAttribute('xml:id') || xpath(xml),
       originalEncoding: xml,
-      label: replaceNewLines(xml.textContent) || 'No info',
+      label,
       namedEntityType: this.getEntityType(xml.tagName),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
@@ -182,12 +184,12 @@ export class NamedEntitiesParserService {
     } else if (forenameElement || surnameElement) {
       label += forenameElement ? `${replaceNewLines(forenameElement.textContent)} ` : '';
       label += surnameElement ? `${replaceNewLines(surnameElement.textContent)} ` : '';
-      label += occupationElement ? `(${replaceNewLines(occupationElement.textContent)})` : '';
     } else if (nameElement) {
       label = replaceNewLines(nameElement.textContent) || 'No info';
     } else {
       label = replaceNewLines(xml.textContent) || 'No info';
     }
+    label += occupationElement ? ` (${replaceNewLines(occupationElement.textContent)})` : '';
 
     return {
       ...this.parseGenericEntity(xml),

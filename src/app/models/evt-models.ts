@@ -59,6 +59,7 @@ export interface NamedEntitiesList extends GenericElementData {
 
 export interface NamedEntity extends GenericElementData {
     id: string;
+    sortKey: string;
     label: NamedEntityLabel;
     namedEntityType: NamedEntityType | 'personGrp';
     content: NamedEntityInfo[];
