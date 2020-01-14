@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppConfig } from '../../app.config';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -8,4 +9,7 @@ import { register } from '../../services/component-register.service';
 })
 @register
 export class ImagePanelComponent {
+  manifest = AppConfig.evtSettings.files.manifestURL !== '' && !!AppConfig.evtSettings.files.manifestURL
+    ? AppConfig.evtSettings.files.manifestURL
+    : undefined;
 }
