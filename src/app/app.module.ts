@@ -40,6 +40,7 @@ import { VersionPanelComponent } from './panels/version-panel/version-panel.comp
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
+import { FilterPipe } from './pipes/filter.pipe';
 import { StartsWithPipe } from './pipes/starts-with.pipe';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
@@ -65,6 +66,7 @@ export function initializeApp(appConfig: AppConfig) {
     CollationComponent,
     ContentViewerComponent,
     EvtInfoComponent,
+    FilterPipe,
     GenericElementComponent,
     ImagePanelComponent,
     ImageTextComponent,
