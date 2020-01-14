@@ -40,6 +40,7 @@ import { VersionPanelComponent } from './panels/version-panel/version-panel.comp
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
+import { StartsWithPipe } from './pipes/starts-with.pipe';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
@@ -82,6 +83,7 @@ export function initializeApp(appConfig: AppConfig) {
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
+    StartsWithPipe,
     TextComponent,
     TextPanelComponent,
     TextSourcesComponent,

@@ -22,7 +22,10 @@
     </div>
 
     <div class="card-body ne-list-body p-0 m-0">
-        <evt-named-entity *ngFor="let entity of list?.content" [inList]="true" [entity]="entity"> </evt-named-entity>
+        <ng-container *ngFor="let entity of list?.content | startsWith:'sortKey':selectedKey | filter:'label':querySearch">
+            <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
+            <span *ngIf="!entity"> {{'noMatches' | translate }} </span>
+        </ng-container>
         <div *ngIf="list?.content.length === 0" class="ne-list-msg">
             {{ 'NoEntities' | translate }}
         </div>
