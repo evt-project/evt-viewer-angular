@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
 
+import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
@@ -23,6 +24,7 @@ import { GenericElementComponent } from './components/generic-element/generic-el
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
+import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
 import { TextComponent } from './components/text/text.component';
@@ -68,6 +70,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityComponent,
     NamedEntityDetailComponent,
     NoteComponent,
+    OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
     PinboardComponent,
@@ -96,6 +99,7 @@ export function initializeApp(appConfig: AppConfig) {
     FormsModule,
     GridsterModule,
     HttpClientModule,
+    Ng2HandySyntaxHighlighterModule,
     NgbModule,
     NgbPopoverModule,
     NgxSpinnerModule,

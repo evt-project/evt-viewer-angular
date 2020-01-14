@@ -38,9 +38,8 @@
             <ngb-tab [title]="'XMLSource' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content no-padding">
-                        {{ entity.originalEncoding?.outerHTML }} // TEMP
-                        <!-- <handy-syntax-highlighter language="markup" [content]="'\n'+entity.xml | xmlBeautify">
-                        </handy-syntax-highlighter> -->
+                        <evt-original-encoding-viewer [originalEncoding]="entity.originalEncoding">
+                        </evt-original-encoding-viewer>
                     </div>
                 </ng-template>
             </ngb-tab>
