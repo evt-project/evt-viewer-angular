@@ -1,15 +1,16 @@
+import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UiComponentsModule } from './ui-components/ui-components.module';
-
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -104,6 +105,7 @@ export function initializeApp(appConfig: AppConfig) {
       GenericElementComponent,
       NoteComponent,
     ]),
+    ExperimentalScrollingModule,
     FormsModule,
     GridsterModule,
     HttpClientModule,
@@ -112,6 +114,7 @@ export function initializeApp(appConfig: AppConfig) {
     NgbPopoverModule,
     NgxSpinnerModule,
     RouterModule.forRoot(routes, { useHash: true }),
+    ScrollingModule,
     UiComponentsModule,
   ],
   providers: [
