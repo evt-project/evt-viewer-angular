@@ -21,6 +21,7 @@ import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
@@ -68,6 +69,7 @@ export function initializeApp(appConfig: AppConfig) {
     ImageTextComponent,
     MainHeaderComponent,
     MainMenuComponent,
+    NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
     NoteComponent,

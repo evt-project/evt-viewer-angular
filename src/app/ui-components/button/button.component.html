@@ -9,7 +9,8 @@
         transparent: transparent,
         active: active
     }"
-  [ngStyle]="additionalStyle">
+  [ngStyle]="additionalStyle"
+  [type]="type">
   <ng-content select="[label-left]"></ng-content>
   <evt-icon [iconInfo]="iconLeft" *ngIf="iconLeft"></evt-icon>
   {{ label }}

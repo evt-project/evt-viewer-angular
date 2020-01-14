@@ -1,0 +1,30 @@
+<div class="card ne-list">
+    <div class="card-header p-0 m-0">
+        <form class="input-group p-1" *ngIf="searchOpened">
+            <input type="input" name="search" class="form-control form-control-sm ne-list-search"
+                [placeholder]="'Search' | translate" [(ngModel)]="querySearch" />
+            <div class="input-group-append">
+                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'"
+                    [disabled]="!querySearch" additionalClasses="border"> </evt-button>
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'times'}" additionalClasses="border">
+                </evt-button>
+            </div>
+        </form>
+        <nav *ngIf="!searchOpened">
+            <ul class="pagination pagination-sm justify-content-center m-0 p-1">
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="mr-2">
+                </evt-button>
+                <li class="page-item" *ngFor="let key of navigationKeys" [class.active]="selectedKey === key">
+                    <span class="page-link" (click)="selectedKey=key">{{key}}</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="card-body ne-list-body p-0 m-0">
+        <evt-named-entity *ngFor="let entity of list?.content" [inList]="true" [entity]="entity"> </evt-named-entity>
+        <div *ngIf="list?.content.length === 0" class="ne-list-msg">
+            {{ 'NoEntities' | translate }}
+        </div>
+    </div>
+</div>
