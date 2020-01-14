@@ -1,7 +1,7 @@
 <ng-container [ngSwitch]="encodingType">
     <ng-container *ngSwitchCase="'xml'">
         <handy-syntax-highlighter language="markup" *ngIf="originalEncoding"
-            [content]="originalEncoding?.outerHTML">
+            [content]="originalEncoding?.outerHTML | xmlBeautify">
         </handy-syntax-highlighter>
     </ng-container>
     <ng-container *ngSwitchDefault>

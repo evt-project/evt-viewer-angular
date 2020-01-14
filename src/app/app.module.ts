@@ -39,6 +39,7 @@ import { VersionPanelComponent } from './panels/version-panel/version-panel.comp
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
+import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
@@ -86,6 +87,7 @@ export function initializeApp(appConfig: AppConfig) {
     TextVersionsComponent,
     VersionPanelComponent,
     WitnessPanelComponent,
+    XmlBeautifyPipe,
   ],
   imports: [
     AppRoutingModule,
