@@ -5,22 +5,20 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
+import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { UiComponentsModule } from './ui-components/ui-components.module';
-
-import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
-
-import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
-
+import { BibliographyItemComponent } from './components/bibliography/bibliography-item/bibliography-item.component';
+import { BibliographyComponent } from './components/bibliography/bibliography.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
@@ -57,6 +55,7 @@ import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
+import { UiComponentsModule } from './ui-components/ui-components.module';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
@@ -74,6 +73,8 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
+    BibliographyComponent,
+    BibliographyItemComponent,
     CollationComponent,
     ContentViewerComponent,
     EditionLevelSelectorComponent,
@@ -151,6 +152,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
   ],
   entryComponents: [
+    BibliographyComponent,
     EvtInfoComponent,
     GlobalListsComponent,
     NamedEntitiesListComponent,

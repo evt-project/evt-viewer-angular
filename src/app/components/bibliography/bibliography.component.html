@@ -1,0 +1,19 @@
+<div class='biblSpace'>
+  <div class='biblContent'>
+    <span>
+      <span *ngIf="isComplete" class="biblSortingOption">
+        <label> Sort By </label>
+        <ng-select class="w-25 p-3" placeholder="Select" [items]="(sortingField | async)?.sortBy" [clearable]="false"
+          [(ngModel)]="selectSortByField" (change)="sortBy(selectSortByField)" [searchable]="false">
+        </ng-select>
+      </span>
+      <span class="biblSortingDefault">
+        <label class="pr-1 selectLabel"> Alphabetical order</label>
+        <ng-select class="w-25 p-3" placeholder="Select" [items]="(sortingField | async)?.alphOrder" [clearable]="false"
+          [(ngModel)]="selectAlphOrder" (change)="sortBy(selectAlphOrder)" [searchable]="false">
+        </ng-select>
+      </span>
+    </span>
+    <evt-bibliography-item *ngFor="let biblCit of biblCits" [biblField]="biblCit"></evt-bibliography-item>
+  </div>
+</div>

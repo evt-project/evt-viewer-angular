@@ -1,8 +1,8 @@
 
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AppConfig, FileConfig, UiConfig } from '../app.config';
+import { BibliographyComponent } from '../components/bibliography/bibliography.component';
 import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { register } from '../services/component-register.service';
@@ -53,51 +53,53 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   private initDynamicItems() {
     // TODO Check if available from uiConfig
-    this.dynamicItems = [
-      {
-        id: 'projectInfo',
-        iconInfo: {
-          icon: 'info-circle',
-          additionalClasses: 'icon',
-        },
-        label: 'projectInfo',
-        // callback: () => this.openGlobalDialogInfo,
-        callback: () => this.openGlobalDialogInfo(),
+    this.dynamicItems.push({
+      id: 'projectInfo',
+      iconInfo: {
+        icon: 'info-circle',
+        additionalClasses: 'icon',
       },
-      {
-        id: 'openLists',
-        iconInfo: {
-          icon: 'clipboard-list',
-          additionalClasses: 'icon',
-        },
-        label: 'openLists',
-        callback: () => this.openGlobalDialogLists(),
+      label: 'projectInfo',
+      callback: this.openGlobalDialogInfo.bind(this),
+    });
+    this.dynamicItems.push({
+      id: 'openLists',
+      iconInfo: {
+        icon: 'clipboard-list',
+        additionalClasses: 'icon',
       },
-      {
-        id: 'bookmark',
-        iconInfo: {
-          icon: 'bookmark',
-          additionalClasses: 'icon',
-        },
-        label: 'bookmark',
-        callback: () => this.generateBookmark(),
+      label: 'openLists',
+      callback: this.openGlobalDialogLists.bind(this),
+    });
+    this.dynamicItems.push({
+      id: 'bookmark',
+      iconInfo: {
+        icon: 'bookmark',
+        additionalClasses: 'icon',
       },
-      {
-        id: 'downloadXML',
-        iconInfo: {
-          icon: 'download',
-          additionalClasses: 'icon',
-        },
-        label: 'downloadXML',
-        callback: () => this.downloadXML(),
+      label: 'bookmark',
+      callback: this.generateBookmark.bind(this),
+    });
+    this.dynamicItems.push({
+      id: 'downloadXML',
+      iconInfo: {
+        icon: 'download',
+        additionalClasses: 'icon',
       },
-    ];
+      label: 'downloadXML',
+      callback: this.downloadXML.bind(this),
+    });
   }
 
   private openGlobalDialogInfo() {
-    // TODO openGlobalDialogInfo
-    console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'bibliography' });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.modalId = 'bibliography';
+    modalComp.title = 'Bibliography';
+    modalComp.bodyContentClass = 'p-3';
+    modalComp.bodyComponent = BibliographyComponent;
   }
 
   private openGlobalDialogLists() {
