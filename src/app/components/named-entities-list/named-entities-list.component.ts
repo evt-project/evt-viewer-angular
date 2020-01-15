@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NamedEntitiesList } from 'src/app/models/evt-models';
 
 @Component({
@@ -6,7 +6,7 @@ import { NamedEntitiesList } from 'src/app/models/evt-models';
   templateUrl: './named-entities-list.component.html',
   styleUrls: ['./named-entities-list.component.scss'],
 })
-export class NamedEntitiesListComponent implements OnInit {
+export class NamedEntitiesListComponent implements OnInit, OnChanges {
   @Input() list: NamedEntitiesList;
   @Output() searchedEntities: EventEmitter<string> = new EventEmitter();
   // tslint:disable-next-line: variable-name
@@ -22,13 +22,11 @@ export class NamedEntitiesListComponent implements OnInit {
   public querySearchSubmitted = '';
 
   ngOnInit() {
-    if (!!this.list) {
-      this.navigationKeys = this.list.content
-        .map(el => el.id.substr(0, 1).toLowerCase())
-        .filter((item, i, ar) => ar.indexOf(item) === i)
-        .sort();
-      this.selectedKey = this.navigationKeys[0];
-    }
+    this.initKeys();
+  }
+
+  ngOnChanges() {
+    this.initKeys();
   }
 
   toggleSearch() {
@@ -36,5 +34,15 @@ export class NamedEntitiesListComponent implements OnInit {
     this.querySearch = '';
     this.querySearchSubmitted = '';
     this.searchedEntities.emit(this.querySearch);
+  }
+
+  private initKeys() {
+    if (!!this.list) {
+      this.navigationKeys = this.list.content
+        .map(el => el.sortKey.substr(0, 1).toLowerCase())
+        .filter((item, i, ar) => ar.indexOf(item) === i)
+        .sort();
+      this.selectedKey = this.navigationKeys[0];
+    }
   }
 }

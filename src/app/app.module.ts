@@ -22,6 +22,7 @@ import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
@@ -69,6 +70,7 @@ export function initializeApp(appConfig: AppConfig) {
     EvtInfoComponent,
     FilterPipe,
     GenericElementComponent,
+    GlobalListsComponent,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,

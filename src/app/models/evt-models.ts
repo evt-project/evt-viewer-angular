@@ -49,7 +49,6 @@ export interface NamedEntitiesList extends GenericElementData {
     id: string;
     label: string;
     namedEntityType: NamedEntityType;
-    icon?: string;
     description?: Description;
     sublists: NamedEntitiesList[];
     content: NamedEntity[];
