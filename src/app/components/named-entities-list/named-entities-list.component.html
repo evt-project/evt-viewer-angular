@@ -24,7 +24,7 @@
     <div class="card-body ne-list-body p-0 m-0">
         <cdk-virtual-scroll-viewport autosize>
             <ng-container
-                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':selectedKey | filter:'label':querySearch; templateCacheSize: 0">
+                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey) | filter:'label':querySearch; templateCacheSize: 0">
                 <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
                 <span *ngIf="!entity"> {{'noMatches' | translate }} </span>
             </ng-container>
