@@ -20,5 +20,8 @@
     "filteredPinboardEmpty": "No pin found for selected types.",
     "filterPins": "Filter pins",
     "more": "more",
-    "lists": "Lists"
+    "lists": "Lists",
+    "noEntities": "No entities in this list",
+    "search": "Search",
+    "noMatches": "No matches for input given"
 }

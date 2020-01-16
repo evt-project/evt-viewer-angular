@@ -2,7 +2,7 @@
     <div class="card-header p-0 m-0">
         <form class="input-group p-1" *ngIf="searchOpened">
             <input type="input" name="search" class="form-control form-control-sm ne-list-search"
-                [placeholder]="'Search' | translate" [(ngModel)]="querySearch" />
+                [placeholder]="'search' | translate" [(ngModel)]="querySearch" />
             <div class="input-group-append">
                 <evt-button [type]="'submit'" [toggler]="true" [active]="caseSensitiveSearch" [label]="'aA'"
                     (btnClick)="toggleCaseSensitiveSearch($event)" additionalClasses="border"></evt-button>
@@ -28,11 +28,11 @@
             <ng-container
                 *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
                 <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
-                <span *ngIf="!entity"> {{'noMatches' | translate }} </span>
+                <div class="p-3" *ngIf="!entity"> {{'noMatches' | translate }} </div>
             </ng-container>
         </cdk-virtual-scroll-viewport>
-        <div *ngIf="list?.content.length === 0" class="ne-list-msg">
-            {{ 'NoEntities' | translate }}
+        <div *ngIf="list?.content.length === 0" class="p-3 ne-list-msg">
+            {{ 'noEntities' | translate }}
         </div>
     </div>
 </div>
