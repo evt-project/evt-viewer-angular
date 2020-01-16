@@ -134,6 +134,7 @@ export function initializeApp(appConfig: AppConfig) {
   ],
   entryComponents: [
     EvtInfoComponent,
+    GlobalListsComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
     ShortcutsComponent,

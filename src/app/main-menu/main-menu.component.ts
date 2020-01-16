@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppConfig, FileConfig, UiConfig } from '../app.config';
+import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { register } from '../services/component-register.service';
 import { ColorTheme, ThemesService } from '../services/themes.service';
@@ -100,9 +101,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   private openGlobalDialogLists() {
-    // TODO openGlobalDialogLists
-    console.log('openGlobalDialogLists');
     this.itemClicked.emit('lists');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'global-lists' });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.wider = true;
+    modalComp.modalId = 'global-lists';
+    modalComp.title = 'lists';
+    modalComp.bodyContentClass = 'p-0 h-100';
+    modalComp.headerIcon = { icon: 'clipboard-list', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.bodyComponent = GlobalListsComponent;
   }
 
   private generateBookmark() {

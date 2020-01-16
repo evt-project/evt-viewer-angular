@@ -19,5 +19,6 @@
     "pinboardEmpty": "Your pinboard is empty.",
     "filteredPinboardEmpty": "No pin found for selected types.",
     "filterPins": "Filter pins",
-    "more": "more"
+    "more": "more",
+    "lists": "Lists"
 }
