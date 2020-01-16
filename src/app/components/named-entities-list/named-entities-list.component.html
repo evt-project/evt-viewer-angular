@@ -4,8 +4,10 @@
             <input type="input" name="search" class="form-control form-control-sm ne-list-search"
                 [placeholder]="'Search' | translate" [(ngModel)]="querySearch" />
             <div class="input-group-append">
-                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'"
-                    [disabled]="!querySearch" additionalClasses="border"> </evt-button>
+                <evt-button [type]="'submit'" [toggler]="true" [active]="caseSensitiveSearch" [label]="'aA'"
+                    (btnClick)="toggleCaseSensitiveSearch($event)" additionalClasses="border"></evt-button>
+                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'" [disabled]="!querySearch"
+                    additionalClasses="border"> </evt-button>
                 <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'times'}" additionalClasses="border">
                 </evt-button>
             </div>
@@ -24,7 +26,7 @@
     <div class="card-body ne-list-body p-0 m-0">
         <cdk-virtual-scroll-viewport autosize>
             <ng-container
-                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey):true | filter:'label':querySearch; templateCacheSize: 0">
+                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
                 <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
                 <span *ngIf="!entity"> {{'noMatches' | translate }} </span>
             </ng-container>

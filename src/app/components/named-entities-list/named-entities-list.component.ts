@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NamedEntitiesList } from 'src/app/models/evt-models';
+import { NamedEntitiesList } from '../../models/evt-models';
+import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
 
 @Component({
   selector: 'evt-named-entities-list',
@@ -20,6 +21,7 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   public searchOpened = false;
   public querySearch = '';
   public querySearchSubmitted = '';
+  public caseSensitiveSearch = false;
 
   ngOnInit() {
     this.initKeys();
@@ -34,6 +36,10 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
     this.querySearch = '';
     this.querySearchSubmitted = '';
     this.searchedEntities.emit(this.querySearch);
+  }
+
+  toggleCaseSensitiveSearch(event: EVTBtnClickEvent) {
+    this.caseSensitiveSearch = event.active;
   }
 
   private initKeys() {
