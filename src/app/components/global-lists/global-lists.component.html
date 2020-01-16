@@ -1,32 +1,34 @@
 <div class="row h-100 m-0">
     <div class="bg-light col-3 p-0 border-right">
-        <div class="list-item border-bottom" *ngFor="let list of lists$ | async trackBy: list?.id"
-            (click)="openList($event, list)"
-            [ngClass]="{
-                hidden: list.content?.length === 0,
-                active: selectedList === list
-            }">
-            <span class="list-item-main p-2 w-100 d-block border-bottom" [class.bg-dark]="selectedList === list"
-                [class.text-light]="selectedList === list">
-                <evt-icon [iconInfo]="{icon: list.icon, additionalClasses: 'mr-1'}"></evt-icon>
-                {{list.label | translate}}
-                <span class="badge badge-pill badge-info" *ngIf="list.content?.length > 0">{{ list.content?.length }}</span>
-            </span>
-            <div class="sub-list ml-3 border-left" *ngIf="list.sublists">
-                <div *ngFor="let sublist of list.sublists; let last = last" class="sub-list-item p-2"
-                    (click)="openList($event, sublist)"
-                    [ngClass]="{
-                        'border-bottom': !last,
-                        'bg-dark': selectedList === sublist,
-                        'text-light': selectedList === sublist
-                    }">
-                    {{sublist.label}}
-                    <span class="badge badge-pill badge-info">{{sublist.content?.length}}</span>
-                </div>
-            </div>
-        </div>
+        <ng-template ngFor let-list [ngForOf]="lists$ | async">
+            <ng-template [ngTemplateOutlet]="listTemplate"
+                [ngTemplateOutletContext]="{ list: list, last: false }">
+            </ng-template>
+        </ng-template>
     </div>
     <div class="col-9 p-0" *ngIf="selectedList">
         <evt-named-entities-list [list]="selectedList"></evt-named-entities-list>
     </div>
 </div>
+
+<ng-template #listTemplate let-list="list" let-last="last">
+    <div class="list-item border-bottom" (click)="openList($event, list)" [ngClass]="{
+        hidden: list.content?.length === 0,
+        'bg-dark': selectedList === list,
+        'text-light': selectedList === list,
+        'border-bottom': !last
+    }">
+        <span class="list-item-main p-2 w-100 d-block">
+            <evt-icon *ngIf="list.icon" [iconInfo]="{icon: list.icon, additionalClasses: 'mr-1'}"></evt-icon>
+            {{list.label | translate}}
+            <span class="badge badge-pill badge-info" *ngIf="list.content?.length > 0">{{ list.content?.length }}</span>
+        </span>
+        <div class="sub-list ml-3 border-left" *ngIf="list.sublists.length > 0">
+            <ng-template ngFor let-sublist let-last [ngForOf]="list.sublists">
+                <ng-template [ngTemplateOutlet]="listTemplate"
+                    [ngTemplateOutletContext]="{ list: sublist, last: last }">
+                </ng-template>
+            </ng-template>
+        </div>
+    </div>
+</ng-template>
