@@ -36,7 +36,9 @@ export interface NamedEntities {
     };
 }
 
-export type AttributesData = Array<{ key: string; value: string }>;
+export interface AttributesData {
+    [key: string]: string;
+}
 
 export interface OriginalEncodingData {
     originalEncoding: OriginalEncodingNodeType;
