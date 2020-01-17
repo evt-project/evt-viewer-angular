@@ -43,12 +43,12 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   }
 
   private initKeys() {
-    if (!!this.list) {
+    if (!!this.list && !!this.list.content && this.list.content.length > 0) {
       this.navigationKeys = this.list.content
         .map(el => el.sortKey.substr(0, 1).toLowerCase())
         .filter((item, i, ar) => ar.indexOf(item) === i)
         .sort();
-      this.selectedKey = this.navigationKeys[0];
+      this.selectedKey = this.navigationKeys[0] || '';
     }
   }
 }
