@@ -270,22 +270,12 @@ export class NamedEntitiesParserService {
   }
 
   private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
-    if (xml.nodeType === 1 && xml.tagName.toLowerCase() === 'listplace') {
-      return {
-        type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
-        label: xml.tagName.toLowerCase(),
-        content: [this.parseList(xml)],
-        attributes: this.parseAttributes(xml),
-      };
-    }
-
     return {
       type: GenericElementComponent, // TODO: Set ListItemInfoComponent
       label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
       content: [this.genericParserService.parse(xml)],
       attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},
     };
-
   }
 
   private parseAttributes(xml: XMLElement) {
