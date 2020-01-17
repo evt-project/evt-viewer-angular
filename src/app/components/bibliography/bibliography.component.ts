@@ -32,20 +32,21 @@ export class BibliographyComponent implements OnDestroy {
       this.sortByTitle().reverse();
     } else if (field === 'Ascendent' || field === 'Title') {
       this.sortByTitle();
+      console.log(this.sortByTitle());
     } else if (field === 'Author') {
       this.biblCits.sort((cit1, cit2) => {
-        return cit1.authors.toLowerCase().localeCompare(cit2.authors.toLowerCase());
+        return cit1.authors.localeCompare(cit2.authors, undefined, { sensitivity: 'base' });
       });
     } else if (field === 'Date') {
       this.biblCits.sort((cit1, cit2) => {
-        return cit1.dates.toLowerCase().localeCompare(cit2.dates.toLowerCase());
+        return cit1.dates.localeCompare(cit2.dates, undefined, { sensitivity: 'base' });
       });
     }
   }
 
   private sortByTitle() {
     return this.biblCits.sort((cit1, cit2) => {
-      return cit1.titles.toLowerCase().localeCompare(cit2.titles.toLowerCase());
+      return cit1.titles.localeCompare(cit2.titles, undefined, { sensitivity: 'base' });
     });
   }
 

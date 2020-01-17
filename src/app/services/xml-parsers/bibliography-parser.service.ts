@@ -8,7 +8,7 @@ function getStringFromTags(tagLabel: string, cit: Element) {
   let res = '';
   Array.from(cit.getElementsByTagName(tagLabel)).map(element => res += element.textContent.replace(/\s+/g, ' ') + ' ');
 
-  return res;
+  return res.trim();
 }
 
 @Injectable({
@@ -35,7 +35,7 @@ export class BibliographyParserService {
               citation.getElementsByTagName('title').length === 0 &&
               citation.getElementsByTagName('date').length === 0) {
               const interfacedCitation: BibliographicCitation = {
-                titles: citation.textContent.replace(/\s+/g, ' '),
+                titles: citation.textContent.replace(/\s+/g, ' ').trim(),
               };
               if (!bibliographicCitations.includes(interfacedCitation)) {
                 bibliographicCitations.push(interfacedCitation);
@@ -68,7 +68,6 @@ export class BibliographyParserService {
     return this.http.get<SortingParameters>(source).pipe(
       map((res) => (
         {
-
           // tslint:disable-next-line: no-string-literal
           alphOrder: [res[b]['ASC'], res[b]['DESC']],
           // tslint:disable-next-line: no-string-literal
