@@ -4,7 +4,7 @@ import { map, scan } from 'rxjs/operators';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
 import { NoteComponent } from '../../components/note/note.component';
 import { TextComponent } from '../../components/text/text.component';
-import { NamedEntitiesList, XMLElement } from '../../models/evt-models';
+import { AttributesData, NamedEntitiesList, XMLElement } from '../../models/evt-models';
 import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -59,7 +59,7 @@ export class GenericParserService {
       type: GenericElementComponent,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: this.parseChildren(xml),
-      attributes: this.getAttributes(xml),
+      attributes: this.parseAttributes(xml),
     };
 
     return genericElement;
@@ -74,7 +74,7 @@ export class GenericParserService {
       type: NoteComponent,
       path: xpath(xml),
       content: this.parseChildren(xml),
-      attributes: this.getAttributes(xml),
+      attributes: this.parseAttributes(xml),
     };
 
     return noteElement;
@@ -85,9 +85,9 @@ export class GenericParserService {
     return complexElements(xml.childNodes).map(child => this.parse(child as XMLElement));
   }
 
-  private getAttributes(xml: XMLElement) {
+  public parseAttributes(xml: XMLElement): AttributesData {
     return Array.from(xml.attributes)
-      .map((a) => ({ [a.name === 'xml:id' ? 'id' : a.name.replace(':', '-')]: a.value }))
+      .map(({name, value}) => ({ [name === 'xml:id' ? 'id' : name.replace(':', '-')]: value }))
       .reduce((x, y) => ({ ...x, ...y }), {});
   }
 }
