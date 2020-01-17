@@ -4,6 +4,8 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
+import { NamedEntityDetailComponent } from '../../components/named-entity/named-entity-detail/named-entity-detail.component';
+import { NamedEntityComponent } from '../../components/named-entity/named-entity.component';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
   NamedEntityLabel, NamedEntityType, Relation, XMLElement,
@@ -63,7 +65,7 @@ export class NamedEntitiesParserService {
   private tagNamesMap: { [key: string]: string } = {
     persons: 'listPerson',
     places: 'listPlace',
-    orgs: 'listOrg',
+    organizations: 'listOrg',
     relations: 'listRelation',
     events: 'listEvent',
   };
@@ -154,11 +156,13 @@ export class NamedEntitiesParserService {
 
   private parseGenericEntity(xml: XMLElement): NamedEntity {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
+    const label = replaceNewLines(xml.textContent) || 'No info';
     const entity: NamedEntity = {
-      type: GenericElementComponent, // TODO: Set NamedEntitiesComponent
+      type: NamedEntityComponent,
       id: elId,
+      sortKey: xml.getAttribute('sortKey') || (label ? label[0] : '') || xml.getAttribute('xml:id') || xpath(xml),
       originalEncoding: xml,
-      label: replaceNewLines(xml.textContent) || 'No info',
+      label,
       namedEntityType: this.getEntityType(xml.tagName),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
@@ -180,12 +184,12 @@ export class NamedEntitiesParserService {
     } else if (forenameElement || surnameElement) {
       label += forenameElement ? `${replaceNewLines(forenameElement.textContent)} ` : '';
       label += surnameElement ? `${replaceNewLines(surnameElement.textContent)} ` : '';
-      label += occupationElement ? `(${replaceNewLines(occupationElement.textContent)})` : '';
     } else if (nameElement) {
       label = replaceNewLines(nameElement.textContent) || 'No info';
     } else {
       label = replaceNewLines(xml.textContent) || 'No info';
     }
+    label += occupationElement ? ` (${replaceNewLines(occupationElement.textContent)})` : '';
 
     return {
       ...this.parseGenericEntity(xml),
@@ -271,7 +275,7 @@ export class NamedEntitiesParserService {
 
   private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
     return {
-      type: GenericElementComponent, // TODO: Set ListItemInfoComponent
+      type: NamedEntityDetailComponent,
       label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
       content: [this.genericParserService.parse(xml)],
       attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},

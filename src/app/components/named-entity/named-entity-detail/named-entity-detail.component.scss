@@ -1,0 +1,17 @@
+.icon {
+    margin-right: 5px;
+    min-width: 15px;
+    cursor: help;
+    display: inline-block;
+}
+
+.label {
+    font-variant: small-caps;
+    text-transform: capitalize;
+    font-size: 95%;
+}
+
+.attributes-list {
+    list-style-type: circle;
+    margin-bottom: .1rem;
+}

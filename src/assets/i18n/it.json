@@ -18,5 +18,9 @@
     "pinboardEmpty": "Nessun appunto trovato.",
     "filteredPinboardEmpty": "Nessun appunto trovato per i filtri impostati.",
     "filterPins": "Filtra appunti",
-    "more": "in più"
+    "more": "in più",
+    "lists": "Liste",
+    "noEntities": "Nessuna entità in questa lista",
+    "search": "Cerca",
+    "noMatches": "Nessun risultato"
 }

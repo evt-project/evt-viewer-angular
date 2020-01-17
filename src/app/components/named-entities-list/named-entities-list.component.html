@@ -1,0 +1,38 @@
+<div class="card border-0 ne-list">
+    <div class="card-header p-0 m-0" *ngIf="list?.content?.length > 0">
+        <form class="input-group p-1" *ngIf="searchOpened">
+            <input type="input" name="search" class="form-control form-control-sm ne-list-search"
+                [placeholder]="'search' | translate" [(ngModel)]="querySearch" />
+            <div class="input-group-append">
+                <evt-button [type]="'submit'" [toggler]="true" [active]="caseSensitiveSearch" [label]="'aA'"
+                    (btnClick)="toggleCaseSensitiveSearch($event)" additionalClasses="border"></evt-button>
+                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'" [disabled]="!querySearch"
+                    additionalClasses="border"> </evt-button>
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'times'}" additionalClasses="border">
+                </evt-button>
+            </div>
+        </form>
+        <nav *ngIf="!searchOpened">
+            <ul class="pagination pagination-sm justify-content-center m-0 p-1">
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="mr-2">
+                </evt-button>
+                <li class="page-item" *ngFor="let key of navigationKeys" [class.active]="selectedKey === key">
+                    <span class="page-link" (click)="selectedKey=key">{{key}}</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="card-body ne-list-body p-0 m-0">
+        <cdk-virtual-scroll-viewport autosize *ngIf="list?.content?.length > 0" >
+            <ng-container
+                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
+                <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
+                <div class="p-3" *ngIf="!entity"> {{'noMatches' | translate }} </div>
+            </ng-container>
+        </cdk-virtual-scroll-viewport>
+        <div *ngIf="list?.content?.length === 0" class="p-3 ne-list-msg">
+            {{ 'noEntities' | translate }}
+        </div>
+    </div>
+</div>

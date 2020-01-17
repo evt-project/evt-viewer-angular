@@ -1,26 +1,33 @@
+import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicModule } from 'ng-dynamic-component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
 
+import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
+import { GlobalListsComponent } from './components/global-lists/global-lists.component';
+import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
+import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
+import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
+import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
 import { TextComponent } from './components/text/text.component';
@@ -35,6 +42,9 @@ import { VersionPanelComponent } from './panels/version-panel/version-panel.comp
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { StartsWithPipe } from './pipes/starts-with.pipe';
+import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
@@ -58,12 +68,18 @@ export function initializeApp(appConfig: AppConfig) {
     CollationComponent,
     ContentViewerComponent,
     EvtInfoComponent,
+    FilterPipe,
     GenericElementComponent,
+    GlobalListsComponent,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
     MainMenuComponent,
+    NamedEntitiesListComponent,
+    NamedEntityComponent,
+    NamedEntityDetailComponent,
     NoteComponent,
+    OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
     PinboardComponent,
@@ -72,6 +88,7 @@ export function initializeApp(appConfig: AppConfig) {
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
+    StartsWithPipe,
     TextComponent,
     TextPanelComponent,
     TextSourcesComponent,
@@ -79,6 +96,7 @@ export function initializeApp(appConfig: AppConfig) {
     TextVersionsComponent,
     VersionPanelComponent,
     WitnessPanelComponent,
+    XmlBeautifyPipe,
   ],
   imports: [
     AppRoutingModule,
@@ -89,13 +107,16 @@ export function initializeApp(appConfig: AppConfig) {
       GenericElementComponent,
       NoteComponent,
     ]),
+    ExperimentalScrollingModule,
     FormsModule,
     GridsterModule,
     HttpClientModule,
+    Ng2HandySyntaxHighlighterModule,
     NgbModule,
     NgbPopoverModule,
     NgxSpinnerModule,
     RouterModule.forRoot(routes, { useHash: true }),
+    ScrollingModule,
     UiComponentsModule,
   ],
   providers: [
@@ -112,8 +133,11 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
   ],
   entryComponents: [
-    ShortcutsComponent,
     EvtInfoComponent,
+    GlobalListsComponent,
+    NamedEntityComponent,
+    NamedEntityDetailComponent,
+    ShortcutsComponent,
   ],
 })
 export class AppModule {

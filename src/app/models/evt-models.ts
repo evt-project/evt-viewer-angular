@@ -49,7 +49,6 @@ export interface NamedEntitiesList extends GenericElementData {
     id: string;
     label: string;
     namedEntityType: NamedEntityType;
-    icon?: string;
     description?: Description;
     sublists: NamedEntitiesList[];
     content: NamedEntity[];
@@ -59,6 +58,7 @@ export interface NamedEntitiesList extends GenericElementData {
 
 export interface NamedEntity extends GenericElementData {
     id: string;
+    sortKey: string;
     label: NamedEntityLabel;
     namedEntityType: NamedEntityType | 'personGrp';
     content: NamedEntityInfo[];
@@ -71,7 +71,6 @@ export type NamedEntityLabel = string;
 export interface NamedEntityInfo extends GenericElementData {
     label: string;
     content: Array<GenericElementData | NamedEntitiesList>;
-    icon?: string;
 }
 
 export type Relation = OriginalEncodingData & {

@@ -1,0 +1,133 @@
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
+
+@function get-color($key) {
+  @return map-fetch($editionColors, namedEntities $key);
+}
+
+@mixin namedEntityColors($color-base, $color-middle, $color-darker) {
+  border-color: $color-middle;
+
+  * {
+    border-color: $color-middle;
+  }
+
+  .ne-header,
+  .ne-content {
+    background: $color-middle,
+  }
+
+  .ne-header {
+    position: relative;
+
+    evt-pinner {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .nav-tabs .nav-link {
+    color: #000;
+    background-color: $color-middle;
+    border-color: $color-darker;
+
+    &.active {
+      background-color: $color-darker;
+    }
+
+    &:hover:not(.active) {
+      background: rgba($color-darker, .5);
+    }
+  }
+
+  .ne-tab-content {
+    background-color: $color-darker;
+  }
+}
+
+:host ::ng-deep .ne {
+  &-container {
+    font-size: 90%;
+    border-top-left-radius: 0;
+
+    &.inList {
+      border-radius: 0;
+      margin-bottom: 1px;
+
+      .ne-header {
+        padding: 5px 7px;
+        border-top-right-radius: 0;
+        cursor: pointer;
+      }
+    }
+
+    &.contentOpened {
+      .ne-header {
+        border-bottom: 3px double #000 !important;
+      }
+    }
+
+    &.person {
+      @include namedEntityColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
+    }
+
+    &.place {
+      @include namedEntityColors(get-color(placeBase), get-color(placeMiddle), get-color(placeDarker));
+    }
+
+    &.org {
+      @include namedEntityColors(get-color(orgBase), get-color(orgMiddle), get-color(orgDarker));
+    }
+
+    &.event {
+      @include namedEntityColors(get-color(eventBase), get-color(eventMiddle), get-color(eventDarker));
+    }
+  }
+
+  &-header {
+    padding: 3.5px 7px;
+    border-top-left-radius: 0;
+  }
+
+  &-content {
+    padding: 0;
+    font-size: 80%;
+  }
+
+  &-tab-content {
+    padding: 1rem;
+
+    &.no-padding {
+      padding: 0;
+    }
+  }
+}
+
+:host ::ng-deep .ne-content {
+
+  // Override default styles
+  .nav-tabs .nav-link {
+    padding: 5px;
+    border: none;
+  }
+}
+
+:host ::ng-deep pre {
+  padding-top: 0;
+  margin: 0;
+
+  /* background: #fff;*/
+  code {
+    font-size: 85% !important;
+  }
+}
+
+pre {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  width: 100%;
+}
