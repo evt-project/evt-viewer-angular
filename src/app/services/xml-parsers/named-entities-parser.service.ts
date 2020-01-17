@@ -160,7 +160,7 @@ export class NamedEntitiesParserService {
       originalEncoding: xml,
       label: replaceNewLines(xml.textContent) || 'No info',
       namedEntityType: this.getEntityType(xml.tagName),
-      content: Array.from(xml.childNodes).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
+      content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
       occurrences: [],
     };
