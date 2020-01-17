@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
-import { Witness, WitnessesList, XMLElement } from 'src/app/models/evt-models';
-import { isNestedInElem, xpath } from 'src/app/utils/dom-utils';
-import { parseAttributes } from '../../utils/xml-utils';
+import { Description, Witness, WitnessesList, XMLElement } from '../../models/evt-models';
+import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
@@ -14,6 +13,7 @@ export class WitnessesParserService {
     map((source) => this.parseLists(source)),
     shareReplay(1),
   );
+  private witTagName = 'witness';
 
   constructor(
     private editionDataService: EditionDataService,
@@ -23,26 +23,25 @@ export class WitnessesParserService {
 
   private parseLists(document: XMLElement): WitnessesList {
     const witListTagName = 'listWit';
-    const lists = document.querySelectorAll<XMLElement>(witListTagName);
     const parsedList: WitnessesList = {
       witnesses: {},
     };
-    lists.forEach((list) => {
-      if (!isNestedInElem(list, list.tagName)) {
-        this.parseWitnesses(list, parsedList);
-      }
-    });
+    Array.from(document.querySelectorAll<XMLElement>(witListTagName))
+      .map((list) => {
+        if (!isNestedInElem(list, list.tagName)) {
+          this.parseWitnesses(list, parsedList);
+        }
+      });
 
     return parsedList;
   }
 
-  private parseWitnesses(list: XMLElement, parsedList: WitnessesList) {
-    const witTagName = 'witness';
-    const witnesses = list.querySelectorAll<XMLElement>(witTagName);
-    witnesses.forEach((wit) => {
-      const parsedWit = this.parseWitness(wit);
-      parsedList.witnesses[parsedWit.id] = parsedWit;
-    });
+  private parseWitnesses(list: XMLElement, parsedList: WitnessesList): WitnessesList {
+    Array.from(list.querySelectorAll<XMLElement>(this.witTagName))
+      .map((wit) => {
+        const parsedWit = this.parseWitness(wit);
+        parsedList.witnesses[parsedWit.id] = parsedWit;
+      });
 
     return parsedList;
   }
@@ -50,19 +49,17 @@ export class WitnessesParserService {
   private parseWitness(wit: XMLElement): Witness {
     const witness = {
       id: wit.getAttribute('xml:id') || xpath(wit),
-      attributes: parseAttributes(wit),
+      attributes: this.genericParserService.parseAttributes(wit),
       content: this.parseWitnessContent(wit),
     };
 
     return witness;
   }
 
-  private parseWitnessContent(wit: XMLElement) {
+  private parseWitnessContent(wit: XMLElement): Description {
     const contents = [];
-    wit.childNodes.forEach((child: XMLElement) => {
-      const content = this.genericParserService.parse(child);
-      contents.push(content);
-    });
+    Array.from(wit.childNodes)
+      .map((child: XMLElement) => contents.push(this.genericParserService.parse(child)));
 
     return contents;
   }

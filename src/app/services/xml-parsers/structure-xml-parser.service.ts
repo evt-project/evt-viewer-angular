@@ -75,7 +75,7 @@ export class StructureXmlParserService {
       console.log(pages);
     }
 
-    this.witParserService.parsedList$.subscribe(); //TEMP to test parser
+    this.witParserService.parsedList$.subscribe(); // TODO: TEMP to test parser
 
     return {
       pages,
