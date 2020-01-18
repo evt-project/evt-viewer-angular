@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
-import { Description, Witness, WitnessesList, XMLElement } from '../../models/evt-models';
+import { Description, Witness, WitnessesList, WitnessGroup, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { replaceNotWordChar } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
@@ -13,7 +14,11 @@ export class WitnessesParserService {
     map((source) => this.parseLists(source)),
     shareReplay(1),
   );
-  private witTagName = 'witness';
+
+  private tagNamesMap: { [key: string]: string } = {
+    witListTagName: 'listWit',
+    witTagName: 'witness',
+  };
 
   constructor(
     private editionDataService: EditionDataService,
@@ -22,45 +27,84 @@ export class WitnessesParserService {
   }
 
   private parseLists(document: XMLElement): WitnessesList {
-    const witListTagName = 'listWit';
     const parsedList: WitnessesList = {
       witnesses: {},
+      originalGroup: {},
     };
-    Array.from(document.querySelectorAll<XMLElement>(witListTagName))
+    Array.from(document.querySelectorAll<XMLElement>(this.tagNamesMap.witListTagName))
       .map((list) => {
-        if (!isNestedInElem(list, list.tagName)) {
-          this.parseWitnesses(list, parsedList);
-        }
+        !isNestedInElem(list, list.tagName) ? this.parseWitnesses(list, parsedList) : this.parseWitnessesGroups(list, parsedList);
       });
 
     return parsedList;
   }
 
-  private parseWitnesses(list: XMLElement, parsedList: WitnessesList): WitnessesList {
-    Array.from(list.querySelectorAll<XMLElement>(this.witTagName))
+  private parseWitnesses(list: XMLElement, parsedList: WitnessesList) {
+    Array.from(list.querySelectorAll<XMLElement>(this.tagNamesMap.witTagName))
       .map((wit) => {
         const parsedWit = this.parseWitness(wit);
         parsedList.witnesses[parsedWit.id] = parsedWit;
       });
-
-    return parsedList;
   }
 
   private parseWitness(wit: XMLElement): Witness {
-    const witness = {
+    return {
       id: wit.getAttribute('xml:id') || xpath(wit),
       attributes: this.genericParserService.parseAttributes(wit),
       content: this.parseWitnessContent(wit),
+      group: this.parseParentGroupId(wit),
     };
-
-    return witness;
   }
 
   private parseWitnessContent(wit: XMLElement): Description {
-    const contents = [];
+    const content = [];
     Array.from(wit.childNodes)
-      .map((child: XMLElement) => contents.push(this.genericParserService.parse(child)));
+      .map((child: XMLElement) => content.push(this.genericParserService.parse(child)));
 
-    return contents;
+    return content;
+  }
+
+  private parseWitnessesGroups(list: XMLElement, parsedList: WitnessesList) {
+    const parsedGroup = this.parseWitnessGroup(list);
+    parsedList.originalGroup[parsedGroup.id] = parsedGroup;
+  }
+
+  private parseWitnessGroup(list: XMLElement): WitnessGroup {
+    return {
+      id: list.getAttribute('xml:id') || xpath(list),
+      name: this.parseGroupName(list) || replaceNotWordChar(list.getAttribute('xml:id')) || xpath(list),
+      attributes: this.genericParserService.parseAttributes(list),
+      content: this.parseGroupContent(list),
+      group: this.parseParentGroupId(list) || undefined,
+    };
+  }
+
+  private parseGroupName(list: XMLElement) {
+    const groupTagName = 'head';
+    const groupEl = Array.from(list.children)
+      .find((child) => child.nodeName === groupTagName);
+
+    return groupEl ? groupEl.textContent : undefined;
+  }
+
+  private parseGroupContent(list: XMLElement): Description {
+    const content = [];
+    Array.from(list.children)
+      .filter(() => Object.keys(this.tagNamesMap))
+      .map((child) => content.push(child.getAttribute('xml:id')));
+
+    return content;
+  }
+
+  private parseParentGroupId(element: XMLElement) {
+    const parentEl = element.parentElement;
+
+    if (parentEl.tagName !== this.tagNamesMap.witListTagName) {
+      this.parseParentGroupId(parentEl);
+    }
+
+    if (isNestedInElem(parentEl, parentEl.tagName)) {
+      return parentEl.getAttribute('xml:id') || xpath(parentEl);
+    }
   }
 }

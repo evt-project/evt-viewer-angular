@@ -28,3 +28,7 @@ export function replaceMultispaces(textContent: string) {
 export function replaceNewLines(textContent: string) {
   return replaceMultispaces(textContent.trim().replace(/\n/g, ' '));
 }
+
+export function replaceNotWordChar(textContent: string) {
+  return textContent ? textContent.replace(/[\W_]/, ' ') : undefined;
+}

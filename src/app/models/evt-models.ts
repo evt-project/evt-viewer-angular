@@ -85,9 +85,9 @@ export type Relation = OriginalEncodingData & {
 export type Description = GenericElementData[];
 export interface WitnessesList {
     witnesses: Map<Witness>;
-    _indexes?: [];
+    originalGroup: Map<WitnessGroup>;
     customGroup?: [];
-    originalGroup?: [];
+    _indexes?: [];
 }
 
 export interface Witness {
@@ -95,4 +95,12 @@ export interface Witness {
     attributes: AttributesData;
     content: Description;
     group?: string;
+}
+
+export interface WitnessGroup {
+    id: string;
+    name: string;
+    attributes: AttributesData;
+    content: Description;
+    group?: Description;
 }
