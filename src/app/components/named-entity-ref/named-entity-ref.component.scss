@@ -1,0 +1,59 @@
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
+@function get-color($key) {
+  @return map-fetch($editionColors, namedEntities $key);
+}
+
+@mixin namedEntityRefColors($color-base, $color-middle, $color-darker) {
+  background: $color-base;
+  border-bottom-color: $color-middle;
+  &.active {
+    background-color: $color-middle;
+    border-right-color: $color-middle;
+    &:not(:first-child) {
+      border-left-color: $color-middle;
+    }
+  }
+  &:hover {
+    background-color: $color-middle;
+  }
+}
+
+.namedEntityRef {
+  cursor: pointer;
+  &.opened {
+    border-bottom: 3px solid;
+  }
+}
+
+.namedEntityRef:hover,
+.namedEntityRef.highlighted,
+.namedEntityRef.opened {
+  &.person {
+    @include namedEntityRefColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
+  }
+  &.place {
+    @include namedEntityRefColors(get-color(placeBase), get-color(placeMiddle), get-color(placeDarker));
+  }
+  &.org {
+    @include namedEntityRefColors(get-color(orgBase), get-color(orgMiddle), get-color(orgDarker));
+  }
+  &.event {
+    @include namedEntityRefColors(get-color(eventBase), get-color(eventMiddle), get-color(eventDarker));
+  }
+}
+
+.namedEntityRefDetail {
+  &.person {
+    background: get-color(personBase);
+  }
+  &.place {
+    background: get-color(placeBase);
+  }
+  &.org {
+    background: get-color(orgBase);
+  }
+  &.event {
+    background: get-color(eventBase);
+  }
+}

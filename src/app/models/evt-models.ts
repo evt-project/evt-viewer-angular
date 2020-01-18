@@ -1,4 +1,5 @@
 import { Map } from '../utils/js-utils';
+import { NamedEntityType } from './evt-models';
 import { GenericElementData } from './parsed-elements';
 
 export type XMLElement = HTMLElement;
@@ -83,3 +84,8 @@ export type Relation = OriginalEncodingData & {
 };
 
 export type Description = GenericElementData[];
+
+export interface NamedEntityRefData extends GenericElementData {
+    entityId: string;
+    entityType: NamedEntityType;
+}

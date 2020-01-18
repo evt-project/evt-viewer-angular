@@ -24,6 +24,7 @@ import { ContentViewerComponent } from './components/content-viewer/content-view
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
+import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
@@ -78,6 +79,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
+    NamedEntityRefComponent,
     NoteComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
@@ -137,6 +139,7 @@ export function initializeApp(appConfig: AppConfig) {
     GlobalListsComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
+    NamedEntityRefComponent,
     ShortcutsComponent,
   ],
 })
