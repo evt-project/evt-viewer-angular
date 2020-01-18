@@ -1,5 +1,4 @@
 import { Map } from '../utils/js-utils';
-import { NamedEntityType } from './evt-models';
 import { GenericElementData } from './parsed-elements';
 
 export type XMLElement = HTMLElement;
