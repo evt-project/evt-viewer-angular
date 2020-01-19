@@ -87,14 +87,14 @@ export interface WitnessesList {
     witnesses: Map<Witness>;
     originalGroup: Map<WitnessGroup>;
     customGroup?: [];
-    _indexes?: [];
+    indexes: Map<string[]>;
 }
 
 export interface Witness {
     id: string;
     attributes: AttributesData;
     content: Description;
-    group?: string;
+    group: string;
 }
 
 export interface WitnessGroup {
