@@ -4,7 +4,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
-import { register } from '../../services/component-register.service';
+import { ComponentRegisterService, register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-content-viewer',
@@ -22,8 +22,16 @@ export class ContentViewerComponent implements OnDestroy {
   contentChange = new BehaviorSubject<GenericElementData>(undefined);
   @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
 
+  constructor(
+    private componentRegister: ComponentRegisterService,
+  ) {
+  }
   // tslint:disable-next-line: no-any
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
+    map((data) => ({
+      ...data,
+      type: this.componentRegister.getComponent(data.type),
+    })),
     shareReplay(1),
   );
 

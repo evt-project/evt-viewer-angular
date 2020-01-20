@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { AttributesData, OriginalEncodingNodeType } from './evt-models';
 
 export interface GenericElementData {
-    // tslint:disable-next-line: no-any
-    type: Type<any>;
+    type: string;
     path?: string;
     class?: string;
     attributes: AttributesData;
