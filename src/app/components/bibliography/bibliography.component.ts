@@ -1,7 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-// tslint:disable-next-line: max-line-length
-import { BibliographicCitation, BibliographyParserService, SortingParameters } from '../../services/xml-parsers/bibliography-parser.service';
+import {
+  BibliographicCitation,
+  BibliographyParserService,
+  SortingParameters,
+} from '../../services/xml-parsers/bibliography-parser.service';
 
 @Component({
   selector: 'evt-bibliography',
