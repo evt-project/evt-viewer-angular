@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AppConfig } from 'src/app/app.config';
+import { EditionDataService } from '../edition-data.service';
 
 function getStringFromTags(tagLabel: string, cit: Element) {
   let res = '';
@@ -15,44 +15,41 @@ function getStringFromTags(tagLabel: string, cit: Element) {
   providedIn: 'root',
 })
 export class BibliographyParserService {
-  private editionUrls = AppConfig.evtSettings.files.editionUrls || [];
   private findedCits = { complete: 0, total: 0 };
 
   constructor(
     private http: HttpClient,
+    private edition: EditionDataService,
   ) {
   }
 
   public getBibliographicCitations(): Observable<CitationsFeature> {
-    const parser = new DOMParser();
     const bibliographicCitations: BibliographicCitation[] = [];
 
-    return forkJoin(this.editionUrls.map((path) => this.http.get(path, { responseType: 'text' }))).pipe(
+    return this.edition.parsedEditionSource$.pipe(
       map(responses => {
-        responses.map(response => {
-          Array.from(parser.parseFromString(response, 'text/xml').getElementsByTagName('bibl')).map(citation => {
-            if (citation.getElementsByTagName('author').length === 0 &&
-              citation.getElementsByTagName('title').length === 0 &&
-              citation.getElementsByTagName('date').length === 0) {
-              const interfacedCitation: BibliographicCitation = {
-                titles: citation.textContent.replace(/\s+/g, ' ').trim(),
-              };
-              if (!bibliographicCitations.includes(interfacedCitation)) {
-                bibliographicCitations.push(interfacedCitation);
-                this.findedCits.total++;
-              }
-            } else {
-              const authors: string = getStringFromTags('author', citation);
-              const titles: string = getStringFromTags('title', citation);
-              const dates: string = getStringFromTags('date', citation);
-              const interfacedCitation: BibliographicCitation = { authors, titles, dates };
-              if (!bibliographicCitations.includes(interfacedCitation)) {
-                bibliographicCitations.push(interfacedCitation);
-                this.findedCits.complete++;
-                this.findedCits.total++;
-              }
+        Array.from(responses.getElementsByTagName('bibl')).map(citation => {
+          if (citation.getElementsByTagName('author').length === 0 &&
+            citation.getElementsByTagName('title').length === 0 &&
+            citation.getElementsByTagName('date').length === 0) {
+            const interfacedCitation: BibliographicCitation = {
+              titles: citation.textContent.replace(/\s+/g, ' ').trim(),
+            };
+            if (!bibliographicCitations.includes(interfacedCitation)) {
+              bibliographicCitations.push(interfacedCitation);
+              this.findedCits.total++;
             }
-          });
+          } else {
+            const authors: string = getStringFromTags('author', citation);
+            const titles: string = getStringFromTags('title', citation);
+            const dates: string = getStringFromTags('date', citation);
+            const interfacedCitation: BibliographicCitation = { authors, titles, dates };
+            if (!bibliographicCitations.includes(interfacedCitation)) {
+              bibliographicCitations.push(interfacedCitation);
+              this.findedCits.complete++;
+              this.findedCits.total++;
+            }
+          }
         });
 
         return { citations: bibliographicCitations, areComplete: ((this.findedCits.complete === this.findedCits.total) ? true : false) };
@@ -64,14 +61,17 @@ export class BibliographyParserService {
   public getSortingField() {
     const source = 'assets/i18n/en.json';
     const b = 'BIBLIOGRAPHY';
+    const asc = 'ASC';
+    const desc = 'DESC';
+    const author = 'AUTHOR';
+    const title = 'TITLE';
+    const date = 'DATE';
 
     return this.http.get<SortingParameters>(source).pipe(
       map((res) => (
         {
-          // tslint:disable-next-line: no-string-literal
-          alphOrder: [res[b]['ASC'], res[b]['DESC']],
-          // tslint:disable-next-line: no-string-literal
-          sortBy: [res[b]['AUTHOR'], res[b]['TITLE'], res[b]['DATE']],
+          alphOrder: [res[b][asc], res[b][desc]],
+          sortBy: [res[b][author], res[b][title], res[b][date]],
         }
       )),
     );
