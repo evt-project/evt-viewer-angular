@@ -24,5 +24,6 @@
     "noEntities": "No entities in this list",
     "search": "Search",
     "noMatches": "No matches for input given",
-    "entityNotFound": "Entity not found"
+    "entityNotFound": "Entity not found",
+    "noOccurrences": "No occurrences"
 }

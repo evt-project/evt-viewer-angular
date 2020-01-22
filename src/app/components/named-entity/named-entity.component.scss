@@ -44,6 +44,33 @@
   .ne-tab-content {
     background-color: $color-darker;
   }
+
+  .ne-occurrence {
+    border-radius: 4px;
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.5);
+    margin-right: 3px;
+    font-size: .7rem;
+    margin-bottom: 3px;
+    display: inline-block !important;
+    cursor: pointer;
+    line-height: 0.9rem;
+
+    .ne-occurrence-count {
+      top: -1px;
+      position: relative;
+      margin-left: 5px;
+      border: 1px solid transparent;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.8) !important;
+      .ne-occurrence-count {
+        border: 1px solid #ccc;
+      }
+    }
+
+  }
 }
 
 :host ::ng-deep .ne {

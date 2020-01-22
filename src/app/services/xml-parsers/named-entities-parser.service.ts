@@ -64,7 +64,7 @@ export class NamedEntitiesParserService {
     shareReplay(1),
   );
 
-  public occurrences$: Observable<Map<NamedEntityOccurrence>> = this.evtModelService.getPages().pipe(
+  public occurrences$: Observable<Map<NamedEntityOccurrence[]>> = this.evtModelService.getPages().pipe(
     map((pages) => pages.map(p => {
       return p.originalContent
         .filter(e => e.nodeType === 1)
@@ -201,7 +201,10 @@ export class NamedEntitiesParserService {
       namedEntityType: this.getEntityType(xml.tagName),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
-      occurrences: [],
+      occurrences$: this.occurrences$.pipe(
+        map(occ => occ[elId] || []),
+        shareReplay(1),
+      ),
     };
 
     return entity;
