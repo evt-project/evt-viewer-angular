@@ -5,11 +5,13 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
-  NamedEntityLabel, NamedEntityType, Relation, XMLElement,
+  NamedEntityLabel, NamedEntityOccurrence, NamedEntityType, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { Map } from '../../utils/js-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
+import { EVTModelService } from '../evt-model.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
@@ -62,6 +64,36 @@ export class NamedEntitiesParserService {
     shareReplay(1),
   );
 
+  public occurrences$: Observable<Map<NamedEntityOccurrence>> = this.evtModelService.getPages().pipe(
+    map((pages) => pages.map(p => {
+      return p.originalContent
+        .filter(e => e.nodeType === 1)
+        .map(e => Array.from(e.querySelectorAll(this.tagNamesMap.occurrences))
+          .map(al => al.getAttribute('ref').replace('#', '')))
+        .filter(e => e.length > 0)
+        .reduce((x, y) => x.concat(y), [])
+        .reduce((x, y) => ({
+          ...x, [y]: {
+            pageId: p.id,
+            pageLabel: p.label,
+            count: x[y] && x[y].count ? x[y].count + 1 : 1,
+          } as NamedEntityOccurrence,
+        }),     {});
+    })),
+    map((occ: NamedEntityOccurrence[]) => occ.reduce((x, y) => {
+      Object.keys(y).forEach(k => {
+        if (x[k]) {
+          x[k] = x[k].concat([y[k]]);
+        } else {
+          x[k] = [y[k]];
+        }
+      });
+
+      return x;
+    },                                               {})),
+    shareReplay(1),
+  );
+
   private neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
   private tagNamesMap: { [key: string]: string } = {
     persons: 'listPerson',
@@ -69,10 +101,12 @@ export class NamedEntitiesParserService {
     organizations: 'listOrg',
     relations: 'listRelation',
     events: 'listEvent',
+    occurrences: 'persName[ref], placeName[ref], orgName[ref], geogName[ref], event[ref]',
   };
 
   constructor(
     private editionDataService: EditionDataService,
+    private evtModelService: EVTModelService,
     private genericParserService: GenericParserService,
   ) {
   }

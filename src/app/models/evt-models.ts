@@ -77,6 +77,12 @@ export interface NamedEntityInfo extends GenericElementData {
     content: Array<GenericElementData | NamedEntitiesList>;
 }
 
+export interface NamedEntityOccurrence {
+    pageId: string;
+    pageLabel: string;
+    count: number;
+}
+
 export type Relation = OriginalEncodingData & {
     name?: string;
     activeParts: string[]; // Pointers to entities involved in relation
