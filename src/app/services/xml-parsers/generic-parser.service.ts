@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
-import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
-import { NoteComponent } from '../../components/note/note.component';
-import { TextComponent } from '../../components/text/text.component';
 import { AttributesData, NamedEntitiesList, XMLElement } from '../../models/evt-models';
 import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
@@ -46,7 +43,7 @@ export class GenericParserService {
 
   private parseText(xml: XMLElement): TextData {
     const text = {
-      type: TextComponent,
+      type: 'TextComponent',
       text: replaceMultispaces(xml.textContent),
       attributes: {},
     } as TextData;
@@ -56,7 +53,7 @@ export class GenericParserService {
 
   private parseElement(xml: XMLElement): GenericElementData {
     const genericElement: GenericElementData = {
-      type: GenericElementComponent,
+      type: 'GenericElementComponent',
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),
@@ -73,7 +70,7 @@ export class GenericParserService {
       return this.parseElement(xml);
     }
     const noteElement = {
-      type: NoteComponent,
+      type: 'NoteComponent',
       path: xpath(xml),
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),

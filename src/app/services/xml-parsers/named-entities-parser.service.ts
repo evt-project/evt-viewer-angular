@@ -3,9 +3,6 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
-import { GenericElementComponent } from '../../components/generic-element/generic-element.component';
-import { NamedEntityDetailComponent } from '../../components/named-entity/named-entity-detail/named-entity-detail.component';
-import { NamedEntityComponent } from '../../components/named-entity/named-entity.component';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
   NamedEntityLabel, NamedEntityType, Relation, XMLElement,
@@ -92,7 +89,7 @@ export class NamedEntitiesParserService {
 
   private parseList(list: XMLElement) {
     const parsedList: NamedEntitiesList = {
-      type: GenericElementComponent, // TODO: Set NamedEntitiesListComponent
+      type: 'GenericElementComponent', // TODO: Set NamedEntitiesListComponent
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
       namedEntityType: this.getListType(list.tagName),
@@ -158,7 +155,7 @@ export class NamedEntitiesParserService {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
     const label = replaceNewLines(xml.textContent) || 'No info';
     const entity: NamedEntity = {
-      type: NamedEntityComponent,
+      type: 'NamedEntityComponent',
       id: elId,
       sortKey: xml.getAttribute('sortKey') || (label ? label[0] : '') || xml.getAttribute('xml:id') || xpath(xml),
       originalEncoding: xml,
@@ -275,7 +272,7 @@ export class NamedEntitiesParserService {
 
   private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
     return {
-      type: NamedEntityDetailComponent,
+      type: 'NamedEntityDetailComponent',
       label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
       content: [this.genericParserService.parse(xml)],
       attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},
