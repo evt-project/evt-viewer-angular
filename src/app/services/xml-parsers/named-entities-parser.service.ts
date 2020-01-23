@@ -68,15 +68,18 @@ export class NamedEntitiesParserService {
     map((pages) => pages.map(p => {
       return p.originalContent
         .filter(e => e.nodeType === 1)
-        .map(e => Array.from(e.querySelectorAll(this.tagNamesMap.occurrences))
-          .map(al => al.getAttribute('ref').replace('#', '')))
+        .map(e => Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
+          .map(el => ({
+            ref: el.getAttribute('ref').replace('#', ''),
+            el: this.genericParserService.parse(el),
+          })))
         .filter(e => e.length > 0)
         .reduce((x, y) => x.concat(y), [])
         .reduce((x, y) => ({
-          ...x, [y]: {
+          ...x, [y.ref]: {
             pageId: p.id,
             pageLabel: p.label,
-            count: x[y] && x[y].count ? x[y].count + 1 : 1,
+            refs: x[y.ref] && x[y.ref].refs ? x[y.ref].refs.concat([y.el]) : [y.el],
           } as NamedEntityOccurrence,
         }),     {});
     })),

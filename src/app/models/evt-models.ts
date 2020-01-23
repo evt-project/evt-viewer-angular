@@ -81,7 +81,7 @@ export interface NamedEntityInfo extends GenericElementData {
 export interface NamedEntityOccurrence {
     pageId: string;
     pageLabel: string;
-    count: number;
+    refs: GenericElementData[];
 }
 
 export type Relation = OriginalEncodingData & {

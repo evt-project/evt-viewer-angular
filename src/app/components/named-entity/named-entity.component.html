@@ -31,7 +31,11 @@
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content" *ngIf="data.occurrences$ | async as occurrences">
                         <span class="ne-occurrence" *ngFor="let occurrence of occurrences">{{ occurrence.pageLabel }} 
-                            <span class="badge badge-info badge-light ne-occurrence-count">{{occurrence.count}}</span>
+                            <span #popover="ngbPopover" [ngbPopover]="popContent"
+                            [autoClose]="'outside'" popoverClass="evt-note" container="body" [placement]="['auto']" class="badge badge-info badge-light ne-occurrence-count">{{occurrence.refs?.length}}</span>
+                            <ng-template #popContent>
+                                <div *ngFor="let ref of occurrence.refs"><evt-content-viewer [content]="ref"></evt-content-viewer></div>
+                            </ng-template>
                         </span>
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
                     </div>
