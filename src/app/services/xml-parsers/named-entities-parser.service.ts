@@ -5,7 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
-  NamedEntityLabel, NamedEntityOccurrence, NamedEntityType, Relation, XMLElement,
+  NamedEntityLabel, NamedEntityOccurrence, NamedEntityType, PageData, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
@@ -65,25 +65,8 @@ export class NamedEntitiesParserService {
   );
 
   public occurrences$: Observable<Map<NamedEntityOccurrence[]>> = this.evtModelService.getPages().pipe(
-    map((pages) => pages.map(p => {
-      return p.originalContent
-        .filter(e => e.nodeType === 1)
-        .map(e => Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
-          .map(el => ({
-            ref: el.getAttribute('ref').replace('#', ''),
-            el: this.genericParserService.parse(el),
-          })))
-        .filter(e => e.length > 0)
-        .reduce((x, y) => x.concat(y), [])
-        .reduce((x, y) => ({
-          ...x, [y.ref]: {
-            pageId: p.id,
-            pageLabel: p.label,
-            refs: x[y.ref] && x[y.ref].refs ? x[y.ref].refs.concat([y.el]) : [y.el],
-          } as NamedEntityOccurrence,
-        }),     {});
-    })),
-    map((occ: NamedEntityOccurrence[]) => occ.reduce((x, y) => {
+    map((pages) => pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))),
+    map((occ) => occ.reduce((x, y) => {
       Object.keys(y).forEach(k => {
         if (x[k]) {
           x[k] = x[k].concat([y[k]]);
@@ -93,7 +76,7 @@ export class NamedEntitiesParserService {
       });
 
       return x;
-    },                                               {})),
+    },                      {})),
     shareReplay(1),
   );
 
@@ -351,5 +334,35 @@ export class NamedEntitiesParserService {
 
   private getEntityType(tagName): NamedEntityType {
     return tagName.toLowerCase();
+  }
+
+  private getNamedEntitiesOccurrencesInPage(p: PageData) {
+    return p.originalContent
+      .filter(e => e.nodeType === 1)
+      .map(e => {
+        const occurrences = [];
+        if (this.tagNamesMap.occurrences.indexOf(e.tagName) >= 0 && e.getAttribute('ref')) { // Handle first level page contents
+          occurrences.push(this.parseNamedEntityOccurrence(e));
+        }
+
+        return occurrences.concat(Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
+          .map(el => this.parseNamedEntityOccurrence(el)));
+      })
+      .filter(e => e.length > 0)
+      .reduce((x, y) => x.concat(y), [])
+      .reduce((x, y) => ({
+        ...x, [y.ref]: {
+          pageId: p.id,
+          pageLabel: p.label,
+          refs: x[y.ref] && x[y.ref].refs ? x[y.ref].refs.concat([y.el]) : [y.el],
+        },
+      }),     {}) as Array<Map<NamedEntityOccurrence>>;
+  }
+
+  private parseNamedEntityOccurrence(xml: XMLElement) {
+    return {
+      ref: xml.getAttribute('ref').replace('#', ''),
+      el: this.genericParserService.parse(xml),
+    };
   }
 }
