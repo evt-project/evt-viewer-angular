@@ -1,13 +1,31 @@
-<span class="namedEntityRef {{ data.entityType }}" (click)="toggleEntityData($event)" [ngClass]="{
+<span
+    class="namedEntityRef {{ data.entityType }}"
+    (click)="toggleEntityData($event)"
+    [ngClass]="{
         opened: opened,
         highlighted: highlighted$ | async
     }">
-    <evt-content-viewer *ngFor="let element of data.content" [content]="element"></evt-content-viewer>
+    <evt-content-viewer
+        *ngFor="let element of data.content"
+        [content]="element">
+    </evt-content-viewer>
 </span>
-<div *ngIf="opened" class="namedEntityRefDetail {{ data.entityType }}">
-    <ng-container *ngIf="entity$ | async as entity; else loading">
-        <span *ngIf="entity === 'notFound'" class="d-block p-2 pl-3 font-italic font-weight-light not-found-msg">{{ 'entityNotFound' | translate }}</span>
-        <evt-named-entity *ngIf="entity !== 'notFound'" [inList]="true" [entity]="entity"> </evt-named-entity>
+<div
+    *ngIf="opened"
+    class="namedEntityRefDetail {{ data.entityType }}">
+    <ng-container *ngIf="(entity$ | async) as entity">
+        <ng-container *ngIf="(neParserService.parsing$ | async) === false">
+            <evt-named-entity
+                *ngIf="entity else loading"
+                [inList]="true"
+                [entity]="entity">
+            </evt-named-entity>
+        </ng-container>
     </ng-container>
-    <ng-template #loading>Loading...</ng-template>
 </div>
+
+<ng-template #loading>Loading...</ng-template>
+
+<ng-template #notFound>
+    <span class="d-block p-2 pl-3 font-italic font-weight-light not-found-msg">{{ 'entityNotFound' | translate }}</span>
+</ng-template>

@@ -15,14 +15,14 @@ export class NamedEntityRefComponent {
   @Input() data: NamedEntityRefData;
 
   entity$ = this.neParserService.namedEntities$.pipe(
-    map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
+    map(ne => ne.all.entities.find(e => e.id === this.data.entityId)),
   );
 
   public highlighted$ = of(true); // TODO: connect to highlight service
   public opened = false;
 
   constructor(
-    private neParserService: NamedEntitiesParserService,
+    public neParserService: NamedEntitiesParserService,
   ) {
   }
 
