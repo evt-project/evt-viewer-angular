@@ -15,7 +15,7 @@ export class NamedEntityRefComponent {
   @Input() data: NamedEntityRefData;
 
   entity$ = this.neParserService.namedEntities$.pipe(
-    map(ne => ne.all.entities.find(e => e.id === this.data.entityId)),
+    map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
   );
 
   public highlighted$ = of(true); // TODO: connect to highlight service

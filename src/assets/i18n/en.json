@@ -23,5 +23,6 @@
     "lists": "Lists",
     "noEntities": "No entities in this list",
     "search": "Search",
-    "noMatches": "No matches for input given"
+    "noMatches": "No matches for input given",
+    "entityNotFound": "Entity not found"
 }
