@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AttributesMap } from 'ng-dynamic-component';
-import { combineLatest, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
@@ -16,8 +16,13 @@ import { GenericParserService } from './generic-parser.service';
   providedIn: 'root',
 })
 export class NamedEntitiesParserService {
+
+  public parsing$ = new BehaviorSubject<boolean>(true);
+
   public readonly parsedLists$ = this.editionDataService.parsedEditionSource$.pipe(
+    tap(() => this.parsing$.next(true)),
     map((source) => this.parseLists(source)),
+    tap(() => this.parsing$.next(false)),
     shareReplay(1),
   );
 
