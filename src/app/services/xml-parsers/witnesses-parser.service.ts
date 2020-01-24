@@ -69,11 +69,8 @@ export class WitnessesParserService {
   }
 
   private parseWitnessContent(wit: XMLElement): Description {
-    const content = [];
-    Array.from(wit.childNodes)
-      .map((child: XMLElement) => content.push(this.genericParserService.parse(child)));
-
-    return content;
+    return Array.from(wit.childNodes)
+      .map((child: XMLElement) => this.genericParserService.parse(child));
   }
 
   private parseWitnessesGroups(list: XMLElement, parsedList: WitnessesList) {
