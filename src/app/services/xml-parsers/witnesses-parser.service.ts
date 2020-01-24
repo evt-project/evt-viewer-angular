@@ -45,8 +45,8 @@ export class WitnessesParserService {
   }
 
   private parseWitnesses(list: XMLElement, parsedList: WitnessesList) {
-    Array.from(list.querySelectorAll<XMLElement>(this.tagNamesMap.witTagName))
-      .map((wit) => {
+    list.querySelectorAll<XMLElement>(this.tagNamesMap.witTagName)
+      .forEach((wit) => {
         const parsedWit = this.parseWitness(wit);
         parsedList.witnesses[parsedWit.id] = parsedWit;
         parsedList.indexes.witnesses.push(wit.getAttribute('xml:id'));
