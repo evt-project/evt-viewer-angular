@@ -85,8 +85,12 @@ export class GenericParserService {
     return noteElement;
   }
 
-  private parseNamedEntityRef(xml: XMLElement): NamedEntityRefData {
+  private parseNamedEntityRef(xml: XMLElement): NamedEntityRefData | GenericElementData {
     const ref = xml.getAttribute('ref');
+    if (!ref) {
+      return this.parseElement(xml);
+    }
+
     const neTypeMap: { [key: string]: NamedEntityType } = {
       placename: 'place',
       geogname: 'place',
