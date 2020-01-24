@@ -5,6 +5,7 @@ import { AttributesData, NamedEntitiesList, XMLElement } from '../../models/evt-
 import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
+import { NamedEntityRefData, NamedEntityType } from './../../models/evt-models';
 
 export type ParsedElement = HTMLData | TextData | GenericElementData | CommentData | NoteData | NamedEntitiesList;
 
@@ -26,7 +27,12 @@ export class GenericParserService {
   );
 
   parseF = {
+    event: this.parseNamedEntityRef,
+    geogname: this.parseNamedEntityRef,
     note: this.parseNote,
+    orgname: this.parseNamedEntityRef,
+    persname: this.parseNamedEntityRef,
+    placename: this.parseNamedEntityRef,
   };
 
   parse(xml: XMLElement): ParsedElement {
@@ -77,7 +83,30 @@ export class GenericParserService {
     };
 
     return noteElement;
+  }
 
+  private parseNamedEntityRef(xml: XMLElement): NamedEntityRefData | GenericElementData {
+    const ref = xml.getAttribute('ref');
+    if (!ref) {
+      return this.parseElement(xml);
+    }
+
+    const neTypeMap: { [key: string]: NamedEntityType } = {
+      placename: 'place',
+      geogname: 'place',
+      persname: 'person',
+      orgname: 'org',
+      event: 'event',
+    };
+
+    return {
+      type: 'NamedEntityRefComponent',
+      entityId: ref ? ref.replace(/#/g, '') : '',
+      entityType: neTypeMap[xml.tagName.toLowerCase()],
+      path: xpath(xml),
+      content: this.parseChildren(xml),
+      attributes: this.parseAttributes(xml),
+    };
   }
 
   private parseChildren(xml: XMLElement) {
@@ -86,7 +115,7 @@ export class GenericParserService {
 
   public parseAttributes(xml: XMLElement): AttributesData {
     return Array.from(xml.attributes)
-      .map(({name, value}) => ({ [name === 'xml:id' ? 'id' : name.replace(':', '-')]: value }))
+      .map(({ name, value }) => ({ [name === 'xml:id' ? 'id' : name.replace(':', '-')]: value }))
       .reduce((x, y) => ({ ...x, ...y }), {});
   }
 }

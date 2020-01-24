@@ -17,6 +17,10 @@ export interface PageData {
 }
 
 export interface NamedEntities {
+    all: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
     persons: {
         lists: NamedEntitiesList[];
         entities: NamedEntity[];
@@ -83,3 +87,8 @@ export type Relation = OriginalEncodingData & {
 };
 
 export type Description = GenericElementData[];
+
+export interface NamedEntityRefData extends GenericElementData {
+    entityId: string;
+    entityType: NamedEntityType;
+}

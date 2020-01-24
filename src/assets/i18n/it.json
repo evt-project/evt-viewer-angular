@@ -22,5 +22,6 @@
     "lists": "Liste",
     "noEntities": "Nessuna entità in questa lista",
     "search": "Cerca",
-    "noMatches": "Nessun risultato"
+    "noMatches": "Nessun risultato",
+    "entityNotFound": "Entità non trovata"
 }

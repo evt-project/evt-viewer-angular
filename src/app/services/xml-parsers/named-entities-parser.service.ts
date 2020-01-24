@@ -49,6 +49,10 @@ export class NamedEntitiesParserService {
     this.events$,
   ]).pipe(
     map(([persons, places, organizations, relations, events]) => ({
+      all: {
+        lists: [...persons.lists, ...places.lists, ...organizations.lists, ...events.lists],
+        entities: [...persons.entities, ...places.entities, ...organizations.entities, ...events.entities],
+      },
       persons,
       places,
       organizations,
