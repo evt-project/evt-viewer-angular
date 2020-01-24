@@ -17,6 +17,10 @@ export interface PageData {
 }
 
 export interface NamedEntities {
+    all: {
+        lists: NamedEntitiesList[];
+        entities: NamedEntity[];
+    };
     persons: {
         lists: NamedEntitiesList[];
         entities: NamedEntity[];
