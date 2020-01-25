@@ -15,10 +15,8 @@ export class WitnessesParserService {
     shareReplay(1),
   );
 
-  private tagNamesMap: { [key: string]: string } = {
-    witListTagName: 'listWit',
-    witTagName: 'witness',
-  };
+  private witListTagName = 'listWit';
+  private witTagName = 'witness';
 
   constructor(
     private editionDataService: EditionDataService,
@@ -31,7 +29,7 @@ export class WitnessesParserService {
       witnesses: {},
       originalGroup: {},
     };
-    Array.from(document.querySelectorAll<XMLElement>(this.tagNamesMap.witListTagName))
+    Array.from(document.querySelectorAll<XMLElement>(this.witListTagName))
       .map((list) => {
         !isNestedInElem(list, list.tagName) ? this.parseWitnesses(list, parsedList) : this.parseWitnessesGroups(list, parsedList);
       });
@@ -40,7 +38,7 @@ export class WitnessesParserService {
   }
 
   private parseWitnesses(list: XMLElement, parsedList: WitnessesList) {
-    list.querySelectorAll<XMLElement>(this.tagNamesMap.witTagName)
+    list.querySelectorAll<XMLElement>(this.witTagName)
       .forEach((wit) => {
         const parsedWit = this.parseWitness(wit);
         parsedList.witnesses[parsedWit.id] = parsedWit;
@@ -86,14 +84,14 @@ export class WitnessesParserService {
 
   private parseGroupContent(list: XMLElement) {
     return Array.from(list.children)
-      .filter(({nodeName}) => nodeName === this.tagNamesMap.witListTagName || nodeName === this.tagNamesMap.witTagName)
+      .filter(({nodeName}) => nodeName === this.witListTagName || nodeName === this.witTagName)
       .map((child) => child.getAttribute('xml:id'));
   }
 
   private parseParentGroupId(element: XMLElement) {
     const parentEl = element.parentElement;
 
-    if (parentEl.tagName !== this.tagNamesMap.witListTagName) {
+    if (parentEl.tagName !== this.witListTagName) {
       this.parseParentGroupId(parentEl);
     }
 
