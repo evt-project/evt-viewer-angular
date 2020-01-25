@@ -72,7 +72,7 @@ export class WitnessesParserService {
       name: this.parseGroupName(list) || replaceNotWordChar(list.getAttribute('xml:id')) || xpath(list),
       attributes: this.genericParserService.parseAttributes(list),
       content: this.parseGroupContent(list),
-      group: this.parseParentGroupId(list) || undefined,
+      group: this.parseParentGroupId(list),
     };
   }
 
@@ -81,7 +81,7 @@ export class WitnessesParserService {
     const groupEl = Array.from(list.children)
       .find((child) => child.nodeName === groupTagName);
 
-    return groupEl ? groupEl.textContent : undefined;
+    return groupEl && groupEl.textContent;
   }
 
   private parseGroupContent(list: XMLElement): Description {

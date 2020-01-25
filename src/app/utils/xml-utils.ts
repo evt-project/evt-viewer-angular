@@ -30,5 +30,5 @@ export function replaceNewLines(textContent: string) {
 }
 
 export function replaceNotWordChar(textContent: string) {
-  return textContent ? textContent.replace(/[\W_]/, ' ') : undefined;
+  return textContent && textContent.replace(/[\W_]/, ' ') ;
 }
