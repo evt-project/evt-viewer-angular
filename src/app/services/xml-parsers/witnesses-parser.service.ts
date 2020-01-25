@@ -87,7 +87,7 @@ export class WitnessesParserService {
   private parseGroupContent(list: XMLElement): Description {
     const content = [];
     Array.from(list.children)
-      .filter(() => Object.keys(this.tagNamesMap))
+      .filter(({nodeName}) => nodeName === this.tagNamesMap.witListTagName || nodeName === this.tagNamesMap.witTagName)
       .map((child) => content.push(child.getAttribute('xml:id')));
 
     return content;
