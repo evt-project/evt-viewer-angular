@@ -30,11 +30,6 @@ export class WitnessesParserService {
     const parsedList: WitnessesList = {
       witnesses: {},
       originalGroup: {},
-      indexes: {
-        witnesses: [],
-        groups: [],
-        encodingStructure: [],
-      },
     };
     Array.from(document.querySelectorAll<XMLElement>(this.tagNamesMap.witListTagName))
       .map((list) => {
@@ -49,13 +44,6 @@ export class WitnessesParserService {
       .forEach((wit) => {
         const parsedWit = this.parseWitness(wit);
         parsedList.witnesses[parsedWit.id] = parsedWit;
-        parsedList.indexes.witnesses.push(wit.getAttribute('xml:id'));
-        if (parsedWit.group === undefined) {
-          parsedList.indexes.encodingStructure.push(wit.getAttribute('xml:id'));
-        }
-        if (parsedWit.group && !parsedList.indexes.encodingStructure.includes(parsedWit.group)) {
-          parsedList.indexes.encodingStructure.push(parsedWit.group);
-        }
       });
   }
 
@@ -76,7 +64,6 @@ export class WitnessesParserService {
   private parseWitnessesGroups(list: XMLElement, parsedList: WitnessesList) {
     const parsedGroup = this.parseWitnessGroup(list);
     parsedList.originalGroup[parsedGroup.id] = parsedGroup;
-    parsedList.indexes.groups.push(parsedGroup.id);
   }
 
   private parseWitnessGroup(list: XMLElement): WitnessGroup {

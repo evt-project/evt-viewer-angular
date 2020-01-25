@@ -87,7 +87,6 @@ export interface WitnessesList {
     witnesses: Map<Witness>;
     originalGroup: Map<WitnessGroup>;
     customGroup?: [];
-    indexes: Map<string[]>;
 }
 
 export interface Witness {
