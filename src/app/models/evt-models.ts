@@ -100,6 +100,6 @@ export interface WitnessGroup {
     id: string;
     name: string;
     attributes: AttributesData;
-    content: Description;
+    content: string[];
     group?: Description;
 }

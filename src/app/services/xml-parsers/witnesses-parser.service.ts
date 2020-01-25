@@ -84,13 +84,10 @@ export class WitnessesParserService {
     return groupEl && groupEl.textContent;
   }
 
-  private parseGroupContent(list: XMLElement): Description {
-    const content = [];
-    Array.from(list.children)
+  private parseGroupContent(list: XMLElement) {
+    return Array.from(list.children)
       .filter(({nodeName}) => nodeName === this.tagNamesMap.witListTagName || nodeName === this.tagNamesMap.witTagName)
-      .map((child) => content.push(child.getAttribute('xml:id')));
-
-    return content;
+      .map((child) => child.getAttribute('xml:id'));
   }
 
   private parseParentGroupId(element: XMLElement) {
