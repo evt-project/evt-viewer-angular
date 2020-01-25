@@ -56,6 +56,7 @@ export class WitnessesParserService {
 
   private parseWitnessContent(wit: XMLElement): Description {
     return Array.from(wit.childNodes)
+      .filter((child) => child.nodeName !== this.witListTagName && child.textContent.trim().length !== 0)
       .map((child: XMLElement) => this.genericParserService.parse(child));
   }
 
