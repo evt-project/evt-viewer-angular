@@ -30,18 +30,8 @@
             <ngb-tab [title]="'Occurrences' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content" *ngIf="data.occurrences$ | async as occurrences">
-                        <ng-container *ngFor="let occurrence of occurrences">
-                            <span class="ne-occurrence" *ngFor="let refByDoc of occurrence.refsByDoc">
-                                    {{ occurrence.pageLabel }} {{ refByDoc.docLabel ? '(' + refByDoc.docLabel + ')' : '' }}
-                                <span #popover="ngbPopover" [ngbPopover]="popContent"
-                                [autoClose]="'outside'" popoverClass="evt-note" container="body" [placement]="['auto']" class="badge badge-info badge-light ne-occurrence-count">
-                                    {{refByDoc.refs?.length}}</span>
-                                <ng-template #popContent>
-                                    <div *ngFor="let ref of refByDoc.refs"><evt-content-viewer [content]="ref"></evt-content-viewer></div>
-                                </ng-template>
-                            </span>
-                        </ng-container>
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
+                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
                     </div>
                 </ng-template>
             </ngb-tab>

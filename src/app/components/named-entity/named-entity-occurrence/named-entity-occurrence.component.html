@@ -1,0 +1,17 @@
+<span class="ne-occurrence" *ngFor="let refByDoc of occurrence.refsByDoc">
+    {{ occurrence.pageLabel }} {{ refByDoc.docLabel ? '(' + refByDoc.docLabel + ')' : '' }}
+    <span class="badge badge-info badge-light ne-occurrence-count"
+        #popover="ngbPopover" 
+        [ngbPopover]="popContent" 
+        [autoClose]="'outside'" 
+        popoverClass="evt-note"
+        container="body" 
+        [placement]="['auto']">
+        {{refByDoc.refs?.length}}
+    </span>
+    <ng-template #popContent>
+        <div *ngFor="let ref of refByDoc.refs">
+            <evt-content-viewer [content]="ref"></evt-content-viewer>
+        </div>
+    </ng-template>
+</span>
