@@ -81,6 +81,11 @@ export interface NamedEntityInfo extends GenericElementData {
 export interface NamedEntityOccurrence {
     pageId: string;
     pageLabel: string;
+    refsByDoc: NamedEntityOccurrenceRef[];
+}
+export interface NamedEntityOccurrenceRef {
+    docId: string;
+    docLabel: string;
     refs: GenericElementData[];
 }
 

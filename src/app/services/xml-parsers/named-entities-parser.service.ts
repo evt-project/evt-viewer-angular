@@ -5,7 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
-  NamedEntityLabel, NamedEntityOccurrence, NamedEntityType, PageData, Relation, XMLElement,
+  NamedEntityLabel, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, PageData, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
@@ -350,19 +350,37 @@ export class NamedEntitiesParserService {
       })
       .filter(e => e.length > 0)
       .reduce((x, y) => x.concat(y), [])
-      .reduce((x, y) => ({
-        ...x, [y.ref]: {
-          pageId: p.id,
-          pageLabel: p.label,
-          refs: x[y.ref] && x[y.ref].refs ? x[y.ref].refs.concat([y.el]) : [y.el],
-        },
-      }),     {}) as Array<Map<NamedEntityOccurrence>>;
+      .reduce((x, y) => {
+        const refsByDoc: NamedEntityOccurrenceRef[] = x[y.ref] ? x[y.ref].refsByDoc || [] : [];
+        const docRefs = refsByDoc.find(r => r.docId === y.docId);
+        if (docRefs) {
+          docRefs.refs.push(y.el);
+        } else {
+          refsByDoc.push({
+            docId: y.docId,
+            refs: [y.el],
+            docLabel: y.docLabel,
+          });
+        }
+
+        return {
+          ...x, [y.ref]: {
+            pageId: p.id,
+            pageLabel: p.label,
+            refsByDoc,
+          },
+        } as Array<Map<NamedEntityOccurrence>>;
+      },      {});
   }
 
   private parseNamedEntityOccurrence(xml: XMLElement) {
+    const doc = xml.closest('text');
+
     return {
       ref: xml.getAttribute('ref').replace('#', ''),
-      el: this.genericParserService.parse(xml),
+      el: this.genericParserService.parseElement(xml),
+      docId: doc ? doc.getAttribute('xml:id') : '', // TODO: get proper document id when missing
+      docLabel: doc ? doc.getAttribute('n') || doc.getAttribute('xml:id') : '', // TODO: get proper document label when attributes missing
     };
   }
 }
