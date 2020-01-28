@@ -191,6 +191,9 @@ export class NamedEntitiesParserService {
         map(occ => occ[elId] || []),
         shareReplay(1),
       ),
+      relations$: this.relations$.pipe(
+        map(el => el.filter(rel => rel.activeParts.indexOf(elId) >= 0 ||
+          rel.passiveParts.indexOf(elId) >= 0 || rel.mutualParts.indexOf(elId) >= 0))),
     };
 
     return entity;
@@ -276,12 +279,14 @@ export class NamedEntitiesParserService {
     const passive = xml.getAttribute('passive') || '';
     const descriptionEls = xml.querySelectorAll<XMLElement>('desc');
     const relation: Relation = {
+      type: 'NamedEntityRelationComponent',
       name: xml.getAttribute('name'),
       activeParts: active.replace(/#/g, '').split(' '),
       mutualParts: mutual.replace(/#/g, '').split(' '),
       passiveParts: passive.replace(/#/g, '').split(' '),
-      type: xml.getAttribute('type'),
-      originalEncoding: xml,
+      relationType: xml.getAttribute('type'),
+      attributes: this.genericParserService.parseAttributes(xml),
+      content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
     };
     if (descriptionEls && descriptionEls.length > 0) {
       relation.description = [];
@@ -291,7 +296,7 @@ export class NamedEntitiesParserService {
     }
     const parentListEl = xml.parentElement.tagName === 'listRelation' ? xml.parentElement : undefined;
     if (parentListEl) {
-      relation.type = `${(parentListEl.getAttribute('type') || '')} ${(relation.type || '')}`.trim();
+      relation.relationType = `${(parentListEl.getAttribute('type') || '')} ${(relation.relationType || '')}`.trim();
     }
 
     return relation;

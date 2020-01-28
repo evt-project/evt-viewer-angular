@@ -68,6 +68,7 @@ export interface NamedEntity extends GenericElementData {
     namedEntityType: NamedEntityType | 'personGrp';
     content: NamedEntityInfo[];
     occurrences$: Observable<NamedEntityOccurrence[]>;
+    relations$: Observable<Relation[]>;
     originalEncoding: OriginalEncodingNodeType;
 }
 
@@ -89,14 +90,14 @@ export interface NamedEntityOccurrenceRef {
     refs: GenericElementData[];
 }
 
-export type Relation = OriginalEncodingData & {
+export interface Relation extends GenericElementData {
     name?: string;
     activeParts: string[]; // Pointers to entities involved in relation
     mutualParts: string[]; // Pointers to entities involved in relation
     passiveParts: string[]; // Pointers to entities involved in relation
     description?: Description | string;
-    type?: string;
-};
+    relationType?: string;
+}
 
 export type Description = GenericElementData[];
 
