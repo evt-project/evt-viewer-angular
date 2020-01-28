@@ -1,0 +1,34 @@
+<div class="relation pb-2" [ngClass]="{
+        'p-3': !inEntity,
+        'border-bottom': !inEntity
+    }">
+    <small class="relation-type" *ngIf="data.relationType">{{ data.relationType | lowercase }}</small>
+    <div>
+        <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'mr-2'}"></evt-icon>
+        <ng-template ngFor let-part let-last="last" [ngForOf]="activeParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+        
+        <ng-template ngFor let-part let-last="last" [ngForOf]="mutualParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+
+        {{ data.name | lowercase }}
+
+        <ng-template ngFor let-part let-last="last" [ngForOf]="passiveParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+
+        <evt-named-entity *ngIf="selectedEntity" [data]="selectedEntity" [inList]="false"></evt-named-entity>
+    </div>
+</div>
+<ng-template #relationParticipant let-part="part" let-last="last">
+    <span class="relation-entity {{ part.entity?.namedEntityType }}"
+        (click)="toggleEntity(part.entity)">{{ (part.entity ? part.entity.label : part.id) + (!last ? ', ' : '' ) }}</span>
+</ng-template>

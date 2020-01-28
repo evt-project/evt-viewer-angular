@@ -25,6 +25,7 @@ import { GenericElementComponent } from './components/generic-element/generic-el
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
+import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityOccurrenceComponent } from './components/named-entity/named-entity-occurrence/named-entity-occurrence.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
@@ -82,6 +83,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityDetailComponent,
     NamedEntityOccurrenceComponent,
     NamedEntityRefComponent,
+    NamedEntityRelationComponent,
     NoteComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
@@ -143,6 +145,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityComponent,
     NamedEntityDetailComponent,
     NamedEntityRefComponent,
+    NamedEntityRelationComponent,
     ShortcutsComponent,
   ],
 })
