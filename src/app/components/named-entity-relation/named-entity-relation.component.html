@@ -17,7 +17,7 @@
             </ng-template>
         </ng-template>
 
-        {{ data.name | lowercase }}
+        {{ data.name | humanize | lowercase }}
 
         <ng-template ngFor let-part let-last="last" [ngForOf]="passiveParts$ | async">
             <ng-template [ngTemplateOutlet]="relationParticipant"

@@ -46,6 +46,7 @@ import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.comp
 import { PinboardComponent } from './pinboard/pinboard.component';
 import { PinnerComponent } from './pinboard/pinner/pinner.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { HumanizePipe } from './pipes/humanize.pipe';
 import { StartsWithPipe } from './pipes/starts-with.pipe';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { ThemesService } from './services/themes.service';
@@ -74,6 +75,7 @@ export function initializeApp(appConfig: AppConfig) {
     FilterPipe,
     GenericElementComponent,
     GlobalListsComponent,
+    HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
     MainHeaderComponent,
