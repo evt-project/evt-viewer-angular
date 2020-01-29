@@ -1,3 +1,26 @@
+@import '../../../assets/scss/themes';
+@import '../../../assets/scss/mixins';
+
+.relation-entity {
+    cursor: pointer;
+
+    &.person {
+        @include namedEntityRefColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
+    }
+
+    &.place {
+        @include namedEntityRefColors(get-color(placeBase), get-color(placeMiddle), get-color(placeDarker));
+    }
+
+    &.org {
+        @include namedEntityRefColors(get-color(orgBase), get-color(orgMiddle), get-color(orgDarker));
+    }
+
+    &.event {
+        @include namedEntityRefColors(get-color(eventBase), get-color(eventMiddle), get-color(eventDarker));
+    }
+}
+
 .relation-type {
     font-variant: small-caps;
 }
