@@ -1,23 +1,5 @@
 @import "../../../assets/scss/themes";
 @import "../../../assets/scss/mixins";
-@function get-color($key) {
-  @return map-fetch($editionColors, namedEntities $key);
-}
-
-@mixin namedEntityRefColors($color-base, $color-middle, $color-darker) {
-  background: $color-base;
-  border-bottom-color: $color-middle;
-  &.active {
-    background-color: $color-middle;
-    border-right-color: $color-middle;
-    &:not(:first-child) {
-      border-left-color: $color-middle;
-    }
-  }
-  &:hover {
-    background-color: $color-middle;
-  }
-}
 
 .namedEntityRef {
   cursor: pointer;

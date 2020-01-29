@@ -125,3 +125,8 @@ $editionColors: (
         @return $value;
     }
 }
+
+@function get-color($key) {
+    @return map-fetch($editionColors, namedEntities $key);
+}
+  
