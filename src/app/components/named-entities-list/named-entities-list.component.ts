@@ -1,14 +1,16 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NamedEntitiesList } from '../../models/evt-models';
+import { register } from '../../services/component-register.service';
 import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
 
+@register
 @Component({
   selector: 'evt-named-entities-list',
   templateUrl: './named-entities-list.component.html',
   styleUrls: ['./named-entities-list.component.scss'],
 })
 export class NamedEntitiesListComponent implements OnInit, OnChanges {
-  @Input() list: NamedEntitiesList;
+  @Input() data: NamedEntitiesList;
   @Output() searchedEntities: EventEmitter<string> = new EventEmitter();
   // tslint:disable-next-line: variable-name
   private _selectedKey: string;
@@ -43,8 +45,8 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   }
 
   private initKeys() {
-    if (!!this.list && !!this.list.content && this.list.content.length > 0) {
-      this.navigationKeys = this.list.content
+    if (!!this.data && !!this.data.content && this.data.content.length > 0) {
+      this.navigationKeys = this.data.content
         .map(el => el.sortKey.substr(0, 1).toLowerCase())
         .filter((item, i, ar) => ar.indexOf(item) === i)
         .sort();

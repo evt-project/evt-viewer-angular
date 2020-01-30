@@ -1,5 +1,5 @@
 <div class="card border-0 ne-list">
-    <div class="card-header p-0 m-0" *ngIf="list?.content?.length > 0">
+    <div class="card-header p-0 m-0" *ngIf="data?.content?.length > 0">
         <form class="input-group p-1" *ngIf="searchOpened">
             <input type="input" name="search" class="form-control form-control-sm ne-list-search"
                 [placeholder]="'search' | translate" [(ngModel)]="querySearch" />
@@ -24,14 +24,14 @@
     </div>
 
     <div class="card-body ne-list-body p-0 m-0">
-        <cdk-virtual-scroll-viewport autosize *ngIf="list?.content?.length > 0" >
+        <cdk-virtual-scroll-viewport autosize *ngIf="data?.content?.length > 0" >
             <ng-container
-                *cdkVirtualFor="let entity of list?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
+                *cdkVirtualFor="let entity of data?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
                 <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
                 <div class="p-3" *ngIf="!entity"> {{'noMatches' | translate }} </div>
             </ng-container>
         </cdk-virtual-scroll-viewport>
-        <div *ngIf="list?.content?.length === 0" class="p-3 ne-list-msg">
+        <div *ngIf="data?.content?.length === 0" class="p-3 ne-list-msg">
             {{ 'noEntities' | translate }}
         </div>
     </div>
