@@ -36,8 +36,12 @@
       background-color: $color-darker;
     }
 
-    &:hover:not(.active) {
+    &:hover:not(.active):not(.disabled) {
       background: rgba($color-darker, .5);
+    }
+    &.disabled {
+      pointer-events: auto;
+      cursor: not-allowed;
     }
   }
 

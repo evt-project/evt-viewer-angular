@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { NamedEntity } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
@@ -11,6 +12,8 @@ import { register } from '../../services/component-register.service';
 export class NamedEntityComponent implements OnInit {
   @Input() data: NamedEntity;
   @Input() inList: boolean;
+
+  @ViewChild('entityDetails', { static: false }) entityDetails: NgbTabset;
   public contentOpened = true;
 
   ngOnInit() {
@@ -22,6 +25,11 @@ export class NamedEntityComponent implements OnInit {
   toggleContent() {
     if (this.inList) {
       this.contentOpened = !this.contentOpened;
+      if (this.contentOpened) {
+        if (this.entityDetails.activeId === 'info' && this.entity.content.length === 0) {
+          this.entityDetails.select('occurrences');
+        }
+      }
     }
   }
 

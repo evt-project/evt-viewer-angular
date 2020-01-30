@@ -16,19 +16,18 @@
         {{ data.label }}
         <evt-pinner [item]="data" renderer="NamedEntity" pinType="NamedEntities"></evt-pinner>
     </div>
-    <div class="card-body ne-content" *ngIf="contentOpened">
-        <!-- Tab panes -->
-        <ngb-tabset [justify]="false">
-            <ngb-tab [title]="'Info' | translate">
-                <ng-template ngbTabContent>
+    <div class="card-body ne-content d-none" [class.d-block]="contentOpened">
+        <ngb-tabset [justify]="false" #entityDetails="ngbTabset">
+            <ngb-tab id="info" [title]="'Info' | translate" [disabled]="data.content.length === 0">
+                <ng-template ngbTabContent *ngIf="contentOpened">
                     <div class="ne-tab-content">
                         <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
                         </evt-content-viewer>
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab [title]="'Occurrences' | translate">
-                <ng-template ngbTabContent>
+            <ngb-tab id="occurrences" [title]="'Occurrences' | translate">
+                <ng-template ngbTabContent *ngIf="contentOpened">
                     <div class="ne-tab-content" *ngIf="data.occurrences$ | async as occurrences">
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
                         <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
@@ -44,8 +43,8 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab [title]="'XMLSource' | translate">
-                <ng-template ngbTabContent>
+            <ngb-tab id="xml" [title]="'XMLSource' | translate">
+                <ng-template ngbTabContent *ngIf="contentOpened">
                     <div class="ne-tab-content no-padding">
                         <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">
                         </evt-original-encoding-viewer>
