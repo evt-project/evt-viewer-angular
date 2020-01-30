@@ -93,7 +93,7 @@ export class NamedEntitiesParserService {
 
   private parseList(list: XMLElement) {
     const parsedList: NamedEntitiesList = {
-      type: 'GenericElementComponent', // TODO: Set NamedEntitiesListComponent
+      type: 'NamedEntitiesListComponent',
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
       namedEntityType: this.getListType(list.tagName),
