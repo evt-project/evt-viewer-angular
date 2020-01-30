@@ -5,9 +5,26 @@
                 [ngTemplateOutletContext]="{ list: list, last: false }">
             </ng-template>
         </ng-template>
+        <div class="list-item border-bottom border-top" *ngIf="(relations$ | async).length > 0"
+            (click)="openRelations()">
+            <span class="list-item-main p-2 w-100 d-block">
+                <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'mr-1'}"></evt-icon>
+                {{ 'relations' | translate }}
+                <span class="badge badge-pill badge-info">{{ (relations$ | async).length }}</span>
+            </span>
+        </div>
     </div>
-    <div class="col-9 p-0" *ngIf="selectedList">
-        <evt-content-viewer [content]="selectedList"></evt-content-viewer>
+    <div class="col-9 p-0">
+        <ng-container [ngSwitch]="showRelations">
+            <ng-container *ngSwitchCase="true">
+                <evt-content-viewer *ngFor="let relation of relations$ | async"
+                    [content]="relation"></evt-content-viewer> <!-- TODO: create component for relation list -->
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <evt-content-viewer *ngIf="selectedList" [content]="selectedList"></evt-content-viewer>
+            </ng-container>
+        </ng-container>
+        
     </div>
 </div>
 

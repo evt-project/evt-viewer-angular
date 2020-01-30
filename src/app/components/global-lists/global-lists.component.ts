@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Map } from 'src/app/utils/js-utils';
-import { NamedEntitiesList } from '../../models/evt-models';
+import { NamedEntitiesList, Relation } from '../../models/evt-models';
 import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
 
 interface GlobalList extends NamedEntitiesList {
@@ -29,6 +29,12 @@ export class GlobalListsComponent {
   );
   selectedList: NamedEntitiesList;
 
+  relations$: Observable<Relation[]> = this.neParserService.namedEntities$.pipe(
+    map(ne => ne.relations),
+  );
+
+  showRelations = false;
+
   private listsIcons: Map<string> = {
     person: 'user',
     place: 'map-marker',
@@ -48,5 +54,11 @@ export class GlobalListsComponent {
     if (this.selectedList !== list) {
       this.selectedList = list;
     }
+    this.showRelations = false;
+  }
+
+  openRelations() {
+    this.showRelations = true;
+    this.selectedList = undefined;
   }
 }
