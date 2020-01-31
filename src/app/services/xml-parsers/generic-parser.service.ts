@@ -47,7 +47,7 @@ export class GenericParserService {
     return parseFunction.call(this, xml);
   }
 
-  private parseText(xml: XMLElement): TextData {
+  public parseText(xml: XMLElement): TextData {
     const text = {
       type: 'TextComponent',
       text: replaceMultispaces(xml.textContent),

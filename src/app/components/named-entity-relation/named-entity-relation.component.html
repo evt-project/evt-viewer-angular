@@ -27,6 +27,9 @@
 
         <evt-named-entity *ngIf="selectedEntity" [data]="selectedEntity" [inList]="false"></evt-named-entity>
     </div>
+    <div class="relation-description text-secondary" *ngIf="data.description.length > 0">
+        <evt-content-viewer *ngFor="let el of data.description" [content]="el"></evt-content-viewer>
+    </div>
 </div>
 <ng-template #relationParticipant let-part="part" let-last="last">
     <span class="relation-entity {{ part.entity?.namedEntityType }}"

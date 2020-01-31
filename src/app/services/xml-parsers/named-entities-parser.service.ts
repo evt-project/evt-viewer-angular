@@ -290,12 +290,12 @@ export class NamedEntitiesParserService {
       relationType: xml.getAttribute('type'),
       attributes: this.genericParserService.parseAttributes(xml),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
+      description: [],
     };
     if (descriptionEls && descriptionEls.length > 0) {
-      relation.description = [];
       descriptionEls.forEach((el) => (relation.description as Description).push(this.genericParserService.parse(el)));
     } else {
-      relation.description = (xml.textContent || '').trim();
+      relation.description = [this.genericParserService.parseText(xml)];
     }
     const parentListEl = xml.parentElement.tagName === 'listRelation' ? xml.parentElement : undefined;
     if (parentListEl) {

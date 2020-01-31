@@ -95,7 +95,7 @@ export interface Relation extends GenericElementData {
     activeParts: string[]; // Pointers to entities involved in relation
     mutualParts: string[]; // Pointers to entities involved in relation
     passiveParts: string[]; // Pointers to entities involved in relation
-    description?: Description | string;
+    description: Description;
     relationType?: string;
 }
 
