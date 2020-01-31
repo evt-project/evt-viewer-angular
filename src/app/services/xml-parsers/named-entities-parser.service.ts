@@ -85,7 +85,6 @@ export class NamedEntitiesParserService {
     persons: 'listPerson',
     places: 'listPlace',
     organizations: 'listOrg',
-    relations: 'listRelation',
     events: 'listEvent',
     occurrences: 'persName[ref], placeName[ref], orgName[ref], geogName[ref], event[ref]',
   };
@@ -134,10 +133,14 @@ export class NamedEntitiesParserService {
             parsedList.description.push(this.genericParserService.parse(child));
             break;
           case 'relation':
-            parsedList.relations.push(this.parseRelation(child));
+            if (this.neListsConfig.relations.enabled) {
+              parsedList.relations.push(this.parseRelation(child));
+            }
             break;
           case 'listrelation':
-            child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
+            if (this.neListsConfig.relations.enabled) {
+              child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
+            }
             break;
           default:
             if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
