@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NamedEntity } from '../../models/evt-models';
+import { register } from '../../services/component-register.service';
 
+@register
 @Component({
   selector: 'evt-named-entity',
   templateUrl: './named-entity.component.html',
