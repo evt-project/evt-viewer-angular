@@ -32,6 +32,6 @@
     </div>
 </div>
 <ng-template #relationParticipant let-part="part" let-last="last">
-    <span class="relation-entity {{ part.entity?.namedEntityType }}"
+    <span class="relation-entity {{ part.entity?.namedEntityType }}" [class.disabled]="!part.entity"
         (click)="toggleEntity(part.entity)">{{ (part.entity ? part.entity.label : part.id) + (!last ? ', ' : '' ) }}</span>
 </ng-template>

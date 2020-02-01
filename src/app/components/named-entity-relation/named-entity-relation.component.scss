@@ -4,6 +4,10 @@
 .relation-entity {
     cursor: pointer;
 
+    &.disabled {
+        cursor: default;
+    }
+
     &.person {
         @include namedEntityRefColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
     }
