@@ -9,7 +9,7 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./named-entity.component.scss'],
 })
 export class NamedEntityComponent implements OnInit {
-  @Input() entity: NamedEntity;
+  @Input() data: NamedEntity;
   @Input() inList: boolean;
   public contentOpened = true;
 
