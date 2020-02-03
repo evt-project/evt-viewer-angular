@@ -7,7 +7,7 @@
 <div *ngIf="opened" class="namedEntityRefDetail {{ data.entityType }}">
     <ng-container *ngIf="entity$ | async as entity; else loading">
         <span *ngIf="entity === 'notFound'" class="d-block p-2 pl-3 font-italic font-weight-light not-found-msg">{{ 'entityNotFound' | translate }}</span>
-        <evt-named-entity *ngIf="entity !== 'notFound'" [inList]="true" [entity]="entity"> </evt-named-entity>
+        <evt-named-entity *ngIf="entity !== 'notFound'" [inList]="true" [data]="entity"> </evt-named-entity>
     </ng-container>
     <ng-template #loading>Loading...</ng-template>
 </div>

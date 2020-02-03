@@ -27,7 +27,7 @@
         <cdk-virtual-scroll-viewport autosize *ngIf="data?.content?.length > 0" >
             <ng-container
                 *cdkVirtualFor="let entity of data?.content | startsWith:'sortKey':(querySearch ? '' : selectedKey)| filter:'label':querySearch:caseSensitiveSearch; templateCacheSize: 0">
-                <evt-named-entity *ngIf="entity" [inList]="true" [entity]="entity"> </evt-named-entity>
+                <evt-named-entity *ngIf="entity" [inList]="true" [data]="entity"> </evt-named-entity>
                 <div class="p-3" *ngIf="!entity"> {{'noMatches' | translate }} </div>
             </ng-container>
         </cdk-virtual-scroll-viewport>

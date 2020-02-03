@@ -1,20 +1,20 @@
-<div class="card ne-container {{ entity.namedEntityType }}" (click)="tabSelected($event)" [ngClass]="{
+<div class="card ne-container {{ data.namedEntityType }}" (click)="tabSelected($event)" [ngClass]="{
         inList: inList, 
         contentOpened: contentOpened
-    }" *ngIf="entity">
+    }" *ngIf="data">
     <div class="card-header ne-header" (click)="toggleContent()">
         <evt-icon *ngIf="inList && contentOpened"
             [iconInfo]="{ icon: 'caret-down', additionalClasses: 'icon toggler mr-2'}">
         </evt-icon>
         <evt-icon *ngIf="inList && !contentOpened"
             [iconInfo]="{icon: 'caret-right', additionalClasses: 'icon toggler mr-2'}"></evt-icon>
-        <evt-icon *ngIf="entity.namedEntityType === 'person'"
+        <evt-icon *ngIf="data.namedEntityType === 'person'"
             [iconInfo]="{icon: 'user', additionalClasses: 'icon mr-1'}"></evt-icon>
-        <evt-icon *ngIf="entity.namedEntityType === 'place'"
+        <evt-icon *ngIf="data.namedEntityType === 'place'"
             [iconInfo]="{icon: 'map-marker', additionalClasses: 'icon mr-1'}">
         </evt-icon>
-        {{ entity.label }}
-        <evt-pinner [item]="entity" renderer="NamedEntity" pinType="NamedEntities"></evt-pinner>
+        {{ data.label }}
+        <evt-pinner [item]="data" renderer="NamedEntity" pinType="NamedEntities"></evt-pinner>
     </div>
     <div class="card-body ne-content" *ngIf="contentOpened">
         <!-- Tab panes -->
@@ -22,7 +22,7 @@
             <ngb-tab [title]="'Info' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content">
-                        <evt-content-viewer *ngFor="let detail of entity.content" [content]="detail">
+                        <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
                         </evt-content-viewer>
                     </div>
                 </ng-template>
@@ -30,15 +30,15 @@
             <ngb-tab [title]="'Occurrences' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content">
-                        <span *ngFor="let occurrence of entity.occurrences"> {{ occurrence }} </span>
-                        <span *ngIf="entity.occurrences.length === 0">{{'NoOccurrences' | translate}}</span>
+                        <span *ngFor="let occurrence of data.occurrences"> {{ occurrence }} </span>
+                        <span *ngIf="data.occurrences.length === 0">{{'NoOccurrences' | translate}}</span>
                     </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab [title]="'XMLSource' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content no-padding">
-                        <evt-original-encoding-viewer [originalEncoding]="entity.originalEncoding">
+                        <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">
                         </evt-original-encoding-viewer>
                     </div>
                 </ng-template>
@@ -46,7 +46,7 @@
             <ngb-tab title="EVT JSON Model">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content no-padding">
-                        <pre>{{ entity | json }}</pre>
+                        <pre>{{ data | json }}</pre>
                     </div>
                 </ng-template>
             </ngb-tab>
