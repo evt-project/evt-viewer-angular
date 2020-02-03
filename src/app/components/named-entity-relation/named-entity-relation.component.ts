@@ -38,12 +38,19 @@ export class NamedEntityRelationComponent {
   }
 
   private getEntities(partIdsGroup: 'activeParts' | 'mutualParts' | 'passiveParts'):
-    Observable<Array<{ id: string; entity: NamedEntity }>> {
+    Observable<Array<{ id: string; entity: NamedEntity; label: string }>> {
     return this.neParserService.namedEntities$.pipe(
-      map(ne => this.data[partIdsGroup].map(entityId => ({
-        id: entityId,
-        entity: ne.all.entities.find(e => e.id === entityId),
-      }))),
+      map(ne => this.data[partIdsGroup].map(entityId => {
+        const entity = ne.all.entities.find(e => e.id === entityId);
+
+        return {
+          id: entityId,
+          entity,
+          get label() {
+            return (entity ? entity.label : entityId);
+          },
+        };
+      })),
       map(nes => nes.filter(e => !!e)),
     );
   }
