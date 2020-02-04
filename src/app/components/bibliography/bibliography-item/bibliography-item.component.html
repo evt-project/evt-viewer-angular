@@ -1,5 +1,26 @@
-<p>
-  <em *ngFor="let biblEl of templateBiblCitData" class="biblCitation">
-    {{ biblEl }}
-  </em>
+<p class="biblPar">
+
+  <i>{{ biblField }}</i>
+  <span class="authors" *ngIf="authors">{{authors}}</span>
+  <i class="titles" *ngIf="titles">{{titles}}</i>
+  <span class="editors" *ngIf="editors">{{editors}}</span>
+  <span class="pubPlaces" *ngIf="pubPlaces">{{pubPlaces}} </span>
+  <span class="publishers" *ngIf="publishers">{{publishers}}</span>
+  <span class="dates" *ngIf="dates">{{dates}}</span>
+  <span class="biblScopes" *ngIf="biblScopes">{{biblScopes}}</span>
+  <span class="series" *ngIf="series">{{series}}</span>
+
+  <span class="analytic_authors" *ngIf="analyticAuthors">{{analyticAuthors}}</span>
+  <i class="analytic_titles" *ngIf="analyticTitles">{{analyticTitles}}</i>
+  <span class="monogr_authors" *ngIf="monogrAuthors">{{monogrAuthors}}</span>
+  <i class="monogr_titles" *ngIf="monogrTitles">{{monogrTitles}} </i>
+  <span class="monogr_editors" *ngIf="monogrEditors">{{monogrEditors}}</span>
+  <span class="monogr_imprint_pubPlaces" *ngIf="monogrImprintPubPlaces">{{monogrImprintPubPlaces}}</span>
+  <span class="monogr_imprint_publishers" *ngIf="monogrImprintPublishers">{{monogrImprintPublishers}}</span>
+  <span class="monogr_imprint_dates" *ngIf="monogrImprintDates">{{monogrImprintDates}}</span>
+  <span class="monogr_biblScopes" *ngIf="monogrBiblScopes">{{monogrBiblScopes}}</span>
+  <i class="monogr_seriesTitles" *ngIf="seriesTitles">{{ seriesTitles}}</i>
+  <span class="monogr_seriesBiblScopes" *ngIf="seriesBiblScopes">{{seriesBiblScopes}}</span>
+
+  <span class="notes" *ngIf="notes">{{notes}}</span>
 </p>
