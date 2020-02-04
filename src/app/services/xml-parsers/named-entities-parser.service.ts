@@ -5,11 +5,13 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
   Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
-  NamedEntityLabel, NamedEntityType, Relation, XMLElement,
+  NamedEntityLabel, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, PageData, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { Map } from '../../utils/js-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
+import { EVTModelService } from '../evt-model.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
@@ -62,6 +64,22 @@ export class NamedEntitiesParserService {
     shareReplay(1),
   );
 
+  public occurrences$: Observable<Map<NamedEntityOccurrence[]>> = this.evtModelService.getPages().pipe(
+    map((pages) => pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))),
+    map((occ) => occ.reduce((x, y) => {
+      Object.keys(y).forEach(k => {
+        if (x[k]) {
+          x[k] = x[k].concat([y[k]]);
+        } else {
+          x[k] = [y[k]];
+        }
+      });
+
+      return x;
+    },                      {})),
+    shareReplay(1),
+  );
+
   private neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
   private tagNamesMap: { [key: string]: string } = {
     persons: 'listPerson',
@@ -69,10 +87,12 @@ export class NamedEntitiesParserService {
     organizations: 'listOrg',
     relations: 'listRelation',
     events: 'listEvent',
+    occurrences: 'persName[ref], placeName[ref], orgName[ref], geogName[ref], event[ref]',
   };
 
   constructor(
     private editionDataService: EditionDataService,
+    private evtModelService: EVTModelService,
     private genericParserService: GenericParserService,
   ) {
   }
@@ -167,7 +187,10 @@ export class NamedEntitiesParserService {
       namedEntityType: this.getEntityType(xml.tagName),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
-      occurrences: [],
+      occurrences$: this.occurrences$.pipe(
+        map(occ => occ[elId] || []),
+        shareReplay(1),
+      ),
     };
 
     return entity;
@@ -311,5 +334,53 @@ export class NamedEntitiesParserService {
 
   private getEntityType(tagName): NamedEntityType {
     return tagName.toLowerCase();
+  }
+
+  private getNamedEntitiesOccurrencesInPage(p: PageData) {
+    return p.originalContent
+      .filter(e => e.nodeType === 1)
+      .map(e => {
+        const occurrences = [];
+        if (this.tagNamesMap.occurrences.indexOf(e.tagName) >= 0 && e.getAttribute('ref')) { // Handle first level page contents
+          occurrences.push(this.parseNamedEntityOccurrence(e));
+        }
+
+        return occurrences.concat(Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
+          .map(el => this.parseNamedEntityOccurrence(el)));
+      })
+      .filter(e => e.length > 0)
+      .reduce((x, y) => x.concat(y), [])
+      .reduce((x, y) => {
+        const refsByDoc: NamedEntityOccurrenceRef[] = x[y.ref] ? x[y.ref].refsByDoc || [] : [];
+        const docRefs = refsByDoc.find(r => r.docId === y.docId);
+        if (docRefs) {
+          docRefs.refs.push(y.el);
+        } else {
+          refsByDoc.push({
+            docId: y.docId,
+            refs: [y.el],
+            docLabel: y.docLabel,
+          });
+        }
+
+        return {
+          ...x, [y.ref]: {
+            pageId: p.id,
+            pageLabel: p.label,
+            refsByDoc,
+          },
+        } as Array<Map<NamedEntityOccurrence>>;
+      },      {});
+  }
+
+  private parseNamedEntityOccurrence(xml: XMLElement) {
+    const doc = xml.closest('text');
+
+    return {
+      ref: xml.getAttribute('ref').replace('#', ''),
+      el: this.genericParserService.parseElement(xml),
+      docId: doc ? doc.getAttribute('xml:id') : '', // TODO: get proper document id when missing
+      docLabel: doc ? doc.getAttribute('n') || doc.getAttribute('xml:id') : '', // TODO: get proper document label when attributes missing
+    };
   }
 }

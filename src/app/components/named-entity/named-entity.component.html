@@ -29,9 +29,9 @@
             </ngb-tab>
             <ngb-tab [title]="'Occurrences' | translate">
                 <ng-template ngbTabContent>
-                    <div class="ne-tab-content">
-                        <span *ngFor="let occurrence of data.occurrences"> {{ occurrence }} </span>
-                        <span *ngIf="data.occurrences.length === 0">{{'NoOccurrences' | translate}}</span>
+                    <div class="ne-tab-content" *ngIf="data.occurrences$ | async as occurrences">
+                        <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
+                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -40,13 +40,6 @@
                     <div class="ne-tab-content no-padding">
                         <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">
                         </evt-original-encoding-viewer>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="EVT JSON Model">
-                <ng-template ngbTabContent>
-                    <div class="ne-tab-content no-padding">
-                        <pre>{{ data | json }}</pre>
                     </div>
                 </ng-template>
             </ngb-tab>

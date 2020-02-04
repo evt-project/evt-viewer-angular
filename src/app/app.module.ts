@@ -26,6 +26,7 @@ import { GlobalListsComponent } from './components/global-lists/global-lists.com
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
+import { NamedEntityOccurrenceComponent } from './components/named-entity/named-entity-occurrence/named-entity-occurrence.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
@@ -79,6 +80,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
+    NamedEntityOccurrenceComponent,
     NamedEntityRefComponent,
     NoteComponent,
     OriginalEncodingViewerComponent,

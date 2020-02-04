@@ -23,5 +23,6 @@
     "noEntities": "Nessuna entità in questa lista",
     "search": "Cerca",
     "noMatches": "Nessun risultato",
-    "entityNotFound": "Entità non trovata"
+    "entityNotFound": "Entità non trovata",
+    "noOccurrences": "Nessuna occorrenza"
 }

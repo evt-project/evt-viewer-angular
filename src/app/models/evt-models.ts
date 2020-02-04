@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Map } from '../utils/js-utils';
 import { GenericElementData } from './parsed-elements';
 
@@ -66,7 +67,7 @@ export interface NamedEntity extends GenericElementData {
     label: NamedEntityLabel;
     namedEntityType: NamedEntityType | 'personGrp';
     content: NamedEntityInfo[];
-    occurrences: string[]; // TODO: evaluate which type assign
+    occurrences$: Observable<NamedEntityOccurrence[]>;
     originalEncoding: OriginalEncodingNodeType;
 }
 
@@ -75,6 +76,17 @@ export type NamedEntityLabel = string;
 export interface NamedEntityInfo extends GenericElementData {
     label: string;
     content: Array<GenericElementData | NamedEntitiesList>;
+}
+
+export interface NamedEntityOccurrence {
+    pageId: string;
+    pageLabel: string;
+    refsByDoc: NamedEntityOccurrenceRef[];
+}
+export interface NamedEntityOccurrenceRef {
+    docId: string;
+    docLabel: string;
+    refs: GenericElementData[];
 }
 
 export type Relation = OriginalEncodingData & {

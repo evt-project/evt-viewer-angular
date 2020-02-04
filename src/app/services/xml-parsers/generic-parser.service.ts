@@ -57,7 +57,7 @@ export class GenericParserService {
     return text;
   }
 
-  private parseElement(xml: XMLElement): GenericElementData {
+  public parseElement(xml: XMLElement): GenericElementData {
     const genericElement: GenericElementData = {
       type: 'GenericElementComponent',
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
