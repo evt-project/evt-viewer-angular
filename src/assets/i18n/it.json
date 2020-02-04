@@ -38,5 +38,14 @@
     "bishops": "Vescovi",
     "diplomatic": "Diplomatica",
     "interpretative": "Interpretativa",
-    "critical": "Critica"
+    "critical": "Critica",
+    "bibliography": "Bibliografia",
+    "style": "Stile",
+    "sortBy": "Ordina per",
+    "author": "Autore",
+    "title": "Titolo",
+    "date": "Data",
+    "alphOrder": "Ordine alfabetico",
+    "asc": "Ascendente",
+    "desc": "Discendente"
 }

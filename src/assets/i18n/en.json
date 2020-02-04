@@ -39,5 +39,9 @@
     "bishops": "Bishops",
     "diplomatic": "Diplomatic",
     "interpretative": "Interpretative",
-    "critical": "Critical"
+    "critical": "Critical",
+    "bibliography": "Bibliography",
+    "style": "Style",
+    "sortBy": "Sort by",
+    "alphOrder": "Alphabetical order"
 }
