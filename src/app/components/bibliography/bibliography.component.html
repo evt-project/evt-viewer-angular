@@ -1,19 +1,38 @@
-<div class='biblSpace'>
-  <div class='biblContent'>
-    <span>
-      <span *ngIf="isComplete" class="biblSortingOption">
-        <label> Sort By </label>
-        <ng-select class="w-25 p-3" placeholder="Select" [items]="(sortingField | async)?.sortBy" [clearable]="false"
-          [(ngModel)]="selectSortByField" (change)="sortBy(selectSortByField)" [searchable]="false">
-        </ng-select>
-      </span>
-      <span class="biblSortingDefault">
-        <label class="pr-1 selectLabel"> Alphabetical order</label>
-        <ng-select class="w-25 p-3" placeholder="Select" [items]="(sortingField | async)?.alphOrder" [clearable]="false"
-          [(ngModel)]="selectAlphOrder" (change)="sortBy(selectAlphOrder)" [searchable]="false">
-        </ng-select>
-      </span>
+<div class='biblContent'>
+  <span>
+    <span *ngIf="isComplete" class="biblSortingOption">
+      <label [title]="'style' | translate">{{'style' | translate}}</label>
+      <ng-select class="w-25 p-3" placeholder="{{styles[0]}}" [items]="styles" [clearable]="false"
+        [(ngModel)]="selectedStyle" (change)="swap()" [searchable]="false">
+      </ng-select>
+      <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
+      <ng-select class="w-25 p-3" placeholder="{{features[0]}}" [items]="features" [clearable]="false"
+        [(ngModel)]="selectedField" bindValue="selectedField" bindLabel="selectedField"
+        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+      </ng-select>
     </span>
-    <evt-bibliography-item *ngFor="let biblCit of biblCits" [biblField]="biblCit"></evt-bibliography-item>
-  </div>
+    <span class="biblSortingDefault">
+      <label class="pr-1 selectLabel" [title]="'alphOrder' | translate">{{'alphOrder' | translate}}</label>
+      <ng-select class="w-25 p-3" placeholder="{{alphOrders[0]}}" [items]="alphOrders" [clearable]="false"
+        [(ngModel)]="selectedAlphOrder" bindValue="selectedAlphOrder" bindLabel="selectedAlphOrder"
+        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+      </ng-select>
+    </span>
+  </span>
+  <ng-container *ngIf="!isComplete">
+    <evt-bibliography-item *ngFor="let biblCit of biblCits" [biblField]="biblCit">
+    </evt-bibliography-item>
+  </ng-container>
+  <ng-container *ngIf="isComplete">
+    <evt-bibliography-item *ngFor="let biblCit of biblCits" [authors]="biblCit.authors" [titles]="biblCit.titles"
+      [editors]="biblCit.editors" [pubPlaces]="biblCit.pubPlaces" [publishers]="biblCit.publishers"
+      [dates]="biblCit.dates" [biblScopes]="biblCit.biblScopes" [notes]="biblCit.notes" [series]="biblCit.series"
+      [analyticAuthors]="biblCit.analytic_authors" [analyticTitles]="biblCit.analytic_titles"
+      [monogrAuthors]="biblCit.monogr_authors" [monogrTitles]="biblCit.monogr_titles"
+      [monogrEditors]="biblCit.monogr_editors" [monogrImprintPubPlaces]="biblCit.monogr_imprint_pubPlaces"
+      [monogrImprintPublishers]="biblCit.monogr_imprint_publishers" [monogrImprintDates]="biblCit.monogr_imprint_dates"
+      [monogrBiblScopes]="biblCit.monogr_biblScopes" [seriesTitles]="biblCit.series_title"
+      [seriesBiblScopes]="biblCit.series_biblScopes">
+    </evt-bibliography-item>
+  </ng-container>
 </div>

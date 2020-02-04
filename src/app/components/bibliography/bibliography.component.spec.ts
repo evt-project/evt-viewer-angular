@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BibliographyComponent } from './bibliography.component';
+
 
 describe('BibliographyComponent', () => {
   let component: BibliographyComponent;
@@ -8,9 +8,9 @@ describe('BibliographyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BibliographyComponent ]
+      declarations: [BibliographyComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
