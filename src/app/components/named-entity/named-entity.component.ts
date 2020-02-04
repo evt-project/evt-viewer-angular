@@ -14,7 +14,16 @@ export class NamedEntityComponent implements OnInit {
   @Input() inList: boolean;
 
   @ViewChild('entityDetails', { static: false }) entityDetails: NgbTabset;
+
   public contentOpened = true;
+
+  get selectedTab() {
+    if (this.contentOpened) {
+      return this.data && this.data.content.length === 0 ? 'occurrences' : 'info';
+    }
+
+    return '';
+  }
 
   ngOnInit() {
     if (this.inList) {
@@ -25,11 +34,6 @@ export class NamedEntityComponent implements OnInit {
   toggleContent() {
     if (this.inList) {
       this.contentOpened = !this.contentOpened;
-      if (this.contentOpened) {
-        if (this.entityDetails.activeId === 'info' && this.entity.content.length === 0) {
-          this.entityDetails.select('occurrences');
-        }
-      }
     }
   }
 
