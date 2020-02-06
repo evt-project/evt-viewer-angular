@@ -23,6 +23,11 @@
 					"color": "#ffcdd2"
 				},
 				{
+					"value": "persName[type='episcopus']",
+					"label": "bishops",
+					"color": "rgb(139, 98, 236)"
+				},
+				{
 					"value": "placeName,geogName",
 					"label": "places",
 					"color": "#A5D6A7"

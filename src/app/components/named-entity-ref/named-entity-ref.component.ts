@@ -37,6 +37,12 @@ export class NamedEntityRefComponent {
   private matchEntitySelection(selectedValue) {
     const values = selectedValue.toLowerCase().replace(/\s/g, '').split(',');
 
-    return values.some(v => this.data.class.indexOf(v) >= 0);
+    return values.some(v => {
+      const className = v.replace(/(\[.*?\])/g, '');
+      const attributes: Array<{ key: string, value: string }> = (v.match(/(\[.*?\])/g) || [])
+        .map(i => i.replace(/(\[|\]|\')/g, '').split('=')).map(i => ({ key: i[0], value: i[1] }));
+
+      return this.data.class.indexOf(className) >= 0 && attributes.every(a => this.data.attributes[a.key] === a.value);
+    });
   }
 }
