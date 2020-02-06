@@ -7,7 +7,8 @@
         [placeholder]="'selectItems' | translate" 
         [(ngModel)]="selectedTypes" 
         [disabled]="entitiesTypes.length === 0" 
-        groupBy="group">
+        groupBy="group"
+        (change)="updateSelectedTypes($event)">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
             <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
             <span class="ng-value-label">{{item.label | translate}}</span>

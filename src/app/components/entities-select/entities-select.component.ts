@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AppConfig } from '../../app.config';
+import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 export interface EntitiesSelectItemGroup {
@@ -32,4 +33,12 @@ export class EntitiesSelectComponent {
 
   public selectedTypes: EntitiesSelectItem[] = [];
 
+  constructor(
+    private entitiesSelectService: EntitiesSelectService,
+  ) {
+  }
+
+  updateSelectedTypes(entitiesTypes: EntitiesSelectItem[]) {
+    this.entitiesSelectService.updateSelection$.next(entitiesTypes);
+  }
 }
