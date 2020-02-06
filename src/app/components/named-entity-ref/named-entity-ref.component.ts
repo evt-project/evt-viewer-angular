@@ -34,15 +34,15 @@ export class NamedEntityRefComponent {
     this.opened = !this.opened;
   }
 
-  private matchEntitySelection(selectedValue) {
-    const values = selectedValue.toLowerCase().replace(/\s/g, '').split(',');
+  private matchEntitySelection(selectedValue: string) {
+    return selectedValue.split(',').some(v => this.matchEntitySelectionClass(v) && this.matchEntitySelectionAttributes(v));
+  }
 
-    return values.some(v => {
-      const className = v.replace(/(\[.*?\])/g, '');
-      const attributes: Array<{ key: string, value: string }> = (v.match(/(\[.*?\])/g) || [])
-        .map(i => i.replace(/(\[|\]|\')/g, '').split('=')).map(i => ({ key: i[0], value: i[1] }));
+  private matchEntitySelectionClass(selectedValue: string) {
+    return this.data.class.indexOf(this.entitiesSelectService.getClassNameFromValue(selectedValue)) >= 0;
+  }
 
-      return this.data.class.indexOf(className) >= 0 && attributes.every(a => this.data.attributes[a.key] === a.value);
-    });
+  private matchEntitySelectionAttributes(selectedValue: string) {
+    return this.entitiesSelectService.getAttributesFromValue(selectedValue).every(a => this.data.attributes[a.key] === a.value);
   }
 }

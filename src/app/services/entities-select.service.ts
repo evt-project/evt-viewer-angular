@@ -11,4 +11,13 @@ export class EntitiesSelectService {
   public selectedItems$ = this.updateSelection$.pipe(
     shareReplay(1),
   );
+
+  public getClassNameFromValue(value) {
+    return value.toLowerCase().replace(/\s/g, '').replace(/(\[.*?\])/g, '');
+  }
+
+  public getAttributesFromValue(value) {
+    return (value.toLowerCase().replace(/\s/g, '').match(/(\[.*?\])/g) || [])
+      .map(i => i.replace(/(\[|\]|\')/g, '').split('=')).map(i => ({ key: i[0], value: i[1] }));
+  }
 }
