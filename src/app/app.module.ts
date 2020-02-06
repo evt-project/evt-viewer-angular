@@ -22,6 +22,7 @@ import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
+import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
@@ -72,6 +73,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
     CollationComponent,
     ContentViewerComponent,
+    EntitiesSelectComponent,
     EvtInfoComponent,
     FilterPipe,
     GenericElementComponent,

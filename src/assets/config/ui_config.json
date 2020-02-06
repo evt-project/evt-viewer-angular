@@ -12,5 +12,44 @@
 			"label": "languageIt",
 			"enabled": true
 		}
+	],
+	"entitiesSelectItems": [
+		{
+			"label": "Named Entities",
+			"items": [
+				{
+					"value": "persName",
+					"label": "persons",
+					"color": "#ffcdd2"
+				},
+				{
+					"value": "placeName",
+					"label": "places",
+					"color": "#A5D6A7"
+				},
+				{
+					"value": "orgName",
+					"label": "organizations",
+					"color": "#FFB74D"
+				}
+			]
+		}, {
+			"label": "Other",
+			"items": [
+				{
+					"value": "event",
+					"label": "events",
+					"color": "#fcfc60"
+				},
+				{
+					"value": "rolename",
+					"label": "roles"
+				},
+				{
+					"value": "measure",
+					"label": "measures"
+				}
+			]
+		}
 	]
 }
