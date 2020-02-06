@@ -108,6 +108,7 @@ export class GenericParserService {
       path: xpath(xml),
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),
+      class: xml.tagName.toLowerCase(),
     };
   }
 

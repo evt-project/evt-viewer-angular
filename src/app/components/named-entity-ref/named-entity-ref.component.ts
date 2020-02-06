@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NamedEntityRefData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EntitiesSelectService } from '../../services/entities-select.service';
 import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
 
 @Component({
@@ -18,11 +18,14 @@ export class NamedEntityRefComponent {
     map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
   );
 
-  public highlighted$ = of(true); // TODO: connect to highlight service
+  public highlighted$ = this.entitiesSelectService.selectedItems$.pipe(
+    map(items => items.some(i => i && this.matchEntitySelection(i.value))),
+  );
   public opened = false;
 
   constructor(
     private neParserService: NamedEntitiesParserService,
+    private entitiesSelectService: EntitiesSelectService,
   ) {
   }
 
@@ -31,4 +34,7 @@ export class NamedEntityRefComponent {
     this.opened = !this.opened;
   }
 
+  private matchEntitySelection(selectedValue) {
+    return this.data.class.indexOf(selectedValue.toLowerCase()) >= 0;
+  }
 }
