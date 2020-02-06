@@ -35,6 +35,8 @@ export class NamedEntityRefComponent {
   }
 
   private matchEntitySelection(selectedValue) {
-    return this.data.class.indexOf(selectedValue.toLowerCase()) >= 0;
+    const values = selectedValue.toLowerCase().replace(/\s/g, '').split(',');
+
+    return values.some(v => this.data.class.indexOf(v) >= 0);
   }
 }

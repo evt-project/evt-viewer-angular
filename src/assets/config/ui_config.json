@@ -23,7 +23,7 @@
 					"color": "#ffcdd2"
 				},
 				{
-					"value": "placeName",
+					"value": "placeName,geogName",
 					"label": "places",
 					"color": "#A5D6A7"
 				},
