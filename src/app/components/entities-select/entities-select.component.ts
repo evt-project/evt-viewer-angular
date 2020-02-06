@@ -20,7 +20,7 @@ export interface EntitiesSelectItem {
   styleUrls: ['./entities-select.component.scss'],
 })
 export class EntitiesSelectComponent {
-  entitiesTypes: Array<EntitiesSelectItem & { group: string }> = AppConfig.evtSettings.ui.entitiesSelectItems
+  entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.ui.entitiesSelectItems || [])
     .filter(g => !g.disabled)
     .reduce((x, y) => [...x, ...y.items.filter(i => !i.disabled).map(i => ({ ...i, group: y.label }))], []);
 

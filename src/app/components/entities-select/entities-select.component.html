@@ -1,26 +1,28 @@
-<ng-select 
-    [items]="entitiesTypes" 
-    [multiple]="true" 
-    [closeOnSelect]="false" 
-    [searchable]="false"
-    [placeholder]="'selectItems' | translate" 
-    [(ngModel)]="selectedTypes" 
-    [disabled]="entitiesTypes.length === 0" 
-    groupBy="group">
-    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-        <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
-        <span class="ng-value-label">{{item.label | translate}}</span>
-    </ng-template>
-    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-        <ng-container *ngIf="items.length === 1">
-            <div class="ng-value" *ngFor="let item of items | slice:0:1">
-                <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
-                <span class="ng-value-label">{{item.label}}</span>
-                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+<ng-container *ngIf="entitiesTypes.length > 0">
+    <ng-select 
+        [items]="entitiesTypes" 
+        [multiple]="true" 
+        [closeOnSelect]="false" 
+        [searchable]="false"
+        [placeholder]="'selectItems' | translate" 
+        [(ngModel)]="selectedTypes" 
+        [disabled]="entitiesTypes.length === 0" 
+        groupBy="group">
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
+            <span class="ng-value-label">{{item.label | translate}}</span>
+        </ng-template>
+        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            <ng-container *ngIf="items.length === 1">
+                <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
+                    <span class="ng-value-label">{{item.label}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </div>
+            </ng-container>
+            <div class="ng-value" *ngIf="items.length > 1">
+                <span class="ng-value-label">{{items.length}} {{'selected' | translate}}</span>
             </div>
-        </ng-container>
-        <div class="ng-value" *ngIf="items.length > 1">
-            <span class="ng-value-label">{{items.length}} {{'selected' | translate}}</span>
-        </div>
-    </ng-template>
-</ng-select>
+        </ng-template>
+    </ng-select>
+</ng-container>
