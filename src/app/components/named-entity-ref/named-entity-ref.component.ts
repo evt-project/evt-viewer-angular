@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import { NamedEntityRefData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
@@ -21,7 +21,16 @@ export class NamedEntityRefComponent implements OnInit {
   );
 
   public highlighted$ = this.entitiesSelectService.selectedItems$.pipe(
-    map(items => items.some(i => i && this.matchEntitySelection(i.value))),
+    tap(items => {
+      if (this.data) {
+        this.data.class = this.data.class || '';
+        this.data.attributes = this.data.attributes || {};
+      }
+
+      return items;
+    }),
+    map(items => items.some(i => i && this.data &&
+      this.entitiesSelectService.matchClassAndAttributes(i.value, this.data.attributes, this.data.class))),
   );
 
   public highlightColor;
@@ -58,9 +67,9 @@ export class NamedEntityRefComponent implements OnInit {
     let bestMatch: EntitiesSelectItem & { score: number };
     entitiesSelectItems.forEach(item => {
       let score = 0;
-      score += this.matchEntitySelectionClass(item.value) ? 1 : 0;
+      score += this.entitiesSelectService.matchSelectedClass(item.value, this.data.class) ? 1 : 0;
       const attributes = this.entitiesSelectService.getAttributesFromValue(item.value);
-      score += attributes.length && this.matchEntitySelectionAttributes(item.value) ? 1 : 0;
+      score += attributes.length && this.entitiesSelectService.matchSelectedAttributes(item.value, this.data.attributes) ? 1 : 0;
       if (!bestMatch || bestMatch.score < score) {
         bestMatch = {
           ...item,
@@ -69,17 +78,5 @@ export class NamedEntityRefComponent implements OnInit {
       }
     });
     this.highlightColor = bestMatch ? bestMatch.color : '';
-  }
-
-  private matchEntitySelection(selectedValue: string) {
-    return selectedValue.split(',').some(v => this.matchEntitySelectionClass(v) && this.matchEntitySelectionAttributes(v));
-  }
-
-  private matchEntitySelectionClass(selectedValue: string) {
-    return this.data.class.indexOf(this.entitiesSelectService.getClassNameFromValue(selectedValue)) >= 0;
-  }
-
-  private matchEntitySelectionAttributes(selectedValue: string) {
-    return this.entitiesSelectService.getAttributesFromValue(selectedValue).every(a => this.data.attributes[a.key] === a.value);
   }
 }
