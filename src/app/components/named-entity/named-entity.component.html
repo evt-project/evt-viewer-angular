@@ -18,7 +18,7 @@
     </div>
     <div class="card-body ne-content" *ngIf="contentOpened">
         <ngb-tabset [justify]="false" #entityDetails="ngbTabset" [activeId]="selectedTab">
-            <ngb-tab id="info" [title]="'Info' | translate" [disabled]="data.content.length === 0">
+            <ngb-tab id="info_{{data.id}}" [title]="'Info' | translate" [disabled]="data.content.length === 0">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content">
                         <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
@@ -26,7 +26,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="occurrences" [title]="'Occurrences' | translate">
+            <ngb-tab id="occurrences_{{data.id}}" [title]="'Occurrences' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content" *ngIf="data.occurrences$ | async as occurrences">
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
@@ -34,7 +34,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab [title]="'Relations' | translate">
+            <ngb-tab id="relations_{{data.id}}" [title]="'Relations' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content" *ngIf="data.relations$ | async as relations">
                         <span *ngIf="relations.length === 0">{{'noRelations' | translate}}</span>
@@ -43,7 +43,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="xml" [title]="'XMLSource' | translate">
+            <ngb-tab id="xml_{{data.id}}" [title]="'XMLSource' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content no-padding">
                         <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">

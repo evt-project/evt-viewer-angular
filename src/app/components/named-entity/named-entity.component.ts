@@ -19,7 +19,7 @@ export class NamedEntityComponent implements OnInit {
 
   get selectedTab() {
     if (this.contentOpened) {
-      return this.data && this.data.content.length === 0 ? 'occurrences' : 'info';
+      return `${this.data && this.data.content.length === 0 ? 'occurrences' : 'info'}_${this.data.id}`;
     }
 
     return '';
