@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { AppConfig } from '../../app.config';
 import { NamedEntityRefData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
-import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
 @Component({
   selector: 'evt-named-entity-ref',
@@ -44,39 +42,13 @@ export class NamedEntityRefComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setHighlightColor();
+    if (this.data) {
+      this.highlightColor = this.entitiesSelectService.getHighlightColor(this.data.attributes, this.data.class);
+    }
   }
 
   toggleEntityData(event: MouseEvent) {
     event.stopPropagation();
     this.opened = !this.opened;
-  }
-
-  private setHighlightColor() {
-    const entitiesSelectItems = AppConfig.evtSettings.ui.entitiesSelectItems
-      .reduce((i: EntitiesSelectItem[], g) => i.concat(g.items), [])
-      .reduce((x: EntitiesSelectItem[], y) => {
-        const multiValues: EntitiesSelectItem[] = [];
-        y.value.split(',').forEach(t => {
-          multiValues.push({ ...y, value: t });
-        });
-
-        return x.concat(multiValues);
-      },      []);
-
-    let bestMatch: EntitiesSelectItem & { score: number };
-    entitiesSelectItems.forEach(item => {
-      let score = 0;
-      score += this.entitiesSelectService.matchSelectedClass(item.value, this.data.class) ? 1 : 0;
-      const attributes = this.entitiesSelectService.getAttributesFromValue(item.value);
-      score += attributes.length && this.entitiesSelectService.matchSelectedAttributes(item.value, this.data.attributes) ? 1 : 0;
-      if (!bestMatch || bestMatch.score < score) {
-        bestMatch = {
-          ...item,
-          score,
-        };
-      }
-    });
-    this.highlightColor = bestMatch ? bestMatch.color : '';
   }
 }
