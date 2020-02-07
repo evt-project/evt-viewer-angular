@@ -24,5 +24,6 @@
     "search": "Cerca",
     "noMatches": "Nessun risultato",
     "entityNotFound": "Entità non trovata",
-    "noOccurrences": "Nessuna occorrenza"
+    "noOccurrences": "Nessuna occorrenza",
+    "relations": "Relazioni"
 }

@@ -35,6 +35,15 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <ngb-tab [title]="'Relations' | translate">
+                <ng-template ngbTabContent>
+                    <div class="ne-tab-content" *ngIf="data.relations$ | async as relations">
+                        <span *ngIf="relations.length === 0">{{'noRelations' | translate}}</span>
+                        <evt-named-entity-relation *ngFor="let relation of relations" 
+                            [data]="relation" [inEntity]="true"></evt-named-entity-relation>
+                    </div>
+                </ng-template>
+            </ngb-tab>
             <ngb-tab [title]="'XMLSource' | translate">
                 <ng-template ngbTabContent>
                     <div class="ne-tab-content no-padding">

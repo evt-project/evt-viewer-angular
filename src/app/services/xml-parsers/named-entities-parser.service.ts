@@ -85,7 +85,6 @@ export class NamedEntitiesParserService {
     persons: 'listPerson',
     places: 'listPlace',
     organizations: 'listOrg',
-    relations: 'listRelation',
     events: 'listEvent',
     occurrences: 'persName[ref], placeName[ref], orgName[ref], geogName[ref], event[ref]',
   };
@@ -134,10 +133,14 @@ export class NamedEntitiesParserService {
             parsedList.description.push(this.genericParserService.parse(child));
             break;
           case 'relation':
-            parsedList.relations.push(this.parseRelation(child));
+            if (this.neListsConfig.relations.enabled) {
+              parsedList.relations.push(this.parseRelation(child));
+            }
             break;
           case 'listrelation':
-            child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
+            if (this.neListsConfig.relations.enabled) {
+              child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(this.parseRelation(r)));
+            }
             break;
           default:
             if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
@@ -191,6 +194,9 @@ export class NamedEntitiesParserService {
         map(occ => occ[elId] || []),
         shareReplay(1),
       ),
+      relations$: this.relations$.pipe(
+        map(el => el.filter(rel => rel.activeParts.indexOf(elId) >= 0 ||
+          rel.passiveParts.indexOf(elId) >= 0 || rel.mutualParts.indexOf(elId) >= 0))),
     };
 
     return entity;
@@ -276,22 +282,24 @@ export class NamedEntitiesParserService {
     const passive = xml.getAttribute('passive') || '';
     const descriptionEls = xml.querySelectorAll<XMLElement>('desc');
     const relation: Relation = {
+      type: 'NamedEntityRelationComponent',
       name: xml.getAttribute('name'),
       activeParts: active.replace(/#/g, '').split(' '),
       mutualParts: mutual.replace(/#/g, '').split(' '),
       passiveParts: passive.replace(/#/g, '').split(' '),
-      type: xml.getAttribute('type'),
-      originalEncoding: xml,
+      relationType: xml.getAttribute('type'),
+      attributes: this.genericParserService.parseAttributes(xml),
+      content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
+      description: [],
     };
     if (descriptionEls && descriptionEls.length > 0) {
-      relation.description = [];
       descriptionEls.forEach((el) => (relation.description as Description).push(this.genericParserService.parse(el)));
     } else {
-      relation.description = (xml.textContent || '').trim();
+      relation.description = [this.genericParserService.parseText(xml)];
     }
     const parentListEl = xml.parentElement.tagName === 'listRelation' ? xml.parentElement : undefined;
     if (parentListEl) {
-      relation.type = `${(parentListEl.getAttribute('type') || '')} ${(relation.type || '')}`.trim();
+      relation.relationType = `${(parentListEl.getAttribute('type') || '')} ${(relation.relationType || '')}`.trim();
     }
 
     return relation;
