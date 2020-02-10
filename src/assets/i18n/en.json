@@ -43,5 +43,10 @@
     "bibliography": "Bibliography",
     "style": "Style",
     "sortBy": "Sort by",
-    "alphOrder": "Alphabetical order"
+    "alphOrder": "Alphabetical order",
+    "author": "Author",
+    "title": "Title",
+    "date": "Date",
+    "asc": "Ascendent",
+    "desc": "Descendent"
 }

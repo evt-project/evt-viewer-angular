@@ -6,17 +6,21 @@
         [(ngModel)]="selectedStyle" (change)="swap()" [searchable]="false">
       </ng-select>
       <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
-      <ng-select class="w-25 p-3" placeholder="{{features[0]}}" [items]="features" [clearable]="false"
-        [(ngModel)]="selectedField" bindValue="selectedField" bindLabel="selectedField"
+      <ng-select class="w-25 p-3" placeholder="{{'author' | translate}}" [clearable]="false"
         (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+        <ng-option>{{'author' | translate}}</ng-option>
+        <ng-option>{{'title' | translate}}</ng-option>
+        <ng-option>{{'date' | translate}}</ng-option>
       </ng-select>
     </span>
     <span class="biblSortingDefault">
       <label class="pr-1 selectLabel" [title]="'alphOrder' | translate">{{'alphOrder' | translate}}</label>
-      <ng-select class="w-25 p-3" placeholder="{{alphOrders[0]}}" [items]="alphOrders" [clearable]="false"
-        [(ngModel)]="selectedAlphOrder" bindValue="selectedAlphOrder" bindLabel="selectedAlphOrder"
+      <ng-select class="w-25 p-3" placeholder="{{'asc' | translate}}" [clearable]="false"
         (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+        <ng-option>{{'asc' | translate}}</ng-option>
+        <ng-option>{{'desc' | translate}}</ng-option>
       </ng-select>
+
     </span>
   </span>
   <ng-container *ngIf="!isComplete">
