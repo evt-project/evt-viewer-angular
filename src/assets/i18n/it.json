@@ -33,6 +33,7 @@
     "events": "Eventi",
     "roles": "Ruoli",
     "measures": "Misure",
-    "bishops": "Vescoci"
+    "selectAll": "Seleziona tutto",
+    "clearAll": "Pulisci selezione",
     "bishops": "Vescovi"
 }

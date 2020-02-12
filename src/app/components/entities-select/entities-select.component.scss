@@ -2,6 +2,7 @@
 ::ng-deep .ng-select {
     min-width: 150px;
 }
+
 ::ng-deep .ng-dropdown-panel {
     .ng-dropdown-panel-items {
         .ng-optgroup {
@@ -13,4 +14,16 @@
             padding-left: 10px !important;
         }
     }
+}
+
+.entities-select-toolbar {
+    display: flex;
+
+    .btn {
+        flex-grow: 1;
+    }
+}
+
+.select-all-btn {
+    cursor: pointer;
 }

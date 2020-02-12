@@ -34,5 +34,7 @@
     "events": "Events",
     "roles": "Roles",
     "measures": "Measures",
+    "selectAll": "Select all",
+    "clearAll": "Clear all",
     "bishops": "Bishops"
 }

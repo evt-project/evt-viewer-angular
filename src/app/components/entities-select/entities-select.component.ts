@@ -28,7 +28,7 @@ export class EntitiesSelectComponent {
   iconColor: EvtIconInfo = {
     icon: 'circle',
     iconSet: 'fas',
-    additionalClasses: 'mr-1',
+    additionalClasses: 'ml-2 mr-1',
   };
 
   public selectedTypes: EntitiesSelectItem[] = [];
@@ -39,6 +39,17 @@ export class EntitiesSelectComponent {
   }
 
   updateSelectedTypes(entitiesTypes: EntitiesSelectItem[]) {
-    this.entitiesSelectService.updateSelection$.next(entitiesTypes);
+    if (Array.isArray(entitiesTypes)) { // There is a bug in ng-select change event and second time the parameter is an event
+      this.entitiesSelectService.updateSelection$.next(entitiesTypes);
+    }
+  }
+
+  toggleSelection() {
+    if (this.selectedTypes.length < this.entitiesTypes.length) {
+      this.selectedTypes = this.entitiesTypes;
+    } else {
+      this.selectedTypes = [];
+    }
+    this.entitiesSelectService.updateSelection$.next(this.selectedTypes);
   }
 }
