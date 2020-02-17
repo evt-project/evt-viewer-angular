@@ -1,42 +1,30 @@
 <div class='biblContent'>
   <span>
-    <span *ngIf="isComplete" class="biblSortingOption">
+    <span *ngIf="isComplete">
       <label [title]="'style' | translate">{{'style' | translate}}</label>
-      <ng-select class="w-25 p-3" placeholder="{{styles[0]}}" [items]="styles" [clearable]="false"
-        [(ngModel)]="selectedStyle" (change)="swap()" [searchable]="false">
+      <ng-select (change)="swapBiblCit(selectedStyle)" [items]="styles" class="w-25 p-3" placeholder="{{styles[0]}}"
+        [clearable]="false" [searchable]="false" [(ngModel)]="selectedStyle">
       </ng-select>
       <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
       <ng-select class="w-25 p-3" placeholder="{{'author' | translate}}" [clearable]="false"
-        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedField">
         <ng-option>{{'author' | translate}}</ng-option>
         <ng-option>{{'title' | translate}}</ng-option>
         <ng-option>{{'date' | translate}}</ng-option>
       </ng-select>
     </span>
-    <span class="biblSortingDefault">
+    <span>
       <label class="pr-1 selectLabel" [title]="'alphOrder' | translate">{{'alphOrder' | translate}}</label>
       <ng-select class="w-25 p-3" placeholder="{{'asc' | translate}}" [clearable]="false"
-        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false">
+        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedAlphOrder">
         <ng-option>{{'asc' | translate}}</ng-option>
         <ng-option>{{'desc' | translate}}</ng-option>
       </ng-select>
-
     </span>
   </span>
-  <ng-container *ngIf="!isComplete">
-    <evt-bibliography-item *ngFor="let biblCit of biblCits" [biblField]="biblCit">
-    </evt-bibliography-item>
-  </ng-container>
-  <ng-container *ngIf="isComplete">
-    <evt-bibliography-item *ngFor="let biblCit of biblCits" [authors]="biblCit.authors" [titles]="biblCit.titles"
-      [editors]="biblCit.editors" [pubPlaces]="biblCit.pubPlaces" [publishers]="biblCit.publishers"
-      [dates]="biblCit.dates" [biblScopes]="biblCit.biblScopes" [notes]="biblCit.notes" [series]="biblCit.series"
-      [analyticAuthors]="biblCit.analytic_authors" [analyticTitles]="biblCit.analytic_titles"
-      [monogrAuthors]="biblCit.monogr_authors" [monogrTitles]="biblCit.monogr_titles"
-      [monogrEditors]="biblCit.monogr_editors" [monogrImprintPubPlaces]="biblCit.monogr_imprint_pubPlaces"
-      [monogrImprintPublishers]="biblCit.monogr_imprint_publishers" [monogrImprintDates]="biblCit.monogr_imprint_dates"
-      [monogrBiblScopes]="biblCit.monogr_biblScopes" [seriesTitles]="biblCit.series_title"
-      [seriesBiblScopes]="biblCit.series_biblScopes">
+  <ng-container>
+    <evt-bibliography-item *ngFor="let biblCit of biblCits" [havingFields]="isComplete"
+      [bibliographicCitation]="biblCit">
     </evt-bibliography-item>
   </ng-container>
 </div>
