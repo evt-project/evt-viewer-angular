@@ -27547,6 +27547,146 @@
 
          <div type="biblCompleta">
             <listBibl>
+            <!--
+            <biblStruct xml:id="Keefer2003b">
+          <analytic>
+            <author>Keefer, Sarah Larratt</author>
+            <title level="a">'Ic' and 'We' in Eleventh-Century Old English Liturgical Verse</title>
+          </analytic>
+          <monogr>
+            <title level="m">Unlocking the Wordhord: Anglo-Saxon Studies in Memory of Edward B.
+              Irving, Jr.</title>
+            <editor>Mark C. Amodio and Katherine O'Brien O'Keeffe</editor>
+            <imprint>
+              <pubPlace>Toronto</pubPlace>
+              <publisher>University of Toronto Press</publisher>
+              <date>2003</date>
+            </imprint>
+            <biblScope type="pages">123-46</biblScope>
+          </monogr>
+          <note type="key">DOTR</note>
+        </biblStruct>
+
+        <biblStruct xml:id="Frese1975">
+          <analytic>
+            <author>Frese, Dolores W.</author>
+            <title level="a">The art of Cynewulf’s runic signatures</title>
+          </analytic>
+          <monogr>
+            <title level="m">Anglo-Saxon poetry: essays in appreciation for John C.
+              McGalliard</title>
+            <editor>Lewis E. Nicholson</editor>
+            <editor>Dolores Warwick Frese</editor>
+            <imprint>
+              <pubPlace>Notre Dame - Londra</pubPlace>
+              <publisher>University of Notre Dame</publisher>
+              <date>1975</date>
+            </imprint>
+            <biblScope type="pages">312-334</biblScope>
+          </monogr>
+          <note type="comment">Secondo l’Autrice, le rune trovate nei quattro poemi inglesi antichi,
+              <title>Juliana, I Fati degli Apostoli, Elena</title> e <title>Cristo II</title>, sono
+            una forma raffinata di trasmissione del nome di Cynewulf. </note>
+          <note type="key">Cynewulf</note>
+        </biblStruct>
+
+        <biblStruct xml:id="Irving1986">
+          <analytic>
+            <author>Irving, Edward B.</author>
+            <title level="a">Crucifixion Witnesses; Or, Dramatic Interaction in <title>The Dream of
+                the Rood</title></title>
+          </analytic>
+          <monogr>
+            <title level="m">Modes of interpretation in Old English literature. Essays in honour of
+              S.B. Greenfield</title>
+            <editor>Phyllis Rugg Brown</editor>
+            <editor>Georgia Ronan Crampton</editor>
+            <editor>Fred C. Robinson</editor>
+            <imprint>
+              <pubPlace>Toronto</pubPlace>
+              <publisher>University of Toronto Press</publisher>
+              <date>1986</date>
+            </imprint>
+            <biblScope type="pages">101–13</biblScope>
+          </monogr>
+          <note type="comment">Lo studio tenta di spiegare il processo di drammatizzazione e la
+            psicologia dei due personaggi principali nel <title>Sogno della Croce</title>.</note>
+          <note type="key">DOTR</note>
+        </biblStruct>
+
+        <biblStruct xml:id="OCarragain2000">
+          <analytic>
+            <author>Ó Carragáin, Éamonn</author>
+            <title level="a">The Annunciation of the Lord and His Passion: a Liturgical Topos from
+              St Peter's on the Vatican in <title>The Dream of the Rood</title>, Thomas Cranmer and
+              John Donne</title>
+          </analytic>
+          <monogr>
+            <title level="m">Essays on Anglo-Saxon and Related Themes in Memory of Lynne
+              Grundy</title>
+            <editor>Jane Roberts and Janet Nelson</editor>
+            <imprint>
+              <pubPlace>London</pubPlace>
+              <publisher>Centre for Late Antique and Medieval Studies, King's College, University of
+                London</publisher>
+              <date>2000</date>
+            </imprint>
+            <biblScope type="pages">339-81</biblScope>
+          </monogr>
+          <series>
+            <title level="s">King's College London Medieval Studies</title>
+            <biblScope type="vol">17</biblScope>
+          </series>
+          <note type="key">DOTR</note>
+        </biblStruct>
+
+        <biblStruct xml:id="Bourquin1994">
+          <analytic>
+            <author>Bourquin, Guy</author>
+            <title level="a">The lexis and deixis of the hero in Old English poetry</title>
+          </analytic>
+          <monogr>
+            <title level="m">Heroes and Heroines in Medieval Literature: A Festschrift Presented to
+              André Crépin on the Occasion of His Sixty-fifth Birthday</title>
+            <editor>
+              <persName>
+                <forename>Leo</forename>
+                <surname>Carruthers</surname>
+              </persName>
+            </editor>
+            <imprint>
+              <pubPlace>Cambridge</pubPlace>
+              <publisher>D.S. Brewer</publisher>
+              <date>1994</date>
+            </imprint>
+          </monogr>
+          <note type="comment">Studio sul vocabolario di alcuni poemi anglosassoni tra cui <title>Il
+              Sogno della Croce</title>.</note>
+          <note type="key">DOTR</note>
+        </biblStruct>
+
+        <biblStruct xml:id="Savage1986">
+          <analytic>
+            <author>Savage, Anne</author>
+            <title level="a">Mystical and Evangelical in <title>The Dream of the Rood</title>: The
+              Private and the Public</title>
+          </analytic>
+          <monogr>
+            <title level="m">Mysticism: Medieval &amp; Modern</title>
+            <editor>Valerie M. Lagorio</editor>
+            <imprint>
+              <pubPlace>Salzburg</pubPlace>
+              <publisher>Univ. Salzburg</publisher>
+              <date>1986</date>
+            </imprint>
+            <biblScope type="pages">4-11</biblScope>
+          </monogr>
+          <note type="comment">L’Autrice mette in dubbio il fatto che il poema sia orientato verso
+            una spiritualità monastica, sottolineando che la visione è mistica e la missione
+            evangelica.</note>
+          <note type="key">DOTR</note>
+        </biblStruct>-->
+            
                <bibl xml:id="AMBROSI_1992">AMBROSI 1992: A.C. Ambrosi, <emph>Sulla via dei
                      pellegrini in Lunigiana e sul porto di s. Maurizio</emph>, in <emph>Il
                      pellegrinaggio medievale per Roma e Santiago de Compostela. Itinerari in Val di
