@@ -53,29 +53,6 @@ below.
     $ npm --version
     6.4.1
 
-#### Node installation on OS X
-You will need to use a Terminal. On OS X, you can find the default terminal in
-`/Applications/Utilities/Terminal.app`.
-
-Please install [Homebrew](http://brew.sh/) if it's not already done with the following command.
-
-    $ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-
-If everything when fine, you should run
-
-    brew install node
-
-#### Node installation on Linux
-    sudo apt-get install python-software-properties
-    sudo add-apt-repository ppa:chris-lea/node.js
-    sudo apt-get update
-    sudo apt-get install nodejs
-
-#### Node installation on Windows
-Just go on [official Node.js website](http://nodejs.org/) & grab the installer.
-Also, be sure to have `git` available in your PATH, `npm` might need it.
-
-
 ### 3.3 - Install 
     $ git clone https://gitlab.com/dipi.chiara/evt-viewer-angular.git
     $ cd evt-viewer-angular
@@ -85,10 +62,6 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 ### 3.4 - Start & watch with development server
     $ npm run start
 
-oppure
-
-    $ ng serve
-
 If nothing happens, then open your browser and navigate to `http://localhost:4200/`.
 The app will automatically reload if you change any of the source files.
 
@@ -96,14 +69,10 @@ With the second instruction you can choose the port where to run the application
 
 ### 3.5 - Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `npm run ng generate component component-name` to generate a new component. You can also use `npm run ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ### 3.6 - Simple build for production
     $ npm run build
-
-oppure
-
-    $ ng build
 
 The build artifacts will be stored in the `dist/` directory.
 With the second instruction you can use the `--prod` flag for a production build.
@@ -117,15 +86,11 @@ For the documentation we use [Compodoc](https://compodoc.github.io/website/)
 
 ### 3.8 - Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ### 3.9 - Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-### 3.10 - Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 4 - Main Development Instruction
 ---------------------
