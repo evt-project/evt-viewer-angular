@@ -10,6 +10,16 @@ function getStringFromTags(tagLabel: string, cit: Element) {
   return res.trim();
 }
 
+function checkTwins(arr: string[], counter = 0) {
+  for (const x of arr) {
+    if (x && (++counter > 1)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export class BiblStructClassKeysAimed {
   constructor(
     public analyticAuthor = '',
@@ -99,15 +109,14 @@ export class BibliographyParserService {
       map(responses => {
         Array.from(responses.getElementsByTagName('bibl')).forEach(citation => {
           const res = {};
-          this.biblTagChilds.forEach(biblTagChild => res[biblTagChild] = getStringFromTags(biblTagChild, citation));
-          if (['author', 'title', 'date'].every(k => (res[k].trim() === '' || res[k] === null || res[k] === undefined))) {
-            this.getCurb(citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation, true);
-            this.foundCits.total++;
-          } else {
-            this.getCurb(res as BibliographicCitation, true);
-            this.foundCits.havingFields++;
-            this.foundCits.total++;
-          }
+          this.biblTagChilds.forEach(biblTagChild => {
+            res[biblTagChild] = getStringFromTags(biblTagChild, citation);
+          });
+          !checkTwins(
+            [getStringFromTags('author', citation), getStringFromTags('title', citation), getStringFromTags('date', citation)],
+          )
+            ? this.getCurb(citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation, true, false)
+            : this.getCurb(res as BibliographicCitation, true, true);
         });
 
         Array.from(responses.getElementsByTagName('biblStruct')).forEach(citation => {
@@ -145,9 +154,20 @@ export class BibliographyParserService {
             biblStructCitation.seriesBiblScope += ' ' + getStringFromTags('biblScope', features);
           });
           biblStructCitation.note += ' ' + getStringFromTags('note', citation);
-          this.getCurb(biblStructCitation, !Object.values(biblStructCitation).every(x => (x === '')));
-          this.foundCits.havingFields++;
-          this.foundCits.total++;
+
+          checkTwins(
+            [biblStructCitation.analyticAuthor, biblStructCitation.analyticTitle, biblStructCitation.monogrImprintDate as string],
+          ) || checkTwins(
+            [biblStructCitation.monogrAuthor, biblStructCitation.monogrTitle, biblStructCitation.monogrImprintDate as string],
+          )
+            ? this.getCurb(
+              biblStructCitation,
+              !Object.values(biblStructCitation).every(x => (x.trim() === '')),
+              true)
+            : this.getCurb(
+              citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation,
+              true,
+              false);
         });
 
         return {
@@ -158,9 +178,13 @@ export class BibliographyParserService {
       shareReplay(1),
     );
   }
-  private getCurb(bibliographicCitation: BibliographicCitation, eventCond: boolean) {
+  private getCurb(bibliographicCitation: BibliographicCitation, eventCond: boolean, fields: boolean) {
     if (eventCond && !this.bibliographicCitations.includes(bibliographicCitation)) {
       this.bibliographicCitations.push(bibliographicCitation);
+      this.foundCits.total++;
+      if (fields) {
+        this.foundCits.havingFields++;
+      }
     }
   }
 }
