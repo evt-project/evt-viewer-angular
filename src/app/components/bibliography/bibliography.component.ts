@@ -14,6 +14,7 @@ export class BibliographyComponent implements OnDestroy {
   public isComplete: boolean;
   public styles = ['Chicago', 'APA'];
   private sortingFields;
+  public basicTwinFields = { author: 0, date: 0, title: 0 };
   public selectedStyle: string;
   public selectedField: string;
   public selectedAlphOrder: string;
@@ -28,12 +29,23 @@ export class BibliographyComponent implements OnDestroy {
     }));
     if (this.isComplete) {
       this.sortingFields = {};
-      this.mapSortingField('assets/i18n/it.json');
-      this.mapSortingField('assets/i18n/en.json');
+      this.mapSortingFields('assets/i18n/it.json');
+      this.mapSortingFields('assets/i18n/en.json');
     }
+    this.biblCits.forEach(biblCit => {
+      Object.keys(biblCit).forEach(k => {
+        if (['author', 'analyticAuthor', 'monogrAuthor'].includes(k) && biblCit[k].trim()) {
+          this.basicTwinFields.author++;
+        } else if (['date', 'monogrImprintDate'].includes(k) && biblCit[k].trim()) {
+          this.basicTwinFields.date++;
+        } else if (['title', 'monogrTitle'].includes(k) && biblCit[k].trim()) {
+          this.basicTwinFields.title++;
+        }
+      });
+    });
   }
 
-  private mapSortingField(path: string) {
+  private mapSortingFields(path: string) {
     this.subscriptions.push(this.http.get(path).subscribe(response => {
       Object.keys(response).forEach(key => {
         if (key === 'author') {
@@ -54,8 +66,7 @@ export class BibliographyComponent implements OnDestroy {
   }
 
   private swapFields(orderStyle: string[]) {
-    const biblPars = Array.from(document.getElementsByClassName('biblPar'));
-    biblPars.forEach(biblPar => {
+    Array.from(document.getElementsByClassName('biblPar')).forEach(biblPar => {
       orderStyle.concat(this.biblParsService.biblTagChilds).concat(this.biblParsService.biblStructTagChilds).forEach(tagClass => {
         Array.from(biblPar.getElementsByClassName(tagClass)).forEach(tagClassElement => {
           if (tagClassElement.parentNode === biblPar) {
@@ -75,7 +86,7 @@ export class BibliographyComponent implements OnDestroy {
   private setSelectedItem(selectedField: string): string {
     let field: string;
     try {
-      field = Object.values(selectedField)[1];
+      field = Object.values(selectedField)[1].trim();
     } catch (e) {
       field = 'Author';
     }

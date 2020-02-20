@@ -8,9 +8,15 @@
       <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
       <ng-select class="w-25 p-3" placeholder="{{'author' | translate}}" [clearable]="false"
         (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedField">
-        <ng-option>{{'author' | translate}}</ng-option>
-        <ng-option>{{'title' | translate}}</ng-option>
-        <ng-option>{{'date' | translate}}</ng-option>
+        <ng-option *ngIf="basicTwinFields.author && (basicTwinFields.date || basicTwinFields.title)">
+          {{'author' | translate}}
+        </ng-option>
+        <ng-option *ngIf="basicTwinFields.title && (basicTwinFields.author || basicTwinFields.date)">
+          {{'title' | translate}}
+        </ng-option>
+        <ng-option *ngIf="basicTwinFields.date && (basicTwinFields.author || basicTwinFields.title)">
+          {{'date' | translate}}
+        </ng-option>
       </ng-select>
     </span>
     <span>
