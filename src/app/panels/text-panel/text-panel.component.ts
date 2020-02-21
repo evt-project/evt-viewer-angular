@@ -2,8 +2,9 @@ import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, merge, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
-import { EVTModelService } from 'src/app/services/evt-model.service';
+import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { register } from '../../services/component-register.service';
+import { EVTModelService } from '../../services/evt-model.service';
 
 @Component({
   selector: 'evt-text-panel',
@@ -23,6 +24,8 @@ export class TextPanelComponent implements OnDestroy {
   public pages$ = this.evtModelService.getPages().pipe(
     shareReplay(1),
   );
+
+  public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
 
   @Output() pageChange = combineLatest([
     merge(

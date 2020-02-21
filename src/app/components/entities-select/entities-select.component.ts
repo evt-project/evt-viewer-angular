@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AppConfig } from '../../app.config';
-import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 export interface EntitiesSelectItemGroup {
@@ -21,6 +20,8 @@ export interface EntitiesSelectItem {
   styleUrls: ['./entities-select.component.scss'],
 })
 export class EntitiesSelectComponent {
+  @Output() selectionChange: EventEmitter<EntitiesSelectItem[]> = new EventEmitter();
+
   entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.ui.entitiesSelectItems || [])
     .filter(g => !g.disabled)
     .reduce((x, y) => [...x, ...y.items.filter(i => !i.disabled).map(i => ({ ...i, group: y.label }))], []);
@@ -33,14 +34,9 @@ export class EntitiesSelectComponent {
 
   public selectedTypes: EntitiesSelectItem[] = [];
 
-  constructor(
-    private entitiesSelectService: EntitiesSelectService,
-  ) {
-  }
-
   updateSelectedTypes(entitiesTypes: EntitiesSelectItem[]) {
     if (Array.isArray(entitiesTypes)) { // There is a bug in ng-select change event and second time the parameter is an event
-      this.entitiesSelectService.updateSelection$.next(entitiesTypes);
+      this.selectionChange.emit(entitiesTypes);
     }
   }
 
@@ -50,6 +46,6 @@ export class EntitiesSelectComponent {
     } else {
       this.selectedTypes = [];
     }
-    this.entitiesSelectService.updateSelection$.next(this.selectedTypes);
+    this.selectionChange.emit(this.selectedTypes);
   }
 }

@@ -6,8 +6,8 @@
   &.opened {
     border-bottom: 3px solid;
   }
-  &:not(.highlighted):not(.opened):not(:hover) {
-    background-color: transparent !important;
+  &:not(.opened):not(:hover) {
+    background-color: transparent;
   }
 }
 

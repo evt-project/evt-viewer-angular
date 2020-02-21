@@ -25,7 +25,7 @@
 
     </div>
     <div content>
-        <evt-page [data]="pageChange | async"></evt-page>
+        <evt-page [data]="pageChange | async" [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
     </div>
     <div secondary-content>{{ getSecondaryContent() }}</div>
 
@@ -37,6 +37,6 @@
             (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
             [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
-        <evt-entities-select></evt-entities-select>
+        <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
     </div>
 </evt-panel>

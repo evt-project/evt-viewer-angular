@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { NamedEntityRefData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
@@ -11,7 +11,7 @@ import { NamedEntitiesParserService } from '../../services/xml-parsers/named-ent
   styleUrls: ['./named-entity-ref.component.scss'],
 })
 @register
-export class NamedEntityRefComponent implements OnInit {
+export class NamedEntityRefComponent {
   @Input() data: NamedEntityRefData;
 
   entity$ = this.neParserService.namedEntities$.pipe(
@@ -31,20 +31,12 @@ export class NamedEntityRefComponent implements OnInit {
       this.entitiesSelectService.matchClassAndAttributes(i.value, this.data.attributes, this.data.class))),
   );
 
-  public highlightColor;
-
   public opened = false;
 
   constructor(
     private neParserService: NamedEntitiesParserService,
     private entitiesSelectService: EntitiesSelectService,
   ) {
-  }
-
-  ngOnInit() {
-    if (this.data) {
-      this.highlightColor = this.entitiesSelectService.getHighlightColor(this.data.attributes, this.data.class);
-    }
   }
 
   toggleEntityData(event: MouseEvent) {
