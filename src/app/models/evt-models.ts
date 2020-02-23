@@ -105,3 +105,24 @@ export interface NamedEntityRefData extends GenericElementData {
     entityId: string;
     entityType: NamedEntityType;
 }
+
+export interface WitnessesData {
+    witnesses: Map<Witness>;
+    groups: Map<WitnessGroup>;
+}
+
+export interface Witness {
+    id: string;
+    name: GenericElementData[];
+    attributes: AttributesData;
+    content: GenericElementData[];
+    groupId: string;
+}
+
+export interface WitnessGroup {
+    id: string;
+    name: string;
+    attributes: AttributesData;
+    witnesses: string[];
+    groupId: string;
+}
