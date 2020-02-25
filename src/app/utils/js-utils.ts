@@ -10,6 +10,13 @@ export function mapToArray<T>(m: Map<T>) {
     return Object.keys(m).map((id) => m[id]);
 }
 
+export function arrayToMap<T, K extends keyof T>(arr: T[], key: K): Map<T> {
+    const map: Map<T> = {};
+    arr.forEach((x) => map[x[`${key}`]] = x);
+
+    return map;
+}
+
 export function uniqueObjCharKeys<T>(m: Map<T>) {
     const keys = [];
     Object.keys(m).forEach(key => {
