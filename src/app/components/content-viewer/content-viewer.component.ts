@@ -20,7 +20,7 @@ export class ContentViewerComponent implements OnDestroy {
   get content() { return this.v; }
 
   contentChange = new BehaviorSubject<GenericElementData>(undefined);
-  @ViewChild('container', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
   constructor(
     private componentRegister: ComponentRegisterService,
