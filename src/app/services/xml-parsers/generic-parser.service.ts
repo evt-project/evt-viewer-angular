@@ -13,6 +13,8 @@ function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] {
   return Array.from(nodes).filter((n) => n.nodeType !== 8);
 }
 
+type SupportedTagNames = 'event' | 'geogname' | 'note' | 'orgname' | 'persname' | 'placename';
+
 @Injectable()
 export class GenericParserService {
 
@@ -26,7 +28,7 @@ export class GenericParserService {
     map((n) => n !== 0),
   );
 
-  parseF = {
+  parseF: { [T in SupportedTagNames]: (x: XMLElement) => ParsedElement } = {
     event: this.parseNamedEntityRef,
     geogname: this.parseNamedEntityRef,
     note: this.parseNote,
