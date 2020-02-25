@@ -13,7 +13,7 @@ export class NamedEntityComponent implements OnInit {
   @Input() data: NamedEntity;
   @Input() inList: boolean;
 
-  @ViewChild('entityDetails', { static: false }) entityDetails: NgbTabset;
+  @ViewChild('entityDetails') entityDetails: NgbTabset;
 
   public contentOpened = true;
 

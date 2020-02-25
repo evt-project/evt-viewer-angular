@@ -11,7 +11,7 @@ import { ShortcutsService } from './shortcuts/shortcuts.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
-  @ViewChild('mainSpinner', { static: false }) mainSpinner: ElementRef;
+  @ViewChild('mainSpinner') mainSpinner: ElementRef;
   private subscriptions: Subscription[] = [];
 
   constructor(
