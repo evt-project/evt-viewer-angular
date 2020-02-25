@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
@@ -110,6 +111,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppRoutingModule,
     AppTranslationModule,
     BrowserModule,
+    BrowserAnimationsModule,
     DynamicModule.withComponents([
       TextComponent,
       GenericElementComponent,
