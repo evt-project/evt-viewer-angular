@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Named entities and interesting elements selector
 - Witness list extraction
 - Named entities visualisation
 - Named entities extraction
