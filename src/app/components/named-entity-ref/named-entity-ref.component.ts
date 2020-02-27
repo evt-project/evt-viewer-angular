@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
+import { HighlightableComponent } from '../../highlightable/highlightable.component';
 import { NamedEntityRefData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
@@ -11,7 +12,7 @@ import { NamedEntitiesParserService } from '../../services/xml-parsers/named-ent
   styleUrls: ['./named-entity-ref.component.scss'],
 })
 @register
-export class NamedEntityRefComponent {
+export class NamedEntityRefComponent extends HighlightableComponent {
   @Input() data: NamedEntityRefData;
 
   entity$ = this.neParserService.namedEntities$.pipe(
@@ -37,6 +38,7 @@ export class NamedEntityRefComponent {
     private neParserService: NamedEntitiesParserService,
     private entitiesSelectService: EntitiesSelectService,
   ) {
+    super();
   }
 
   toggleEntityData(event: MouseEvent) {

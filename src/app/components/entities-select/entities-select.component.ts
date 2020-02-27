@@ -35,7 +35,7 @@ export class EntitiesSelectComponent {
   public selectedTypes: EntitiesSelectItem[] = [];
 
   updateSelectedTypes(entitiesTypes: EntitiesSelectItem[]) {
-    if (Array.isArray(entitiesTypes)) { // There is a bug in ng-select change event and second time the parameter is an event
+    if (Array.isArray(entitiesTypes)) { // BUGFIX: There is a bug in ng-select change event and second time the parameter is an event
       this.selectionChange.emit(entitiesTypes);
     }
   }

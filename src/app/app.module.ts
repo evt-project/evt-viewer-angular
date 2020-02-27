@@ -37,6 +37,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
 import { TextComponent } from './components/text/text.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
+import { HighlightableComponent } from './highlightable/highlightable.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
@@ -78,6 +79,7 @@ export function initializeApp(appConfig: AppConfig) {
     FilterPipe,
     GenericElementComponent,
     GlobalListsComponent,
+    HighlightableComponent,
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
