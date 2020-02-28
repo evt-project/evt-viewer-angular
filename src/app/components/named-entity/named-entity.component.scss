@@ -27,7 +27,14 @@
     }
   }
 
-  .nav-tabs .nav-link {
+  .nav-item,
+  .nav-item a {
+    &:focus {
+      outline: none !important;
+    }
+  }
+
+  .entity-details .nav-link {
     color: #000;
     background-color: $color-middle;
     border-color: $color-darker;
@@ -39,13 +46,14 @@
     &:hover:not(.active):not(.disabled) {
       background: rgba($color-darker, .5);
     }
+
     &.disabled {
       pointer-events: auto;
       cursor: not-allowed;
     }
   }
 
-  .ne-tab-content {
+  .ne-detail-content {
     background-color: $color-darker;
   }
 
@@ -69,6 +77,7 @@
 
     &:hover {
       background: rgba(255, 255, 255, 0.8) !important;
+
       .ne-occurrence-count {
         border: 1px solid #ccc;
       }
@@ -126,7 +135,7 @@
     font-size: 80%;
   }
 
-  &-tab-content {
+  &-detail-content {
     padding: 1rem;
 
     &.no-padding {
@@ -138,7 +147,7 @@
 :host ::ng-deep .ne-content {
 
   // Override default styles
-  .nav-tabs .nav-link {
+  .entity-details .nav-link {
     padding: 5px;
     border: none;
   }
