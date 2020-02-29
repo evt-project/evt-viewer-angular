@@ -7,23 +7,29 @@
     </gridster-item>
     <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
         <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">
-            <ngb-tabset justify="justified" content>
-                <ngb-tab [title]="'CriticalApparatus' | translate">
-                    <ng-template ngbTabContent>
-                        {{ 'CriticalApparatus' | translate }}
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab [title]="'Sources' | translate">
-                    <ng-template ngbTabContent>
-                        {{ 'Sources' | translate }}
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab [title]="'Analogues' | translate">
-                    <ng-template ngbTabContent>
-                        {{ 'Analogues' | translate }}
-                    </ng-template>
-                </ngb-tab>
-            </ngb-tabset>
+            <div content>
+                <ul ngbNav #apparatuses="ngbNav" class="nav-tabs nav-fill">
+                    <li [ngbNavItem]="'critical'">
+                        <a ngbNavLink>{{'CriticalApparatus' | translate}}</a>
+                        <ng-template ngbNavContent>
+                            <div>{{'CriticalApparatus' | translate}}</div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="'sources'">
+                        <a ngbNavLink>{{ 'Sources' | translate }}</a>
+                        <ng-template ngbNavContent>
+                            <div>{{ 'Sources' | translate }}</div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="'analogues'">
+                        <a ngbNavLink>{{ 'Analogues' | translate }}</a>
+                        <ng-template ngbNavContent>
+                            <div>{{ 'Analogues' | translate }}</div>
+                        </ng-template>
+                    </li>
+                </ul>  
+                <div [ngbNavOutlet]="apparatuses" class="mt-2"></div>
+            </div>
         </evt-panel>
     </gridster-item>
 </gridster>
