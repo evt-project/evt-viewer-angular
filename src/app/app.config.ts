@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 
 @Injectable()
 export class AppConfig {
@@ -61,6 +62,7 @@ export interface UiConfig {
         label: string;
         enabled: boolean;
     }>;
+    entitiesSelectItems: EntitiesSelectItemGroup[];
 }
 
 export interface EditionConfig {

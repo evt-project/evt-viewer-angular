@@ -1,8 +1,8 @@
 <span class="namedEntityRef {{ data.entityType }}" (click)="toggleEntityData($event)" [ngClass]="{
-        opened: opened,
-        highlighted: highlighted$ | async
-    }">
-    <evt-content-viewer *ngFor="let element of data.content" [content]="element"></evt-content-viewer>
+        opened: opened
+    }"
+	[class.highlight]="highlightData?.highlight" [style.background]="highlightData && highlightData.highlight ? highlightData.highlightColor : ''">
+    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
 </span>
 <div *ngIf="opened" class="namedEntityRefDetail {{ data.entityType }}">
     <ng-container *ngIf="entity$ | async as entity; else loading">

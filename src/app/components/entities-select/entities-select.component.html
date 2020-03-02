@@ -1,0 +1,39 @@
+<ng-container *ngIf="entitiesTypes.length > 0">
+    <ng-select 
+        [items]="entitiesTypes" 
+        [multiple]="true" 
+        [closeOnSelect]="false" 
+        [searchable]="false"
+        [placeholder]="'selectItems' | translate" 
+        [(ngModel)]="selectedTypes" 
+        [disabled]="entitiesTypes.length === 0" 
+        groupBy="group"
+        (change)="updateSelectedTypes($event)">
+        <ng-template ng-header-tmp>
+            <div class="entities-select-toolbar">
+                <div class="w-100 text-dark select-all-btn">
+                    <input id="select-all" type="checkbox" class="mr-2" (click)="toggleSelection()"
+                        [checked]="selectedTypes?.length === entitiesTypes.length"/>
+                    <label for="select-all" class="m-0">{{ 'selectAll' | translate }}</label>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" let-search="searchTerm">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
+            <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
+            <span class="ng-value-label">{{item.label | translate}}</span>
+        </ng-template>
+        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            <ng-container *ngIf="items.length === 1">
+                <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
+                    <span class="ng-value-label">{{item.label}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </div>
+            </ng-container>
+            <div class="ng-value" *ngIf="items.length > 1">
+                <span class="ng-value-label">{{items.length}} {{'selected' | translate}}</span>
+            </div>
+        </ng-template>
+    </ng-select>
+</ng-container>

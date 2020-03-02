@@ -6,6 +6,9 @@
   &.opened {
     border-bottom: 3px solid;
   }
+  &:not(.opened):not(:hover) {
+    background-color: transparent;
+  }
 }
 
 .namedEntityRef:hover,

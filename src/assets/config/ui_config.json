@@ -12,5 +12,49 @@
 			"label": "languageIt",
 			"enabled": true
 		}
+	],
+	"entitiesSelectItems": [
+		{
+			"label": "Named Entities",
+			"items": [
+				{
+					"value": "persName",
+					"label": "persons",
+					"color": "#ffcdd2"
+				},
+				{
+					"value": "persName[type='episcopus']",
+					"label": "bishops",
+					"color": "rgb(139, 98, 236)"
+				},
+				{
+					"value": "placeName,geogName",
+					"label": "places",
+					"color": "#A5D6A7"
+				},
+				{
+					"value": "orgName",
+					"label": "organizations",
+					"color": "#FFB74D"
+				}
+			]
+		}, {
+			"label": "Other",
+			"items": [
+				{
+					"value": "event",
+					"label": "events",
+					"color": "#fcfc60"
+				},
+				{
+					"value": "rolename",
+					"label": "roles"
+				},
+				{
+					"value": "measure",
+					"label": "measures"
+				}
+			]
+		}
 	]
 }

@@ -26,5 +26,15 @@
     "noMatches": "No matches for input given",
     "entityNotFound": "Entity not found",
     "noOccurrences": "No occurrences",
-    "relations": "Relations"
+    "relations": "Relations",
+    "selectItems": "Select items",
+    "persons": "Persons",
+    "places": "Places",
+    "organizations": "Organizations",
+    "events": "Events",
+    "roles": "Roles",
+    "measures": "Measures",
+    "selectAll": "Select all",
+    "clearAll": "Clear all",
+    "bishops": "Bishops"
 }

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
 @Component({
   selector: 'evt-page',
@@ -10,7 +11,7 @@ import { register } from '../../services/component-register.service';
 })
 @register
 export class PageComponent {
-
+  @Input() itemsToHighlight: EntitiesSelectItem[];
   private d: PageData;
   @Input() set data(v: PageData) {
     this.d = v;

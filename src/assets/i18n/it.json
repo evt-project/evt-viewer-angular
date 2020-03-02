@@ -25,5 +25,15 @@
     "noMatches": "Nessun risultato",
     "entityNotFound": "Entità non trovata",
     "noOccurrences": "Nessuna occorrenza",
-    "relations": "Relazioni"
+    "relations": "Relazioni",
+    "selectItems": "Seleziona elementi",
+    "persons": "Persone",
+    "places": "Luoghi",
+    "organizations": "Organizzazioni",
+    "events": "Eventi",
+    "roles": "Ruoli",
+    "measures": "Misure",
+    "selectAll": "Seleziona tutto",
+    "clearAll": "Pulisci selezione",
+    "bishops": "Vescovi"
 }

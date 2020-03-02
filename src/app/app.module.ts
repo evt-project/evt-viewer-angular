@@ -22,6 +22,7 @@ import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
+import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
@@ -36,6 +37,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
 import { TextComponent } from './components/text/text.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
+import { HighlightableComponent } from './highlightable/highlightable.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
@@ -72,10 +74,12 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
     CollationComponent,
     ContentViewerComponent,
+    EntitiesSelectComponent,
     EvtInfoComponent,
     FilterPipe,
     GenericElementComponent,
     GlobalListsComponent,
+    HighlightableComponent,
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
