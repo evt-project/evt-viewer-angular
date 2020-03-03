@@ -132,3 +132,73 @@ export interface GridItem {
     name: string;
     active: boolean;
 }
+interface CommonBibl {
+    citedRange?: string;
+    note: string;
+    ptr?: string;
+    ref?: string;
+    relatedItem?: string;
+    series: string;
+}
+
+interface BiblTagCitation extends CommonBibl {
+    abbr: string;
+    add: string;
+    address: string;
+    author: string;
+    bibl: BiblTagCitation | string;
+    biblScope: string;
+    cb: string;
+    choice: string;
+    corr: string;
+    date: Date | string;
+    del: string;
+    distinct: string;
+    editor: string;
+    email: string;
+    emph: string;
+    expan: string;
+    foreign: string;
+    gap: string;
+    gb: string;
+    gloss: string;
+    hi: string;
+    index: string;
+    lb: string;
+    measure: string;
+    measureGrp: string;
+    meeting: string;
+    mentioned: string;
+    milestone: string;
+    name: string;
+    num: number | string;
+    orig: string;
+    pb: string;
+    pubPlace: string;
+    publisher: string;
+    reg: string;
+    respStmt: string;
+    rs: string;
+    sic: string;
+    soCalled: string;
+    term: string;
+    textLang: string;
+    time: Date | string;
+    title: string;
+    unclear: string;
+    unit: string;
+}
+
+interface BiblStructTagCitation extends CommonBibl {
+    analyticAuthor: string;
+    analyticTitle: string;
+    monogrAuthor: string;
+    monogrTitle: string;
+    monogrEditor: string;
+    monogrImprintPubPlace: string;
+    monogrImprintPublisher: string;
+    monogrImprintDate: Date | string;
+    monogrBiblScope: string;
+}
+
+export type BibliographicCitation = string | BiblStructTagCitation | BiblTagCitation;

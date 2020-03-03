@@ -1,17 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { BibliographicCitation } from 'src/app/models/evt-models';
+import biblCitChildTags from 'src/assets/bibliographic-citation-childs/bibliographic-citation-childs.json';
 import { EditionDataService } from '../edition-data.service';
 
-function getStringFromTags(tagLabel: string, cit: Element) {
+function getStringFromTags(tagLabel: string, cit: Element): string {
   let res = '';
   Array.from(cit.getElementsByTagName(tagLabel)).forEach(element => res += element.textContent.replace(/\s+/g, ' ') + ' ');
 
   return res.trim();
 }
 
-function checkTwins(arr: string[], counter = 0) {
-  for (const x of arr) {
+function checkTwins(...args: string[]): boolean {
+  let counter = 0;
+  for (const x of args) {
     if (x && (++counter > 1)) {
       return true;
     }
@@ -20,87 +24,16 @@ function checkTwins(arr: string[], counter = 0) {
   return false;
 }
 
-export class BiblStructClassKeysAimed {
-  constructor(
-    public analyticAuthor = '',
-    public analyticTitle = '',
-    public monogrAuthor = '',
-    public monogrTitle = '',
-    public monogrEditor = '',
-    public monogrImprintPubPlace = '',
-    public monogrImprintPublisher = '',
-    public monogrBiblScope = '',
-    public seriesTitle = '',
-    public seriesBiblScope = '',
-    public note = '',
-  ) {
-  }
-}
-
-export class BiblClassKeysAimed {
-  constructor(
-    public abbr = '',
-    public add = '',
-    public address = '',
-    public author = '',
-    public biblScope = '',
-    public cb = '',
-    public choice = '',
-    public citedRange = '',
-    public corr = '',
-    public del = '',
-    public distinct = '',
-    public editor = '',
-    public email = '',
-    public emph = '',
-    public expan = '',
-    public foreign = '',
-    public gap = '',
-    public gb = '',
-    public gloss = '',
-    public hi = '',
-    public index = '',
-    public lb = '',
-    public measure = '',
-    public measureGrp = '',
-    public meeting = '',
-    public mentioned = '',
-    public milestone = '',
-    public name = '',
-    public note = '',
-    public orig = '',
-    public pb = '',
-    public ptr = '',
-    public pubPlace = '',
-    public publisher = '',
-    public ref = '',
-    public reg = '',
-    public relatedItem = '',
-    public respStmt = '',
-    public rs = '',
-    public series = '',
-    public sic = '',
-    public soCalled = '',
-    public term = '',
-    public textLang = '',
-    public title = '',
-    public unclear = '',
-    public unit = '',
-  ) {
-  }
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class BibliographyParserService {
   private foundCits = { havingFields: 0, total: 0 };
-  private bibliographicCitations: BibliographicCitation[] = [];
-  public biblTagChilds = Object.keys(new BiblClassKeysAimed()).concat(['bibl', 'date', 'num', 'time']);
-  public biblStructTagChilds = Object.keys(new BiblStructClassKeysAimed()).concat(['monogrImprintDate']);
+  private bibliographicCitations = { biblSimples: [], biblComplex: [] };
 
   constructor(
     private edition: EditionDataService,
+    public http: HttpClient,
   ) {
   }
 
@@ -109,14 +42,14 @@ export class BibliographyParserService {
       map(responses => {
         Array.from(responses.getElementsByTagName('bibl')).forEach(citation => {
           const res = {};
-          this.biblTagChilds.forEach(biblTagChild => {
+          biblCitChildTags.bibl.forEach(biblTagChild => {
             res[biblTagChild] = getStringFromTags(biblTagChild, citation);
           });
-          !checkTwins(
-            [getStringFromTags('author', citation), getStringFromTags('title', citation), getStringFromTags('date', citation)],
-          )
-            ? this.getCurb(citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation, true, false)
-            : this.getCurb(res as BibliographicCitation, true, true);
+          this.getCurb(
+            checkTwins(getStringFromTags('author', citation), getStringFromTags('title', citation), getStringFromTags('date', citation)),
+            citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation,
+            res as BibliographicCitation,
+          );
         });
 
         Array.from(responses.getElementsByTagName('biblStruct')).forEach(citation => {
@@ -130,8 +63,7 @@ export class BibliographyParserService {
             monogrImprintPublisher: '',
             monogrImprintDate: '',
             monogrBiblScope: '',
-            seriesTitle: '',
-            seriesBiblScope: '',
+            series: '',
             note: '',
           };
           Array.from(citation.getElementsByTagName('analytic')).forEach(features => {
@@ -149,118 +81,41 @@ export class BibliographyParserService {
             });
             biblStructCitation.monogrBiblScope += ' ' + getStringFromTags('biblScope', features);
           });
-          Array.from(citation.getElementsByTagName('series')).forEach(features => {
-            biblStructCitation.seriesTitle += ' ' + getStringFromTags('title', features);
-            biblStructCitation.seriesBiblScope += ' ' + getStringFromTags('biblScope', features);
-          });
+          biblStructCitation.series += ' ' + getStringFromTags('series', citation);
           biblStructCitation.note += ' ' + getStringFromTags('note', citation);
-
-          checkTwins(
-            [biblStructCitation.analyticAuthor, biblStructCitation.analyticTitle, biblStructCitation.monogrImprintDate as string],
-          ) || checkTwins(
-            [biblStructCitation.monogrAuthor, biblStructCitation.monogrTitle, biblStructCitation.monogrImprintDate as string],
-          )
-            ? this.getCurb(
-              biblStructCitation,
-              !Object.values(biblStructCitation).every(x => (x.trim() === '')),
-              true)
-            : this.getCurb(
-              citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation,
-              true,
-              false);
+          this.getCurb(
+            checkTwins(
+              biblStructCitation.analyticAuthor, biblStructCitation.analyticTitle, biblStructCitation.monogrImprintDate as string,
+            ) || checkTwins(
+              biblStructCitation.monogrAuthor, biblStructCitation.monogrTitle, biblStructCitation.monogrImprintDate as string,
+            ),
+            citation.textContent.replace(/\s+/g, ' ').trim() as BibliographicCitation,
+            biblStructCitation,
+          );
         });
+        console.log(this.foundCits.havingFields, this.foundCits.total);
 
         return {
-          citations: this.bibliographicCitations,
+          citations: ((this.foundCits.havingFields === this.foundCits.total)
+            ? this.bibliographicCitations.biblComplex
+            : this.bibliographicCitations.biblSimples),
           areComplete: ((this.foundCits.havingFields === this.foundCits.total) ? true : false),
         } as CitationsFeature;
       }),
       shareReplay(1),
     );
   }
-  private getCurb(bibliographicCitation: BibliographicCitation, eventCond: boolean, fields: boolean) {
-    if (eventCond && !this.bibliographicCitations.includes(bibliographicCitation)) {
-      this.bibliographicCitations.push(bibliographicCitation);
-      this.foundCits.total++;
-      if (fields) {
-        this.foundCits.havingFields++;
-      }
+  private getCurb(twoTwinsLeast: boolean, ...biblCits: BibliographicCitation[]) {
+    this.bibliographicCitations.biblSimples.push(biblCits[0]);
+    this.bibliographicCitations.biblComplex.push(biblCits[1]);
+    this.foundCits.total++;
+    if (twoTwinsLeast) {
+      this.foundCits.havingFields++;
     }
   }
 }
 
-interface BiblStructTagCitation {
-  analyticAuthor: string;
-  analyticTitle: string;
-  monogrAuthor: string;
-  monogrTitle: string;
-  monogrEditor: string;
-  monogrImprintPubPlace: string;
-  monogrImprintPublisher: string;
-  monogrImprintDate: Date | string;
-  monogrBiblScope: string;
-  seriesTitle: string;
-  seriesBiblScope: string;
-  note: string;
-}
-
-export class BiblTagCitation implements BiblClassKeysAimed {
-  abbr: string;
-  add: string;
-  address: string;
-  author: string;
-  bibl: BiblTagCitation | string;
-  biblScope: string;
-  cb: string;
-  choice: string;
-  citedRange: string;
-  corr: string;
-  date: Date | string;
-  del: string;
-  distinct: string;
-  editor: string;
-  email: string;
-  emph: string;
-  expan: string;
-  foreign: string;
-  gap: string;
-  gb: string;
-  gloss: string;
-  hi: string;
-  index: string;
-  lb: string;
-  measure: string;
-  measureGrp: string;
-  meeting: string;
-  mentioned: string;
-  milestone: string;
-  name: string;
-  note: string;
-  num: number | string;
-  orig: string;
-  pb: string;
-  ptr: string;
-  pubPlace: string;
-  publisher: string;
-  ref: string;
-  reg: string;
-  relatedItem: string;
-  respStmt: string;
-  rs: string;
-  series: string;
-  sic: string;
-  soCalled: string;
-  term: string;
-  textLang: string;
-  time: Date | string;
-  title: string;
-  unclear: string;
-  unit: string;
-}
-
-export type BibliographicCitation = string | BiblStructTagCitation | BiblTagCitation;
-
-export interface CitationsFeature {
+interface CitationsFeature {
   citations: BibliographicCitation[];
   areComplete: boolean;
 }
