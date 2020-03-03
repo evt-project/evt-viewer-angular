@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BibliographicCitation } from 'src/app/services/xml-parsers/bibliography-parser.service';
+import { BibliographicCitation } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-bibliography-item',

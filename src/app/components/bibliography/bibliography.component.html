@@ -1,6 +1,6 @@
 <div class='biblContent'>
   <span>
-    <span *ngIf="isComplete">
+    <span *ngIf="areComplete">
       <label [title]="'style' | translate">{{'style' | translate}}</label>
       <ng-select (change)="swapBiblCit(selectedStyle)" [items]="styles" class="w-25 p-3" placeholder="{{styles[0]}}"
         [clearable]="false" [searchable]="false" [(ngModel)]="selectedStyle">
@@ -29,7 +29,7 @@
     </span>
   </span>
   <ng-container>
-    <evt-bibliography-item *ngFor="let biblCit of biblCits" [havingFields]="isComplete"
+    <evt-bibliography-item *ngFor="let biblCit of biblCits" [havingFields]="areComplete"
       [bibliographicCitation]="biblCit">
     </evt-bibliography-item>
   </ng-container>
