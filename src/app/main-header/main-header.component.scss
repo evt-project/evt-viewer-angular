@@ -46,3 +46,13 @@
         color: #ffcc00 !important; // TEMP
     }
 }
+
+.edition-badge {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: text-bottom;
+    font-variant: all-small-caps;
+    font-size: 0.8rem;
+}

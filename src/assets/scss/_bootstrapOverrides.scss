@@ -7,3 +7,18 @@
         border-color: themed('baseColorLight');
     }
 }
+
+.badge-info {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+        border-color: themed('baseColorDark');
+    }
+    &.inverted {
+        @include themify($themes) {
+            color: themed('baseColorDark');
+            background-color: themed('baseColorLight');
+            border-color: themed('baseColorLight');
+        }
+    }
+}
