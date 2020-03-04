@@ -1,5 +1,6 @@
 {
 	"editionTitle": "My Digital Edition",
+	"badge": "alpha",
 	"namedEntitiesLists": {
 		"persons": {
 			"defaultLabel": "Persons",

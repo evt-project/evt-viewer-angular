@@ -67,6 +67,7 @@ export interface UiConfig {
 
 export interface EditionConfig {
     editionTitle: string;
+    badge: string;
     namedEntitiesLists: Partial<{
         persons: NamedEntitiesListsConfig;
         places: NamedEntitiesListsConfig;
