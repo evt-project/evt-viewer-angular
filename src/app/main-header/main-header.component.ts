@@ -1,8 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
+import { combineLatest, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
 import { register } from '../services/component-register.service';
 import { ThemesService } from '../services/themes.service';
+import { PrefatoryMatterParserService } from '../services/xml-parsers/prefatory-matter-parser.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 
 @Component({
@@ -12,6 +15,13 @@ import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 })
 @register
 export class MainHeaderComponent implements OnDestroy {
+  public title$ = combineLatest([
+    of(AppConfig?.evtSettings?.edition?.editionTitle),
+    this.prefatoryMatterParserService.title$,
+  ]).pipe(
+    map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
+  );
+
   public viewModes: ViewMode[] = [];
   public currentViewMode: ViewMode;
   public mainMenuOpened = false;
@@ -21,7 +31,9 @@ export class MainHeaderComponent implements OnDestroy {
 
   constructor(
     public themes: ThemesService,
-    private router: Router) {
+    private router: Router,
+    private prefatoryMatterParserService: PrefatoryMatterParserService,
+  ) {
     this.initViewModes();
     const firstRouteSub$ = this.router.events.subscribe((routingData: RouterEvent) => {
       if (!this.currentViewMode) {

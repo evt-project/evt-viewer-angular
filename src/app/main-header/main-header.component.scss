@@ -13,7 +13,12 @@
             color: themed('baseColorLight') !important;
         }
     }
-
+    a.navbar-brand {
+        max-width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .right-btn-group {
         height: $base-header-height;
         margin-top: 1px;
