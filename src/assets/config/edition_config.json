@@ -1,6 +1,7 @@
 {
 	"editionTitle": "My Digital Edition",
 	"badge": "alpha",
+	"editionHome": "evt.labcd.unipi.it/",
 	"namedEntitiesLists": {
 		"persons": {
 			"defaultLabel": "Persons",

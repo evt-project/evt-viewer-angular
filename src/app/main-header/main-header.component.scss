@@ -56,3 +56,11 @@
     font-variant: all-small-caps;
     font-size: 0.8rem;
 }
+
+.edition-home-link {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+    }
+    font-size: .9rem;
+    vertical-align: text-bottom;
+}
