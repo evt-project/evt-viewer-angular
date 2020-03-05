@@ -66,7 +66,7 @@ export interface UiConfig {
 }
 
 export interface EditionConfig {
-    title: string;
+    editionTitle: string;
     namedEntitiesLists: Partial<{
         persons: NamedEntitiesListsConfig;
         places: NamedEntitiesListsConfig;

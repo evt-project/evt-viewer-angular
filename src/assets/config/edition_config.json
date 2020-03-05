@@ -1,5 +1,5 @@
 {
-	"title": "My Digital Edition",
+	"editionTitle": "My Digital Edition",
 	"namedEntitiesLists": {
 		"persons": {
 			"defaultLabel": "Persons",

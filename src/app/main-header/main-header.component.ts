@@ -16,7 +16,7 @@ import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 @register
 export class MainHeaderComponent implements OnDestroy {
   public title$ = combineLatest([
-    of(AppConfig?.evtSettings?.edition?.title),
+    of(AppConfig?.evtSettings?.edition?.editionTitle),
     this.prefatoryMatterParserService.title$,
   ]).pipe(
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
