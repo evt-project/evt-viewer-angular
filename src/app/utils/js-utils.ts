@@ -81,3 +81,7 @@ export function getEventKeyCode(event) {
 
     return code;
 }
+
+export function normalizeUrl(url) {
+    return url && url.indexOf('http') < 0 ? 'http://' + url : url;
+}

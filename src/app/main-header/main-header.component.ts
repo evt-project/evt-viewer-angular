@@ -7,6 +7,7 @@ import { register } from '../services/component-register.service';
 import { ThemesService } from '../services/themes.service';
 import { PrefatoryMatterParserService } from '../services/xml-parsers/prefatory-matter-parser.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
+import { normalizeUrl } from '../utils/js-utils';
 
 @Component({
   selector: 'evt-main-header',
@@ -26,6 +27,7 @@ export class MainHeaderComponent implements OnDestroy {
   public currentViewMode: ViewMode;
   public mainMenuOpened = false;
   public editionConfig: EditionConfig;
+  get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
   private subscriptions = [];
 
