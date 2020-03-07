@@ -36,5 +36,8 @@
     "measures": "Measures",
     "selectAll": "Select all",
     "clearAll": "Clear all",
-    "bishops": "Bishops"
+    "bishops": "Bishops",
+    "diplomatic": "Diplomatic",
+    "interpretative": "Interpretative",
+    "critical": "Critical"
 }
