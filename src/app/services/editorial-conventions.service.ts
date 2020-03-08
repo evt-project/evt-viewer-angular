@@ -4,13 +4,85 @@ import { AppConfig } from '../app.config';
 import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-models';
 
 // List of handled editorial convention
-export type EditorialConventionDefaults = 'damage' | 'surplus'; // Add here key of handled EVT defaults
+export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
+  'damage' | 'surplus';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EditorialConventionsService {
   defaultLayouts: { [T in EditorialConventionDefaults]: Partial<EditorialConventionLayouts> } = {
+    addition: {
+      diplomatic: {
+        style: {
+          'background-color': '#bdecb6',
+        },
+      },
+    },
+    additionAbove: {
+      interpretative: {
+        pre: '\\',
+        post: '/',
+      },
+      diplomatic: {
+        style: {
+          'vertical-align': 'super',
+          'font-size': '.7rem',
+          'background-color': '#bdecb6',
+        },
+      },
+    },
+    additionBelow: {
+      interpretative: {
+        pre: '/',
+        post: '\\',
+      },
+      diplomatic: {
+        style: {
+          'vertical-align': 'bottom',
+          'font-size': '.7rem',
+          'background-color': '#bdecb6',
+        },
+      },
+    },
+    additionInline: {
+      interpretative: {
+        pre: '|',
+        post: '|',
+      },
+      diplomatic: {
+        style: {
+          'background-color': '#bdecb6',
+        },
+      },
+    },
+    additionLeft: {
+      interpretative: {
+        post: '| |',
+        style: {
+          'margin-right': '-0.3rem',
+        },
+      },
+      diplomatic: {
+        style: {
+          'margin-left': '-1rem',
+          'background-color': '#bdecb6',
+        },
+      },
+    },
+    additionRight: {
+      interpretative: {
+        pre: '| |',
+        style: {
+          'margin-left': '-0.3rem',
+        },
+      },
+      diplomatic: {
+        style: {
+          'background-color': '#bdecb6',
+        },
+      },
+    },
     damage: {
       diplomatic: {
         style: {

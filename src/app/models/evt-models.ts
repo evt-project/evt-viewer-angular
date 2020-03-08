@@ -307,3 +307,9 @@ export class Gap extends GenericElement {
     unit?: string;
     extent?: string;
 }
+
+export type PlacementType = 'above' |  'below' |  'inline' |  'left' |  'right' |  'inspace' |  'end' |  'sup' | 'sub' | 'under';
+
+export class Addition extends GenericElement {
+    place: PlacementType;
+}
