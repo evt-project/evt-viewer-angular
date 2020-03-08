@@ -23,6 +23,7 @@ import { AppConfig } from './app.config';
 
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
+import { EditionLevelSusceptibleComponent } from './components/edition-level-susceptible/edition-level-susceptible.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
@@ -77,6 +78,7 @@ export function initializeApp(appConfig: AppConfig) {
     CollationComponent,
     ContentViewerComponent,
     EditionLevelSelectorComponent,
+    EditionLevelSusceptibleComponent,
     EntitiesSelectComponent,
     EvtInfoComponent,
     FilterPipe,
