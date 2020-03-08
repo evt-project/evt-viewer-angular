@@ -5,6 +5,7 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
 import { EntitiesSelectService } from 'src/app/services/entities-select.service';
+import { EditionLevelType } from '../../app.config';
 import { ComponentRegisterService, register } from '../../services/component-register.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
@@ -32,6 +33,14 @@ export class ContentViewerComponent implements OnDestroy {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   itemsToHighlightChange = new BehaviorSubject<EntitiesSelectItem[]>([]);
 
+  private edLevel: EditionLevelType;
+  @Input() set editionLevel(el: EditionLevelType) {
+    this.edLevel = el;
+    this.editionLevelChange.next(el);
+  }
+  get editionLevel() { return this.edLevel; }
+  editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
+
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
@@ -51,13 +60,15 @@ export class ContentViewerComponent implements OnDestroy {
   public inputs: Observable<{ [keyName: string]: any }> = combineLatest([
     this.contentChange,
     this.itemsToHighlightChange,
+    this.editionLevelChange,
   ]).pipe(
-    map(([data, ith]) => {
+    map(([data, ith, editionLevel]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
           highlightData: this.getHighlightData(data, ith),
           itemsToHighlight: ith,
+          editionLevel,
         };
       }
 
