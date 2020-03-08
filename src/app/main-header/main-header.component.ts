@@ -72,6 +72,12 @@ export class MainHeaderComponent implements OnDestroy {
     return item.id;
   }
 
+  openEditionHome() {
+    if (this.editionHome) {
+      window.open(this.editionHome, '_blank');
+    }
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
