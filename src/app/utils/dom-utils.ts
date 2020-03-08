@@ -47,9 +47,11 @@ export function isNodeNestedInElem(
       return false;
     }
     if (element.parentNode.tagName === parentTagName || element.parentNode.nodeName === parentTagName) {
-      if (!attributes || attributes.length === 0 ||
-        !element.parentNode.attributes || element.parentNode.attributes.length === 0) {
+      if (!attributes || attributes.length === 0) {
         return true;
+      }
+      if (!element.parentNode.attributes || element.parentNode.attributes.length === 0) {
+        return false;
       }
       let matchingAttr = 0;
       attributes.forEach(attr => {
