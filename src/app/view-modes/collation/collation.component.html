@@ -1,6 +1,9 @@
 <gridster [options]="options">
     <gridster-item [item]="textPanelItem">
-        <evt-text-panel></evt-text-panel>
+        <evt-text-panel
+            [hideEditionLevelSelector]="true" 
+            [editionLevelID]="'critical'"
+        ></evt-text-panel>
     </gridster-item>
     <gridster-item [item]="collationPanelItem">
         <div class="collationPanel" #collationPanel
