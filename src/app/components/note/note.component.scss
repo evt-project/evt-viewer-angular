@@ -1,3 +1,5 @@
+@import '../../../assets/scss/themes';
+
 .evt-trigger {
     text-decoration: none !important;
     color: #000;
@@ -5,6 +7,12 @@
     opacity: .8;
     padding: 0;
     vertical-align: top;
+    &[data-note-type='comment'] {
+        color: get-color(commentNotes);
+    }
+    &[data-note-type='critical'] {
+        color: get-color(criticalNotes);
+    }
     &:hover {
         opacity: 1;
     }
