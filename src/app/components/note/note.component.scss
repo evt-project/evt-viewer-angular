@@ -3,17 +3,72 @@
 .evt-trigger {
     text-decoration: none !important;
     color: #000;
-    font-size: 90%;
+    font-size: .8rem;
     opacity: .8;
     padding: 0;
-    vertical-align: top;
+    vertical-align: super;
+    position: relative;
+
     &[data-note-type='comment'] {
         color: get-color(commentNotes);
     }
+
     &[data-note-type='critical'] {
         color: get-color(criticalNotes);
     }
+
     &:hover {
         opacity: 1;
+    }
+
+    .note-icon {
+        min-width: 13px;
+        height: 13px;
+        display: inline-block;
+        border-radius: 4px;
+        color: #fff;
+        padding: 0.25em 0.6em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        position: relative;
+        top: -1px;
+
+        .arrow {
+            width: 0;
+            height: 0;
+            border: 0 solid transparent;
+            border-left-width: 0px;
+            border-right-width: 6px;
+            border-top: 4px solid black;
+            position: absolute;
+            top: 12px;
+            left: 3px;
+        }
+    }
+
+
+    &[data-note-type='comment'] {
+        .note-icon {
+            background: get-color(commentNotes);
+            border-radius: 6px;
+
+            .arrow {
+                border-top-color: get-color(commentNotes);
+            }
+        }
+    }
+
+    &[data-note-type='critical'] {
+        .note-icon {
+            background: get-color(criticalNotes);
+
+            .arrow {
+                border-top-color: get-color(criticalNotes);
+            }
+        }
     }
 }
