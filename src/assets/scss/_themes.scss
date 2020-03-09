@@ -42,7 +42,7 @@ $editionColors: (
         eventBase: #fffdc9,
         eventMiddle: #ffffb0,
         eventDarker: #fcfc60,
-    )
+    ),
 );
 
 // Themify
@@ -127,6 +127,9 @@ $editionColors: (
 }
 
 @function get-color($key) {
-    @return map-fetch($editionColors, namedEntities $key);
+    @return map-fetch($editionColors, $key);
 }
-  
+
+@function get-ne-color($key) {
+    @return get-color(namedEntities $key);
+}

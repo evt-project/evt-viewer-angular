@@ -9,19 +9,19 @@
     }
 
     &.person {
-        @include namedEntityRefColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
+        @include namedEntityRefColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
     }
 
     &.place {
-        @include namedEntityRefColors(get-color(placeBase), get-color(placeMiddle), get-color(placeDarker));
+        @include namedEntityRefColors(get-ne-color(placeBase), get-ne-color(placeMiddle), get-ne-color(placeDarker));
     }
 
     &.org {
-        @include namedEntityRefColors(get-color(orgBase), get-color(orgMiddle), get-color(orgDarker));
+        @include namedEntityRefColors(get-ne-color(orgBase), get-ne-color(orgMiddle), get-ne-color(orgDarker));
     }
 
     &.event {
-        @include namedEntityRefColors(get-color(eventBase), get-color(eventMiddle), get-color(eventDarker));
+        @include namedEntityRefColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
     }
 }
 
