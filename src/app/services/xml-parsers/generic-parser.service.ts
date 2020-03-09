@@ -82,6 +82,7 @@ export class GenericParserService {
     const noteElement = {
       type: 'NoteComponent',
       noteType,
+      exponent: xml.getAttribute('n'),
       path: xpath(xml),
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),

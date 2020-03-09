@@ -18,7 +18,7 @@ export interface TextData extends GenericElementData {
 export type NoteType = 'critical' | 'comment';
 export type NoteData = GenericElementData & {
     noteType: NoteType;
-    noteExponent: string;
+    exponent: string;
 };
 
 export type CommentData = GenericElementData;

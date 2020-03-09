@@ -9,6 +9,7 @@
     [autoClose]="'outside'" popoverClass="evt-note {{data?.noteType}}" container="body" [placement]="['auto']"
     (click)="onTriggerClicked($event)" [attr.data-note-type]="data.noteType">
     <span class="note-icon">
+        {{data.exponent}}
         <span class="arrow"></span>
     </span>
 </button>
