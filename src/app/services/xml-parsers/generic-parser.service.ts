@@ -70,15 +70,18 @@ export class GenericParserService {
     return genericElement;
   }
 
-  private parseNote(xml: XMLElement): NoteData {
+  private parseNote(xml: XMLElement): NoteData | GenericElementData {
     if (isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]) // FOOTER NOTE
       || isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org')
       || isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event') // NAMED ENTITY NOTE
     ) {
       return this.parseElement(xml);
     }
+    const noteType = xml.getAttribute('type') ?? isNestedInElem(xml, 'app') ? 'critical' : 'comment';
+
     const noteElement = {
       type: 'NoteComponent',
+      noteType,
       path: xpath(xml),
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),

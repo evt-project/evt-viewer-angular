@@ -15,6 +15,10 @@ export type HTMLData = GenericElementData & {
 export interface TextData extends GenericElementData {
     text: string;
 }
+export type NoteType = 'critical' | 'comment';
+export type NoteData = GenericElementData & {
+    noteType: NoteType;
+    noteExponent: string;
+};
 
-export type NoteData = GenericElementData;
 export type CommentData = GenericElementData;
