@@ -1,0 +1,23 @@
+<div class="thumbnails-view">
+  <ng-container fullGrid></ng-container>
+</div>
+
+<ng-template #fullGrid >
+  <ng-container *ngFor="let page of grid; let i = index">
+    <div id="page_{{i+1}}" class="page" [ngClass]="{'active': indexPage === i }">
+      <div class="d-flex row flex-row bd-highlight mb-3" *ngFor="let row of page">
+        <div class="p-2 bd-highlight item-content " *ngFor="let item of row" (click)="clickedItem(item)">
+            <img class="evt-img-page" src="{{item.url}}" alt="page" [style.width.px]="100" [ngClass]="{'clicked-item': item.active }"/>
+            <p class="item-page-index"[ngClass]="{'clicked-item-par': item.active }">{{item.name}}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container>
+    <div class="change-page-container" [hidden] = "!(grid.length >= 1)">
+      <evt-button [iconRight]="{icon: 'caret-left'}" (btnClick)="goToPrevPage()"></evt-button>
+      <p class="current-page">{{indexPage+1}}/{{grid.length}}</p>
+      <evt-button [iconLeft]="{icon: 'caret-right'}" (btnClick)="goToNextPage()"></evt-button>
+    </div>
+  </ng-container>
+</ng-template>
