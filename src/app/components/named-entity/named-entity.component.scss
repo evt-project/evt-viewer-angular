@@ -1,10 +1,6 @@
 @import "../../../assets/scss/themes";
 @import "../../../assets/scss/mixins";
 
-@function get-color($key) {
-  @return map-fetch($editionColors, namedEntities $key);
-}
-
 @mixin namedEntityColors($color-base, $color-middle, $color-darker) {
   border-color: $color-middle;
 
@@ -109,19 +105,19 @@
     }
 
     &.person {
-      @include namedEntityColors(get-color(personBase), get-color(personMiddle), get-color(personDarker));
+      @include namedEntityColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
     }
 
     &.place {
-      @include namedEntityColors(get-color(placeBase), get-color(placeMiddle), get-color(placeDarker));
+      @include namedEntityColors(get-ne-color(placeBase), get-ne-color(placeMiddle), get-ne-color(placeDarker));
     }
 
     &.org {
-      @include namedEntityColors(get-color(orgBase), get-color(orgMiddle), get-color(orgDarker));
+      @include namedEntityColors(get-ne-color(orgBase), get-ne-color(orgMiddle), get-ne-color(orgDarker));
     }
 
     &.event {
-      @include namedEntityColors(get-color(eventBase), get-color(eventMiddle), get-color(eventDarker));
+      @include namedEntityColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
     }
   }
 
