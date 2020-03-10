@@ -69,6 +69,7 @@ export interface EditionConfig {
     editionTitle: string;
     badge: string;
     editionHome: string;
+    availableEditionLevels: EditionLevel[];
     namedEntitiesLists: Partial<{
         persons: NamedEntitiesListsConfig;
         places: NamedEntitiesListsConfig;
@@ -86,4 +87,11 @@ export interface FileConfig {
 export interface NamedEntitiesListsConfig {
     defaultLabel: string;
     enabled: boolean;
+}
+export type EditionLevelType = 'diplomatic' | 'interpretative';
+export interface EditionLevel {
+    id: EditionLevelType;
+    label: string;
+    title?: string;
+    disabled?: boolean;
 }
