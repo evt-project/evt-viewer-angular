@@ -126,3 +126,9 @@ export interface WitnessGroup {
     witnesses: string[];
     groupId: string;
 }
+
+export interface GridItem {
+    url: string;
+    name: string;
+    active: boolean;
+}
