@@ -1,16 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BibliographicCitation } from 'src/app/models/evt-models';
-import biblCitChildTags from 'src/assets/bibliographic-citation-childs/bibliographic-citation-childs.json';
+import biblCitChildTags from 'src/assets/bibliography-features/bibliographic-citation-childs.json';
 import { EditionDataService } from '../edition-data.service';
 
 function getStringFromTags(tagLabel: string, cit: Element): string {
-  let res = '';
-  Array.from(cit.getElementsByTagName(tagLabel)).forEach(element => res += element.textContent.replace(/\s+/g, ' ') + ' ');
-
-  return res.trim();
+  return Array.from(cit.getElementsByTagName(tagLabel)).reduce((x, y) => x + y.textContent.replace(/\s+/g, ' '), '').trim();
 }
 
 function checkTwins(...args: string[]): boolean {
@@ -33,7 +29,6 @@ export class BibliographyParserService {
 
   constructor(
     private edition: EditionDataService,
-    public http: HttpClient,
   ) {
   }
 
@@ -93,21 +88,26 @@ export class BibliographyParserService {
             biblStructCitation,
           );
         });
-        console.log(this.foundCits.havingFields, this.foundCits.total);
+        const areAllComplex: boolean = (this.foundCits.havingFields === this.foundCits.total);
 
         return {
-          citations: ((this.foundCits.havingFields === this.foundCits.total)
-            ? this.bibliographicCitations.biblComplex
-            : this.bibliographicCitations.biblSimples),
-          areComplete: ((this.foundCits.havingFields === this.foundCits.total) ? true : false),
+          citations: (areAllComplex ? this.bibliographicCitations.biblComplex : this.bibliographicCitations.biblSimples),
+          areComplete: areAllComplex,
         } as CitationsFeature;
       }),
       shareReplay(1),
     );
   }
+
+  public pushIfNotExist(arr, element) {
+    if (!arr.includes(element)) {
+      arr.push(element);
+    }
+  }
+
   private getCurb(twoTwinsLeast: boolean, ...biblCits: BibliographicCitation[]) {
-    this.bibliographicCitations.biblSimples.push(biblCits[0]);
-    this.bibliographicCitations.biblComplex.push(biblCits[1]);
+    this.pushIfNotExist(this.bibliographicCitations.biblSimples, biblCits[0]);
+    this.pushIfNotExist(this.bibliographicCitations.biblComplex, biblCits[1]);
     this.foundCits.total++;
     if (twoTwinsLeast) {
       this.foundCits.havingFields++;

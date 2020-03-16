@@ -171,7 +171,7 @@ interface BiblTagCitation extends CommonBibl {
     mentioned: string;
     milestone: string;
     name: string;
-    num: number | string;
+    num: number;
     orig: string;
     pb: string;
     pubPlace: string;
