@@ -7,11 +7,12 @@ import { BibliographicCitation } from 'src/app/models/evt-models';
   styleUrls: ['./bibliography-item.component.scss'],
 })
 export class BibliographyItemComponent implements OnInit {
-  @Input() havingFields: boolean;
+  @Input() hasFields: boolean;
   @Input() bibliographicCitation: BibliographicCitation;
   public templateBiblCit;
+
   ngOnInit() {
-    if (this.havingFields) {
+    if (this.hasFields) {
       this.templateBiblCit = {};
       const values = Object.values(this.bibliographicCitation);
       const keys = Object.keys(this.bibliographicCitation);

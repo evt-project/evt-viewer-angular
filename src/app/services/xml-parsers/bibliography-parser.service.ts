@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BibliographicCitation } from 'src/app/models/evt-models';
-import biblCitChildTags from 'src/assets/bibliography-features/bibliographic-citation-childs.json';
 import { EditionDataService } from '../edition-data.service';
 
 function getStringFromTags(tagLabel: string, cit: Element): string {
@@ -29,16 +29,26 @@ export class BibliographyParserService {
 
   constructor(
     private edition: EditionDataService,
+    private http: HttpClient,
   ) {
   }
 
+  public getTagsChilds() {
+    return this.http.get<JSON>('/assets/bibliography-features/bibliographic-citation-childs.json')
+      .toPromise();
+  }
+
   public getBibliographicCitations(): Observable<CitationsFeature> {
+    const bibl = 'bibl';
+
     return this.edition.parsedEditionSource$.pipe(
       map(responses => {
         Array.from(responses.getElementsByTagName('bibl')).forEach(citation => {
           const res = {};
-          biblCitChildTags.bibl.forEach(biblTagChild => {
-            res[biblTagChild] = getStringFromTags(biblTagChild, citation);
+          this.getTagsChilds().then(jsonFile => {
+            jsonFile[bibl].forEach(biblTagChild => {
+              res[biblTagChild] = getStringFromTags(biblTagChild, citation);
+            });
           });
           this.getCurb(
             checkTwins(getStringFromTags('author', citation), getStringFromTags('title', citation), getStringFromTags('date', citation)),

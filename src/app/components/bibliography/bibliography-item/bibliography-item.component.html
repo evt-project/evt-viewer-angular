@@ -1,7 +1,7 @@
-<p class="biblPar" *ngIf="!havingFields">
+<p class="biblPar" *ngIf="!hasFields">
   <span class="title">{{bibliographicCitation}}</span>
 </p>
-<p class="biblPar" *ngIf="havingFields">
+<p class="biblPar" *ngIf="hasFields">
   <span *ngFor="let biblField of templateBiblCit | keyvalue" class="{{biblField.key}}">
     {{ biblField.value }}
   </span>

@@ -1,36 +1,31 @@
 <div class='biblContent'>
-  <span>
-    <span *ngIf="areComplete">
-      <label [title]="'style' | translate">{{'style' | translate}}</label>
-      <ng-select (change)="swapBiblCit(selectedStyle)" [items]="styles" class="w-25 p-3" placeholder="{{styles[0]}}"
-        [clearable]="false" [searchable]="false" [(ngModel)]="selectedStyle">
-      </ng-select>
-      <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
-      <ng-select class="w-25 p-3" placeholder="{{'author' | translate}}" [clearable]="false"
-        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedField">
-        <ng-option *ngIf="basicTwinFields.author && (basicTwinFields.date || basicTwinFields.title)">
-          {{'author' | translate}}
-        </ng-option>
-        <ng-option *ngIf="basicTwinFields.title && (basicTwinFields.author || basicTwinFields.date)">
-          {{'title' | translate}}
-        </ng-option>
-        <ng-option *ngIf="basicTwinFields.date && (basicTwinFields.author || basicTwinFields.title)">
-          {{'date' | translate}}
-        </ng-option>
-      </ng-select>
-    </span>
-    <span>
-      <label class="pr-1 selectLabel" [title]="'alphOrder' | translate">{{'alphOrder' | translate}}</label>
-      <ng-select class="w-25 p-3" placeholder="{{'asc' | translate}}" [clearable]="false"
-        (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedAlphOrder">
-        <ng-option>{{'asc' | translate}}</ng-option>
-        <ng-option>{{'desc' | translate}}</ng-option>
-      </ng-select>
-    </span>
+  <span class="w-75 p-3" *ngIf="areComplete">
+    <label [title]="'style' | translate">{{'style' | translate}}</label>
+    <ng-select class="w-24 p-3" (change)="swapBiblCit(selectedStyle)" [items]="styles" placeholder="{{styles[0]}}"
+      [clearable]="false" [searchable]="false" [(ngModel)]="selectedStyle">
+    </ng-select>
+    <label [title]="'sortBy' | translate">{{'sortBy' | translate}}</label>
+    <ng-select class="w-24 p-3" placeholder="{{'author' | translate}}" [clearable]="false"
+      (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedField">
+      <ng-option *ngIf="basicTwinFields.author && (basicTwinFields.date || basicTwinFields.title)">
+        {{'author' | translate}}
+      </ng-option>
+      <ng-option *ngIf="basicTwinFields.title && (basicTwinFields.author || basicTwinFields.date)">
+        {{'title' | translate}}
+      </ng-option>
+      <ng-option *ngIf="basicTwinFields.date && (basicTwinFields.author || basicTwinFields.title)">
+        {{'date' | translate}}
+      </ng-option>
+    </ng-select>
   </span>
-  <ng-container>
-    <evt-bibliography-item *ngFor="let biblCit of biblCits" [havingFields]="areComplete"
-      [bibliographicCitation]="biblCit">
-    </evt-bibliography-item>
-  </ng-container>
+  <span class="w-25 p-3">
+    <label [title]="'alphOrder' | translate">{{'alphOrder' | translate}}</label>
+    <ng-select class="w-24 p-3" placeholder="{{'asc' | translate}}" [clearable]="false"
+      (change)="sortBy(selectedAlphOrder, selectedField)" [searchable]="false" [(ngModel)]="selectedAlphOrder">
+      <ng-option>{{'asc' | translate}}</ng-option>
+      <ng-option>{{'desc' | translate}}</ng-option>
+    </ng-select>
+  </span>
+  <evt-bibliography-item *ngFor="let biblCit of biblCits" [hasFields]="areComplete" [bibliographicCitation]="biblCit">
+  </evt-bibliography-item>
 </div>
