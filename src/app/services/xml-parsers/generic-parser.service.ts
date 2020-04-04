@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
 import { AttributesData, NamedEntitiesList, XMLElement } from '../../models/evt-models';
-import { CommentData, GenericElementData, HTMLData, NoteData, TextData } from '../../models/parsed-elements';
+import { CommentData, GenericElementData, HTMLData, NoteData, NoteLayout, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { NamedEntityRefData, NamedEntityType } from './../../models/evt-models';
@@ -70,18 +70,23 @@ export class GenericParserService {
     return genericElement;
   }
 
-  private parseNote(xml: XMLElement): NoteData | GenericElementData {
+  private parseNote(xml: XMLElement): NoteData {
+    let noteLayout: NoteLayout = 'popover';
     if (isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]) // FOOTER NOTE
       || isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org')
       || isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event') // NAMED ENTITY NOTE
     ) {
-      return this.parseElement(xml);
+      noteLayout = 'plain-text';
     }
-    const noteType = xml.getAttribute('type') ?? isNestedInElem(xml, 'app') ? 'critical' : 'comment';
+    let noteType = xml.getAttribute('type') ?? 'comment';
+    if (isNestedInElem(xml, 'app')) {
+      noteType = 'critical';
+    }
 
     const noteElement = {
       type: 'NoteComponent',
       noteType,
+      noteLayout,
       exponent: xml.getAttribute('n'),
       path: xpath(xml),
       content: this.parseChildren(xml),
