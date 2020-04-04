@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
 import { AttributesData, NamedEntitiesList, XMLElement } from '../../models/evt-models';
-import { CommentData, GenericElementData, HTMLData, NoteData, NoteLayout, TextData } from '../../models/parsed-elements';
+import { CommentData, GenericElementData, HTMLData, NoteData, NoteLayout, ParagraphData, TextData } from '../../models/parsed-elements';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { NamedEntityRefData, NamedEntityType } from './../../models/evt-models';
@@ -13,7 +13,7 @@ function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] {
   return Array.from(nodes).filter((n) => n.nodeType !== 8);
 }
 
-type SupportedTagNames = 'event' | 'geogname' | 'note' | 'orgname' | 'persname' | 'placename' | 'ptr';
+type SupportedTagNames = 'event' | 'geogname' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr';
 
 @Injectable()
 export class GenericParserService {
@@ -33,6 +33,7 @@ export class GenericParserService {
     geogname: this.parseNamedEntityRef,
     note: this.parseNote,
     orgname: this.parseNamedEntityRef,
+    p: this.parseParagrah,
     persname: this.parseNamedEntityRef,
     placename: this.parseNamedEntityRef,
     ptr: this.parsePtr,
@@ -58,6 +59,18 @@ export class GenericParserService {
     } as TextData;
 
     return text;
+  }
+
+  public parseParagrah(xml: XMLElement): ParagraphData {
+    const paragraphComponent: ParagraphData = {
+      type: 'ParagraphComponent',
+      class: xml.tagName ? xml.tagName.toLowerCase() : '',
+      content: this.parseChildren(xml),
+      attributes: this.parseAttributes(xml),
+      n: this.parseAttributes(xml).n || '-1',
+    };
+
+    return paragraphComponent;
   }
 
   public parseElement(xml: XMLElement): GenericElementData {
