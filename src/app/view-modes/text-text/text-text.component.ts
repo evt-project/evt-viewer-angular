@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+
+import { AppConfig, EditionLevelType } from '../../app.config';
 import { register } from '../../services/component-register.service';
+import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
   selector: 'evt-text-text',
@@ -13,8 +18,35 @@ export class TextTextComponent implements OnInit {
   public textPanel1Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public textPanel2Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
 
+  private defaultEdLvl1 = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
+  private defaultEdLvl2 = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[1];
+
+  public currentEditionLevel = this.route.params.pipe(
+    map((params) => params.edLvl ?? this.defaultEdLvl1?.id),
+    distinctUntilChanged((x, y) => x === y),
+  );
+  public currentEdLvlPanel1 = this.route.params.pipe(
+    map((params) => params.edLvl ?? this.defaultEdLvl1?.id),
+    distinctUntilChanged((x, y) => x === y),
+  );
+
+  public currentEdLvlPanel2 = this.route.params.pipe(
+    map((params) => params.edLvl2 ?? this.defaultEdLvl2?.id),
+    distinctUntilChanged((x, y) => x === y),
+  );
+
+  constructor(
+    private editionLevel: EditionLevelService,
+    private route: ActivatedRoute,
+  ) {
+  }
+
   ngOnInit() {
     this.initGridster();
+  }
+
+  handleEditionLevelChange(editionLevel: EditionLevelType, paramName: string) {
+    this.editionLevel.handleEditionLevelChange(this.route, editionLevel, paramName);
   }
 
   private initGridster() {

@@ -1,8 +1,14 @@
 <gridster [options]="options">
     <gridster-item [item]="textPanel1Item">
-        <evt-text-panel></evt-text-panel>
+        <evt-text-panel 
+            [editionLevelID]="currentEdLvlPanel1 | async"
+            (editionLevelChange)="handleEditionLevelChange($event, 'edLvl')"
+        ></evt-text-panel>
     </gridster-item>
     <gridster-item [item]="textPanel2Item">
-        <evt-text-panel></evt-text-panel>
+        <evt-text-panel 
+            [editionLevelID]="currentEdLvlPanel2 | async"
+            (editionLevelChange)="handleEditionLevelChange($event, 'edLvl2')"
+        ></evt-text-panel>
     </gridster-item>
 </gridster>

@@ -22,10 +22,10 @@
                 {{item.label}}
             </ng-template>
         </ng-select>
-
+        <evt-edition-level-selector *ngIf="!hideEditionLevelSelector" [editionLevel]="editionLevelChange | async" (selectionChange)="editionLevelID = $event"></evt-edition-level-selector>
     </div>
     <div content>
-        <evt-page [data]="pageChange | async" [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
+        <evt-page [data]="pageChange | async" [editionLevel]="editionLevelChange | async" [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
     </div>
     <div secondary-content>{{ getSecondaryContent() }}</div>
 

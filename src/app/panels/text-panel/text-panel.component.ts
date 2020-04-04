@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, merge, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { EditionLevelType } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -13,6 +14,8 @@ import { EVTModelService } from '../../services/evt-model.service';
 })
 @register
 export class TextPanelComponent implements OnDestroy {
+  @Input() hideEditionLevelSelector: boolean;
+
   private pid: string;
   @Input() set pageID(v: string) {
     this.pid = v;
@@ -40,6 +43,17 @@ export class TextPanelComponent implements OnDestroy {
     map(([id, pages]) => !id ? pages[0] : pages.find((p) => p.id === id)),
   ).pipe(
     distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
+  );
+
+  private elId: EditionLevelType;
+  editionLevelIDChange = new BehaviorSubject<EditionLevelType>(undefined);
+  @Input() set editionLevelID(el: EditionLevelType) {
+    this.elId = el;
+    this.editionLevelIDChange.next(this.elId);
+  }
+  get editionLevelID() { return this.elId; }
+  @Output() editionLevelChange: Observable<EditionLevelType> = this.editionLevelIDChange.pipe(
+    distinctUntilChanged((x, y) => x === y),
   );
 
   public secondaryContent = '';

@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { AppConfig, EditionLevelType } from '../../app.config';
 import { PageData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
   selector: 'evt-reading-text',
@@ -18,6 +20,11 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   public currentPage = this.route.params.pipe(
     map((params) => params.page),
   );
+  private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
+  public currentEditionLevel = this.route.params.pipe(
+    map((params) => params.edLvl ?? this.defaultEditionLevel?.id),
+    distinctUntilChanged((x, y) => x === y),
+  );
   public options: GridsterConfig = {};
 
   public apparatusesOpened = true;
@@ -29,9 +36,11 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private router: Router,
+    private editionLevel: EditionLevelService,
     private route: ActivatedRoute,
-  ) { }
+    private router: Router,
+  ) {
+  }
 
   ngOnInit() {
     this.initGridster();
@@ -46,6 +55,10 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
         this.router.navigate(['/' + viewMode, params]);
       }
     }
+  }
+
+  handleEditionLevelChange(editionLevel: EditionLevelType) {
+    this.editionLevel.handleEditionLevelChange(this.route, editionLevel, 'edLvl');
   }
 
   togglePinnedBoard() {

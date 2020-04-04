@@ -1,5 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { AppConfig } from 'src/app/app.config';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -19,6 +22,17 @@ export class CollationComponent implements OnInit, OnDestroy {
   public collationOptions: GridsterConfig = {};
 
   private subscriptions = [];
+
+  private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
+  public currentEditionLevel = this.route.params.pipe(
+    map((params) => params.edLvl ?? this.defaultEditionLevel?.id),
+    distinctUntilChanged((x, y) => x === y),
+  );
+
+  constructor(
+    private route: ActivatedRoute,
+  ) {
+  }
 
   ngOnInit() {
     this.initGridster();
