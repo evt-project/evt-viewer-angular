@@ -19,11 +19,11 @@ export class AppConfig {
 
     load() {
         return new Promise<void>((resolve) => {
-            forkJoin(
+            forkJoin([
                 this.http.get<UiConfig>(this.uiConfigUrl),
                 this.http.get<EditionConfig>(this.editionConfigUrl),
                 this.http.get<FileConfig>(this.fileConfigUrl),
-            ).pipe(
+            ]).pipe(
                 map(([ui, edition, files]) => {
                     console.log(ui, edition, files);
                     // Handle default values => TODO: Decide how to handle defaults!!
