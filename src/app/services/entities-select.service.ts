@@ -37,7 +37,7 @@ export class EntitiesSelectService {
   }
 
   public getHighlightColor(attributesToCheck: AttributesData, classNameToCheck: string, selectedItems?: EntitiesSelectItem[]) {
-    const entitiesSelectItems = AppConfig.evtSettings.ui.entitiesSelectItems
+    const entitiesSelectItems = AppConfig.evtSettings.edition.entitiesSelectItems
       .reduce((i: EntitiesSelectItem[], g) => i.concat(g.items), [])
       .reduce((x: EntitiesSelectItem[], y) => {
         const multiValues: EntitiesSelectItem[] = [];

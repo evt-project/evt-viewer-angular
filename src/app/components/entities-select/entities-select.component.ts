@@ -22,7 +22,7 @@ export interface EntitiesSelectItem {
 export class EntitiesSelectComponent {
   @Output() selectionChange: EventEmitter<EntitiesSelectItem[]> = new EventEmitter();
 
-  entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.ui.entitiesSelectItems || [])
+  entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.edition.entitiesSelectItems || [])
     .filter(g => !g.disabled)
     .reduce((x, y) => [...x, ...y.items.filter(i => !i.disabled).map(i => ({ ...i, group: y.label }))], []);
 
