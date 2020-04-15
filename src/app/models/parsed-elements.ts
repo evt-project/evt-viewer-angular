@@ -15,6 +15,11 @@ export type HTMLData = GenericElementData & {
 export interface TextData extends GenericElementData {
     text: string;
 }
+export type NoteLayout = 'popover' | 'plain-text';
+export type NoteData = GenericElementData & {
+    noteLayout: NoteLayout;
+    noteType: string;
+    exponent: string;
+};
 
-export type NoteData = GenericElementData;
 export type CommentData = GenericElementData;
