@@ -88,7 +88,7 @@ export interface NamedEntitiesListsConfig {
     defaultLabel: string;
     enabled: boolean;
 }
-export type EditionLevelType = 'diplomatic' | 'interpretative';
+export type EditionLevelType = 'diplomatic' | 'interpretative' | 'critical';
 export interface EditionLevel {
     id: EditionLevelType;
     label: string;
