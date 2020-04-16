@@ -62,7 +62,6 @@ export interface UiConfig {
         label: string;
         enabled: boolean;
     }>;
-    entitiesSelectItems: EntitiesSelectItemGroup[];
 }
 
 export interface EditionConfig {
@@ -77,6 +76,7 @@ export interface EditionConfig {
         relations: NamedEntitiesListsConfig;
         events: NamedEntitiesListsConfig;
     }>;
+    entitiesSelectItems: EntitiesSelectItemGroup[];
 }
 
 export interface FileConfig {
