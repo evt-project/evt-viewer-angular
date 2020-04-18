@@ -13,7 +13,7 @@ function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] {
   return Array.from(nodes).filter((n) => n.nodeType !== 8);
 }
 
-type SupportedTagNames = 'event' | 'geogname' | 'note' | 'orgname' | 'persname' | 'placename';
+type SupportedTagNames = 'event' | 'geogname' | 'note' | 'orgname' | 'persname' | 'placename' | 'ptr';
 
 @Injectable()
 export class GenericParserService {
@@ -35,6 +35,7 @@ export class GenericParserService {
     orgname: this.parseNamedEntityRef,
     persname: this.parseNamedEntityRef,
     placename: this.parseNamedEntityRef,
+    ptr: this.parsePtr,
   };
 
   parse(xml: XMLElement): ParsedElement {
@@ -119,6 +120,18 @@ export class GenericParserService {
       attributes: this.parseAttributes(xml),
       class: xml.tagName.toLowerCase(),
     };
+  }
+
+  private parsePtr(xml: XMLElement) {
+    if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
+      const noteId = xml.getAttribute('target').replace('#', '');
+      const rootNode = xml.closest('TEI');
+      const noteEl = rootNode.querySelector<XMLElement>(`note[*|id="${noteId}"]`);
+
+      return noteEl ? this.parseNote(noteEl) : this.parseElement(xml);
+    }
+
+    return this.parseElement(xml);
   }
 
   private parseChildren(xml: XMLElement) {
