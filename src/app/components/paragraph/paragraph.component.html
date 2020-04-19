@@ -1,0 +1,7 @@
+<p>
+	<span class="p-num">{{data.n}}.</span>
+	<evt-content-viewer class="genericElement {{data.class}}" *ngFor="let el of data.content" [content]="el"
+		[itemsToHighlight]="itemsToHighlight" [class.highlight]="highlightData?.highlight"
+		[style.background]="highlightData && highlightData.highlight ? highlightData.highlightColor : ''">
+	</evt-content-viewer>
+</p>
