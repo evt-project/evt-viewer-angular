@@ -16,6 +16,11 @@ export class WitnessesParserService {
     shareReplay(1),
   );
 
+  public readonly witnesses$ = this.witnessesData$.pipe(
+    map(({witnesses}) => witnesses),
+    shareReplay(1),
+  );
+
   private witListTagName = 'listWit';
   private witTagName = 'witness';
   private witNameAttr = 'type="siglum"';
