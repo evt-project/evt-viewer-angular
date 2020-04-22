@@ -89,6 +89,7 @@ export class GenericParserService {
     if (isNestedInElem(xml, 'div', [{ key: 'type', value: 'footer' }]) // FOOTER NOTE
       || isNestedInElem(xml, 'person') || isNestedInElem(xml, 'place') || isNestedInElem(xml, 'org')
       || isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event') // NAMED ENTITY NOTE
+      || isNestedInElem(xml, 'app')
     ) {
       noteLayout = 'plain-text';
     }

@@ -77,6 +77,7 @@ export interface EditionConfig {
         events: NamedEntitiesListsConfig;
     }>;
     entitiesSelectItems: EntitiesSelectItemGroup[];
+    notSignificantVariants: string[];
 }
 
 export interface FileConfig {
