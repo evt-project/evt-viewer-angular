@@ -32,3 +32,7 @@ export function replaceNewLines(textContent: string) {
 export function replaceNotWordChar(textContent: string) {
   return textContent && textContent.replace(/[\W_]/, ' ') ;
 }
+
+export function removeSpaces(textContent: string) {
+  return textContent.replace(/\s/g, '');
+}
