@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Map } from '../utils/js-utils';
-import { GenericElementData } from './parsed-elements';
+import { GenericElementData, NoteData } from './parsed-elements';
 
 export type XMLElement = HTMLElement;
 export type OriginalEncodingNodeType = XMLElement;
@@ -125,6 +125,28 @@ export interface WitnessGroup {
     attributes: AttributesData;
     witnesses: string[];
     groupId: string;
+}
+
+export type ApparatusEntriesList = Map<ApparatusEntry>;
+
+export interface ApparatusEntry extends GenericElementData {
+    id: string;
+    content: Array<Lemma | Reading>;
+    notes: NoteData[];
+    variance: number;
+    originalEncoding: string;
+}
+
+export interface Lemma extends GenericElementData {
+    id: string;
+    witIDs: string[];
+    significant: boolean;
+}
+
+export interface Reading extends GenericElementData {
+    id: string;
+    witIDs: string[];
+    significant: boolean;
 }
 
 export interface GridItem {
