@@ -22,4 +22,8 @@ export type NoteData = GenericElementData & {
     exponent: string;
 };
 
+export interface ParagraphData extends GenericElementData {
+    n: string;
+}
+
 export type CommentData = GenericElementData;

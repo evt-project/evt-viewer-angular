@@ -37,6 +37,7 @@ import { NoteComponent } from './components/note/note.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
+import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { TextComponent } from './components/text/text.component';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
 import { HighlightableComponent } from './highlightable/highlightable.component';
@@ -99,6 +100,7 @@ export function initializeApp(appConfig: AppConfig) {
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
+    ParagraphComponent,
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
