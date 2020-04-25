@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { AppConfig } from '../../../app/app.config';
-import { ApparatusEntriesList, ApparatusEntry, Lemma, Reading, XMLElement } from '../../models/evt-models';
+import { ApparatusEntries, ApparatusEntry, Lemma, Reading, XMLElement } from '../../models/evt-models';
 import { NoteData } from '../../models/parsed-elements';
 import { getOuterHTML, xpath } from '../../utils/dom-utils';
-import { arrayToMap } from '../../utils/js-utils';
 import { removeSpaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
@@ -38,16 +37,14 @@ export class ApparatusEntriesParserService {
   ) {
   }
 
-  private parseAppEntriesList(document: XMLElement, witsNumber: number): ApparatusEntriesList {
+  private parseAppEntriesList(document: XMLElement, witsNumber: number): ApparatusEntries {
     const appEntries = Array.from(document.querySelectorAll<XMLElement>(this.appEntryTagName));
 
     return this.parseAppEntries(appEntries, witsNumber);
   }
 
   private parseAppEntries(appEntries: XMLElement[], witsNumber: number) {
-    const parsedEntries = appEntries.map((appEntry) => this.parseAppEntry(appEntry, witsNumber));
-
-    return arrayToMap(parsedEntries, 'id');
+    return appEntries.map((appEntry) => this.parseAppEntry(appEntry, witsNumber));
   }
 
   private parseAppEntry(appEntry: XMLElement, witsNumber: number): ApparatusEntry {
