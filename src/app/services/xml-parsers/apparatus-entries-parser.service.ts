@@ -89,7 +89,7 @@ export class ApparatusEntriesParserService {
       attributes: this.genericParserService.parseAttributes(rdg),
       witIDs: this.parseReadingWitnesses(rdg) || [],
       content: this.parseAppReadingContent(rdg),
-      significant: this.parseReadingSignificance(rdg),
+      significant: this.readingIsSignificant(rdg),
     };
   }
 
@@ -115,21 +115,21 @@ export class ApparatusEntriesParserService {
       });
   }
 
-  private parseReadingSignificance(rdg: XMLElement) {
+  private readingIsSignificant(rdg: XMLElement): boolean {
     const notSignificantReadings = AppConfig.evtSettings.edition.notSignificantVariants;
     let isSignificant = true;
 
     if (notSignificantReadings.length > 0) {
-      isSignificant = this.isSignificantReading(notSignificantReadings, rdg.attributes);
+      isSignificant = this.isSignificant(notSignificantReadings, rdg.attributes);
       if (isSignificant && rdg.parentElement.tagName === this.readingGroupTagName) {
-        isSignificant = this.isSignificantReading(notSignificantReadings, rdg.parentElement.attributes);
+        isSignificant = this.isSignificant(notSignificantReadings, rdg.parentElement.attributes);
       }
     }
 
     return isSignificant;
   }
 
-  private isSignificantReading(notSignificantReading: string[], attributes: NamedNodeMap) {
+  private isSignificant(notSignificantReading: string[], attributes: NamedNodeMap): boolean {
     return !Array.from(attributes).some(({name, value}) => {
       return notSignificantReading.includes(`${name}=${value}`);
     });
