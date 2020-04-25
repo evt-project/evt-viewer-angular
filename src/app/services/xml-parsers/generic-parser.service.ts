@@ -64,7 +64,6 @@ export class GenericParserService {
   public parseParagrah(xml: XMLElement): ParagraphData {
     const paragraphComponent: ParagraphData = {
       type: 'ParagraphComponent',
-      class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),
       n: this.parseAttributes(xml).n || '-1',
