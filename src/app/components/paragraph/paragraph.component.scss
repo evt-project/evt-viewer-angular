@@ -3,7 +3,7 @@
 .p-num {
   font-size: 1rem;
   padding-right: .3rem;
-  @include themify($themes){
+  @include themify($themes) {
     color: themed('secondaryColorDark');
   }
 }
