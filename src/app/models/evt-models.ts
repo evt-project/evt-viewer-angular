@@ -124,7 +124,7 @@ export interface WitnessGroup {
     groupId: string;
 }
 
-export type ApparatusEntriesList = Map<ApparatusEntry>;
+export type ApparatusEntries = ApparatusEntry[];
 
 export interface ApparatusEntry extends GenericElementData {
     id: string;
