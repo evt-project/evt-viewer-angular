@@ -2,9 +2,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { AppConfig } from '../app.config';
 import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
+import { EVTModelService } from '../services/evt-model.service';
 import { ColorTheme, ThemesService } from '../services/themes.service';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
@@ -31,6 +35,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public themes: ThemesService,
     public translate: TranslateService,
     private modalService: ModalService,
+    private evtModelService: EVTModelService,
   ) {
   }
 
@@ -70,7 +75,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           additionalClasses: 'icon',
         },
         label: 'openLists',
-        enabled$: of(this.editionConfig.showLists),
+        enabled$: this.evtModelService.namedEntities$.pipe(
+          map(ne => this.editionConfig.showLists && ne.all.entities.length > 0),
+        ),
         callback: () => this.openGlobalDialogLists(),
       },
       {
