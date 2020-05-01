@@ -42,7 +42,11 @@ export class StructureXmlParserService {
           const element = pageElements[i];
           let pageContent = [];
           if (i < l - 1) { // TODO: handle last page
-            pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
+            if (i === 0) {
+              pageContent = getElementsBetweenTreeNode(element.closest('body'), pageElements[i + 1]);
+            } else {
+              pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
+            }
           } else {
             pageContent = getElementsAfterTreeNode(element);
           }
