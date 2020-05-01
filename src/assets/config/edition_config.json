@@ -2,6 +2,7 @@
 	"editionTitle": "My Digital Edition",
 	"badge": "alpha",
 	"editionHome": "evt.labcd.unipi.it/",
+	"showLists": true,
 	"availableEditionLevels": [{
 		"id": "diplomatic",
 		"label": "diplomatic"
