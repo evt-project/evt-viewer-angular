@@ -3,7 +3,7 @@
         noDetails: (availableEntities$ | async) === false
     }"
 	[class.highlight]="highlightData?.highlight" [style.background]="highlightData && highlightData.highlight ? highlightData.highlightColor : ''">
-    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
+    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
 </span>
 <ng-container *ngIf="availableEntities$ | async">
     <div *ngIf="opened" class="namedEntityRefDetail {{ data.entityType }}">
