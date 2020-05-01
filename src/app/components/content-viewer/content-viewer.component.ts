@@ -3,6 +3,7 @@ import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef 
 import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
+import { EditionLevelType } from '../../app.config';
 import { GenericElement } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
@@ -31,6 +32,14 @@ export class ContentViewerComponent implements OnDestroy {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   itemsToHighlightChange = new BehaviorSubject<EntitiesSelectItem[]>([]);
 
+  private edLevel: EditionLevelType;
+  @Input() set editionLevel(el: EditionLevelType) {
+    this.edLevel = el;
+    this.editionLevelChange.next(el);
+  }
+  get editionLevel() { return this.edLevel; }
+  editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
+
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
@@ -50,13 +59,15 @@ export class ContentViewerComponent implements OnDestroy {
   public inputs: Observable<{ [keyName: string]: any }> = combineLatest([
     this.contentChange,
     this.itemsToHighlightChange,
+    this.editionLevelChange,
   ]).pipe(
-    map(([data, ith]) => {
+    map(([data, ith, el]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
           highlightData: this.getHighlightData(data, ith),
           itemsToHighlight: ith,
+          editionLevel: el,
         };
       }
 
