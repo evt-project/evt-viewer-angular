@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NamedEntity, Relation } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
+import { EVTModelService } from '../../services/evt-model.service';
 
 @register
 @Component({
@@ -22,7 +22,7 @@ export class NamedEntityRelationComponent {
   passiveParts$ = this.getEntities('passiveParts');
 
   constructor(
-    private neParserService: NamedEntitiesParserService,
+    private evtModelService: EVTModelService,
   ) {
   }
 
@@ -39,7 +39,7 @@ export class NamedEntityRelationComponent {
 
   private getEntities(partIdsGroup: 'activeParts' | 'mutualParts' | 'passiveParts'):
     Observable<Array<{ id: string; entity: NamedEntity; label: string }>> {
-    return this.neParserService.namedEntities$.pipe(
+    return this.evtModelService.namedEntities$.pipe(
       map(ne => this.data[partIdsGroup].map(entityId => {
         const entity = ne.all.entities.find(e => e.id === entityId);
 

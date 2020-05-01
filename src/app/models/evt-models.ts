@@ -17,6 +17,11 @@ export interface PageData {
     parsedContent: GenericElementData[];
 }
 
+export interface NamedEntitiesListData {
+    lists: NamedEntitiesList[];
+    entities: NamedEntity[];
+}
+
 export interface NamedEntities {
     all: {
         lists: NamedEntitiesList[];

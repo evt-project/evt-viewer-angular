@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, publishReplay, refCount } from 'rxjs/operators';
+import { catchError, map, publishReplay, refCount, tap } from 'rxjs/operators';
 import { AppConfig } from '../app.config';
 import { OriginalEncodingNodeType, XMLElement } from '../models/evt-models';
 import { parseXml } from '../utils/xml-utils';
+import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
+import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +17,8 @@ export class EditionDataService {
 
   constructor(
     private http: HttpClient,
+    private structureParser: StructureXmlParserService,
+    private neParserService: NamedEntitiesParserService,
   ) {
   }
 
@@ -29,6 +33,10 @@ export class EditionDataService {
         }
 
         return editionDoc;
+      }),
+      tap(source => {
+        this.structureParser.parsePages(source);
+        this.neParserService.parseLists(source);
       }),
       publishReplay(1),
       refCount(),
