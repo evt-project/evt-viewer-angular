@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { HighlightableComponent } from '../../highlightable/highlightable.component';
 import { GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { Base, Highlightable } from '../components-mixins';
 
 @Component({
   selector: 'evt-generic-element',
@@ -9,6 +9,6 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./generic-element.component.scss'],
 })
 @register(GenericElement)
-export class GenericElementComponent extends HighlightableComponent {
+export class GenericElementComponent extends Highlightable(Base) {
   @Input() data: GenericElement;
 }
