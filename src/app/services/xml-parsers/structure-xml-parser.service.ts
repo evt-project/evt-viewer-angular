@@ -40,7 +40,7 @@ export class StructureXmlParserService {
       if (l > 0) {
         for (let i = 0; i < l; i++) {
           const element = pageElements[i];
-          let pageContent = [];
+          let pageContent: XMLElement[] = [];
           if (i < l - 1) { // TODO: handle last page
             if (i === 0) {
               pageContent = getElementsBetweenTreeNode(element.closest('body'), pageElements[i + 1]);
@@ -50,6 +50,17 @@ export class StructureXmlParserService {
           } else {
             pageContent = getElementsAfterTreeNode(element);
           }
+          // Exclude nodes in <front>
+          pageContent = pageContent.filter(el => {
+            if (el.nodeType === 3) {
+              return !el.parentElement.closest('front') && el.parentElement.tagName !== 'front';
+            }
+            if (el.nodeType === 1) {
+              return !el.closest('front') && el.tagName !== 'front';
+            }
+
+            return false;
+          });
 
           const page: PageData = {
             id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
