@@ -1,0 +1,15 @@
+@import '../../../assets/scss/themes';
+
+.lb {
+    .lineN {
+        text-align: right;
+        font-size: .8em;
+        margin-right: 10px;
+        height: 100%;
+        display: inline-block;
+
+        @include themify($themes) {
+            color: themed('secondaryColorDark');
+        }
+    }
+}

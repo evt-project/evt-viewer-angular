@@ -26,4 +26,11 @@ export interface ParagraphData extends GenericElementData {
     n: string;
 }
 
+export interface LbData extends GenericElementData {
+    id: string;
+    n?: string;
+    facs?: string; // Needed to handle ITL
+    rend?: string;
+}
+
 export type CommentData = GenericElementData;
