@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { Map } from '../utils/js-utils';
 import { GenericElementData } from './parsed-elements';
 
@@ -67,8 +66,6 @@ export class NamedEntity extends GenericElementData {
     label: NamedEntityLabel;
     namedEntityType: NamedEntityType | 'personGrp';
     content: NamedEntityInfo[];
-    occurrences$: Observable<NamedEntityOccurrence[]>;
-    relations$: Observable<Relation[]>;
     originalEncoding: OriginalEncodingNodeType;
 }
 

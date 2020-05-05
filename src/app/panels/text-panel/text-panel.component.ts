@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { EditionLevelType } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -22,9 +22,7 @@ export class TextPanelComponent implements OnDestroy {
   get pageID() { return this.pid; }
   pageIDChange = new Subject<string>();
 
-  public pages$ = this.evtModelService.getPages().pipe(
-    shareReplay(1),
-  );
+  public pages$ = this.evtModelService.pages$;
 
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
 

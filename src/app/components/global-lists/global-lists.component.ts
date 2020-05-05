@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Map } from 'src/app/utils/js-utils';
+
 import { NamedEntitiesList, Relation } from '../../models/evt-models';
-import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
+import { EVTModelService } from '../../services/evt-model.service';
+import { Map } from '../../utils/js-utils';
 
 interface GlobalList extends NamedEntitiesList {
   icon: string;
@@ -15,7 +16,7 @@ interface GlobalList extends NamedEntitiesList {
   styleUrls: ['./global-lists.component.scss'],
 })
 export class GlobalListsComponent {
-  lists$: Observable<GlobalList[]> = this.neParserService.namedEntities$.pipe(
+  lists$: Observable<GlobalList[]> = this.evtModelService.namedEntities$.pipe(
     map(ne => (ne.persons.lists.concat(ne.places.lists, ne.organizations.lists, ne.events.lists))),
     map(lists => (lists.map(list => ({
       ...list,
@@ -29,7 +30,7 @@ export class GlobalListsComponent {
   );
   selectedList: NamedEntitiesList;
 
-  relations$: Observable<Relation[]> = this.neParserService.namedEntities$.pipe(
+  relations$: Observable<Relation[]> = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.relations),
   );
 
@@ -43,7 +44,7 @@ export class GlobalListsComponent {
   };
 
   constructor(
-    private neParserService: NamedEntitiesParserService,
+    private evtModelService: EVTModelService,
   ) {
   }
 

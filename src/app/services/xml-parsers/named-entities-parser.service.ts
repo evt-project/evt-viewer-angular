@@ -1,85 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AttributesMap } from 'ng-dynamic-component';
-import { combineLatest, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import {
-  Description, NamedEntities, NamedEntitiesList, NamedEntity, NamedEntityInfo,
+  Description, NamedEntitiesList, NamedEntity, NamedEntityInfo,
   NamedEntityLabel, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, PageData, Relation, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
-import { EditionDataService } from '../edition-data.service';
-import { EVTModelService } from '../evt-model.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NamedEntitiesParserService {
-  public readonly parsedLists$ = this.editionDataService.parsedEditionSource$.pipe(
-    map((source) => this.parseLists(source)),
-    shareReplay(1),
-  );
-
-  public readonly persons$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => (this.getResultsByType(lists, entities, ['person', 'personGrp']))),
-  );
-
-  public readonly places$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['place'])),
-  );
-
-  public readonly organizations$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['org'])),
-  );
-
-  public readonly relations$ = this.parsedLists$.pipe(
-    map(({ relations }) => relations),
-  );
-
-  public readonly events$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.getResultsByType(lists, entities, ['event'])),
-  );
-
-  public readonly namedEntities$: Observable<NamedEntities> = combineLatest([
-    this.persons$,
-    this.places$,
-    this.organizations$,
-    this.relations$,
-    this.events$,
-  ]).pipe(
-    map(([persons, places, organizations, relations, events]) => ({
-      all: {
-        lists: [...persons.lists, ...places.lists, ...organizations.lists, ...events.lists],
-        entities: [...persons.entities, ...places.entities, ...organizations.entities, ...events.entities],
-      },
-      persons,
-      places,
-      organizations,
-      relations,
-      events,
-    })),
-    shareReplay(1),
-  );
-
-  public occurrences$: Observable<Map<NamedEntityOccurrence[]>> = this.evtModelService.getPages().pipe(
-    map((pages) => pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))),
-    map((occ) => occ.reduce((x, y) => {
-      Object.keys(y).forEach(k => {
-        if (x[k]) {
-          x[k] = x[k].concat([y[k]]);
-        } else {
-          x[k] = [y[k]];
-        }
-      });
-
-      return x;
-    },                      {})),
-    shareReplay(1),
-  );
-
   private neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
   private tagNamesMap: { [key: string]: string } = {
     persons: 'listPerson',
@@ -90,13 +24,11 @@ export class NamedEntitiesParserService {
   };
 
   constructor(
-    private editionDataService: EditionDataService,
-    private evtModelService: EVTModelService,
     private genericParserService: GenericParserService,
   ) {
   }
 
-  private parseLists(document: XMLElement) {
+  public parseLists(document: XMLElement) {
     const listsToParse = this.getListsToParseTagNames();
     // We consider only first level lists; inset lists will be considered
     const lists = Array.from(document.querySelectorAll<XMLElement>(listsToParse.toString()))
@@ -190,13 +122,6 @@ export class NamedEntitiesParserService {
       namedEntityType: this.getEntityType(xml.tagName),
       content: Array.from(xml.children).map((subchild: XMLElement) => this.parseEntityInfo(subchild)),
       attributes: this.parseAttributes(xml),
-      occurrences$: this.occurrences$.pipe(
-        map(occ => occ[elId] || []),
-        shareReplay(1),
-      ),
-      relations$: this.relations$.pipe(
-        map(el => el.filter(rel => rel.activeParts.indexOf(elId) >= 0 ||
-          rel.passiveParts.indexOf(elId) >= 0 || rel.mutualParts.indexOf(elId) >= 0))),
     };
 
     return entity;
@@ -323,7 +248,7 @@ export class NamedEntitiesParserService {
     return attributes;
   }
 
-  private getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
+  public getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
     return {
       lists: lists.filter(list => type.indexOf(list.namedEntityType) >= 0),
       entities: entities.filter(entity => type.indexOf(entity.namedEntityType) >= 0),
@@ -344,7 +269,24 @@ export class NamedEntitiesParserService {
     return tagName.toLowerCase();
   }
 
-  private getNamedEntitiesOccurrencesInPage(p: PageData) {
+  public parseNamedEntitiesOccurrences(pages: PageData[]) {
+    return pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))
+      .reduce(
+        (x, y) => {
+          Object.keys(y).forEach(k => {
+            if (x[k]) {
+              x[k] = x[k].concat([y[k]]);
+            } else {
+              x[k] = [y[k]];
+            }
+          });
+
+          return x;
+        },
+        {});
+  }
+
+  public getNamedEntitiesOccurrencesInPage(p: PageData): Array<Map<NamedEntityOccurrence>> {
     return p.originalContent
       .filter(e => e.nodeType === 1)
       .map(e => {
@@ -358,27 +300,29 @@ export class NamedEntitiesParserService {
       })
       .filter(e => e.length > 0)
       .reduce((x, y) => x.concat(y), [])
-      .reduce((x, y) => {
-        const refsByDoc: NamedEntityOccurrenceRef[] = x[y.ref] ? x[y.ref].refsByDoc || [] : [];
-        const docRefs = refsByDoc.find(r => r.docId === y.docId);
-        if (docRefs) {
-          docRefs.refs.push(y.el);
-        } else {
-          refsByDoc.push({
-            docId: y.docId,
-            refs: [y.el],
-            docLabel: y.docLabel,
-          });
-        }
+      .reduce(
+        (x, y) => {
+          const refsByDoc: NamedEntityOccurrenceRef[] = x[y.ref] ? x[y.ref].refsByDoc || [] : [];
+          const docRefs = refsByDoc.find(r => r.docId === y.docId);
+          if (docRefs) {
+            docRefs.refs.push(y.el);
+          } else {
+            refsByDoc.push({
+              docId: y.docId,
+              refs: [y.el],
+              docLabel: y.docLabel,
+            });
+          }
 
-        return {
-          ...x, [y.ref]: {
-            pageId: p.id,
-            pageLabel: p.label,
-            refsByDoc,
-          },
-        } as Array<Map<NamedEntityOccurrence>>;
-      },      {});
+          return {
+            ...x, [y.ref]: {
+              pageId: p.id,
+              pageLabel: p.label,
+              refsByDoc,
+            },
+          } as Array<Map<NamedEntityOccurrence>>;
+        },
+        {});
   }
 
   private parseNamedEntityOccurrence(xml: XMLElement) {
