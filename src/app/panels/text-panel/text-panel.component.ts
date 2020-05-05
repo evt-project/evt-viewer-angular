@@ -4,7 +4,6 @@ import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscriptio
 import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
 import { EditionLevelType } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
-import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { EVTModelService } from '../../services/evt-model.service';
   templateUrl: './text-panel.component.html',
   styleUrls: ['./text-panel.component.scss'],
 })
-@register
 export class TextPanelComponent implements OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
 

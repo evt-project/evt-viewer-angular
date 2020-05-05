@@ -54,7 +54,7 @@ export class GenericParserService {
 
   public parseText(xml: XMLElement): TextData {
     const text = {
-      type: 'TextComponent',
+      type: TextData,
       text: replaceMultispaces(xml.textContent),
       attributes: {},
     } as TextData;
@@ -64,7 +64,7 @@ export class GenericParserService {
 
   public parseParagrah(xml: XMLElement): ParagraphData {
     const paragraphComponent: ParagraphData = {
-      type: 'ParagraphComponent',
+      type: ParagraphData,
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),
       n: this.parseAttributes(xml).n || '-1',
@@ -75,7 +75,7 @@ export class GenericParserService {
 
   public parseElement(xml: XMLElement): GenericElementData {
     const genericElement: GenericElementData = {
-      type: 'GenericElementComponent',
+      type: GenericElementData,
       class: xml.tagName ? xml.tagName.toLowerCase() : '',
       content: this.parseChildren(xml),
       attributes: this.parseAttributes(xml),
@@ -98,7 +98,7 @@ export class GenericParserService {
     }
 
     const noteElement = {
-      type: 'NoteComponent',
+      type: NoteData,
       noteType,
       noteLayout,
       exponent: xml.getAttribute('n'),
@@ -125,7 +125,7 @@ export class GenericParserService {
     };
 
     return {
-      type: 'NamedEntityRefComponent',
+      type: NamedEntityRefData,
       entityId: ref ? ref.replace(/#/g, '') : '',
       entityType: neTypeMap[xml.tagName.toLowerCase()],
       path: xpath(xml),
@@ -153,7 +153,7 @@ export class GenericParserService {
       n: xml.getAttribute('n') || '',
       rend: xml.getAttribute('rend'),
       facs: xml.getAttribute('facs'),
-      type: 'LbComponent',
+      type: LbData,
       content: [],
       attributes: this.parseAttributes(xml),
     };

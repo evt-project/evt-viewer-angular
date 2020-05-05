@@ -9,7 +9,7 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./paragraph.component.scss'],
 })
 
-@register
+@register(ParagraphData)
 export class ParagraphComponent extends HighlightableComponent {
   @Input() data: ParagraphData;
 }

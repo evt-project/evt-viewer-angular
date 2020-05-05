@@ -50,7 +50,7 @@ export interface OriginalEncodingData {
 }
 
 export type NamedEntityType = 'person' | 'place' | 'org' | 'relation' | 'event' | 'generic';
-export interface NamedEntitiesList extends GenericElementData {
+export class NamedEntitiesList extends GenericElementData {
     id: string;
     label: string;
     namedEntityType: NamedEntityType;
@@ -61,7 +61,7 @@ export interface NamedEntitiesList extends GenericElementData {
     originalEncoding: OriginalEncodingNodeType;
 }
 
-export interface NamedEntity extends GenericElementData {
+export class NamedEntity extends GenericElementData {
     id: string;
     sortKey: string;
     label: NamedEntityLabel;
@@ -74,7 +74,7 @@ export interface NamedEntity extends GenericElementData {
 
 export type NamedEntityLabel = string;
 
-export interface NamedEntityInfo extends GenericElementData {
+export class NamedEntityInfo extends GenericElementData {
     label: string;
     content: Array<GenericElementData | NamedEntitiesList>;
 }
@@ -90,7 +90,7 @@ export interface NamedEntityOccurrenceRef {
     refs: GenericElementData[];
 }
 
-export interface Relation extends GenericElementData {
+export class Relation extends GenericElementData {
     name?: string;
     activeParts: string[]; // Pointers to entities involved in relation
     mutualParts: string[]; // Pointers to entities involved in relation
@@ -101,7 +101,7 @@ export interface Relation extends GenericElementData {
 
 export type Description = GenericElementData[];
 
-export interface NamedEntityRefData extends GenericElementData {
+export class NamedEntityRefData extends GenericElementData {
     entityId: string;
     entityType: NamedEntityType;
 }

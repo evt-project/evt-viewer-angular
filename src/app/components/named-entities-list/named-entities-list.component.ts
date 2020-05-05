@@ -3,7 +3,7 @@ import { NamedEntitiesList } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
 
-@register
+@register(NamedEntitiesList)
 @Component({
   selector: 'evt-named-entities-list',
   templateUrl: './named-entities-list.component.html',

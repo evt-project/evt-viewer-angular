@@ -112,7 +112,7 @@ export class NamedEntitiesParserService {
 
   private parseList(list: XMLElement) {
     const parsedList: NamedEntitiesList = {
-      type: 'NamedEntitiesListComponent',
+      type: NamedEntitiesList,
       id: list.getAttribute('xml:id') || xpath(list),
       label: '',
       namedEntityType: this.getListType(list.tagName),
@@ -182,7 +182,7 @@ export class NamedEntitiesParserService {
     const elId = xml.getAttribute('xml:id') || xpath(xml);
     const label = replaceNewLines(xml.textContent) || 'No info';
     const entity: NamedEntity = {
-      type: 'NamedEntityComponent',
+      type: NamedEntity,
       id: elId,
       sortKey: xml.getAttribute('sortKey') || (label ? label[0] : '') || xml.getAttribute('xml:id') || xpath(xml),
       originalEncoding: xml,
@@ -282,7 +282,7 @@ export class NamedEntitiesParserService {
     const passive = xml.getAttribute('passive') || '';
     const descriptionEls = xml.querySelectorAll<XMLElement>('desc');
     const relation: Relation = {
-      type: 'NamedEntityRelationComponent',
+      type: Relation,
       name: xml.getAttribute('name'),
       activeParts: active.replace(/#/g, '').split(' '),
       mutualParts: mutual.replace(/#/g, '').split(' '),
@@ -307,7 +307,7 @@ export class NamedEntitiesParserService {
 
   private parseEntityInfo(xml: XMLElement): NamedEntityInfo {
     return {
-      type: 'NamedEntityDetailComponent',
+      type: NamedEntityInfo,
       label: xml.nodeType === 1 ? xml.tagName.toLowerCase() : 'info',
       content: [this.genericParserService.parse(xml)],
       attributes: xml.nodeType === 1 ? this.parseAttributes(xml) : {},

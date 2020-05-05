@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { PinboardService } from '../../pinboard/pinboard.service';
-import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-pinboard-panel',
   templateUrl: './pinboard-panel.component.html',
   styleUrls: ['./pinboard-panel.component.scss'],
 })
-@register
 export class PinboardPanelComponent {
   @Output() hide: EventEmitter<void> = new EventEmitter();
 

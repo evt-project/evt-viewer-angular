@@ -8,7 +8,7 @@ import { register } from '../../services/component-register.service';
   templateUrl: './generic-element.component.html',
   styleUrls: ['./generic-element.component.scss'],
 })
-@register
+@register(GenericElementData)
 export class GenericElementComponent extends HighlightableComponent {
   @Input() data: GenericElementData;
 }

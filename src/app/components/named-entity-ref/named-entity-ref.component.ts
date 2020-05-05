@@ -11,7 +11,7 @@ import { NamedEntitiesParserService } from '../../services/xml-parsers/named-ent
   templateUrl: './named-entity-ref.component.html',
   styleUrls: ['./named-entity-ref.component.scss'],
 })
-@register
+@register(NamedEntityRefData)
 export class NamedEntityRefComponent extends HighlightableComponent {
   @Input() data: NamedEntityRefData;
 

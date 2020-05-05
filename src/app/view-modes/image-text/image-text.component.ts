@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig, EditionLevelType } from 'src/app/app.config';
-import { register } from '../../services/component-register.service';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { EditionLevelService } from '../../services/edition-level.service';
   templateUrl: './image-text.component.html',
   styleUrls: ['./image-text.component.scss'],
 })
-@register
 export class ImageTextComponent implements OnInit {
   public layoutOptions: GridsterConfig = {};
   public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

@@ -5,7 +5,7 @@ import { NamedEntity, Relation } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { NamedEntitiesParserService } from '../../services/xml-parsers/named-entities-parser.service';
 
-@register
+@register(Relation)
 @Component({
   selector: 'evt-named-entity-relation',
   templateUrl: './named-entity-relation.component.html',

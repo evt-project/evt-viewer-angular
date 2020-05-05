@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppConfig, FileConfig, UiConfig } from '../app.config';
 import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
-import { register } from '../services/component-register.service';
 import { ColorTheme, ThemesService } from '../services/themes.service';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
@@ -17,7 +16,6 @@ import { ModalService } from '../ui-components/modal/modal.service';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-@register
 export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];

@@ -7,7 +7,7 @@ import { register } from '../../services/component-register.service';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })
-@register
+@register(TextData)
 export class TextComponent {
   @Input() data: TextData;
 }

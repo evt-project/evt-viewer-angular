@@ -3,7 +3,7 @@ import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
 import { NamedEntity } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
-@register
+@register(NamedEntity)
 @Component({
   selector: 'evt-named-entity',
   templateUrl: './named-entity.component.html',
