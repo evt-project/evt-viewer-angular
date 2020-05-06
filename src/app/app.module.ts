@@ -26,6 +26,7 @@ import { EditionLevelSelectorComponent } from './components/edition-level-select
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
+import { LbComponent } from './components/lb/lb.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
@@ -87,6 +88,7 @@ export function initializeApp(appConfig: AppConfig) {
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
+    LbComponent,
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
