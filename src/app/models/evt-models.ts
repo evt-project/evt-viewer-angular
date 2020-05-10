@@ -134,11 +134,7 @@ export interface ApparatusEntry extends GenericElementData {
     originalEncoding: string;
 }
 
-export interface Lemma extends GenericElementData {
-    id: string;
-    witIDs: string[];
-    significant: boolean;
-}
+export type Lemma = Reading;
 
 export interface Reading extends GenericElementData {
     id: string;

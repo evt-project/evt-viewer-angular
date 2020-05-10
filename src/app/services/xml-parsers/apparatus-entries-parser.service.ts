@@ -1,91 +1,70 @@
 import { Injectable } from '@angular/core';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../../app/app.config';
 import { ApparatusEntries, ApparatusEntry, Lemma, Reading, XMLElement } from '../../models/evt-models';
-import { NoteData } from '../../models/parsed-elements';
 import { getOuterHTML, xpath } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
 import { EditionDataService } from '../edition-data.service';
-import { GenericParserService } from './generic-parser.service';
-import { WitnessesParserService } from './witnesses-parser.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApparatusEntriesParserService {
-  private witnessesNumber$ = this.witParserService.witnesses$.pipe(
-    map((x) => Object.keys(x).length),
-  );
-
-  public readonly appEntries$ = this.witnessesNumber$.pipe(
-    switchMap((n) => this.editionDataService.parsedEditionSource$.pipe(
-      map((source) => this.parseAppEntriesList(source, n)),
-      shareReplay(1),
-    )),
+  public readonly appEntries$ = this.editionDataService.parsedEditionSource$.pipe(
+    map((source) => this.parseAppEntriesList(source)),
+    shareReplay(1),
   );
 
   private appEntryTagName = 'app';
-  private lemmaTagName = 'lem';
-  private readingTagName = 'rdg';
   private readingGroupTagName = 'rdgGrp';
   private noteTagName = 'note';
 
   constructor(
     private editionDataService: EditionDataService,
-    private genericParserService: GenericParserService,
-    private witParserService: WitnessesParserService,
   ) {
   }
 
-  private parseAppEntriesList(document: XMLElement, witsNumber: number): ApparatusEntries {
+  private parseAppEntriesList(document: XMLElement): ApparatusEntries {
     const appEntries = Array.from(document.querySelectorAll<XMLElement>(this.appEntryTagName));
 
-    return this.parseAppEntries(appEntries, witsNumber);
+    return this.parseAppEntries(appEntries);
   }
 
-  private parseAppEntries(appEntries: XMLElement[], witsNumber: number) {
-    return appEntries.map((appEntry) => this.parseAppEntry(appEntry, witsNumber));
+  private parseAppEntries(appEntries: XMLElement[]) {
+    return appEntries.map((appEntry) => this.parseAppEntry(appEntry));
   }
 
-  private parseAppEntry(appEntry: XMLElement, witsNumber: number): ApparatusEntry {
-    const content = this.parseAppReadings(appEntry);
+  public parseAppEntry(appEntry: XMLElement): ApparatusEntry {
 
     return {
       type: 'ApparatusEntryComponent',
       id: appEntry.getAttribute('xml:id') || xpath(appEntry),
-      attributes: this.genericParserService.parseAttributes(appEntry),
-      content,
-      notes: this.parseAppNotes(appEntry),
-      variance: this.calcVariance(content, witsNumber),
+      attributes: {},
+      content: [],
+      notes: [],
+      variance: 0,
       originalEncoding: getOuterHTML(appEntry),
     };
   }
 
-  private parseAppReadings(appEntry: XMLElement): Array<Lemma | Reading> {
-    return Array.from(appEntry.querySelectorAll(`${this.lemmaTagName}, ${this.readingTagName}`))
-      .map((rdg: XMLElement) => {
-        return rdg.tagName === this.lemmaTagName ? this.parseLemma(rdg) : this.parseReading(rdg);
-      });
-  }
-
-  private parseLemma(rdg: XMLElement): Lemma {
+  public parseLemma(rdg: XMLElement): Lemma {
     return {
       type: 'LemmaComponent',
       id: rdg.getAttribute('xml:id') || xpath(rdg),
-      attributes: this.genericParserService.parseAttributes(rdg),
+      attributes: {},
       witIDs: this.parseReadingWitnesses(rdg) || [],
-      content: this.parseAppReadingContent(rdg),
+      content: [],
       significant: true,
     };
   }
 
-  private parseReading(rdg: XMLElement): Reading {
+  public parseReading(rdg: XMLElement): Reading {
     return {
       type: 'ReadingComponent',
       id: rdg.getAttribute('xml:id') || xpath(rdg),
-      attributes: this.genericParserService.parseAttributes(rdg),
+      attributes: {},
       witIDs: this.parseReadingWitnesses(rdg) || [],
-      content: this.parseAppReadingContent(rdg),
+      content: [],
       significant: this.readingIsSignificant(rdg),
     };
   }
@@ -94,22 +73,6 @@ export class ApparatusEntriesParserService {
     return rdg.getAttribute('wit')?.split('#')
       .map((el) => removeSpaces(el))
       .filter((el) => el.length !== 0);
-  }
-
-  private parseAppReadingContent(rdg: XMLElement) {
-    return Array.from(rdg.childNodes)
-      .map((child: XMLElement) => {
-        if (child.nodeName === this.appEntryTagName) {
-          return {
-            type: 'ApparatusEntryComponent',
-            id: child.getAttribute('xml:id') || xpath(child),
-            attributes: {},
-            content: [],
-          };
-        }
-
-        return this.genericParserService.parse(child);
-      });
   }
 
   private readingIsSignificant(rdg: XMLElement): boolean {
@@ -132,19 +95,8 @@ export class ApparatusEntriesParserService {
     });
   }
 
-  private parseAppNotes(appEntry: XMLElement): NoteData[] {
-    const notes  = Array.from(appEntry.children)
-      .filter(({tagName}) => tagName === this.noteTagName)
-      .map((note: XMLElement) => this.genericParserService.parse(note));
-
-    return notes as NoteData[];
-  }
-
-  private calcVariance(appEntryReadings: Array<Lemma | Reading>, witsNumber: number): number {
-    return this.getAppSignificantRdgNumber(appEntryReadings) / witsNumber;
-  }
-
-  private getAppSignificantRdgNumber(appEntryReadings: Array<Lemma | Reading>): number {
-    return appEntryReadings.filter(({significant}) => significant).length;
+  public getAppNotes(xml: XMLElement) {
+    return Array.from(xml.children)
+      .filter(({tagName}) => tagName === this.noteTagName);
   }
 }
