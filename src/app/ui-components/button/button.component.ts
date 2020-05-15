@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { register } from '../../services/component-register.service';
 import { EvtIconInfo } from '../icon/icon.component';
 
 @Component({
@@ -7,7 +6,6 @@ import { EvtIconInfo } from '../icon/icon.component';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
-@register
 export class ButtonComponent implements OnInit, OnChanges {
   @Input() public iconLeft: EvtIconInfo;
   @Input() public iconRight: EvtIconInfo;

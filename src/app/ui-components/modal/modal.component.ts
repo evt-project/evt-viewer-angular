@@ -3,7 +3,6 @@ import {
   Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 
-import { register } from '../../services/component-register.service';
 import { ThemesService } from '../../services/themes.service';
 import { EvtIconInfo } from '../icon/icon.component';
 import { ModalService } from './modal.service';
@@ -13,7 +12,6 @@ import { ModalService } from './modal.service';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
 })
-@register
 export class ModalComponent implements OnInit {
   @Input() closeOnShadow: boolean;
   @Input() closeOnEsc: boolean;

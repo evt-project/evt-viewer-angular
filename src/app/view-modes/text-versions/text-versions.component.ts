@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig, EditionLevelType } from 'src/app/app.config';
-import { register } from '../../services/component-register.service';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { EditionLevelService } from '../../services/edition-level.service';
   templateUrl: './text-versions.component.html',
   styleUrls: ['./text-versions.component.scss'],
 })
-@register
 export class TextVersionsComponent implements OnInit {
   @ViewChild('versionsPanel', { static: true }) versionsPanel: ElementRef;
   private versions: VersionItem[] = [];

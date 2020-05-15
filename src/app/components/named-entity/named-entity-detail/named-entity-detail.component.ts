@@ -7,7 +7,7 @@ import { register } from '../../../services/component-register.service';
   templateUrl: './named-entity-detail.component.html',
   styleUrls: ['./named-entity-detail.component.scss'],
 })
-@register
+@register(NamedEntityInfo)
 export class NamedEntityDetailComponent {
   @Input() data: NamedEntityInfo;
 

@@ -4,7 +4,6 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { AppConfig, EditionLevelType } from '../../app.config';
-import { register } from '../../services/component-register.service';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { EditionLevelService } from '../../services/edition-level.service';
   templateUrl: './text-text.component.html',
   styleUrls: ['./text-text.component.scss'],
 })
-@register
 export class TextTextComponent implements OnInit {
   public options: GridsterConfig = {};
   public textPanel1Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

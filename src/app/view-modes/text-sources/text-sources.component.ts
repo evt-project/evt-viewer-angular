@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig, EditionLevelType } from '../../app.config';
-import { register } from '../../services/component-register.service';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { EditionLevelService } from '../../services/edition-level.service';
   templateUrl: './text-sources.component.html',
   styleUrls: ['./text-sources.component.scss'],
 })
-@register
 export class TextSourcesComponent implements OnInit {
   public options: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

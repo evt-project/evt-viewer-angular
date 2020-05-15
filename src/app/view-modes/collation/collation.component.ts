@@ -3,14 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig } from 'src/app/app.config';
-import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-collation',
   templateUrl: './collation.component.html',
   styleUrls: ['./collation.component.scss'],
 })
-@register
 export class CollationComponent implements OnInit, OnDestroy {
   @ViewChild('collationPanel', { static: true }) collationPanel: ElementRef;
 

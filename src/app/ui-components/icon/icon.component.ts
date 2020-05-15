@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { register } from '../../services/component-register.service';
 
 @Component({
   selector: 'evt-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
 })
-@register
 export class IconComponent implements OnInit {
   @Input() iconInfo: EvtIconInfo;
 

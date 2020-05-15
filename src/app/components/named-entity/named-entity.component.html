@@ -30,7 +30,7 @@
             <li [ngbNavItem]="'occurrences_'+data.id">
                 <a ngbNavLink>{{'Occurrences' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <div class="ne-detail-content" *ngIf="data.occurrences$ | async as occurrences">
+                    <div class="ne-detail-content" *ngIf="occurrences$ | async as occurrences">
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
                         <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
                     </div>
@@ -39,7 +39,7 @@
             <li [ngbNavItem]="'relations_'+data.id">
                 <a ngbNavLink>{{'Relations' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <div class="ne-detail-content" *ngIf="data.relations$ | async as relations">
+                    <div class="ne-detail-content" *ngIf="relations$ | async as relations">
                         <span *ngIf="relations.length === 0">{{'noRelations' | translate}}</span>
                         <evt-named-entity-relation *ngFor="let relation of relations" 
                             [data]="relation" [inEntity]="true"></evt-named-entity-relation>

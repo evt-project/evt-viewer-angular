@@ -5,14 +5,13 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { GenericElementData } from 'src/app/models/parsed-elements';
 import { EntitiesSelectService } from 'src/app/services/entities-select.service';
-import { ComponentRegisterService, register } from '../../services/component-register.service';
+import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
 @Component({
   selector: 'evt-content-viewer',
   templateUrl: './content-viewer.component.html',
 })
-@register
 export class ContentViewerComponent implements OnDestroy {
   private v: GenericElementData;
   @Input() set content(v: GenericElementData) {

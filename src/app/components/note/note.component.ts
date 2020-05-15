@@ -8,7 +8,7 @@ import { register } from '../../services/component-register.service';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss'],
 })
-@register
+@register(NoteData)
 export class NoteComponent {
   @Input() data: NoteData;
   @ViewChild('popover', { static: true }) popover: NgbPopover;

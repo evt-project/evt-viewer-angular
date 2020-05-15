@@ -1,7 +1,9 @@
+import { Type } from '@angular/core';
 import { AttributesData, OriginalEncodingNodeType } from './evt-models';
 
-export interface GenericElementData {
-    type: string;
+export class GenericElementData {
+    // tslint:disable-next-line: no-any
+    type: Type<any>;
     path?: string;
     class?: string;
     attributes: AttributesData;
@@ -12,21 +14,21 @@ export type HTMLData = GenericElementData & {
     content: OriginalEncodingNodeType[];
 };
 
-export interface TextData extends GenericElementData {
+export class TextData extends GenericElementData {
     text: string;
 }
 export type NoteLayout = 'popover' | 'plain-text';
-export type NoteData = GenericElementData & {
+export class NoteData extends GenericElementData {
     noteLayout: NoteLayout;
     noteType: string;
     exponent: string;
-};
+}
 
-export interface ParagraphData extends GenericElementData {
+export class ParagraphData extends GenericElementData {
     n: string;
 }
 
-export interface LbData extends GenericElementData {
+export class LbData extends GenericElementData {
     id: string;
     n?: string;
     facs?: string; // Needed to handle ITL

@@ -5,8 +5,11 @@ import { Map } from '../utils/js-utils';
 const COMPONENT_MAP: Map<Type<any>> = {};
 
 // tslint:disable-next-line: no-any
-export function register(cls: Type<any>): void {
-  COMPONENT_MAP[cls.name] = cls;
+export function register(dataType: Type<any>) {
+  // tslint:disable-next-line: no-any
+  return (cls: Type<any>) => {
+      COMPONENT_MAP[dataType.name] = cls;
+  };
 }
 
 @Injectable({
@@ -14,7 +17,8 @@ export function register(cls: Type<any>): void {
 })
 export class ComponentRegisterService {
 
-  getComponent(name: string) {
-    return COMPONENT_MAP[name];
+  // tslint:disable-next-line: no-any
+  getComponent(dataType: Type<any>) {
+    return COMPONENT_MAP[dataType.name];
   }
 }

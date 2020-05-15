@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig, EditionLevelType } from '../../app.config';
 import { PageData } from '../../models/evt-models';
-import { register } from '../../services/component-register.service';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { EditionLevelService } from '../../services/edition-level.service';
   templateUrl: './reading-text.component.html',
   styleUrls: ['./reading-text.component.scss'],
 })
-@register
 export class ReadingTextComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };

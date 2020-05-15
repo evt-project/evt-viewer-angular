@@ -1,35 +1,20 @@
 import { Injectable } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
 
 import { PageData, XMLElement } from '../../models/evt-models';
 import { getElementsAfterTreeNode, getElementsBetweenTreeNode } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
-import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StructureXmlParserService {
-  public readonly editionStructure$ = this.editionDataService.parsedEditionSource$
-    .pipe(
-      map((source) => this.init(source)),
-      shareReplay(1),
-    );
-
   constructor(
-    private editionDataService: EditionDataService,
     private genericParserService: GenericParserService,
   ) {
-
   }
 
-  getPages() {
-    return this.editionStructure$.pipe(
-      map(editionStructure => editionStructure.pagesIndexes.map(pageId => editionStructure.pages[pageId])));
-  }
-
-  init(document: XMLElement) {
+  parsePages(document: XMLElement) {
     const pages: Map<PageData> = {};
     const pagesIndexes: string[] = [];
     const pageTagName = 'pb';

@@ -3,9 +3,8 @@ import { Router, RouterEvent } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
-import { register } from '../services/component-register.service';
+import { EVTModelService } from '../services/evt-model.service';
 import { ThemesService } from '../services/themes.service';
-import { PrefatoryMatterParserService } from '../services/xml-parsers/prefatory-matter-parser.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 import { normalizeUrl } from '../utils/js-utils';
 
@@ -14,11 +13,10 @@ import { normalizeUrl } from '../utils/js-utils';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-@register
 export class MainHeaderComponent implements OnDestroy {
   public title$ = combineLatest([
     of(AppConfig?.evtSettings?.edition?.editionTitle),
-    this.prefatoryMatterParserService.title$,
+    this.evtModelService.title$,
   ]).pipe(
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
   );
@@ -34,7 +32,7 @@ export class MainHeaderComponent implements OnDestroy {
   constructor(
     public themes: ThemesService,
     private router: Router,
-    private prefatoryMatterParserService: PrefatoryMatterParserService,
+    private evtModelService: EVTModelService,
   ) {
     this.initViewModes();
     const firstRouteSub$ = this.router.events.subscribe((routingData: RouterEvent) => {

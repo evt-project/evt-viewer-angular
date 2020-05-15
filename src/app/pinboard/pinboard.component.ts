@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { register } from '../services/component-register.service';
 import { PinboardService } from './pinboard.service';
 
 @Component({
@@ -8,7 +7,6 @@ import { PinboardService } from './pinboard.service';
   templateUrl: './pinboard.component.html',
   styleUrls: ['./pinboard.component.scss'],
 })
-@register
 export class PinboardComponent implements OnInit, OnChanges {
   @Input() types: string[];
   // tslint:disable-next-line: no-any
