@@ -2,18 +2,20 @@
 @import "../../../assets/scss/mixins";
 
 .namedEntityRef {
-  cursor: pointer;
-  &.opened {
-    border-bottom: 3px solid;
+  &:not(.noDetails) {
+    cursor: pointer;
+    &.opened {
+      border-bottom: 3px solid;
+    }
   }
   &:not(.opened):not(:hover) {
     background-color: transparent;
   }
 }
 
-.namedEntityRef:hover,
+.namedEntityRef:hover:not(.noDetails),
 .namedEntityRef.highlighted,
-.namedEntityRef.opened {
+.namedEntityRef.opened:not(.noDetails) {
   &.person {
     @include namedEntityRefColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
   }
@@ -42,7 +44,6 @@
     background: get-ne-color(eventBase);
   }
 }
-
 .not-found-msg {
   font-size: .9rem;
 }
