@@ -1,38 +1,25 @@
 import { Injectable } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
 import { Description, Witness, WitnessesData, WitnessGroup, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { arrayToMap } from '../../utils/js-utils';
 import { replaceNotWordChar } from '../../utils/xml-utils';
-import { EditionDataService } from '../edition-data.service';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WitnessesParserService {
-  public readonly witnessesData$ = this.editionDataService.parsedEditionSource$.pipe(
-    map((source) => this.parseWitnessesData(source)),
-    shareReplay(1),
-  );
-
-  public readonly witnesses$ = this.witnessesData$.pipe(
-    map(({witnesses}) => witnesses),
-    shareReplay(1),
-  );
-
   private witListTagName = 'listWit';
   private witTagName = 'witness';
   private witNameAttr = 'type="siglum"';
   private groupTagName = 'head';
 
   constructor(
-    private editionDataService: EditionDataService,
     private genericParserService: GenericParserService,
   ) {
   }
 
-  private parseWitnessesData(document: XMLElement): WitnessesData {
+  public parseWitnessesData(document: XMLElement): WitnessesData {
     const lists = Array.from(document.querySelectorAll<XMLElement>(this.witListTagName));
 
     return {

@@ -7,6 +7,7 @@ import { EditionDataService } from './edition-data.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
+import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -80,11 +81,23 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // WITNESSES
+  public readonly witnessesData$ = this.editionSource$.pipe(
+    map((source) => this.witnessesParser.parseWitnessesData(source)),
+    shareReplay(1),
+  );
+
+  public readonly witnesses$ = this.witnessesData$.pipe(
+    map(({witnesses}) => witnesses),
+    shareReplay(1),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
     private namedEntitiesParser: NamedEntitiesParserService,
     private prefatoryMatterParser: PrefatoryMatterParserService,
+    private witnessesParser: WitnessesParserService,
   ) {
   }
 
