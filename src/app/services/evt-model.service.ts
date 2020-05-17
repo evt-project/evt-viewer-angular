@@ -4,6 +4,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, PageData } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
+import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
@@ -92,12 +93,19 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // APPARATUS ENTRIES
+  public readonly appEntries$ = this.editionSource$.pipe(
+    map((source) => this.apparatusParser.parseAppEntries(source)),
+    shareReplay(1),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
     private namedEntitiesParser: NamedEntitiesParserService,
     private prefatoryMatterParser: PrefatoryMatterParserService,
     private witnessesParser: WitnessesParserService,
+    private apparatusParser: ApparatusEntriesParserService,
   ) {
   }
 

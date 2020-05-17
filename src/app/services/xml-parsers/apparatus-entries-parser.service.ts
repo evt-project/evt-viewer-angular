@@ -1,41 +1,24 @@
 import { Injectable } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from '../../../app/app.config';
-import { ApparatusEntries, ApparatusEntry, Lemma, Reading, XMLElement } from '../../models/evt-models';
+import { ApparatusEntry, Reading, XMLElement } from '../../models/evt-models';
 import { getOuterHTML, xpath } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
-import { EditionDataService } from '../edition-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApparatusEntriesParserService {
-  public readonly appEntries$ = this.editionDataService.parsedEditionSource$.pipe(
-    map((source) => this.parseAppEntriesList(source)),
-    shareReplay(1),
-  );
-
   private appEntryTagName = 'app';
   private readingGroupTagName = 'rdgGrp';
   private noteTagName = 'note';
 
-  constructor(
-    private editionDataService: EditionDataService,
-  ) {
-  }
-
-  private parseAppEntriesList(document: XMLElement): ApparatusEntries {
+  public parseAppEntries(document: XMLElement) {
     const appEntries = Array.from(document.querySelectorAll<XMLElement>(this.appEntryTagName));
 
-    return this.parseAppEntries(appEntries);
-  }
-
-  private parseAppEntries(appEntries: XMLElement[]) {
     return appEntries.map((appEntry) => this.parseAppEntry(appEntry));
   }
 
   public parseAppEntry(appEntry: XMLElement): ApparatusEntry {
-
     return {
       type: ApparatusEntry,
       id: appEntry.getAttribute('xml:id') || xpath(appEntry),

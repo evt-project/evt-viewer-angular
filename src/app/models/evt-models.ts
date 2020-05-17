@@ -123,9 +123,6 @@ export interface WitnessGroup {
     witnesses: string[];
     groupId: string;
 }
-
-export type ApparatusEntries = ApparatusEntry[];
-
 export class ApparatusEntry extends GenericElementData {
     id: string;
     content: Reading[];
