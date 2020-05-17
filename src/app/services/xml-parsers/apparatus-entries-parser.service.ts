@@ -37,7 +37,7 @@ export class ApparatusEntriesParserService {
   public parseAppEntry(appEntry: XMLElement): ApparatusEntry {
 
     return {
-      type: 'ApparatusEntryComponent',
+      type: ApparatusEntry,
       id: appEntry.getAttribute('xml:id') || xpath(appEntry),
       attributes: {},
       content: [],
@@ -47,25 +47,21 @@ export class ApparatusEntriesParserService {
     };
   }
 
-  public parseLemma(rdg: XMLElement): Lemma {
-    return {
-      type: 'LemmaComponent',
-      id: rdg.getAttribute('xml:id') || xpath(rdg),
-      attributes: {},
-      witIDs: this.parseReadingWitnesses(rdg) || [],
-      content: [],
-      significant: true,
-    };
-  }
-
   public parseReading(rdg: XMLElement): Reading {
     return {
-      type: 'ReadingComponent',
+      type: Reading,
       id: rdg.getAttribute('xml:id') || xpath(rdg),
       attributes: {},
       witIDs: this.parseReadingWitnesses(rdg) || [],
       content: [],
       significant: this.readingIsSignificant(rdg),
+    };
+  }
+
+  public parseLemma(rdg: XMLElement): Reading {
+    return {
+      ...this.parseReading(rdg),
+      significant: true,
     };
   }
 

@@ -126,17 +126,15 @@ export interface WitnessGroup {
 
 export type ApparatusEntries = ApparatusEntry[];
 
-export interface ApparatusEntry extends GenericElementData {
+export class ApparatusEntry extends GenericElementData {
     id: string;
-    content: Array<Lemma | Reading>;
+    content: Reading[];
     notes: NoteData[];
     variance: number;
     originalEncoding: string;
 }
 
-export type Lemma = Reading;
-
-export interface Reading extends GenericElementData {
+export class Reading extends GenericElementData {
     id: string;
     witIDs: string[];
     significant: boolean;
