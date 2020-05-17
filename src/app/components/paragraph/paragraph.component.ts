@@ -2,7 +2,9 @@ import { Component, Input } from '@angular/core';
 
 import { Paragraph } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+
+export interface ParagraphComponent extends EditionlevelSusceptible, Highlightable { }
 
 @Component({
   selector: 'evt-paragraph',
@@ -11,6 +13,6 @@ import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixi
 })
 
 @register(Paragraph)
-export class ParagraphComponent extends EditionlevelSusceptible(Highlightable(Base)) {
+export class ParagraphComponent {
   @Input() data: Paragraph;
 }

@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+
+export interface GenericElementComponent extends EditionlevelSusceptible, Highlightable { }
 
 @Component({
   selector: 'evt-generic-element',
@@ -9,6 +11,6 @@ import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixi
   styleUrls: ['./generic-element.component.scss'],
 })
 @register(GenericElement)
-export class GenericElementComponent extends EditionlevelSusceptible(Highlightable(Base)) {
+export class GenericElementComponent {
   @Input() data: GenericElement;
 }

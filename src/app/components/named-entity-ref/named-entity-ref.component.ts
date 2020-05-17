@@ -5,7 +5,9 @@ import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+
+export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highlightable { }
 
 @Component({
   selector: 'evt-named-entity-ref',
@@ -13,7 +15,7 @@ import { Base, EditionlevelSusceptible, Highlightable } from '../components-mixi
   styleUrls: ['./named-entity-ref.component.scss'],
 })
 @register(NamedEntityRef)
-export class NamedEntityRefComponent extends EditionlevelSusceptible(Highlightable(Base)) {
+export class NamedEntityRefComponent {
   @Input() data: NamedEntityRef;
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.all.entities.length > 0),
@@ -42,7 +44,6 @@ export class NamedEntityRefComponent extends EditionlevelSusceptible(Highlightab
     private evtModelService: EVTModelService,
     private entitiesSelectService: EntitiesSelectService,
   ) {
-    super();
   }
 
   toggleEntityData(event: MouseEvent) {
