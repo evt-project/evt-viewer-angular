@@ -68,6 +68,7 @@ export interface EditionConfig {
     editionTitle: string;
     badge: string;
     editionHome: string;
+    showLists: boolean;
     availableEditionLevels: EditionLevel[];
     namedEntitiesLists: Partial<{
         persons: NamedEntitiesListsConfig;

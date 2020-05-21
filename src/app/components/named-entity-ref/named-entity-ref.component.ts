@@ -14,7 +14,9 @@ import { EVTModelService } from '../../services/evt-model.service';
 @register(NamedEntityRefData)
 export class NamedEntityRefComponent extends HighlightableComponent {
   @Input() data: NamedEntityRefData;
-
+  availableEntities$ = this.evtModelService.namedEntities$.pipe(
+    map(ne => ne.all.entities.length > 0),
+  );
   entity$ = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
   );

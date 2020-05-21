@@ -1,10 +1,12 @@
 <div class="mainMenu" (clickOutside)="closeMenu()" (escape)="closeMenu()">
     <ul>
-        <li *ngFor="let item of dynamicItems; trackBy: trackMenuItem">
-            <span (click)="item.callback()">
-                <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate}}
-            </span>
-        </li>
+        <ng-container *ngFor="let item of dynamicItems; trackBy: trackMenuItem">
+            <li *ngIf="item.enabled$ | async">
+                <span (click)="item.callback()">
+                    <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate}}
+                </span>
+            </li>
+        </ng-container>
     </ul>
     <hr />
     <ul>

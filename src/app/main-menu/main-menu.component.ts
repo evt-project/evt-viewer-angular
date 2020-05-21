@@ -2,9 +2,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AppConfig, FileConfig, UiConfig } from '../app.config';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { AppConfig } from '../app.config';
 import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
+import { EVTModelService } from '../services/evt-model.service';
 import { ColorTheme, ThemesService } from '../services/themes.service';
 import { ShortcutsComponent } from '../shortcuts/shortcuts.component';
 import { EvtIconInfo } from '../ui-components/icon/icon.component';
@@ -19,8 +23,9 @@ import { ModalService } from '../ui-components/modal/modal.service';
 export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() itemClicked = new EventEmitter<string>();
   public dynamicItems: MainMenuItem[] = [];
-  public uiConfig: UiConfig = AppConfig.evtSettings.ui;
-  public fileConfig: FileConfig = AppConfig.evtSettings.files;
+  public uiConfig = AppConfig.evtSettings.ui;
+  public fileConfig = AppConfig.evtSettings.files;
+  public editionConfig = AppConfig.evtSettings.edition;
 
   private isOpened = false;
   private subscriptions = [];
@@ -30,6 +35,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public themes: ThemesService,
     public translate: TranslateService,
     private modalService: ModalService,
+    private evtModelService: EVTModelService,
   ) {
   }
 
@@ -59,7 +65,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           additionalClasses: 'icon',
         },
         label: 'projectInfo',
-        // callback: () => this.openGlobalDialogInfo,
+        enabled$: of(true),
         callback: () => this.openGlobalDialogInfo(),
       },
       {
@@ -69,6 +75,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           additionalClasses: 'icon',
         },
         label: 'openLists',
+        enabled$: this.evtModelService.namedEntities$.pipe(
+          map(ne => this.editionConfig.showLists && ne.all.entities.length > 0),
+        ),
         callback: () => this.openGlobalDialogLists(),
       },
       {
@@ -78,6 +87,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           additionalClasses: 'icon',
         },
         label: 'bookmark',
+        enabled$: of(true),
         callback: () => this.generateBookmark(),
       },
       {
@@ -87,6 +97,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           additionalClasses: 'icon',
         },
         label: 'downloadXML',
+        enabled$: of(true),
         callback: () => this.downloadXML(),
       },
     ];
@@ -205,5 +216,6 @@ export interface MainMenuItem {
   id: string;
   iconInfo: EvtIconInfo;
   label: string;
+  enabled$: Observable<boolean>;
   callback: () => void;
 }
