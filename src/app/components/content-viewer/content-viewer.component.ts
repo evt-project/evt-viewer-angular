@@ -61,13 +61,13 @@ export class ContentViewerComponent implements OnDestroy {
     this.itemsToHighlightChange,
     this.editionLevelChange,
   ]).pipe(
-    map(([data, ith, el]) => {
+    map(([data, itemsToHighlight, editionLevel]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
-          highlightData: this.getHighlightData(data, ith),
-          itemsToHighlight: ith,
-          editionLevel: el,
+          highlightData: this.getHighlightData(data, itemsToHighlight),
+          itemsToHighlight,
+          editionLevel,
         };
       }
 
