@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OriginalEncodingNodeType } from 'src/app/models/evt-models';
+import { OriginalEncodingNodeType } from '../../models/evt-models';
 
 @Component({
   selector: 'evt-original-encoding-viewer',

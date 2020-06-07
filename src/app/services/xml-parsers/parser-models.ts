@@ -1,6 +1,6 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { Attributes, Description, GenericElement, HTML, XMLElement } from 'src/app/models/evt-models';
-import { xpath } from 'src/app/utils/dom-utils';
+import { Attributes, Description, GenericElement, HTML, XMLElement } from '../../models/evt-models';
+import { xpath } from '../../utils/dom-utils';
 
 export type ParseResult<T extends GenericElement> = T | HTML | GenericElement | Attributes | Description | AttributesMap;
 

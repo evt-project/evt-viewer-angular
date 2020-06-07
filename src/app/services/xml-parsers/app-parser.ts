@@ -1,7 +1,7 @@
-import { AppConfig } from 'src/app/app.config';
-import { ApparatusEntry, Note, Reading, XMLElement } from 'src/app/models/evt-models';
-import { getOuterHTML } from 'src/app/utils/dom-utils';
-import { removeSpaces } from 'src/app/utils/xml-utils';
+import { AppConfig } from '../../app.config';
+import { ApparatusEntry, Note, Reading, XMLElement } from '../../models/evt-models';
+import { getOuterHTML } from '../../utils/dom-utils';
+import { removeSpaces } from '../../utils/xml-utils';
 import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 

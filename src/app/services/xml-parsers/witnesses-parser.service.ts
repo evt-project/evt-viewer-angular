@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
-import { Description, Witness, WitnessesData, WitnessGroup, XMLElement } from '../../models/evt-models';
+import { Description, Witness, Witnesses, WitnessGroup, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { arrayToMap } from '../../utils/js-utils';
 import { replaceNotWordChar } from '../../utils/xml-utils';
@@ -27,7 +27,7 @@ export class WitnessesParserService {
   ) {
   }
 
-  private parseWitnessesData(document: XMLElement): WitnessesData {
+  public parseWitnessesData(document: XMLElement): Witnesses {
     const lists = Array.from(document.querySelectorAll<XMLElement>(this.witListTagName));
 
     return {

@@ -1,9 +1,9 @@
 import {
     GenericElement, NamedEntity, NamedEntityInfo, NamedEntityLabel,
     NamedEntityRef, NamedEntityType, Relation, XMLElement,
-} from 'src/app/models/evt-models';
-import { xpath } from 'src/app/utils/dom-utils';
-import { replaceNewLines } from 'src/app/utils/xml-utils';
+} from '../../models/evt-models';
+import { xpath } from '../../utils/dom-utils';
+import { replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
 

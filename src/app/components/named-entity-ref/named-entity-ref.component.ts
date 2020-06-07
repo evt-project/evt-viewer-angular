@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { HighlightableComponent } from '../../highlightable/highlightable.component';
-import { NamedEntityRefData } from '../../models/evt-models';
+import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -11,9 +11,9 @@ import { EVTModelService } from '../../services/evt-model.service';
   templateUrl: './named-entity-ref.component.html',
   styleUrls: ['./named-entity-ref.component.scss'],
 })
-@register(NamedEntityRefData)
+@register(NamedEntityRef)
 export class NamedEntityRefComponent extends HighlightableComponent {
-  @Input() data: NamedEntityRefData;
+  @Input() data: NamedEntityRef;
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.all.entities.length > 0),
   );

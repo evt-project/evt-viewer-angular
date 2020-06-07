@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { NoteData } from '../../models/parsed-elements';
+import { Note } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -8,9 +8,9 @@ import { register } from '../../services/component-register.service';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss'],
 })
-@register(NoteData)
+@register(Note)
 export class NoteComponent {
-  @Input() data: NoteData;
+  @Input() data: Note;
   @ViewChild('popover', { static: true }) popover: NgbPopover;
 
   public pinnerStyle = {

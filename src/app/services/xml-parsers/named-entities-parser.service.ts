@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AttributesMap } from 'ng-dynamic-component';
 import { AppConfig } from '../../app.config';
 import {
-  Description, NamedEntitiesList, NamedEntity, NamedEntityInfo,
-  NamedEntityLabel, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, PageData, Relation, XMLElement,
+  NamedEntitiesList, NamedEntity, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, Page, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';

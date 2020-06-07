@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, PageData } from '../models/evt-models';
+import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
@@ -22,7 +22,7 @@ export class EVTModelService {
     shareReplay(1),
   );
 
-  public readonly pages$: Observable<PageData[]> = this.editionSource$.pipe(
+  public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
     map((source) => this.editionStructureParser.parsePages(source)),
     map(editionStructure => editionStructure.pagesIndexes.map(pageId => editionStructure.pages[pageId])),
     shareReplay(1),
@@ -88,7 +88,7 @@ export class EVTModelService {
   ) {
   }
 
-  getPage(pageId: string): Observable<PageData> {
+  getPage(pageId: string): Observable<Page> {
     return this.pages$.pipe(map((pages) => pages.find((page) => page.id === pageId)));
   }
 }
