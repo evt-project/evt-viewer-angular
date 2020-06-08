@@ -176,3 +176,40 @@ export class Lb extends GenericElement {
 }
 
 export type Comment = GenericElement;
+
+export class Surface extends GenericElement {
+    id: string;
+    corresp: string;
+    graphics: Graphic[];
+    zones: {
+        lines: ZoneLine[];
+        hotspots: ZoneHotSpot[];
+    };
+}
+export type ZoneRendition = 'Line' | 'HotSpot'; // EVT rule to distinguish lines for ITL from HotSpots
+export interface Point {
+    x: number;
+    y: number;
+}
+export class Zone extends GenericElement {
+    id: string;
+    coords: Point[];
+    rendition?: ZoneRendition;
+    // In lines @corresp points to <lb> @xml:id in the main text; in HotSpots it points to @xml:id of element which contains HS description
+    // In Embedded Transcription it is the same as @xml:id of zone itself
+    corresp?: string;
+    rend?: string;
+    rotate?: number;
+    surface?: string;
+}
+export class ZoneLine extends Zone {
+    rendition: 'Line';
+}
+export class ZoneHotSpot extends Zone {
+    rendition: 'HotSpot';
+}
+export class Graphic extends GenericElement {
+    url: string;
+    height: string;
+    width: string;
+}
