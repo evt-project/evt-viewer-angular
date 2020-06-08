@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page } from '../models/evt-models';
+import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
 import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
+import { FacsimileParserService } from './xml-parsers/facsimile-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
@@ -99,6 +100,22 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // FACSIMILE
+  public readonly surfaces$ = this.editionSource$.pipe(
+    map((source) => this.facsimileParser.parseSurfaces(source)),
+    shareReplay(1),
+  );
+
+  public readonly hsLines$ = this.surfaces$.pipe(
+    map((surfaces) => surfaces.reduce((x: ZoneLine[], y) => x.concat(y.zones.lines), [])),
+    shareReplay(1),
+  );
+
+  public readonly hotspots$ = this.surfaces$.pipe(
+    map((surfaces) => surfaces.reduce((x: ZoneHotSpot[], y) => x.concat(y.zones.hotspots), [])),
+    shareReplay(1),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
@@ -106,6 +123,7 @@ export class EVTModelService {
     private prefatoryMatterParser: PrefatoryMatterParserService,
     private witnessesParser: WitnessesParserService,
     private apparatusParser: ApparatusEntriesParserService,
+    private facsimileParser: FacsimileParserService,
   ) {
   }
 
