@@ -4,7 +4,7 @@ import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppConfig, EditionLevelType } from '../../app.config';
-import { PageData } from '../../models/evt-models';
+import { Page } from '../../models/evt-models';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -44,7 +44,7 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     this.initGridster();
   }
 
-  handlePageChange(selectedPage: PageData) {
+  handlePageChange(selectedPage: Page) {
     if (selectedPage) {
       const viewMode = this.route.snapshot.routeConfig.path;
       const params = { ...this.route.snapshot.params };

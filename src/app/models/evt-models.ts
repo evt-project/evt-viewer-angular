@@ -1,19 +1,29 @@
+import { Type } from '@angular/core';
+import { ParseResult } from '../services/xml-parsers/parser-models';
 import { Map } from '../utils/js-utils';
-import { GenericElementData } from './parsed-elements';
+
+export class GenericElement {
+    // tslint:disable-next-line: no-any
+    type: Type<any>;
+    path?: string;
+    class?: string;
+    attributes: Attributes;
+    content: Array<ParseResult<GenericElement>>;
+}
 
 export type XMLElement = HTMLElement;
 export type OriginalEncodingNodeType = XMLElement;
 
 export interface EditionStructure {
-    pages: Map<PageData>;
+    pages: Map<Page>;
     pagesIndexes: string[];
 }
 
-export interface PageData {
+export interface Page {
     id: string;
     label: string;
     originalContent: OriginalEncodingNodeType[];
-    parsedContent: GenericElementData[];
+    parsedContent: Array<ParseResult<GenericElement>>;
 }
 
 export interface NamedEntities {
@@ -40,16 +50,14 @@ export interface NamedEntities {
     };
 }
 
-export interface AttributesData {
-    [key: string]: string;
-}
+export interface Attributes { [key: string]: string; }
 
-export interface OriginalEncodingData {
+export interface OriginalEncoding {
     originalEncoding: OriginalEncodingNodeType;
 }
 
 export type NamedEntityType = 'person' | 'place' | 'org' | 'relation' | 'event' | 'generic';
-export class NamedEntitiesList extends GenericElementData {
+export class NamedEntitiesList extends GenericElement {
     id: string;
     label: string;
     namedEntityType: NamedEntityType;
@@ -60,7 +68,7 @@ export class NamedEntitiesList extends GenericElementData {
     originalEncoding: OriginalEncodingNodeType;
 }
 
-export class NamedEntity extends GenericElementData {
+export class NamedEntity extends GenericElement {
     id: string;
     sortKey: string;
     label: NamedEntityLabel;
@@ -71,9 +79,8 @@ export class NamedEntity extends GenericElementData {
 
 export type NamedEntityLabel = string;
 
-export class NamedEntityInfo extends GenericElementData {
+export class NamedEntityInfo extends GenericElement {
     label: string;
-    content: Array<GenericElementData | NamedEntitiesList>;
 }
 
 export interface NamedEntityOccurrence {
@@ -84,10 +91,10 @@ export interface NamedEntityOccurrence {
 export interface NamedEntityOccurrenceRef {
     docId: string;
     docLabel: string;
-    refs: GenericElementData[];
+    refs: GenericElement[];
 }
 
-export class Relation extends GenericElementData {
+export class Relation extends GenericElement {
     name?: string;
     activeParts: string[]; // Pointers to entities involved in relation
     mutualParts: string[]; // Pointers to entities involved in relation
@@ -96,32 +103,45 @@ export class Relation extends GenericElementData {
     relationType?: string;
 }
 
-export type Description = GenericElementData[];
+export type Description = Array<ParseResult<GenericElement>>;
 
-export class NamedEntityRefData extends GenericElementData {
+export class NamedEntityRef extends GenericElement {
     entityId: string;
     entityType: NamedEntityType;
 }
 
-export interface WitnessesData {
+export interface Witnesses {
     witnesses: Map<Witness>;
     groups: Map<WitnessGroup>;
 }
 
 export interface Witness {
     id: string;
-    name: GenericElementData[];
-    attributes: AttributesData;
-    content: GenericElementData[];
+    name: GenericElement[];
+    attributes: Attributes;
+    content: Array<ParseResult<GenericElement>>;
     groupId: string;
 }
 
 export interface WitnessGroup {
     id: string;
     name: string;
-    attributes: AttributesData;
+    attributes: Attributes;
     witnesses: string[];
     groupId: string;
+}
+export class ApparatusEntry extends GenericElement {
+    id: string;
+    content: Reading[];
+    notes: Note[];
+    variance: number;
+    originalEncoding: string;
+}
+
+export class Reading extends GenericElement {
+    id: string;
+    witIDs: string[];
+    significant: boolean;
 }
 
 export interface GridItem {
@@ -129,3 +149,30 @@ export interface GridItem {
     name: string;
     active: boolean;
 }
+
+export type HTML = GenericElement & {
+    content: OriginalEncodingNodeType[];
+};
+
+export class Text extends GenericElement {
+    text: string;
+}
+export type NoteLayout = 'popover' | 'plain-text';
+export class Note extends GenericElement {
+    noteLayout: NoteLayout;
+    noteType: string;
+    exponent: string;
+}
+
+export class Paragraph extends GenericElement {
+    n: string;
+}
+
+export class Lb extends GenericElement {
+    id: string;
+    n?: string;
+    facs?: string; // Needed to handle ITL
+    rend?: string;
+}
+
+export type Comment = GenericElement;

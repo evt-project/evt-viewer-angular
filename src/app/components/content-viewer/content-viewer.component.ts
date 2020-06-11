@@ -3,9 +3,9 @@ import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef 
 import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { GenericElementData } from 'src/app/models/parsed-elements';
-import { EntitiesSelectService } from 'src/app/services/entities-select.service';
+import { GenericElement } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
+import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
 @Component({
@@ -13,8 +13,8 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
   templateUrl: './content-viewer.component.html',
 })
 export class ContentViewerComponent implements OnDestroy {
-  private v: GenericElementData;
-  @Input() set content(v: GenericElementData) {
+  private v: GenericElement;
+  @Input() set content(v: GenericElement) {
     this.v = v;
     this.contentChange.next(v);
   }
@@ -27,7 +27,7 @@ export class ContentViewerComponent implements OnDestroy {
   }
   get itemsToHighlight() { return this.ith; }
 
-  contentChange = new BehaviorSubject<GenericElementData>(undefined);
+  contentChange = new BehaviorSubject<GenericElement>(undefined);
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   itemsToHighlightChange = new BehaviorSubject<EntitiesSelectItem[]>([]);
 

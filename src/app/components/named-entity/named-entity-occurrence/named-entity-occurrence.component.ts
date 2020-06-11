@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NamedEntityOccurrence } from 'src/app/models/evt-models';
+import { NamedEntityOccurrence } from '../../../models/evt-models';
 
 @Component({
   selector: 'evt-named-entity-occurrence',

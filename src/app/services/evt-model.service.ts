@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, PageData } from '../models/evt-models';
+import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
+import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
+import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,7 @@ export class EVTModelService {
     shareReplay(1),
   );
 
-  public readonly pages$: Observable<PageData[]> = this.editionSource$.pipe(
+  public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
     map((source) => this.editionStructureParser.parsePages(source)),
     map(editionStructure => editionStructure.pagesIndexes.map(pageId => editionStructure.pages[pageId])),
     shareReplay(1),
@@ -80,15 +82,34 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // WITNESSES
+  public readonly witnessesData$ = this.editionSource$.pipe(
+    map((source) => this.witnessesParser.parseWitnessesData(source)),
+    shareReplay(1),
+  );
+
+  public readonly witnesses$ = this.witnessesData$.pipe(
+    map(({witnesses}) => witnesses),
+    shareReplay(1),
+  );
+
+  // APPARATUS ENTRIES
+  public readonly appEntries$ = this.editionSource$.pipe(
+    map((source) => this.apparatusParser.parseAppEntries(source)),
+    shareReplay(1),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
     private namedEntitiesParser: NamedEntitiesParserService,
     private prefatoryMatterParser: PrefatoryMatterParserService,
+    private witnessesParser: WitnessesParserService,
+    private apparatusParser: ApparatusEntriesParserService,
   ) {
   }
 
-  getPage(pageId: string): Observable<PageData> {
+  getPage(pageId: string): Observable<Page> {
     return this.pages$.pipe(map((pages) => pages.find((page) => page.id === pageId)));
   }
 }

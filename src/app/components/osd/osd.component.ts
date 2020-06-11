@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { uuid } from 'src/app/utils/js-utils';
+import { uuid } from '../../utils/js-utils';
 
 declare var OpenSeadragon;
 

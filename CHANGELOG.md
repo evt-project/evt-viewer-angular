@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Apparatus entries extraction
 - Numbered pharagraphs
 - Critical and comment notes
 - Named entities and interesting elements selector
@@ -19,4 +20,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenSeadragon component with support for manifest file
 
 ### Changed
+- Parse logic
 - Start using "changelog"

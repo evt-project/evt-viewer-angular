@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { HighlightableComponent } from '../../highlightable/highlightable.component';
-import { GenericElementData } from '../../models/parsed-elements';
+import { GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { register } from '../../services/component-register.service';
   templateUrl: './generic-element.component.html',
   styleUrls: ['./generic-element.component.scss'],
 })
-@register(GenericElementData)
+@register(GenericElement)
 export class GenericElementComponent extends HighlightableComponent {
-  @Input() data: GenericElementData;
+  @Input() data: GenericElement;
 }

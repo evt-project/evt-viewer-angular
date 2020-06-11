@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { EditionLevelType } from '../../app.config';
-import { PageData } from '../../models/evt-models';
+import { Page } from '../../models/evt-models';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
 @Component({
@@ -13,13 +13,13 @@ export class PageComponent {
   @Input() itemsToHighlight: EntitiesSelectItem[];
   @Input() editionLevel: EditionLevelType;
 
-  private d: PageData;
-  @Input() set data(v: PageData) {
+  private d: Page;
+  @Input() set data(v: Page) {
     this.d = v;
     this.pageDataChange.next(this.d);
   }
   get data() { return this.d; }
-  pageDataChange = new BehaviorSubject<PageData>(undefined);
+  pageDataChange = new BehaviorSubject<Page>(undefined);
 
   busy = of<boolean>(false); // TODO: manage loading
 }

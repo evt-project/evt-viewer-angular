@@ -78,5 +78,8 @@
 				}
 			]
 		}
+	],
+	"notSignificantVariants": [
+		"type=orthographic"
 	]
 }

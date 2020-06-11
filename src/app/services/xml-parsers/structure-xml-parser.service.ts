@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { PageData, XMLElement } from '../../models/evt-models';
+import { Page, XMLElement } from '../../models/evt-models';
 import { getElementsAfterTreeNode, getElementsBetweenTreeNode } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { GenericParserService } from './generic-parser.service';
@@ -15,7 +15,7 @@ export class StructureXmlParserService {
   }
 
   parsePages(document: XMLElement) {
-    const pages: Map<PageData> = {};
+    const pages: Map<Page> = {};
     const pagesIndexes: string[] = [];
     const pageTagName = 'pb';
 
@@ -47,7 +47,7 @@ export class StructureXmlParserService {
             return false;
           });
 
-          const page: PageData = {
+          const page: Page = {
             id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
             label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
             originalContent: pageContent,
@@ -61,11 +61,13 @@ export class StructureXmlParserService {
         console.warn('TODO: Decide how to handle text division when there are no <pb>s');
         const mainText = document.querySelector('text');
         const content = Array.from(mainText.childNodes);
-        const page: PageData = {
+        const page: Page = {
           id: `page_${new Date().getTime()}`,
           label: 'Main Text',
           originalContent: content as XMLElement[],
-          parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement)).filter(c => !!c.content),
+          parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement))
+            // tslint:disable-next-line: no-string-literal
+            .filter(c => !!c['content']), // TODO: FIXME: fix property access
         };
         pages[page.id] = page;
         pagesIndexes.push(page.id);

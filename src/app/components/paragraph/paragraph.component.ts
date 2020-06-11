@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { HighlightableComponent } from '../../highlightable/highlightable.component';
-import { ParagraphData } from '../../models/parsed-elements';
+import { Paragraph } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./paragraph.component.scss'],
 })
 
-@register(ParagraphData)
+@register(Paragraph)
 export class ParagraphComponent extends HighlightableComponent {
-  @Input() data: ParagraphData;
+  @Input() data: Paragraph;
 }

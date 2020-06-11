@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TextData } from '../../models/parsed-elements';
+import { Text } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { register } from '../../services/component-register.service';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })
-@register(TextData)
+@register(Text)
 export class TextComponent {
-  @Input() data: TextData;
+  @Input() data: Text;
 }
