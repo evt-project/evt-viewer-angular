@@ -1,18 +1,20 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { AppParser } from './app-parser';
 import { ElementParser, LBParser, NoteParser, ParagraphParser, PtrParser, TextParser } from './basic-parsers';
+import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser,
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'app' | 'event' | 'geogname' | 'lb' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' |
-    'person' | 'personGrp' | 'place' | 'org';
+type SupportedTagNames = 'app' | 'event' | 'geogname' | 'graphic' | 'lb' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' |
+    'person' | 'personGrp' | 'place' | 'org' | 'surface' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     event: createParser(NamedEntityRefParser, parse),
     geogname: createParser(NamedEntityRefParser, parse),
+    graphic: createParser(GraphicParser, parse),
     lb: createParser(LBParser, parse),
     note: createParser(NoteParser, parse),
     orgname: createParser(NamedEntityRefParser, parse),
@@ -26,6 +28,8 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     place: createParser(PlaceParser, parse),
     org: createParser(OrganizationParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
+    surface: createParser(SurfaceParser, parse),
+    zone: createParser(ZoneParser, parse),
 };
 
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
