@@ -2,6 +2,11 @@ import { Type } from '@angular/core';
 import { ParseResult } from '../services/xml-parsers/parser-models';
 import { Map } from '../utils/js-utils';
 
+export interface HighlightData {
+    highlight: boolean;
+    highlightColor: string;
+}
+
 export class GenericElement {
     // tslint:disable-next-line: no-any
     type: Type<any>;
