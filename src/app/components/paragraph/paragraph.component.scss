@@ -1,7 +1,7 @@
 @import "../../../assets/scss/themes";
 
 .p-num {
-  font-size: 1rem;
+  font-size: .8em;
   padding-right: .3rem;
 
   @include themify($themes) {
