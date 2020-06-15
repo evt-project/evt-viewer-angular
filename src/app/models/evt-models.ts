@@ -1,6 +1,20 @@
 import { Type } from '@angular/core';
+import { EditionLevelType } from '../app.config';
 import { ParseResult } from '../services/xml-parsers/parser-models';
 import { Map } from '../utils/js-utils';
+
+export interface EditorialConvention {
+    element: string;
+    attributes: Attributes;
+    layouts: EditorialConventionLayouts;
+}
+export type EditorialConventionLayouts = Partial<{ [key in EditionLevelType]: Partial<EditorialConventionLayout> }>;
+export interface EditorialConventionLayout {
+    // tslint:disable-next-line: no-any
+    style: { [cssProperty: string]: any; }; // List of CSS properties to be assigned to the output element
+    pre: string; // Text to be shown before the element
+    post: string; // Text to be shown after the element
+}
 
 export interface HighlightData {
     highlight: boolean;
