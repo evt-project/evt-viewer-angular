@@ -40,6 +40,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { TextComponent } from './components/text/text.component';
+import { HighlightDirective } from './directives/highlight.directive';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
@@ -83,6 +84,7 @@ export function initializeApp(appConfig: AppConfig) {
     FilterPipe,
     GenericElementComponent,
     GlobalListsComponent,
+    HighlightDirective,
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
