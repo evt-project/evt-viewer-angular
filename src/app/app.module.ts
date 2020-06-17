@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
+import { CharComponent } from './components/char/char.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
@@ -77,6 +78,7 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AppComponent,
+    CharComponent,
     CollationComponent,
     ContentViewerComponent,
     EditionLevelSelectorComponent,
