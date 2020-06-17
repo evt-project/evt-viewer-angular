@@ -242,3 +242,8 @@ export class Char extends GenericElement {
     unihanProp?: EncodingProp;
     graphics: Graphic[];
 }
+
+export class G extends GenericElement {
+    id: string;
+    charId: string;
+}

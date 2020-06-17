@@ -1,4 +1,4 @@
-import { Char, CharMapping, CharProp, Graphic, XMLElement } from '../../models/evt-models';
+import { Char, CharMapping, CharProp, G, Graphic, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { GraphicParser } from './facsimile-parser';
 import { createParser, getDefaultAttr, getID, parseChildren, Parser } from './parser-models';
@@ -89,4 +89,18 @@ export class GlyphParser extends CharParser implements Parser<XMLElement> {
 
         return localPropName ? getDefaultAttr(localPropName.getAttribute('value')) : '';
     }
+}
+
+export class GParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    public parse(xml: XMLElement): G {
+        return {
+            type: G,
+            id: getID(xml),
+            attributes: this.attributeParser.parse(xml),
+            content: parseChildren(xml, this.genericParse),
+            charId: getDefaultAttr(xml.getAttribute('ref')).replace('#', ''),
+        };
+    }
+
 }
