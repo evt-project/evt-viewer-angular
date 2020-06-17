@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Glyphs in text
+- Char and glyphs in characters declaration
 - Apparatus entries extraction
 - Numbered pharagraphs
 - Critical and comment notes
