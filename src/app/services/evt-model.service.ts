@@ -5,6 +5,7 @@ import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, Z
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
 import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
+import { CharacterDeclarationsParserService } from './xml-parsers/character-declarations-parser.service';
 import { FacsimileParserService } from './xml-parsers/facsimile-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
@@ -116,6 +117,24 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // CHAR DECL
+  public readonly characters$ = this.editionSource$.pipe(
+    map((source) => this.characterDeclarationsParser.parseChars(source)),
+    shareReplay(1),
+  );
+
+  public readonly glyphs$ = this.editionSource$.pipe(
+    map((source) => this.characterDeclarationsParser.parseGlyphs(source)),
+    shareReplay(1),
+  );
+
+  public readonly specialChars$ = combineLatest([
+    this.characters$,
+    this.glyphs$,
+  ]).pipe(
+    map(([chars, glyphs]) => chars.concat(glyphs)),
+  );
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
@@ -124,6 +143,7 @@ export class EVTModelService {
     private witnessesParser: WitnessesParserService,
     private apparatusParser: ApparatusEntriesParserService,
     private facsimileParser: FacsimileParserService,
+    private characterDeclarationsParser: CharacterDeclarationsParserService,
   ) {
   }
 
