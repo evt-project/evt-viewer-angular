@@ -1,7 +1,7 @@
 <div class="relation pb-2" [ngClass]="{
         'p-3': !inEntity,
         'border-bottom': !inEntity
-    }">
+    }" [evtHtmlAttributes]="data?.attributes">
     <small class="relation-type" *ngIf="data.relationType">{{ data.relationType | lowercase }}</small>
     <div>
         <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'mr-2'}"></evt-icon>

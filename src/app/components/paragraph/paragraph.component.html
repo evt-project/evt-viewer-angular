@@ -1,4 +1,4 @@
-<p>
+<p [evtHtmlAttributes]="data?.attributes">
 	<span class="p-num" *ngIf="data.n">{{data.n}}</span>
 	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
 		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">

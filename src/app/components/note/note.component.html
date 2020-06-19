@@ -1,4 +1,4 @@
-<span class="evt-note" [attr.data-type]="data?.noteType">
+<span class="evt-note" [evtHtmlAttributes]="data?.attributes" [attr.data-type]="data?.noteType">
     <ng-container [ngSwitch]="data?.noteLayout">
         <ng-container *ngSwitchCase="'plain-text'">
             <evt-content-viewer *ngFor="let element of data.content" [content]="element">
