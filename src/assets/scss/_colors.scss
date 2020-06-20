@@ -1,0 +1,28 @@
+@import './mixins';
+
+$editionColors: (
+    namedEntities: (
+        personBase:  #FFF0F1,
+        personMiddle: #FFF0F2,
+        personDarker: #ffcdd2,
+        placeBase: #EEF7EF,
+        placeMiddle: #c8e6c9,
+        placeDarker: #A5D6A7,
+        orgBase: #FFE9C9,
+        orgMiddle: #FFCC80,
+        orgDarker: #FFB74D,
+        eventBase: #fffdc9,
+        eventMiddle: #ffffb0,
+        eventDarker: #fcfc60,
+    ),
+    commentNotes: rgb(87, 14, 105),
+    criticalNotes: rgb(24, 70, 155)
+);
+
+@function get-color($key) {
+    @return map-fetch($editionColors, $key);
+}
+
+@function get-ne-color($key) {
+    @return get-color(namedEntities $key);
+}
