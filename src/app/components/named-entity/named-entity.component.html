@@ -1,7 +1,7 @@
 <div class="card ne-container {{ data.namedEntityType }}" (click)="tabSelected($event)" [ngClass]="{
         inList: inList, 
         contentOpened: contentOpened
-    }" *ngIf="data">
+    }" *ngIf="data" [evtHtmlAttributes]="data?.attributes">
     <div class="card-header ne-header" (click)="toggleContent()">
         <evt-icon *ngIf="inList && contentOpened"
             [iconInfo]="{ icon: 'caret-down', additionalClasses: 'icon toggler mr-2'}">

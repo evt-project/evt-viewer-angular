@@ -41,6 +41,7 @@ import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { TextComponent } from './components/text/text.component';
 import { HighlightDirective } from './directives/highlight.directive';
+import { HtmlAttributesDirective } from './directives/html-attributes.directive';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
@@ -85,6 +86,7 @@ export function initializeApp(appConfig: AppConfig) {
     GenericElementComponent,
     GlobalListsComponent,
     HighlightDirective,
+    HtmlAttributesDirective,
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
