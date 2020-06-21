@@ -78,10 +78,12 @@ export class LemmaParser extends EmptyParser implements Parser<XMLElement> {
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
     private readingTagName = 'rdg';
+    private lemmaTagName = 'lem';
 
     attributeParser = createParser(AttributeParser, this.genericParse);
     noteParser = createParser(NoteParser, this.genericParse);
     rdgParser = createParser(RdgParser, this.genericParse);
+    lemmaParser = createParser(LemmaParser, this.genericParse);
 
     public parse(appEntry: XMLElement): ApparatusEntry {
         const content = this.parseAppReadings(appEntry);
@@ -106,7 +108,13 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
     }
 
     private parseAppReadings(appEntry: XMLElement): Reading[] {
-        return Array.from(appEntry.querySelectorAll(this.readingTagName))
-            .map((rdg: XMLElement) => this.rdgParser.parse(rdg));
+        return Array.from(appEntry.querySelectorAll(`${this.readingTagName}, ${this.lemmaTagName}`))
+            .map((rdg: XMLElement) => {
+                if (rdg.tagName === this.lemmaTagName) {
+                    return this.lemmaParser.parse(rdg);
+                }
+
+                return this.rdgParser.parse(rdg);
+            });
     }
 }
