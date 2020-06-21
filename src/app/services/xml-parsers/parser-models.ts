@@ -17,5 +17,6 @@ export function parseChildren(xml: XMLElement, parseFn: ParseFn) {
     return complexElements(xml.childNodes).map(child => parseFn(child as XMLElement));
 }
 export function getDefaultN(n: string) { return n || ''; }
+export function getDefaultAttr(attr: string) { return attr || ''; }
 
 function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] { return Array.from(nodes).filter((n) => n.nodeType !== 8); }

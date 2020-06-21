@@ -218,3 +218,32 @@ export class Graphic extends GenericElement {
     height: string;
     width: string;
 }
+
+export interface CharMapping {
+    type: string;
+    subtype: string;
+    attributes: Attributes;
+    content: Array<ParseResult<GenericElement>>;
+}
+export interface CharProp {
+    name: string;
+    value: string;
+}
+export interface EncodingProp extends CharProp {
+    version: string;
+}
+export class Char extends GenericElement {
+    id: string;
+    name: string;
+    entityName: string;
+    localProps: CharProp[];
+    mappings: CharMapping[];
+    unicodeProp?: EncodingProp;
+    unihanProp?: EncodingProp;
+    graphics: Graphic[];
+}
+
+export class G extends GenericElement {
+    id: string;
+    charId: string;
+}
