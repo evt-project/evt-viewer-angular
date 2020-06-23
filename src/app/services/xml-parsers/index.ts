@@ -2,6 +2,7 @@ import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-mode
 import { AppParser } from './app-parser';
 import { ElementParser, LBParser, NoteParser, ParagraphParser, PtrParser, TextParser } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
+import { ChoiceParser } from './choice-parser';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -9,11 +10,12 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'app' | 'char' | 'event' | 'g' | 'geogname' | 'glyph' | 'graphic' | 'lb' | 'note' | 'orgname' |
+type SupportedTagNames = 'app' | 'char' | 'choice' | 'event' | 'g' | 'geogname' | 'glyph' | 'graphic' | 'lb' | 'note' | 'orgname' |
     'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'surface' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     char: createParser(CharParser, parse),
+    choice: createParser(ChoiceParser, parse),
     event: createParser(NamedEntityRefParser, parse),
     g: createParser(GParser, parse),
     geogname: createParser(NamedEntityRefParser, parse),
