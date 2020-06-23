@@ -38,6 +38,14 @@ body {
     height: 100%;
 }
 
+.edition-font {
+    font-family: Junicode, Times, serif;
+}
+
+.ui-font {
+    font-family: Arial, sans-serif; // TODO: decide which font to use for the UI
+}
+
 // ng-select overwrites
 .ng-select {
     position: relative;
