@@ -16,7 +16,11 @@ $editionColors: (
         eventDarker: #fcfc60,
     ),
     commentNotes: rgb(87, 14, 105),
-    criticalNotes: rgb(24, 70, 155)
+    criticalNotes: rgb(24, 70, 155),
+    normalization: #69513a,
+    normalizationBackground: #fffbf3,
+    emendation: #934d4d,
+    emendationBackground: #f99069,
 );
 
 @function get-color($key) {

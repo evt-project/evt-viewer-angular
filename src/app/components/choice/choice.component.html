@@ -1,0 +1,11 @@
+<span class="choice" [attr.data-intervention-type]="data.editorialInterventionType" [evtHtmlAttributes]="data?.attributes"
+    [ngbPopover]="popContent" [autoClose]="'outside'" popoverClass="choice-popover {{data.editorialInterventionType}}" 
+    container="body" [placement]="['bottom']" triggers="mouseenter:mouseleave">
+    <evt-content-viewer *ngFor="let element of content" [content]="element"
+        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
+</span>
+
+<ng-template #popContent>
+    <evt-content-viewer *ngFor="let element of alternativeContent" [content]="element"
+        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
+</ng-template>
