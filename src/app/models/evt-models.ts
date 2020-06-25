@@ -139,7 +139,6 @@ export class ApparatusEntry extends GenericElement {
     id: string;
     content: Reading[];
     notes: Note[];
-    variance: number;
     originalEncoding: string;
 }
 

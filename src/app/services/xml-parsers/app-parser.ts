@@ -94,7 +94,6 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(appEntry),
             content,
             notes: this.parseAppNotes(appEntry),
-            variance: 0,
             originalEncoding: getOuterHTML(appEntry),
         };
     }
