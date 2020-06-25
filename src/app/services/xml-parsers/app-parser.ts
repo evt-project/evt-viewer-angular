@@ -6,7 +6,6 @@ import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
-    private readingGroupTagName = 'rdgGrp';
     private appEntryTagName = 'app';
     attributeParser = createParser(AttributeParser, this.genericParse);
 
@@ -17,7 +16,6 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(rdg),
             witIDs: this.parseReadingWitnesses(rdg) || [],
             content: this.parseAppReadingContent(rdg),
-            significant: this.readingIsSignificant(rdg),
         };
     }
 
@@ -42,36 +40,13 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
                 return this.genericParse(child);
             });
     }
-
-    private readingIsSignificant(rdg: XMLElement): boolean {
-        const notSignificantReadings = AppConfig.evtSettings.edition.notSignificantVariants;
-        let isSignificant = true;
-
-        if (notSignificantReadings.length > 0) {
-            isSignificant = this.isSignificant(notSignificantReadings, rdg.attributes);
-            if (isSignificant && rdg.parentElement.tagName === this.readingGroupTagName) {
-                isSignificant = this.isSignificant(notSignificantReadings, rdg.parentElement.attributes);
-            }
-        }
-
-        return isSignificant;
-    }
-
-    private isSignificant(notSignificantReading: string[], attributes: NamedNodeMap): boolean {
-        return !Array.from(attributes).some(({ name, value }) => {
-            return notSignificantReading.includes(`${name}=${value}`);
-        });
-    }
 }
 
 export class LemmaParser extends EmptyParser implements Parser<XMLElement> {
     rdgParser = createParser(RdgParser, this.genericParse);
 
     public parse(rdg: XMLElement): Reading {
-        return {
-            ...this.rdgParser.parse(rdg),
-            significant: true,
-        };
+        return this.rdgParser.parse(rdg);
     }
 }
 
