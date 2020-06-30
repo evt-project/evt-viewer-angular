@@ -5,9 +5,45 @@
 @import "./assets/scss/mixins";
 @import "./assets/scss/bootstrapOverrides";
 
+@font-face {
+    font-family: 'Junicode';
+    src: url('./assets/fonts/Junicode.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Junicode';
+    src: url('./assets/fonts/Junicode-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Junicode';
+    src: url('./assets/fonts/Junicode-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Junicode';
+    src: url('./assets/fonts/Junicode-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
 html,
 body {
     height: 100%;
+}
+
+.edition-font {
+    font-family: Junicode, Times, serif;
+}
+
+.ui-font {
+    font-family: Arial, sans-serif; // TODO: decide which font to use for the UI
 }
 
 // ng-select overwrites

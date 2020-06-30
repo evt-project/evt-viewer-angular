@@ -7,10 +7,10 @@
         </ng-template>
         <div class="list-item border-bottom border-top" *ngIf="(relations$ | async).length > 0"
             (click)="openRelations()">
-            <span class="list-item-main p-2 w-100 d-block">
+            <span class="list-item-main p-2 w-100 d-block edition-font">
                 <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'mr-1'}"></evt-icon>
                 {{ 'relations' | translate }}
-                <span class="badge badge-pill badge-info">{{ (relations$ | async).length }}</span>
+                <span class="badge badge-pill badge-info ui-font">{{ (relations$ | async).length }}</span>
             </span>
         </div>
     </div>
@@ -35,10 +35,10 @@
         'text-light': selectedList === list,
         'border-bottom': !last
     }">
-        <span class="list-item-main p-2 w-100 d-block">
+        <span class="list-item-main p-2 w-100 d-block edition-font">
             <evt-icon *ngIf="list.icon" [iconInfo]="{icon: list.icon, additionalClasses: 'mr-1'}"></evt-icon>
             {{list.label | translate}}
-            <span class="badge badge-pill badge-info" *ngIf="list.content?.length > 0">{{ list.content?.length }}</span>
+            <span class="badge badge-pill badge-info ui-font" *ngIf="list.content?.length > 0">{{ list.content?.length }}</span>
         </span>
         <div class="sub-list ml-3 border-left" *ngIf="list.sublists.length > 0">
             <ng-template ngFor let-sublist let-last [ngForOf]="list.sublists">

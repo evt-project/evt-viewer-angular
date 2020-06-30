@@ -19,7 +19,7 @@
     <div class="card-body ne-content" *ngIf="contentOpened">
         <ul ngbNav #entityDetails="ngbNav" class="entity-details" [activeId]="selectedSection">
             <li [ngbNavItem]="'info_'+data.id" [disabled]="data.content.length === 0">
-                <a ngbNavLink>{{'Info' | translate}}</a>
+                <a ngbNavLink class="ui-font">{{'Info' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content">
                         <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
@@ -28,26 +28,26 @@
                 </ng-template>
             </li>
             <li [ngbNavItem]="'occurrences_'+data.id">
-                <a ngbNavLink>{{'Occurrences' | translate}}</a>
+                <a ngbNavLink class="ui-font">{{'Occurrences' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <div class="ne-detail-content" *ngIf="occurrences$ | async as occurrences">
+                    <div class="ne-detail-content ui-font" *ngIf="occurrences$ | async as occurrences">
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
                         <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
                     </div>
                 </ng-template>
             </li>
             <li [ngbNavItem]="'relations_'+data.id">
-                <a ngbNavLink>{{'Relations' | translate}}</a>
+                <a ngbNavLink class="ui-font">{{'Relations' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content" *ngIf="relations$ | async as relations">
-                        <span *ngIf="relations.length === 0">{{'noRelations' | translate}}</span>
+                        <span *ngIf="relations.length === 0" class="ui-font">{{'noRelations' | translate}}</span>
                         <evt-named-entity-relation *ngFor="let relation of relations" 
                             [data]="relation" [inEntity]="true"></evt-named-entity-relation>
                     </div>
                 </ng-template>
             </li>
             <li [ngbNavItem]="'xml_'+data.id">
-                <a ngbNavLink>{{'XMLSource' | translate}}</a>
+                <a ngbNavLink class="ui-font">{{'XMLSource' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content no-padding">
                         <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">
