@@ -247,3 +247,10 @@ export class G extends GenericElement {
     id: string;
     charId: string;
 }
+
+export type ChoiceType = 'normalization' | 'emendation';
+export class Choice extends GenericElement {
+    editorialInterventionType: ChoiceType | '';
+    originalContent: Array<ParseResult<GenericElement>>;
+    normalizedContent: Array<ParseResult<GenericElement>>;
+}
