@@ -1,6 +1,6 @@
 <nav class="navbar justify-content-between temp-header">
     <a class="navbar-brand">
-        <img src="/assets/images/logo.png" height="30" class="d-inline-block align-top mr-2" alt="">
+        <img [src]="logoUrl" height="30" class="d-inline-block align-top mr-2" alt="">
         <span (click)="openEditionHome()" class="edition-font" [class.pointer]="editionHome">{{ (title$ | async) | translate }}</span>
         <a *ngIf="editionHome" [href]="editionHome" target="_blank"
             class="ml-2 edition-home-link">
