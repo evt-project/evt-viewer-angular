@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 
+import { EditionLevelType } from '../../app.config';
 import { Choice } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
@@ -29,5 +30,9 @@ export class ChoiceComponent {
     }
 
     return this.data.originalContent;
+  }
+
+  get alternativeEditionLevel(): EditionLevelType {
+    return this.editionLevel === 'diplomatic' ? 'interpretative' : 'diplomatic';
   }
 }
