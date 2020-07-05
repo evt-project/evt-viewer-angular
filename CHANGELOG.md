@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Text emendations
+- Text normalizations
+- Junicode font for medievalists
 - Glyphs in text
 - Char and glyphs in characters declaration
 - Apparatus entries extraction
