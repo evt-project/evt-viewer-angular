@@ -1,4 +1,3 @@
-import { AppConfig } from '../../app.config';
 import { ApparatusEntry, Note, Reading, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
@@ -29,6 +28,8 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
         return Array.from(rdg.childNodes)
             .map((child: XMLElement) => {
                 if (child.nodeName === this.appEntryTagName) {
+                    this.genericParse(child);
+
                     return {
                         type: ApparatusEntry,
                         id: getID(child),
@@ -52,6 +53,7 @@ export class LemmaParser extends EmptyParser implements Parser<XMLElement> {
 
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
+    private appEntryTagName = 'app';
     private readingTagName = 'rdg';
     private lemmaTagName = 'lem';
 
@@ -83,6 +85,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
 
     private parseAppReadings(appEntry: XMLElement): Reading[] {
         return Array.from(appEntry.querySelectorAll(`${this.readingTagName}, ${this.lemmaTagName}`))
+            .filter((el) => el.closest(this.appEntryTagName).getAttribute('xml:id') === appEntry.getAttribute('xml:id'))
             .map((rdg: XMLElement) => {
                 if (rdg.tagName === this.lemmaTagName) {
                     return this.lemmaParser.parse(rdg);
