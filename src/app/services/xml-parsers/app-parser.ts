@@ -15,6 +15,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(rdg),
             witIDs: this.parseReadingWitnesses(rdg) || [],
             content: this.parseAppReadingContent(rdg),
+            class: rdg.tagName.toLowerCase(),
         };
     }
 
@@ -72,6 +73,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             content,
             notes: this.parseAppNotes(appEntry),
             originalEncoding: getOuterHTML(appEntry),
+            class: appEntry.tagName.toLowerCase(),
         };
     }
 
