@@ -24,7 +24,7 @@ export class ChoiceParser extends EmptyParser implements Parser<XMLElement> {
         if (sicCorEls.length > 0) {
             return 'emendation';
         }
-        const origRegEls = Array.from(xml.querySelectorAll<XMLElement>('orig, reg, abbr'))
+        const origRegEls = Array.from(xml.querySelectorAll<XMLElement>('orig, reg, abbr, expan'))
             .filter(el => el.parentElement === xml);
         if (origRegEls.length > 0) {
             return 'normalization';
@@ -40,7 +40,7 @@ export class ChoiceParser extends EmptyParser implements Parser<XMLElement> {
     }
 
     private getNormalizedContent(xml: XMLElement) {
-        return Array.from(xml.querySelectorAll<XMLElement>('reg, corr'))
+        return Array.from(xml.querySelectorAll<XMLElement>('reg, corr, expan'))
             .filter(el => el.parentElement === xml)
             .map(el => this.genericParse(el));
     }
