@@ -105,3 +105,12 @@ body {
 .pointer {
     cursor: pointer;
 }
+
+.abbr, .expan {
+    color: purple;
+    text-decoration: underline;
+}
+
+.ex {
+    font-style: italic;
+}
