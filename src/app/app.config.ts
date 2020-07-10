@@ -84,6 +84,7 @@ export interface EditionConfig {
 export interface FileConfig {
     editionUrls: string[];
     manifestURL: string;
+    logoUrl?: string;
 }
 
 export interface NamedEntitiesListsConfig {

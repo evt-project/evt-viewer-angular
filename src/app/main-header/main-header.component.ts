@@ -27,6 +27,12 @@ export class MainHeaderComponent implements OnDestroy {
   public editionConfig: EditionConfig;
   get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
+  get logoUrl() {
+    const customLogo = AppConfig?.evtSettings?.files?.logoUrl ?? undefined;
+
+    return customLogo ?? '/assets/images/logo.png';
+  }
+
   private subscriptions = [];
 
   constructor(
