@@ -5,7 +5,6 @@ import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
-    private appEntryTagName = 'app';
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     public parse(rdg: XMLElement): Reading {
@@ -27,20 +26,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
 
     private parseAppReadingContent(rdg: XMLElement) {
         return Array.from(rdg.childNodes)
-            .map((child: XMLElement) => {
-                if (child.nodeName === this.appEntryTagName) {
-                    this.genericParse(child);
-
-                    return {
-                        type: ApparatusEntry,
-                        id: getID(child),
-                        attributes: {},
-                        content: [],
-                    };
-                }
-
-                return this.genericParse(child);
-            });
+            .map((child: XMLElement) => this.genericParse(child));
     }
 }
 
@@ -87,7 +73,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
 
     private parseAppReadings(appEntry: XMLElement): Reading[] {
         return Array.from(appEntry.querySelectorAll(`${this.readingTagName}, ${this.lemmaTagName}`))
-            .filter((el) => el.closest(this.appEntryTagName).getAttribute('xml:id') === appEntry.getAttribute('xml:id'))
+            .filter((el) => el.closest(this.appEntryTagName) === appEntry)
             .map((rdg: XMLElement) => {
                 if (rdg.tagName === this.lemmaTagName) {
                     return this.lemmaParser.parse(rdg);
