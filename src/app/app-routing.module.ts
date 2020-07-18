@@ -11,7 +11,6 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/readingText', pathMatch: 'full' },
   { path: 'imageText', component: ImageTextComponent },
   { path: 'readingText', component: ReadingTextComponent },
-  { path: 'readingText/:doc/:page', component: ReadingTextComponent },
   { path: 'textText', component: TextTextComponent },
   { path: 'collation', component: CollationComponent },
   { path: 'textSources', component: TextSourcesComponent },
