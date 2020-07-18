@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { AppConfig, EditionLevelType } from '../../app.config';
+import { AppConfig, EditionLevel } from '../../app.config';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -43,8 +43,10 @@ export class TextTextComponent implements OnInit {
     this.initGridster();
   }
 
-  handleEditionLevelChange(editionLevel: EditionLevelType, paramName: string) {
-    this.editionLevel.handleEditionLevelChange(this.route, editionLevel, paramName);
+  handleEditionLevelChange(editionLevel: EditionLevel, paramName: string) {
+    if (editionLevel) {
+      this.editionLevel.handleEditionLevelChange(this.route, editionLevel.id, paramName);
+    }
   }
 
   private initGridster() {

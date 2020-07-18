@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { EditionLevelType } from '../../app.config';
+import { EditionLevel } from '../../app.config';
 import { Page } from '../../models/evt-models';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 
@@ -11,7 +11,7 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
 })
 export class PageComponent {
   @Input() itemsToHighlight: EntitiesSelectItem[];
-  @Input() editionLevel: EditionLevelType;
+  @Input() editionLevel: EditionLevel;
 
   private d: Page;
   @Input() set data(v: Page) {

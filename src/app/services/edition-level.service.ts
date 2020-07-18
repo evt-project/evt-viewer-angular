@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditionLevelType } from '../app.config';
+import { AppConfig, EditionLevelType } from '../app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EditionLevelService {
+
+  get defaultEditionLevel(): EditionLevelType {
+    const availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled)) ?? [];
+
+    return availableEditionLevels[0]?.id;
+  }
 
   constructor(
     private router: Router,
@@ -21,4 +27,5 @@ export class EditionLevelService {
       this.router.navigate([params], { relativeTo: currentRoute });
     }
   }
+
 }

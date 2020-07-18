@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AppConfig, EditionLevelType } from '../../app.config';
+import { AppConfig, EditionLevel } from '../../app.config';
 import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
@@ -36,8 +36,10 @@ export class TextVersionsComponent implements OnInit {
     this.initPageAndVersions();
   }
 
-  handleEditionLevelChange(editionLevel: EditionLevelType) {
-    this.editionLevel.handleEditionLevelChange(this.route, editionLevel, 'edLvl');
+  handleEditionLevelChange(editionLevel: EditionLevel) {
+    if (editionLevel) {
+      this.editionLevel.handleEditionLevelChange(this.route, editionLevel.id, 'edLvl');
+    }
   }
 
   getVersions() {

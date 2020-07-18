@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
-import { EditionLevelType } from '../../app.config';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { EditionLevel, EditionLevelType } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -28,16 +28,29 @@ export class TextPanelComponent implements OnDestroy {
     distinctUntilChanged(),
   );
 
-  private elId: EditionLevelType;
-  editionLevelIDChange = new BehaviorSubject<EditionLevelType>(undefined);
-  @Input() set editionLevelID(el: EditionLevelType) {
-    this.elId = el;
-    this.editionLevelIDChange.next(this.elId);
+  @Input() set editionLevelID(e: EditionLevelType) {
+    this.currentEdLevelId$.next(e);
   }
-  get editionLevelID() { return this.elId; }
-  @Output() editionLevelChange: Observable<EditionLevelType> = this.editionLevelIDChange.pipe(
-    filter(p => !!p),
-    distinctUntilChanged((x, y) => x === y),
+  public currentEdLevelId$ = new BehaviorSubject<EditionLevelType>(undefined);
+  public currentEdLevel$ = new Subject<EditionLevel>();
+  set currentEdLevel(e: EditionLevel) {
+    this.currentEdLevel$.next(e);
+    this.currentEdLevelId$.next(e.id);
+  }
+  @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
+    filter(e => !!e),
+    distinctUntilChanged(),
+  );
+
+  public currentStatus$ = combineLatest([
+    this.currentPage$,
+    this.currentEdLevel$,
+  ]).pipe(
+    delay(0),
+    filter(([page, editionLevel]) => !!page && !!editionLevel),
+    map(([page, editionLevel]) => ({ page, editionLevel })),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    shareReplay(1),
   );
 
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();

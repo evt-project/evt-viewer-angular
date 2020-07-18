@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AppConfig, EditionLevel, EditionLevelType } from '../../app.config';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { AppConfig, EditionLevelType } from '../../app.config';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 @Component({
@@ -10,19 +10,24 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
   styleUrls: ['./edition-level-selector.component.scss'],
 })
 export class EditionLevelSelectorComponent {
-  editionLevels = (AppConfig.evtSettings.edition.availableEditionLevels || []).filter((el) => !el.disabled);
-  private elId: EditionLevelType;
-  @Input() set editionLevel(v: EditionLevelType) {
-    this.elId = v;
-    this.selectedEditionLevel$.next(this.editionLevels.find(e => e.id === this.elId));
+  public editionLevels = (AppConfig.evtSettings.edition.availableEditionLevels || []).filter((el) => !el.disabled);
+
+  private _edLevelID: EditionLevelType;
+  @Input() set editionLevelID(p: EditionLevelType) {
+    this._edLevelID = p;
+    this.selectedEditionLevel$.next(this._edLevelID);
   }
-  get editionLevel() { return this.elId; }
+  get editionLevelID() { return this._edLevelID; }
 
-  selectedEditionLevel$ = new BehaviorSubject<EditionLevel>(undefined);
+  selectedEditionLevel$ = new BehaviorSubject<EditionLevelType>(undefined);
 
-  @Output() selectionChange = this.selectedEditionLevel$.pipe(
-    distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
-    map(el => el?.id),
+  @Output() selectionChange = combineLatest([
+    of(this.editionLevels),
+    this.selectedEditionLevel$.pipe(distinctUntilChanged()),
+  ]).pipe(
+    filter(([edLevels, edLevelID]) => !!edLevelID && !!edLevels && edLevels.length > 0),
+    map(([edLevels, edLevelID]) => !!edLevelID ? edLevels.find(p => p.id === edLevelID) || edLevels[0] : edLevels[0]),
+    filter(e => !!e),
   );
 
   icon: EvtIconInfo = {
