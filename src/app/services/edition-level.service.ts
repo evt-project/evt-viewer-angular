@@ -8,9 +8,14 @@ import { AppConfig, EditionLevelType } from '../app.config';
 export class EditionLevelService {
 
   get defaultEditionLevel(): EditionLevelType {
+    const defaultConfig = AppConfig.evtSettings.edition.defaultEdition;
     const availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled)) ?? [];
+    let defaultEdition = availableEditionLevels[0];
+    if (defaultConfig) {
+      defaultEdition = availableEditionLevels.find(e => e.id === defaultConfig) ?? defaultEdition;
+    }
 
-    return availableEditionLevels[0]?.id;
+    return defaultEdition?.id;
   }
 
   constructor(

@@ -81,5 +81,6 @@
 	],
 	"notSignificantVariants": [
 		"type=orthographic"
-	]
+	],
+	"defaultEdition": "diplomatic"
 }

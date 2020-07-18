@@ -79,6 +79,7 @@ export interface EditionConfig {
     }>;
     entitiesSelectItems: EntitiesSelectItemGroup[];
     notSignificantVariants: string[];
+    defaultEdition: EditionLevelType;
 }
 
 export interface FileConfig {
