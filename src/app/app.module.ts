@@ -40,6 +40,7 @@ import { NamedEntityComponent } from './components/named-entity/named-entity.com
 import { NoteComponent } from './components/note/note.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
+import { PageSelectorComponent } from './components/page-selector/page-selector.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { TextComponent } from './components/text/text.component';
@@ -110,6 +111,7 @@ export function initializeApp(appConfig: AppConfig) {
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
+    PageSelectorComponent,
     ParagraphComponent,
     PinboardComponent,
     PinboardPanelComponent,
