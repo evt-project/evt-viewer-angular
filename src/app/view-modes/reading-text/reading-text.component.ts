@@ -15,8 +15,9 @@ import { EditionLevelService } from '../../services/edition-level.service';
 export class ReadingTextComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
-  public currentPage = this.route.params.pipe(
+  public currentPage$ = this.route.params.pipe(
     map((params) => params.page),
+    distinctUntilChanged(),
   );
   private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
   public currentEditionLevel = this.route.params.pipe(

@@ -1,7 +1,7 @@
 <gridster [options]="layoutOptions">
     <gridster-item [item]="textPanelItem">
         <evt-text-panel 
-            [pageID]="currentPage | async" 
+            [pageID]="currentPage$ | async" 
             [editionLevelID]="currentEditionLevel | async"
             (pageChange)="handlePageChange($event)" 
             (editionLevelChange)="handleEditionLevelChange($event)"
