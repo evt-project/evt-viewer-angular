@@ -1,5 +1,5 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
-import { AppParser, LemmaParser, RdgParser } from './app-parser';
+import { AppParser, RdgParser } from './app-parser';
 import { ElementParser, LBParser, NoteParser, ParagraphParser, PtrParser, TextParser } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
@@ -23,7 +23,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     glyph: createParser(GlyphParser, parse),
     graphic: createParser(GraphicParser, parse),
     lb: createParser(LBParser, parse),
-    lem: createParser(LemmaParser, parse),
+    lem: createParser(RdgParser, parse),
     note: createParser(NoteParser, parse),
     org: createParser(OrganizationParser, parse),
     orgname: createParser(NamedEntityRefParser, parse),

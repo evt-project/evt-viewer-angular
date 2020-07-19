@@ -30,14 +30,6 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
-export class LemmaParser extends EmptyParser implements Parser<XMLElement> {
-    rdgParser = createParser(RdgParser, this.genericParse);
-
-    public parse(rdg: XMLElement): Reading {
-        return this.rdgParser.parse(rdg);
-    }
-}
-
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
     private appEntryTagName = 'app';
@@ -47,16 +39,15 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     noteParser = createParser(NoteParser, this.genericParse);
     rdgParser = createParser(RdgParser, this.genericParse);
-    lemmaParser = createParser(LemmaParser, this.genericParse);
 
     public parse(appEntry: XMLElement): ApparatusEntry {
-        const content = this.parseAppReadings(appEntry);
-
         return {
             type: ApparatusEntry,
             id: getID(appEntry),
             attributes: this.attributeParser.parse(appEntry),
-            content,
+            content: [],
+            lemma: this.parseLemma(appEntry),
+            readings: this.parseReadings(appEntry),
             notes: this.parseAppNotes(appEntry),
             originalEncoding: getOuterHTML(appEntry),
             class: appEntry.tagName.toLowerCase(),
@@ -71,15 +62,15 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
         return notes;
     }
 
-    private parseAppReadings(appEntry: XMLElement): Reading[] {
-        return Array.from(appEntry.querySelectorAll(`${this.readingTagName}, ${this.lemmaTagName}`))
+    private parseLemma(appEntry: XMLElement): Reading[] {
+        return Array.from(appEntry.querySelectorAll(`${this.lemmaTagName}`))
             .filter((el) => el.closest(this.appEntryTagName) === appEntry)
-            .map((rdg: XMLElement) => {
-                if (rdg.tagName === this.lemmaTagName) {
-                    return this.lemmaParser.parse(rdg);
-                }
+            .map((rdg: XMLElement) => this.lemmaParser.parse(rdg));
+    }
 
-                return this.rdgParser.parse(rdg);
-            });
+    private parseReadings(appEntry: XMLElement): Reading[] {
+        return Array.from(appEntry.querySelectorAll(`${this.readingTagName}`))
+            .filter((el) => el.closest(this.appEntryTagName) === appEntry)
+            .map((rdg: XMLElement) => this.rdgParser.parse(rdg));
     }
 }
