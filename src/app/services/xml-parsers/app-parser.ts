@@ -63,7 +63,8 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
     }
 
     private parseLemma(appEntry: XMLElement): Reading {
-        return this.rdgParser.parse(appEntry.querySelector(`${this.lemmaTagName}`));
+        return appEntry.querySelector(`${this.lemmaTagName}`) ?
+            this.rdgParser.parse(appEntry.querySelector(`${this.lemmaTagName}`)) : undefined;
     }
 
     private parseReadings(appEntry: XMLElement): Reading[] {
