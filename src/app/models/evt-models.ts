@@ -137,7 +137,7 @@ export interface WitnessGroup {
 }
 export class ApparatusEntry extends GenericElement {
     id: string;
-    lemma: Reading[];
+    lemma: Reading;
     readings: Reading[];
     notes: Note[];
     originalEncoding: string;
