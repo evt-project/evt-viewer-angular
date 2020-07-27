@@ -137,16 +137,15 @@ export interface WitnessGroup {
 }
 export class ApparatusEntry extends GenericElement {
     id: string;
-    content: Reading[];
+    lemma: Reading;
+    readings: Reading[];
     notes: Note[];
-    variance: number;
     originalEncoding: string;
 }
 
 export class Reading extends GenericElement {
     id: string;
     witIDs: string[];
-    significant: boolean;
 }
 
 export interface GridItem {

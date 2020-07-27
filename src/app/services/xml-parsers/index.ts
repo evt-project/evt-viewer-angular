@@ -1,5 +1,5 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
-import { AppParser } from './app-parser';
+import { AppParser, RdgParser } from './app-parser';
 import { ElementParser, LBParser, NoteParser, ParagraphParser, PtrParser, TextParser } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
@@ -10,10 +10,11 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'app' | 'char' | 'choice' | 'event' | 'g' | 'geogname' | 'glyph' | 'graphic' | 'lb' | 'note' | 'orgname' |
-    'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'surface' | 'zone';
+type SupportedTagNames = 'app' | 'char' | 'choice' | 'event' | 'g' | 'geogname' | 'glyph' | 'graphic' | 'lb' | 'lem' | 'note' | 'orgname' |
+    'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'surface' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
+    app: createParser(AppParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
     event: createParser(NamedEntityRefParser, parse),
@@ -22,17 +23,18 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     glyph: createParser(GlyphParser, parse),
     graphic: createParser(GraphicParser, parse),
     lb: createParser(LBParser, parse),
+    lem: createParser(RdgParser, parse),
     note: createParser(NoteParser, parse),
+    org: createParser(OrganizationParser, parse),
     orgname: createParser(NamedEntityRefParser, parse),
     p: createParser(ParagraphParser, parse),
     persname: createParser(NamedEntityRefParser, parse),
     placename: createParser(NamedEntityRefParser, parse),
     ptr: createParser(PtrParser, parse),
-    app: createParser(AppParser, parse),
     person: createParser(PersonParser, parse),
     personGrp: createParser(PersonGroupParser, parse),
     place: createParser(PlaceParser, parse),
-    org: createParser(OrganizationParser, parse),
+    rdg: createParser(RdgParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
     surface: createParser(SurfaceParser, parse),
     zone: createParser(ZoneParser, parse),
