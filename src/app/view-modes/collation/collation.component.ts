@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AppConfig } from '../../app.config';
+import { map } from 'rxjs/operators';
+import { Page } from 'src/app/models/evt-models';
+import { EVTStatusService } from 'src/app/services/evt-status.service';
 
 @Component({
   selector: 'evt-collation',
@@ -21,20 +21,21 @@ export class CollationComponent implements OnInit, OnDestroy {
 
   private subscriptions = [];
 
-  private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
-  public currentEditionLevel = this.route.params.pipe(
-    map((params) => params.edLvl ?? this.defaultEditionLevel?.id),
-    distinctUntilChanged((x, y) => x === y),
+  public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ page }) => page.id),
   );
 
   constructor(
-    private route: ActivatedRoute,
+    private evtStatusService: EVTStatusService,
   ) {
   }
 
   ngOnInit() {
     this.initGridster();
-    this.initPageAndWitnesses();
+  }
+
+  changePage(selectedPage: Page) {
+    this.evtStatusService.updatePage$.next(selectedPage);
   }
 
   getWitnesses() {
@@ -56,10 +57,6 @@ export class CollationComponent implements OnInit, OnDestroy {
   removeWitness(index) {
     this.witnesses.splice(index, 1);
     this.updateGridsterOptions();
-  }
-
-  private initPageAndWitnesses() {
-    // TODO: subscribe to route params
   }
 
   private initGridster() {
