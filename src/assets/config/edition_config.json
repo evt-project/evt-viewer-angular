@@ -3,16 +3,20 @@
 	"badge": "alpha",
 	"editionHome": "evt.labcd.unipi.it/",
 	"showLists": true,
-	"availableEditionLevels": [{
-		"id": "diplomatic",
-		"label": "diplomatic"
-	},{
-		"id": "interpretative",
-		"label": "interpretative"
-	},{
-		"id": "critical",
-		"label": "critical"
-	}],
+	"availableEditionLevels": [
+		{
+			"id": "diplomatic",
+			"label": "diplomatic"
+		},
+		{
+			"id": "interpretative",
+			"label": "interpretative"
+		},
+		{
+			"id": "critical",
+			"label": "critical"
+		}
+	],
 	"namedEntitiesLists": {
 		"persons": {
 			"defaultLabel": "Persons",
@@ -60,7 +64,8 @@
 					"color": "#FFB74D"
 				}
 			]
-		}, {
+		},
+		{
 			"label": "Other",
 			"items": [
 				{
@@ -82,5 +87,44 @@
 	"notSignificantVariants": [
 		"type=orthographic"
 	],
-	"defaultEdition": "diplomatic"
+	"defaultEdition": "diplomatic",
+	"defaultViewMode": "collation",
+	"availableViewModes": [
+		{
+			"icon": "txt",
+			"iconSet": "evt",
+			"id": "readingText",
+			"label": "Reading Text"
+		},
+		{
+			"icon": "imgTxt",
+			"iconSet": "evt",
+			"id": "imageText",
+			"label": "Image Text"
+		},
+		{
+			"icon": "txtTxt",
+			"iconSet": "evt",
+			"id": "textText",
+			"label": "Text Text"
+		},
+		{
+			"icon": "collation",
+			"iconSet": "evt",
+			"id": "collation",
+			"label": "Collation"
+		},
+		{
+			"icon": "srcTxt",
+			"iconSet": "evt",
+			"id": "textSources",
+			"label": "Text Sources"
+		},
+		{
+			"icon": "versions",
+			"iconSet": "evt",
+			"id": "textVersions",
+			"label": "Text Versions"
+		}
+	]
 }

@@ -24,11 +24,14 @@ export interface EditionStructure {
     pagesIndexes: string[];
 }
 
+export type ViewModeId = 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions';
+
 export interface ViewMode {
-    id: string;
+    id: ViewModeId;
     icon: string;
     iconSet?: 'evt' | 'far' | 'fas';
     label: string;
+    disabled?: boolean;
 }
 
 export interface Page {

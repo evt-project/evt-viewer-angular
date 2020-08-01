@@ -22,7 +22,7 @@ export class MainHeaderComponent implements OnDestroy {
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
   );
 
-  public viewModes: ViewMode[] = this.getViewModes();  // TODO: set viewModes from config
+  public viewModes: ViewMode[] = AppConfig.evtSettings.edition.availableViewModes?.filter((e => !e.disabled)) ?? [];
   public currentViewMode$ = this.evtStatusService.currentViewMode$;
   public mainMenuOpened = false;
   public editionConfig: EditionConfig = AppConfig.evtSettings.edition;
@@ -73,44 +73,4 @@ export class MainHeaderComponent implements OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  private getViewModes(): ViewMode[] {
-    return [
-      {
-        icon: 'txt',
-        iconSet: 'evt',
-        id: 'readingText',
-        label: 'Reading Text',
-      },
-      {
-        icon: 'imgTxt',
-        iconSet: 'evt',
-        id: 'imageText',
-        label: 'Image Text',
-      },
-      {
-        icon: 'txtTxt',
-        iconSet: 'evt',
-        id: 'textText',
-        label: 'Text Text',
-      },
-      {
-        icon: 'collation',
-        iconSet: 'evt',
-        id: 'collation',
-        label: 'Collation',
-      },
-      {
-        icon: 'srcTxt',
-        iconSet: 'evt',
-        id: 'textSources',
-        label: 'Text Sources',
-      },
-      {
-        icon: 'versions',
-        iconSet: 'evt',
-        id: 'textVersions',
-        label: 'Text Versions',
-      },
-    ];
-  }
 }

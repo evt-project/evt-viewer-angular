@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
+import { ViewMode, ViewModeId } from './models/evt-models';
 
 @Injectable()
 export class AppConfig {
@@ -80,6 +81,8 @@ export interface EditionConfig {
     entitiesSelectItems: EntitiesSelectItemGroup[];
     notSignificantVariants: string[];
     defaultEdition: EditionLevelType;
+    defaultViewMode: ViewModeId;
+    availableViewModes: ViewMode[];
 }
 
 export interface FileConfig {

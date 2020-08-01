@@ -25,12 +25,19 @@ export class EVTStatusService {
 
         return defaultEdition?.id;
     }
-    private defaultViewMode: ViewMode = {
-        icon: 'txt',
-        iconSet: 'evt',
-        id: 'readingText',
-        label: 'Reading Text',
-    }; // TODO: Retrieve from config
+
+    get availableViewModes() {
+        return AppConfig.evtSettings.edition.availableViewModes?.filter((e => !e.disabled)) ?? [];
+    }
+    get defaultViewMode(): ViewMode {
+        const defaultConfig = AppConfig.evtSettings.edition.defaultViewMode;
+        let defaultViewMode = this.availableViewModes[0];
+        if (defaultConfig) {
+            defaultViewMode = this.availableViewModes.find(e => e.id === defaultConfig) ?? defaultViewMode;
+        }
+
+        return defaultViewMode;
+    }
     public updateViewMode$: BehaviorSubject<ViewMode> = new BehaviorSubject(this.defaultViewMode);
     public updateDocument$: BehaviorSubject<string> = new BehaviorSubject('');
     public updatePage$: Subject<Page> = new Subject();
