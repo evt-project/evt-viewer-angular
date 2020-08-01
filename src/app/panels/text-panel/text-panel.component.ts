@@ -21,7 +21,7 @@ export class TextPanelComponent implements OnDestroy {
   public currentPage$ = new Subject<Page>();
   set currentPage(p: Page) {
     this.currentPage$.next(p);
-    this.currentPageId$.next(p.id);
+    this.currentPageId$.next(p?.id);
   }
   @Output() pageChange: Observable<Page> = this.currentPage$.pipe(
     filter(p => !!p),

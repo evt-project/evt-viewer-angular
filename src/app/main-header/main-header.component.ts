@@ -3,6 +3,7 @@ import { Router, RouterEvent } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
+import { ViewMode } from '../models/evt-models';
 import { EVTModelService } from '../services/evt-model.service';
 import { ThemesService } from '../services/themes.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
@@ -126,11 +127,4 @@ export class MainHeaderComponent implements OnDestroy {
       },
     ];
   }
-}
-
-export interface ViewMode {
-  id: string;
-  icon: string;
-  iconSet?: 'evt' | 'far' | 'fas';
-  label: string;
 }

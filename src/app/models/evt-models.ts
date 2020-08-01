@@ -24,6 +24,13 @@ export interface EditionStructure {
     pagesIndexes: string[];
 }
 
+export interface ViewMode {
+    id: string;
+    icon: string;
+    iconSet?: 'evt' | 'far' | 'fas';
+    label: string;
+}
+
 export interface Page {
     id: string;
     label: string;
