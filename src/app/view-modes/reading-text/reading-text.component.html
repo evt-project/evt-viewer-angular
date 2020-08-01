@@ -1,10 +1,10 @@
 <gridster [options]="layoutOptions">
     <gridster-item [item]="textPanelItem">
         <evt-text-panel 
-            [pageID]="currentPage$ | async" 
-            [editionLevelID]="currentEditionLevel | async"
-            (pageChange)="handlePageChange($event)" 
-            (editionLevelChange)="handleEditionLevelChange($event)"
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevel$ | async"
+            (pageChange)="changePage($event)" 
+            (editionLevelChange)="changeEditionLevel($event)"
         ></evt-text-panel>
     </gridster-item>
     <gridster-item *ngIf="pinnedBoardOpened" [item]="pinnedBoardItem">

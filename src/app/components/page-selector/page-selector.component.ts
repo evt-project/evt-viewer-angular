@@ -25,8 +25,8 @@ export class PageSelectorComponent {
     this.pages$,
     this.selectedPage$.pipe(distinctUntilChanged()),
   ]).pipe(
-    filter(([pages, _]) => !!pages && pages.length > 0),
-    map(([pages, pageID]) => !!pageID ? pages.find(p => p.id === pageID) : pages[0]),
+    filter(([pages, pageID]) => !!pageID && !!pages && pages.length > 0),
+    map(([pages, pageID]) => pages.find(p => p.id === pageID)),
   );
 
   constructor(

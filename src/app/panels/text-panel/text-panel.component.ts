@@ -18,7 +18,7 @@ export class TextPanelComponent implements OnDestroy {
     this.currentPageId$.next(p);
   }
   public currentPageId$ = new BehaviorSubject<string>(undefined);
-  public currentPage$ = new Subject<Page>();
+  public currentPage$ = new BehaviorSubject<Page>(undefined);
   set currentPage(p: Page) {
     this.currentPage$.next(p);
     this.currentPageId$.next(p?.id);
@@ -32,7 +32,7 @@ export class TextPanelComponent implements OnDestroy {
     this.currentEdLevelId$.next(e);
   }
   public currentEdLevelId$ = new BehaviorSubject<EditionLevelType>(undefined);
-  public currentEdLevel$ = new Subject<EditionLevel>();
+  public currentEdLevel$ = new BehaviorSubject<EditionLevel>(undefined);
   set currentEdLevel(e: EditionLevel) {
     this.currentEdLevel$.next(e);
     this.currentEdLevelId$.next(e.id);
