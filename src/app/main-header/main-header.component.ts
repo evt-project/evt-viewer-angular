@@ -1,10 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Router, RouterEvent } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
 import { ViewMode } from '../models/evt-models';
 import { EVTModelService } from '../services/evt-model.service';
+import { EVTStatusService } from '../services/evt-status.service';
 import { ThemesService } from '../services/themes.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 import { normalizeUrl } from '../utils/js-utils';
@@ -22,10 +22,10 @@ export class MainHeaderComponent implements OnDestroy {
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
   );
 
-  public viewModes: ViewMode[] = [];
-  public currentViewMode: ViewMode;
+  public viewModes: ViewMode[] = this.getViewModes();  // TODO: set viewModes from config
+  public currentViewMode$ = this.evtStatusService.currentViewMode$;
   public mainMenuOpened = false;
-  public editionConfig: EditionConfig;
+  public editionConfig: EditionConfig = AppConfig.evtSettings.edition;
   get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
   get logoUrl() {
@@ -38,27 +38,13 @@ export class MainHeaderComponent implements OnDestroy {
 
   constructor(
     public themes: ThemesService,
-    private router: Router,
     private evtModelService: EVTModelService,
+    private evtStatusService: EVTStatusService,
   ) {
-    this.initViewModes();
-    const firstRouteSub$ = this.router.events.subscribe((routingData: RouterEvent) => {
-      if (!this.currentViewMode) {
-        this.currentViewMode = this.viewModes.find(item => item.id === routingData.url.replace('/', ''));
-      }
-      firstRouteSub$.unsubscribe();
-    });
-    this.editionConfig = AppConfig.evtSettings.edition;
-    console.log('this.editionConfig', this.editionConfig);
   }
 
   selectViewMode(viewMode: ViewMode) {
-    this.currentViewMode = viewMode;
-    let currentParams;
-    try {
-      currentParams = this.router.routerState.root.firstChild.snapshot.params;
-    } catch (e) { currentParams = {}; }
-    this.router.navigate(['/' + viewMode.id, currentParams]);
+    this.evtStatusService.updateViewMode$.next(viewMode);
   }
 
   toggleMainMenu(clickEvent: EVTBtnClickEvent) {
@@ -87,8 +73,8 @@ export class MainHeaderComponent implements OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  private initViewModes() {
-    this.viewModes = [
+  private getViewModes(): ViewMode[] {
+    return [
       {
         icon: 'txt',
         iconSet: 'evt',

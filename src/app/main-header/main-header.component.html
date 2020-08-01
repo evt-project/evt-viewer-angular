@@ -11,7 +11,7 @@
     <div>
         <evt-button additionalClasses="btn-no-border viewMode-btn" 
             *ngFor="let viewMode of viewModes; trackBy: trackViewModes;" 
-            [title]="viewMode.label" [active]="viewMode === currentViewMode" [inverted]="true"
+            [title]="viewMode.label" [active]="viewMode.id === (currentViewMode$ | async).id" [inverted]="true"
             (btnClick)="selectViewMode(viewMode)"
             [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
         </evt-button>
