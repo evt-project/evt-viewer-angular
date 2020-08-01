@@ -8,7 +8,6 @@ import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/readingText', pathMatch: 'full' },
   { path: 'imageText', component: ImageTextComponent },
   { path: 'readingText', component: ReadingTextComponent },
   { path: 'textText', component: TextTextComponent },

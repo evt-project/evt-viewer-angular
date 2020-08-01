@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, shareReplay } from 'rxjs/operators';
 
 import { AppConfig, EditionLevelType } from '../app.config';
 import { Page, ViewMode } from '../models/evt-models';
@@ -38,7 +38,7 @@ export class EVTStatusService {
 
         return defaultViewMode;
     }
-    public updateViewMode$: BehaviorSubject<ViewMode> = new BehaviorSubject(this.defaultViewMode);
+    public updateViewMode$: BehaviorSubject<ViewMode> = new BehaviorSubject(undefined);
     public updateDocument$: BehaviorSubject<string> = new BehaviorSubject('');
     public updatePage$: Subject<Page> = new Subject();
     public updateEditionLevels$: Subject<EditionLevelType[]> = new Subject();
@@ -132,6 +132,20 @@ export class EVTStatusService {
                 this.router.navigate([`/${view}`], { queryParams: params });
             } else {
                 this.router.navigate([`/${view}`]);
+            }
+        });
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationStart),
+            first(),
+        ).subscribe((event: NavigationStart) => {
+            const currentViewMode = this.updateViewMode$.getValue();
+            if (!currentViewMode) {
+                const pathMatch = event.url.match(/(?<!\?.+)(?<=\/)[\w-]+(?=[/\r\n?]|$)/gm);
+                if (pathMatch) {
+                    this.updateViewMode$.next(this.availableViewModes.find(vm => vm.id === pathMatch[0]));
+                } else {
+                    this.updateViewMode$.next(this.defaultViewMode);
+                }
             }
         });
     }
