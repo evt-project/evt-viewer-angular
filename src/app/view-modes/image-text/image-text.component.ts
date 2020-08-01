@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AppConfig, EditionLevel } from '../../app.config';
-import { EditionLevelService } from '../../services/edition-level.service';
+import { map } from 'rxjs/operators';
+import { Page } from 'src/app/models/evt-models';
+import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { EditionLevel } from '../../app.config';
 
 @Component({
   selector: 'evt-image-text',
@@ -15,15 +15,16 @@ export class ImageTextComponent implements OnInit {
   public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
 
-  private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
-  public currentEditionLevel = this.route.params.pipe(
-    map((params) => params.edLvl ?? this.defaultEditionLevel?.id),
-    distinctUntilChanged((x, y) => x === y),
+  public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ page }) => page.id),
+  );
+
+  public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ editionLevels }) => editionLevels[0]),
   );
 
   constructor(
-    private editionLevel: EditionLevelService,
-    private route: ActivatedRoute,
+    private evtStatusService: EVTStatusService,
   ) {
   }
 
@@ -31,10 +32,12 @@ export class ImageTextComponent implements OnInit {
     this.initGridster();
   }
 
-  handleEditionLevelChange(editionLevel: EditionLevel) {
-    if (editionLevel) {
-      this.editionLevel.handleEditionLevelChange(this.route, editionLevel.id, 'edLvl');
-    }
+  changePage(selectedPage: Page) {
+    this.evtStatusService.updatePage$.next(selectedPage);
+  }
+
+  changeEditionLevel(editionLevel: EditionLevel) {
+    this.evtStatusService.updateEditionLevels$.next([editionLevel?.id]);
   }
 
   private initGridster() {
