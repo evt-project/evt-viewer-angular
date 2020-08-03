@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Navigation by view, page and edition level
 - Custom logo
 - Text emendations
 - Text normalizations
@@ -26,5 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenSeadragon component with support for manifest file
 
 ### Changed
+- Routing params keys
 - Parse logic
 - Start using "changelog"
