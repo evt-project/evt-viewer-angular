@@ -14,29 +14,21 @@ import { EVTModelService } from '../../services/evt-model.service';
 export class TextPanelComponent implements OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
 
-  @Input() set pageID(p: string) {
-    this.currentPageId$.next(p);
-  }
-  public currentPageId$ = new BehaviorSubject<string>(undefined);
+  @Input() pageID: string;
   public currentPage$ = new BehaviorSubject<Page>(undefined);
-  set currentPage(p: Page) {
-    this.currentPage$.next(p);
-    this.currentPageId$.next(p?.id);
-  }
+  public currentPageId$ = this.currentPage$.pipe(
+    map(p => p?.id),
+  );
   @Output() pageChange: Observable<Page> = this.currentPage$.pipe(
     filter(p => !!p),
     distinctUntilChanged(),
   );
 
-  @Input() set editionLevelID(e: EditionLevelType) {
-    this.currentEdLevelId$.next(e);
-  }
-  public currentEdLevelId$ = new BehaviorSubject<EditionLevelType>(undefined);
+  @Input() editionLevelID: EditionLevelType;
   public currentEdLevel$ = new BehaviorSubject<EditionLevel>(undefined);
-  set currentEdLevel(e: EditionLevel) {
-    this.currentEdLevel$.next(e);
-    this.currentEdLevelId$.next(e.id);
-  }
+  public currentEdLevelId$ = this.currentEdLevel$.pipe(
+    map(e => e?.id),
+  );
   @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
     filter(e => !!e),
     distinctUntilChanged(),

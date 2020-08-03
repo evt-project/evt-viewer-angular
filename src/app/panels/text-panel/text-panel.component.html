@@ -6,8 +6,8 @@
             additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('INFO')"
             [active]="secondaryContent === 'INFO'"></evt-button>
-            <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>            
-            <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="currentEdLevelId$ | async" (selectionChange)="currentEdLevel = $event"></evt-edition-level-selector>
+        <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
+        <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
     </div>
     <div content>
         <evt-page *ngIf="currentStatus$ | async as currentStatus"
