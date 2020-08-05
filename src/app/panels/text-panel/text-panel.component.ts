@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { EditionLevelType } from '../../app.config';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { EditionLevel, EditionLevelType } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
+import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 
 @Component({
@@ -14,44 +14,38 @@ import { EVTModelService } from '../../services/evt-model.service';
 export class TextPanelComponent implements OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
 
-  private pid: string;
-  @Input() set pageID(v: string) {
-    this.pid = v;
-    this.pageIDChange.next(this.pid);
-  }
-  get pageID() { return this.pid; }
-  pageIDChange = new Subject<string>();
+  @Input() pageID: string;
+  public currentPage$ = new BehaviorSubject<Page>(undefined);
+  public currentPageId$ = this.currentPage$.pipe(
+    map(p => p?.id),
+  );
+  @Output() pageChange: Observable<Page> = this.currentPage$.pipe(
+    filter(p => !!p),
+    distinctUntilChanged(),
+  );
 
-  public pages$ = this.evtModelService.pages$;
+  @Input() editionLevelID: EditionLevelType;
+  public currentEdLevel$ = new BehaviorSubject<EditionLevel>(undefined);
+  public currentEdLevelId$ = this.currentEdLevel$.pipe(
+    map(e => e?.id),
+  );
+  @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
+    filter(e => !!e),
+    distinctUntilChanged(),
+  );
+
+  public currentStatus$ = combineLatest([
+    this.currentPage$,
+    this.currentEdLevel$,
+  ]).pipe(
+    delay(0),
+    filter(([page, editionLevel]) => !!page && !!editionLevel),
+    map(([page, editionLevel]) => ({ page, editionLevel })),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    shareReplay(1),
+  );
 
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
-
-  @Output() pageChange = combineLatest([
-    merge(
-      this.route.params.pipe(
-        map((params) => params.page),
-      ),
-      this.pageIDChange,
-    ),
-    this.pages$,
-  ]).pipe(
-    filter(([_, pages]) => !!pages && pages.length > 0),
-    map(([id, pages]) => !id ? pages[0] : pages.find((p) => p.id === id)),
-  ).pipe(
-    distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
-  );
-
-  private elId: EditionLevelType;
-  editionLevelIDChange = new BehaviorSubject<EditionLevelType>(undefined);
-  @Input() set editionLevelID(el: EditionLevelType) {
-    this.elId = el;
-    this.editionLevelIDChange.next(this.elId);
-  }
-  get editionLevelID() { return this.elId; }
-  @Output() editionLevelChange: Observable<EditionLevelType> = this.editionLevelIDChange.pipe(
-    distinctUntilChanged((x, y) => x === y),
-  );
-
   public secondaryContent = '';
   private showSecondaryContent = false;
 
@@ -60,7 +54,6 @@ export class TextPanelComponent implements OnDestroy {
 
   constructor(
     public evtModelService: EVTModelService,
-    private route: ActivatedRoute,
   ) {
   }
 

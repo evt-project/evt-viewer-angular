@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AppConfig, EditionLevelType } from '../../app.config';
+import { map } from 'rxjs/operators';
+import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { EditionLevel } from '../../app.config';
 import { Page } from '../../models/evt-models';
-import { EditionLevelService } from '../../services/edition-level.service';
 
 @Component({
   selector: 'evt-reading-text',
@@ -15,13 +14,12 @@ import { EditionLevelService } from '../../services/edition-level.service';
 export class ReadingTextComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
-  public currentPage = this.route.params.pipe(
-    map((params) => params.page),
+  public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ page }) => page.id),
   );
-  private defaultEditionLevel = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => !e.disabled))[0];
-  public currentEditionLevel = this.route.params.pipe(
-    map((params) => params.edLvl ?? this.defaultEditionLevel?.id),
-    distinctUntilChanged((x, y) => x === y),
+
+  public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ editionLevels }) => editionLevels[0]),
   );
   public options: GridsterConfig = {};
 
@@ -34,9 +32,7 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private editionLevel: EditionLevelService,
-    private route: ActivatedRoute,
-    private router: Router,
+    private evtStatusService: EVTStatusService,
   ) {
   }
 
@@ -44,19 +40,12 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     this.initGridster();
   }
 
-  handlePageChange(selectedPage: Page) {
-    if (selectedPage) {
-      const viewMode = this.route.snapshot.routeConfig.path;
-      const params = { ...this.route.snapshot.params };
-      if (params.page !== selectedPage.id) {
-        params.page = selectedPage.id;
-        this.router.navigate(['/' + viewMode, params]);
-      }
-    }
+  changePage(selectedPage: Page) {
+    this.evtStatusService.updatePage$.next(selectedPage);
   }
 
-  handleEditionLevelChange(editionLevel: EditionLevelType) {
-    this.editionLevel.handleEditionLevelChange(this.route, editionLevel, 'edLvl');
+  changeEditionLevel(editionLevel: EditionLevel) {
+    this.evtStatusService.updateEditionLevels$.next([editionLevel?.id]);
   }
 
   togglePinnedBoard() {

@@ -4,8 +4,10 @@
     </gridster-item>
     <gridster-item [item]="textPanelItem">
         <evt-text-panel
-            [editionLevelID]="currentEditionLevel | async"
-            (editionLevelChange)="handleEditionLevelChange($event)"
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevel$ | async"
+            (pageChange)="changePage($event)" 
+            (editionLevelChange)="changeEditionLevel($event)"
         ></evt-text-panel>
     </gridster-item>
 </gridster>

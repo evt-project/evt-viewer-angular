@@ -6,26 +6,14 @@
             additionalClasses="mr-1"
             (btnClick)="toggleSecondaryContent('INFO')"
             [active]="secondaryContent === 'INFO'"></evt-button>
-        <ng-select
-            class="mr-1"
-            [items]="pages$ | async"
-            bindLabel="label"
-            [clearable]="false"
-            [ngModel]="pageChange | async"
-            (change)="pageID = $event.id">
-            <ng-template
-                ng-label-tmp
-                let-item="item">
-                <evt-icon
-                    [iconInfo]="{icon: 'file-alt', additionalClasses: 'mr-2'}"
-                    label-left></evt-icon>
-                {{item.label}}
-            </ng-template>
-        </ng-select>
-        <evt-edition-level-selector *ngIf="!hideEditionLevelSelector" [editionLevel]="editionLevelChange | async" (selectionChange)="editionLevelID = $event"></evt-edition-level-selector>
+        <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
+        <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
     </div>
     <div content>
-        <evt-page [data]="pageChange | async" [editionLevel]="editionLevelChange | async" [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
+        <evt-page *ngIf="currentStatus$ | async as currentStatus"
+            [data]="currentStatus.page" 
+            [editionLevel]="currentStatus.editionLevel" 
+            [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
     </div>
     <div secondary-content>{{ getSecondaryContent() }}</div>
 

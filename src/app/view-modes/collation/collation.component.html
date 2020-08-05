@@ -1,6 +1,8 @@
 <gridster [options]="options">
     <gridster-item [item]="textPanelItem">
         <evt-text-panel
+            [pageID]="currentPageID$ | async" 
+            (pageChange)="changePage($event)"       
             [hideEditionLevelSelector]="true" 
             [editionLevelID]="'critical'"
         ></evt-text-panel>
