@@ -1,6 +1,10 @@
 @import "../../../assets/scss/variables";
 @import "../../../assets/scss/mixins";
 
+::ng-deep {
+    @include draggablePanelFromHeader();
+}
+
 .row {
     height: 100%;
 }

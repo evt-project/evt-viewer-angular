@@ -1,6 +1,10 @@
 @import "../../../assets/scss/variables";
 @import "../../../assets/scss/mixins";
 
+::ng-deep {
+    @include draggablePanelFromHeader();
+}
+
 .row {
     height: 100%;
 }
@@ -13,6 +17,15 @@
         .btn {
             margin: auto;
         }
+    }
+}
+
+::ng-deep .collationPanel .panel {
+    .panel-header {
+        cursor: move;
+    }
+    .navbar{
+        cursor: default;
     }
 }
 

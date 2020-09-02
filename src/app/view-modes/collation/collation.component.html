@@ -11,12 +11,11 @@
         <div class="collationPanel" #collationPanel
         [class.align-self-center]="getWitnesses().length === 0" 
         [class.empty]="getWitnesses().length === 0">
-            <gridster [options]="collationOptions" *ngIf="getWitnesses().length > 0">
+            <gridster [options]="collationOptions" *ngIf="getWitnesses().length > 0" [class.draggable]="collationOptions?.draggable?.enabled">
                 <gridster-item [item]="witness.itemConfig" 
                 *ngFor="let witness of getWitnesses(); let i = index">
-                <evt-witness-panel
-                    (hide)="removeWitness(i)" [witness]="witness.label">
-                </evt-witness-panel>
+                    <evt-witness-panel (hide)="removeWitness(i)" [witness]="witness.label">
+                    </evt-witness-panel>
                 </gridster-item>
             </gridster>
             <evt-button class="btn" additionalClasses="btn-primary shadow"

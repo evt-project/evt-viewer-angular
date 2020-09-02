@@ -52,3 +52,14 @@
     background-color: $color-middle;
   }
 }
+
+@mixin draggablePanelFromHeader() {
+  .draggable {
+    .panel-header {
+      cursor: grab;
+    }
+    .navbar {
+      cursor: default;
+    }
+  }
+}

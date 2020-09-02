@@ -1,0 +1,5 @@
+@import '../../../assets/scss/mixins';
+
+::ng-deep {
+    @include draggablePanelFromHeader();
+}
