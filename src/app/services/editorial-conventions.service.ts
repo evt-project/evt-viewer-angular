@@ -11,6 +11,13 @@ export type EditorialConventionDefaults = string; // TODO: Add here key of handl
 })
 export class EditorialConventionsService {
   defaultLayouts: { [T in EditorialConventionDefaults]: Partial<EditorialConventionLayouts> } = {
+    damage: {
+      diplomatic: {
+        style: {
+          'background-color': 'rgba(193, 193, 193, 0.7)',
+        },
+      },
+    },
   };
 
   getLayouts(name: string, attributes: AttributesMap, defaultsKey: EditorialConventionDefaults) {
