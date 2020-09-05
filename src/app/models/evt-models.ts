@@ -294,3 +294,7 @@ export class Damage extends GenericElement {
     group?: number;
     degree?: DamageDegree | string; // string representing a number between 0 (undamaged) and 1 (very extensively damaged)
 }
+
+export class Surplus extends GenericElement {
+    reason?: string;
+}
