@@ -1,0 +1,26 @@
+@import '../../../assets/scss/colors';
+
+$gapHoverBackground: get-color(highlightColor);
+
+.gap {
+    &:hover {
+        background: $gapHoverBackground;
+    }
+}
+::ng-deep .gap {
+    &:hover .line-gap {
+        background: $gapHoverBackground;
+    }
+    .line-gap {
+        display: block;
+        position: relative;
+        &:before {
+            content: "[";
+        }
+        &:after {
+            content: "]";
+            position: absolute;
+            right: 0;
+        }
+    }
+}

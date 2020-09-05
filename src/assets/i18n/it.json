@@ -38,5 +38,14 @@
     "bishops": "Vescovi",
     "diplomatic": "Diplomatica",
     "interpretative": "Interpretativa",
-    "critical": "Critica"
+    "critical": "Critica",
+    "line": "linea",
+    "lines": "linee",
+    "char": "carattere",
+    "chars": "caratteri",
+    "word": "parola",
+    "words": "parole",
+    "missingS": "mancante",
+    "missingP": "mancanti",
+    "omitted": "omissione"
 }
