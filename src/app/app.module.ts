@@ -43,6 +43,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageSelectorComponent } from './components/page-selector/page-selector.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
+import { SuppliedComponent } from './components/supplied/supplied.component';
 import { TextComponent } from './components/text/text.component';
 import { VerseComponent } from './components/verse/verse.component';
 import { HighlightDirective } from './directives/highlight.directive';
@@ -122,6 +123,7 @@ export function initializeApp(appConfig: AppConfig) {
     ShortcutsComponent,
     SourcesPanelComponent,
     StartsWithPipe,
+    SuppliedComponent,
     TextComponent,
     TextPanelComponent,
     TextSourcesComponent,
