@@ -1,5 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { Attributes, GenericElement, Lb, Note, NoteLayout, Paragraph, Supplied, Text, Verse, XMLElement } from '../../models/evt-models';
+import { Attributes, Damage, GenericElement, Lb, Note, NoteLayout, Paragraph, Supplied, Text, Verse, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
@@ -159,6 +159,24 @@ export class SuppliedParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
+        };
+    }
+}
+
+export class DamageParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Damage {
+        const attributes = this.attributeParser.parse(xml);
+        const { agent, group, degree } = attributes;
+
+        return {
+            agent,
+            group: parseInt(group, 10) ?? undefined,
+            degree,
+            type: Damage,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
         };
     }
 }
