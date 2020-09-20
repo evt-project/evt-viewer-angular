@@ -36,6 +36,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-gridster2": "^9.0.1",
     "bootstrap": "^4.4.1",
+    "dexie": "^3.0.2",
     "jquery": "^3.4.1",
     "ng-dynamic-component": "^5.0.6",
     "ng2-handy-syntax-highlighter": "^1.0.12",
