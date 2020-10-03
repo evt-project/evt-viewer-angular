@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface GenericElementComponent extends EditionlevelSusceptible, Highlightable { }
+export interface GenericElementComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-generic-element',

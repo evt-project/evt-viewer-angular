@@ -5,9 +5,9 @@ import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highlightable { }
+export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-named-entity-ref',

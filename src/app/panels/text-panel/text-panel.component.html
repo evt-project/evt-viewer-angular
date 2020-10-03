@@ -13,6 +13,7 @@
         <evt-page *ngIf="currentStatus$ | async as currentStatus"
             [data]="currentStatus.page" 
             [editionLevel]="currentStatus.editionLevel" 
+            [textFlow]="textFlow"
             [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
     </div>
     <div secondary-content>{{ getSecondaryContent() }}</div>

@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 import { G } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface GComponent extends EditionlevelSusceptible, Highlightable { }
+export interface GComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-g',

@@ -4,9 +4,9 @@ import { EVTModelService } from '../../services/evt-model.service';
 
 import { Verse } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface VerseComponent extends EditionlevelSusceptible, Highlightable { }
+export interface VerseComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-verse',
