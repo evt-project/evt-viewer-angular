@@ -21,6 +21,9 @@ $editionColors: (
     normalizationBackground: #fffbf3,
     emendation: #934d4d,
     emendationBackground: #f99069,
+    versesBackground: #800000,
+    versesColor: #ffffff,
+    versesBorder: #000000,
 );
 
 @function get-color($key) {

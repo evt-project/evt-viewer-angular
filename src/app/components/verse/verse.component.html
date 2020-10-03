@@ -1,0 +1,7 @@
+<span class="verse l" [evtHtmlAttributes]="data.attributes" 
+	[class.display-block]="displayBlock$ | async">
+	<span class="verse-num">{{data.n}}</span>
+	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
+		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
+	</evt-content-viewer>
+</span>
