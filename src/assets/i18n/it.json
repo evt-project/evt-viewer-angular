@@ -47,5 +47,7 @@
     "words": "parole",
     "missingS": "mancante",
     "missingP": "mancanti",
-    "omitted": "omissione"
+    "omitted": "omissione",
+    "prose": "Prosa",
+    "verses": "Versi"
 }

@@ -48,5 +48,7 @@
     "words": "words",
     "missingS": "missing",
     "missingP": "missing",
-    "omitted": "omitted"
+    "omitted": "omitted",
+    "prose": "Prose",
+    "verses": "Verses"
 }

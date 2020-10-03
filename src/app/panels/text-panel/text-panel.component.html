@@ -26,5 +26,11 @@
             [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
         <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
+        <evt-button *ngIf="enableProseVersesToggler"
+            [iconLeft]="proseVersesTogglerIcon"
+            [label]="textFlow | translate"
+            additionalClasses="ml-1"
+            (btnClick)="toggleProseVerses()">
+        </evt-button>
     </div>
 </evt-panel>
