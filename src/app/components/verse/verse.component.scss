@@ -31,7 +31,10 @@
             @include themify($themes) {            
                 color: themed('secondaryColorDark')
             }
+
+            &.hidden {
+                visibility: hidden;
+            }
         }
     }
-
 }

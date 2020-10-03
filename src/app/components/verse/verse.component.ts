@@ -22,17 +22,24 @@ export class VerseComponent {
     return this.evtModelService.lines$.pipe(
       map(lines => lines.length > 0),
       map(hasLines => {
-        // In diplomatic and interpretative edition, if the text doesn't have any line, verses are shown as block items
-        // In critical edition verses are always shown as block items
+        // In diplomatic and interpretative edition, if the text doesn't have any line, verses are shown as block items,
+        // unless current text flow is prose
+        // In critical edition verses are always shown as block items, unless current text flow is prose
         switch (this.editionLevel) {
           case 'diplomatic':
           case 'interpretative':
-            return !hasLines;
+            return this.textFlow === 'verses' || !hasLines;
           case 'critical':
-            return true;
+            return this.textFlow !== 'prose';
         }
       }),
     );
+  }
+
+  get showNumber() {
+    const num = parseInt(this.data.n, 10);
+
+    return !isNaN(num) && num % 5 !== 0;
   }
 
   constructor(
