@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
@@ -12,7 +12,7 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
   templateUrl: './text-panel.component.html',
   styleUrls: ['./text-panel.component.scss'],
 })
-export class TextPanelComponent implements OnDestroy {
+export class TextPanelComponent implements OnInit, OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() pageID: string;
@@ -65,6 +65,11 @@ export class TextPanelComponent implements OnDestroy {
   ) {
   }
 
+  ngOnInit() {
+    if (this.editionLevelID === 'critical') {
+      this.textFlow = 'verses';
+    }
+  }
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
   }
