@@ -52,7 +52,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   public selectedPage;
 
-  public textFlow: TextFlow = 'prose';
+  public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   public get proseVersesTogglerIcon(): EvtIconInfo {
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
@@ -67,7 +67,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.editionLevelID === 'critical') {
-      this.textFlow = 'verses';
+      this.textFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'verses';
     }
   }
   isSecondaryContentOpened(): boolean {
