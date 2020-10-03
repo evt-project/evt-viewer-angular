@@ -87,6 +87,8 @@ export interface EditionConfig {
     defaultEdition: EditionLevelType;
     defaultViewMode: ViewModeId;
     availableViewModes: ViewMode[];
+    proseVersesToggler: boolean;
+    defaultTextFlow: TextFlow;
 }
 
 export interface FileConfig {
@@ -120,3 +122,5 @@ export interface CustomEditorialConvention {
         attributes: Attributes;
     };
 }
+
+export type TextFlow = 'prose' | 'verses';
