@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
-import { EvtIconInfo } from 'src/app/ui-components/icon/icon.component';
-import { AppConfig, EditionLevel, EditionLevelType } from '../../app.config';
+import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -53,7 +52,7 @@ export class TextPanelComponent implements OnDestroy {
 
   public selectedPage;
 
-  public textFlow: 'prose' | 'verses' = 'prose';
+  public textFlow: TextFlow = 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   public get proseVersesTogglerIcon(): EvtIconInfo {
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
