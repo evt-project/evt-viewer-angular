@@ -69,6 +69,9 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (this.editionLevelID === 'critical') {
       this.textFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'verses';
     }
+    if (!this.enableProseVersesToggler) {
+      this.textFlow = undefined;
+    }
   }
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
