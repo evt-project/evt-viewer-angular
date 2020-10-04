@@ -62,6 +62,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { HumanizePipe } from './pipes/humanize.pipe';
 import { StartsWithPipe } from './pipes/starts-with.pipe';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
+import { IdbService } from './services/idb.service';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
@@ -160,6 +161,7 @@ export function initializeApp(appConfig: AppConfig) {
       useFactory: initializeApp,
       deps: [AppConfig], multi: true,
     },
+    IdbService,
     GenericParserService,
     ThemesService,
   ],
