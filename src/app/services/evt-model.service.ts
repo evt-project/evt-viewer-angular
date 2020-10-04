@@ -7,6 +7,7 @@ import { EditionDataService } from './edition-data.service';
 import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
 import { CharacterDeclarationsParserService } from './xml-parsers/character-declarations-parser.service';
 import { FacsimileParserService } from './xml-parsers/facsimile-parser.service';
+import { LinesVersesParserService } from './xml-parsers/lines-verses-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
@@ -56,6 +57,16 @@ export class EVTModelService {
 
   public readonly events$ = this.parsedLists$.pipe(
     map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(lists, entities, ['event'])),
+  );
+
+  public readonly verses$ = this.editionSource$.pipe(
+    map((source) => this.linesVersesParser.parseVerses(source)),
+    shareReplay(1),
+  );
+
+  public readonly lines$ = this.editionSource$.pipe(
+    map((source) => this.linesVersesParser.parseLines(source)),
+    shareReplay(1),
   );
 
   public readonly namedEntities$: Observable<NamedEntities> = combineLatest([
@@ -144,6 +155,7 @@ export class EVTModelService {
     private apparatusParser: ApparatusEntriesParserService,
     private facsimileParser: FacsimileParserService,
     private characterDeclarationsParser: CharacterDeclarationsParserService,
+    private linesVersesParser: LinesVersesParserService,
   ) {
   }
 

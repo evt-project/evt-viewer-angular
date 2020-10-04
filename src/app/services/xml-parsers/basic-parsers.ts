@@ -1,5 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { Attributes, GenericElement, Lb, Note, NoteLayout, Paragraph, Text, XMLElement } from '../../models/evt-models';
+import { Attributes, GenericElement, Lb, Note, NoteLayout, Paragraph, Text, Verse, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
@@ -127,5 +127,20 @@ export class PtrParser extends EmptyParser implements Parser<XMLElement> {
         }
 
         return this.elementParser.parse(xml);
+    }
+}
+
+export class VerseParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Verse {
+        const attributes = this.attributeParser.parse(xml);
+        const lineComponent: Verse = {
+            type: Verse,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            n: getDefaultN(attributes.n),
+        };
+
+        return lineComponent;
     }
 }

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Verses visualization
 - Navigation by view, page and edition level
 - Custom logo
 - Text emendations

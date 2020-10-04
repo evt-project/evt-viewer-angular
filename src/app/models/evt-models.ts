@@ -263,3 +263,7 @@ export class Choice extends GenericElement {
     originalContent: Array<ParseResult<GenericElement>>;
     normalizedContent: Array<ParseResult<GenericElement>>;
 }
+
+export class Verse extends GenericElement {
+    n: string;
+}
