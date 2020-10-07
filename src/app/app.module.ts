@@ -46,6 +46,7 @@ import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { TextComponent } from './components/text/text.component';
 import { VerseComponent } from './components/verse/verse.component';
+import { EditorialConventionLayoutDirective } from './directives/editorial-convention-layout.directive';
 import { HighlightDirective } from './directives/highlight.directive';
 import { HtmlAttributesDirective } from './directives/html-attributes.directive';
 import { EvtInfoComponent } from './evt-info/evt-info.component';
@@ -89,6 +90,7 @@ export function initializeApp(appConfig: AppConfig) {
     CollationComponent,
     ContentViewerComponent,
     EditionLevelSelectorComponent,
+    EditorialConventionLayoutDirective,
     EntitiesSelectComponent,
     EvtInfoComponent,
     FilterPipe,
