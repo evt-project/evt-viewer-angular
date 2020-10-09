@@ -5,6 +5,7 @@ import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { ViewMode, ViewModeId } from './models/evt-models';
+import { Attributes, EditorialConventionLayout } from './models/evt-models';
 
 @Injectable()
 export class AppConfig {
@@ -12,6 +13,7 @@ export class AppConfig {
     private readonly uiConfigUrl = 'assets/config/ui_config.json';
     private readonly fileConfigUrl = 'assets/config/file_config.json';
     private readonly editionConfigUrl = 'assets/config/edition_config.json';
+    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
 
     constructor(
         public translate: TranslateService,
@@ -24,8 +26,9 @@ export class AppConfig {
                 this.http.get<UiConfig>(this.uiConfigUrl),
                 this.http.get<EditionConfig>(this.editionConfigUrl),
                 this.http.get<FileConfig>(this.fileConfigUrl),
+                this.http.get<EditorialConventionsConfig>(this.editorialConventionsConfigUrl),
             ]).pipe(
-                map(([ui, edition, files]) => {
+                map(([ui, edition, files, editorialConventions]) => {
                     console.log(ui, edition, files);
                     // Handle default values => TODO: Decide how to handle defaults!!
                     if (ui.defaultLocalization) {
@@ -39,7 +42,7 @@ export class AppConfig {
                         }
                     }
 
-                    return { ui, edition, files };
+                    return { ui, edition, files, editorialConventions };
                 }),
             ).subscribe(evtConfig => {
                 AppConfig.evtSettings = evtConfig;
@@ -53,6 +56,7 @@ export interface EVTConfig {
     ui: UiConfig;
     edition: EditionConfig;
     files: FileConfig;
+    editorialConventions: EditorialConventionsConfig;
 }
 
 export interface UiConfig {
@@ -101,4 +105,18 @@ export interface EditionLevel {
     label: string;
     title?: string;
     disabled?: boolean;
+}
+
+export interface EditorialConventionsConfig {
+    [key: string]: CustomEditorialConvention;
+}
+
+export interface CustomEditorialConvention {
+    layouts: { // indicate the output style to be assigned for the indicated encoding for each edition level
+        [key in EditionLevelType]: EditorialConventionLayout;
+    };
+    markup: { // Identifies the element depending on its encoding
+        element: string;
+        attributes: Attributes;
+    };
 }
