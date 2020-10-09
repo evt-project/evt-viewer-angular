@@ -1,0 +1,4 @@
+<span *ngIf="editionLevel !== 'diplomatic'" class="{{data.class}}" [ngbPopover]="data?.reason"
+    triggers="mouseenter:mouseleave" [openDelay]="500" [attr.data-reason]="data?.reason || ''">[<evt-content-viewer
+        *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel"
+        [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>]</span>

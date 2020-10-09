@@ -267,3 +267,9 @@ export class Choice extends GenericElement {
 export class Verse extends GenericElement {
     n: string;
 }
+
+export class Supplied extends GenericElement {
+    reason?: string;
+    source?: string;
+    resp?: string;
+}
