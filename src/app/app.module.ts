@@ -53,6 +53,7 @@ import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TextComponent } from './components/text/text.component';
 import { VerseComponent } from './components/verse/verse.component';
+import { VersesGroupComponent } from './components/verses-group/verses-group.component';
 import { WordComponent } from './components/word/word.component';
 import { EditorialConventionLayoutDirective } from './directives/editorial-convention-layout.directive';
 import { HighlightDirective } from './directives/highlight.directive';
@@ -147,6 +148,7 @@ export function initializeApp(appConfig: AppConfig) {
     TextTextComponent,
     TextVersionsComponent,
     VerseComponent,
+    VersesGroupComponent,
     VersionPanelComponent,
     WitnessPanelComponent,
     WordComponent,
