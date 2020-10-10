@@ -24,6 +24,7 @@ import { AppConfig } from './app.config';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
+import { DamageComponent } from './components/damage/damage.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GComponent } from './components/g/g.component';
@@ -89,6 +90,7 @@ export function initializeApp(appConfig: AppConfig) {
     ChoiceComponent,
     CollationComponent,
     ContentViewerComponent,
+    DamageComponent,
     EditionLevelSelectorComponent,
     EditorialConventionLayoutDirective,
     EntitiesSelectComponent,

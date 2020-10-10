@@ -287,3 +287,10 @@ export class Supplied extends GenericElement {
     source?: string;
     resp?: string;
 }
+
+export type DamageDegree = 'high' | 'medium' | 'low' | 'unknown';
+export class Damage extends GenericElement {
+    agent: string;
+    group?: number;
+    degree?: DamageDegree | string; // string representing a number between 0 (undamaged) and 1 (very extensively damaged)
+}
