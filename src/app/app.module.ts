@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
+import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
@@ -87,6 +88,7 @@ export function initializeApp(appConfig: AppConfig) {
 
 @NgModule({
   declarations: [
+    ApparatusEntryComponent,
     AppComponent,
     CharComponent,
     ChoiceComponent,

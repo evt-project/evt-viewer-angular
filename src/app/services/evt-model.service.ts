@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
@@ -109,6 +109,25 @@ export class EVTModelService {
   // APPARATUS ENTRIES
   public readonly appEntries$ = this.editionSource$.pipe(
     map((source) => this.apparatusParser.parseAppEntries(source)),
+    shareReplay(1),
+  );
+
+  public readonly significantReadings$ = this.appEntries$.pipe(
+    map((appEntries) => this.apparatusParser.getSignificantReadings(appEntries)),
+    shareReplay(1),
+  );
+
+  public readonly significantReadingsNumber$ = this.significantReadings$.pipe(
+    map((signRdgs) => this.apparatusParser.getSignificantReadingsNumber(signRdgs)),
+    shareReplay(1),
+  );
+
+  public readonly appVariance$ = this.witnesses$.pipe(
+    switchMap((witList) => {
+      return this.significantReadingsNumber$.pipe(
+        map((signRdgsNum) => this.apparatusParser.getAppVariance(signRdgsNum, witList)),
+      );
+    }),
     shareReplay(1),
   );
 
