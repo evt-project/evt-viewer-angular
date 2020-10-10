@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Reading } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { Highlightable } from '../components-mixins';
 
 @Component({
   selector: 'evt-reading',
@@ -8,6 +9,6 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./reading.component.scss'],
 })
 @register(Reading)
-export class ReadingComponent {
+export class ReadingComponent extends Highlightable {
   @Input() data: Reading;
 }

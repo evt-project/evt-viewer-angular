@@ -3,9 +3,7 @@ import { map } from 'rxjs/operators';
 import { ApparatusEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highlightable { }
+import { EditionlevelSusceptible } from '../components-mixins';
 
 @Component({
   selector: 'evt-apparatus-entry',
@@ -13,7 +11,7 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highli
   styleUrls: ['./apparatus-entry.component.scss'],
 })
 @register(ApparatusEntry)
-export class ApparatusEntryComponent {
+export class ApparatusEntryComponent extends EditionlevelSusceptible {
   @Input() data: ApparatusEntry;
 
   variance$ = this.evtModelService.appVariance$.pipe(
@@ -23,5 +21,6 @@ export class ApparatusEntryComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 }
