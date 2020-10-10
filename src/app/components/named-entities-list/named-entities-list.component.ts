@@ -47,8 +47,9 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   private initKeys() {
     if (!!this.data && !!this.data.content && this.data.content.length > 0) {
       this.navigationKeys = this.data.content
-        .map(el => el.sortKey.substr(0, 1).toLowerCase())
-        .filter((item, i, ar) => ar.indexOf(item) === i)
+        .filter(el => el.namedEntityType === this.data.namedEntityType)
+        .map(el => el.sortKey?.substr(0, 1).toLowerCase())
+        .filter((item, i, ar) => item && ar.indexOf(item) === i)
         .sort();
       this.selectedKey = this.navigationKeys[0] || '';
     }
