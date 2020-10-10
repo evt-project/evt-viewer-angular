@@ -128,5 +128,6 @@
 		}
 	],
 	"proseVersesToggler": true,
-	"defaultTextFlow": "prose"
+	"defaultTextFlow": "prose",
+	"verseNumberPrinter": 5
 }

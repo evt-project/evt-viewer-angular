@@ -89,6 +89,7 @@ export interface EditionConfig {
     availableViewModes: ViewMode[];
     proseVersesToggler: boolean;
     defaultTextFlow: TextFlow;
+    verseNumberPrinter: number;
 }
 
 export interface FileConfig {

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { EVTModelService } from '../../services/evt-model.service';
 
+import { AppConfig } from '../../app.config';
 import { Verse } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
@@ -36,10 +37,11 @@ export class VerseComponent {
     );
   }
 
+  private verseNumberPrinter = AppConfig.evtSettings.edition.verseNumberPrinter || 5;
   get showNumber() {
     const num = parseInt(this.data.n, 10);
 
-    return !isNaN(num) && num % 5 !== 0;
+    return !isNaN(num) && num % this.verseNumberPrinter !== 0;
   }
 
   constructor(
