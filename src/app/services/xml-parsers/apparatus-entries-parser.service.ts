@@ -36,9 +36,11 @@ export class ApparatusEntriesParserService {
 
   public getAppVariance(signRdgsNum: { [key: string]: number }, witList: { [key: string]: Witness }) {
     const appsVariance = {};
-    Object.keys(signRdgsNum).forEach((x) => {
-      appsVariance[x] = signRdgsNum[x] / Object.keys(witList).length;
-    });
+    if (Object.keys(witList).length > 1) {
+      Object.keys(signRdgsNum).forEach((x) => {
+        appsVariance[x] = signRdgsNum[x] / Object.keys(witList).length;
+      });
+    }
 
     return appsVariance;
   }
