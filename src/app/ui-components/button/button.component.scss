@@ -56,4 +56,16 @@
             }
         }
     }
+
+    &.btn-floating {
+        @include set("box-shadow", "0 2px 4px rgba(0, 0, 0, .4) !important");
+        @include themify($themes) {
+            color: themed("toolsBackground");
+            background-color: themed("toolsColor");
+            border-color: themed("toolsColor");
+        }
+        &:hover {
+            @include set("box-shadow", "none !important");
+        }
+    }
 }
