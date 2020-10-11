@@ -6,7 +6,11 @@ $themes: (
         secondaryColorLight: #fff,
         panelBackgroundColor: #fff,
         panelTextColor: #000,
-        panelSecondaryBackgroundColor: rgba(255, 255, 255, 0.95)
+        panelSecondaryBackgroundColor: rgba(255, 255, 255, 0.95),
+        toolsBackground: #fff,
+        toolsBackgroundDarker: #ccc,
+        toolsColor: #000,
+        toolsColorActive: #ffdd00
     ),    
     modern: (
         baseColorDark: #263238,
@@ -15,7 +19,11 @@ $themes: (
         secondaryColorLight: #ECEFF1,
         panelBackgroundColor: #fff,
         panelTextColor: #000,
-        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95),
+        toolsBackground: #ECEFF1,
+        toolsColor: #263238,
+        toolsBackgroundDarker: #b0bec5,
+        toolsColorActive: #ffdd00
     ),
     classic: (
         baseColorDark: rgb(54, 45, 40),
@@ -24,7 +32,11 @@ $themes: (
         secondaryColorLight: rgb(245, 234, 212),
         panelBackgroundColor: #fff,
         panelTextColor: #000,
-        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95)
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95),
+        toolsBackground: #f5ead4,
+        toolsColor: rgb(54, 45, 40),
+        toolsBackgroundDarker: #ccc4ba,
+        toolsColorActive: #ffdd00
     ),
 );
 

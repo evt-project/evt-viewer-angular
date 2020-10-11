@@ -1,29 +1,58 @@
-@import '../../../assets/scss/themes';
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
 
 .btn {
-    &.transparent{
-        &:hover {
-            // background: rgba(0, 0, 0, .1);
-            opacity: .7;
+    outline: none;
+    border: none;
+
+    &.btn-sm {
+        height: 31px;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    @include themify($themes) {
+        color: themed("toolsColor");
+        background-color: themed("toolsBackground");
+        border-color: themed("toolsBackground");
+    }
+
+    &:hover {
+        @include set("box-shadow", "1px 2px 3px rgba(0, 0, 0, .4) inset !important");
+    }
+
+    &.active {
+        @include themify($themes) {
+            background: themed("toolsColorActive");
         }
+    }
+
+    &.transparent {
+        background: none !important;
+        border-color: transparent !important;
+
         &.active {
-            @include themify($themes) { // TEMP
-                color: themed('baseColorLight');
-                background-color: themed('baseColorDark');
-                border-color: themed('baseColorDark');
+            @include themify($themes) {
+                color: themed("toolsColorActive");
             }
         }
     }
+
     &.btn-inverted {
         background: transparent;
         border: none;
         box-shadow: none;
-    
+
         @include themify($themes) {
-            color: themed('baseColorLight');
+            color: themed("toolsBackground");
+            background-color: themed("toolsColor");
+            border-color: themed("toolsColor");
+
             &:hover,
             &.btn-hovered {
-                background: rgba(themed('baseColorLight'), .2);
+                background: rgba(themed("toolsBackground"), 0.2);
             }
         }
     }

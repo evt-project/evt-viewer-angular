@@ -6,6 +6,10 @@
 }
 
 :host ::ng-deep {
+    .global-tools .btn {
+        height: 40px;
+        width: 40px;
+    }
     .apparatuses {
         .panel .content {
             padding: 0 !important;
