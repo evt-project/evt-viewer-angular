@@ -1,3 +1,4 @@
+import { AppConfig } from 'src/app/app.config';
 import { ApparatusEntry, Note, Reading, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
@@ -5,6 +6,7 @@ import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
+    private readingGroupTagName = 'rdgGrp';
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     public parse(rdg: XMLElement): Reading {
@@ -14,6 +16,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(rdg),
             witIDs: this.parseReadingWitnesses(rdg) || [],
             content: this.parseAppReadingContent(rdg),
+            significant: this.isReadingSignificant(rdg),
             class: rdg.tagName.toLowerCase(),
         };
     }
@@ -27,6 +30,24 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
     private parseAppReadingContent(rdg: XMLElement) {
         return Array.from(rdg.childNodes)
             .map((child: XMLElement) => this.genericParse(child));
+    }
+
+    private isReadingSignificant(rdg: XMLElement): boolean {
+        const notSignificantReadings = AppConfig.evtSettings.edition.notSignificantVariants;
+        let isSignificant = true;
+
+        if (notSignificantReadings.length > 0) {
+            isSignificant = this.isSignificant(notSignificantReadings, rdg.attributes);
+            if (isSignificant && rdg.parentElement.tagName === this.readingGroupTagName) {
+                isSignificant = this.isSignificant(notSignificantReadings, rdg.parentElement.attributes);
+            }
+        }
+
+        return isSignificant;
+    }
+
+    private isSignificant(notSignificantReading: string[], attributes: NamedNodeMap): boolean {
+        return !Array.from(attributes).some(({ name, value }) => notSignificantReading.includes(`${name}=${value}`));
     }
 }
 

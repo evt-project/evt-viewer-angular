@@ -170,6 +170,7 @@ export class ApparatusEntry extends GenericElement {
 export class Reading extends GenericElement {
     id: string;
     witIDs: string[];
+    significant: boolean;
 }
 
 export interface GridItem {

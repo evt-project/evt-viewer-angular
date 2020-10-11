@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
+import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
@@ -44,6 +45,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageSelectorComponent } from './components/page-selector/page-selector.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
+import { ReadingComponent } from './components/reading/reading.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TextComponent } from './components/text/text.component';
@@ -86,6 +88,7 @@ export function initializeApp(appConfig: AppConfig) {
 
 @NgModule({
   declarations: [
+    ApparatusEntryComponent,
     AppComponent,
     CharComponent,
     ChoiceComponent,
@@ -124,6 +127,7 @@ export function initializeApp(appConfig: AppConfig) {
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
+    ReadingComponent,
     ReadingTextComponent,
     ShortcutsComponent,
     SourcesPanelComponent,
