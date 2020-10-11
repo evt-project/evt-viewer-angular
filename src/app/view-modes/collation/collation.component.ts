@@ -3,6 +3,7 @@ import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from
 import { map } from 'rxjs/operators';
 import { Page } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { EvtIconInfo } from 'src/app/ui-components/icon/icon.component';
 
 @Component({
   selector: 'evt-collation',
@@ -24,6 +25,15 @@ export class CollationComponent implements OnInit, OnDestroy {
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
   );
+
+  public get witnessBtn(): { label: string, additionalClasses: string, title: string, icon: EvtIconInfo } {
+    return {
+      label: this.witnesses.length > 0 ? '' : 'addWitness',
+      title: this.witnesses.length > 0 ? 'addWitness' : '',
+      additionalClasses: `btn-floating ${this.witnesses.length > 0 ? 'rounded-circle' : ''}`,
+      icon: { iconSet: 'fas', icon: 'plus' },
+    };
+  }
 
   constructor(
     private evtStatusService: EVTStatusService,

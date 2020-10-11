@@ -19,9 +19,10 @@
                 </evt-witness-panel>
                 </gridster-item>
             </gridster>
-            <evt-button class="btn" additionalClasses="btn-floating"
-                [class.btn-float-right]="getWitnesses().length > 0"
-                (btnClick)="addWitness()" label="ADD WITNESS"></evt-button>
+            <evt-button class="btn" [class.btn-float-right]="getWitnesses().length > 0"
+                [additionalClasses]="witnessBtn?.additionalClasses"
+                [label]="witnessBtn?.label | translate" [iconLeft]="witnessBtn?.icon" [title]="witnessBtn?.title | translate"
+                (btnClick)="addWitness()"></evt-button>
         </div> 
     </gridster-item>
 </gridster>
