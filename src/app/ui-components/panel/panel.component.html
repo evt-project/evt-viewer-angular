@@ -5,7 +5,7 @@
     	<nav class="navbar">
             <div><ng-content select="[header-left]"></ng-content></div>
             <div><ng-content select="[header-right]"></ng-content></div>
-            <evt-button *ngIf="closable" additionalClasses="rounded-circle" 
+            <evt-button *ngIf="closable" additionalClasses="rounded-circle btn-close" 
                 (btnClick)="emitHide()" [iconLeft]="{icon: 'times'}">
             </evt-button>
         </nav>
