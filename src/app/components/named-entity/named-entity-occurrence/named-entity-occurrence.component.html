@@ -1,4 +1,4 @@
-<span class="ne-occurrence" *ngFor="let refByDoc of occurrence.refsByDoc">
+<span class="ne-occurrence" *ngFor="let refByDoc of occurrence.refsByDoc" (click)="goToOccurrenceRef(refByDoc)">
     {{ occurrence.pageLabel }} {{ refByDoc.docLabel ? '(' + refByDoc.docLabel + ')' : '' }}
     <span class="badge badge-info badge-light ne-occurrence-count"
         #popover="ngbPopover" 
