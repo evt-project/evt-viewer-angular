@@ -5,7 +5,7 @@ import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-m
 
 // List of handled editorial convention
 export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
-  'damage' | 'surplus';
+  'damage' | 'sicCrux' | 'surplus';
 
 @Injectable({
   providedIn: 'root',
@@ -88,6 +88,20 @@ export class EditorialConventionsService {
         style: {
           'background-color': 'rgba(193, 193, 193, 0.7)',
         },
+      },
+    },
+    sicCrux: {
+      diplomatic: {
+        pre: '&dagger;',
+        post: '&dagger;',
+      },
+      interpretative: {
+        pre: '&dagger;',
+        post: '&dagger;',
+      },
+      critical: {
+        pre: '&dagger;',
+        post: '&dagger;',
       },
     },
     surplus: {
