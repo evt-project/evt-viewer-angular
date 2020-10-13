@@ -6,7 +6,7 @@ import {
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
-import { SurplusParser } from './editorial-parsers';
+import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -15,7 +15,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
-    'lem' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'surface' |
+    'lem' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' |
     'supplied' | 'surplus' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -45,6 +45,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     place: createParser(PlaceParser, parse),
     rdg: createParser(RdgParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
+    sic: createParser(SicParser, parse),
     surface: createParser(SurfaceParser, parse),
     supplied: createParser(SuppliedParser, parse),
     surplus: createParser(SurplusParser, parse),
