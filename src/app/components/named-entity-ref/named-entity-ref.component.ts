@@ -5,6 +5,7 @@ import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EVTModelService } from '../../services/evt-model.service';
+import { EVTStatusService } from '../../services/evt-status.service';
 import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
 export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
@@ -41,6 +42,7 @@ export class NamedEntityRefComponent {
   public opened = false;
 
   constructor(
+    public evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
     private entitiesSelectService: EntitiesSelectService,
   ) {

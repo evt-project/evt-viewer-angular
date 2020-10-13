@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject, timer } from 'rxjs';
+import { distinctUntilChanged, filter, first, map, shareReplay, switchMap } from 'rxjs/operators';
 
 import { AppConfig, EditionLevelType } from '../app.config';
 import { Page, ViewMode } from '../models/evt-models';
@@ -56,7 +56,7 @@ export class EVTStatusService {
             this.updatePage$.pipe(map(p => p.id)),
         ),
         this.evtModelService.pages$.pipe(
-            filter((pages)=> !!pages && pages.length > 0),
+            filter((pages) => !!pages && pages.length > 0),
         ),
     ]).pipe(
         map(([id, pages]) => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0]),
@@ -121,6 +121,8 @@ export class EVTStatusService {
         map(currentStatus => this.getUrlFromStatus(currentStatus)),
     );
 
+    public currentNamedEntityId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
     constructor(
         private evtModelService: EVTModelService,
         private router: Router,
@@ -148,6 +150,10 @@ export class EVTStatusService {
                 }
             }
         });
+        this.currentNamedEntityId$.pipe(
+            filter(id => !!id),
+            switchMap(id => timer(5000).pipe(map(() => id))),
+        ).subscribe(() => this.currentNamedEntityId$.next(undefined));
     }
 
     getUrlFromStatus(status: AppStatus) {

@@ -32,7 +32,7 @@
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content ui-font" *ngIf="occurrences$ | async as occurrences">
                         <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
-                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence"></evt-named-entity-occurrence>
+                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence" [entityId]="data.id"></evt-named-entity-occurrence>
                     </div>
                 </ng-template>
             </li>

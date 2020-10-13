@@ -12,6 +12,7 @@ import { EVTStatusService } from '../../../services/evt-status.service';
 })
 export class NamedEntityOccurrenceComponent {
   @Input() occurrence: NamedEntityOccurrence;
+  @Input() entityId: string;
 
   constructor(
     private evtModelService: EVTModelService,
@@ -24,6 +25,7 @@ export class NamedEntityOccurrenceComponent {
       const page = pages.find(p => p.id === this.occurrence.pageId);
       this.evtStatusService.updateDocument$.next(ref.docId);
       this.evtStatusService.updatePage$.next(page);
+      this.evtStatusService.currentNamedEntityId$.next(this.entityId);
     });
   }
 }
