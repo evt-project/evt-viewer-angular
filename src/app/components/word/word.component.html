@@ -1,0 +1,5 @@
+<span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes">
+	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
+		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
+	</evt-content-viewer>
+</span>
