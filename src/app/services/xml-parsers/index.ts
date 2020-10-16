@@ -1,6 +1,9 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { AppParser, RdgParser } from './app-parser';
-import { DamageParser, ElementParser, LBParser, NoteParser, ParagraphParser, PtrParser, SuppliedParser, TextParser, VerseParser } from './basic-parsers';
+import {
+    DamageParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
+    PtrParser, SuppliedParser, TextParser, VerseParser,
+} from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
 import { SurplusParser } from './editorial-parsers';
@@ -11,8 +14,9 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' | 'lem' | 'note' | 'orgname' |
-    'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'surface' | 'supplied' | 'surplus' | 'zone';
+type SupportedTagNames = 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
+    'lem' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'surface' |
+    'supplied' | 'surplus' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     app: createParser(AppParser, parse),
@@ -21,6 +25,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     damage: createParser(DamageParser, parse),
     event: createParser(NamedEntityRefParser, parse),
     g: createParser(GParser, parse),
+    gap: createParser(GapParser, parse),
     geogname: createParser(NamedEntityRefParser, parse),
     glyph: createParser(GlyphParser, parse),
     graphic: createParser(GraphicParser, parse),

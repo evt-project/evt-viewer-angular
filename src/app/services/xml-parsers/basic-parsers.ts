@@ -1,5 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { Attributes, Damage, GenericElement, Lb, Note, NoteLayout, Paragraph, Supplied, Text, Verse, XMLElement } from '../../models/evt-models';
+import { Attributes, Damage, Gap, GenericElement, Lb, Note, NoteLayout, Paragraph, Supplied, Text, Verse, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
@@ -177,6 +177,26 @@ export class DamageParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
+        };
+    }
+}
+
+export class GapParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Gap {
+        const attributes = this.attributeParser.parse(xml);
+        const { reason, agent, quantity, unit, extent } = attributes;
+
+        return {
+            type: Gap,
+            reason,
+            agent,
+            quantity: quantity ? parseInt(quantity, 10) : undefined,
+            unit,
+            extent,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
         };
     }
 }

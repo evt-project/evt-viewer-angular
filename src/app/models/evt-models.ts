@@ -299,3 +299,11 @@ export class Damage extends GenericElement {
 export class Surplus extends GenericElement {
     reason?: string;
 }
+
+export class Gap extends GenericElement {
+    reason?: string;
+    agent?: string;
+    quantity?: number;
+    unit?: string;
+    extent?: string;
+}

@@ -24,6 +24,7 @@ $editionColors: (
     versesBackground: #800000,
     versesColor: #ffffff,
     versesBorder: #000000,
+    highlightColor: #ffffcc
 );
 
 @function get-color($key) {

@@ -29,6 +29,7 @@ import { DamageComponent } from './components/damage/damage.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GComponent } from './components/g/g.component';
+import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { LbComponent } from './components/lb/lb.component';
@@ -100,6 +101,7 @@ export function initializeApp(appConfig: AppConfig) {
     EntitiesSelectComponent,
     EvtInfoComponent,
     FilterPipe,
+    GapComponent,
     GComponent,
     GenericElementComponent,
     GlobalListsComponent,

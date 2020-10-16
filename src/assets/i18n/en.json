@@ -39,5 +39,14 @@
     "bishops": "Bishops",
     "diplomatic": "Diplomatic",
     "interpretative": "Interpretative",
-    "critical": "Critical"
+    "critical": "Critical",
+    "line": "line",
+    "lines": "lines",
+    "char": "character",
+    "chars": "characters",
+    "word": "word",
+    "words": "words",
+    "missingS": "missing",
+    "missingP": "missing",
+    "omitted": "omitted"
 }
