@@ -63,13 +63,13 @@ export class StructureXmlParserService {
         }
       }
 
-      // Exclude nodes in <front>
+      // Exclude nodes in <back>
       pageContent = pageContent.filter(el => {
         if (el.nodeType === 3) {
-          return !el.parentElement.closest('front') && el.parentElement.tagName !== 'front';
+          return !el.parentElement.closest('back') && el.parentElement.tagName !== 'back';
         }
         if (el.nodeType === 1) {
-          return !el.closest('front') && el.tagName !== 'front';
+          return !el.closest('back') && el.tagName !== 'back';
         }
 
         return false;
