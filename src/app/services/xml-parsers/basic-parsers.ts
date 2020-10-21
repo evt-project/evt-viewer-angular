@@ -1,5 +1,8 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { Attributes, Damage, Gap, GenericElement, Lb, Note, NoteLayout, Paragraph, Supplied, Text, Verse, XMLElement } from '../../models/evt-models';
+import {
+    Addition, Attributes, Damage, Gap, GenericElement, Lb, Note, NoteLayout,
+    Paragraph, PlacementType, Supplied, Text, Verse, XMLElement,
+} from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
@@ -197,6 +200,26 @@ export class GapParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
+        };
+    }
+}
+
+export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
+    elementParser = createParser(ElementParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Addition | GenericElement {
+        const place = xml.getAttribute('place') as PlacementType;
+        if (!place) {
+            return this.elementParser.parse(xml);
+        }
+
+        return {
+            type: Addition,
+            place,
+            path: xpath(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            class: xml.tagName.toLowerCase(),
         };
     }
 }

@@ -1,7 +1,7 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { AppParser, RdgParser } from './app-parser';
 import {
-    DamageParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
+    AdditionParser, DamageParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
     PtrParser, SuppliedParser, TextParser, VerseParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
@@ -14,11 +14,12 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
+type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
     'lem' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'surface' |
     'supplied' | 'surplus' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
+    add: createParser(AdditionParser, parse),
     app: createParser(AppParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
