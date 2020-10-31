@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Page, XMLElement } from '../../models/evt-models';
-import { getElementsAfterTreeNode, getElementsBetweenTreeNode } from '../../utils/dom-utils';
+import { getElementsAfterTreeNode, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { GenericParserService } from './generic-parser.service';
 
@@ -41,12 +41,13 @@ export class StructureXmlParserService {
   parseDocumentPages(pageElements: NodeListOf<Element>, pagesNumber: number, pages: Map<Page>, pagesIndexes: string[]) {
     pageElements.forEach((element, i) => {
       let pageContent: XMLElement[] = [];
+      const isPbFront = isNestedInElem(element, 'front');
 
       if (pagesNumber === 1) {
         pageContent = getElementsAfterTreeNode(element);
       }
 
-      if (pagesNumber !== 1) {
+      if (pagesNumber !== 1 && !isPbFront) {
         const isFirstPage = i === 0;
         const isLastPage = i === pagesNumber - 1;
 
@@ -61,6 +62,11 @@ export class StructureXmlParserService {
         if (!isFirstPage && !isLastPage) {
           pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
         }
+      }
+
+      if (isPbFront) {
+        pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1])
+          .filter((el: XMLElement) => el.nodeType !==8 && this.getFrontOriginalElements(el));
       }
 
       // Exclude nodes in <back>
@@ -79,7 +85,7 @@ export class StructureXmlParserService {
         id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
         label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
         originalContent: pageContent,
-        parsedContent: pageContent.map(child => this.genericParserService.parse(child as XMLElement)),
+        parsedContent: this.parsePageContent(isPbFront, pageContent),
       };
       pages[page.id] = page;
       pagesIndexes.push(page.id);
@@ -101,5 +107,35 @@ export class StructureXmlParserService {
     };
     pages[page.id] = page;
     pagesIndexes.push(page.id);
+  }
+
+  parsePageContent(isPbFront: boolean, pageContent) {
+    if (isPbFront) {
+      const frontOriginalContent = [];
+      pageContent.map((child: XMLElement) => {
+        if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value:'document_front' }])) {
+          frontOriginalContent.push(this.genericParserService.parse(child));
+        } else {
+          const originalContentChild = child.querySelectorAll('[type="document_front"]');
+          if (child.querySelectorAll('[type="document_front"]').length > 0) {
+            Array.from(originalContentChild).forEach((c) => frontOriginalContent.push(this.genericParserService.parse(c as XMLElement)));
+          }
+          if (child.getAttribute('type') === 'document_front') {
+            frontOriginalContent.push(this.genericParserService.parse(child));
+          }
+        }
+      });
+
+      return frontOriginalContent;
+    }
+
+    return pageContent.map((child: XMLElement) => this.genericParserService.parse(child));
+  }
+
+  getFrontOriginalElements(el: HTMLElement) {
+    return el.nodeType !== 3 &&
+      (el.getAttribute('type') === 'document_front' ||
+      el.querySelectorAll('[type=document_front]').length > 0) ||
+      isNestedInElem(el, '', [{ key: 'type', value:'document_front' }]);
   }
 }
