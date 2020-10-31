@@ -46,7 +46,7 @@ export function isNodeNestedInElem(
     if (element.parentNode.tagName === 'text') {
       return false;
     }
-    if (element.parentNode.tagName === parentTagName || element.parentNode.nodeName === parentTagName) {
+    if (parentTagName === '' || element.parentNode.tagName === parentTagName || element.parentNode.nodeName === parentTagName) {
       if (!attributes || attributes.length === 0) {
         return true;
       }
