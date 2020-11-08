@@ -28,8 +28,6 @@ export class StructureXmlParserService {
       } else {
         this.parseDocument(document, pages, pagesIndexes);
       }
-
-      console.log('### PAGES ###', pages);
     }
 
     return {
@@ -93,8 +91,7 @@ export class StructureXmlParserService {
   }
 
   parseDocument(document: XMLElement, pages: Map<Page>, pagesIndexes: string[]) {
-    // No <pb> used => TODO: Decide how to handle text division
-    console.warn('TODO: Decide how to handle text division when there are no <pb>s');
+    // TODO: Decide how to handle text division when there are no <pb>s
     const mainText = document.querySelector('text');
     const content = Array.from(mainText.childNodes);
     const page: Page = {
