@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Page, XMLElement } from '../../models/evt-models';
+import { OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
 import { getElementsAfterTreeNode, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { GenericParserService } from './generic-parser.service';
@@ -67,17 +67,7 @@ export class StructureXmlParserService {
           .filter((el: XMLElement) => el.nodeType !==8 && this.getFrontOriginalElements(el));
       }
 
-      // Exclude nodes in <back>
-      pageContent = pageContent.filter(el => {
-        if (el.nodeType === 3) {
-          return !el.parentElement.closest('back') && el.parentElement.tagName !== 'back';
-        }
-        if (el.nodeType === 1) {
-          return !el.closest('back') && el.tagName !== 'back';
-        }
-
-        return false;
-      });
+      pageContent = this.removeBackNodes(pageContent);
 
       const page: Page = {
         id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
@@ -93,12 +83,13 @@ export class StructureXmlParserService {
   parseDocument(document: XMLElement, pages: Map<Page>, pagesIndexes: string[]) {
     // TODO: Decide how to handle text division when there are no <pb>s
     const mainText = document.querySelector('text');
-    const content = Array.from(mainText.childNodes);
+    let content = Array.from(mainText.childNodes);
+    content = this.removeBackNodes(content as XMLElement[]);
     const page: Page = {
       id: 'page_1',
       label: 'Main Text',
       originalContent: content as XMLElement[],
-      parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement))
+      parsedContent: content.map((child) => this.genericParserService.parse(child as XMLElement))
         // tslint:disable-next-line: no-string-literal
         .filter(c => !!c['content']), // TODO: FIXME: fix property access
     };
@@ -106,7 +97,7 @@ export class StructureXmlParserService {
     pagesIndexes.push(page.id);
   }
 
-  parsePageContent(isPbFront: boolean, pageContent) {
+  parsePageContent(isPbFront: boolean, pageContent: OriginalEncodingNodeType[]) {
     if (isPbFront) {
       const frontOriginalContent = [];
       pageContent.map((child: XMLElement) => {
@@ -134,5 +125,18 @@ export class StructureXmlParserService {
       (el.getAttribute('type') === 'document_front' ||
       el.querySelectorAll('[type=document_front]').length > 0) ||
       isNestedInElem(el, '', [{ key: 'type', value:'document_front' }]);
+  }
+
+  removeBackNodes(content: OriginalEncodingNodeType[]) {
+    return content.filter(el => {
+      if (el.nodeType === 3) {
+        return !el.parentElement.closest('back') && el.parentElement.tagName !== 'back';
+      }
+      if (el.nodeType === 1) {
+        return !el.closest('back') && el.tagName !== 'back';
+      }
+
+      return false;
+    });
   }
 }
