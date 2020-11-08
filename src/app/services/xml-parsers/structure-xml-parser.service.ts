@@ -95,7 +95,7 @@ export class StructureXmlParserService {
     const mainText = document.querySelector('text');
     const content = Array.from(mainText.childNodes);
     const page: Page = {
-      id: `page_${new Date().getTime()}`,
+      id: 'page_1',
       label: 'Main Text',
       originalContent: content as XMLElement[],
       parsedContent: content.map(child => this.genericParserService.parse(child as XMLElement))
