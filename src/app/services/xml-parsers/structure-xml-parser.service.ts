@@ -62,9 +62,14 @@ export class StructureXmlParserService {
         }
       }
 
-      if (isPbFront) {
-        pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1])
-          .filter((el: XMLElement) => el.nodeType !==8 && this.getFrontOriginalElements(el));
+      if (pagesNumber !== 1 && isPbFront) {
+        const isLastPage = i === pagesNumber - 1;
+        if (isLastPage) {
+          pageContent = getElementsAfterTreeNode(element);
+        } else {
+          pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1])
+            .filter((el: XMLElement) => el.nodeType !==8 && this.getFrontOriginalElements(el));
+        }
       }
 
       pageContent = this.removeBackNodes(pageContent);
@@ -73,7 +78,7 @@ export class StructureXmlParserService {
         id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
         label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
         originalContent: pageContent,
-        parsedContent: this.parsePageContent(isPbFront, pageContent),
+        parsedContent: this.parsePageContent(pageContent),
       };
       pages[page.id] = page;
       pagesIndexes.push(page.id);
@@ -97,27 +102,27 @@ export class StructureXmlParserService {
     pagesIndexes.push(page.id);
   }
 
-  parsePageContent(isPbFront: boolean, pageContent: OriginalEncodingNodeType[]) {
-    if (isPbFront) {
-      const frontOriginalContent = [];
-      pageContent.map((child: XMLElement) => {
+  parsePageContent(pageContent: OriginalEncodingNodeType[]) {
+   const parsedContent = [];
+   pageContent.map((child: XMLElement) => {
+      if (isNestedInElem(child, 'front')) {
         if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value:'document_front' }])) {
-          frontOriginalContent.push(this.genericParserService.parse(child));
-        } else {
-          const originalContentChild = child.querySelectorAll('[type="document_front"]');
+          parsedContent.push(this.genericParserService.parse(child));
+         } else {
+          const frontOriginalContentChild = child.querySelectorAll('[type="document_front"]');
           if (child.querySelectorAll('[type="document_front"]').length > 0) {
-            Array.from(originalContentChild).forEach((c) => frontOriginalContent.push(this.genericParserService.parse(c as XMLElement)));
+            Array.from(frontOriginalContentChild).forEach((c) => parsedContent.push(this.genericParserService.parse(c as XMLElement)));
           }
           if (child.getAttribute('type') === 'document_front') {
-            frontOriginalContent.push(this.genericParserService.parse(child));
+            parsedContent.push(this.genericParserService.parse(child));
           }
         }
-      });
+      } else {
+        parsedContent.push(this.genericParserService.parse(child));
+      }
+    });
 
-      return frontOriginalContent;
-    }
-
-    return pageContent.map((child: XMLElement) => this.genericParserService.parse(child));
+   return parsedContent;
   }
 
   getFrontOriginalElements(el: HTMLElement) {
