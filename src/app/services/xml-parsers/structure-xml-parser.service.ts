@@ -39,18 +39,17 @@ export class StructureXmlParserService {
   parseDocumentPages(pageElements: NodeListOf<Element>, pagesNumber: number, pages: Map<Page>, pagesIndexes: string[]) {
     pageElements.forEach((element, i) => {
       let pageContent: XMLElement[] = [];
-      const isPbFront = isNestedInElem(element, 'front');
 
       if (pagesNumber === 1) {
         pageContent = getElementsAfterTreeNode(element);
       }
 
-      if (pagesNumber !== 1 && !isPbFront) {
+      if (pagesNumber !== 1) {
         const isFirstPage = i === 0;
         const isLastPage = i === pagesNumber - 1;
 
         if (isFirstPage) {
-          pageContent = getElementsBetweenTreeNode(element.closest('body'), pageElements[i + 1]);
+          pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
         }
 
         if (isLastPage) {
@@ -59,16 +58,6 @@ export class StructureXmlParserService {
 
         if (!isFirstPage && !isLastPage) {
           pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
-        }
-      }
-
-      if (pagesNumber !== 1 && isPbFront) {
-        const isLastPage = i === pagesNumber - 1;
-        if (isLastPage) {
-          pageContent = getElementsAfterTreeNode(element);
-        } else {
-          pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1])
-            .filter((el: XMLElement) => el.nodeType !==8 && this.getFrontOriginalElements(el));
         }
       }
 
