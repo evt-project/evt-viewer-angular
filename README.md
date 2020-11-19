@@ -54,7 +54,7 @@ below.
     6.4.1
 
 ### 3.3 - Install 
-    $ git clone https://gitlab.com/dipi.chiara/evt-viewer-angular.git
+    $ git clone https://github.com/evt-project/evt-viewer-angular.git
     $ cd evt-viewer-angular
     $ npm install
 
