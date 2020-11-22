@@ -75,18 +75,31 @@ export class StructureXmlParserService {
   }
 
   parseDocument(document: XMLElement, pages: Map<Page>, pagesIndexes: string[]) {
-    // TODO: Decide how to handle text division when there are no <pb>s
     const mainText = document.querySelector('text');
     let content = Array.from(mainText.childNodes);
+    const contentFront = content.filter((c) => c.nodeName === 'front');
+    const hasFrontOriginalContent = this.hasFrontOriginalContent(contentFront[0] as HTMLElement);
     content = this.removeBackNodes(content as XMLElement[]);
+
+    if (hasFrontOriginalContent) {
+      const frontPage: Page = {
+        id: 'page_front',
+        label: 'Front',
+        originalContent: contentFront as XMLElement[],
+        parsedContent: this.parsePageContent(contentFront as OriginalEncodingNodeType[]).filter(c => !!c.content),
+      };
+      pages[frontPage.id] = frontPage;
+      pagesIndexes.push(frontPage.id);
+      content = content.filter((c) => c.nodeName !== 'front');
+    }
+
     const page: Page = {
       id: 'page_1',
       label: 'Main Text',
       originalContent: content as XMLElement[],
-      parsedContent: content.map((child) => this.genericParserService.parse(child as XMLElement))
-        // tslint:disable-next-line: no-string-literal
-        .filter(c => !!c['content']), // TODO: FIXME: fix property access
+      parsedContent: this.parsePageContent(content as OriginalEncodingNodeType[]).filter(c => !!c.content),
     };
+
     pages[page.id] = page;
     pagesIndexes.push(page.id);
   }
@@ -94,7 +107,7 @@ export class StructureXmlParserService {
   parsePageContent(pageContent: OriginalEncodingNodeType[]) {
    const parsedContent = [];
    pageContent.map((child: XMLElement) => {
-      if (isNestedInElem(child, 'front')) {
+      if (isNestedInElem(child, 'front') || child.nodeName === 'front') {
         if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value:'document_front' }])) {
           parsedContent.push(this.genericParserService.parse(child));
          } else {
@@ -114,7 +127,7 @@ export class StructureXmlParserService {
    return parsedContent;
   }
 
-  getFrontOriginalElements(el: HTMLElement) {
+  hasFrontOriginalContent(el: HTMLElement): boolean {
     return el.nodeType !== 3 &&
       (el.getAttribute('type') === 'document_front' ||
       el.querySelectorAll('[type=document_front]').length > 0) ||
