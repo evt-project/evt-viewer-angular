@@ -12,6 +12,7 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
 export class PageComponent {
   @Input() itemsToHighlight: EntitiesSelectItem[];
   @Input() editionLevel: EditionLevel;
+  @Input() textFlow: boolean;
 
   private d: Page;
   @Input() set data(v: Page) {

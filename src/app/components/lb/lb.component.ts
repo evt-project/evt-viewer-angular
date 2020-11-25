@@ -4,7 +4,9 @@ import { map } from 'rxjs/operators';
 import { Lb } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, TextFlowSusceptible } from '../components-mixins';
+
+export interface LbComponent extends EditionlevelSusceptible, TextFlowSusceptible { }
 
 @register(Lb)
 @Component({
@@ -12,7 +14,7 @@ import { EditionlevelSusceptible } from '../components-mixins';
   templateUrl: './lb.component.html',
   styleUrls: ['./lb.component.scss'],
 })
-export class LbComponent extends EditionlevelSusceptible {
+export class LbComponent {
   @Input() data: Lb;
 
   get displayBlock$() {
@@ -24,14 +26,15 @@ export class LbComponent extends EditionlevelSusceptible {
           return true;
         }
         // Otherwise:
-        // - in diplomatic and interpretative edition, if the text has at least one line, those are show as block items
-        // - in critical edition lines are always shown as inline items
+        // - in diplomatic and interpretative edition, if the text has at least one line,
+        // those are show as block items, unless current text flow is verses
+        // - in critical editionm lines are always shown as inline items, unless current text flow is prose
         switch (this.editionLevel) {
           case 'diplomatic':
           case 'interpretative':
-            return hasLines;
+            return this.textFlow === 'verses' ? false : hasLines;
           case 'critical':
-            return false;
+            return this.textFlow === 'prose';
         }
       }),
     );
@@ -39,7 +42,6 @@ export class LbComponent extends EditionlevelSusceptible {
 
   constructor(
     private evtModelService: EVTModelService,
-  ){
-    super();
+  ) {
   }
 }

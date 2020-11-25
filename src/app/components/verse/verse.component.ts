@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { EVTModelService } from '../../services/evt-model.service';
 
+import { AppConfig } from '../../app.config';
 import { Verse } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface VerseComponent extends EditionlevelSusceptible, Highlightable { }
+export interface VerseComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-verse',
@@ -22,17 +23,25 @@ export class VerseComponent {
     return this.evtModelService.lines$.pipe(
       map(lines => lines.length > 0),
       map(hasLines => {
-        // In diplomatic and interpretative edition, if the text doesn't have any line, verses are shown as block items
-        // In critical edition verses are always shown as block items
+        // In diplomatic and interpretative edition, if the text doesn't have any line, verses are shown as block items,
+        // unless current text flow is prose
+        // In critical edition verses are always shown as block items, unless current text flow is prose
         switch (this.editionLevel) {
           case 'diplomatic':
           case 'interpretative':
-            return !hasLines;
+            return this.textFlow === 'verses' || !hasLines;
           case 'critical':
-            return true;
+            return this.textFlow !== 'prose';
         }
       }),
     );
+  }
+
+  private verseNumberPrinter = AppConfig.evtSettings.edition.verseNumberPrinter || 5;
+  get showNumber() {
+    const num = parseInt(this.data.n, 10);
+
+    return !isNaN(num) && num % this.verseNumberPrinter !== 0;
   }
 
   constructor(

@@ -13,6 +13,7 @@
         <evt-page *ngIf="currentStatus$ | async as currentStatus"
             [data]="currentStatus.page" 
             [editionLevel]="currentStatus.editionLevel" 
+            [textFlow]="textFlow"
             [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
     </div>
     <div secondary-content>{{ getSecondaryContent() }}</div>
@@ -26,5 +27,11 @@
             [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
         <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
+        <evt-button *ngIf="enableProseVersesToggler"
+            [iconLeft]="proseVersesTogglerIcon"
+            [label]="textFlow | translate"
+            additionalClasses="ml-1"
+            (btnClick)="toggleProseVerses()">
+        </evt-button>
     </div>
 </evt-panel>

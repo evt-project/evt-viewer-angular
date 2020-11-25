@@ -1,17 +1,18 @@
-import { Component, Input, OnDestroy, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
-import { EditionLevel, EditionLevelType } from '../../app.config';
+import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
+import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 @Component({
   selector: 'evt-text-panel',
   templateUrl: './text-panel.component.html',
   styleUrls: ['./text-panel.component.scss'],
 })
-export class TextPanelComponent implements OnDestroy {
+export class TextPanelComponent implements OnInit, OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() pageID: string;
@@ -50,6 +51,13 @@ export class TextPanelComponent implements OnDestroy {
   private showSecondaryContent = false;
 
   public selectedPage;
+
+  public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
+  public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
+  public get proseVersesTogglerIcon(): EvtIconInfo {
+    return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
+  }
+
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -57,6 +65,14 @@ export class TextPanelComponent implements OnDestroy {
   ) {
   }
 
+  ngOnInit() {
+    if (this.editionLevelID === 'critical') {
+      this.textFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'verses';
+    }
+    if (!this.enableProseVersesToggler) {
+      this.textFlow = undefined;
+    }
+  }
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
   }
@@ -73,6 +89,10 @@ export class TextPanelComponent implements OnDestroy {
 
   getSecondaryContent(): string {
     return this.secondaryContent;
+  }
+
+  toggleProseVerses() {
+    this.textFlow = this.textFlow === 'prose' ? 'verses' : 'prose';
   }
 
   ngOnDestroy() {

@@ -3,7 +3,7 @@ import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef 
 import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { EditionLevelType } from '../../app.config';
+import { EditionLevelType, TextFlow } from '../../app.config';
 import { GenericElement } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
@@ -40,6 +40,14 @@ export class ContentViewerComponent implements OnDestroy {
   get editionLevel() { return this.edLevel; }
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
+  private txtFlow: TextFlow;
+  @Input() set textFlow(t: TextFlow) {
+    this.txtFlow = t;
+    this.textFlowChange.next(t);
+  }
+  get textFlow() { return this.txtFlow; }
+  textFlowChange = new BehaviorSubject<TextFlow>(undefined);
+
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
@@ -60,18 +68,24 @@ export class ContentViewerComponent implements OnDestroy {
     this.contentChange,
     this.itemsToHighlightChange,
     this.editionLevelChange,
+    this.textFlowChange,
   ]).pipe(
-    map(([data, itemsToHighlight, editionLevel]) => {
+    map(([data, itemsToHighlight, editionLevel, textFlow]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
           highlightData: this.getHighlightData(data, itemsToHighlight),
           itemsToHighlight,
           editionLevel,
+          textFlow,
         };
       }
 
-      return { data };
+      return {
+        data,
+        editionLevel,
+        textFlow,
+      };
     }),
     shareReplay(1),
   );

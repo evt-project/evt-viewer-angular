@@ -126,5 +126,8 @@
 			"id": "textVersions",
 			"label": "Text Versions"
 		}
-	]
+	],
+	"proseVersesToggler": true,
+	"defaultTextFlow": "prose",
+	"verseNumberPrinter": 5
 }
