@@ -207,15 +207,10 @@ export class GapParser extends EmptyParser implements Parser<XMLElement> {
 export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
     elementParser = createParser(ElementParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
-    parse(xml: XMLElement): Addition | GenericElement {
-        const place = xml.getAttribute('place') as PlacementType;
-        if (!place) {
-            return this.elementParser.parse(xml);
-        }
-
+    parse(xml: XMLElement): Addition {
         return {
             type: Addition,
-            place,
+            place: xml.getAttribute('place') as PlacementType,
             path: xpath(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
