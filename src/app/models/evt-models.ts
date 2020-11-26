@@ -283,6 +283,11 @@ export class Verse extends GenericElement {
     n: string;
 }
 
+export class VersesGroup extends GenericElement {
+    n: string;
+    groupType: string;
+}
+
 export class Supplied extends GenericElement {
     reason?: string;
     source?: string;

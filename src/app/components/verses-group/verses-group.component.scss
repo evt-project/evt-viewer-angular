@@ -1,0 +1,33 @@
+@import "../../../assets/scss/colors";
+@import "../../../assets/scss/themes";
+
+.verses-group {
+    .verses-group-num {
+        display: none;
+    }
+    &.display-block {
+        margin-bottom: 1.3rem;
+        display: block;
+
+        .verses-group-num {
+            background: none;
+            border: none;
+            margin-right: 5px;
+            display: inline-flex;
+            vertical-align: middle;
+            justify-content: center;
+            align-items: center;
+
+            min-width: 16px;
+            height: 16px;
+            padding: 1px;
+            text-align: center;
+
+            font-size: 0.7em;
+            line-height: 1.4em;
+            @include themify($themes) {
+                color: themed("secondaryColorDark");
+            }
+        }
+    }
+}
