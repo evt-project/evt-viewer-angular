@@ -318,3 +318,7 @@ export type SicType = 'crux'; // sic types supported in specific ways
 export class Sic extends GenericElement {
     sicType?: SicType | string;
 }
+
+export class Word extends GenericElement {
+    lemma?: string;
+}

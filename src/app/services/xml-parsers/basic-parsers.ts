@@ -1,7 +1,7 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import {
     Addition, Attributes, Damage, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, PlacementType, Supplied, Text, Verse, XMLElement,
+    Paragraph, PlacementType, Supplied, Text, Verse, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -220,6 +220,22 @@ export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             class: xml.tagName.toLowerCase(),
+        };
+    }
+}
+
+export class WordParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Word {
+        const attributes = this.attributeParser.parse(xml);
+        const { lemma } = attributes;
+
+        return {
+            type: Word,
+            lemma,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
         };
     }
 }
