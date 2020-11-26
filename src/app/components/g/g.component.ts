@@ -24,7 +24,7 @@ export class GComponent {
 
   diplomaticMapping$ = this.specialChars$.pipe(
     map((specialChar) => {
-      const mapping = specialChar.mappings.find(m => m.type === 'diplomatic');
+      const mapping = specialChar?.mappings.find(m => m.type === 'diplomatic');
 
       return mapping?.content ?? [];
     }),
@@ -32,7 +32,7 @@ export class GComponent {
 
   normalizedMapping$ = this.specialChars$.pipe(
     map((specialChar) => {
-      const mapping = specialChar.mappings.find(m => m.type === 'normalized');
+      const mapping = specialChar?.mappings.find(m => m.type === 'normalized');
 
       return mapping?.content ?? [];
     }),
