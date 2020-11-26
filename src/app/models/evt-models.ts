@@ -327,3 +327,7 @@ export class Sic extends GenericElement {
 export class Word extends GenericElement {
     lemma?: string;
 }
+
+export class Deletion extends GenericElement {
+    rend: string;
+}
