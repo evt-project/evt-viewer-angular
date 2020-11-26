@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Incurable corruptions visualization
 - Verses/Prose toggler
 - Addition vizualization
 - Known and unknown gaps. Support for "char", "line" and "word" as unit

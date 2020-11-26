@@ -48,6 +48,7 @@ import { PageSelectorComponent } from './components/page-selector/page-selector.
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { ReadingComponent } from './components/reading/reading.component';
+import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TextComponent } from './components/text/text.component';
@@ -134,6 +135,7 @@ export function initializeApp(appConfig: AppConfig) {
     ReadingComponent,
     ReadingTextComponent,
     ShortcutsComponent,
+    SicComponent,
     SourcesPanelComponent,
     StartsWithPipe,
     SuppliedComponent,

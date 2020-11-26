@@ -313,3 +313,8 @@ export type PlacementType = 'above' |  'below' |  'inline' |  'left' |  'right' 
 export class Addition extends GenericElement {
     place: PlacementType;
 }
+
+export type SicType = 'crux'; // sic types supported in specific ways
+export class Sic extends GenericElement {
+    sicType?: SicType | string;
+}

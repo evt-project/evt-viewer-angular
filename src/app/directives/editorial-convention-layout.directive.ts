@@ -45,14 +45,14 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
         if (editionLayout.pre) {
           const preEl = document.createElement('span');
           preEl.classList.add('pre');
-          preEl.textContent = editionLayout.pre;
+          preEl.innerHTML = editionLayout.pre;
           this.el.nativeElement.prepend(preEl);
         }
 
         if (editionLayout.post) {
           const postEl = document.createElement('span');
           postEl.classList.add('post');
-          postEl.textContent = editionLayout.post;
+          postEl.innerHTML = editionLayout.post;
           this.renderer.appendChild(this.el.nativeElement, postEl);
         }
 
