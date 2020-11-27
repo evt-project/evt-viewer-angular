@@ -1,6 +1,6 @@
 import { MsDesc, MsIdentifier, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
-import { createParser, getClass, getID, parseChildren, Parser } from './parser-models';
+import { createParser, getClass, getID, parseChildren, Parser } from './parser-models'; 
 
 export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
