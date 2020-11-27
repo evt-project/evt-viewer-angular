@@ -330,3 +330,23 @@ export class Word extends GenericElement {
 export class Deletion extends GenericElement {
     rend: string;
 }
+
+export class MsDesc extends GenericElement {
+    id? : string;
+    msIdentifier: MsIdentifier;
+    msContents?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msContents is handled
+    physDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when physDesc is handled
+    msPart?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msPart is handled
+}
+
+export class MsIdentifier extends GenericElement {
+    id?: string;
+    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
+    repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
+    idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    institution?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when institution is handled
+    altIdentifier?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when altIdentifier is handled
+    msName?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msName is handled
+    country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
+    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+}
