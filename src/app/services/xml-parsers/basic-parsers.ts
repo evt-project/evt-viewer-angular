@@ -1,6 +1,6 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import {
-    Addition, Attributes, Damage, Gap, GenericElement, Lb, Note, NoteLayout,
+    Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
@@ -253,6 +253,21 @@ export class WordParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
+        };
+    }
+}
+
+export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
+    elementParser = createParser(ElementParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): Deletion {
+        return {
+            type: Deletion,
+            rend: xml.getAttribute('rend'),
+            path: xpath(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            class: xml.tagName.toLowerCase(),
         };
     }
 }

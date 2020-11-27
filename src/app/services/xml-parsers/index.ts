@@ -1,7 +1,7 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { AppParser, RdgParser } from './app-parser';
 import {
-    AdditionParser, DamageParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
+    AdditionParser, DamageParser, DeletionParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
     PtrParser, SuppliedParser, TextParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
@@ -14,7 +14,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
+type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
     'lem' | 'lg' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' |
     'supplied' | 'surplus' | 'w' | 'zone';
 
@@ -24,6 +24,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
     damage: createParser(DamageParser, parse),
+    del: createParser(DeletionParser, parse),
     event: createParser(NamedEntityRefParser, parse),
     g: createParser(GParser, parse),
     gap: createParser(GapParser, parse),
