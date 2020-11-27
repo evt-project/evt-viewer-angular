@@ -17,7 +17,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
     'lem' | 'lg' | 'msDesc' | 'msIdentifier' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' |
-    'supplied' | 'surplus' | 'w' | 'zone';
+    'supplied' | 'surplus' | 'w' | 'zone'; 
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     add: createParser(AdditionParser, parse),
