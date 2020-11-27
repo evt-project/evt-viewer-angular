@@ -334,7 +334,7 @@ export class Deletion extends GenericElement {
 export class MsDesc extends GenericElement {
     id? : string;
     msIdentifier: MsIdentifier;
-    msContents?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msContents is handled
+    msContents?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msContents is handled 
     physDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when physDesc is handled
     msPart?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msPart is handled
 }
