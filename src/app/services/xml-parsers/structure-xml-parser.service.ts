@@ -13,6 +13,8 @@ export class StructureXmlParserService {
   ) {
   }
 
+  private frontOriginalContentAttr = 'document_front';
+
   parsePages(document: XMLElement) {
     const pages: Page[] = [];
     const pageTagName = 'pb';
@@ -102,14 +104,14 @@ export class StructureXmlParserService {
    const parsedContent = [];
    pageContent.map((child: XMLElement) => {
       if (isNestedInElem(child, 'front') || child.nodeName === 'front') {
-        if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value:'document_front' }])) {
+        if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value: this.frontOriginalContentAttr }])) {
           parsedContent.push(this.genericParserService.parse(child));
          } else {
-          const frontOriginalContentChild = child.querySelectorAll('[type="document_front"]');
-          if (child.querySelectorAll('[type="document_front"]').length > 0) {
+          const frontOriginalContentChild = child.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`);
+          if (child.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) {
             Array.from(frontOriginalContentChild).forEach((c) => parsedContent.push(this.genericParserService.parse(c as XMLElement)));
           }
-          if (child.getAttribute('type') === 'document_front') {
+          if (child.getAttribute('type') === this.frontOriginalContentAttr) {
             parsedContent.push(this.genericParserService.parse(child));
           }
         }
@@ -123,9 +125,9 @@ export class StructureXmlParserService {
 
   hasFrontOriginalContent(el: HTMLElement): boolean {
     return el.nodeType !== 3 &&
-      (el.getAttribute('type') === 'document_front' ||
-      el.querySelectorAll('[type=document_front]').length > 0) ||
-      isNestedInElem(el, '', [{ key: 'type', value:'document_front' }]);
+      (el.getAttribute('type') === this.frontOriginalContentAttr ||
+      el.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) ||
+      isNestedInElem(el, '', [{ key: 'type', value: this.frontOriginalContentAttr }]);
   }
 
   removeBackNodes(content: OriginalEncodingNodeType[]) {
