@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
 import { getElementsAfterTreeNode, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
-import { Map } from '../../utils/js-utils';
 import { GenericParserService } from './generic-parser.service';
 
 @Injectable({
@@ -15,8 +14,7 @@ export class StructureXmlParserService {
   }
 
   parsePages(document: XMLElement) {
-    const pages: Map<Page> = {};
-    const pagesIndexes: string[] = [];
+    const pages: Page[] = [];
     const pageTagName = 'pb';
 
     if (document) {
@@ -24,19 +22,18 @@ export class StructureXmlParserService {
       const pagesNumber = pageElements.length;
 
       if (pagesNumber > 0) {
-        this.parseDocumentPages(pageElements, pagesNumber, pages, pagesIndexes);
+        this.parseDocumentPages(pageElements, pagesNumber, pages);
       } else {
-        this.parseDocument(document, pages, pagesIndexes);
+        this.parseDocument(document, pages);
       }
     }
 
     return {
       pages,
-      pagesIndexes,
     };
   }
 
-  parseDocumentPages(pageElements: NodeListOf<Element>, pagesNumber: number, pages: Map<Page>, pagesIndexes: string[]) {
+  parseDocumentPages(pageElements: NodeListOf<Element>, pagesNumber: number, pages: Page[]) {
     pageElements.forEach((element, i) => {
       let pageContent: XMLElement[] = [];
 
@@ -64,17 +61,16 @@ export class StructureXmlParserService {
       pageContent = this.removeBackNodes(pageContent);
 
       const page: Page = {
-        id: element.getAttribute('xml:id') || 'page_' + (pagesIndexes.length + 1),
-        label: element.getAttribute('n') || 'Page ' + (pagesIndexes.length + 1),
+        id: element.getAttribute('xml:id') || 'page_' + i,
+        label: element.getAttribute('n') || 'Page ' + i,
         originalContent: pageContent,
         parsedContent: this.parsePageContent(pageContent),
       };
-      pages[page.id] = page;
-      pagesIndexes.push(page.id);
+      pages.push(page);
     });
   }
 
-  parseDocument(document: XMLElement, pages: Map<Page>, pagesIndexes: string[]) {
+  parseDocument(document: XMLElement, pages: Page[]) {
     const mainText = document.querySelector('text');
     let content = Array.from(mainText.childNodes);
     const contentFront = content.filter((c) => c.nodeName === 'front');
@@ -88,8 +84,7 @@ export class StructureXmlParserService {
         originalContent: contentFront as XMLElement[],
         parsedContent: this.parsePageContent(contentFront as OriginalEncodingNodeType[]).filter(c => !!c.content),
       };
-      pages[frontPage.id] = frontPage;
-      pagesIndexes.push(frontPage.id);
+      pages.push(frontPage);
       content = content.filter((c) => c.nodeName !== 'front');
     }
 
@@ -100,8 +95,7 @@ export class StructureXmlParserService {
       parsedContent: this.parsePageContent(content as OriginalEncodingNodeType[]).filter(c => !!c.content),
     };
 
-    pages[page.id] = page;
-    pagesIndexes.push(page.id);
+    pages.push(page);
   }
 
   parsePageContent(pageContent: OriginalEncodingNodeType[]) {

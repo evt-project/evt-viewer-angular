@@ -29,7 +29,7 @@ export class EVTModelService {
 
   public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
     map((source) => this.editionStructureParser.parsePages(source)),
-    map(editionStructure => editionStructure.pagesIndexes.map(pageId => editionStructure.pages[pageId])),
+    map(editionStructure => editionStructure.pages.map((p) => p)),
     shareReplay(1),
   );
 
