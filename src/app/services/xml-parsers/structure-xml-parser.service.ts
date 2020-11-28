@@ -20,11 +20,12 @@ export class StructureXmlParserService {
     const pageTagName = 'pb';
 
     if (document) {
-      const pageElements = document.querySelectorAll(pageTagName);
-      const pagesNumber = pageElements.length;
+      const pageElements: NodeListOf<XMLElement> = document.querySelectorAll(pageTagName);
 
-      if (pagesNumber > 0) {
-        this.parseDocumentPages(pageElements, pagesNumber, pages);
+      if (pageElements.length > 0) {
+        pageElements.forEach((page, pageIndex, pagesCollection) => {
+          pages.push(this.parseDocumentPage(page, pageIndex, pagesCollection));
+        });
       } else {
         this.parseDocument(document, pages);
       }
@@ -35,41 +36,36 @@ export class StructureXmlParserService {
     };
   }
 
-  parseDocumentPages(pageElements: NodeListOf<Element>, pagesNumber: number, pages: Page[]) {
-    pageElements.forEach((element, i) => {
-      let pageContent: XMLElement[] = [];
+  parseDocumentPage(page: XMLElement, pageIndex: number, pagesCollection: NodeListOf<XMLElement>): Page {
+    let pageContent: XMLElement[] = [];
 
-      if (pagesNumber === 1) {
-        pageContent = getElementsAfterTreeNode(element);
+    if (pagesCollection.length === 1) {
+      pageContent = getElementsAfterTreeNode(page);
+    }
+
+    if (pagesCollection.length !== 1) {
+      const isFirstPage = pageIndex === 0;
+      const isLastPage = pageIndex === pagesCollection.length - 1;
+
+      if (isFirstPage) {
+        pageContent = getElementsBetweenTreeNode(page, pagesCollection[pageIndex + 1]);
       }
 
-      if (pagesNumber !== 1) {
-        const isFirstPage = i === 0;
-        const isLastPage = i === pagesNumber - 1;
-
-        if (isFirstPage) {
-          pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
-        }
-
-        if (isLastPage) {
-          pageContent = getElementsAfterTreeNode(element);
-        }
-
-        if (!isFirstPage && !isLastPage) {
-          pageContent = getElementsBetweenTreeNode(element, pageElements[i + 1]);
-        }
+      if (isLastPage) {
+        pageContent = getElementsAfterTreeNode(page);
       }
 
-      pageContent = this.removeBackNodes(pageContent);
+      if (!isFirstPage && !isLastPage) {
+        pageContent = getElementsBetweenTreeNode(page, pagesCollection[pageIndex + 1]);
+      }
+    }
 
-      const page: Page = {
-        id: element.getAttribute('xml:id') || 'page_' + i,
-        label: element.getAttribute('n') || 'Page ' + i,
-        originalContent: pageContent,
-        parsedContent: this.parsePageContent(pageContent),
-      };
-      pages.push(page);
-    });
+    return {
+      id: page.getAttribute('xml:id') || 'page_' + pageIndex,
+      label: page.getAttribute('n') || 'Page ' + pageIndex,
+      originalContent: pageContent,
+      parsedContent: this.parsePageContent(pageContent),
+    };
   }
 
   parseDocument(document: XMLElement, pages: Page[]) {
