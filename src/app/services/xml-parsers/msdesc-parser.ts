@@ -1,6 +1,32 @@
-import { MsDesc, MsIdentifier, XMLElement } from '../../models/evt-models';
+import { MsContents, MsDesc, MsIdentifier, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
-import { createParser, getClass, getID, parseChildren, Parser } from './parser-models'; 
+import { createParser, getClass, getID, parseChildren, Parser } from './parser-models';
+
+export class MsContentsParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): MsContents {
+        // TODO: Add specific parser when summary is handled
+        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when msItem is handled
+        const msItem = Array.from(xml.querySelectorAll<XMLElement>(':scope > msItem'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when idno is handled
+        const msItemStruct = Array.from(xml.querySelectorAll<XMLElement>(':scope > msItemStruct'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: MsContents,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            summary,
+            msItem,
+            msItemStruct,
+        };
+    }
+}
 
 export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -51,12 +77,11 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
 export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
+    private msContentsParser = createParser(MsContentsParser, this.genericParse);
 
     parse(xml: XMLElement): MsDesc {
         const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
-        // TODO: Add specific parser when msContensts is handled
-        const msContents = Array.from(xml.querySelectorAll<XMLElement>(':scope > msContents'))
-        .map(e => parseChildren(e, this.genericParse));
+        const msContentsEl = xml.querySelector<XMLElement>('scope > msContents');
         // TODO: Add specific parser when msPart is handled
         const msPart = Array.from(xml.querySelectorAll<XMLElement>(':scope > msPart'))
         .map(e => parseChildren(e, this.genericParse));
@@ -71,7 +96,7 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(xml),
             id: getID(xml),
             msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
-            msContents,
+            msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
             msPart,
             physDesc,
         };
