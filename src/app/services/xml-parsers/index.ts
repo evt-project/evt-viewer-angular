@@ -8,7 +8,7 @@ import { CharParser, GlyphParser, GParser } from './character-declarations-parse
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
-import { MsDescParser, MsIdentifierParser } from './msdesc-parser';
+import { MsContentsParser, MsDescParser, MsIdentifierParser } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser,
@@ -16,7 +16,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'l' | 'lb' |
-    'lem' | 'lg' | 'msDesc' | 'msIdentifier' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' |
+    'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'note' | 'orgname' | 'p' | 'persname' | 'placename' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' |
     'supplied' | 'surplus' | 'w' | 'zone'; 
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -36,6 +36,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     lb: createParser(LBParser, parse),
     lg: createParser(VersesGroupParser, parse),
     lem: createParser(RdgParser, parse),
+    msContents: createParser(MsContentsParser, parse),
     msDesc: createParser(MsDescParser, parse),
     msIdentifier: createParser(MsIdentifierParser, parse),
     note: createParser(NoteParser, parse),
