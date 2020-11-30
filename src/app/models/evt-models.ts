@@ -351,8 +351,21 @@ export class MsIdentifier extends GenericElement {
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
 
-export class MsContents extends GenericElement { 
+export class MsContents extends GenericElement {
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
-    msItem?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msIrem is handled
+    msItem?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msItem is handled
     msItemStruct?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msItemStruct is handled
+}
+
+export class PhysDesc extends GenericElement {
+    objectDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when objectDesc is handled
+    bindingDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bindingDesc is handled
+    decoDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoDesc is handled
+    handDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handDesc is handled
+    accMat?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when accMat is handled
+    additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
+    musicNotation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when musicNotation is handled
+    scriptDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptDesc is handled
+    sealDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sealDesc is handled
+    typeDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when typeDesc is handled
 }
