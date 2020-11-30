@@ -1,6 +1,60 @@
-import { MsContents, MsDesc, MsIdentifier, XMLElement } from '../../models/evt-models';
+import { MsContents, MsDesc, MsIdentifier, PhysDesc, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getClass, getID, parseChildren, Parser } from './parser-models';
+
+export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): PhysDesc {
+        // TODO: Add specific parser when objectDesc is handled
+        const objectDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > objectDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when bindingDesc is handled
+        const bindingDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > bindingDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when decoDesc is handled
+        const decoDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when handDesc is handled
+        const handDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > handDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when accMat is handled
+        const accMat = Array.from(xml.querySelectorAll<XMLElement>(':scope > accMat'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when additions is handled
+        const additions = Array.from(xml.querySelectorAll<XMLElement>(':scope > additions'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when musicNotation is handled
+        const musicNotation = Array.from(xml.querySelectorAll<XMLElement>(':scope > musicNotation'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when scriptDesc is handled
+        const scriptDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > scriptDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when sealDesc is handled
+        const sealDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > sealDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when typeDesc is handled
+        const typeDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > typeDesc'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: PhysDesc,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            objectDesc,
+            bindingDesc,
+            decoDesc,
+            handDesc,
+            accMat,
+            additions,
+            musicNotation,
+            scriptDesc,
+            sealDesc,
+            typeDesc,
+        };
+    }
+}
 
 export class MsContentsParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -78,15 +132,14 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
     private msContentsParser = createParser(MsContentsParser, this.genericParse);
+    private physDescParser = createParser(PhysDescParser, this.genericParse);
 
     parse(xml: XMLElement): MsDesc {
         const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
         const msContentsEl = xml.querySelector<XMLElement>('scope > msContents');
+        const physDescEl = xml.querySelector<XMLElement>('scope > physDesc');
         // TODO: Add specific parser when msPart is handled
         const msPart = Array.from(xml.querySelectorAll<XMLElement>(':scope > msPart'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when physDesc is handled
-        const physDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > physDesc'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -97,8 +150,8 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
             id: getID(xml),
             msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
             msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
+            physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
             msPart,
-            physDesc,
         };
     }
 }
