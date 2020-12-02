@@ -1,4 +1,4 @@
-import { MsContents, MsDesc, MsIdentifier, PhysDesc, XMLElement } from '../../models/evt-models';
+import { MsContents, MsDesc, MsIdentifier, MsPart, PhysDesc, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getClass, getID, parseChildren, Parser } from './parser-models';
 
@@ -128,19 +128,56 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
+    private msContentsParser = createParser(MsContentsParser, this.genericParse);
+    private physDescParser = createParser(PhysDescParser, this.genericParse);
+    private msPartParser = createParser(MsPartParser, this.genericParse);
+
+    parse(xml: XMLElement): MsPart {
+        const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
+        const msContentsEl = xml.querySelector<XMLElement>('scope > msContents');
+        const physDescEl = xml.querySelector<XMLElement>('scope > physDesc');
+        const msPartEl = xml.querySelector<XMLElement>('scope > msPart');
+        // TODO: Add specific parser when additional is handled
+        const additional = Array.from(xml.querySelectorAll<XMLElement>(':scope > additional'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when history is handled
+        const history = Array.from(xml.querySelectorAll<XMLElement>(':scope > history'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when head is handled
+        const head = Array.from(xml.querySelectorAll<XMLElement>(':scope > head'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: MsPart,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
+            msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
+            physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
+            msPart : msPartEl ? this.msPartParser.parse(msPartEl) : undefined,
+            additional,
+            history,
+            head,
+        };
+    }
+}
+
 export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
     private msContentsParser = createParser(MsContentsParser, this.genericParse);
     private physDescParser = createParser(PhysDescParser, this.genericParse);
+    private msPartParser = createParser(MsPartParser, this.genericParse);
 
     parse(xml: XMLElement): MsDesc {
         const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
         const msContentsEl = xml.querySelector<XMLElement>('scope > msContents');
         const physDescEl = xml.querySelector<XMLElement>('scope > physDesc');
-        // TODO: Add specific parser when msPart is handled
-        const msPart = Array.from(xml.querySelectorAll<XMLElement>(':scope > msPart'))
-        .map(e => parseChildren(e, this.genericParse));
+        const msPartEl = xml.querySelector<XMLElement>('scope > msPart');
 
         return {
             type: MsDesc,
@@ -151,7 +188,7 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
             msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
             msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
             physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
-            msPart,
+            msPart : msPartEl ? this.msPartParser.parse(msPartEl) : undefined,
         };
     }
 }
