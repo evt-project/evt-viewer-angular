@@ -335,7 +335,7 @@ export class MsDesc extends GenericElement {
     id? : string;
     msIdentifier: MsIdentifier;
     msContents?: MsContents;
-    physDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when physDesc is handled
+    physDesc?: PhysDesc;
     msPart?: MsPart;
 }
 
