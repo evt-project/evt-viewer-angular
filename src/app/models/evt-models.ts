@@ -336,7 +336,7 @@ export class MsDesc extends GenericElement {
     msIdentifier: MsIdentifier;
     msContents?: MsContents;
     physDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when physDesc is handled
-    msPart?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msPart is handled
+    msPart?: MsPart;
 }
 
 export class MsIdentifier extends GenericElement {
@@ -368,4 +368,14 @@ export class PhysDesc extends GenericElement {
     scriptDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptDesc is handled
     sealDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sealDesc is handled
     typeDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when typeDesc is handled
+}
+
+export class MsPart extends GenericElement {
+    msIdentifier: MsIdentifier;
+    msContents?: MsContents;
+    physDesc?: PhysDesc;
+    msPart?: MsPart;
+    additional?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additional is handled
+    history?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when history is handled
+    head?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when head is handled
 }
