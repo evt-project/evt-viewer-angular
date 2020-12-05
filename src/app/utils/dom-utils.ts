@@ -1,3 +1,5 @@
+import { XMLElement } from '../models/evt-models';
+
 /**
  * Counter that takes into account the number of parsed elements with [xpath]{@link DOMUtilsService.html#xpath},
  * in order to allow the generation of unique ids when node path is not available.
@@ -190,61 +192,28 @@ export function balanceXHTML(XHTMLstring: string): string {
  * @returns list of nodes contained between start node and end node
  */
 // tslint:disable-next-line: no-any
-export function getElementsBetweenTreeNode(start: any, end: any): any[] { // TODO: get rid of any
-  const ancestor = getCommonAncestor(start, end);
-  let el;
-  const before = [];
-  while (start.parentNode !== ancestor) {
-    el = start;
-    while (el.nextSibling) {
-      before.push(el = el.nextSibling);
-    }
-    start = start.parentNode;
-  }
-
-  const after = [];
-  while (end.parentNode !== ancestor) {
-    el = end;
-    while (el.previousSibling) {
-      after.push(el = el.previousSibling);
-    }
-    end = end.parentNode;
-  }
-  after.reverse();
-  start = start.nextSibling;
-  while ((start) && (start) !== end) {
-    before.push(start);
-    if (start) {
-      start = start.nextSibling;
-    }
-  }
-
-  return before.concat(after);
+export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
+  const range = document.createRange();
+  range.setStart(start, 0);
+  range.setEnd(end, end.length || end.childNodes.length);
+  
+  const fragment = range.cloneContents();
+  const nodes = Array.from(fragment.childNodes).map((c) => {
+    c.xpath = xpath(range.commonAncestorContainer);
+    return c;
+  });
+  
+  return nodes as XMLElement[];
 }
 
-export function getElementsAfterTreeNode(start) {
-  const els = [];
-  let el;
-  while (start && start.tagName !== 'body') {
-    el = start;
-    while (el.nextSibling) {
-      els.push(el = el.nextSibling);
-    }
-    start = start.parentNode;
-  }
+export function getOuterHTML(element): string {
+  let outerHTML: string = element.outerHTML;
+  outerHTML = outerHTML ? outerHTML.replace(/ xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '') : outerHTML;
 
-  return els;
+  return outerHTML;
 }
-/**
- * Get the innermost element that is an ancestor of two nodes.
- *
- * @param a first node to handle
- * @param b second node to handle
- *
- * @returns common ancestor node
- * @todo Decide if move to another service
- */
-function getCommonAncestor(node1, node2) {
+
+export function getCommonAncestor(node1, node2) {
   const method = 'contains' in node1 ? 'contains' : 'compareDocumentPosition';
   const test = method === 'contains' ? 1 : 0x10;
 
@@ -258,11 +227,4 @@ function getCommonAncestor(node1, node2) {
   }
 
   return undefined;
-}
-
-export function getOuterHTML(element): string {
-  let outerHTML: string = element.outerHTML;
-  outerHTML = outerHTML ? outerHTML.replace(/ xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '') : outerHTML;
-
-  return outerHTML;
 }
