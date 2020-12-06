@@ -49,5 +49,8 @@
     "missingP": "mancanti",
     "omitted": "omissione",
     "prose": "Prosa",
-    "verses": "Versi"
+    "verses": "Versi",
+    "page": "Pagina {{value}}",
+    "front": "Front",
+    "mainText": "Testo principale"
 }

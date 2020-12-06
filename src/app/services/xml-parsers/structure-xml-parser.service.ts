@@ -70,7 +70,7 @@ export class StructureXmlParserService {
     if (hasFrontOriginalContent) {
       const frontPage: Page = {
         id: 'page_front',
-        label: 'Front',
+        label: 'front',
         originalContent: pageContentFront,
         parsedContent: this.parsePageContent(pageContentFront),
       };
@@ -81,7 +81,7 @@ export class StructureXmlParserService {
 
     const page: Page = {
       id: 'page_1',
-      label: 'Main Text',
+      label: 'mainText',
       originalContent: pageContent,
       parsedContent: this.parsePageContent(pageContent),
     };
