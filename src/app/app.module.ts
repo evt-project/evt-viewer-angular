@@ -174,7 +174,7 @@ export function initializeApp(appConfig: AppConfig) {
     NgbModule,
     NgbPopoverModule,
     NgxSpinnerModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' }),
     ScrollingModule,
     UiComponentsModule,
   ],

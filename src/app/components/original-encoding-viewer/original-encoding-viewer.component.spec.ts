@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OriginalEncodingViewerComponent } from './original-encoding-viewer.component';
 
@@ -6,7 +6,7 @@ describe('OriginalEncodingViewerComponent', () => {
   let component: OriginalEncodingViewerComponent;
   let fixture: ComponentFixture<OriginalEncodingViewerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OriginalEncodingViewerComponent ]
     })

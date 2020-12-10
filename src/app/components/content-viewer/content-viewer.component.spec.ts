@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ContentViewerComponent } from './content-viewer.component';
 
@@ -6,7 +6,7 @@ describe('ContentViewerComponent', () => {
   let component: ContentViewerComponent;
   let fixture: ComponentFixture<ContentViewerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ContentViewerComponent ]
     })

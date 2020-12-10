@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NamedEntityOccurrenceComponent } from './named-entity-occurrence.component';
 
@@ -6,7 +6,7 @@ describe('NamedEntityOccurrenceComponent', () => {
   let component: NamedEntityOccurrenceComponent;
   let fixture: ComponentFixture<NamedEntityOccurrenceComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NamedEntityOccurrenceComponent ]
     })
