@@ -40,7 +40,7 @@
     "jquery": "^3.4.1",
     "ng-dynamic-component": "^8.0.0",
     "ng2-handy-syntax-highlighter": "^1.0.12",
-    "ngx-spinner": "^8.1.0",
+    "ngx-spinner": "^10.0.1",
     "openseadragon": "^2.4.1",
     "popper.js": "^1.16.1",
     "prismjs": "^1.19.0",
