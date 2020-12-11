@@ -17,7 +17,11 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
   @Input('evtEditorialConventionLayout') data: EditorialConventionLayoutData;
   @Input() defaultLayouts: Partial<EditorialConventionLayouts>;
 
-  private _oldStyle;
+  // tslint:disable-next-line: variable-name
+  private _oldStyle: {
+    // tslint:disable-next-line: no-any
+    [cssProperty: string]: any;
+  };
 
   constructor(
     private editorialConventionsService: EditorialConventionsService,

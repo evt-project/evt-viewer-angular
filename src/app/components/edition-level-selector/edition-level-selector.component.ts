@@ -12,6 +12,7 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 export class EditionLevelSelectorComponent {
   public editionLevels = (AppConfig.evtSettings.edition.availableEditionLevels || []).filter((el) => !el.disabled);
 
+  // tslint:disable-next-line: variable-name
   private _edLevelID: EditionLevelType;
   @Input() set editionLevelID(p: EditionLevelType) {
     this._edLevelID = p;
