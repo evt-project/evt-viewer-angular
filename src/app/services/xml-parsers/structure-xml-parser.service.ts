@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
 import { getElementsAfterTreeNode, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
+import { getID } from './parser-models';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class StructureXmlParserService {
           pages.push(this.parseDocumentPage(page, pageIndex, pagesCollection));
         });
       } else {
-        this.parseDocument(document, pages);
+        pages.push(...this.parseDocumentAsPages(document));
       }
     }
 
@@ -61,14 +62,15 @@ export class StructureXmlParserService {
     }
 
     return {
-      id: page.getAttribute('xml:id') || 'page_' + pageIndex,
+      id: getID(page) || 'page_' + pageIndex,
       label: page.getAttribute('n') || 'Page ' + pageIndex,
       originalContent: pageContent,
       parsedContent: this.parsePageContent(pageContent),
     };
   }
 
-  parseDocument(document: XMLElement, pages: Page[]) {
+  parseDocumentAsPages(document: XMLElement) {
+    const pages: Page[] = [];
     const mainText = document.querySelector('text');
     let content = Array.from(mainText.childNodes);
     const contentFront = content.filter((c) => c.nodeName === 'front');
@@ -94,6 +96,8 @@ export class StructureXmlParserService {
     };
 
     pages.push(page);
+
+    return pages;
   }
 
   parsePageContent(pageContent: OriginalEncodingNodeType[]) {
