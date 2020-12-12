@@ -51,6 +51,7 @@ export class StructureXmlParserService {
   }
 
   parseElementAsPage(el: XMLElement): Page {
+    /* Get the child nodes of the element without comment nodes */
     const content = Array.from(el.childNodes).filter((p) => p.nodeType !== 8);
 
     if (el.nodeName === this.frontTagName && this.hasFrontOriginalContent(el)) {
@@ -101,14 +102,18 @@ export class StructureXmlParserService {
   parsePageContent(pageContent: OriginalEncodingNodeType[]) {
    const parsedContent = [];
    pageContent.map((child: XMLElement) => {
+      /* Check if the node is a front element or is nested in front element */
       if (isNestedInElem(child, 'front') || child.nodeName === 'front') {
+        /* Check if the node is a text node or is nested in an element marked as original content and parses it */
         if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value: this.frontOriginalContentAttr }])) {
           parsedContent.push(this.genericParserService.parse(child));
          } else {
           const frontOriginalContentChild = child.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`);
+          /* Check if the node has child nodes marked as original content and parses it */
           if (child.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) {
             Array.from(frontOriginalContentChild).forEach((c) => parsedContent.push(this.genericParserService.parse(c as XMLElement)));
           }
+          /* Check if the node is marked as original content and parses it */
           if (child.getAttribute('type') === this.frontOriginalContentAttr) {
             parsedContent.push(this.genericParserService.parse(child));
           }
