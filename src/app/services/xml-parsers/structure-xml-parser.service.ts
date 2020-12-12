@@ -61,6 +61,9 @@ export class StructureXmlParserService {
       }
     }
 
+    /* Remove comment node */
+    pageContent = pageContent.filter((p) => p.nodeType !== 8);
+
     return {
       id: getID(page) || 'page_' + pageIndex,
       label: page.getAttribute('n') || 'Page ' + pageIndex,
