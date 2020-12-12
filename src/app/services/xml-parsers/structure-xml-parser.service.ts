@@ -14,26 +14,59 @@ export class StructureXmlParserService {
   ) {
   }
 
+  private frontTagName = 'front';
   private frontOriginalContentAttr = 'document_front';
+  private bodyTagName = 'body';
 
   parsePages(document: XMLElement) {
     const pages: Page[] = [];
     const pageTagName = 'pb';
 
     if (document) {
-      const pageElements: NodeListOf<XMLElement> = document.querySelectorAll(pageTagName);
+      const frontElement: XMLElement = document.querySelector(this.frontTagName);
+      const bodyElement: XMLElement = document.querySelector(this.bodyTagName);
+      const frontPageElements: NodeListOf<XMLElement> = frontElement.querySelectorAll(pageTagName);
+      const bodyPageElements: NodeListOf<XMLElement> = bodyElement.querySelectorAll(pageTagName);
 
-      if (pageElements.length > 0) {
-        pageElements.forEach((page, pageIndex, pagesCollection) => {
+      if (frontPageElements.length === 0) {
+        pages.push(this.parseElementAsPage(frontElement));
+      } else {
+        frontPageElements.forEach((page, pageIndex, pagesCollection) => {
           pages.push(this.parseDocumentPage(page, pageIndex, pagesCollection));
         });
+      }
+
+      if (bodyPageElements.length === 0) {
+        pages.push(this.parseElementAsPage( bodyElement));
       } else {
-        pages.push(...this.parseDocumentAsPages(document));
+        bodyPageElements.forEach((page, pageIndex, pagesCollection) => {
+          pages.push(this.parseDocumentPage(page, pageIndex, pagesCollection));
+        });
       }
     }
 
     return {
       pages,
+    };
+  }
+
+  parseElementAsPage(el: XMLElement): Page {
+    const content = Array.from(el.childNodes).filter((p) => p.nodeType !== 8);
+
+    if (el.nodeName === this.frontTagName && this.hasFrontOriginalContent(el)) {
+      return {
+        id: 'page_front',
+        label: 'Front',
+        originalContent: content as XMLElement[],
+        parsedContent: this.parsePageContent(content as OriginalEncodingNodeType[]),
+      };
+    }
+
+    return {
+      id: 'page_1',
+      label: 'Main Text',
+      originalContent: content as XMLElement[],
+      parsedContent: this.parsePageContent(content as OriginalEncodingNodeType[]),
     };
   }
 
@@ -45,23 +78,16 @@ export class StructureXmlParserService {
     }
 
     if (pagesCollection.length !== 1) {
-      const isFirstPage = pageIndex === 0;
       const isLastPage = pageIndex === pagesCollection.length - 1;
-
-      if (isFirstPage) {
-        pageContent = getElementsBetweenTreeNode(page, pagesCollection[pageIndex + 1]);
-      }
 
       if (isLastPage) {
         pageContent = getElementsAfterTreeNode(page);
-      }
-
-      if (!isFirstPage && !isLastPage) {
+      } else {
         pageContent = getElementsBetweenTreeNode(page, pagesCollection[pageIndex + 1]);
       }
     }
 
-    /* Remove comment node */
+    /* Remove comment nodes */
     pageContent = pageContent.filter((p) => p.nodeType !== 8);
 
     return {
@@ -70,37 +96,6 @@ export class StructureXmlParserService {
       originalContent: pageContent,
       parsedContent: this.parsePageContent(pageContent),
     };
-  }
-
-  parseDocumentAsPages(document: XMLElement) {
-    const pages: Page[] = [];
-    const mainText = document.querySelector('text');
-    let content = Array.from(mainText.childNodes);
-    const contentFront = content.filter((c) => c.nodeName === 'front');
-    const hasFrontOriginalContent = this.hasFrontOriginalContent(contentFront[0] as HTMLElement);
-    content = this.removeBackNodes(content as XMLElement[]);
-
-    if (hasFrontOriginalContent) {
-      const frontPage: Page = {
-        id: 'page_front',
-        label: 'Front',
-        originalContent: contentFront as XMLElement[],
-        parsedContent: this.parsePageContent(contentFront as OriginalEncodingNodeType[]).filter(c => !!c.content),
-      };
-      pages.push(frontPage);
-      content = content.filter((c) => c.nodeName !== 'front');
-    }
-
-    const page: Page = {
-      id: 'page_1',
-      label: 'Main Text',
-      originalContent: content as XMLElement[],
-      parsedContent: this.parsePageContent(content as OriginalEncodingNodeType[]).filter(c => !!c.content),
-    };
-
-    pages.push(page);
-
-    return pages;
   }
 
   parsePageContent(pageContent: OriginalEncodingNodeType[]) {
@@ -126,23 +121,10 @@ export class StructureXmlParserService {
    return parsedContent;
   }
 
-  hasFrontOriginalContent(el: HTMLElement): boolean {
+  hasFrontOriginalContent(el: XMLElement): boolean {
     return el.nodeType !== 3 &&
       (el.getAttribute('type') === this.frontOriginalContentAttr ||
       el.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) ||
       isNestedInElem(el, '', [{ key: 'type', value: this.frontOriginalContentAttr }]);
-  }
-
-  removeBackNodes(content: OriginalEncodingNodeType[]) {
-    return content.filter(el => {
-      if (el.nodeType === 3) {
-        return !el.parentElement.closest('back') && el.parentElement.tagName !== 'back';
-      }
-      if (el.nodeType === 1) {
-        return !el.closest('back') && el.tagName !== 'back';
-      }
-
-      return false;
-    });
   }
 }
