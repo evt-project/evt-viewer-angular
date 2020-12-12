@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GenericElementComponent } from './generic-element.component';
 
@@ -6,7 +6,7 @@ describe('GenericElementComponent', () => {
   let component: GenericElementComponent;
   let fixture: ComponentFixture<GenericElementComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GenericElementComponent ]
     })

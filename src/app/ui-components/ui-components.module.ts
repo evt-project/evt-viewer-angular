@@ -4,7 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { DynamicModule } from 'ng-dynamic-component';
+import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
 
 import { AppTranslationModule } from '../app-translation.module';
 import { ButtonComponent } from './button/button.component';
@@ -27,7 +27,8 @@ import { PanelComponent } from './panel/panel.component';
     CommonModule,
     FontAwesomeModule,
     AppTranslationModule,
-    DynamicModule.withComponents([]),
+    DynamicAttributesModule,
+    DynamicModule,
     NgbModule,
     NgSelectModule,
   ],

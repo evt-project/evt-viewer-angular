@@ -9,7 +9,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridsterModule } from 'angular-gridster2';
-import { DynamicModule } from 'ng-dynamic-component';
+import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 
@@ -161,11 +161,8 @@ export function initializeApp(appConfig: AppConfig) {
     AppTranslationModule,
     BrowserModule,
     BrowserAnimationsModule,
-    DynamicModule.withComponents([
-      TextComponent,
-      GenericElementComponent,
-      NoteComponent,
-    ]),
+    DynamicAttributesModule,
+    DynamicModule,
     ExperimentalScrollingModule,
     FormsModule,
     GridsterModule,
@@ -174,7 +171,7 @@ export function initializeApp(appConfig: AppConfig) {
     NgbModule,
     NgbPopoverModule,
     NgxSpinnerModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' }),
     ScrollingModule,
     UiComponentsModule,
   ],

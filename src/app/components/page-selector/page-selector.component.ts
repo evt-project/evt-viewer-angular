@@ -12,6 +12,7 @@ import { EVTModelService } from '../../services/evt-model.service';
 export class PageSelectorComponent {
   public pages$ = this.evtModelService.pages$;
 
+  // tslint:disable-next-line: variable-name
   private _pageID: string;
   @Input() set pageID(p: string) {
     this._pageID = p;
