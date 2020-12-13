@@ -1,6 +1,6 @@
-import { AltIdentifier, History, MsContents, MsDesc, MsIdentifier, MsPart, PhysDesc, XMLElement } from '../../models/evt-models';
-import { AttributeParser, EmptyParser } from './basic-parsers';
-import { createParser, getClass, getID, parseChildren, Parser } from './parser-models';
+import { AltIdentifier, History, MsContents, MsDesc, MsIdentifier, MsItem, MsItemStruct, MsPart, PhysDesc, XMLElement } from '../../models/evt-models';
+import { AttributeParser, EmptyParser, GapParser, NoteParser } from './basic-parsers';
+import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
 
 export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -258,6 +258,126 @@ export class  AltIdentifierParser extends EmptyParser implements Parser<XMLEleme
             repository,
             region,
             settlement,
+        };
+    }
+}
+
+export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
+    private noteParser = createParser(NoteParser, this.genericParse);
+    private gapParser = createParser(GapParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): MsItem {
+        const attributes = this.attributeParser.parse(xml);
+        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
+        const gapEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > gap')).map(g => this.gapParser.parse(g));
+        // TODO: Add specific parser when author is handled
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when title is handled
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when rubric is handled
+        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when textLang is handled
+        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docAuthor is handled
+        const docAuthor = Array.from(xml.querySelectorAll<XMLElement>(':scope > docAuthor'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docTitle is handled
+        const docTitle = Array.from(xml.querySelectorAll<XMLElement>(':scope > docTitle'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docImprint is handled
+        const docImprint = Array.from(xml.querySelectorAll<XMLElement>(':scope > docImprint'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docDate is handled
+        const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locusGrp is handled
+        const locusGrp = Array.from(xml.querySelectorAll<XMLElement>(':scope > locusGrp'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when bibl is handled
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when incipit is handled
+        const incipit = Array.from(xml.querySelectorAll<XMLElement>(':scope > incipit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when explicit is handled
+        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when filiation is handled
+        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: MsItem,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            n: getDefaultN(attributes.n),
+            defective: true || false, 
+            noteEl,
+            gapEl,
+            author,
+            title,
+            rubric,
+            textLang,   
+            docAuthor,
+            docTitle,
+            docImprint,
+            docDate, 
+            locus,
+            locusGrp,
+            bibl,
+            incipit,
+            explicit,
+            filiation,
+        };
+    }
+}
+
+export class MsItemStructParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): MsItemStruct {
+        const attributes = this.attributeParser.parse(xml);
+        // TODO: Add specific parser when author is handled
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when title is handled
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when rubric is handled
+        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when bibl is handled
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when finalRubric is handled
+        const finalRubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > finalRubric'))
+        .map(e => parseChildren(e, this.genericParse));
+    
+        return {
+            type: AltIdentifier,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            n: getDefaultN(attributes.n),
+            defective: true || false,
+            author,
+            title,
+            rubric,
+            locus,
+            finalRubric,
+            bibl,
         };
     }
 }
