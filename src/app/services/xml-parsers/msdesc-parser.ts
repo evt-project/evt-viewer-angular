@@ -225,12 +225,11 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 export class  AltIdentifierParser extends EmptyParser implements Parser<XMLElement> {
+    private noteParser = createParser(NoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): AltIdentifier {
-        // TODO: Add specific parser when note is handled
-        const note = Array.from(xml.querySelectorAll<XMLElement>(':scope > note'))
-        .map(e => parseChildren(e, this.genericParse));
+        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         // TODO: Add specific parser when idno is handled
         const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno'))
         .map(e => parseChildren(e, this.genericParse));
@@ -252,7 +251,7 @@ export class  AltIdentifierParser extends EmptyParser implements Parser<XMLEleme
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            note,
+            noteEl,
             idno,
             collection,
             repository,

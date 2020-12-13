@@ -389,7 +389,7 @@ export class History extends GenericElement {
 }
 
 export class AltIdentifier extends GenericElement {   
-    note?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when note is handled
+    noteEl?: Note[];
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
     repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
