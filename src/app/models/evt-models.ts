@@ -332,7 +332,7 @@ export class Deletion extends GenericElement {
 }
 
 export class MsDesc extends GenericElement {
-    id? : string;
+    id : string;
     msIdentifier: MsIdentifier;
     msContents?: MsContents;
     physDesc?: PhysDesc;
@@ -341,7 +341,7 @@ export class MsDesc extends GenericElement {
 }
 
 export class MsIdentifier extends GenericElement {
-    id?: string;
+    id: string;
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
     repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
