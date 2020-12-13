@@ -8,19 +8,20 @@ import { CharParser, GlyphParser, GParser } from './character-declarations-parse
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
-import { HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsPartParser, PhysDescParser } from './msdesc-parser';
+import { AltIdentifierParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsPartParser, PhysDescParser } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser,
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'add' | 'app' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 
+type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' |
     'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msPart' | 'note' | 'orgname' | 'p' | 'persname' | 'physDesc' | 'placename' | 'ptr' | 'person' |
-    'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone'; 
+    'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     add: createParser(AdditionParser, parse),
+    altIdentifier: createParser(AltIdentifierParser, parse),
     app: createParser(AppParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),

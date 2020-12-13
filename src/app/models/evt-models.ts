@@ -343,11 +343,11 @@ export class MsDesc extends GenericElement {
 export class MsIdentifier extends GenericElement {
     id: string;
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-    repository?: string
+    repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled;
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    institution?: string
-    altIdentifier?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when altIdentifier is handled
-    msName?: string;
+    institution?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when institution is handled;
+    altIdentifier?: AltIdentifier; 
+    msName?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msName is handled
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
@@ -386,4 +386,13 @@ export class History extends GenericElement {
     origin?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when origin is handled
     provenance?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when provenance is handled
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
+}
+
+export class AltIdentifier extends GenericElement {   
+    note?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when note is handled
+    idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
+    repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
+    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
 }
