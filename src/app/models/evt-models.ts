@@ -343,11 +343,11 @@ export class MsDesc extends GenericElement {
 export class MsIdentifier extends GenericElement {
     id: string;
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-    repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
+    repository?: string
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    institution?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when institution is handled
+    institution?: string
     altIdentifier?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when altIdentifier is handled
-    msName?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msName is handled
+    msName?: string;
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
