@@ -163,7 +163,6 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
     private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
     private msContentsParser = createParser(MsContentsParser, this.genericParse);
     private physDescParser = createParser(PhysDescParser, this.genericParse);
-    private msPartParser = createParser(MsPartParser, this.genericParse);
     private historyParser = createParser(HistoryParser, this.genericParse);
 
     parse(xml: XMLElement): MsPart {
@@ -187,7 +186,7 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
             msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
             msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
             physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
-            msPart : msPartEl ? this.msPartParser.parse(msPartEl) : undefined,
+            msPart : msPartEl ? this.parse(msPartEl) : undefined,
             history : historyEl ? this.historyParser.parse(historyEl) : undefined,
             additional,
             head,
