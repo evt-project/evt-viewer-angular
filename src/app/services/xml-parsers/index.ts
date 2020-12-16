@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AcquisitionParser, AltIdentifierParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser,
-    MsItemParser, MsItemStructParser, MsPartParser, OriginParser, PhysDescParser,
+    MsItemParser, MsItemStructParser, MsPartParser, OriginParser, PhysDescParser, ProvenanceParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -19,7 +19,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' |
-    'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'ptr' | 'person' |
+    'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -56,6 +56,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     persname: createParser(NamedEntityRefParser, parse),
     physDesc: createParser(PhysDescParser, parse),
     placename: createParser(NamedEntityRefParser, parse),
+    provenance: createParser(ProvenanceParser, parse),
     ptr: createParser(PtrParser, parse),
     person: createParser(PersonParser, parse),
     personGrp: createParser(PersonGroupParser, parse),

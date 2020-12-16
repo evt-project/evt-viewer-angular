@@ -1,6 +1,6 @@
 import {
     Acquisition, AltIdentifier, History, MsContents, MsDesc, MsIdentifier,
-    MsItem, MsItemStruct, MsPart, Origin, PhysDesc, XMLElement,
+    MsItem, MsItemStruct, MsPart, Origin, PhysDesc, Provenance, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser } from './basic-parsers';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
@@ -53,17 +53,40 @@ export class OriginParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class ProvenanceParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Provenance {
+        const attributes = this.attributeParser.parse(xml);
+        const { when } = attributes;
+        // TODO: Add specific parser when name is handled
+        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when foreign is handled
+        const foreign = Array.from(xml.querySelectorAll<XMLElement>(':scope > foreign'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Acquisition,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            when,
+            name,
+            foreign,
+        };
+    }
+}
+
 export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private acquisitionParser = createParser(AcquisitionParser, this.genericParse);
     private originParser = createParser(OriginParser, this.genericParse);
+    private provenanceParser = createParser(ProvenanceParser, this.genericParse);
 
     parse(xml: XMLElement): History {
         const acquisitionEl = xml.querySelector<XMLElement>('scope > acquisition');
         const originEl = xml.querySelector<XMLElement>('scope > origin');
-        // TODO: Add specific parser when provenance is handled
-        const provenance = Array.from(xml.querySelectorAll<XMLElement>(':scope > provenance'))
-        .map(e => parseChildren(e, this.genericParse));
+        const provenanceEl = xml.querySelector<XMLElement>('scope > provenance');
         // TODO: Add specific parser when summary is handled
         const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
         .map(e => parseChildren(e, this.genericParse));
@@ -75,7 +98,7 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(xml),
             acquisition: acquisitionEl ? this.acquisitionParser.parse(acquisitionEl) : undefined,
             origin: originEl ? this.originParser.parse(originEl) : undefined,
-            provenance,
+            provenance: provenanceEl ? this.provenanceParser.parse(provenanceEl) : undefined,
             summary,
         };
     }
