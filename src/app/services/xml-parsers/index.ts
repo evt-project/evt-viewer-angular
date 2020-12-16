@@ -8,7 +8,10 @@ import { CharParser, GlyphParser, GParser } from './character-declarations-parse
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
-import { AltIdentifierParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, PhysDescParser } from './msdesc-parser';
+import {
+    AltIdentifierParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser,
+    MsItemParser, MsItemStructParser, MsPartParser, PhysDescParser,
+} from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser,

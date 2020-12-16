@@ -346,7 +346,7 @@ export class MsIdentifier extends GenericElement {
     repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled;
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     institution?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when institution is handled;
-    altIdentifier?: AltIdentifier; 
+    altIdentifier?: AltIdentifier;
     msName?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msName is handled
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
@@ -388,7 +388,7 @@ export class History extends GenericElement {
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
 }
 
-export class AltIdentifier extends GenericElement {   
+export class AltIdentifier extends GenericElement {
     noteEl?: Note[];
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
@@ -409,8 +409,8 @@ export class MsItemStruct extends GenericElement {
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
 }
 
-export class MsItem extends GenericElement {   
-    n?: string; 
+export class MsItem extends GenericElement {
+    n?: string;
     class?: string;
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
