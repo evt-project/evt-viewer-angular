@@ -361,7 +361,7 @@ export class MsContents extends GenericElement {
 export class PhysDesc extends GenericElement {
     objectDesc?: ObjectDesc;
     bindingDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bindingDesc is handled
-    decoDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoDesc is handled
+    decoDesc?: DecoDesc;
     handDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handDesc is handled
     accMat?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when accMat is handled
     additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
@@ -456,4 +456,8 @@ export class ObjectDesc extends GenericElement {
     form?: string;
     layoutDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layoutDesc is handled
     supportDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when supportDesc is handled
+}
+
+export class DecoDesc extends GenericElement {
+    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
 }

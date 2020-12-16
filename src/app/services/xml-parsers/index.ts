@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AcquisitionParser, AltIdentifierParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser,
+    AcquisitionParser, AltIdentifierParser, DecoDescParser, HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser,
     MsItemParser, MsItemStructParser, MsPartParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser,
 } from './msdesc-parser';
 import {
@@ -18,8 +18,8 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'char' | 'choice' | 'damage' | 'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' |
-    'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
+type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'char' | 'choice' | 'damage' | 'decoDesc' | 'del' | 'event' |
+    'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -30,6 +30,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
     damage: createParser(DamageParser, parse),
+    decoDesc: createParser(DecoDescParser, parse),
     del: createParser(DeletionParser, parse),
     event: createParser(NamedEntityRefParser, parse),
     g: createParser(GParser, parse),
