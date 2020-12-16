@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AcquisitionParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HistoryParser, MsContentsParser,
+    AcquisitionParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser, HistoryParser, MsContentsParser,
     MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, ObjectDescParser,
     OriginParser, PhysDescParser, ProvenanceParser,
 } from './msdesc-parser';
@@ -20,7 +20,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
-    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
+    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -40,6 +40,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     geogname: createParser(NamedEntityRefParser, parse),
     glyph: createParser(GlyphParser, parse),
     graphic: createParser(GraphicParser, parse),
+    handDesc: createParser(HandDescParser, parse),
     history: createParser(HistoryParser, parse),
     l: createParser(VerseParser, parse),
     lb: createParser(LBParser, parse),

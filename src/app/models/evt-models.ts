@@ -362,7 +362,7 @@ export class PhysDesc extends GenericElement {
     objectDesc?: ObjectDesc;
     bindingDesc?: BindingDesc;
     decoDesc?: DecoDesc;
-    handDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handDesc is handled
+    handDesc?: HandDesc;
     accMat?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when accMat is handled
     additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
     musicNotation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when musicNotation is handled
@@ -466,4 +466,9 @@ export class BindingDesc extends GenericElement {
 
 export class DecoDesc extends GenericElement {
     decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+}
+
+export class HandDesc extends GenericElement {
+    hands?: string;
+    handNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNote is handled
 }
