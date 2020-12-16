@@ -332,7 +332,7 @@ export class Deletion extends GenericElement {
 }
 
 export class MsDesc extends GenericElement {
-    id : string;
+    id: string;
     msIdentifier: MsIdentifier;
     msContents?: MsContents;
     physDesc?: PhysDesc;
@@ -359,7 +359,7 @@ export class MsContents extends GenericElement {
 }
 
 export class PhysDesc extends GenericElement {
-    objectDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when objectDesc is handled
+    objectDesc?: ObjectDesc;
     bindingDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bindingDesc is handled
     decoDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoDesc is handled
     handDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handDesc is handled
@@ -433,7 +433,7 @@ export class MsItem extends GenericElement {
 
 export class Acquisition extends GenericElement {
     notBefore?: string;
-    notAfter?:  string;
+    notAfter?: string;
     name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
 }
 
@@ -450,4 +450,10 @@ export class Provenance extends GenericElement {
     when?: string;
     name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
     foreign?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when foreign is handled
+}
+
+export class ObjectDesc extends GenericElement {
+    form?: string;
+    layoutDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layoutDesc is handled
+    supportDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when supportDesc is handled
 }
