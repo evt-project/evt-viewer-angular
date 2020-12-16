@@ -382,7 +382,7 @@ export class MsPart extends GenericElement {
 }
 
 export class History extends GenericElement {
-    acquisition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when acquisition is handled
+    acquisition?: Acquisition;
     origin?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when origin is handled
     provenance?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when provenance is handled
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
@@ -429,4 +429,10 @@ export class MsItem extends GenericElement {
     explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
     filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
     gapEl?: Gap[];
+}
+
+export class Acquisition extends GenericElement {
+    notBefore?: string;
+    notAfter?:  string;
+    name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
 }

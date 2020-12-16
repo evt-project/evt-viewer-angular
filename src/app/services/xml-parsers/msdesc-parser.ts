@@ -1,14 +1,37 @@
-import { AltIdentifier, History, MsContents, MsDesc, MsIdentifier, MsItem, MsItemStruct, MsPart, PhysDesc, XMLElement } from '../../models/evt-models';
+import {
+    Acquisition, AltIdentifier, History, MsContents, MsDesc, MsIdentifier,
+    MsItem, MsItemStruct, MsPart, PhysDesc, XMLElement,
+} from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser } from './basic-parsers';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
 
-export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
+export class AcquisitionParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
 
-    parse(xml: XMLElement): History {
-        // TODO: Add specific parser when acquisition is handled
-        const acquisition = Array.from(xml.querySelectorAll<XMLElement>(':scope > acquisition'))
+    parse(xml: XMLElement): Acquisition {
+        const attributes = this.attributeParser.parse(xml);
+        const { notBefore, notAfter } = attributes;
+        // TODO: Add specific parser when name is handled
+        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
         .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Acquisition,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            notBefore,
+            notAfter,
+            name,
+        };
+    }
+}
+
+export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private acquisitionParser = createParser(AcquisitionParser, this.genericParse);
+
+    parse(xml: XMLElement): History {
+        const acquisitionEl = xml.querySelector<XMLElement>('scope > acquisition');
         // TODO: Add specific parser when origin is handled
         const origin = Array.from(xml.querySelectorAll<XMLElement>(':scope > origin'))
         .map(e => parseChildren(e, this.genericParse));
@@ -24,7 +47,7 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            acquisition,
+            acquisition: acquisitionEl ? this.acquisitionParser.parse(acquisitionEl) : undefined,
             origin,
             provenance,
             summary,
