@@ -383,7 +383,7 @@ export class MsPart extends GenericElement {
 
 export class History extends GenericElement {
     acquisition?: Acquisition;
-    origin?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when origin is handled
+    origin?: Origin;
     provenance?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when provenance is handled
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
 }
@@ -435,4 +435,13 @@ export class Acquisition extends GenericElement {
     notBefore?: string;
     notAfter?:  string;
     name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
+}
+
+export class Origin extends GenericElement {
+    notBefore?: string;
+    notAfter?: string;
+    evidence?: string;
+    resp?: string;
+    originDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when originDate is handled
+    originPlace?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when originPlace is handled
 }
