@@ -11,7 +11,7 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AcquisitionParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser, HistoryParser, MsContentsParser,
     MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, ObjectDescParser,
-    OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
+    OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -21,7 +21,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
-    'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'w' | 'zone';
+    'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     acquisition: createParser(AcquisitionParser, parse),
@@ -74,6 +74,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     surface: createParser(SurfaceParser, parse),
     supplied: createParser(SuppliedParser, parse),
     surplus: createParser(SurplusParser, parse),
+    typeDesc: createParser(TypeDescParser, parse),
     w: createParser(WordParser, parse),
     zone: createParser(ZoneParser, parse),
 };
