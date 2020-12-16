@@ -1,6 +1,6 @@
 import {
     Acquisition, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
-    MsItem, MsItemStruct, MsPart, ObjectDesc, Origin, PhysDesc, Provenance, XMLElement,
+    MsItem, MsItemStruct, MsPart, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser } from './basic-parsers';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
@@ -190,11 +190,33 @@ export class HandDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): ScriptDesc {
+        // TODO: Add specific parser when scriptNote is handled
+        const scriptNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > scriptNote'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when summary is handled
+        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: ScriptDesc,
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            scriptNote,
+            summary,
+        };
+    }
+}
+
 export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
     private objectDescParser = createParser(ObjectDescParser, this.genericParse);
     private bindingDescParser = createParser(BindingDescParser, this.genericParse);
     private decoDescParser = createParser(DecoDescParser, this.genericParse);
     private handDescParser = createParser(HandDescParser, this.genericParse);
+    private scriptDescParser = createParser(ScriptDescParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): PhysDesc {
@@ -202,6 +224,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
         const bindingDescEl = xml.querySelector<XMLElement>('scope > bindingDesc');
         const decoDescEl = xml.querySelector<XMLElement>('scope > decoDesc');
         const handDescEl = xml.querySelector<XMLElement>('scope > handDesc');
+        const scriptDescEl = xml.querySelector<XMLElement>('scope > scriptDesc');
         // TODO: Add specific parser when accMat is handled
         const accMat = Array.from(xml.querySelectorAll<XMLElement>(':scope > accMat'))
         .map(e => parseChildren(e, this.genericParse));
@@ -210,9 +233,6 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when musicNotation is handled
         const musicNotation = Array.from(xml.querySelectorAll<XMLElement>(':scope > musicNotation'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when scriptDesc is handled
-        const scriptDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > scriptDesc'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when sealDesc is handled
         const sealDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > sealDesc'))
@@ -233,7 +253,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
             accMat,
             additions,
             musicNotation,
-            scriptDesc,
+            scriptDesc: scriptDescEl ? this.scriptDescParser.parse(scriptDescEl) : undefined,
             sealDesc,
             typeDesc,
         };
