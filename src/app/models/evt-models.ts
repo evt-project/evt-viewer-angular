@@ -354,8 +354,8 @@ export class MsIdentifier extends GenericElement {
 
 export class MsContents extends GenericElement {
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
-    msItem?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msItem is handled
-    msItemStruct?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msItemStruct is handled
+    msItem?: MsItem;
+    msItemStruct?: MsItemStruct;
 }
 
 export class PhysDesc extends GenericElement {

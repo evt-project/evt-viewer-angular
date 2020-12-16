@@ -158,18 +158,136 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
+    private noteParser = createParser(NoteParser, this.genericParse);
+    private gapParser = createParser(GapParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): MsItem {
+        const attributes = this.attributeParser.parse(xml);
+        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
+        const gapEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > gap')).map(g => this.gapParser.parse(g));
+        // TODO: Add specific parser when author is handled
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when title is handled
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when rubric is handled
+        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when textLang is handled
+        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docAuthor is handled
+        const docAuthor = Array.from(xml.querySelectorAll<XMLElement>(':scope > docAuthor'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docTitle is handled
+        const docTitle = Array.from(xml.querySelectorAll<XMLElement>(':scope > docTitle'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docImprint is handled
+        const docImprint = Array.from(xml.querySelectorAll<XMLElement>(':scope > docImprint'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when docDate is handled
+        const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locusGrp is handled
+        const locusGrp = Array.from(xml.querySelectorAll<XMLElement>(':scope > locusGrp'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when bibl is handled
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when incipit is handled
+        const incipit = Array.from(xml.querySelectorAll<XMLElement>(':scope > incipit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when explicit is handled
+        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when filiation is handled
+        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: MsItem,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            n: getDefaultN(attributes.n),
+            defective: true || false,
+            noteEl,
+            gapEl,
+            author,
+            title,
+            rubric,
+            textLang,
+            docAuthor,
+            docTitle,
+            docImprint,
+            docDate,
+            locus,
+            locusGrp,
+            bibl,
+            incipit,
+            explicit,
+            filiation,
+        };
+    }
+}
+
+export class MsItemStructParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): MsItemStruct {
+        const attributes = this.attributeParser.parse(xml);
+        // TODO: Add specific parser when author is handled
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when title is handled
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when rubric is handled
+        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when bibl is handled
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when finalRubric is handled
+        const finalRubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > finalRubric'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: MsItemStruct,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            n: getDefaultN(attributes.n),
+            defective: true || false,
+            author,
+            title,
+            rubric,
+            locus,
+            finalRubric,
+            bibl,
+        };
+    }
+}
+
 export class MsContentsParser extends EmptyParser implements Parser<XMLElement> {
+    private msItemParser = createParser(MsItemParser, this.genericParse);
+    private msItemStructParser = createParser(MsItemStructParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsContents {
+        const msItemEl = xml.querySelector<XMLElement>('scope > msItem');
+        const msItemStructEl = xml.querySelector<XMLElement>('scope > msItemStruct');
         // TODO: Add specific parser when summary is handled
         const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when msItem is handled
-        const msItem = Array.from(xml.querySelectorAll<XMLElement>(':scope > msItem'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when idno is handled
-        const msItemStruct = Array.from(xml.querySelectorAll<XMLElement>(':scope > msItemStruct'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -178,8 +296,8 @@ export class MsContentsParser extends EmptyParser implements Parser<XMLElement> 
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             summary,
-            msItem,
-            msItemStruct,
+            msItem: msItemEl ? this.msItemParser.parse(msItemEl) : undefined,
+            msItemStruct: msItemStructEl ? this.msItemStructParser.parse(msItemStructEl) : undefined,
         };
     }
 }
@@ -329,126 +447,6 @@ export class MsDescParser extends EmptyParser implements Parser<XMLElement> {
             physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
             msPart : msPartEl ? this.msPartParser.parse(msPartEl) : undefined,
             history :historyEl ? this.historyParser.parse(historyEl) : undefined,
-        };
-    }
-}
-
-export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
-    private noteParser = createParser(NoteParser, this.genericParse);
-    private gapParser = createParser(GapParser, this.genericParse);
-    attributeParser = createParser(AttributeParser, this.genericParse);
-
-    parse(xml: XMLElement): MsItem {
-        const attributes = this.attributeParser.parse(xml);
-        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
-        const gapEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > gap')).map(g => this.gapParser.parse(g));
-        // TODO: Add specific parser when author is handled
-        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when title is handled
-        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when rubric is handled
-        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when textLang is handled
-        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when docAuthor is handled
-        const docAuthor = Array.from(xml.querySelectorAll<XMLElement>(':scope > docAuthor'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when docTitle is handled
-        const docTitle = Array.from(xml.querySelectorAll<XMLElement>(':scope > docTitle'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when docImprint is handled
-        const docImprint = Array.from(xml.querySelectorAll<XMLElement>(':scope > docImprint'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when docDate is handled
-        const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when locus is handled
-        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when locusGrp is handled
-        const locusGrp = Array.from(xml.querySelectorAll<XMLElement>(':scope > locusGrp'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when bibl is handled
-        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when incipit is handled
-        const incipit = Array.from(xml.querySelectorAll<XMLElement>(':scope > incipit'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when explicit is handled
-        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when filiation is handled
-        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
-        .map(e => parseChildren(e, this.genericParse));
-
-        return {
-            type: MsItem,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-            n: getDefaultN(attributes.n),
-            defective: true || false,
-            noteEl,
-            gapEl,
-            author,
-            title,
-            rubric,
-            textLang,
-            docAuthor,
-            docTitle,
-            docImprint,
-            docDate,
-            locus,
-            locusGrp,
-            bibl,
-            incipit,
-            explicit,
-            filiation,
-        };
-    }
-}
-
-export class MsItemStructParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
-
-    parse(xml: XMLElement): MsItemStruct {
-        const attributes = this.attributeParser.parse(xml);
-        // TODO: Add specific parser when author is handled
-        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when title is handled
-        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when rubric is handled
-        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when locus is handled
-        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when bibl is handled
-        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when finalRubric is handled
-        const finalRubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > finalRubric'))
-        .map(e => parseChildren(e, this.genericParse));
-
-        return {
-            type: AltIdentifier,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-            n: getDefaultN(attributes.n),
-            defective: true || false,
-            author,
-            title,
-            rubric,
-            locus,
-            finalRubric,
-            bibl,
         };
     }
 }
