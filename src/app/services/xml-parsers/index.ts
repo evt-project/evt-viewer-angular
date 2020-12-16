@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AcquisitionParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser, HistoryParser, MsContentsParser,
-    MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, ObjectDescParser,
+    MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, MusicNotationParser, ObjectDescParser,
     OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser, TypeDescParser,
 } from './msdesc-parser';
 import {
@@ -20,7 +20,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
-    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
+    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -52,6 +52,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     msItem: createParser(MsItemParser, parse),
     msItemStruct : createParser(MsItemStructParser, parse),
     msPart: createParser(MsPartParser, parse),
+    musicNotation: createParser(MusicNotationParser, parse),
     note: createParser(NoteParser, parse),
     objectDesc: createParser(ObjectDescParser, parse),
     origin: createParser(OriginParser, parse),

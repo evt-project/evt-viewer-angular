@@ -365,7 +365,7 @@ export class PhysDesc extends GenericElement {
     handDesc?: HandDesc;
     accMat?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when accMat is handled
     additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
-    musicNotation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when musicNotation is handled
+    musicNotation?: MusicNotation;
     scriptDesc?: ScriptDesc;
     sealDesc?: SealDesc;
     typeDesc?: TypeDesc;
@@ -485,4 +485,8 @@ export class SealDesc extends GenericElement {
 export class TypeDesc extends GenericElement {
     summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
     typeNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when typeNote is handled
+}
+
+export class MusicNotation extends GenericElement {
+    term?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
 }
