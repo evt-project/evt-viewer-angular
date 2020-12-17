@@ -353,7 +353,7 @@ export class MsIdentifier extends GenericElement {
 }
 
 export class MsContents extends GenericElement {
-    summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
+    summary?: Summary;
     msItem?: MsItem;
     msItemStruct?: MsItemStruct;
 }
@@ -385,7 +385,7 @@ export class History extends GenericElement {
     acquisition?: Acquisition;
     origin?: Origin;
     provenance?: Provenance;
-    summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
+    summary?: Summary;
 }
 
 export class AltIdentifier extends GenericElement {
@@ -429,6 +429,10 @@ export class MsItem extends GenericElement {
     explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
     filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
     gapEl?: Gap[];
+}
+
+export class Summary extends GenericElement {
+    pEl?: Paragraph[];
 }
 
 export class Acquisition extends GenericElement {
