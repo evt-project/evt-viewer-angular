@@ -1,7 +1,7 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
-    MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, ScriptDesc,
-    SealDesc, Summary, TypeDesc, XMLElement,
+    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, Institution, MsContents,
+    MsDesc, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
+    ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -608,24 +608,45 @@ export class  RepositoryParser extends EmptyParser implements Parser<XMLElement>
     }
 }
 
+export class  InstitutionParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Institution {
+        // TODO: Add specific parser when country is handled
+        const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when region is handled
+        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Institution,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            country,
+            region,
+        };
+    }
+}
+
 export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private altIdentifierParser = createParser(AltIdentifierParser, this.genericParse);
     private msNameParser = createParser(MsNameParser, this.genericParse);
     private repositoryParser = createParser(RepositoryParser, this.genericParse);
+    private institutionParser = createParser(InstitutionParser, this.genericParse);
 
     parse(xml: XMLElement): MsIdentifier {
         const altIdentifierEl = xml.querySelector<XMLElement>('scope > altIdentifier');
         const msNameEl = xml.querySelector<XMLElement>('scope > msName');
         const repositoryEl = xml.querySelector<XMLElement>('scope > repository');
+        const institutionEl = xml.querySelector<XMLElement>('scope > institution');
         // TODO: Add specific parser when settlement is handled
         const settlement = Array.from(xml.querySelectorAll<XMLElement>(':scope > settlement'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when idno is handled
         const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when institution is handled
-        const institution = Array.from(xml.querySelectorAll<XMLElement>(':scope > institution'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when msName is handled
         const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country'))
@@ -643,7 +664,7 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
             settlement,
             repository: repositoryEl ? this.repositoryParser.parse(repositoryEl) : undefined,
             idno,
-            institution,
+            institution: institutionEl ? this.institutionParser.parse(institutionEl) : undefined,
             altIdentifier: altIdentifierEl ? this.altIdentifierParser.parse(altIdentifierEl) : undefined,
             msName: msNameEl ? this.msNameParser.parse(msNameEl) : undefined,
             country,
