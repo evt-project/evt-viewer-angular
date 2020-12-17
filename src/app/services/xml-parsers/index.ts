@@ -10,8 +10,8 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, DecoDescParser,
-    HandDescParser,HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser,
-    MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
+    HandDescParser,HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser,
+    MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
     SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
@@ -21,7 +21,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
-    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
+    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
     'typeDesc' | 'w' | 'zone';
 
@@ -55,7 +55,8 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     msDesc: createParser(MsDescParser, parse),
     msIdentifier: createParser(MsIdentifierParser, parse),
     msItem: createParser(MsItemParser, parse),
-    msItemStruct : createParser(MsItemStructParser, parse),
+    msItemStruct: createParser(MsItemStructParser, parse),
+    msName: createParser(MsNameParser, parse),
     msPart: createParser(MsPartParser, parse),
     musicNotation: createParser(MusicNotationParser, parse),
     note: createParser(NoteParser, parse),

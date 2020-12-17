@@ -347,7 +347,7 @@ export class MsIdentifier extends GenericElement {
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     institution?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when institution is handled;
     altIdentifier?: AltIdentifier;
-    msName?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when msName is handled
+    msName?: MsName;
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
@@ -395,6 +395,12 @@ export class AltIdentifier extends GenericElement {
     repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
+}
+
+export class MsName extends GenericElement {
+    name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    rs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rs is handled
+    gEl?: G[];
 }
 
 export class MsItemStruct extends GenericElement {

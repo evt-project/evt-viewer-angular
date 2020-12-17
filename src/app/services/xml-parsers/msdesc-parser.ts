@@ -1,9 +1,10 @@
 import {
     AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
-    MsItem, MsItemStruct, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc,
+    MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc,
     SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser, ParagraphParser } from './basic-parsers';
+import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
 
 export class AcquisitionParser extends EmptyParser implements Parser<XMLElement> {
@@ -567,12 +568,39 @@ export class  AltIdentifierParser extends EmptyParser implements Parser<XMLEleme
     }
 }
 
+export class  MsNameParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private gParser = createParser(GParser, this.genericParse);
+
+    parse(xml: XMLElement): MsName {
+        const gEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > g')).map(g => this.gParser.parse(g));
+        // TODO: Add specific parser when name is handled
+        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when name is handled
+        const rs = Array.from(xml.querySelectorAll<XMLElement>(':scope > rs'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: AltIdentifier,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            name,
+            rs,
+            gEl,
+        };
+    }
+}
+
 export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private altIdentifierParser = createParser(AltIdentifierParser, this.genericParse);
+    private msNameParser = createParser(MsNameParser, this.genericParse);
 
     parse(xml: XMLElement): MsIdentifier {
         const altIdentifierEl = xml.querySelector<XMLElement>('scope > altIdentifier');
+        const msNameEl = xml.querySelector<XMLElement>('scope > msName');
         // TODO: Add specific parser when settlement is handled
         const settlement = Array.from(xml.querySelectorAll<XMLElement>(':scope > settlement'))
         .map(e => parseChildren(e, this.genericParse));
@@ -584,9 +612,6 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when institution is handled
         const institution = Array.from(xml.querySelectorAll<XMLElement>(':scope > institution'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when msName is handled
-        const msName = Array.from(xml.querySelectorAll<XMLElement>(':scope > msName'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when msName is handled
         const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country'))
@@ -606,7 +631,7 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
             idno,
             institution,
             altIdentifier: altIdentifierEl ? this.altIdentifierParser.parse(altIdentifierEl) : undefined,
-            msName,
+            msName: msNameEl ? this.msNameParser.parse(msNameEl) : undefined,
             country,
             region,
         };
