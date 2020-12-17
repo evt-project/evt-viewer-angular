@@ -392,7 +392,7 @@ export class AltIdentifier extends GenericElement {
     noteEl?: Note[];
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
-    repository?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when repository is handled
+    repository?: Repository;
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
 }
