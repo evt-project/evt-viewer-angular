@@ -334,7 +334,7 @@ export class Deletion extends GenericElement {
 export class MsDesc extends GenericElement {
     id: string;
     msIdentifier: MsIdentifier;
-    head?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when head is handled
+    head?:Head;
     msContents?: MsContents;
     physDesc?: PhysDesc;
     history?: History;
@@ -381,7 +381,7 @@ export class MsPart extends GenericElement {
     msPart?: MsPart;
     additional?: Additional;
     history?: History;
-    head?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when head is handled
+    head?: Head;
 }
 
 export class History extends GenericElement {
@@ -398,6 +398,17 @@ export class MsFrag extends GenericElement {
     msContents?: MsContents;
     msIdentifier?: MsIdentifier;
     physDesc?: PhysDesc;
+}
+
+export class Head extends GenericElement {
+    place?: string;
+    rend?: string;
+    style?: string;
+    rendition?: string;
+    n?: string;
+    facs?: string;
+    lbEl?: Lb[];
+    hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
 }
 
 export class AltIdentifier extends GenericElement {

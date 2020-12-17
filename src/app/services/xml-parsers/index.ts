@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, DecoDescParser,
-    HandDescParser,HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser,
+    HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser,
     MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
     PhysDescParser, ProvenanceParser, RepositoryParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
@@ -21,9 +21,10 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
-    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'institution' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
-    'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
-    'typeDesc' | 'w' | 'zone';
+    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'institution' | 'l' |
+    'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
+    'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'scriptDesc' |
+    'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -46,6 +47,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     glyph: createParser(GlyphParser, parse),
     graphic: createParser(GraphicParser, parse),
     handDesc: createParser(HandDescParser, parse),
+    head: createParser(HeadParser, parse),
     history: createParser(HistoryParser, parse),
     institution: createParser(InstitutionParser, parse),
     l: createParser(VerseParser, parse),
