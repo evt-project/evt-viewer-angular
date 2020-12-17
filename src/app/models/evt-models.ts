@@ -376,7 +376,7 @@ export class MsPart extends GenericElement {
     msContents?: MsContents;
     physDesc?: PhysDesc;
     msPart?: MsPart;
-    additional?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additional is handled
+    additional?: Additional;
     history?: History;
     head?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when head is handled
 }
@@ -493,4 +493,10 @@ export class TypeDesc extends GenericElement {
 
 export class MusicNotation extends GenericElement {
     term?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
+}
+
+export class Additional extends GenericElement {
+    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when term is handled
+    adminInfo?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when adminInfo is handled
+    surrogates?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when surrogates is handled
 }

@@ -1,9 +1,9 @@
 import {
-    Acquisition, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
-    MsItem, MsItemStruct, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc, SealDesc, TypeDesc,
-    XMLElement,
+    Acquisition, Additional, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
+    MsItem, MsItemStruct, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc,
+    SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
-import { AttributeParser, EmptyParser, GapParser, NoteParser } from './basic-parsers';
+import { AttributeParser, EmptyParser, GapParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
 
 export class AcquisitionParser extends EmptyParser implements Parser<XMLElement> {
@@ -83,14 +83,13 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
     private acquisitionParser = createParser(AcquisitionParser, this.genericParse);
     private originParser = createParser(OriginParser, this.genericParse);
     private provenanceParser = createParser(ProvenanceParser, this.genericParse);
+    private summaryParser = createParser(ProvenanceParser, this.genericParse);
 
     parse(xml: XMLElement): History {
         const acquisitionEl = xml.querySelector<XMLElement>('scope > acquisition');
         const originEl = xml.querySelector<XMLElement>('scope > origin');
         const provenanceEl = xml.querySelector<XMLElement>('scope > provenance');
-        // TODO: Add specific parser when summary is handled
-        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
-        .map(e => parseChildren(e, this.genericParse));
+        const summaryEl = xml.querySelector<XMLElement>('scope > provenance');
 
         return {
             type: History,
@@ -100,7 +99,7 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
             acquisition: acquisitionEl ? this.acquisitionParser.parse(acquisitionEl) : undefined,
             origin: originEl ? this.originParser.parse(originEl) : undefined,
             provenance: provenanceEl ? this.provenanceParser.parse(provenanceEl) : undefined,
-            summary,
+            summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
         };
     }
 }
@@ -433,24 +432,66 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+export class SummaryParser extends EmptyParser implements Parser<XMLElement> {
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Summary {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Summary,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
+export class AdditionalParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Additional {
+        // TODO: Add specific parser when listBibl is handled
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when adminInfo is handled
+        const adminInfo = Array.from(xml.querySelectorAll<XMLElement>(':scope > adminInfo'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when surrogates is handled
+        const surrogates = Array.from(xml.querySelectorAll<XMLElement>(':scope > surrogates'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Summary,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            listBibl,
+            adminInfo,
+            surrogates,
+        };
+    }
+}
+
 export class MsContentsParser extends EmptyParser implements Parser<XMLElement> {
     private msItemParser = createParser(MsItemParser, this.genericParse);
     private msItemStructParser = createParser(MsItemStructParser, this.genericParse);
+    private summaryParser = createParser(SummaryParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsContents {
         const msItemEl = xml.querySelector<XMLElement>('scope > msItem');
         const msItemStructEl = xml.querySelector<XMLElement>('scope > msItemStruct');
-        // TODO: Add specific parser when summary is handled
-        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
-        .map(e => parseChildren(e, this.genericParse));
+        const summaryEl = xml.querySelector<XMLElement>('scope > summary');
 
         return {
             type: MsContents,
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            summary,
+            summary:  summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
             msItem: msItemEl ? this.msItemParser.parse(msItemEl) : undefined,
             msItemStruct: msItemStructEl ? this.msItemStructParser.parse(msItemStructEl) : undefined,
         };
@@ -546,6 +587,7 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
     private msContentsParser = createParser(MsContentsParser, this.genericParse);
     private physDescParser = createParser(PhysDescParser, this.genericParse);
     private historyParser = createParser(HistoryParser, this.genericParse);
+    private additionalParser = createParser(AdditionalParser, this.genericParse);
 
     parse(xml: XMLElement): MsPart {
         const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
@@ -553,9 +595,7 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
         const physDescEl = xml.querySelector<XMLElement>('scope > physDesc');
         const msPartEl = xml.querySelector<XMLElement>('scope > msPart');
         const historyEl = xml.querySelector<XMLElement>('scope > history');
-        // TODO: Add specific parser when additional is handled
-        const additional = Array.from(xml.querySelectorAll<XMLElement>(':scope > additional'))
-        .map(e => parseChildren(e, this.genericParse));
+        const additionalEl = xml.querySelector<XMLElement>('scope > additional');
         // TODO: Add specific parser when head is handled
         const head = Array.from(xml.querySelectorAll<XMLElement>(':scope > head'))
         .map(e => parseChildren(e, this.genericParse));
@@ -570,7 +610,7 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
             physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
             msPart : msPartEl ? this.parse(msPartEl) : undefined,
             history : historyEl ? this.historyParser.parse(historyEl) : undefined,
-            additional,
+            additional: additionalEl ? this.additionalParser.parse(additionalEl) : undefined,
             head,
         };
     }

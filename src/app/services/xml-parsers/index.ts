@@ -9,9 +9,10 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AcquisitionParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser, HistoryParser, MsContentsParser,
-    MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser, MusicNotationParser, ObjectDescParser,
-    OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
+    AcquisitionParser, AdditionalParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser,
+    HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser,
+    MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
+    SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -19,7 +20,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
+type SupportedTagNames = 'add' | 'additional' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
     'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
     'typeDesc' | 'w' | 'zone';
@@ -27,6 +28,7 @@ type SupportedTagNames = 'add' | 'altIdentifier' | 'app' | 'acquisition' | 'bind
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     acquisition: createParser(AcquisitionParser, parse),
     add: createParser(AdditionParser, parse),
+    additional: createParser(AdditionalParser, parse),
     altIdentifier: createParser(AltIdentifierParser, parse),
     app: createParser(AppParser, parse),
     bindingDesc: createParser(BindingDescParser, parse),
