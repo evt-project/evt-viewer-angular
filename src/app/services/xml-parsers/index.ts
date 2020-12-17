@@ -9,8 +9,8 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AccMatParser, AcquisitionParser, AdditionalParser, AltIdentifierParser, BindingDescParser, DecoDescParser, HandDescParser,
-    HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser,
+    AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, DecoDescParser,
+    HandDescParser,HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsPartParser,
     MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
     SummaryParser, TypeDescParser,
 } from './msdesc-parser';
@@ -30,7 +30,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     acquisition: createParser(AcquisitionParser, parse),
     add: createParser(AdditionParser, parse),
     additional: createParser(AdditionalParser, parse),
-    additions: createParser(AdditionalParser, parse),
+    additions: createParser(AdditionsParser, parse),
     altIdentifier: createParser(AltIdentifierParser, parse),
     app: createParser(AppParser, parse),
     bindingDesc: createParser(BindingDescParser, parse),

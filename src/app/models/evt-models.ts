@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { EditionLevelType } from '../app.config';
-import { AccMatParser } from '../services/xml-parsers/msdesc-parser';
 import { ParseResult } from '../services/xml-parsers/parser-models';
 import { Map } from '../utils/js-utils';
 
@@ -365,7 +364,7 @@ export class PhysDesc extends GenericElement {
     decoDesc?: DecoDesc;
     handDesc?: HandDesc;
     accMat?: AccMat;
-    additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
+    additions?: Additions;
     musicNotation?: MusicNotation;
     scriptDesc?: ScriptDesc;
     sealDesc?: SealDesc;

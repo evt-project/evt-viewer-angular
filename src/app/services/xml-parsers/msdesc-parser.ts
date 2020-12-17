@@ -310,6 +310,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
     private typeDescParser = createParser(TypeDescParser, this.genericParse);
     private musicNotationParser = createParser(MusicNotationParser, this.genericParse);
     private accMatParser = createParser(AccMatParser, this.genericParse);
+    private additionsParser = createParser(AdditionsParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): PhysDesc {
@@ -322,9 +323,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
         const typeDescEl = xml.querySelector<XMLElement>('scope > typeDesc');
         const musicNotationEl = xml.querySelector<XMLElement>('scope > musicNotation');
         const accMatEl = xml.querySelector<XMLElement>('scope > accMat');
-        // TODO: Add specific parser when additions is handled
-        const additions = Array.from(xml.querySelectorAll<XMLElement>(':scope > additions'))
-        .map(e => parseChildren(e, this.genericParse));
+        const additionsEl = xml.querySelector<XMLElement>('scope > additions');
 
         return {
             type: PhysDesc,
@@ -336,7 +335,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
             decoDesc: decoDescEl ? this.decoDescParser.parse(decoDescEl) : undefined,
             handDesc: handDescEl ? this.handDescParser.parse(handDescEl) : undefined,
             accMat: accMatEl ? this.accMatParser.parse(accMatEl) : undefined,
-            additions,
+            additions: additionsEl ? this.additionsParser.parse(additionsEl) : undefined,
             musicNotation: musicNotationEl ? this.musicNotationParser.parse(musicNotationEl) : undefined,
             scriptDesc: scriptDescEl ? this.scriptDescParser.parse(scriptDescEl) : undefined,
             sealDesc: sealDescEl ? this.sealDescParser.parse(sealDescEl) : undefined,
