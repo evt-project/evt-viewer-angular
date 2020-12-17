@@ -11,8 +11,8 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, DecoDescParser,
     HandDescParser,HistoryParser, MsContentsParser, MsDescParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser,
-    MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, ScriptDescParser, SealDescParser,
-    SummaryParser, TypeDescParser,
+    MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser,
+    ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -22,7 +22,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'history' | 'l' | 'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' |
-    'personGrp' | 'place' | 'org' | 'rdg' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
+    'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
     'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -75,6 +75,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     place: createParser(PlaceParser, parse),
     rdg: createParser(RdgParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
+    repository: createParser(RepositoryParser, parse),
     scriptDesc: createParser(ScriptDescParser, parse),
     sealDesc: createParser(SealDescParser, parse),
     sic: createParser(SicParser, parse),
