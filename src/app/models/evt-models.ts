@@ -489,7 +489,7 @@ export class HandDesc extends GenericElement {
 
 export class ScriptDesc extends GenericElement {
     scriptNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptNote is handled
-    summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
+    summary?: Summary;
 }
 
 export class SealDesc extends GenericElement {
@@ -497,7 +497,7 @@ export class SealDesc extends GenericElement {
 }
 
 export class TypeDesc extends GenericElement {
-    summary?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when summary is handled
+    summary?: Summary;
     typeNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when typeNote is handled
 }
 

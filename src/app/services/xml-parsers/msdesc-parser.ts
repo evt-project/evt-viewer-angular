@@ -208,15 +208,31 @@ export class AdditionsParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
-export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> {
+export class SummaryParser extends EmptyParser implements Parser<XMLElement> {
+    private pParser = createParser(ParagraphParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
+    parse(xml: XMLElement): Summary {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Summary,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
+export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private summaryParser = createParser(SummaryParser, this.genericParse);
+
     parse(xml: XMLElement): ScriptDesc {
+        const summaryEl = xml.querySelector<XMLElement>('scope > summary');
         // TODO: Add specific parser when scriptNote is handled
         const scriptNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > scriptNote'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when summary is handled
-        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -224,7 +240,7 @@ export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> 
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             scriptNote,
-            summary,
+            summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
         };
     }
 }
@@ -247,12 +263,11 @@ export class SealDescParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 export class TypeDescParser extends EmptyParser implements Parser<XMLElement> {
+    private summaryParser = createParser(SummaryParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): TypeDesc {
-        // TODO: Add specific parser when summary is handled
-        const summary = Array.from(xml.querySelectorAll<XMLElement>(':scope > summary'))
-        .map(e => parseChildren(e, this.genericParse));
+        const summaryEl = xml.querySelector<XMLElement>('scope > summary');
         // TODO: Add specific parser when typeNote is handled
         const typeNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > typeNote'))
         .map(e => parseChildren(e, this.genericParse));
@@ -261,7 +276,7 @@ export class TypeDescParser extends EmptyParser implements Parser<XMLElement> {
             type: SealDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            summary,
+            summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
             typeNote,
         };
     }
@@ -461,23 +476,6 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             locus,
             finalRubric,
             bibl,
-        };
-    }
-}
-
-export class SummaryParser extends EmptyParser implements Parser<XMLElement> {
-    private pParser = createParser(ParagraphParser, this.genericParse);
-    attributeParser = createParser(AttributeParser, this.genericParse);
-
-    parse(xml: XMLElement): Summary {
-        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
-
-        return {
-            type: Summary,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-            pEl,
         };
     }
 }
