@@ -1,5 +1,5 @@
 import {
-    Acquisition, Additional, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
+    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, MsContents, MsDesc, MsIdentifier,
     MsItem, MsItemStruct, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, ScriptDesc,
     SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
@@ -190,6 +190,23 @@ export class HandDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class AdditionsParser extends EmptyParser implements Parser<XMLElement> {
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Additions {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Additions,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
 export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
 
@@ -249,6 +266,23 @@ export class TypeDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class AccMatParser extends EmptyParser implements Parser<XMLElement> {
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): AccMat {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: AccMat,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
 export class MusicNotationParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
 
@@ -275,6 +309,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
     private sealDescParser = createParser(SealDescParser, this.genericParse);
     private typeDescParser = createParser(TypeDescParser, this.genericParse);
     private musicNotationParser = createParser(MusicNotationParser, this.genericParse);
+    private accMatParser = createParser(AccMatParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): PhysDesc {
@@ -286,9 +321,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
         const sealDescEl = xml.querySelector<XMLElement>('scope > sealDesc');
         const typeDescEl = xml.querySelector<XMLElement>('scope > typeDesc');
         const musicNotationEl = xml.querySelector<XMLElement>('scope > musicNotation');
-        // TODO: Add specific parser when accMat is handled
-        const accMat = Array.from(xml.querySelectorAll<XMLElement>(':scope > accMat'))
-        .map(e => parseChildren(e, this.genericParse));
+        const accMatEl = xml.querySelector<XMLElement>('scope > accMat');
         // TODO: Add specific parser when additions is handled
         const additions = Array.from(xml.querySelectorAll<XMLElement>(':scope > additions'))
         .map(e => parseChildren(e, this.genericParse));
@@ -302,7 +335,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
             bindingDesc: bindingDescEl ? this.bindingDescParser.parse(bindingDescEl) : undefined,
             decoDesc: decoDescEl ? this.decoDescParser.parse(decoDescEl) : undefined,
             handDesc: handDescEl ? this.handDescParser.parse(handDescEl) : undefined,
-            accMat,
+            accMat: accMatEl ? this.accMatParser.parse(accMatEl) : undefined,
             additions,
             musicNotation: musicNotationEl ? this.musicNotationParser.parse(musicNotationEl) : undefined,
             scriptDesc: scriptDescEl ? this.scriptDescParser.parse(scriptDescEl) : undefined,

@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { EditionLevelType } from '../app.config';
+import { AccMatParser } from '../services/xml-parsers/msdesc-parser';
 import { ParseResult } from '../services/xml-parsers/parser-models';
 import { Map } from '../utils/js-utils';
 
@@ -363,7 +364,7 @@ export class PhysDesc extends GenericElement {
     bindingDesc?: BindingDesc;
     decoDesc?: DecoDesc;
     handDesc?: HandDesc;
-    accMat?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when accMat is handled
+    accMat?: AccMat;
     additions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when additions is handled
     musicNotation?: MusicNotation;
     scriptDesc?: ScriptDesc;
@@ -472,6 +473,10 @@ export class DecoDesc extends GenericElement {
     decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
 }
 
+export class Additions extends GenericElement {
+    pEl?: Paragraph[];
+}
+
 export class HandDesc extends GenericElement {
     hands?: string;
     handNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNote is handled
@@ -493,6 +498,10 @@ export class TypeDesc extends GenericElement {
 
 export class MusicNotation extends GenericElement {
     term?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
+}
+
+export class AccMat extends GenericElement {
+    pEl?: Paragraph[];
 }
 
 export class Additional extends GenericElement {
