@@ -334,10 +334,13 @@ export class Deletion extends GenericElement {
 export class MsDesc extends GenericElement {
     id: string;
     msIdentifier: MsIdentifier;
+    head?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when head is handled
     msContents?: MsContents;
     physDesc?: PhysDesc;
     history?: History;
+    additional?: Additional;
     msPart?: MsPart;
+    msFrag?: MsFrag;
 }
 
 export class MsIdentifier extends GenericElement {
@@ -386,6 +389,15 @@ export class History extends GenericElement {
     origin?: Origin;
     provenance?: Provenance;
     summary?: Summary;
+}
+
+export class MsFrag extends GenericElement {
+    additional?: Additional;
+    altIdentifier?: AltIdentifier;
+    history?: History;
+    msContents?: MsContents;
+    msIdentifier?: MsIdentifier;
+    physDesc?: PhysDesc;
 }
 
 export class AltIdentifier extends GenericElement {

@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, DecoDesc, HandDesc, History, Institution, MsContents,
-    MsDesc, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
+    MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
     ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, NoteParser, ParagraphParser } from './basic-parsers';
@@ -703,6 +703,39 @@ export class MsPartParser extends EmptyParser implements Parser<XMLElement> {
             history : historyEl ? this.historyParser.parse(historyEl) : undefined,
             additional: additionalEl ? this.additionalParser.parse(additionalEl) : undefined,
             head,
+        };
+    }
+}
+
+export class MsFragParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private additionalParser = createParser(AdditionalParser, this.genericParse);
+    private altIdentifierParser = createParser(AltIdentifierParser, this.genericParse);
+    private historyParser = createParser(HistoryParser, this.genericParse);
+    private msContentsParser = createParser(MsContentsParser, this.genericParse);
+    private msIdentifierParser = createParser(MsIdentifierParser, this.genericParse);
+    private physDescParser = createParser(PhysDescParser, this.genericParse);
+
+    parse(xml: XMLElement): MsFrag {
+        const additionalEl = xml.querySelector<XMLElement>('scope > additional');
+        const altIdentifierEl = xml.querySelector<XMLElement>('scope > altIdentifier');
+        const historyEl = xml.querySelector<XMLElement>('scope > history');
+        const msContentsEl = xml.querySelector<XMLElement>('scope > msContents');
+        const msIdentifierEl = xml.querySelector<XMLElement>('scope > msIdentifier');
+        const physDescEl = xml.querySelector<XMLElement>('scope > physDesc');
+
+        return {
+            type: MsFrag,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            additional: additionalEl ? this.additionalParser.parse(additionalEl) : undefined,
+            altIdentifier: altIdentifierEl ? this.altIdentifierParser.parse(altIdentifierEl) : undefined,
+            history : historyEl ? this.historyParser.parse(historyEl) : undefined,
+            msContents: msContentsEl ? this.msContentsParser.parse(msContentsEl) : undefined,
+            msIdentifier: msIdentifierEl ? this.msIdentifierParser.parse(msIdentifierEl) : undefined,
+            physDesc: physDescEl ? this.physDescParser.parse(physDescEl) : undefined,
+
         };
     }
 }
