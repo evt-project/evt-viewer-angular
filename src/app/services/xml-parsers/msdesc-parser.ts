@@ -440,10 +440,12 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 export class MsItemStructParser extends EmptyParser implements Parser<XMLElement> {
+    private noteParser = createParser(NoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItemStruct {
         const attributes = this.attributeParser.parse(xml);
+        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -462,6 +464,33 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         // TODO: Add specific parser when finalRubric is handled
         const finalRubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > finalRubric'))
         .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when restStmt is handled
+        const restStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > restStmt'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when incipit is handled
+        const incipit = Array.from(xml.querySelectorAll<XMLElement>(':scope > incipit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when quote is handled
+        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when explicit is handled
+        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when colophon is handled
+        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when decoNote is handled
+        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when listBibl is handled
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when filiation is handled
+        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when textLang is handled
+        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
+        .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: MsItemStruct,
@@ -471,11 +500,21 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             n: getDefaultN(attributes.n),
             defective: true || false,
             author,
+            restStmt,
             title,
             rubric,
-            locus,
+            incipit,
+            quote,
+            explicit,
             finalRubric,
+            colophon,
+            decoNote,
+            listBibl,
             bibl,
+            filiation,
+            noteEl,
+            textLang,
+            locus,
         };
     }
 }

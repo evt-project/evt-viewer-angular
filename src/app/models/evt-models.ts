@@ -353,6 +353,7 @@ export class MsIdentifier extends GenericElement {
     msName?: MsName;
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
 }
 
 export class MsContents extends GenericElement {
@@ -439,12 +440,22 @@ export class MsItemStruct extends GenericElement {
     n?: string;
     class?: string;
     defective?: boolean;
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
+    restStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rubric is handled
+    incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
+    quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
+    explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
     finalRubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type finalRubric defective is handled
+    colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
+    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
+    noteEl?: Note[];
+    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLan is handled
+    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
 }
 
 export class MsItem extends GenericElement {

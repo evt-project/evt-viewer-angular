@@ -9,9 +9,9 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, DecoDescParser,
-    HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser,
-    MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
+    AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser,
+    DecoDescParser, HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser,
+    MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
     PhysDescParser, ProvenanceParser, RepositoryParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
