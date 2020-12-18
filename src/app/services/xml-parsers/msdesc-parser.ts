@@ -61,20 +61,12 @@ export class ProvenanceParser extends EmptyParser implements Parser<XMLElement> 
     parse(xml: XMLElement): Provenance {
         const attributes = this.attributeParser.parse(xml);
         const { when } = attributes;
-        // TODO: Add specific parser when name is handled
-        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when foreign is handled
-        const foreign = Array.from(xml.querySelectorAll<XMLElement>(':scope > foreign'))
-        .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Acquisition,
             content: parseChildren(xml, this.genericParse),
             attributes,
             when,
-            name,
-            foreign,
         };
     }
 }

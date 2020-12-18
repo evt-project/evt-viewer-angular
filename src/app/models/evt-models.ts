@@ -501,8 +501,6 @@ export class Origin extends GenericElement {
 
 export class Provenance extends GenericElement {
     when?: string;
-    name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
-    foreign?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when foreign is handled
 }
 
 export class ObjectDesc extends GenericElement {
