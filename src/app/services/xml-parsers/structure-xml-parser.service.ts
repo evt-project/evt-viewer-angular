@@ -37,15 +37,16 @@ export class StructureXmlParserService {
     };
   }
 
-  parseDocumentPage(document: XMLElement, page: XMLElement, nextPage: XMLElement): Page {
+  parseDocumentPage(doc: XMLElement, page: XMLElement, nextPage: XMLElement): Page {
     let pageContent: XMLElement[] = [];
-    const bodyLastNode = document.querySelector('body').lastChild;
 
     /* If there is a next page we retrieve the elements between two page nodes
     otherweise we retrieve the nodes between the page node and the last node of the body node */
     if (nextPage) {
       pageContent = getElementsBetweenTreeNode(page, nextPage).filter((n) => n.tagName !== 'pb');
     } else {
+      const bodyEls = Array.from(doc.querySelectorAll('body'));
+      const bodyLastNode = bodyEls[bodyEls.length - 1].lastChild;
       pageContent = getElementsBetweenTreeNode(page, bodyLastNode);
     }
 
@@ -62,7 +63,8 @@ export class StructureXmlParserService {
   parseDocumentAsPages(document: XMLElement): Page[] {
     const pages: Page[] = [];
     const mainText = document.querySelector('text');
-    const bodyLastNode = document.querySelector('body').lastChild;
+    const bodyEls = Array.from(document.querySelectorAll('body'));
+    const bodyLastNode = bodyEls[bodyEls.length - 1].lastChild;
     let pageContent: XMLElement[] = getElementsBetweenTreeNode(mainText, bodyLastNode);
     const pageContentFront = pageContent.filter((c) => c.nodeName === 'front');
     const hasFrontOriginalContent = this.hasFrontOriginalContent(pageContentFront[0] as HTMLElement);
