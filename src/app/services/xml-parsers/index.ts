@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser,
+    AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, CollectionParser,
     DecoDescParser, HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser,
     MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
     PhysDescParser, ProvenanceParser, RepositoryParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
@@ -20,7 +20,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'damage' | 'decoDesc' |
+type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'institution' | 'l' |
     'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
     'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'scriptDesc' |
@@ -37,6 +37,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     bindingDesc: createParser(BindingDescParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
+    collection: createParser(CollectionParser, parse),
     damage: createParser(DamageParser, parse),
     decoDesc: createParser(DecoDescParser, parse),
     del: createParser(DeletionParser, parse),

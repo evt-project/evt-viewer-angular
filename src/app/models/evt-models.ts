@@ -353,7 +353,7 @@ export class MsIdentifier extends GenericElement {
     msName?: MsName;
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
-    collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
+    collection?: CollectionEl;
 }
 
 export class MsContents extends GenericElement {
@@ -415,7 +415,7 @@ export class Head extends GenericElement {
 export class AltIdentifier extends GenericElement {
     noteEl?: Note[];
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    collection?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collection is handled
+    collection?: CollectionEl;
     repository?: Repository;
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
@@ -434,6 +434,10 @@ export class MsName extends GenericElement {
     name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     rs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rs is handled
     gEl?: G[];
+}
+
+export class CollectionEl extends GenericElement {
+    collectionType: string;
 }
 
 export class MsItemStruct extends GenericElement {
