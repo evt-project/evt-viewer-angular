@@ -463,20 +463,26 @@ export class MsItem extends GenericElement {
     class?: string;
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
-    title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    respStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when respStmt is handled
     rubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rubric is handled
+    incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
+    title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
+    explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
+    finalRubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when finalRubric is handled
+    colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
+    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
+    noteEl?: Note[];
     textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
     docAuthor?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docAuthor is handled
     docTitle?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docTitle is handled
     docImprint?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
     docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
-    noteEl?: Note[];
     locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
     locusGrp?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locusGrp is handled
-    bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
-    explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
-    filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
     gapEl?: Gap[];
 }
 

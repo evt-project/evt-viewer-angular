@@ -400,8 +400,26 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         // TODO: Add specific parser when explicit is handled
         const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
         .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when respStmt is handled
+        const respStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > respStmt'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when quote is handled
+        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when finalRubric is handled
+        const finalRubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > finalRubric'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when decoNote is handled
+        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when listBibl is handled
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
+        .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when filiation is handled
         const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when colophon is handled
+        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -411,11 +429,20 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             attributes,
             n: getDefaultN(attributes.n),
             defective: true || false,
-            noteEl,
-            gapEl,
             author,
-            title,
+            respStmt,
             rubric,
+            incipit,
+            title,
+            quote,
+            explicit,
+            finalRubric,
+            colophon,
+            decoNote,
+            listBibl,
+            bibl,
+            filiation,
+            noteEl,
             textLang,
             docAuthor,
             docTitle,
@@ -423,10 +450,8 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             docDate,
             locus,
             locusGrp,
-            bibl,
-            incipit,
-            explicit,
-            filiation,
+            gapEl,
+
         };
     }
 }
