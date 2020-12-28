@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
-import { getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
+import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
 import { ParseResult } from './parser-models';
 
@@ -56,7 +55,7 @@ export class StructureXmlParserService {
       id: page.getAttribute('xml:id') || 'page' + xpath(page),
       label: page.getAttribute('n') || 'page',
       originalContent: pageContent,
-      parsedContent: this.parsePageContent(pageContent),
+      parsedContent: this.parsePageContent(doc, pageContent),
     };
   }
 
@@ -74,7 +73,7 @@ export class StructureXmlParserService {
         id: 'page_front',
         label: 'front',
         originalContent: pageContentFront,
-        parsedContent: this.parsePageContent(pageContentFront),
+        parsedContent: this.parsePageContent(document, pageContentFront),
       };
       pages.push(frontPage);
       // Front is already parsed
@@ -85,20 +84,31 @@ export class StructureXmlParserService {
       id: 'page_1',
       label: 'mainText',
       originalContent: pageContent,
-      parsedContent: this.parsePageContent(pageContent),
+      parsedContent: this.parsePageContent(document, pageContent),
     };
     pages.push(page);
 
     return pages;
   }
 
-  parsePageContent(pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
-    const parsedContent = [];
-    pageContent.map((child: XMLElement) => {
-      /* Check if the node is a front element or is nested in front element or is marked as original content */
-      if (child.nodeName === 'front' || child.dataset.xpath.includes('front') ||
-        (child.nodeType !== 3 && child.nodeType !== 8 && child.getAttribute('type') === this.frontOriginalContentAttr)) {
+  parsePageContent(doc: XMLElement, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
+    let parsedContent = [];
+    pageContent.map((child) => {
+      let origEl = child;
 
+      if (child.getAttribute && child.getAttribute('xpath')) {
+        const docNS = doc.documentElement.namespaceURI;
+        // tslint:disable-next-line: no-null-keyword
+        const nsResolver = docNS ? createNsResolver(doc) : null;
+        const path = docNS ? child.getAttribute('xpath').replace(/\//g, '/ns:') : child.getAttribute('xpath');
+        // tslint:disable-next-line: no-null-keyword
+        const xpathRes = doc.evaluate(path, doc, nsResolver, XPathResult.ANY_TYPE, null);
+        origEl = xpathRes.iterateNext();
+      }
+
+      /* Check if the node is a front element or is nested in front element or is marked as original content */
+      if (origEl.nodeName === 'front' || (origEl && isNestedInElem(origEl, 'front')) ||
+        (origEl.nodeType !== 3 && origEl.nodeType !== 8 && origEl.getAttribute('type') === this.frontOriginalContentAttr)) {
         /* Check if the node is a text node or nested in an element marked as original content and parses it */
         if (child.nodeType === 3 || isNestedInElem(child, '', [{ key: 'type', value: this.frontOriginalContentAttr }])) {
           parsedContent.push(this.genericParserService.parse(child));
@@ -113,7 +123,11 @@ export class StructureXmlParserService {
           }
         }
       } else {
-        parsedContent.push(this.genericParserService.parse(child));
+        if (child.tagName === 'text' && child.querySelectorAll && child.querySelectorAll('front').length > 0) {
+          parsedContent = parsedContent.concat(this.parsePageContent(doc, Array.from(child.children) as HTMLElement[]));
+        } else {
+          parsedContent.push(this.genericParserService.parse(child));
+        }
       }
     });
 

@@ -196,13 +196,15 @@ export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const range = document.createRange();
   range.setStart(start, 0);
   range.setEnd(end, end.length || end.childNodes.length);
-  
-  const fragment = range.cloneContents();
-  const nodes = Array.from(fragment.childNodes).map((c) => {
-    c.xpath = xpath(range.commonAncestorContainer);
-    return c;
+  const commonAncestor = range.commonAncestorContainer as XMLElement;
+
+  Array.from(commonAncestor.children).forEach((c: XMLElement) => {
+    c.setAttribute('xpath', xpath(c).replace(/-/g, '/'));
   });
-  
+
+  const fragment = range.cloneContents();
+  const nodes = Array.from(fragment.childNodes) as HTMLElement[];
+
   return nodes as XMLElement[];
 }
 
@@ -227,4 +229,12 @@ export function getCommonAncestor(node1, node2) {
   }
 
   return undefined;
+}
+
+export function createNsResolver(doc: Document) {
+  return (prefix: string) => {
+      if (prefix === 'ns') {
+         return doc.documentElement.namespaceURI;
+      }
+   };
 }
