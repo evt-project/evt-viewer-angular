@@ -11,8 +11,8 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, CollectionParser,
     DecoDescParser, ExplicitParser, FinalRubricParser, HandDescParser, HeadParser, HistoryParser, IncipitParser, InstitutionParser,
-    MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser,
-    MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser,
+    LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser,
+    MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser,
     ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
@@ -23,7 +23,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'explicit' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'incipit' | 'institution' | 'l' |
-    'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
+    'lb' | 'lem' | 'lg' | 'locus' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
     'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' |
     'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
 
@@ -59,6 +59,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     lb: createParser(LBParser, parse),
     lg: createParser(VersesGroupParser, parse),
     lem: createParser(RdgParser, parse),
+    locus: createParser(LocusParser, parse),
     msContents: createParser(MsContentsParser, parse),
     msDesc: createParser(MsDescParser, parse),
     msFrag: createParser(MsFragParser, parse),

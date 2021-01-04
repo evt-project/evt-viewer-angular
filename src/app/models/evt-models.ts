@@ -460,7 +460,7 @@ export class MsItemStruct extends GenericElement {
     filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
     noteEl?: Note[];
     textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLan is handled
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+    locus?: Locus;
 }
 
 export class MsItem extends GenericElement {
@@ -486,7 +486,7 @@ export class MsItem extends GenericElement {
     docTitle?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docTitle is handled
     docImprint?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
     docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+    locus?: Locus;
     locusGrp?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locusGrp is handled
     gapEl?: Gap[];
 }
@@ -571,7 +571,7 @@ export class Rubric extends GenericElement {
     lang?: string;
     rend?: string;
     lbEl?: Lb[];
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+    locus?: Locus;
 }
 
 export class FinalRubric extends GenericElement {
@@ -582,11 +582,22 @@ export class Incipit extends GenericElement {
     lang?: string;
     defective?: boolean;
     lbEl?: Lb[];
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+    locus?: Locus;
 }
 
 export class Explicit extends GenericElement {
     lang?: string;
     defective?: boolean;
-    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+    locus?: Locus;
+}
+
+export class Locus extends GenericElement {
+    scheme?: string;
+    from?: string;
+    to?: string;
+    facs?: string;
+    target?: string;
+    hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
+    gEl?: G[];
+    locus?: Locus;
 }
