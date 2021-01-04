@@ -1,5 +1,5 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc,
+    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, Explicit,
     HandDesc, Head, History, Incipit, Institution, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
     MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, Rubric, ScriptDesc,
     SealDesc, Summary, TypeDesc, XMLElement,
@@ -379,6 +379,28 @@ export class IncipitParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class ExplicitParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Explicit {
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        const attributes = this.attributeParser.parse(xml);
+        const { lang } = attributes;
+
+        return {
+            type: Explicit,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            defective: true || false,
+            lang,
+            locus,
+        };
+    }
+}
+
 export class RubricParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private lbParser = createParser(LBParser, this.genericParse);
@@ -409,6 +431,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private gapParser = createParser(GapParser, this.genericParse);
     private rubricParser = createParser(RubricParser, this.genericParse);
     private incipitParser = createParser(IncipitParser, this.genericParse);
+    private explicitParser = createParser(ExplicitParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItem {
@@ -417,6 +440,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         const gapEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > gap')).map(g => this.gapParser.parse(g));
         const rubricEl = xml.querySelector<XMLElement>('scope > rubric');
         const incipitEl = xml.querySelector<XMLElement>('scope > incipit');
+        const explicitEl = xml.querySelector<XMLElement>('scope > incipit');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -446,9 +470,6 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when bibl is handled
         const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when explicit is handled
-        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when respStmt is handled
         const respStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > respStmt'))
@@ -485,7 +506,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             incipit: incipitEl ? this.incipitParser.parse(incipitEl) : undefined,
             title,
             quote,
-            explicit,
+            explicit: explicitEl ? this.explicitParser.parse(explicitEl) : undefined,
             finalRubric,
             colophon,
             decoNote,
@@ -510,6 +531,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     private noteParser = createParser(NoteParser, this.genericParse);
     private rubricParser = createParser(RubricParser, this.genericParse);
     private incipitParser = createParser(IncipitParser, this.genericParse);
+    private explicitParser = createParser(ExplicitParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItemStruct {
@@ -517,6 +539,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         const rubricEl = xml.querySelector<XMLElement>('scope > rubric');
         const incipitEl = xml.querySelector<XMLElement>('scope > incipit');
+        const explicitEl = xml.querySelector<XMLElement>('scope > explicit');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -537,9 +560,6 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when quote is handled
         const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when explicit is handled
-        const explicit = Array.from(xml.querySelectorAll<XMLElement>(':scope > explicit'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when colophon is handled
         const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
@@ -570,7 +590,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             rubric: rubricEl ? this.rubricParser.parse(rubricEl) : undefined,
             incipit: incipitEl ? this.incipitParser.parse(incipitEl) : undefined,
             quote,
-            explicit,
+            explicit: explicitEl ? this.explicitParser.parse(explicitEl) : undefined,
             finalRubric,
             colophon,
             decoNote,
