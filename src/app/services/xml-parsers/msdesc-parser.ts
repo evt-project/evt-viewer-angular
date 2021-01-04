@@ -1,8 +1,8 @@
 import {
     AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc,
     HandDesc, Head, History, Institution, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
-    MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
-    ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
+    MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, ScriptDesc, SealDesc,
+    Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -339,6 +339,7 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
+            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             objectDesc: objectDescEl ? this.objectDescParser.parse(objectDescEl) : undefined,
             bindingDesc: bindingDescEl ? this.bindingDescParser.parse(bindingDescEl) : undefined,
             decoDesc: decoDescEl ? this.decoDescParser.parse(decoDescEl) : undefined,

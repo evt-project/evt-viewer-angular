@@ -334,7 +334,7 @@ export class Deletion extends GenericElement {
 export class MsDesc extends GenericElement {
     id: string;
     msIdentifier: MsIdentifier;
-    head?:Head;
+    head?: Head;
     msContents?: MsContents;
     physDesc?: PhysDesc;
     history?: History;
@@ -363,6 +363,7 @@ export class MsContents extends GenericElement {
 }
 
 export class PhysDesc extends GenericElement {
+    structuredData: boolean;
     objectDesc?: ObjectDesc;
     bindingDesc?: BindingDesc;
     decoDesc?: DecoDesc;
