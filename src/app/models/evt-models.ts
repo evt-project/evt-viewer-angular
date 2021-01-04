@@ -452,7 +452,7 @@ export class MsItemStruct extends GenericElement {
     incipit?: Incipit;
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
     explicit?: Explicit;
-    finalRubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type finalRubric defective is handled
+    finalRubric?: FinalRubric;
     colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
     decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
@@ -474,7 +474,7 @@ export class MsItem extends GenericElement {
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
     explicit?: Explicit;
-    finalRubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when finalRubric is handled
+    finalRubric?: FinalRubric;
     colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
     decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
@@ -572,6 +572,10 @@ export class Rubric extends GenericElement {
     rend?: string;
     lbEl?: Lb[];
     locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+}
+
+export class FinalRubric extends GenericElement {
+    lbEl?: Lb[];
 }
 
 export class Incipit extends GenericElement {
