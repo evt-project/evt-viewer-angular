@@ -448,7 +448,7 @@ export class MsItemStruct extends GenericElement {
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     restStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
-    rubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rubric is handled
+    rubric?: Rubric;
     incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
     explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
@@ -469,7 +469,7 @@ export class MsItem extends GenericElement {
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     respStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when respStmt is handled
-    rubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rubric is handled
+    rubric?: Rubric;
     incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
@@ -562,7 +562,14 @@ export class AccMat extends GenericElement {
 }
 
 export class Additional extends GenericElement {
-    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when term is handled
-    adminInfo?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when adminInfo is handled
-    surrogates?: Array<ParseResult<GenericElement>>; // TODO: Add specific listBibl when surrogates is handled
+    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
+    adminInfo?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when adminInfo is handled
+    surrogates?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when surrogates is handled
+}
+
+export class Rubric extends GenericElement {
+    lang?: string;
+    rend?: string;
+    lb?: Lb;
+    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
 }

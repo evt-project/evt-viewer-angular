@@ -1,8 +1,8 @@
 import {
     AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc,
     HandDesc, Head, History, Institution, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
-    MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, ScriptDesc, SealDesc,
-    Summary, TypeDesc, XMLElement,
+    MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, Rubric, ScriptDesc,
+    SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -354,23 +354,47 @@ export class PhysDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class RubricParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private lbParser = createParser(LBParser, this.genericParse);
+
+    parse(xml: XMLElement): Rubric {
+        const lbEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > lb')).map(l => this.lbParser.parse(l));
+        // TODO: Add specific parser when locus is handled
+        const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
+        .map(e => parseChildren(e, this.genericParse));
+        const attributes = this.attributeParser.parse(xml);
+        const { lang, rend } = attributes;
+
+        return {
+            type: Rubric,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            lang,
+            rend,
+            lbEl,
+            locus,
+        };
+    }
+}
+
 export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private noteParser = createParser(NoteParser, this.genericParse);
     private gapParser = createParser(GapParser, this.genericParse);
+    private rubricParser = createParser(RubricParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItem {
         const attributes = this.attributeParser.parse(xml);
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         const gapEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > gap')).map(g => this.gapParser.parse(g));
+        const rubricEl = xml.querySelector<XMLElement>('scope > rubric');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when title is handled
         const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when rubric is handled
-        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when textLang is handled
         const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
@@ -433,7 +457,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             defective: true || false,
             author,
             respStmt,
-            rubric,
+            rubric: rubricEl ? this.rubricParser.parse(rubricEl) : undefined,
             incipit,
             title,
             quote,
@@ -460,19 +484,18 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
 
 export class MsItemStructParser extends EmptyParser implements Parser<XMLElement> {
     private noteParser = createParser(NoteParser, this.genericParse);
+    private rubricParser = createParser(RubricParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItemStruct {
         const attributes = this.attributeParser.parse(xml);
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
+        const rubricEl = xml.querySelector<XMLElement>('scope > rubric');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when title is handled
         const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when rubric is handled
-        const rubric = Array.from(xml.querySelectorAll<XMLElement>(':scope > rubric'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when locus is handled
         const locus = Array.from(xml.querySelectorAll<XMLElement>(':scope > locus'))
@@ -521,7 +544,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             author,
             restStmt,
             title,
-            rubric,
+            rubric: rubricEl ? this.rubricParser.parse(rubricEl) : undefined,
             incipit,
             quote,
             explicit,

@@ -12,7 +12,7 @@ import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, CollectionParser,
     DecoDescParser, HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser,
     MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
-    PhysDescParser, ProvenanceParser, RepositoryParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
+    PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -23,8 +23,8 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'damage' | 'decoDesc' |
     'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'institution' | 'l' |
     'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
-    'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' |
-    'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
+    'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 
+    'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -81,6 +81,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     rdg: createParser(RdgParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
     repository: createParser(RepositoryParser, parse),
+    rubric: createParser(RubricParser, parse),
     scriptDesc: createParser(ScriptDescParser, parse),
     sealDesc: createParser(SealDescParser, parse),
     sic: createParser(SicParser, parse),
