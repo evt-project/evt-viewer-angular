@@ -570,6 +570,6 @@ export class Additional extends GenericElement {
 export class Rubric extends GenericElement {
     lang?: string;
     rend?: string;
-    lb?: Lb;
+    lbEl?: Lb[];
     locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
 }
