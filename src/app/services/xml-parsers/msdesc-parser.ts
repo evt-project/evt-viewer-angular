@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, Explicit, FinalRubric,
-    HandDesc, Head, History, Incipit, Institution, Locus, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
+    HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
     MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, Rubric, ScriptDesc,
     SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
@@ -388,7 +388,7 @@ export class LocusParser extends EmptyParser implements Parser<XMLElement> {
             type: Locus,
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
+            attributes,
             scheme,
             from,
             to,
@@ -397,6 +397,26 @@ export class LocusParser extends EmptyParser implements Parser<XMLElement> {
             gEl,
             locus : locusEl ? this.parse(locusEl) : undefined,
             hi,
+        };
+    }
+}
+
+export class LocusGrpParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private locusParser = createParser(LocusParser, this.genericParse);
+
+    parse(xml: XMLElement): LocusGrp {
+        const locusEl = xml.querySelector<XMLElement>('scope > locus');
+        const attributes = this.attributeParser.parse(xml);
+        const { scheme } = attributes;
+
+        return {
+            type: LocusGrp,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            scheme,
+            locus: locusEl ? this.locusParser.parse(locusEl) : undefined,
         };
     }
 }
@@ -478,6 +498,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private incipitParser = createParser(IncipitParser, this.genericParse);
     private explicitParser = createParser(ExplicitParser, this.genericParse);
     private locusParser = createParser(LocusParser, this.genericParse);
+    private locusGrpParser = createParser(LocusGrpParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItem {
@@ -489,6 +510,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         const incipitEl = xml.querySelector<XMLElement>('scope > incipit');
         const explicitEl = xml.querySelector<XMLElement>('scope > incipit');
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
+        const locusGrpEl = xml.querySelector<XMLElement>('scope > locusGrp');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -509,9 +531,6 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when docDate is handled
         const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when locusGrp is handled
-        const locusGrp = Array.from(xml.querySelectorAll<XMLElement>(':scope > locusGrp'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when bibl is handled
         const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
@@ -562,7 +581,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             docImprint,
             docDate,
             locus: locusEl ? this.locusParser.parse(locusEl) : undefined,
-            locusGrp,
+            locusGrp: locusGrpEl ? this.locusGrpParser.parse(locusGrpEl) : undefined,
             gapEl,
 
         };

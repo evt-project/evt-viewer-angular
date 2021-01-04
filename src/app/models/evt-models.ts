@@ -487,7 +487,7 @@ export class MsItem extends GenericElement {
     docImprint?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
     docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
     locus?: Locus;
-    locusGrp?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locusGrp is handled
+    locusGrp?: LocusGrp;
     gapEl?: Gap[];
 }
 
@@ -599,5 +599,10 @@ export class Locus extends GenericElement {
     target?: string;
     hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
     gEl?: G[];
+    locus?: Locus;
+}
+
+export class LocusGrp extends GenericElement {
+    scheme?: string;
     locus?: Locus;
 }
