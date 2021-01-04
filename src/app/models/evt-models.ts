@@ -449,7 +449,7 @@ export class MsItemStruct extends GenericElement {
     restStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric?: Rubric;
-    incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
+    incipit?: Incipit;
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
     explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
     finalRubric?: Array<ParseResult<GenericElement>>; // TODO: Add specific type finalRubric defective is handled
@@ -470,7 +470,7 @@ export class MsItem extends GenericElement {
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     respStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when respStmt is handled
     rubric?: Rubric;
-    incipit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when incipit is handled
+    incipit?: Incipit;
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
     explicit?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when explicit is handled
@@ -570,6 +570,13 @@ export class Additional extends GenericElement {
 export class Rubric extends GenericElement {
     lang?: string;
     rend?: string;
+    lbEl?: Lb[];
+    locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
+}
+
+export class Incipit extends GenericElement {
+    lang?: string;
+    defective?: boolean;
     lbEl?: Lb[];
     locus?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when locus is handled
 }

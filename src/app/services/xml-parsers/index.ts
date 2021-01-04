@@ -10,9 +10,10 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, CollectionParser,
-    DecoDescParser, HandDescParser, HeadParser, HistoryParser, InstitutionParser, MsContentsParser, MsDescParser, MsFragParser,
-    MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser,
-    PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
+    DecoDescParser, HandDescParser, HeadParser, HistoryParser, IncipitParser, InstitutionParser, MsContentsParser, MsDescParser,
+    MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
+    ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser,
+    SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -21,7 +22,7 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'damage' | 'decoDesc' |
-    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'institution' | 'l' |
+    'del' | 'event' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'incipit' | 'institution' | 'l' |
     'lb' | 'lem' | 'lg' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' |'msPart' | 'musicNotation' | 'note' | 'objectDesc' |
     'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' |
     'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
@@ -50,6 +51,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     handDesc: createParser(HandDescParser, parse),
     head: createParser(HeadParser, parse),
     history: createParser(HistoryParser, parse),
+    incipit: createParser(IncipitParser, parse),
     institution: createParser(InstitutionParser, parse),
     l: createParser(VerseParser, parse),
     lb: createParser(LBParser, parse),
