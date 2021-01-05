@@ -1,8 +1,8 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit, FinalRubric,
-    HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
-    MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, Rubric, ScriptDesc,
-    SealDesc, Summary, TypeDesc, XMLElement,
+    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
+    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
+    MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
+    Rubric, ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -504,6 +504,23 @@ export class RubricParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class FiliationParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Filiation {
+        const attributes = this.attributeParser.parse(xml);
+        const { filiationType } = attributes;
+
+        return {
+            type: Filiation,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            filiationType,
+        };
+    }
+}
+
 export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private noteParser = createParser(NoteParser, this.genericParse);
     private gapParser = createParser(GapParser, this.genericParse);
@@ -514,6 +531,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private locusParser = createParser(LocusParser, this.genericParse);
     private locusGrpParser = createParser(LocusGrpParser, this.genericParse);
     private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+    private filiationParser = createParser(FiliationParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItem {
@@ -527,6 +545,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
         const locusGrpEl = xml.querySelector<XMLElement>('scope > locusGrp');
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
+        const filiationEl = xml.querySelector<XMLElement>('scope > filiation');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -560,9 +579,6 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
         .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when filiation is handled
-        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
-        .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when colophon is handled
         const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
         .map(e => parseChildren(e, this.genericParse));
@@ -586,7 +602,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
             listBibl,
             bibl,
-            filiation,
+            filiation: filiationEl ? this.filiationParser.parse(filiationEl) : undefined,
             noteEl,
             textLang,
             docAuthor,
@@ -609,6 +625,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     private explicitParser = createParser(ExplicitParser, this.genericParse);
     private locusParser = createParser(LocusParser, this.genericParse);
     private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+    private filiationParser = createParser(FiliationParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItemStruct {
@@ -620,6 +637,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         const explicitEl = xml.querySelector<XMLElement>('scope > explicit');
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
+        const filiationEl = xml.querySelector<XMLElement>('scope > filiation');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -640,9 +658,6 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when filiation is handled
-        const filiation = Array.from(xml.querySelectorAll<XMLElement>(':scope > filiation'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when textLang is handled
         const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
@@ -667,7 +682,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
             listBibl,
             bibl,
-            filiation,
+            filiation: filiationEl ? this.filiationParser.parse(filiationEl) : undefined,
             noteEl,
             textLang,
             locus: locusEl ? this.locusParser.parse(locusEl) : undefined,

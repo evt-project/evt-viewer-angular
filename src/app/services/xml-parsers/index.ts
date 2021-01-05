@@ -10,10 +10,10 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AltIdentifierParser, BindingDescParser, CollectionParser,
-    DecoDescParser, DecoNoteParser, ExplicitParser, FinalRubricParser, HandDescParser, HeadParser, HistoryParser, IncipitParser,
-    InstitutionParser, LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser,
-    MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser,
-    RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
+    DecoDescParser, DecoNoteParser, ExplicitParser, FiliationParser, FinalRubricParser, HandDescParser, HeadParser, HistoryParser,
+    IncipitParser, InstitutionParser, LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser,
+    MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OriginParser, PhysDescParser,
+    ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SummaryParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -21,11 +21,12 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'damage' | 'decoDesc' | 'decoNote' |
-    'del' | 'event' | 'explicit' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' | 'head' | 'history' | 'incipit' | 'institution' | 'l' |
-    'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
-    'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' | 'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' |
-    'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' | 'typeDesc' | 'w' | 'zone';
+type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' |
+    'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
+    'head' | 'history' | 'incipit' | 'institution' | 'l' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
+    'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
+    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
+    'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -45,6 +46,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     del: createParser(DeletionParser, parse),
     event: createParser(NamedEntityRefParser, parse),
     explicit: createParser(ExplicitParser, parse),
+    filiation: createParser(FiliationParser, parse),
     finalRubric: createParser(FinalRubricParser, parse),
     g: createParser(GParser, parse),
     gap: createParser(GapParser, parse),

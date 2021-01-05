@@ -457,7 +457,7 @@ export class MsItemStruct extends GenericElement {
     decoNote?: DecoNote;
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
+    filiation?: Filiation;
     noteEl?: Note[];
     textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLan is handled
     locus?: Locus;
@@ -479,7 +479,7 @@ export class MsItem extends GenericElement {
     decoNote?: DecoNote;
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
+    filiation?: Filiation;
     noteEl?: Note[];
     textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
     docAuthor?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docAuthor is handled
@@ -609,4 +609,8 @@ export class LocusGrp extends GenericElement {
 
 export class DecoNote extends GenericElement {
     decoNoteType?: string;
+}
+
+export class Filiation extends GenericElement {
+    filiationType?: string;
 }
