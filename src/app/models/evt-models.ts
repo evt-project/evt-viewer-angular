@@ -564,7 +564,7 @@ export class AccMat extends GenericElement {
 export class Additional extends GenericElement {
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     adminInfo?: AdminInfo;
-    surrogates?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when surrogates is handled
+    surrogates?: Surrogates;
 }
 
 export class AdminInfo extends GenericElement {
@@ -573,6 +573,11 @@ export class AdminInfo extends GenericElement {
     availability?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     custodialHist?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     recordHist?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+}
+
+export class Surrogates extends GenericElement {
+    bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    pEl?: Paragraph[];
 }
 
 export class Rubric extends GenericElement {

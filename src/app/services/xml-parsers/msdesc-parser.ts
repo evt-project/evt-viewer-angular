@@ -2,7 +2,7 @@ import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
     Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
     MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
-    Rubric, ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
+    Rubric, ScriptDesc, SealDesc, Summary, Surrogates, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -720,17 +720,37 @@ export class AdminInfoParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class SurrogatesParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): Surrogates {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        // TODO: Add specific parser when bibl is handled
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Surrogates,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            bibl,
+            pEl,
+        };
+    }
+}
+
 export class AdditionalParser extends EmptyParser implements Parser<XMLElement> {
     private adminInfoParser = createParser(AdminInfoParser, this.genericParse);
+    private surrogatesParser = createParser(SurrogatesParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): Additional {
         const adminInfoEl = xml.querySelector<XMLElement>('scope > adminInfo');
+        const surrogatesEl = xml.querySelector<XMLElement>('scope > adminInfo');
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when surrogates is handled
-        const surrogates = Array.from(xml.querySelectorAll<XMLElement>(':scope > surrogates'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -740,7 +760,7 @@ export class AdditionalParser extends EmptyParser implements Parser<XMLElement> 
             attributes: this.attributeParser.parse(xml),
             listBibl,
             adminInfo: adminInfoEl ? this.adminInfoParser.parse(adminInfoEl) : undefined,
-            surrogates,
+            surrogates: surrogatesEl ? this.surrogatesParser.parse(surrogatesEl) : undefined,
         };
     }
 }

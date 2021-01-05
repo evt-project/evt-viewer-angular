@@ -14,7 +14,7 @@ import {
     HeadParser, HistoryParser, IncipitParser, InstitutionParser, LocusGrpParser, LocusParser, MsContentsParser, MsDescParser,
     MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
     ObjectDescParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser,
-    SealDescParser, SummaryParser, TypeDescParser,
+    SealDescParser, SummaryParser, SurrogatesParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -26,7 +26,7 @@ type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminI
     'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'history' | 'incipit' | 'institution' | 'l' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
-    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'supplied' | 'surplus' |
+    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'surrogates' | 'supplied' | 'surplus' |
     'typeDesc' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -98,6 +98,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     sic: createParser(SicParser, parse),
     summary: createParser(SummaryParser, parse),
     surface: createParser(SurfaceParser, parse),
+    surrogates: createParser(SurrogatesParser, parse),
     supplied: createParser(SuppliedParser, parse),
     surplus: createParser(SurplusParser, parse),
     typeDesc: createParser(TypeDescParser, parse),
