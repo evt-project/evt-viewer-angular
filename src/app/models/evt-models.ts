@@ -454,7 +454,7 @@ export class MsItemStruct extends GenericElement {
     explicit?: Explicit;
     finalRubric?: FinalRubric;
     colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
-    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    decoNote?: DecoNote;
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
     filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
@@ -476,7 +476,7 @@ export class MsItem extends GenericElement {
     explicit?: Explicit;
     finalRubric?: FinalRubric;
     colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
-    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    decoNote?: DecoNote;
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
     filiation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when filiation is handled
@@ -523,11 +523,11 @@ export class ObjectDesc extends GenericElement {
 export class BindingDesc extends GenericElement {
     binding?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when binding is handled
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    decoNote?: DecoNote;
 }
 
 export class DecoDesc extends GenericElement {
-    decoNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when decoNote is handled
+    decoNote?: DecoNote;
 }
 
 export class Additions extends GenericElement {
@@ -605,4 +605,8 @@ export class Locus extends GenericElement {
 export class LocusGrp extends GenericElement {
     scheme?: string;
     locus?: Locus;
+}
+
+export class DecoNote extends GenericElement {
+    decoNoteType?: string;
 }

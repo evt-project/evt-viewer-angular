@@ -1,5 +1,5 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, Explicit, FinalRubric,
+    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit, FinalRubric,
     HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct,
     MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository, Rubric, ScriptDesc,
     SealDesc, Summary, TypeDesc, XMLElement,
@@ -122,18 +122,33 @@ export class ObjectDescParser extends EmptyParser implements Parser<XMLElement> 
     }
 }
 
-export class BindingDescParser extends EmptyParser implements Parser<XMLElement> {
+export class DecoNoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
 
+    parse(xml: XMLElement): DecoNote {
+        const attributes = this.attributeParser.parse(xml);
+        const { decoNoteType } = attributes;
+
+        return {
+            type: DecoNote,
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            decoNoteType,
+        };
+    }
+}
+
+export class BindingDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+
     parse(xml: XMLElement): BindingDesc {
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         // TODO: Add specific parser when binding is handled
         const binding = Array.from(xml.querySelectorAll<XMLElement>(':scope > binding'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when condition is handled
         const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when decoNote is handled
-        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -142,24 +157,23 @@ export class BindingDescParser extends EmptyParser implements Parser<XMLElement>
             attributes: this.attributeParser.parse(xml),
             binding,
             condition,
-            decoNote,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
         };
     }
 }
 
 export class DecoDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
 
     parse(xml: XMLElement): DecoDesc {
-        // TODO: Add specific parser when decoNote is handled
-        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
-        .map(e => parseChildren(e, this.genericParse));
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
 
         return {
             type: DecoDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            decoNote,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
         };
     }
 }
@@ -499,6 +513,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
     private explicitParser = createParser(ExplicitParser, this.genericParse);
     private locusParser = createParser(LocusParser, this.genericParse);
     private locusGrpParser = createParser(LocusGrpParser, this.genericParse);
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItem {
@@ -511,6 +526,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         const explicitEl = xml.querySelector<XMLElement>('scope > incipit');
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
         const locusGrpEl = xml.querySelector<XMLElement>('scope > locusGrp');
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -541,9 +557,6 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         // TODO: Add specific parser when quote is handled
         const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
         .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when decoNote is handled
-        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
-        .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
         .map(e => parseChildren(e, this.genericParse));
@@ -570,7 +583,7 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
             explicit: explicitEl ? this.explicitParser.parse(explicitEl) : undefined,
             finalRubric: finalRubricEl ? this.finalRubricParser.parse(finalRubricEl) : undefined,
             colophon,
-            decoNote,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
             listBibl,
             bibl,
             filiation,
@@ -595,6 +608,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     private incipitParser = createParser(IncipitParser, this.genericParse);
     private explicitParser = createParser(ExplicitParser, this.genericParse);
     private locusParser = createParser(LocusParser, this.genericParse);
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): MsItemStruct {
@@ -605,6 +619,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         const incipitEl = xml.querySelector<XMLElement>('scope > incipit');
         const explicitEl = xml.querySelector<XMLElement>('scope > explicit');
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         // TODO: Add specific parser when author is handled
         const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
         .map(e => parseChildren(e, this.genericParse));
@@ -622,9 +637,6 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when colophon is handled
         const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when decoNote is handled
-        const decoNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > decoNote'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
@@ -652,7 +664,7 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
             explicit: explicitEl ? this.explicitParser.parse(explicitEl) : undefined,
             finalRubric: finalRubricEl ? this.finalRubricParser.parse(finalRubricEl) : undefined,
             colophon,
-            decoNote,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
             listBibl,
             bibl,
             filiation,
