@@ -1,5 +1,5 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
     Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
     MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
     Rubric, ScriptDesc, SealDesc, Summary, TypeDesc, XMLElement,
@@ -690,15 +690,44 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+export class AdminInfoParser extends EmptyParser implements Parser<XMLElement> {
+    private noteParser = createParser(NoteParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): AdminInfo {
+        const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
+        // TODO: Add specific parser when custodialHist is handled
+        const custodialHist = Array.from(xml.querySelectorAll<XMLElement>(':scope > custodialHist'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when recordHist is handled
+        const recordHist = Array.from(xml.querySelectorAll<XMLElement>(':scope > recordHist'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when availability is handled
+        const availability = Array.from(xml.querySelectorAll<XMLElement>(':scope > availability'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: AdminInfo,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
+            noteEl,
+            availability,
+            custodialHist,
+            recordHist,
+        };
+    }
+}
+
 export class AdditionalParser extends EmptyParser implements Parser<XMLElement> {
+    private adminInfoParser = createParser(AdminInfoParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): Additional {
+        const adminInfoEl = xml.querySelector<XMLElement>('scope > adminInfo');
         // TODO: Add specific parser when listBibl is handled
         const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when adminInfo is handled
-        const adminInfo = Array.from(xml.querySelectorAll<XMLElement>(':scope > adminInfo'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when surrogates is handled
         const surrogates = Array.from(xml.querySelectorAll<XMLElement>(':scope > surrogates'))
@@ -710,7 +739,7 @@ export class AdditionalParser extends EmptyParser implements Parser<XMLElement> 
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             listBibl,
-            adminInfo,
+            adminInfo: adminInfoEl ? this.adminInfoParser.parse(adminInfoEl) : undefined,
             surrogates,
         };
     }

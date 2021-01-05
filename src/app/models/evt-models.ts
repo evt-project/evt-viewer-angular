@@ -562,9 +562,17 @@ export class AccMat extends GenericElement {
 }
 
 export class Additional extends GenericElement {
-    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
-    adminInfo?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when adminInfo is handled
+    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    adminInfo?: AdminInfo;
     surrogates?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when surrogates is handled
+}
+
+export class AdminInfo extends GenericElement {
+    structuredData: boolean;
+    noteEl?: Note[];
+    availability?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    custodialHist?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    recordHist?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
 }
 
 export class Rubric extends GenericElement {
