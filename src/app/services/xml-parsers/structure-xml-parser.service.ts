@@ -28,6 +28,7 @@ export class StructureXmlParserService {
         const frontPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, frontTagName));
         const bodyPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, bodyTagName));
         const frontElement = document.querySelector(frontTagName) as XMLElement;
+        const bodyElement = document.querySelector(bodyTagName);
 
         if (frontPageElements.length > 0) {
           frontPageElements.forEach((page, pageIndex, pagesCollection) => {
@@ -36,13 +37,17 @@ export class StructureXmlParserService {
         }
 
         if (frontPageElements.length === 0 && this.hasFrontOriginalContent(frontElement)) {
-          pages.push(this.parseDocumentFront(document, frontElement));
+          pages.push(this.parseDocumentFrontAsPage(document, frontElement));
         }
 
         if (bodyPageElements.length > 0) {
           bodyPageElements.forEach((page, pageIndex, pagesCollection) => {
             pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1], bodyTagName));
           });
+        }
+
+        if (bodyPageElements.length === 0) {
+          pages.push(this.parseDocumentBodyAsPage(document, bodyElement));
         }
       } else {
         pages.push(...this.parseDocumentAsPages(document));
@@ -77,10 +82,22 @@ export class StructureXmlParserService {
     };
   }
 
-  parseDocumentFront(doc: XMLElement, el: XMLElement) {
-    const mainText = doc.querySelector('text');
-    const frontLastNode = el.lastChild;
-    const pageContent: XMLElement[] = getElementsBetweenTreeNode(mainText, frontLastNode);
+  parseDocumentAsPages(document: XMLElement): Page[] {
+    const pages: Page[] = [];
+    const frontElement = document.querySelector('front') as XMLElement;
+    const bodyElement = document.querySelector('body');
+
+    if (this.hasFrontOriginalContent(frontElement)) {
+      pages.push(this.parseDocumentFrontAsPage(document, frontElement));
+    }
+
+    pages.push(this.parseDocumentBodyAsPage(document, bodyElement));
+
+    return pages;
+  }
+
+  parseDocumentFrontAsPage(doc: XMLElement, el: XMLElement): Page {
+    const pageContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild,  el.lastChild);
 
     return {
       id: 'page_front',
@@ -90,36 +107,15 @@ export class StructureXmlParserService {
     };
   }
 
-  parseDocumentAsPages(document: XMLElement): Page[] {
-    const pages: Page[] = [];
-    const mainText = document.querySelector('text');
-    const bodyEls = Array.from(document.querySelectorAll('body'));
-    const bodyLastNode = bodyEls[bodyEls.length - 1].lastChild;
-    let pageContent: XMLElement[] = getElementsBetweenTreeNode(mainText, bodyLastNode);
-    const pageContentFront = pageContent.filter((c) => c.nodeName === 'front');
-    const hasFrontOriginalContent = this.hasFrontOriginalContent(pageContentFront[0] as HTMLElement);
+  parseDocumentBodyAsPage(doc: XMLElement, el: XMLElement): Page {
+    const pageContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild, el.lastChild);
 
-    if (hasFrontOriginalContent) {
-      const frontPage: Page = {
-        id: 'page_front',
-        label: 'front',
-        originalContent: pageContentFront,
-        parsedContent: this.parsePageContent(document, pageContentFront),
-      };
-      pages.push(frontPage);
-      // Front is already parsed
-      pageContent = pageContent.filter((c) => c.nodeName !== 'front');
-    }
-
-    const page: Page = {
+    return {
       id: 'page_1',
       label: 'mainText',
       originalContent: pageContent,
-      parsedContent: this.parsePageContent(document, pageContent),
+      parsedContent: this.parsePageContent(doc, pageContent),
     };
-    pages.push(page);
-
-    return pages;
   }
 
   parsePageContent(doc: XMLElement, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
