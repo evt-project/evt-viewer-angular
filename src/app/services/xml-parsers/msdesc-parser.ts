@@ -266,18 +266,45 @@ export class BindingDescParser extends EmptyParser implements Parser<XMLElement>
     }
 }
 
+export class SummaryParser extends EmptyParser implements Parser<XMLElement> {
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Summary {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Summary,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
 export class DecoDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
     private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+    private summaryParser = createParser(SummaryParser, this.genericParse);
 
     parse(xml: XMLElement): DecoDesc {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
+        const summaryEl = xml.querySelector<XMLElement>('scope > summary');
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: DecoDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
+            pEl,
+            ab,
+            summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
         };
     }
 }
@@ -311,23 +338,6 @@ export class AdditionsParser extends EmptyParser implements Parser<XMLElement> {
 
         return {
             type: Additions,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-            pEl,
-        };
-    }
-}
-
-export class SummaryParser extends EmptyParser implements Parser<XMLElement> {
-    private pParser = createParser(ParagraphParser, this.genericParse);
-    attributeParser = createParser(AttributeParser, this.genericParse);
-
-    parse(xml: XMLElement): Summary {
-        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
-
-        return {
-            type: Summary,
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),

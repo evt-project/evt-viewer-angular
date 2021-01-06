@@ -561,6 +561,9 @@ export class BindingDesc extends GenericElement {
 
 export class DecoDesc extends GenericElement {
     decoNote?: DecoNote;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    summary?: Summary;
 }
 
 export class Additions extends GenericElement {
