@@ -13,8 +13,8 @@ import {
     CollectionParser, DecoDescParser, DecoNoteParser, ExplicitParser, FiliationParser, FinalRubricParser, HandDescParser,
     HeadParser, HistoryParser, IncipitParser, InstitutionParser, LocusGrpParser, LocusParser, MsContentsParser, MsDescParser,
     MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
-    ObjectDescParser, OrigDateParser, OriginParser, PhysDescParser, ProvenanceParser, RepositoryParser, RubricParser, ScriptDescParser,
-    SealDescParser, SummaryParser, SurrogatesParser, TypeDescParser,
+    ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RepositoryParser,
+    RubricParser, ScriptDescParser, SealDescParser, SummaryParser, SurrogatesParser, TypeDescParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -25,7 +25,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' |
     'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'history' | 'incipit' | 'institution' | 'l' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
-    'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
+    'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
     'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 'scriptDesc' | 'sealDesc' | 'sic' | 'summary' | 'surface' | 'surrogates' | 'supplied' | 'surplus' |
     'typeDesc' | 'w' | 'zone';
 
@@ -79,6 +79,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     objectDesc: createParser(ObjectDescParser, parse),
     origDate: createParser(OrigDateParser, parse),
     origin: createParser(OriginParser, parse),
+    origPlace: createParser(OrigPlaceParser, parse),
     org: createParser(OrganizationParser, parse),
     orgname: createParser(NamedEntityRefParser, parse),
     p: createParser(ParagraphParser, parse),
