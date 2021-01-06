@@ -529,7 +529,7 @@ export class Provenance extends GenericElement {
 export class ObjectDesc extends GenericElement {
     form?: string;
     layoutDesc?: LayoutDesc;
-    supportDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when supportDesc is handled
+    supportDesc?: SupportDesc;
 }
 
 export class LayoutDesc extends GenericElement {
@@ -538,6 +538,19 @@ export class LayoutDesc extends GenericElement {
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
     layout?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layout is handled
     summary?: Summary;
+}
+
+export type MaterialValues = 'paper' | 'parch' | 'perg' | 'mixes';
+
+export class SupportDesc extends GenericElement {
+    material?: MaterialValues;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
+    collation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collation is handled
+    condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
+    foliation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when foliation is handled
+    support?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when support is handled
 }
 
 export class BindingDesc extends GenericElement {

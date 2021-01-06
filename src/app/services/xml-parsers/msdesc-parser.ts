@@ -1,8 +1,9 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
-    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
-    MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance,
-    Repository, Rubric, ScriptDesc, SealDesc, Summary, Surrogates, TypeDesc, XMLElement,
+    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues,
+    MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
+    Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, SealDesc, Summary, SupportDesc, Surrogates,
+    TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -161,17 +162,58 @@ export class LayoutDescParser extends EmptyParser implements Parser<XMLElement> 
     }
 }
 
+export class SupportDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): SupportDesc {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when extent is handled
+        const extent = Array.from(xml.querySelectorAll<XMLElement>(':scope > extent'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when collation is handled
+        const collation = Array.from(xml.querySelectorAll<XMLElement>(':scope > collation'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when foliation is handled
+        const foliation = Array.from(xml.querySelectorAll<XMLElement>(':scope > foliation'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when support is handled
+        const support = Array.from(xml.querySelectorAll<XMLElement>(':scope > support'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when condition is handled
+        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: SupportDesc,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            material: xml.getAttribute('material') as MaterialValues,
+            pEl,
+            ab,
+            extent,
+            collation,
+            foliation,
+            support,
+            condition,
+        };
+    }
+}
+
 export class ObjectDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private layoutDescParser = createParser(LayoutDescParser, this.genericParse);
+    private supportDescParser = createParser(SupportDescParser, this.genericParse);
 
     parse(xml: XMLElement): ObjectDesc {
         const attributes = this.attributeParser.parse(xml);
         const { form } = attributes;
         const layoutDescEl = xml.querySelector<XMLElement>('scope > layoutDesc');
-        // TODO: Add specific parser when supportDesc is handled
-        const supportDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > supportDesc'))
-        .map(e => parseChildren(e, this.genericParse));
+        const supportDescEl = xml.querySelector<XMLElement>('scope > supportDesc');
 
         return {
             type: ObjectDesc,
@@ -179,7 +221,7 @@ export class ObjectDescParser extends EmptyParser implements Parser<XMLElement> 
             attributes,
             form,
             layoutDesc: layoutDescEl ? this.layoutDescParser.parse(layoutDescEl) : undefined,
-            supportDesc,
+            supportDesc: supportDescEl ? this.supportDescParser.parse(supportDescEl) : undefined,
         };
     }
 }
