@@ -203,7 +203,7 @@ export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   });
 
   const fragment = range.cloneContents();
-  const nodes = Array.from(fragment.childNodes) as HTMLElement[];
+  const nodes = Array.from(fragment.childNodes);
 
   return nodes as XMLElement[];
 }

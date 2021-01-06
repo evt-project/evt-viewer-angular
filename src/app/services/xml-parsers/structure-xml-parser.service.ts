@@ -96,14 +96,14 @@ export class StructureXmlParserService {
     pageContent.map((child) => {
       let origEl = child;
 
-      if (child.getAttribute && child.getAttribute('xpath')) {
-        const docNS = doc.documentElement.namespaceURI;
+      if (origEl.getAttribute && origEl.getAttribute('xpath')) {
+        const docNS = (doc as unknown as Document).documentElement.namespaceURI;
         // tslint:disable-next-line: no-null-keyword
-        const nsResolver = docNS ? createNsResolver(doc) : null;
+        const nsResolver = docNS ? createNsResolver(doc as unknown as Document) : null;
         const path = docNS ? child.getAttribute('xpath').replace(/\//g, '/ns:') : child.getAttribute('xpath');
         // tslint:disable-next-line: no-null-keyword
-        const xpathRes = doc.evaluate(path, doc, nsResolver, XPathResult.ANY_TYPE, null);
-        origEl = xpathRes.iterateNext();
+        const xpathRes: XPathResult = (doc as unknown as Document).evaluate(path, doc, nsResolver, XPathResult.ANY_TYPE, null);
+        origEl = xpathRes.iterateNext() as XMLElement;
       }
 
       /* Check if the node is a front element or is nested in front element or is marked as original content */
