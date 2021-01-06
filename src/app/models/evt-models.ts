@@ -506,8 +506,15 @@ export class Origin extends GenericElement {
     notAfter?: string;
     evidence?: string;
     resp?: string;
-    originDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when originDate is handled
-    originPlace?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when originPlace is handled
+    origDate?: OrigDate;
+    origPlace?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when originPlace is handled
+}
+
+export class OrigDate extends GenericElement {
+    notBefore?: string;
+    notAfter?: string;
+    when?: string;
+    origDateType?: string;
 }
 
 export class Provenance extends GenericElement {

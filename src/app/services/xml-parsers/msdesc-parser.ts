@@ -1,7 +1,7 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
     Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
-    MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, Origin, PhysDesc, Provenance, Repository,
+    MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate, Origin, PhysDesc, Provenance, Repository,
     Rubric, ScriptDesc, SealDesc, Summary, Surrogates, TypeDesc, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
@@ -29,17 +29,35 @@ export class AcquisitionParser extends EmptyParser implements Parser<XMLElement>
     }
 }
 
+export class OrigDateParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): OrigDate {
+        const attributes = this.attributeParser.parse(xml);
+        const { notBefore, notAfter, when, origDateType } = attributes;
+
+        return {
+            type: OrigDate,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            notBefore,
+            notAfter,
+            when,
+            origDateType,
+        };
+    }
+}
+
 export class OriginParser extends EmptyParser implements Parser<XMLElement> {
+    private origDateParser = createParser(OrigDateParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): Origin {
         const attributes = this.attributeParser.parse(xml);
         const { notBefore, notAfter, evidence, resp } = attributes;
-        // TODO: Add specific parser when originDate is handled
-        const originDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > originDate'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when originPlace is handled
-        const originPlace = Array.from(xml.querySelectorAll<XMLElement>(':scope > originPlace'))
+        const origDateEl = xml.querySelector<XMLElement>('scope > origDate');
+        // TODO: Add specific parser when origPlace is handled
+        const origPlace = Array.from(xml.querySelectorAll<XMLElement>(':scope > originPlace'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -50,8 +68,8 @@ export class OriginParser extends EmptyParser implements Parser<XMLElement> {
             notAfter,
             evidence,
             resp,
-            originDate,
-            originPlace,
+            origDate: origDateEl ? this.origDateParser.parse(origDateEl) : undefined,
+            origPlace,
         };
     }
 }
