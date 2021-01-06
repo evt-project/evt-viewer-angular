@@ -528,8 +528,16 @@ export class Provenance extends GenericElement {
 
 export class ObjectDesc extends GenericElement {
     form?: string;
-    layoutDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layoutDesc is handled
+    layoutDesc?: LayoutDesc;
     supportDesc?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when supportDesc is handled
+}
+
+export class LayoutDesc extends GenericElement {
+    structuredData: boolean;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    layout?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layout is handled
+    summary?: Summary;
 }
 
 export class BindingDesc extends GenericElement {

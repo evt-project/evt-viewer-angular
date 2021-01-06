@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
-    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
+    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MsContents, MsDesc, MsFrag,
     MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance,
     Repository, Rubric, ScriptDesc, SealDesc, Summary, Surrogates, TypeDesc, XMLElement,
 } from '../../models/evt-models';
@@ -132,15 +132,43 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class LayoutDescParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private summaryParser = createParser(ProvenanceParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): LayoutDesc {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        const summaryEl = xml.querySelector<XMLElement>('scope > provenance');
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when layout is handled
+        const layout = Array.from(xml.querySelectorAll<XMLElement>(':scope > layout'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: LayoutDesc,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
+            pEl,
+            ab,
+            layout,
+            summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
+        };
+    }
+}
+
 export class ObjectDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private layoutDescParser = createParser(LayoutDescParser, this.genericParse);
 
     parse(xml: XMLElement): ObjectDesc {
         const attributes = this.attributeParser.parse(xml);
         const { form } = attributes;
-        // TODO: Add specific parser when layoutDesc is handled
-        const layoutDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > layoutDesc'))
-        .map(e => parseChildren(e, this.genericParse));
+        const layoutDescEl = xml.querySelector<XMLElement>('scope > layoutDesc');
         // TODO: Add specific parser when supportDesc is handled
         const supportDesc = Array.from(xml.querySelectorAll<XMLElement>(':scope > supportDesc'))
         .map(e => parseChildren(e, this.genericParse));
@@ -150,7 +178,7 @@ export class ObjectDescParser extends EmptyParser implements Parser<XMLElement> 
             content: parseChildren(xml, this.genericParse),
             attributes,
             form,
-            layoutDesc,
+            layoutDesc: layoutDescEl ? this.layoutDescParser.parse(layoutDescEl) : undefined,
             supportDesc,
         };
     }
