@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
-import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
+import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, isNodeNestedInElem, xpath } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
 import { ParseResult } from './parser-models';
 
@@ -18,14 +18,32 @@ export class StructureXmlParserService {
   parsePages(document: XMLElement) {
     const pages: Page[] = [];
     const pageTagName = 'pb';
+    const frontTagName = 'front';
+    const bodyTagName = 'body';
 
     if (document) {
       const pageElements: NodeListOf<XMLElement> = document.querySelectorAll(pageTagName);
 
       if (pageElements.length > 0) {
-        pageElements.forEach((page, pageIndex, pagesCollection) => {
-          pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1]));
-        });
+        const frontPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, frontTagName));
+        const bodyPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, bodyTagName));
+        const frontElement = document.querySelector(frontTagName) as XMLElement;
+
+        if (frontPageElements.length > 0) {
+          frontPageElements.forEach((page, pageIndex, pagesCollection) => {
+            pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1], frontTagName));
+          });
+        }
+
+        if (frontPageElements.length === 0 && this.hasFrontOriginalContent(frontElement)) {
+          pages.push(this.parseDocumentFront(document, frontElement));
+        }
+
+        if (bodyPageElements.length > 0) {
+          bodyPageElements.forEach((page, pageIndex, pagesCollection) => {
+            pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1], bodyTagName));
+          });
+        }
       } else {
         pages.push(...this.parseDocumentAsPages(document));
       }
@@ -36,7 +54,7 @@ export class StructureXmlParserService {
     };
   }
 
-  parseDocumentPage(doc: XMLElement, page: XMLElement, nextPage: XMLElement): Page {
+  parseDocumentPage(doc: XMLElement, page: XMLElement, nextPage: XMLElement, ancestorTagName: string): Page {
     let pageContent: XMLElement[] = [];
 
     /* If there is a next page we retrieve the elements between two page nodes
@@ -44,9 +62,9 @@ export class StructureXmlParserService {
     if (nextPage) {
       pageContent = getElementsBetweenTreeNode(page, nextPage).filter((n) => n.tagName !== 'pb');
     } else {
-      const bodyEls = Array.from(doc.querySelectorAll('body'));
-      const bodyLastNode = bodyEls[bodyEls.length - 1].lastChild;
-      pageContent = getElementsBetweenTreeNode(page, bodyLastNode);
+      const ancestorEls = Array.from(doc.querySelectorAll(ancestorTagName));
+      const ancestorLastNode = ancestorEls[ancestorEls.length - 1].lastChild;
+      pageContent = getElementsBetweenTreeNode(page, ancestorLastNode);
     }
 
     pageContent.filter((c) => c.nodeType !== 8);
@@ -54,6 +72,19 @@ export class StructureXmlParserService {
     return {
       id: page.getAttribute('xml:id') || 'page' + xpath(page),
       label: page.getAttribute('n') || 'page',
+      originalContent: pageContent,
+      parsedContent: this.parsePageContent(doc, pageContent),
+    };
+  }
+
+  parseDocumentFront(doc: XMLElement, el: XMLElement) {
+    const mainText = doc.querySelector('text');
+    const frontLastNode = el.lastChild;
+    const pageContent: XMLElement[] = getElementsBetweenTreeNode(mainText, frontLastNode);
+
+    return {
+      id: 'page_front',
+      label: 'front',
       originalContent: pageContent,
       parsedContent: this.parsePageContent(doc, pageContent),
     };
@@ -134,7 +165,7 @@ export class StructureXmlParserService {
     return parsedContent;
   }
 
-  hasFrontOriginalContent(el: HTMLElement): boolean {
+  hasFrontOriginalContent(el: XMLElement): boolean {
     return el.nodeType !== 3 &&
       (el.getAttribute('type') === this.frontOriginalContentAttr ||
       el.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) ||
