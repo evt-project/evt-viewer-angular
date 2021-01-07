@@ -921,7 +921,7 @@ export class RecordHistParser extends EmptyParser implements Parser<XMLElement> 
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
+            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             change,
             source,
             ab,
