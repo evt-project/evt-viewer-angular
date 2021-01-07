@@ -13,7 +13,7 @@ import {
     BindingParser, CollectionParser, DecoDescParser, DecoNoteParser, ExplicitParser, FiliationParser, FinalRubricParser, HandDescParser,
     HeadParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser, LocusGrpParser, LocusParser, MsContentsParser,
     MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
-    ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RepositoryParser,
+    ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser, RepositoryParser,
     RubricParser, ScriptDescParser, SealDescParser, SealParser, SummaryParser, SupportDescParser, SurrogatesParser, TypeDescParser,
     TypeNoteParser,
 } from './msdesc-parser';
@@ -27,8 +27,8 @@ type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminI
     'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
-    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' | 'surface' | 'surrogates' | 'supplied' | 'surplus' |
-    'typeDesc' | 'typeNote' | 'w' | 'zone';
+    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' | 'surface' |
+    'surrogates' | 'supplied' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -96,6 +96,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     place: createParser(PlaceParser, parse),
     rdg: createParser(RdgParser, parse),
     // event: createParser(EventParser), // TODO: check event parser
+    recordHist: createParser(RecordHistParser, parse),
     repository: createParser(RepositoryParser, parse),
     rubric: createParser(RubricParser, parse),
     scriptDesc: createParser(ScriptDescParser, parse),

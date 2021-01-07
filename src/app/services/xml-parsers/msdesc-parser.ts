@@ -2,8 +2,8 @@ import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, DecoDesc,
     DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
     LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
-    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
-    SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
+    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc,
+    Summary, SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -874,17 +874,46 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+export class RecordHistParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): RecordHist {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        // TODO: Add specific parser when change is handled
+        const change = Array.from(xml.querySelectorAll<XMLElement>(':scope > change'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when source is handled
+        const source = Array.from(xml.querySelectorAll<XMLElement>(':scope > source'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: RecordHist,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
+            change,
+            source,
+            ab,
+            pEl,
+        };
+    }
+}
+
 export class AdminInfoParser extends EmptyParser implements Parser<XMLElement> {
+    private recordHistParser = createParser(RecordHistParser, this.genericParse);
     private noteParser = createParser(NoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): AdminInfo {
+        const recordHistEl = xml.querySelector<XMLElement>('scope > recordHist');
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         // TODO: Add specific parser when custodialHist is handled
         const custodialHist = Array.from(xml.querySelectorAll<XMLElement>(':scope > custodialHist'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when recordHist is handled
-        const recordHist = Array.from(xml.querySelectorAll<XMLElement>(':scope > recordHist'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when availability is handled
         const availability = Array.from(xml.querySelectorAll<XMLElement>(':scope > availability'))
@@ -899,7 +928,7 @@ export class AdminInfoParser extends EmptyParser implements Parser<XMLElement> {
             noteEl,
             availability,
             custodialHist,
-            recordHist,
+            recordHist: recordHistEl ? this.recordHistParser.parse(recordHistEl) : undefined,
         };
     }
 }
