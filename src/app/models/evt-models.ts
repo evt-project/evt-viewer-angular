@@ -586,7 +586,12 @@ export class SealDesc extends GenericElement {
 
 export class TypeDesc extends GenericElement {
     summary?: Summary;
-    typeNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when typeNote is handled
+    typeNote?: TypeNote;
+}
+
+export class TypeNote extends GenericElement {
+    id: string;
+    scope?: string;
 }
 
 export class MusicNotation extends GenericElement {

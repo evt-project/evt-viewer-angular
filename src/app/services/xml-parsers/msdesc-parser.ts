@@ -3,7 +3,7 @@ import {
     Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues,
     MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
     Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, SealDesc, Summary, SupportDesc, Surrogates,
-    TypeDesc, XMLElement,
+    TypeDesc, TypeNote, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -383,22 +383,38 @@ export class SealDescParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class TypeNoteParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): TypeNote {
+        const attributes = this.attributeParser.parse(xml);
+        const { scope } = attributes;
+
+        return {
+            type: TypeNote,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            id: getID(xml),
+            scope,
+        };
+    }
+}
+
 export class TypeDescParser extends EmptyParser implements Parser<XMLElement> {
     private summaryParser = createParser(SummaryParser, this.genericParse);
+    private typeNoteParser = createParser(TypeNoteParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): TypeDesc {
         const summaryEl = xml.querySelector<XMLElement>('scope > summary');
-        // TODO: Add specific parser when typeNote is handled
-        const typeNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > typeNote'))
-        .map(e => parseChildren(e, this.genericParse));
+        const typeNoteEl = xml.querySelector<XMLElement>('scope > typeNote');
 
         return {
             type: SealDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
-            typeNote,
+            typeNote: typeNoteEl ? this.typeNoteParser.parse(typeNoteEl) : undefined,
         };
     }
 }
