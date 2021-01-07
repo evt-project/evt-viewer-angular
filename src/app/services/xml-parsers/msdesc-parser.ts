@@ -410,7 +410,7 @@ export class TypeDescParser extends EmptyParser implements Parser<XMLElement> {
         const typeNoteEl = xml.querySelector<XMLElement>('scope > typeNote');
 
         return {
-            type: SealDesc,
+            type: TypeDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
