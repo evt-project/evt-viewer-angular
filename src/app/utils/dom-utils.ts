@@ -229,10 +229,6 @@ export function getCommonAncestor(node1, node2) {
   return undefined;
 }
 
-export function createNsResolver(doc: Document) {
-  return (prefix: string) => {
-    if (prefix === 'ns') {
-      return doc.documentElement.namespaceURI;
-    }
-  };
+export function createNsResolver(doc: XMLElement) {
+  return (prefix: string) => prefix === 'ns' ? doc.namespaceURI : undefined;
 }
