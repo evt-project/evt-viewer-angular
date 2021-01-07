@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TextPanelComponent } from './text-panel.component';
 
@@ -6,7 +6,7 @@ describe('TextPanelComponent', () => {
   let component: TextPanelComponent;
   let fixture: ComponentFixture<TextPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TextPanelComponent ]
     })

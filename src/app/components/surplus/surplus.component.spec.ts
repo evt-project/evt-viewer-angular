@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SurplusComponent } from './surplus.component';
 
@@ -6,7 +6,7 @@ describe('SurplusComponent', () => {
   let component: SurplusComponent;
   let fixture: ComponentFixture<SurplusComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SurplusComponent ],
     })
