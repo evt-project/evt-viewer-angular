@@ -554,9 +554,17 @@ export class SupportDesc extends GenericElement {
 }
 
 export class BindingDesc extends GenericElement {
-    binding?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when binding is handled
+    binding?: Binding;
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
     decoNote?: DecoNote;
+}
+
+export class Binding extends GenericElement {
+    contemporary?: boolean;
+    condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
+    decoNote?: DecoNote;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
 
 export class DecoDesc extends GenericElement {

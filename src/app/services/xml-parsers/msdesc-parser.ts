@@ -1,9 +1,9 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BindingDesc, CollectionEl, DecoDesc, DecoNote, Explicit,
-    Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues,
-    MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
-    Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, SealDesc, Summary, SupportDesc, Surrogates,
-    TypeDesc, TypeNote, XMLElement,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, DecoDesc,
+    DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
+    LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
+    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, SealDesc, Summary, SupportDesc,
+    Surrogates, TypeDesc, TypeNote, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -242,15 +242,42 @@ export class DecoNoteParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class BindingParser extends EmptyParser implements Parser<XMLElement> {
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Binding {
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        // TODO: Add specific parser when condition is handled
+        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Binding,
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            contemporary: true || false,
+            condition,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
+            pEl,
+            ab,
+        };
+    }
+}
+
 export class BindingDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+    private bindingParser = createParser(BindingParser, this.genericParse);
 
     parse(xml: XMLElement): BindingDesc {
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
-        // TODO: Add specific parser when binding is handled
-        const binding = Array.from(xml.querySelectorAll<XMLElement>(':scope > binding'))
-        .map(e => parseChildren(e, this.genericParse));
+        const bindingEl = xml.querySelector<XMLElement>('scope > binding');
         // TODO: Add specific parser when condition is handled
         const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
         .map(e => parseChildren(e, this.genericParse));
@@ -259,7 +286,7 @@ export class BindingDescParser extends EmptyParser implements Parser<XMLElement>
             type: BindingDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            binding,
+            binding: bindingEl ? this.bindingParser.parse(bindingEl) : undefined,
             condition,
             decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
         };

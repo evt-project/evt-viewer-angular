@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
-    CollectionParser, DecoDescParser, DecoNoteParser, ExplicitParser, FiliationParser, FinalRubricParser, HandDescParser,
+    BindingParser, CollectionParser, DecoDescParser, DecoNoteParser, ExplicitParser, FiliationParser, FinalRubricParser, HandDescParser,
     HeadParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser, LocusGrpParser, LocusParser, MsContentsParser,
     MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
     ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RepositoryParser,
@@ -22,7 +22,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'bindingDesc' | 'char' | 'choice' | 'collection' |
+type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collection' |
     'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
@@ -38,6 +38,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     adminInfo: createParser(AdminInfoParser, parse),
     altIdentifier: createParser(AltIdentifierParser, parse),
     app: createParser(AppParser, parse),
+    binding: createParser(BindingParser, parse),
     bindingDesc: createParser(BindingDescParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
