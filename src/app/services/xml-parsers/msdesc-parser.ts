@@ -2,8 +2,8 @@ import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, DecoDesc,
     DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
     LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
-    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, SealDesc, Summary, SupportDesc,
-    Surrogates, TypeDesc, TypeNote, XMLElement,
+    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
+    SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -393,19 +393,46 @@ export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> 
     }
 }
 
+export class SealParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+    private decoNoteParser = createParser(DecoNoteParser, this.genericParse);
+
+    parse(xml: XMLElement): Seal {
+        const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        // TODO: Add specific parser when ab is handled
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
+        .map(e => parseChildren(e, this.genericParse));
+        const attributes = this.attributeParser.parse(xml);
+        const { sealType } = attributes;
+
+        return {
+            type: Seal,
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            contemporary: true || false,
+            decoNote: decoNoteEl ? this.decoNoteParser.parse(decoNoteEl) : undefined,
+            sealType,
+            n: getDefaultN(attributes.n),
+            pEl,
+            ab,
+        };
+    }
+}
+
 export class SealDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private sealParser = createParser(SealParser, this.genericParse);
 
     parse(xml: XMLElement): SealDesc {
-        // TODO: Add specific parser when seal is handled
-        const seal = Array.from(xml.querySelectorAll<XMLElement>(':scope > seal'))
-        .map(e => parseChildren(e, this.genericParse));
+        const sealEl = xml.querySelector<XMLElement>('scope > seal');
 
         return {
             type: SealDesc,
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            seal,
+            seal: sealEl ? this.sealParser.parse(sealEl) : undefined,
         };
     }
 }

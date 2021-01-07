@@ -588,8 +588,17 @@ export class ScriptDesc extends GenericElement {
     summary?: Summary;
 }
 
+export class Seal extends GenericElement {
+    contemporary?: boolean;
+    sealType?: string;
+    n?: string;
+    decoNote?: DecoNote;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+}
+
 export class SealDesc extends GenericElement {
-    seal?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when seal is handled
+    seal?: Seal;
 }
 
 export class TypeDesc extends GenericElement {
