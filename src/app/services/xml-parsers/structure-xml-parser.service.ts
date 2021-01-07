@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EditionStructure, GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
-import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
+import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
-import { ParseResult } from './parser-models';
+import { getID, ParseResult } from './parser-models';
 
 @Injectable({
   providedIn: 'root',
@@ -43,25 +43,19 @@ export class StructureXmlParserService {
   }
 
   parseDocumentPage(doc: XMLElement, page: XMLElement, nextPage: XMLElement, ancestorTagName: string): Page {
-    let pageContent: XMLElement[] = [];
 
-    /* If there is a next page we retrieve the elements between two page nodes
+    /* If there is a next page we retrieve the elements between two page nodes 
     otherweise we retrieve the nodes between the page node and the last node of the body node */
-    if (nextPage) {
-      pageContent = getElementsBetweenTreeNode(page, nextPage).filter((n) => n.tagName !== 'pb');
-    } else {
-      const ancestorEls = Array.from(doc.querySelectorAll(ancestorTagName));
-      const ancestorLastNode = ancestorEls[ancestorEls.length - 1].lastChild;
-      pageContent = getElementsBetweenTreeNode(page, ancestorLastNode);
-    }
-
-    pageContent.filter((c) => c.nodeType !== 8);
+    const nextNode = nextPage || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild; // TODO: check if querySelectorAll can return an empty array in this case
+    const originalContent = getElementsBetweenTreeNode(page, nextNode)
+      .filter((n) => n.tagName !== 'pb')
+      .filter((c) => ![4, 7, 8].includes(c.nodeType)) // Filter comments, CDATAs, and processing instructions
 
     return {
-      id: page.getAttribute('xml:id') || 'page' + xpath(page),
+      id: getID(page, 'page'),
       label: page.getAttribute('n') || 'page',
-      originalContent: pageContent,
-      parsedContent: this.parsePageContent(doc, pageContent),
+      originalContent,
+      parsedContent: this.parsePageContent(doc, originalContent),
     };
   }
 
