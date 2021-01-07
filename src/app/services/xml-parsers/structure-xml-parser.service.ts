@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
-import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, isNodeNestedInElem, xpath } from '../../utils/dom-utils';
+import { EditionStructure, GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
+import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
 import { ParseResult } from './parser-models';
 
@@ -15,47 +15,30 @@ export class StructureXmlParserService {
 
   private frontOriginalContentAttr = 'document_front';
 
-  parsePages(document: XMLElement) {
-    const pages: Page[] = [];
+  parsePages(document: XMLElement): EditionStructure {
+    if (!document) { return { pages: [] }; }
+
     const pageTagName = 'pb';
     const frontTagName = 'front';
     const bodyTagName = 'body';
 
-    if (document) {
-      const pageElements: NodeListOf<XMLElement> = document.querySelectorAll(pageTagName);
+    const frontElement = document.querySelector(frontTagName) as XMLElement;
+    const bodyElement = document.querySelector(bodyTagName);
 
-      if (pageElements.length > 0) {
-        const frontPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, frontTagName));
-        const bodyPageElements = Array.from(pageElements).filter((p) => isNestedInElem(p, bodyTagName));
-        const frontElement = document.querySelector(frontTagName) as XMLElement;
-        const bodyElement = document.querySelector(bodyTagName);
+    const pbs = Array.from(document.querySelectorAll(pageTagName));
+    const frontPbs = pbs.filter((p) => isNestedInElem(p, frontTagName));
+    const bodyPbs = pbs.filter((p) => isNestedInElem(p, bodyTagName));
 
-        if (frontPageElements.length > 0) {
-          frontPageElements.forEach((page, pageIndex, pagesCollection) => {
-            pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1], frontTagName));
-          });
-        }
+    const frontPages = frontPbs.length === 0 && this.hasFrontOriginalContent(frontElement)
+      ? [this.parseDocumentFrontAsPage(document, frontElement)]
+      : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(document, pb as HTMLElement, arr[idx + 1] as HTMLElement, frontTagName));
 
-        if (frontPageElements.length === 0 && this.hasFrontOriginalContent(frontElement)) {
-          pages.push(this.parseDocumentFrontAsPage(document, frontElement));
-        }
-
-        if (bodyPageElements.length > 0) {
-          bodyPageElements.forEach((page, pageIndex, pagesCollection) => {
-            pages.push(this.parseDocumentPage(document, page, pagesCollection[pageIndex + 1], bodyTagName));
-          });
-        }
-
-        if (bodyPageElements.length === 0) {
-          pages.push(this.parseDocumentBodyAsPage(document, bodyElement));
-        }
-      } else {
-        pages.push(...this.parseDocumentAsPages(document));
-      }
-    }
+    const bodyPages = bodyPbs.length > 0
+      ? bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(document, pb as HTMLElement, arr[idx + 1] as HTMLElement, bodyTagName))
+      : [this.parseDocumentBodyAsPage(document, bodyElement)];
 
     return {
-      pages,
+      pages: [...frontPages, ...bodyPages],
     };
   }
 
@@ -97,7 +80,7 @@ export class StructureXmlParserService {
   }
 
   parseDocumentFrontAsPage(doc: XMLElement, el: XMLElement): Page {
-    const pageContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild,  el.lastChild);
+    const pageContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild, el.lastChild);
 
     return {
       id: 'page_front',
@@ -164,7 +147,7 @@ export class StructureXmlParserService {
   hasFrontOriginalContent(el: XMLElement): boolean {
     return el.nodeType !== 3 &&
       (el.getAttribute('type') === this.frontOriginalContentAttr ||
-      el.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) ||
+        el.querySelectorAll(`[type=${this.frontOriginalContentAttr}]`).length > 0) ||
       isNestedInElem(el, '', [{ key: 'type', value: this.frontOriginalContentAttr }]);
   }
 }
