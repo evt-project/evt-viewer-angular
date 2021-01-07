@@ -994,14 +994,14 @@ export class  CollectionParser extends EmptyParser implements Parser<XMLElement>
 
     parse(xml: XMLElement): CollectionEl {
         const attributes = this.attributeParser.parse(xml);
-        const { type } = attributes;
+        const { collectionType } = attributes;
 
         return {
             type: CollectionEl,
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
-            collectionType: type,
+            collectionType,
         };
     }
 }
