@@ -629,8 +629,15 @@ export class AdminInfo extends GenericElement {
     structuredData: boolean;
     noteEl?: Note[];
     availability?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    custodialHist?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    custodialHist?: CustodialHist;
     recordHist?: RecordHist;
+}
+
+export class CustodialHist extends GenericElement {
+    structuredData: boolean;
+    pEl?: Paragraph[];
+    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    custEvent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when custEvent is handled
 }
 
 export class RecordHist extends GenericElement {
