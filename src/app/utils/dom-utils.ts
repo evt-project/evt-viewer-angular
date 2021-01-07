@@ -82,15 +82,13 @@ export function isNodeNestedInElem(
  * @returns calculated xpath of the given element
  */
 // tslint:disable-next-line: no-any
-export function xpath(el: any): any { // TODO: get rid of any
+export function xpath(el: any): string { // TODO: get rid of any
   try {
     if (typeof el === 'string') {
       // document.evaluate(xpathExpression, contextNode, namespaceResolver, resultType, result );
-      return document.evaluate(el, document, undefined, 0, undefined);
+      return document.evaluate(el, document, undefined, 0, undefined).stringValue;
     }
-    if (!el || el.nodeType !== 1) {
-      return '';
-    }
+    if (!el || el.nodeType !== 1) { return ''; }
     let sames = [];
     if (el.parentNode) {
       sames = [].filter.call(el.parentNode.children, (x) => {
@@ -101,11 +99,11 @@ export function xpath(el: any): any { // TODO: get rid of any
     countIndex = `[${countIndex}]`;
     const tagName = el.tagName !== 'tei' ? '-' + el.tagName : '';
 
-    return xpath(el.parentNode) + tagName + countIndex;
+    return `${xpath(el.parentNode)}${tagName}${countIndex}`;
   } catch (e) {
-    totIdsGenerated++;
+    totIdsGenerated++; // TODO: remove side effects
 
-    return '-id' + totIdsGenerated;
+    return `-id${totIdsGenerated}`;
   }
 }
 
@@ -233,8 +231,8 @@ export function getCommonAncestor(node1, node2) {
 
 export function createNsResolver(doc: Document) {
   return (prefix: string) => {
-      if (prefix === 'ns') {
-         return doc.documentElement.namespaceURI;
-      }
-   };
+    if (prefix === 'ns') {
+      return doc.documentElement.namespaceURI;
+    }
+  };
 }
