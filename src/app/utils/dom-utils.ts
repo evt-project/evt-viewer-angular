@@ -15,7 +15,7 @@ let totIdsGenerated = 0;
  * @returns Whether the given element is nested in a node with given TagName or not
  */
 export function isNestedInElem(element, parentTagName: string, attributes?: Array<{ key: string, value }>): boolean {
-  return isNodeNestedInElem(element, parentTagName, false, attributes);
+  return !!element && isNodeNestedInElem(element, parentTagName, false, attributes);
 }
 /**
  * Function to check if an element is directly nested into another particular element.
@@ -229,6 +229,6 @@ export function getCommonAncestor(node1, node2) {
   return undefined;
 }
 
-export function createNsResolver(doc: XMLElement) {
-  return (prefix: string) => prefix === 'ns' ? doc.namespaceURI : undefined;
+export function createNsResolver(doc: Document) {
+  return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
 }
