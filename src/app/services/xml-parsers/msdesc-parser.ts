@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, CustEvent, CustodialHist,
-    DecoDesc, DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
+    DecoDesc, DecoNote, Explicit, Filiation, FinalRubric, Foliation, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
     LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
     ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc,
     Summary, Support, SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
@@ -180,14 +180,34 @@ export class SupportParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class FoliationParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): Foliation {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Foliation,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            id: getID(xml),
+            pEl,
+        };
+    }
+}
+
 export class SupportDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private pParser = createParser(ParagraphParser, this.genericParse);
     private supportParser = createParser(SupportParser, this.genericParse);
+    private foliationParser = createParser(FoliationParser, this.genericParse);
 
     parse(xml: XMLElement): SupportDesc {
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         const supportEl = xml.querySelector<XMLElement>('scope > support');
+        const foliationEl = xml.querySelector<XMLElement>('scope > foliation');
         // TODO: Add specific parser when ab is handled
         const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
         .map(e => parseChildren(e, this.genericParse));
@@ -196,9 +216,6 @@ export class SupportDescParser extends EmptyParser implements Parser<XMLElement>
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when collation is handled
         const collation = Array.from(xml.querySelectorAll<XMLElement>(':scope > collation'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when foliation is handled
-        const foliation = Array.from(xml.querySelectorAll<XMLElement>(':scope > foliation'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when condition is handled
         const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
@@ -214,7 +231,7 @@ export class SupportDescParser extends EmptyParser implements Parser<XMLElement>
             ab,
             extent,
             collation,
-            foliation,
+            foliation: foliationEl ? this.foliationParser.parse(foliationEl) : undefined,
             support: supportEl ? this.supportParser.parse(supportEl) : undefined,
             condition,
         };
