@@ -641,7 +641,16 @@ export class CustodialHist extends GenericElement {
     structuredData: boolean;
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
-    custEvent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when custEvent is handled
+    custEvent?: CustEvent;
+}
+
+export class CustEvent extends GenericElement {
+    custEventType: string;
+    notBefore?: string;
+    notAfter?: string;
+    when?: string;
+    from?: string;
+    to?: string;
 }
 
 export class RecordHist extends GenericElement {

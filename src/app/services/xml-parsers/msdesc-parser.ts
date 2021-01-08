@@ -1,6 +1,6 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, CustodialHist, DecoDesc,
-    DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, CustEvent, CustodialHist,
+    DecoDesc, DecoNote, Explicit, Filiation, FinalRubric, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
     LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
     ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc,
     Summary, Support, SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
@@ -891,17 +891,38 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+export class CustEventParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): CustEvent {
+        const attributes = this.attributeParser.parse(xml);
+        const { notBefore, notAfter, when, from, to, custEventType } = attributes;
+
+        return {
+            type: CustEvent,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            notBefore,
+            notAfter,
+            when,
+            from,
+            to,
+            custEventType,
+        };
+    }
+}
+
 export class CustodialHistParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private custEventParser = createParser(CustEventParser, this.genericParse);
     private pParser = createParser(ParagraphParser, this.genericParse);
 
     parse(xml: XMLElement): CustodialHist {
+        const custEventEl = xml.querySelector<XMLElement>('scope > custEvent');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when ab is handled
         const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when custEvent is handled
-        const custEvent = Array.from(xml.querySelectorAll<XMLElement>(':scope > custEvent'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -910,7 +931,7 @@ export class CustodialHistParser extends EmptyParser implements Parser<XMLElemen
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
-            custEvent,
+            custEvent: custEventEl ? this.custEventParser.parse(custEventEl) : undefined,
             ab,
             pEl,
         };
