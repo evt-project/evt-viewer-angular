@@ -550,7 +550,11 @@ export class SupportDesc extends GenericElement {
     collation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collation is handled
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
     foliation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when foliation is handled
-    support?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when support is handled
+    support?: Support;
+}
+
+export class Support extends GenericElement {
+    material?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when material is handled
 }
 
 export class BindingDesc extends GenericElement {

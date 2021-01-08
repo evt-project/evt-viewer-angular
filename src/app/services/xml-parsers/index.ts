@@ -15,7 +15,7 @@ import {
     LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser,
     MsPartParser, MusicNotationParser, ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser,
     RecordHistParser, RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SealParser, SummaryParser, SupportDescParser,
-    SurrogatesParser, TypeDescParser, TypeNoteParser,
+    SupportParser, SurrogatesParser, TypeDescParser, TypeNoteParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -27,8 +27,8 @@ type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminI
     'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
-    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' | 'surface' |
-    'surrogates' | 'supplied' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'zone';
+    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' |
+    'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -108,6 +108,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     surface: createParser(SurfaceParser, parse),
     surrogates: createParser(SurrogatesParser, parse),
     supplied: createParser(SuppliedParser, parse),
+    support: createParser(SupportParser, parse),
     supportDesc: createParser(SupportDescParser, parse),
     surplus: createParser(SurplusParser, parse),
     typeDesc: createParser(TypeDescParser, parse),
