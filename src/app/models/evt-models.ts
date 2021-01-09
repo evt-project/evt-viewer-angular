@@ -145,7 +145,7 @@ export interface Witnesses {
 
 export interface Witness {
     id: string;
-    name: GenericElement[];
+    name: string | Array<ParseResult<GenericElement>> | XMLElement;
     attributes: Attributes;
     content: Array<ParseResult<GenericElement>>;
     groupId: string;
