@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl,
-    CustEvent, CustodialHist, DecoDesc, DecoNote, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
+    CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
     HandDesc, Head, Height, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
     MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
     Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
@@ -9,6 +9,32 @@ import {
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
+
+export class DepthParser extends EmptyParser implements Parser<XMLElement> {
+    private gParser = createParser(GParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Depth {
+        const gEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > g')).map(g => this.gParser.parse(g));
+        const attributes = this.attributeParser.parse(xml);
+        const { scope, extent, unit, quantity, atLeast, atMost, min, max } = attributes;
+
+        return {
+            type: Depth,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            scope,
+            extent,
+            unit,
+            quantity: quantity ? parseInt(quantity, 10) : undefined,
+            atLeast: atLeast ? parseInt(atLeast, 10) : undefined,
+            atMost: atMost ? parseInt(atMost, 10) : undefined,
+            min: min ? parseInt(min, 10) : undefined,
+            max: max ? parseInt(max, 10) : undefined,
+            gEl,
+        };
+    }
+}
 
 export class WidthParser extends EmptyParser implements Parser<XMLElement> {
     private gParser = createParser(GParser, this.genericParse);
@@ -66,15 +92,14 @@ export class DimensionsParser extends EmptyParser implements Parser<XMLElement> 
     attributeParser = createParser(AttributeParser, this.genericParse);
     private heightParser = createParser(HeightParser, this.genericParse);
     private widthParser = createParser(WidthParser, this.genericParse);
+    private depthParser = createParser(DepthParser, this.genericParse);
 
     parse(xml: XMLElement): Dimensions {
         const attributes = this.attributeParser.parse(xml);
         const { dimensionsType, scope, extent, unit, quantity, atLeast, atMost, min, max } = attributes;
         const heightEl = xml.querySelector<XMLElement>('scope > height');
         const widthEl = xml.querySelector<XMLElement>('scope > width');
-        // TODO: Add specific parser when depth is handled
-        const depth = Array.from(xml.querySelectorAll<XMLElement>(':scope > depth'))
-        .map(e => parseChildren(e, this.genericParse));
+        const depthEl = xml.querySelector<XMLElement>('scope > depth');
         // TODO: Add specific parser when dim is handled
         const dim = Array.from(xml.querySelectorAll<XMLElement>(':scope > dim'))
         .map(e => parseChildren(e, this.genericParse));
@@ -94,7 +119,7 @@ export class DimensionsParser extends EmptyParser implements Parser<XMLElement> 
             max: max ? parseInt(max, 10) : undefined,
             height: heightEl ? this.heightParser.parse(heightEl) : undefined,
             width: widthEl ? this.widthParser.parse(widthEl) : undefined,
-            depth,
+            depth: depthEl ? this.depthParser.parse(depthEl) : undefined,
             dim,
         };
     }
