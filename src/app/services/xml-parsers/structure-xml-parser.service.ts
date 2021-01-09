@@ -46,12 +46,13 @@ export class StructureXmlParserService {
 
   parseDocumentPage(doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): Page {
 
-    /* If there is a next page we retrieve the elements between two page nodes 
+    /* If there is a next page we retrieve the elements between two page nodes
     otherweise we retrieve the nodes between the page node and the last node of the body node */
-    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild; // TODO: check if querySelectorAll can return an empty array in this case
+    // TODO: check if querySelectorAll can return an empty array in this case
+    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
     const originalContent = getElementsBetweenTreeNode(pb, nextNode)
       .filter((n) => n.tagName !== 'pb')
-      .filter((c) => ![4, 7, 8].includes(c.nodeType)) // Filter comments, CDATAs, and processing instructions
+      .filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
 
     return {
       id: getID(pb, 'page'),
@@ -80,17 +81,19 @@ export class StructureXmlParserService {
           if (this.isMarkedAsOrigContent(node)) { return [this.genericParserService.parse(node)]; }
           if (this.hasOriginalContent(node)) {
             return Array.from(node.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
-              .map((c) => this.genericParserService.parse(c as XMLElement))
+              .map((c) => this.genericParserService.parse(c as XMLElement));
           }
-          return [] as ParseResult<GenericElement>[];
+
+          return [] as Array<ParseResult<GenericElement>>;
         }
+
         if (node.tagName === 'text' && node.querySelectorAll && node.querySelectorAll('front').length > 0) {
           return this.parsePageContent(doc, Array.from(node.children) as HTMLElement[]);
         }
+
         return [this.genericParserService.parse(node)];
       })
-      .reduce((x, y) => x.concat(y), [])
-      ;
+      .reduce((x, y) => x.concat(y), []);
   }
 
   hasOriginalContent(el: XMLElement): boolean {
@@ -110,7 +113,9 @@ function getEditionOrigNode(el: XMLElement, doc: Document) {
   if (el.getAttribute && el.getAttribute('xpath')) {
     const path = doc.documentElement.namespaceURI ? el.getAttribute('xpath').replace(/\//g, '/ns:') : el.getAttribute('xpath');
     const xpathRes = doc.evaluate(path, doc, createNsResolver(doc), XPathResult.ANY_TYPE, undefined);
+
     return xpathRes.iterateNext() as XMLElement;
   }
+
   return el;
 }
