@@ -730,12 +730,24 @@ export class Dimensions extends GenericElement {
     min?: number;
     max?: number;
     height?: Height;
-    width?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when width is handled
+    width?: Width;
     depth?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when depth is handled
     dim?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when dim is handled
 }
 
 export class Height extends GenericElement {
+    scope?: string;
+    extent?: string;
+    unit?: string;
+    quantity?: number;
+    atLeast?: number;
+    atMost?: number;
+    min?: number;
+    max?: number;
+    gEl?: G[];
+}
+
+export class Width extends GenericElement {
     scope?: string;
     extent?: string;
     unit?: string;

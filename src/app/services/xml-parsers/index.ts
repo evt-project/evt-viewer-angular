@@ -16,7 +16,7 @@ import {
     MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
     ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser,
     RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SealParser, SummaryParser, SupportDescParser,
-    SupportParser, SurrogatesParser, TypeDescParser, TypeNoteParser,
+    SupportParser, SurrogatesParser, TypeDescParser, TypeNoteParser, WidthParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -29,7 +29,7 @@ type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminI
     'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
     'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' |
-    'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'zone';
+    'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'width' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
@@ -119,6 +119,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     typeDesc: createParser(TypeDescParser, parse),
     typeNote: createParser(TypeNoteParser, parse),
     w: createParser(WordParser, parse),
+    width: createParser(WidthParser, parse),
     zone: createParser(ZoneParser, parse),
 };
 
