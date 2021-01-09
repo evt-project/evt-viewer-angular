@@ -1,6 +1,6 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl,
-    CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
+    CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
     HandDesc, Head, Height, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
     MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
     Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
@@ -9,6 +9,33 @@ import {
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
+
+export class DimParser extends EmptyParser implements Parser<XMLElement> {
+    private gParser = createParser(GParser, this.genericParse);
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Dim {
+        const gEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > g')).map(g => this.gParser.parse(g));
+        const attributes = this.attributeParser.parse(xml);
+        const { dimType, scope, extent, unit, quantity, atLeast, atMost, min, max } = attributes;
+
+        return {
+            type: Dim,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            scope,
+            extent,
+            unit,
+            quantity: quantity ? parseInt(quantity, 10) : undefined,
+            atLeast: atLeast ? parseInt(atLeast, 10) : undefined,
+            atMost: atMost ? parseInt(atMost, 10) : undefined,
+            min: min ? parseInt(min, 10) : undefined,
+            max: max ? parseInt(max, 10) : undefined,
+            dimType,
+            gEl,
+        };
+    }
+}
 
 export class DepthParser extends EmptyParser implements Parser<XMLElement> {
     private gParser = createParser(GParser, this.genericParse);
@@ -93,6 +120,7 @@ export class DimensionsParser extends EmptyParser implements Parser<XMLElement> 
     private heightParser = createParser(HeightParser, this.genericParse);
     private widthParser = createParser(WidthParser, this.genericParse);
     private depthParser = createParser(DepthParser, this.genericParse);
+    private dimParser = createParser(DimParser, this.genericParse);
 
     parse(xml: XMLElement): Dimensions {
         const attributes = this.attributeParser.parse(xml);
@@ -100,9 +128,7 @@ export class DimensionsParser extends EmptyParser implements Parser<XMLElement> 
         const heightEl = xml.querySelector<XMLElement>('scope > height');
         const widthEl = xml.querySelector<XMLElement>('scope > width');
         const depthEl = xml.querySelector<XMLElement>('scope > depth');
-        // TODO: Add specific parser when dim is handled
-        const dim = Array.from(xml.querySelectorAll<XMLElement>(':scope > dim'))
-        .map(e => parseChildren(e, this.genericParse));
+        const dimEl = xml.querySelector<XMLElement>('scope > dim');
 
         return {
             type: Dimensions,
@@ -120,7 +146,7 @@ export class DimensionsParser extends EmptyParser implements Parser<XMLElement> 
             height: heightEl ? this.heightParser.parse(heightEl) : undefined,
             width: widthEl ? this.widthParser.parse(widthEl) : undefined,
             depth: depthEl ? this.depthParser.parse(depthEl) : undefined,
-            dim,
+            dim: dimEl ? this.dimParser.parse(dimEl) : undefined,
         };
     }
 }
