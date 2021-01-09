@@ -75,19 +75,19 @@ export class StructureXmlParserService {
 
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
     return pageContent
-      .map((node) => getEditionOrigNode(node, doc))
       .map((node) => {
-        if (node.nodeName === 'front' || isNestedInElem(node, 'front')) {
-          if (this.hasOriginalContent(node)) {
+        const origEl = getEditionOrigNode(node, doc);
+        if (origEl.nodeName === 'front' || isNestedInElem(origEl, 'front')) {
+          if (this.hasOriginalContent(origEl)) {
             return Array.from(node.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
               .map((c) => this.genericParserService.parse(c as XMLElement));
           }
-          if (this.isMarkedAsOrigContent(node)) { return [this.genericParserService.parse(node)]; }
+          if (this.isMarkedAsOrigContent(origEl)) { return [this.genericParserService.parse(node)]; }
 
           return [] as Array<ParseResult<GenericElement>>;
         }
 
-        if (node.tagName === 'text' && node.querySelectorAll && node.querySelectorAll('front').length > 0) {
+        if (origEl.tagName === 'text' && origEl.querySelectorAll && origEl.querySelectorAll('front').length > 0) {
           return this.parsePageContent(doc, Array.from(node.children) as HTMLElement[]);
         }
 
