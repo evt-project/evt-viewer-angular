@@ -1,13 +1,54 @@
 import {
-    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl, CustEvent, CustodialHist,
-    DecoDesc, DecoNote, Explicit, Filiation, FinalRubric, Foliation, HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus,
-    LocusGrp, MaterialValues, MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation,
-    ObjectDesc, OrigDate, Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc,
-    Summary, Support, SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, CollectionEl,
+    CustEvent, CustodialHist, DecoDesc, DecoNote, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
+    HandDesc, Head, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
+    MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
+    Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
+    Support, SupportDesc, Surrogates, TypeDesc, TypeNote, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
+
+export class DimensionsParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Dimensions {
+        const attributes = this.attributeParser.parse(xml);
+        const { dimensionsType, scope, extent, unit, quantity, atLeast, atMost, min, max } = attributes;
+        // TODO: Add specific parser when height is handled
+        const height = Array.from(xml.querySelectorAll<XMLElement>(':scope > height'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when width is handled
+        const width = Array.from(xml.querySelectorAll<XMLElement>(':scope > width'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when depth is handled
+        const depth = Array.from(xml.querySelectorAll<XMLElement>(':scope > depth'))
+        .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when dim is handled
+        const dim = Array.from(xml.querySelectorAll<XMLElement>(':scope > dim'))
+        .map(e => parseChildren(e, this.genericParse));
+
+        return {
+            type: Dimensions,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+            dimensionsType,
+            scope,
+            extent,
+            unit,
+            quantity: quantity ? parseInt(quantity, 10) : undefined,
+            atLeast: atLeast ? parseInt(atLeast, 10) : undefined,
+            atMost: atMost ? parseInt(atMost, 10) : undefined,
+            min: min ? parseInt(min, 10) : undefined,
+            max: max ? parseInt(max, 10) : undefined,
+            height,
+            width,
+            depth,
+            dim,
+        };
+    }
+}
 
 export class AcquisitionParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);

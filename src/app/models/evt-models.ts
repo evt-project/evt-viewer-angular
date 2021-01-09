@@ -718,3 +718,19 @@ export class DecoNote extends GenericElement {
 export class Filiation extends GenericElement {
     filiationType?: string;
 }
+
+export class Dimensions extends GenericElement {
+    dimensionsType?: string;
+    scope?: string;
+    extent?: string;
+    unit?: string;
+    quantity?: number;
+    atLeast?: number;
+    atMost?: number;
+    min?: number;
+    max?: number;
+    height?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when height is handled
+    width?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when width is handled
+    depth?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when depth is handled
+    dim?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when dim is handled
+}
