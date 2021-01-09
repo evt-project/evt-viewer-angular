@@ -31,13 +31,21 @@ export class StructureXmlParserService {
 
     const doc = el.firstElementChild.ownerDocument;
 
+    if (frontPbs.length > 0 && bodyPbs.length > 0) {
+      const docPages = pbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, 'text'));
+
+      return {
+        pages: docPages,
+      };
+    }
+
     const frontPages = frontPbs.length === 0 && this.isMarkedAsOrigContent(frontElement)
       ? [this.parseSinglePage(doc, frontElement, 'page_front', 'front')]
       : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, frontTagName));
 
-    const bodyPages = bodyPbs.length > 0
-      ? bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, bodyTagName))
-      : [this.parseSinglePage(doc, bodyElement, 'page1', 'mainText')]; // TODO: tranlsate mainText
+    const bodyPages = bodyPbs.length === 0
+      ? [this.parseSinglePage(doc, bodyElement, 'page1', 'mainText')] // TODO: tranlsate mainText
+      : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, bodyTagName));
 
     return {
       pages: [...frontPages, ...bodyPages],
