@@ -1,7 +1,7 @@
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
-    HandDesc, Head, Height, History, Incipit, Institution, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
+    HandDesc, Head, Height, History, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
     MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
     Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
     Support, SupportDesc, Surrogates, TypeDesc, TypeNote, Width, XMLElement,
@@ -275,19 +275,41 @@ export class HistoryParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+export class LayoutParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
+    parse(xml: XMLElement): Layout {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+        const attributes = this.attributeParser.parse(xml);
+        const { columns, streams, ruledLines, writtenLines } = attributes;
+
+        return {
+            type: LayoutDesc,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            columns: columns ? parseInt(columns, 10) : undefined,
+            streams: streams ? parseInt(streams, 10) : undefined,
+            ruledLines: ruledLines ? parseInt(ruledLines, 10) : undefined,
+            writtenLines: writtenLines ? parseInt(writtenLines, 10) : undefined,
+            pEl,
+        };
+    }
+}
+
 export class LayoutDescParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private summaryParser = createParser(ProvenanceParser, this.genericParse);
+    private layoutParser = createParser(LayoutParser, this.genericParse);
     private pParser = createParser(ParagraphParser, this.genericParse);
 
     parse(xml: XMLElement): LayoutDesc {
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         const summaryEl = xml.querySelector<XMLElement>('scope > provenance');
+        const layoutEl = xml.querySelector<XMLElement>('scope > layout');
         // TODO: Add specific parser when ab is handled
         const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when layout is handled
-        const layout = Array.from(xml.querySelectorAll<XMLElement>(':scope > layout'))
         .map(e => parseChildren(e, this.genericParse));
 
         return {
@@ -298,7 +320,7 @@ export class LayoutDescParser extends EmptyParser implements Parser<XMLElement> 
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             pEl,
             ab,
-            layout,
+            layout: layoutEl ? this.layoutParser.parse(layoutEl) : undefined,
             summary: summaryEl ? this.summaryParser.parse(summaryEl) : undefined,
         };
     }

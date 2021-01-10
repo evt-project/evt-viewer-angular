@@ -12,7 +12,7 @@ import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
     BindingParser, CollationParser, CollectionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
     DepthParser, DimensionsParser, DimParser, ExplicitParser, FiliationParser, FinalRubricParser, FoliationParser,
-    HandDescParser, HeadParser, HeightParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser,
+    HandDescParser, HeadParser, HeightParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser, LayoutParser,
     LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser,
     MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OrigDateParser, OriginParser,
     OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser, RepositoryParser, RubricParser, ScriptDescParser,
@@ -27,7 +27,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 
 type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collation' | 'collection' | 'custEvent' |
     'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'depth' | 'dim' | 'dimensions' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
-    'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
+    'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'layout' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
     'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' |
     'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'width' | 'zone';
@@ -73,6 +73,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     incipit: createParser(IncipitParser, parse),
     institution: createParser(InstitutionParser, parse),
     l: createParser(VerseParser, parse),
+    layout: createParser(LayoutParser, parse),
     layoutDesc: createParser(LayoutDescParser, parse),
     lb: createParser(LBParser, parse),
     lg: createParser(VersesGroupParser, parse),

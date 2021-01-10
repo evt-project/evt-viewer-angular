@@ -536,8 +536,16 @@ export class LayoutDesc extends GenericElement {
     structuredData: boolean;
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
-    layout?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when layout is handled
+    layout?: Layout;
     summary?: Summary;
+}
+
+export class Layout extends GenericElement {
+    columns?: number;
+    streams?: number;
+    ruledLines?: number;
+    writtenLines?: number;
+    pEl: Paragraph[];
 }
 
 export type MaterialValues = 'paper' | 'parch' | 'perg' | 'mixes';
