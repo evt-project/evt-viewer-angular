@@ -10,13 +10,14 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
-    BindingParser, CollectionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser, DepthParser, DimensionsParser,
-    DimParser, ExplicitParser, FiliationParser, FinalRubricParser, FoliationParser, HandDescParser, HeadParser, HeightParser, HistoryParser,
-    IncipitParser, InstitutionParser, LayoutDescParser, LocusGrpParser, LocusParser, MsContentsParser, MsDescParser,
-    MsFragParser, MsIdentifierParser, MsItemParser, MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser,
-    ObjectDescParser, OrigDateParser, OriginParser, OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser,
-    RepositoryParser, RubricParser, ScriptDescParser, SealDescParser, SealParser, SummaryParser, SupportDescParser,
-    SupportParser, SurrogatesParser, TypeDescParser, TypeNoteParser, WidthParser,
+    BindingParser, CollationParser, CollectionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
+    DepthParser, DimensionsParser, DimParser, ExplicitParser, FiliationParser, FinalRubricParser, FoliationParser,
+    HandDescParser, HeadParser, HeightParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser,
+    LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser,
+    MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OrigDateParser, OriginParser,
+    OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser, RepositoryParser, RubricParser, ScriptDescParser,
+    SealDescParser, SealParser, SummaryParser, SupportDescParser, SupportParser, SurrogatesParser, TypeDescParser,
+    TypeNoteParser, WidthParser,
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
@@ -24,7 +25,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collection' | 'custEvent' |
+type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collation' | 'collection' | 'custEvent' |
     'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'depth' | 'dim' | 'dimensions' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
@@ -44,6 +45,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     bindingDesc: createParser(BindingDescParser, parse),
     char: createParser(CharParser, parse),
     choice: createParser(ChoiceParser, parse),
+    collation: createParser(CollationParser, parse),
     collection: createParser(CollectionParser, parse),
     custEvent: createParser(CustEventParser, parse),
     custodialHist: createParser(CustodialHistParser, parse),

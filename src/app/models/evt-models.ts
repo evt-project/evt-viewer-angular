@@ -547,10 +547,14 @@ export class SupportDesc extends GenericElement {
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
-    collation?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when collation is handled
+    collation?: Collation;
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
     foliation?: Foliation;
     support?: Support;
+}
+
+export class Collation extends GenericElement {
+    pEl?: Paragraph[];
 }
 
 export class Foliation extends GenericElement {
