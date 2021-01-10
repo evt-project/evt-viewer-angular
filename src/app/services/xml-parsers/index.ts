@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
-    BindingParser, CollationParser, CollectionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
+    BindingParser, CollationParser, CollectionParser, ConditionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
     DepthParser, DimensionsParser, DimParser, ExplicitParser, FiliationParser, FinalRubricParser, FoliationParser,
     HandDescParser, HeadParser, HeightParser, HistoryParser, IncipitParser, InstitutionParser, LayoutDescParser, LayoutParser,
     LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser,
@@ -25,7 +25,7 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collation' | 'collection' | 'custEvent' |
+type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collation' | 'collection' | 'condition' | 'custEvent' |
     'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'depth' | 'dim' | 'dimensions' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'layout' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
@@ -47,6 +47,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     choice: createParser(ChoiceParser, parse),
     collation: createParser(CollationParser, parse),
     collection: createParser(CollectionParser, parse),
+    condition: createParser(ConditionParser, parse),
     custEvent: createParser(CustEventParser, parse),
     custodialHist: createParser(CustodialHistParser, parse),
     damage: createParser(DamageParser, parse),
