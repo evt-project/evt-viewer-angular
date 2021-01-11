@@ -14,38 +14,35 @@ export class StructureXmlParserService {
   }
 
   private frontOrigContentAttr = 'document_front';
+  readonly frontTagName = 'front';
+  readonly pageTagName = 'pb';
+  readonly bodyTagName = 'body';
 
   parsePages(el: XMLElement): EditionStructure {
     if (!el) { return { pages: [] }; }
 
-    const pageTagName = 'pb';
-    const frontTagName = 'front';
-    const bodyTagName = 'body';
+    const front: XMLElement = el.querySelector(this.frontTagName);
+    const body: XMLElement = el.querySelector(this.bodyTagName);
 
-    const frontElement = el.querySelector(frontTagName) as XMLElement;
-    const bodyElement = el.querySelector(bodyTagName);
-
-    const pbs = Array.from(el.querySelectorAll(pageTagName));
-    const frontPbs = pbs.filter((p) => isNestedInElem(p, frontTagName));
-    const bodyPbs = pbs.filter((p) => isNestedInElem(p, bodyTagName));
-
+    const pbs = Array.from(el.querySelectorAll(this.pageTagName));
+    const frontPbs = pbs.filter((p) => isNestedInElem(p, this.frontTagName));
+    const bodyPbs = pbs.filter((p) => isNestedInElem(p, this.bodyTagName));
     const doc = el.firstElementChild.ownerDocument;
 
     if (frontPbs.length > 0 && bodyPbs.length > 0) {
-      const docPages = pbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, 'text'));
 
       return {
-        pages: docPages,
+        pages: pbs.map((pb: XMLElement, idx, arr: XMLElement[]) => this.parseDocumentPage(doc, pb, arr[idx + 1], 'text')),
       };
     }
 
-    const frontPages = frontPbs.length === 0 && this.isMarkedAsOrigContent(frontElement)
-      ? [this.parseSinglePage(doc, frontElement, 'page_front', 'front')]
-      : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, frontTagName));
+    const frontPages = frontPbs.length === 0 && this.isMarkedAsOrigContent(front)
+      ? [this.parseSinglePage(doc, front, 'page_front', this.frontTagName)]
+      : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
 
     const bodyPages = bodyPbs.length === 0
-      ? [this.parseSinglePage(doc, bodyElement, 'page1', 'mainText')] // TODO: tranlsate mainText
-      : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, bodyTagName));
+      ? [this.parseSinglePage(doc, body, 'page1', 'mainText')] // TODO: tranlsate mainText
+      : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.bodyTagName));
 
     return {
       pages: [...frontPages, ...bodyPages],
@@ -59,7 +56,7 @@ export class StructureXmlParserService {
     // TODO: check if querySelectorAll can return an empty array in this case
     const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
     const originalContent = getElementsBetweenTreeNode(pb, nextNode)
-      .filter((n) => n.tagName !== 'pb')
+      .filter((n) => n.tagName !== this.pageTagName)
       .filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
 
     return {
@@ -85,17 +82,19 @@ export class StructureXmlParserService {
     return pageContent
       .map((node) => {
         const origEl = getEditionOrigNode(node, doc);
-        if (origEl.nodeName === 'front' || isNestedInElem(origEl, 'front')) {
+        if (origEl.nodeName === this.frontTagName || isNestedInElem(origEl, this.frontTagName)) {
           if (this.hasOriginalContent(origEl)) {
             return Array.from(node.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
               .map((c) => this.genericParserService.parse(c as XMLElement));
           }
-          if (this.isMarkedAsOrigContent(origEl)) { return [this.genericParserService.parse(node)]; }
+          if (this.isMarkedAsOrigContent(origEl)) {
+            return [this.genericParserService.parse(node)];
+          }
 
           return [] as Array<ParseResult<GenericElement>>;
         }
 
-        if (origEl.tagName === 'text' && origEl.querySelectorAll && origEl.querySelectorAll('front').length > 0) {
+        if (origEl.tagName === 'text' && origEl.querySelectorAll && origEl.querySelectorAll(this.frontTagName).length > 0) {
           return this.parsePageContent(doc, Array.from(node.children) as HTMLElement[]);
         }
 
