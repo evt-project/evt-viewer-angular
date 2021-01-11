@@ -576,6 +576,7 @@ export class Foliation extends GenericElement {
 
 export class Support extends GenericElement {
     material?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when material is handled
+    watermark?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
 }
 
 export class BindingDesc extends GenericElement {

@@ -333,6 +333,9 @@ export class SupportParser extends EmptyParser implements Parser<XMLElement> {
         // TODO: Add specific parser when material is handled
         const material = Array.from(xml.querySelectorAll<XMLElement>(':scope > material'))
         .map(e => parseChildren(e, this.genericParse));
+        // TODO: Add specific parser when watermark is handled
+        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > material'))
+        .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Support,
@@ -340,6 +343,7 @@ export class SupportParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             material,
+            watermark,
         };
     }
 }
