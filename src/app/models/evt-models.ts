@@ -735,6 +735,7 @@ export class LocusGrp extends GenericElement {
 
 export class DecoNote extends GenericElement {
     decoNoteType?: string;
+    watermark?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
 }
 
 export class Filiation extends GenericElement {

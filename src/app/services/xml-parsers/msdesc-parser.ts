@@ -464,6 +464,9 @@ export class DecoNoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): DecoNote {
+        // TODO: Add specific parser when watermark is handled
+        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > watermark'))
+        .map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { decoNoteType } = attributes;
 
@@ -472,6 +475,7 @@ export class DecoNoteParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             decoNoteType,
+            watermark,
         };
     }
 }
