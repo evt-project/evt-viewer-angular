@@ -902,6 +902,9 @@ export class RubricParser extends EmptyParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Rubric {
         const lbEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > lb')).map(l => this.lbParser.parse(l));
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
+        // TODO: Add specific parser when stamp is handled
+        const stamp = Array.from(xml.querySelectorAll<XMLElement>(':scope > stamp'))
+        .map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { lang, rend } = attributes;
 
@@ -914,6 +917,7 @@ export class RubricParser extends EmptyParser implements Parser<XMLElement> {
             rend,
             lbEl,
             locus: locusEl ? this.locusParser.parse(locusEl) : undefined,
+            stamp,
         };
     }
 }

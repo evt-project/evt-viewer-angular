@@ -696,6 +696,7 @@ export class Rubric extends GenericElement {
     rend?: string;
     lbEl?: Lb[];
     locus?: Locus;
+    stamp?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stamp is handled
 }
 
 export class FinalRubric extends GenericElement {
