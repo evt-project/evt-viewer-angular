@@ -16,7 +16,7 @@ import {
     LocusGrpParser, LocusParser, MsContentsParser, MsDescParser, MsFragParser, MsIdentifierParser, MsItemParser,
     MsItemStructParser, MsNameParser, MsPartParser, MusicNotationParser, ObjectDescParser, OrigDateParser, OriginParser,
     OrigPlaceParser, PhysDescParser, ProvenanceParser, RecordHistParser, RepositoryParser, RubricParser, ScriptDescParser,
-    SealDescParser, SealParser, SummaryParser, SupportDescParser, SupportParser, SurrogatesParser, TypeDescParser,
+    SealDescParser, SealParser, SourceParser, SummaryParser, SupportDescParser, SupportParser, SurrogatesParser, TypeDescParser,
     TypeNoteParser, WidthParser,
 } from './msdesc-parser';
 import {
@@ -29,7 +29,7 @@ type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminI
     'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'depth' | 'dim' | 'dimensions' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
     'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'layout' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
     'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
-    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'summary' | 'supportDesc' |
+    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'source' | 'summary' | 'supportDesc' |
     'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'width' | 'zone';
 
 export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
@@ -115,6 +115,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     seal: createParser(SealParser, parse),
     sealDesc: createParser(SealDescParser, parse),
     sic: createParser(SicParser, parse),
+    source: createParser(SourceParser, parse),
     summary: createParser(SummaryParser, parse),
     surface: createParser(SurfaceParser, parse),
     surrogates: createParser(SurrogatesParser, parse),

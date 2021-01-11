@@ -3,7 +3,7 @@ import {
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
     HandDesc, Head, Height, History, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
     MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, ObjectDesc, OrigDate,
-    Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Summary,
+    Origin, OrigPlace, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
     Support, SupportDesc, Surrogates, TypeDesc, TypeNote, Width, XMLElement,
 } from '../../models/evt-models';
 import { AttributeParser, EmptyParser, GapParser, LBParser, NoteParser, ParagraphParser } from './basic-parsers';
@@ -1151,17 +1151,33 @@ export class CustodialHistParser extends EmptyParser implements Parser<XMLElemen
     }
 }
 
-export class RecordHistParser extends EmptyParser implements Parser<XMLElement> {
+export class SourceParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     private pParser = createParser(ParagraphParser, this.genericParse);
 
+    parse(xml: XMLElement): Source {
+        const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
+
+        return {
+            type: Source,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            pEl,
+        };
+    }
+}
+
+export class RecordHistParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    private sourceParser = createParser(SourceParser, this.genericParse);
+    private pParser = createParser(ParagraphParser, this.genericParse);
+
     parse(xml: XMLElement): RecordHist {
+        const sourceEl = xml.querySelector<XMLElement>('scope > source');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when change is handled
         const change = Array.from(xml.querySelectorAll<XMLElement>(':scope > change'))
-        .map(e => parseChildren(e, this.genericParse));
-        // TODO: Add specific parser when source is handled
-        const source = Array.from(xml.querySelectorAll<XMLElement>(':scope > source'))
         .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when ab is handled
         const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
@@ -1174,7 +1190,7 @@ export class RecordHistParser extends EmptyParser implements Parser<XMLElement> 
             attributes: this.attributeParser.parse(xml),
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             change,
-            source,
+            source: sourceEl ? this.sourceParser.parse(sourceEl) : undefined,
             ab,
             pEl,
         };
