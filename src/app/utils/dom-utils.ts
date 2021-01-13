@@ -82,7 +82,7 @@ export function isNodeNestedInElem(
  * @returns calculated xpath of the given element
  */
 // tslint:disable-next-line: no-any
-export function xpath(el: any): string { // TODO: get rid of any
+export function xpath(el: any): string {
   try {
     if (typeof el === 'string') {
       // document.evaluate(xpathExpression, contextNode, namespaceResolver, resultType, result );
