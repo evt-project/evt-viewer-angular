@@ -1,3 +1,5 @@
+import { XMLElement } from '../models/evt-models';
+
 /**
  * Counter that takes into account the number of parsed elements with [xpath]{@link DOMUtilsService.html#xpath},
  * in order to allow the generation of unique ids when node path is not available.
@@ -13,7 +15,7 @@ let totIdsGenerated = 0;
  * @returns Whether the given element is nested in a node with given TagName or not
  */
 export function isNestedInElem(element, parentTagName: string, attributes?: Array<{ key: string, value }>): boolean {
-  return isNodeNestedInElem(element, parentTagName, false, attributes);
+  return !!element && isNodeNestedInElem(element, parentTagName, false, attributes);
 }
 /**
  * Function to check if an element is directly nested into another particular element.
@@ -46,7 +48,7 @@ export function isNodeNestedInElem(
     if (element.parentNode.tagName === 'text') {
       return false;
     }
-    if (element.parentNode.tagName === parentTagName || element.parentNode.nodeName === parentTagName) {
+    if (parentTagName === '' || element.parentNode.tagName === parentTagName || element.parentNode.nodeName === parentTagName) {
       if (!attributes || attributes.length === 0) {
         return true;
       }
@@ -80,30 +82,28 @@ export function isNodeNestedInElem(
  * @returns calculated xpath of the given element
  */
 // tslint:disable-next-line: no-any
-export function xpath(el: any): any { // TODO: get rid of any
+export function xpath(el: any): string {
   try {
     if (typeof el === 'string') {
       // document.evaluate(xpathExpression, contextNode, namespaceResolver, resultType, result );
-      return document.evaluate(el, document, undefined, 0, undefined);
+      return document.evaluate(el, document, undefined, 0, undefined).stringValue;
     }
-    if (!el || el.nodeType !== 1) {
-      return '';
-    }
+    if (!el || el.nodeType !== 1) { return ''; }
     let sames = [];
     if (el.parentNode) {
       sames = [].filter.call(el.parentNode.children, (x) => {
         return x.tagName === el.tagName;
       });
     }
-    let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : '';
-    countIndex = countIndex > 1 ? countIndex - 1 : '';
-    const tagName = el.tagName.toLowerCase() !== 'tei' ? '-' + el.tagName.toLowerCase() : '';
+    let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : 1;
+    countIndex = `[${countIndex}]`;
+    const tagName = el.tagName !== 'tei' ? '-' + el.tagName : '';
 
-    return xpath(el.parentNode) + tagName + countIndex;
+    return `${xpath(el.parentNode)}${tagName}${countIndex}`;
   } catch (e) {
-    totIdsGenerated++;
+    totIdsGenerated++; // TODO: remove side effects
 
-    return '-id' + totIdsGenerated;
+    return `-id${totIdsGenerated}`;
   }
 }
 
@@ -190,61 +190,30 @@ export function balanceXHTML(XHTMLstring: string): string {
  * @returns list of nodes contained between start node and end node
  */
 // tslint:disable-next-line: no-any
-export function getElementsBetweenTreeNode(start: any, end: any): any[] { // TODO: get rid of any
-  const ancestor = getCommonAncestor(start, end);
-  let el;
-  const before = [];
-  while (start.parentNode !== ancestor) {
-    el = start;
-    while (el.nextSibling) {
-      before.push(el = el.nextSibling);
-    }
-    start = start.parentNode;
-  }
+export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
+  const range = document.createRange();
+  range.setStart(start, 0);
+  range.setEnd(end, end.length || end.childNodes.length);
+  const commonAncestor = range.commonAncestorContainer as XMLElement;
 
-  const after = [];
-  while (end.parentNode !== ancestor) {
-    el = end;
-    while (el.previousSibling) {
-      after.push(el = el.previousSibling);
-    }
-    end = end.parentNode;
-  }
-  after.reverse();
-  start = start.nextSibling;
-  while ((start) && (start) !== end) {
-    before.push(start);
-    if (start) {
-      start = start.nextSibling;
-    }
-  }
+  Array.from(commonAncestor.children).forEach((c: XMLElement) => {
+    c.setAttribute('xpath', xpath(c).replace(/-/g, '/'));
+  });
 
-  return before.concat(after);
+  const fragment = range.cloneContents();
+  const nodes = Array.from(fragment.childNodes);
+
+  return nodes as XMLElement[];
 }
 
-export function getElementsAfterTreeNode(start) {
-  const els = [];
-  let el;
-  while (start && start.tagName !== 'body') {
-    el = start;
-    while (el.nextSibling) {
-      els.push(el = el.nextSibling);
-    }
-    start = start.parentNode;
-  }
+export function getOuterHTML(element): string {
+  let outerHTML: string = element.outerHTML;
+  outerHTML = outerHTML ? outerHTML.replace(/ xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '') : outerHTML;
 
-  return els;
+  return outerHTML;
 }
-/**
- * Get the innermost element that is an ancestor of two nodes.
- *
- * @param a first node to handle
- * @param b second node to handle
- *
- * @returns common ancestor node
- * @todo Decide if move to another service
- */
-function getCommonAncestor(node1, node2) {
+
+export function getCommonAncestor(node1, node2) {
   const method = 'contains' in node1 ? 'contains' : 'compareDocumentPosition';
   const test = method === 'contains' ? 1 : 0x10;
 
@@ -260,9 +229,6 @@ function getCommonAncestor(node1, node2) {
   return undefined;
 }
 
-export function getOuterHTML(element): string {
-  let outerHTML: string = element.outerHTML;
-  outerHTML = outerHTML ? outerHTML.replace(/ xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '') : outerHTML;
-
-  return outerHTML;
+export function createNsResolver(doc: Document) {
+  return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
 }

@@ -34,8 +34,7 @@ export type XMLElement = HTMLElement;
 export type OriginalEncodingNodeType = XMLElement;
 
 export interface EditionStructure {
-    pages: Map<Page>;
-    pagesIndexes: string[];
+    pages: Page[];
 }
 
 export type ViewModeId = 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions';
@@ -146,7 +145,7 @@ export interface Witnesses {
 
 export interface Witness {
     id: string;
-    name: GenericElement[];
+    name: string | Array<ParseResult<GenericElement>> | XMLElement;
     attributes: Attributes;
     content: Array<ParseResult<GenericElement>>;
     groupId: string;

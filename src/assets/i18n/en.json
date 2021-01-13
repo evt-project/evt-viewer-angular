@@ -50,5 +50,8 @@
     "missingP": "missing",
     "omitted": "omitted",
     "prose": "Prose",
-    "verses": "Verses"
+    "verses": "Verses",
+    "page": "Page {{value}}",
+    "front": "Front",
+    "mainText": "Main text"
 }

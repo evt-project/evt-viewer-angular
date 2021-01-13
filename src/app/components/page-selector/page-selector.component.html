@@ -13,6 +13,6 @@
         <evt-icon
             [iconInfo]="{icon: 'file-alt', additionalClasses: 'mr-2'}"
             label-left></evt-icon>
-        {{item.label}}
+        {{ item.label | translate: {value: (pages$ | async).indexOf(item) + 1} }}
     </ng-template>
 </ng-select>
