@@ -30,7 +30,6 @@ export class StructureXmlParserService {
     const doc = el.firstElementChild.ownerDocument;
 
     if (frontPbs.length > 0 && bodyPbs.length > 0) {
-
       return {
         pages: pbs.map((pb: XMLElement, idx, arr: XMLElement[]) => this.parseDocumentPage(doc, pb, arr[idx + 1], 'text')),
       };
