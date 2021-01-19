@@ -11,7 +11,7 @@ export interface Parser<T> { parse(data: T): ParseResult<GenericElement>; }
 export type ParseFn = (d: XMLElement) => ParseResult<GenericElement>;
 export function createParser<U, T extends Parser<U>>(c: new (raw: ParseFn) => T, data: ParseFn): T { return new c(data); }
 
-export function getID(xml: XMLElement) { return xml.getAttribute('xml:id') || xpath(xml); }
+export function getID(xml: XMLElement, prefix: string = '') { return xml.getAttribute('xml:id') || prefix + xpath(xml); }
 export function getClass(xml: XMLElement) { return xml.tagName ? xml.tagName.toLowerCase() : ''; }
 export function parseChildren(xml: XMLElement, parseFn: ParseFn) {
     return complexElements(xml.childNodes).map(child => parseFn(child as XMLElement));
