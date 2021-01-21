@@ -984,7 +984,6 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
 
         return {
             type: MsItem,
-            class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
             n: getDefaultN(attributes.n),

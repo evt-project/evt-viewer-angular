@@ -464,7 +464,6 @@ export class MsItemStruct extends GenericElement {
 
 export class MsItem extends GenericElement {
     n?: string;
-    class?: string;
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     respStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when respStmt is handled
