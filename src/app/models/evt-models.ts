@@ -443,7 +443,6 @@ export class CollectionEl extends GenericElement {
 
 export class MsItemStruct extends GenericElement {
     n?: string;
-    class?: string;
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     restStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled

@@ -1056,7 +1056,6 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
 
         return {
             type: MsItemStruct,
-            class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
             n: getDefaultN(attributes.n),
