@@ -312,7 +312,7 @@ export class Gap extends GenericElement {
     extent?: string;
 }
 
-export type PlacementType = 'above' |  'below' |  'inline' |  'left' |  'right' |  'inspace' |  'end' |  'sup' | 'sub' | 'under';
+export type PlacementType = 'above' | 'below' | 'inline' | 'left' | 'right' | 'inspace' | 'end' | 'sup' | 'sub' | 'under';
 
 export class Addition extends GenericElement {
     place: PlacementType;
@@ -331,29 +331,43 @@ export class Deletion extends GenericElement {
     rend: string;
 }
 
-export class MsDesc extends GenericElement {
-    id: string;
-    msIdentifier: MsIdentifier;
-    head?: Head;
-    msContents?: MsContents;
-    physDesc?: PhysDesc;
-    history?: History;
+export class MsFrag extends GenericElement {
     additional?: Additional;
+    altIdentifier?: AltIdentifier;
+    history?: History;
+    msContents?: MsContents;
+    msIdentifier?: MsIdentifier;
+    physDesc?: PhysDesc;
+}
+
+export class MsPart extends MsFrag {
+    head?: Head;
     msPart?: MsPart;
+}
+
+export class MsDesc extends MsPart {
+    id: string;
     msFrag?: MsFrag;
 }
 
-export class MsIdentifier extends GenericElement {
-    id: string;
-    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-    repository?: Repository;
+export class Identifier extends GenericElement {
+    collection?: CollectionEl;
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    repository?: Repository;
+    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
+}
+
+export class AltIdentifier extends Identifier {
+    noteEl?: Note[];
+}
+
+export class MsIdentifier extends Identifier {
+    id: string;
     institution?: Institution;
     altIdentifier?: AltIdentifier;
     msName?: MsName;
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
-    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
-    collection?: CollectionEl;
 }
 
 export class MsContents extends GenericElement {
@@ -376,30 +390,11 @@ export class PhysDesc extends GenericElement {
     typeDesc?: TypeDesc;
 }
 
-export class MsPart extends GenericElement {
-    msIdentifier: MsIdentifier;
-    msContents?: MsContents;
-    physDesc?: PhysDesc;
-    msPart?: MsPart;
-    additional?: Additional;
-    history?: History;
-    head?: Head;
-}
-
 export class History extends GenericElement {
     acquisition?: Acquisition;
     origin?: Origin;
     provenance?: Provenance;
     summary?: Summary;
-}
-
-export class MsFrag extends GenericElement {
-    additional?: Additional;
-    altIdentifier?: AltIdentifier;
-    history?: History;
-    msContents?: MsContents;
-    msIdentifier?: MsIdentifier;
-    physDesc?: PhysDesc;
 }
 
 export class Head extends GenericElement {
@@ -413,22 +408,13 @@ export class Head extends GenericElement {
     hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
 }
 
-export class AltIdentifier extends GenericElement {
-    noteEl?: Note[];
-    idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    collection?: CollectionEl;
-    repository?: Repository;
-    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
-    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-}
-
 export class Institution extends GenericElement {
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
- }
+}
 
 export class Repository extends GenericElement {
-   lang?: string;
+    lang?: string;
 }
 
 export class MsName extends GenericElement {
@@ -443,10 +429,9 @@ export class CollectionEl extends GenericElement {
 
 export class MsItemStruct extends GenericElement {
     n?: string;
-    class?: string;
     defective?: boolean;
     author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
-    restStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
+    respStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
     title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric?: Rubric;
     incipit?: Incipit;
@@ -463,30 +448,11 @@ export class MsItemStruct extends GenericElement {
     locus?: Locus;
 }
 
-export class MsItem extends GenericElement {
-    n?: string;
-    class?: string;
-    defective?: boolean;
-    author?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
-    respStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when respStmt is handled
-    rubric?: Rubric;
-    incipit?: Incipit;
-    title?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
-    quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
-    explicit?: Explicit;
-    finalRubric?: FinalRubric;
-    colophon?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
-    decoNote?: DecoNote;
-    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    filiation?: Filiation;
-    noteEl?: Note[];
-    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+export class MsItem extends MsItemStruct {
     docAuthor?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docAuthor is handled
     docTitle?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docTitle is handled
     docImprint?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
     docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
-    locus?: Locus;
     locusGrp?: LocusGrp;
     gapEl?: Gap[];
 }
