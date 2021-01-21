@@ -158,8 +158,7 @@ export class AcquisitionParser extends EmptyParser implements Parser<XMLElement>
         const attributes = this.attributeParser.parse(xml);
         const { notBefore, notAfter } = attributes;
         // TODO: Add specific parser when name is handled
-        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
-        .map(e => parseChildren(e, this.genericParse));
+        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Acquisition,
@@ -309,8 +308,7 @@ export class LayoutDescParser extends EmptyParser implements Parser<XMLElement> 
         const summaryEl = xml.querySelector<XMLElement>('scope > provenance');
         const layoutEl = xml.querySelector<XMLElement>('scope > layout');
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: LayoutDesc,
@@ -331,11 +329,9 @@ export class SupportParser extends EmptyParser implements Parser<XMLElement> {
 
     parse(xml: XMLElement): Support {
         // TODO: Add specific parser when material is handled
-        const material = Array.from(xml.querySelectorAll<XMLElement>(':scope > material'))
-        .map(e => parseChildren(e, this.genericParse));
+        const material = Array.from(xml.querySelectorAll<XMLElement>(':scope > material')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when watermark is handled
-        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > material'))
-        .map(e => parseChildren(e, this.genericParse));
+        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > material')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Support,
@@ -415,11 +411,9 @@ export class SupportDescParser extends EmptyParser implements Parser<XMLElement>
         const foliationEl = xml.querySelector<XMLElement>('scope > foliation');
         const conditionEl = xml.querySelector<XMLElement>('scope > condition');
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when extent is handled
-        const extent = Array.from(xml.querySelectorAll<XMLElement>(':scope > extent'))
-        .map(e => parseChildren(e, this.genericParse));
+        const extent = Array.from(xml.querySelectorAll<XMLElement>(':scope > extent')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: SupportDesc,
@@ -465,8 +459,7 @@ export class DecoNoteParser extends EmptyParser implements Parser<XMLElement> {
 
     parse(xml: XMLElement): DecoNote {
         // TODO: Add specific parser when watermark is handled
-        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > watermark'))
-        .map(e => parseChildren(e, this.genericParse));
+        const watermark = Array.from(xml.querySelectorAll<XMLElement>(':scope > watermark')).map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { decoNoteType } = attributes;
 
@@ -489,11 +482,9 @@ export class BindingParser extends EmptyParser implements Parser<XMLElement> {
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when condition is handled
-        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
-        .map(e => parseChildren(e, this.genericParse));
+        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Binding,
@@ -517,8 +508,7 @@ export class BindingDescParser extends EmptyParser implements Parser<XMLElement>
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const bindingEl = xml.querySelector<XMLElement>('scope > binding');
         // TODO: Add specific parser when condition is handled
-        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition'))
-        .map(e => parseChildren(e, this.genericParse));
+        const condition = Array.from(xml.querySelectorAll<XMLElement>(':scope > condition')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: BindingDesc,
@@ -559,8 +549,7 @@ export class DecoDescParser extends EmptyParser implements Parser<XMLElement> {
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const summaryEl = xml.querySelector<XMLElement>('scope > summary');
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: DecoDesc,
@@ -581,8 +570,7 @@ export class HandDescParser extends EmptyParser implements Parser<XMLElement> {
         const attributes = this.attributeParser.parse(xml);
         const { hands } = attributes;
         // TODO: Add specific parser when handNote is handled
-        const handNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > handNote'))
-        .map(e => parseChildren(e, this.genericParse));
+        const handNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > handNote')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: HandDesc,
@@ -619,7 +607,7 @@ export class ScriptDescParser extends EmptyParser implements Parser<XMLElement> 
         const summaryEl = xml.querySelector<XMLElement>('scope > summary');
         // TODO: Add specific parser when scriptNote is handled
         const scriptNote = Array.from(xml.querySelectorAll<XMLElement>(':scope > scriptNote'))
-        .map(e => parseChildren(e, this.genericParse));
+          .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: ScriptDesc,
@@ -640,8 +628,7 @@ export class SealParser extends EmptyParser implements Parser<XMLElement> {
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { sealType } = attributes;
 
@@ -733,8 +720,7 @@ export class MusicNotationParser extends EmptyParser implements Parser<XMLElemen
 
     parse(xml: XMLElement): MusicNotation {
         // TODO: Add specific parser when summary is handled
-        const term = Array.from(xml.querySelectorAll<XMLElement>(':scope > term'))
-        .map(e => parseChildren(e, this.genericParse));
+        const term = Array.from(xml.querySelectorAll<XMLElement>(':scope > term')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: MusicNotation,
@@ -815,8 +801,7 @@ export class LocusParser extends EmptyParser implements Parser<XMLElement> {
         const gEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > g')).map(g => this.gParser.parse(g));
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
         // TODO: Add specific parser when hi is handled
-        const hi = Array.from(xml.querySelectorAll<XMLElement>(':scope > hi'))
-        .map(e => parseChildren(e, this.genericParse));
+        const hi = Array.from(xml.querySelectorAll<XMLElement>(':scope > hi')).map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { scheme, from, to, facs, target } = attributes;
 
@@ -911,8 +896,7 @@ export class RubricParser extends EmptyParser implements Parser<XMLElement> {
         const lbEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > lb')).map(l => this.lbParser.parse(l));
         const locusEl = xml.querySelector<XMLElement>('scope > locus');
         // TODO: Add specific parser when stamp is handled
-        const stamp = Array.from(xml.querySelectorAll<XMLElement>(':scope > stamp'))
-        .map(e => parseChildren(e, this.genericParse));
+        const stamp = Array.from(xml.querySelectorAll<XMLElement>(':scope > stamp')).map(e => parseChildren(e, this.genericParse));
         const attributes = this.attributeParser.parse(xml);
         const { lang, rend } = attributes;
 
@@ -973,41 +957,30 @@ export class MsItemParser extends EmptyParser implements Parser<XMLElement> {
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const filiationEl = xml.querySelector<XMLElement>('scope > filiation');
         // TODO: Add specific parser when author is handled
-        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
-        .map(e => parseChildren(e, this.genericParse));
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when title is handled
-        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when textLang is handled
-        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
-        .map(e => parseChildren(e, this.genericParse));
+        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when docAuthor is handled
-        const docAuthor = Array.from(xml.querySelectorAll<XMLElement>(':scope > docAuthor'))
-        .map(e => parseChildren(e, this.genericParse));
+        const docAuthor = Array.from(xml.querySelectorAll<XMLElement>(':scope > docAuthor')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when docTitle is handled
-        const docTitle = Array.from(xml.querySelectorAll<XMLElement>(':scope > docTitle'))
-        .map(e => parseChildren(e, this.genericParse));
+        const docTitle = Array.from(xml.querySelectorAll<XMLElement>(':scope > docTitle')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when docImprint is handled
         const docImprint = Array.from(xml.querySelectorAll<XMLElement>(':scope > docImprint'))
-        .map(e => parseChildren(e, this.genericParse));
+          .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when docDate is handled
-        const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate'))
-        .map(e => parseChildren(e, this.genericParse));
+        const docDate = Array.from(xml.querySelectorAll<XMLElement>(':scope > docDate')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when bibl is handled
-        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when respStmt is handled
-        const respStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > respStmt'))
-        .map(e => parseChildren(e, this.genericParse));
+        const respStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > respStmt')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when quote is handled
-        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
-        .map(e => parseChildren(e, this.genericParse));
+        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when listBibl is handled
-        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when colophon is handled
-        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
-        .map(e => parseChildren(e, this.genericParse));
+        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: MsItem,
@@ -1065,29 +1038,21 @@ export class MsItemStructParser extends EmptyParser implements Parser<XMLElement
         const decoNoteEl = xml.querySelector<XMLElement>('scope > decoNote');
         const filiationEl = xml.querySelector<XMLElement>('scope > filiation');
         // TODO: Add specific parser when author is handled
-        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author'))
-        .map(e => parseChildren(e, this.genericParse));
+        const author = Array.from(xml.querySelectorAll<XMLElement>(':scope > author')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when title is handled
-        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title'))
-        .map(e => parseChildren(e, this.genericParse));
+        const title = Array.from(xml.querySelectorAll<XMLElement>(':scope > title')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when bibl is handled
-        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when restStmt is handled
-        const restStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > restStmt'))
-        .map(e => parseChildren(e, this.genericParse));
+        const restStmt = Array.from(xml.querySelectorAll<XMLElement>(':scope > restStmt')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when quote is handled
-        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote'))
-        .map(e => parseChildren(e, this.genericParse));
+        const quote = Array.from(xml.querySelectorAll<XMLElement>(':scope > quote')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when colophon is handled
-        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon'))
-        .map(e => parseChildren(e, this.genericParse));
+        const colophon = Array.from(xml.querySelectorAll<XMLElement>(':scope > colophon')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when listBibl is handled
-        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when textLang is handled
-        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang'))
-        .map(e => parseChildren(e, this.genericParse));
+        const textLang = Array.from(xml.querySelectorAll<XMLElement>(':scope > textLang')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: MsItemStruct,
@@ -1147,8 +1112,7 @@ export class CustodialHistParser extends EmptyParser implements Parser<XMLElemen
         const custEventEl = xml.querySelector<XMLElement>('scope > custEvent');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: CustodialHist,
@@ -1189,11 +1153,9 @@ export class RecordHistParser extends EmptyParser implements Parser<XMLElement> 
         const sourceEl = xml.querySelector<XMLElement>('scope > source');
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when change is handled
-        const change = Array.from(xml.querySelectorAll<XMLElement>(':scope > change'))
-        .map(e => parseChildren(e, this.genericParse));
+        const change = Array.from(xml.querySelectorAll<XMLElement>(':scope > change')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when ab is handled
-        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab'))
-        .map(e => parseChildren(e, this.genericParse));
+        const ab = Array.from(xml.querySelectorAll<XMLElement>(':scope > ab')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: RecordHist,
@@ -1221,7 +1183,7 @@ export class AdminInfoParser extends EmptyParser implements Parser<XMLElement> {
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         // TODO: Add specific parser when availability is handled
         const availability = Array.from(xml.querySelectorAll<XMLElement>(':scope > availability'))
-        .map(e => parseChildren(e, this.genericParse));
+          .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: AdminInfo,
@@ -1244,8 +1206,7 @@ export class SurrogatesParser extends EmptyParser implements Parser<XMLElement> 
     parse(xml: XMLElement): Surrogates {
         const pEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).map(p => this.pParser.parse(p));
         // TODO: Add specific parser when bibl is handled
-        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const bibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > bibl')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Surrogates,
@@ -1267,8 +1228,7 @@ export class AdditionalParser extends EmptyParser implements Parser<XMLElement> 
         const adminInfoEl = xml.querySelector<XMLElement>('scope > adminInfo');
         const surrogatesEl = xml.querySelector<XMLElement>('scope > adminInfo');
         // TODO: Add specific parser when listBibl is handled
-        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl'))
-        .map(e => parseChildren(e, this.genericParse));
+        const listBibl = Array.from(xml.querySelectorAll<XMLElement>(':scope > listBibl')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Summary,
@@ -1350,14 +1310,12 @@ export class  AltIdentifierParser extends EmptyParser implements Parser<XMLEleme
         const noteEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > note')).map(n => this.noteParser.parse(n));
         const collectionEl = xml.querySelector<XMLElement>('scope > collection');
         // TODO: Add specific parser when idno is handled
-        const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno'))
-        .map(e => parseChildren(e, this.genericParse));
+        const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when region is handled
-        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region'))
-        .map(e => parseChildren(e, this.genericParse));
+        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when settlement is handled
         const settlement = Array.from(xml.querySelectorAll<XMLElement>(':scope > settlement'))
-        .map(e => parseChildren(e, this.genericParse));
+          .map(e => parseChildren(e, this.genericParse));
 
         return {
             type: AltIdentifier,
@@ -1381,11 +1339,9 @@ export class  MsNameParser extends EmptyParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsName {
         const gEl = Array.from(xml.querySelectorAll<XMLElement>(':scope > g')).map(g => this.gParser.parse(g));
         // TODO: Add specific parser when name is handled
-        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name'))
-        .map(e => parseChildren(e, this.genericParse));
+        const name = Array.from(xml.querySelectorAll<XMLElement>(':scope > name')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when name is handled
-        const rs = Array.from(xml.querySelectorAll<XMLElement>(':scope > rs'))
-        .map(e => parseChildren(e, this.genericParse));
+        const rs = Array.from(xml.querySelectorAll<XMLElement>(':scope > rs')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: AltIdentifier,
@@ -1404,11 +1360,9 @@ export class  InstitutionParser extends EmptyParser implements Parser<XMLElement
 
     parse(xml: XMLElement): Institution {
         // TODO: Add specific parser when country is handled
-        const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country'))
-        .map(e => parseChildren(e, this.genericParse));
+        const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when region is handled
-        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region'))
-        .map(e => parseChildren(e, this.genericParse));
+        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Institution,
@@ -1437,16 +1391,13 @@ export class MsIdentifierParser extends EmptyParser implements Parser<XMLElement
         const collectionEl = xml.querySelector<XMLElement>('scope > collection');
         // TODO: Add specific parser when settlement is handled
         const settlement = Array.from(xml.querySelectorAll<XMLElement>(':scope > settlement'))
-        .map(e => parseChildren(e, this.genericParse));
+          .map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when idno is handled
-        const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno'))
-        .map(e => parseChildren(e, this.genericParse));
+        const idno = Array.from(xml.querySelectorAll<XMLElement>(':scope > idno')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when msName is handled
-        const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country'))
-        .map(e => parseChildren(e, this.genericParse));
+        const country = Array.from(xml.querySelectorAll<XMLElement>(':scope > country')).map(e => parseChildren(e, this.genericParse));
         // TODO: Add specific parser when altIdentifier is handled
-        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region'))
-        .map(e => parseChildren(e, this.genericParse));
+        const region = Array.from(xml.querySelectorAll<XMLElement>(':scope > region')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: MsIdentifier,
@@ -1476,8 +1427,7 @@ export class HeadParser extends EmptyParser implements Parser<XMLElement> {
         const attributes = this.attributeParser.parse(xml);
         const { place, rend, style, rendition, facs, n } = attributes;
         // TODO: Add specific parser when hi is handled
-        const hi = Array.from(xml.querySelectorAll<XMLElement>(':scope > hi'))
-        .map(e => parseChildren(e, this.genericParse));
+        const hi = Array.from(xml.querySelectorAll<XMLElement>(':scope > hi')).map(e => parseChildren(e, this.genericParse));
 
         return {
             type: Head,

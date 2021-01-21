@@ -425,10 +425,10 @@ export class AltIdentifier extends GenericElement {
 export class Institution extends GenericElement {
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
- }
+}
 
 export class Repository extends GenericElement {
-   lang?: string;
+    lang?: string;
 }
 
 export class MsName extends GenericElement {
