@@ -49,10 +49,9 @@ export function uniqueArrayCharKeys(a: string[]) {
  * @param objects - Objects to merge
  * @returns New object with merged key/values
  */
-export function mergeDeep(...objects) {
-    const isObject = obj => obj && typeof obj === 'object';
-
-    return objects.reduce((prev, obj) => {
+export function mergeDeep<T>(...objects: T[]) { // TODO: never used, remove?
+    const isObject = (obj: T) => obj && typeof obj === 'object';
+    const cb = (prev: T, obj: T) => {
         Object.keys(obj).forEach(key => {
             const pVal = prev[key];
             const oVal = obj[key];
@@ -67,7 +66,9 @@ export function mergeDeep(...objects) {
         });
 
         return prev;
-    },                    {});
+    };
+
+    return objects.reduce(cb, {});
 }
 
 export function getEventKeyCode(event) {
