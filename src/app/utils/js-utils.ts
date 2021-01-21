@@ -2,6 +2,8 @@ export interface Map<T> {
     [key: string]: T;
 }
 
+export function flat<T>(a: T[][]): T[] { return a.reduce((x, y) => x.concat(y), []); }
+
 export function uuid(prefix?: string): string { // TODO: use proper UUID generation
     return !!prefix ? `${prefix}-${Math.random()}` : `${Math.random()}`;
 }
