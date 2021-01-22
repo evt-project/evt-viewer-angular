@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Manuscript description data extraction
 - Deletion vizualization
 - Verses group visualization
 - Multiple line words normalization in interpretative and critical edition
@@ -40,7 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Named entities visualisation
 - Named entities extraction
 - OpenSeadragon component with support for manifest file
-- Manuscript description data extraction
 
 ### Changed
 - Routing params keys
