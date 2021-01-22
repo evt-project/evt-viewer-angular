@@ -445,7 +445,7 @@ export class SealParser extends GenericElemParser implements Parser<XMLElement> 
         return {
             ...genericElem,
             type: Seal,
-            contemporary: true || false, // FIXME: this evaluates always to true!
+            contemporary: xml.getAttribute('contemporary') === 'true',
             decoNote: queryAndParseElement(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
             sealType,
             n: getDefaultN(n),
@@ -588,7 +588,7 @@ export class IncipitParser extends GenericElemParser implements Parser<XMLElemen
         return {
             ...genericElem,
             type: Incipit,
-            defective: true || false, // FIXME: this always evaluates to true!
+            defective: xml.getAttribute('defective') === 'true',
             lang,
             lbEl: queryAndParseElements(xml, 'lb', createParser(LBParser, this.genericParse)),
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
@@ -604,7 +604,7 @@ export class ExplicitParser extends GenericElemParser implements Parser<XMLEleme
         return {
             ...genericElem,
             type: Explicit,
-            defective: true || false, // FIXME: this always evaluates to true!
+            defective: xml.getAttribute('defective') === 'true',
             lang,
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
         };
@@ -650,7 +650,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             ...genericElem,
             type: MsItemStruct,
             n: getDefaultN(n),
-            defective: true || false, // FIXME always true
+            defective: xml.getAttribute('defective') === 'true',
             author: unhandledElement(xml, 'author'),
             title: unhandledElement(xml, 'title'),
             textLang: unhandledElement(xml, 'textLang'),
