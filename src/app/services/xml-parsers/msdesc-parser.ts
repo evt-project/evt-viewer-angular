@@ -1,4 +1,4 @@
-import { flat } from 'src/app/utils/js-utils';
+import { flat, getBoolean } from 'src/app/utils/js-utils';
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
@@ -445,7 +445,7 @@ export class SealParser extends GenericElemParser implements Parser<XMLElement> 
         return {
             ...genericElem,
             type: Seal,
-            contemporary: xml.getAttribute('contemporary') === 'true',
+            contemporary: getBoolean(xml.getAttribute('contemporary')),
             decoNote: queryAndParseElement(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
             sealType,
             n: getDefaultN(n),
@@ -588,7 +588,7 @@ export class IncipitParser extends GenericElemParser implements Parser<XMLElemen
         return {
             ...genericElem,
             type: Incipit,
-            defective: xml.getAttribute('defective') === 'true',
+            defective: getBoolean(xml.getAttribute('defective')),
             lang,
             lbEl: queryAndParseElements(xml, 'lb', createParser(LBParser, this.genericParse)),
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
@@ -604,7 +604,7 @@ export class ExplicitParser extends GenericElemParser implements Parser<XMLEleme
         return {
             ...genericElem,
             type: Explicit,
-            defective: xml.getAttribute('defective') === 'true',
+            defective: getBoolean(xml.getAttribute('defective')),
             lang,
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
         };
@@ -650,7 +650,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             ...genericElem,
             type: MsItemStruct,
             n: getDefaultN(n),
-            defective: xml.getAttribute('defective') === 'true',
+            defective: getBoolean(xml.getAttribute('defective')),
             author: unhandledElement(xml, 'author'),
             title: unhandledElement(xml, 'title'),
             textLang: unhandledElement(xml, 'textLang'),
