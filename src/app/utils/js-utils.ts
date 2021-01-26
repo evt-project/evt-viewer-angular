@@ -89,6 +89,6 @@ export function normalizeUrl(url) {
     return url && url.indexOf('http') < 0 ? 'http://' + url : url;
 }
 
-export function getBoolean(bool: string){
-    return bool === 'true';
+export function isBoolString(s: string){
+    return s === 'true';
 }
