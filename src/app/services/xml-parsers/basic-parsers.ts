@@ -12,6 +12,32 @@ export class EmptyParser {
     constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
 }
 
+export class AttrParser extends EmptyParser {
+    protected attributeParser = createParser(AttributeParser, this.genericParse);
+}
+
+export function queryAndParseElements<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>) {
+    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
+}
+
+export function queryAndParseElement<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>): T {
+    const el = xml.querySelector<XMLElement>(`:scope > ${name}`);
+
+    return el && p.parse(el) as unknown as T;
+}
+
+export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): GenericElement {
+        return {
+            type: Object,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+            // path?: string; // TODO: add path
+        };
+    }
+}
+
 export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
     parse(data: HTMLElement): Attributes {
         return Array.from(data.attributes)
