@@ -1,4 +1,4 @@
-import { flat, isBoolString } from 'src/app/utils/js-utils';
+import {  isBoolString } from 'src/app/utils/js-utils';
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
@@ -10,11 +10,7 @@ import {
 } from '../../models/evt-models';
 import { GapParser, GenericElemParser, LBParser, NoteParser, ParagraphParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
-import { createParser, getClass, getDefaultN, getID, parseChildren, Parser } from './parser-models';
-
-function unhandledElement(xml: XMLElement, name: string) {
-    return flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, this.genericParse)));
-}
+import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
 
 class GAttrParser extends GenericElemParser {
     protected gParser = createParser(GParser, this.genericParse);
