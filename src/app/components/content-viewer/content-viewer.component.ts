@@ -120,8 +120,8 @@ export class ContentViewerComponent implements OnDestroy {
 
   private getHighlightData(data, ith: EntitiesSelectItem[]) {
     return {
-      highlight: ith?.some(i => this.entitiesSelectService.matchClassAndAttributes(i.value, data.attributes, data.class)) ?? false,
-      highlightColor: this.entitiesSelectService.getHighlightColor(data.attributes, data.class, ith),
+      highlight: ith?.some(i => this.entitiesSelectService.matchClassAndAttributes(i.value, data?.attributes ?? {}, data?.class)) ?? false,
+      highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
   }
 
