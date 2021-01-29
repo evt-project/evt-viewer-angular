@@ -1,3 +1,9 @@
+@import '../../../assets/scss/mixins';
+
+::ng-deep {
+    @include draggablePanelFromHeader();
+}
+
 .global-tools {
     position: absolute;
     bottom: 10px;

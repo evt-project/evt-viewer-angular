@@ -1,4 +1,4 @@
-<gridster [options]="layoutOptions">
+<gridster [options]="layoutOptions" [class.draggable]="layoutOptions?.draggable?.enabled">
     <gridster-item [item]="textPanelItem">
         <evt-text-panel 
             [pageID]="currentPageID$ | async" 

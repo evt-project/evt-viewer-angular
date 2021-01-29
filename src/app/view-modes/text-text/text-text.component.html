@@ -1,4 +1,4 @@
-<gridster [options]="options" *ngIf="currentEditionLevels$ | async as currentEditionLevels">
+<gridster [options]="options" *ngIf="currentEditionLevels$ | async as currentEditionLevels" [class.draggable]="options.draggable?.enabled">
     <gridster-item [item]="textPanel1Item">
         <evt-text-panel 
             [pageID]="currentPageID$ | async" 

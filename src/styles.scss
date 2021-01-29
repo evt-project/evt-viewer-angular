@@ -118,3 +118,7 @@ body {
 .hidden {
     display: none;
 }
+
+.gridster-item-moving, .gridster-item-moving * {
+    cursor: grabbing !important;
+}

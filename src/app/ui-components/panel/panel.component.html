@@ -2,7 +2,7 @@
     [class.comparable]="comparable"
     [class.secondary]="secondary">
     <div class="panel-header header card-header" *ngIf="!hideHeader">
-    	<nav class="navbar">
+        <nav class="navbar" (mousedown)="$event.stopPropagation(); $event.preventDefault()">
             <div><ng-content select="[header-left]"></ng-content></div>
             <div><ng-content select="[header-right]"></ng-content></div>
             <evt-button *ngIf="closable" additionalClasses="rounded-circle" 
