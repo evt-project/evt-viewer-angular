@@ -1,4 +1,4 @@
-import {  isBoolString } from 'src/app/utils/js-utils';
+import { isBoolString } from 'src/app/utils/js-utils';
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
@@ -136,7 +136,7 @@ export class AcquisitionParser extends GenericElemParser implements Parser<XMLEl
             type: Acquisition,
             notBefore,
             notAfter,
-            name: unhandledElement(xml, 'name'),
+            name: unhandledElement(xml, 'name', this.genericParse),
         };
     }
 }
@@ -241,7 +241,7 @@ export class LayoutDescParser extends GenericElemParser implements Parser<XMLEle
             type: LayoutDesc,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
             summary: queryAndParseElement(xml, 'provenance', createParser(ProvenanceParser, this.genericParse)),
             layout: queryAndParseElement(xml, 'layout', createParser(ProvenanceParser, this.genericParse)),
         };
@@ -254,8 +254,8 @@ export class SupportParser extends GenericElemParser implements Parser<XMLElemen
         return {
             ...super.parse(xml),
             type: Support,
-            material: unhandledElement(xml, 'material'),
-            watermark: unhandledElement(xml, 'watermark'),
+            material: unhandledElement(xml, 'material', this.genericParse),
+            watermark: unhandledElement(xml, 'watermark', this.genericParse),
         };
     }
 }
@@ -302,8 +302,8 @@ export class SupportDescParser extends GenericElemParser implements Parser<XMLEl
             type: SupportDesc,
             material: xml.getAttribute('material') as MaterialValues,
             pEl: queryAndParseElements(xml, 'p', createParser(ParagraphParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
-            extent: unhandledElement(xml, 'extent'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
+            extent: unhandledElement(xml, 'extent', this.genericParse),
             support: queryAndParseElement(xml, 'support', createParser(SupportParser, this.genericParse)),
             collation: queryAndParseElement(xml, 'collation', createParser(CollationParser, this.genericParse)),
             foliation: queryAndParseElement(xml, 'foliation', createParser(FoliationParser, this.genericParse)),
@@ -336,7 +336,7 @@ export class DecoNoteParser extends GenericElemParser implements Parser<XMLEleme
             ...genericElem,
             type: DecoNote,
             decoNoteType,
-            watermark: unhandledElement(xml, 'watermark'),
+            watermark: unhandledElement(xml, 'watermark', this.genericParse),
         };
     }
 }
@@ -350,8 +350,8 @@ export class BindingParser extends GenericElemParser implements Parser<XMLElemen
             contemporary: true || false,
             decoNote: queryAndParseElement(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
             pEl: queryAndParseElements(xml, 'p', createParser(ParagraphParser, this.genericParse)),
-            condition: unhandledElement(xml, 'condition'),
-            ab: unhandledElement(xml, 'ab'),
+            condition: unhandledElement(xml, 'condition', this.genericParse),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
         };
     }
 }
@@ -362,7 +362,7 @@ export class BindingDescParser extends GenericElemParser implements Parser<XMLEl
         return {
             ...super.parse(xml),
             type: BindingDesc,
-            condition: unhandledElement(xml, 'condition'),
+            condition: unhandledElement(xml, 'condition', this.genericParse),
             decoNote: queryAndParseElement(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
             binding: queryAndParseElement(xml, 'binding', createParser(BindingParser, this.genericParse)),
         };
@@ -389,7 +389,7 @@ export class DecoDescParser extends GenericElemParser implements Parser<XMLEleme
             decoNote: queryAndParseElement(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
             pEl: queryAndParseElements(xml, 'p', createParser(ParagraphParser, this.genericParse)),
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
         };
     }
 }
@@ -403,7 +403,7 @@ export class HandDescParser extends GenericElemParser implements Parser<XMLEleme
             ...genericElem,
             type: HandDesc,
             hands,
-            handNote: unhandledElement(xml, 'handNote'),
+            handNote: unhandledElement(xml, 'handNote', this.genericParse),
         };
     }
 }
@@ -428,7 +428,7 @@ export class ScriptDescParser extends GenericElemParser implements Parser<XMLEle
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
-            scriptNote: unhandledElement(xml, 'scriptNote'),
+            scriptNote: unhandledElement(xml, 'scriptNote', this.genericParse),
         };
     }
 }
@@ -446,7 +446,7 @@ export class SealParser extends GenericElemParser implements Parser<XMLElement> 
             sealType,
             n: getDefaultN(n),
             pEl: queryAndParseElements(xml, 'p', createParser(ParagraphParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
         };
     }
 }
@@ -505,7 +505,7 @@ export class MusicNotationParser extends GenericElemParser implements Parser<XML
         return {
             ...super.parse(xml),
             type: MusicNotation,
-            term: unhandledElement(xml, 'term'),
+            term: unhandledElement(xml, 'term', this.genericParse),
         };
     }
 }
@@ -557,7 +557,7 @@ export class LocusParser extends GenericElemParser implements Parser<XMLElement>
             target,
             gEl: queryAndParseElements(xml, 'g', createParser(GParser, this.genericParse)),
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
-            hi: unhandledElement(xml, 'hi'),
+            hi: unhandledElement(xml, 'hi', this.genericParse),
         };
     }
 }
@@ -619,7 +619,7 @@ export class RubricParser extends GenericElemParser implements Parser<XMLElement
             rend,
             lbEl: queryAndParseElements(xml, 'lb', createParser(LBParser, this.genericParse)),
             locus: queryAndParseElement(xml, 'locus', createParser(LocusParser, this.genericParse)),
-            stamp: unhandledElement(xml, 'stamp'),
+            stamp: unhandledElement(xml, 'stamp', this.genericParse),
         };
     }
 }
@@ -647,14 +647,14 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             type: MsItemStruct,
             n: getDefaultN(n),
             defective: isBoolString(xml.getAttribute('defective')),
-            author: unhandledElement(xml, 'author'),
-            title: unhandledElement(xml, 'title'),
-            textLang: unhandledElement(xml, 'textLang'),
-            bibl: unhandledElement(xml, 'bibl'),
-            respStmt: unhandledElement(xml, 'respStmt'),
-            quote: unhandledElement(xml, 'quote'),
-            listBibl: unhandledElement(xml, 'listBibl'),
-            colophon: unhandledElement(xml, 'colophon'),
+            author: unhandledElement(xml, 'author', this.genericParse),
+            title: unhandledElement(xml, 'title', this.genericParse),
+            textLang: unhandledElement(xml, 'textLang', this.genericParse),
+            bibl: unhandledElement(xml, 'bibl', this.genericParse),
+            respStmt: unhandledElement(xml, 'respStmt', this.genericParse),
+            quote: unhandledElement(xml, 'quote', this.genericParse),
+            listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
+            colophon: unhandledElement(xml, 'colophon', this.genericParse),
             rubric: queryAndParseElement<Rubric>(xml, 'rubric', createParser(RubricParser, this.genericParse)),
             incipit: queryAndParseElement<Incipit>(xml, 'incipit', createParser(IncipitParser, this.genericParse)),
             explicit: queryAndParseElement<Explicit>(xml, 'explicit', createParser(ExplicitParser, this.genericParse)),
@@ -673,10 +673,10 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
         return {
             ...super.parse(xml),
             type: MsItem,
-            docAuthor: unhandledElement(xml, 'docAuthor'),
-            docTitle: unhandledElement(xml, 'docTitle'),
-            docImprint: unhandledElement(xml, 'docImprint'),
-            docDate: unhandledElement(xml, 'docDate'),
+            docAuthor: unhandledElement(xml, 'docAuthor', this.genericParse),
+            docTitle: unhandledElement(xml, 'docTitle', this.genericParse),
+            docImprint: unhandledElement(xml, 'docImprint', this.genericParse),
+            docDate: unhandledElement(xml, 'docDate', this.genericParse),
             locusGrp: queryAndParseElement<LocusGrp>(xml, 'locusGrp', createParser(LocusGrpParser, this.genericParse)),
             gapEl: queryAndParseElements(xml, 'gap', createParser(GapParser, this.genericParse)),
         };
@@ -709,7 +709,7 @@ export class CustodialHistParser extends GenericElemParser implements Parser<XML
             type: CustodialHist,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             custEvent: queryAndParseElement(xml, 'custEvent', createParser(CustEventParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
@@ -733,9 +733,9 @@ export class RecordHistParser extends GenericElemParser implements Parser<XMLEle
             ...super.parse(xml),
             type: RecordHist,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
-            change: unhandledElement(xml, 'change'),
+            change: unhandledElement(xml, 'change', this.genericParse),
             source: queryAndParseElement(xml, 'source', createParser(SourceParser, this.genericParse)),
-            ab: unhandledElement(xml, 'ab'),
+            ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
@@ -749,7 +749,7 @@ export class AdminInfoParser extends GenericElemParser implements Parser<XMLElem
             type: AdminInfo,
             structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
             noteEl: queryAndParseElements(xml, 'note', createParser(NoteParser, this.genericParse)),
-            availability: unhandledElement(xml, 'availability'),
+            availability: unhandledElement(xml, 'availability', this.genericParse),
             custodialHist: queryAndParseElement(xml, 'custodialHist', createParser(CustodialHistParser, this.genericParse)),
             recordHist: queryAndParseElement(xml, 'recordHist', createParser(RecordHistParser, this.genericParse)),
         };
@@ -762,7 +762,7 @@ export class SurrogatesParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: Surrogates,
-            bibl: unhandledElement(xml, 'bibl'),
+            bibl: unhandledElement(xml, 'bibl', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
@@ -777,7 +777,7 @@ export class AdditionalParser extends GenericElemParser implements Parser<XMLEle
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            listBibl: unhandledElement(xml, 'listBibl'),
+            listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
             adminInfo: queryAndParseElement(xml, 'adminInfo', createParser(AdminInfoParser, this.genericParse)),
             surrogates: queryAndParseElement(xml, 'surrogates', createParser(SurrogatesParser, this.genericParse)),
         };
@@ -830,9 +830,9 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             type: AltIdentifier,
             collection: queryAndParseElement(xml, 'repository', createParser(RepositoryParser, this.genericParse)),
             repository: queryAndParseElement(xml, 'collection', createParser(CollectionParser, this.genericParse)),
-            idno: unhandledElement(xml, 'idno'),
-            region: unhandledElement(xml, 'region'),
-            settlement: unhandledElement(xml, 'settlement'),
+            idno: unhandledElement(xml, 'idno', this.genericParse),
+            region: unhandledElement(xml, 'region', this.genericParse),
+            settlement: unhandledElement(xml, 'settlement', this.genericParse),
         };
     }
 }
@@ -854,8 +854,8 @@ export class MsNameParser extends GenericElemParser implements Parser<XMLElement
         return {
             ...super.parse(xml),
             type: AltIdentifier,
-            name: unhandledElement(xml, 'name'),
-            rs: unhandledElement(xml, 'rs'),
+            name: unhandledElement(xml, 'name', this.genericParse),
+            rs: unhandledElement(xml, 'rs', this.genericParse),
             gEl: queryAndParseElements(xml, 'g', createParser(GParser, this.genericParse)),
         };
     }
@@ -867,8 +867,8 @@ export class InstitutionParser extends GenericElemParser implements Parser<XMLEl
         return {
             ...super.parse(xml),
             type: Institution,
-            country: unhandledElement(xml, 'country'),
-            region: unhandledElement(xml, 'region'),
+            country: unhandledElement(xml, 'country', this.genericParse),
+            region: unhandledElement(xml, 'region', this.genericParse),
         };
     }
 }
@@ -883,7 +883,7 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
             institution: queryAndParseElement(xml, 'institution', createParser(InstitutionParser, this.genericParse)),
             altIdentifier: queryAndParseElement(xml, 'altIdentifier', createParser(AltIdentifierParser, this.genericParse)),
             msName: queryAndParseElement(xml, 'msName', createParser(MsNameParser, this.genericParse)),
-            country: unhandledElement(xml, 'country'),
+            country: unhandledElement(xml, 'country', this.genericParse),
         };
     }
 }
@@ -903,7 +903,7 @@ export class HeadParser extends GenericElemParser implements Parser<XMLElement> 
             style,
             facs,
             lbEl: queryAndParseElements(xml, 'lb', createParser(LBParser, this.genericParse)),
-            hi: unhandledElement(xml, 'hi'),
+            hi: unhandledElement(xml, 'hi', this.genericParse),
         };
     }
 }
