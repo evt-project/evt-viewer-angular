@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, publishReplay, refCount, tap } from 'rxjs/operators';
 import { AppConfig } from '../app.config';
-import { OriginalEncodingNodeType, XMLElement } from '../models/evt-models';
+import { OriginalEncodingNodeType } from '../models/evt-models';
 import { parseXml } from '../utils/xml-utils';
 
 @Injectable({
@@ -22,20 +22,12 @@ export class EditionDataService {
     const editionUrl = this.editionUrls[0];
 
     return this.http.get(editionUrl, { responseType: 'text' }).pipe(
-      map(source => {
-        let editionDoc: XMLElement;
-        if (typeof source !== 'object' && typeof source === 'string') {
-          editionDoc = parseXml(source);
-        } else {
-          editionDoc = source;
-        }
-
-        return editionDoc;
-      }),
+      map(source => parseXml(source)),
       mergeMap((editionData) => this.loadXIinclude(editionData, editionUrl.substring(0, editionUrl.lastIndexOf('/') + 1))),
       publishReplay(1),
       refCount(),
-      catchError(() => this.handleLoadingError()));
+      catchError(() => this.handleLoadingError()),
+    );
   }
 
   loadXIinclude(doc: HTMLElement, baseUrlPath: string) {
@@ -77,7 +69,7 @@ export class EditionDataService {
 
   private handleLoadingError() {
     // TODO: TEMP
-    const errorEl = document.createElement('div');
+    const errorEl: HTMLElement = document.createElement('div');
     if (!this.editionUrls || this.editionUrls.length === 0) {
       errorEl.textContent = 'Missing configuration for edition files. Data cannot be loaded.';
     } else {
