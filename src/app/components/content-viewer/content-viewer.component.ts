@@ -58,7 +58,7 @@ export class ContentViewerComponent implements OnDestroy {
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     map((data) => ({
       ...data,
-      type: this.componentRegister.getComponent(data.type),
+      type: this.componentRegister.getComponent(data?.type ?? GenericElement) || this.componentRegister.getComponent(GenericElement),
     })),
     shareReplay(1),
   );
