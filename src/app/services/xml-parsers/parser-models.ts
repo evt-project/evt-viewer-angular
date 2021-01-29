@@ -20,8 +20,8 @@ export function parseChildren(xml: XMLElement, parseFn: ParseFn) {
 export function getDefaultN(n: string) { return n || ''; }
 export function getDefaultAttr(attr: string) { return attr || ''; }
 
-export function unhandledElement(xml: XMLElement, name: string) {
-    return flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, this.genericParse)));
+export function unhandledElement(xml: XMLElement, name: string, parseFn: ParseFn) {
+    return flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, parseFn)));
 }
 
 function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] { return Array.from(nodes).filter((n) => n.nodeType !== 8); }
