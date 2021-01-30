@@ -778,7 +778,7 @@ export class FileDesc extends GenericElement {
     publicationStmt: PublicationStmt;
     sourceDesc: SourceDesc;
     editionStmt?: EditionStmt;
-    extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
+    extent?: Extent;
     seriesStmt?: SeriesStmt;
     notesStmt?: NotesStmt;
 }
@@ -847,3 +847,5 @@ export class SourceDesc extends GenericElement {
     recordingStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when recordingStmt is handled
     scriptStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptStmt is handled
 }
+
+export class Extent extends GenericElement { }
