@@ -774,11 +774,33 @@ export class Dim extends GenericElement {
 }
 
 export class FileDesc extends GenericElement {
-    titleStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when titleStmt is handled
+    titleStmt: TitleStmt;
     publicationStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when publicationStmt is handled
     sourceDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sourceDesc is handled
     editionStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editionStmt is handled
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
     seriesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when seriesStmt is handled
     notesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when notesStmt is handled
+}
+
+export class TitleStmt extends GenericElement {
+    titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    subtitles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when subtitle is handled
+    authors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
+    principals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when principal is handled
+    respStmts: RespStmt[];
+    editors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editor is handled
+    sponsors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sponsor is handled
+    funders: Array<ParseResult<GenericElement>>; // TODO: Add specific type when funder is handled
+}
+
+export class RespStmt extends GenericElement {
+    responsibility: Resp;
+    people: Array<ParseResult<NamedEntityRef>>;
+    notes: Note[];
+}
+
+export class Resp extends GenericElement {
+    normalizedResp: string;
+    date: string;
 }
