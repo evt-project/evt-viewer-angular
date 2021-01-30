@@ -1,5 +1,8 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
-import { FileDesc, GenericElement, NamedEntityRef, Note, Resp, RespStmt, TitleStmt, XMLElement } from '../../models/evt-models';
+import {
+  EditionStmt, FileDesc, GenericElement, NamedEntityRef, Note,
+  Resp, RespStmt, TitleStmt, XMLElement,
+} from '../../models/evt-models';
 import { GenericElemParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, getClass, parseChildren, Parser } from './parser-models';
@@ -72,6 +75,23 @@ export class TitleStmtParser extends GenericElemParser implements Parser<XMLElem
   }
 }
 
+export class EditionStmtParser extends GenericElemParser implements Parser<XMLElement> {
+  private genericElemParser = createParser(GenericElemParser, this.genericParse);
+  private respStmtParser = createParser(RespStmtParser, this.genericParse);
+
+  parse(xml: XMLElement): EditionStmt {
+    return {
+      type: EditionStmt,
+      class: getClass(xml),
+      content: parseChildren(xml, this.genericParse),
+      attributes: this.attributeParser.parse(xml),
+      edition: queryAndParseElements<GenericElement>(xml, 'edition', this.genericElemParser),
+      respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt', this.respStmtParser),
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+    };
+  }
+}
+
 export class FileDescParser extends GenericElemParser implements Parser<XMLElement> {
   private excludeFromParsing = [
     'listBibl',
@@ -84,6 +104,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   ];
   private genericElemParser = createParser(GenericElemParser, this.genericParse);
   private titleStmtParser = createParser(TitleStmtParser, this.genericParse);
+  private editionStmtParser = createParser(EditionStmtParser, this.genericParse);
 
   parse(xml: XMLElement): FileDesc {
     xml = xml.cloneNode(true) as XMLElement;
@@ -97,7 +118,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       content: parseChildren(xml, this.genericParse),
       attributes: this.attributeParser.parse(xml),
       titleStmt: queryAndParseElement<TitleStmt>(xml, 'titleStmt', this.titleStmtParser),
-      editionStmt: queryAndParseElements<GenericElement>(xml, 'editionStmt', this.genericElemParser),
+      editionStmt: queryAndParseElement<EditionStmt>(xml, 'editionStmt', this.editionStmtParser),
       publicationStmt: queryAndParseElements<GenericElement>(xml, 'publicationStmt', this.genericElemParser),
       sourceDesc: queryAndParseElements<GenericElement>(xml, 'sourceDesc', this.genericElemParser),
       extent: queryAndParseElements<GenericElement>(xml, 'extent', this.genericElemParser),
