@@ -779,7 +779,7 @@ export class FileDesc extends GenericElement {
     sourceDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sourceDesc is handled
     editionStmt?: EditionStmt;
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
-    seriesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when seriesStmt is handled
+    seriesStmt?: SeriesStmt;
     notesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when notesStmt is handled
 }
 
@@ -822,4 +822,13 @@ export class PublicationStmt extends GenericElement {
     availability: Array<ParseResult<GenericElement>>; // TODO: Add specific type when availability is handled
     date: Array<ParseResult<GenericElement>>; // TODO: Add specific type when date is handled
     licence: Array<ParseResult<GenericElement>>; // TODO: Add specific type when licence is handled
+}
+
+export class SeriesStmt extends GenericElement {
+    structuredData: boolean;
+    title: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    idno: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    respStmt: RespStmt[];
+    biblScope: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblScope is handled
+    editor: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editor is handled
 }
