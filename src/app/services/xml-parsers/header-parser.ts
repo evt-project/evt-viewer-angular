@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   EditionStmt, FileDesc, GenericElement, NamedEntityRef, Note,
-  PublicationStmt, Resp, RespStmt, SeriesStmt, TitleStmt, XMLElement,
+  NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -135,6 +135,22 @@ export class SeriesStmtParser extends GenericElemParser implements Parser<XMLEle
   }
 }
 
+export class NotesStmtParser extends GenericElemParser implements Parser<XMLElement> {
+  private genericElemParser = createParser(GenericElemParser, this.genericParse);
+  private notesStmt = createParser(NoteParser, this.genericParse);
+
+  parse(xml: XMLElement): NotesStmt {
+    return {
+      type: NotesStmt,
+      class: getClass(xml),
+      content: parseChildren(xml, this.genericParse, true),
+      attributes: this.attributeParser.parse(xml),
+      notes: queryAndParseElements<Note>(xml, 'note', this.notesStmt),
+      relatedItems: queryAndParseElements<GenericElement>(xml, 'relatedItem', this.genericElemParser),
+    };
+  }
+}
+
 export class FileDescParser extends GenericElemParser implements Parser<XMLElement> {
   private excludeFromParsing = [
     'listBibl',
@@ -150,6 +166,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   private editionStmtParser = createParser(EditionStmtParser, this.genericParse);
   private publicationStmtParser = createParser(PublicationStmtParser, this.genericParse);
   private seriesStmtParser = createParser(SeriesStmtParser, this.genericParse);
+  private notesStmtParser = createParser(NotesStmtParser, this.genericParse);
 
   parse(xml: XMLElement): FileDesc {
     xml = xml.cloneNode(true) as XMLElement;
@@ -167,7 +184,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       publicationStmt: queryAndParseElement<PublicationStmt>(xml, 'publicationStmt', this.publicationStmtParser),
       sourceDesc: queryAndParseElements<GenericElement>(xml, 'sourceDesc', this.genericElemParser),
       extent: queryAndParseElements<GenericElement>(xml, 'extent', this.genericElemParser),
-      notesStmt: queryAndParseElements<GenericElement>(xml, 'notesStmt', this.genericElemParser),
+      notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt', this.notesStmtParser),
       seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt', this.seriesStmtParser),
     };
   }

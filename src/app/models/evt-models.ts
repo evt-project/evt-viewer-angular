@@ -780,7 +780,7 @@ export class FileDesc extends GenericElement {
     editionStmt?: EditionStmt;
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
     seriesStmt?: SeriesStmt;
-    notesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when notesStmt is handled
+    notesStmt?: NotesStmt;
 }
 
 export class TitleStmt extends GenericElement {
@@ -831,4 +831,9 @@ export class SeriesStmt extends GenericElement {
     respStmt: RespStmt[];
     biblScope: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblScope is handled
     editor: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editor is handled
+}
+
+export class NotesStmt extends GenericElement {
+    notes: Note[];
+    relatedItems: Array<ParseResult<GenericElement>>; // TODO: Add specific type when relatedItem is handled
 }
