@@ -776,7 +776,7 @@ export class Dim extends GenericElement {
 export class FileDesc extends GenericElement {
     titleStmt: TitleStmt;
     publicationStmt: PublicationStmt;
-    sourceDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sourceDesc is handled
+    sourceDesc: SourceDesc;
     editionStmt?: EditionStmt;
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
     seriesStmt?: SeriesStmt;
@@ -836,4 +836,14 @@ export class SeriesStmt extends GenericElement {
 export class NotesStmt extends GenericElement {
     notes: Note[];
     relatedItems: Array<ParseResult<GenericElement>>; // TODO: Add specific type when relatedItem is handled
+}
+
+export class SourceDesc extends GenericElement {
+    structuredData: boolean;
+    msDesc: MsDesc;
+    bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    biblFull: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblFull is handled
+    biblStruct: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblStruct is handled
+    recordingStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when recordingStmt is handled
+    scriptStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptStmt is handled
 }

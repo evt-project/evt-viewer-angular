@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     EditionStmtParser, FileDescParser, NotesStmtParser, PublicationStmtParser, RespParser, RespStmtParser,
-    SeriesStmtParser, TitleStmtParser,
+    SeriesStmtParser, SourceDescParser, TitleStmtParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
@@ -32,7 +32,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'editionStmt' | 'fileDesc' | 'notesStmt' | 'publicationStmt' | 'seriesStmt' | 'titleStmt';
+type HeaderTags = 'editionStmt' | 'fileDesc' | 'notesStmt' | 'publicationStmt' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
     'decoDesc' | 'decoNote' | 'depth' | 'dim' | 'dimensions' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' |
@@ -81,6 +81,7 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     notesStmt: createParser(NotesStmtParser, parse),
     publicationStmt: createParser(PublicationStmtParser, parse),
     seriesStmt: createParser(SeriesStmtParser, parse),
+    sourceDesc: createParser(SourceDescParser, parse),
     titleStmt: createParser(TitleStmtParser, parse),
 };
 
