@@ -39,12 +39,10 @@
     </gridster-item>
 </gridster>
 <div class="global-tools">
-    <button type="button" class="btn btn-primary shadow rounded-circle" [class.active]="apparatusesOpened"
-        (click)="toggleApparatuses()">
-        <evt-icon class="icon" [iconInfo]="{icon: 'pen-square'}"></evt-icon>
-    </button>
-    <button type="button" class="btn btn-primary shadow rounded-circle" [class.active]="pinnedBoardOpened"
-        (click)="togglePinnedBoard()">
-        <evt-icon class="icon" [iconInfo]="{icon: 'thumbtack'}"></evt-icon>
-    </button>
+    <evt-button [type]="'button'" [toggler]="true" [active]="apparatusesOpened"
+        (btnClick)="toggleApparatuses()" additionalClasses="btn-primary shadow rounded-circle mr-1" 
+        [iconLeft]="{icon: 'pen-square'}"></evt-button>
+    <evt-button [type]="'button'" [toggler]="true" [active]="pinnedBoardOpened"
+        (btnClick)="togglePinnedBoard()" additionalClasses="btn-primary shadow rounded-circle" 
+        [iconLeft]="{icon: 'thumbtack'}"></evt-button>
 </div>

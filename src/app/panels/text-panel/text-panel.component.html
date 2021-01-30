@@ -3,7 +3,7 @@
         <evt-button
             label="Info"
             [iconLeft]="{icon: 'info-circle'}"
-            additionalClasses="mr-1"
+            additionalClasses="btn-primary mr-1"
             (btnClick)="toggleSecondaryContent('INFO')"
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>

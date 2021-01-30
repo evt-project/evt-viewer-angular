@@ -52,5 +52,7 @@
     "verses": "Versi",
     "page": "Pagina {{value}}",
     "front": "Front",
-    "mainText": "Testo principale"
+    "mainText": "Testo principale",
+    "addVersion": "Aggiungi versione",
+    "addWitness": "Aggiungi testimone"
 }
