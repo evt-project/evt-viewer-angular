@@ -25,60 +25,79 @@ import {
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 
-type SupportedTagNames = 'accMat' | 'add' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' | 'app' | 'acquisition' | 'binding' | 'bindingDesc' | 'char' | 'choice' | 'collation' | 'collection' | 'condition' | 'custEvent' |
-    'custodialHist' | 'damage' | 'decoDesc' | 'decoNote' | 'del' | 'depth' | 'dim' | 'dimensions' | 'event' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' | 'g' | 'gap' | 'geogname' | 'glyph' | 'graphic' | 'handDesc' |
-    'head' | 'height' | 'history' | 'incipit' | 'institution' | 'l' | 'layoutDesc' | 'layout' | 'lb' | 'lem' | 'lg' | 'locus' | 'locusGrp' | 'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' |
-    'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' | 'note' | 'objectDesc' | 'orgname' | 'origDate' | 'origin' | 'origPlace' | 'p' | 'persname' | 'physDesc' | 'placename' | 'provenance' |
-    'ptr' | 'person' | 'personGrp' | 'place' | 'org' | 'rdg' | 'recordHist' | 'repository' | 'rubric' | 'scriptDesc' | 'seal' | 'sealDesc' | 'sic' | 'source' | 'summary' | 'supportDesc' |
-    'supplied' | 'support' | 'surface' | 'surrogates' | 'surplus' | 'typeDesc' | 'typeNote' | 'w' | 'width' | 'zone';
+type AnalysisTags = 'w';
+type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'sic';
+type GaijiTags = 'char' | 'g' | 'glyph';
+type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
+    'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
+    'decoDesc' | 'decoNote' | 'depth' | 'dim' | 'dimensions' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' |
+    'handDesc' | 'height' | 'history' | 'incipit' | 'institution' | 'layout' | 'layoutDesc' | 'locus' | 'locusGrp' |
+    'msContents' | 'msDesc' | 'msFrag' | 'msIdentifier' | 'msItem' | 'msItemStruct' | 'msName' | 'msPart' | 'musicNotation' |
+    'objectDesc' | 'origDate' | 'origin' | 'origPlace' | 'physDesc' | 'provenance' | 'recordHist' | 'repository' | 'rubric' |
+    'scriptDesc' | 'seal' | 'sealDesc' | 'source' | 'summary' | 'support' | 'supportDesc' | 'surrogates' |
+    'typeDesc' | 'typeNote' | 'width';
+type NamesDatesTags = 'event' | 'geogname' | 'org' | 'orgname' | 'persname' | 'person' | 'personGrp' | 'place' | 'placename';
+type TextCritTags = 'app' | 'lem' | 'rdg';
+type TranscrTags = 'damage' | 'supplied' | 'surface' | 'surplus' | 'zone';
 
-export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
+type SupportedTagNames = AnalysisTags | CoreTags | GaijiTags | MsDescriptionTags | TextCritTags | TranscrTags | NamesDatesTags;
+
+const analysisParseF: { [T in AnalysisTags]: Parser<XMLElement> } = {
+    w: createParser(WordParser, parse),
+};
+
+const coreParseF: { [T in CoreTags]: Parser<XMLElement> } = {
+    add: createParser(AdditionParser, parse),
+    choice: createParser(ChoiceParser, parse),
+    del: createParser(DeletionParser, parse),
+    gap: createParser(GapParser, parse),
+    graphic: createParser(GraphicParser, parse),
+    head: createParser(HeadParser, parse),
+    l: createParser(VerseParser, parse),
+    lb: createParser(LBParser, parse),
+    lg: createParser(VersesGroupParser, parse),
+    note: createParser(NoteParser, parse),
+    p: createParser(ParagraphParser, parse),
+    ptr: createParser(PtrParser, parse),
+    sic: createParser(SicParser, parse),
+};
+
+const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
+    char: createParser(CharParser, parse),
+    g: createParser(GParser, parse),
+    glyph: createParser(GlyphParser, parse),
+};
+
+const msDescriptionParseF: { [T in MsDescriptionTags]: Parser<XMLElement> } = {
     accMat: createParser(AccMatParser, parse),
     acquisition: createParser(AcquisitionParser, parse),
-    add: createParser(AdditionParser, parse),
     additional: createParser(AdditionalParser, parse),
     additions: createParser(AdditionsParser, parse),
     adminInfo: createParser(AdminInfoParser, parse),
     altIdentifier: createParser(AltIdentifierParser, parse),
-    app: createParser(AppParser, parse),
     binding: createParser(BindingParser, parse),
     bindingDesc: createParser(BindingDescParser, parse),
-    char: createParser(CharParser, parse),
-    choice: createParser(ChoiceParser, parse),
     collation: createParser(CollationParser, parse),
     collection: createParser(CollectionParser, parse),
     condition: createParser(ConditionParser, parse),
     custEvent: createParser(CustEventParser, parse),
     custodialHist: createParser(CustodialHistParser, parse),
-    damage: createParser(DamageParser, parse),
     decoDesc: createParser(DecoDescParser, parse),
     decoNote: createParser(DecoNoteParser, parse),
-    del: createParser(DeletionParser, parse),
     depth: createParser(DepthParser, parse),
     dim: createParser(DimParser, parse),
     dimensions: createParser(DimensionsParser, parse),
-    event: createParser(NamedEntityRefParser, parse),
     explicit: createParser(ExplicitParser, parse),
     filiation: createParser(FiliationParser, parse),
     finalRubric: createParser(FinalRubricParser, parse),
     foliation: createParser(FoliationParser, parse),
-    g: createParser(GParser, parse),
-    gap: createParser(GapParser, parse),
-    geogname: createParser(NamedEntityRefParser, parse),
-    glyph: createParser(GlyphParser, parse),
-    graphic: createParser(GraphicParser, parse),
     handDesc: createParser(HandDescParser, parse),
-    head: createParser(HeadParser, parse),
     height: createParser(HeightParser, parse),
     history: createParser(HistoryParser, parse),
     incipit: createParser(IncipitParser, parse),
     institution: createParser(InstitutionParser, parse),
-    l: createParser(VerseParser, parse),
     layout: createParser(LayoutParser, parse),
     layoutDesc: createParser(LayoutDescParser, parse),
-    lb: createParser(LBParser, parse),
-    lg: createParser(VersesGroupParser, parse),
-    lem: createParser(RdgParser, parse),
     locus: createParser(LocusParser, parse),
     locusGrp: createParser(LocusGrpParser, parse),
     msContents: createParser(MsContentsParser, parse),
@@ -90,44 +109,63 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     msName: createParser(MsNameParser, parse),
     msPart: createParser(MsPartParser, parse),
     musicNotation: createParser(MusicNotationParser, parse),
-    note: createParser(NoteParser, parse),
     objectDesc: createParser(ObjectDescParser, parse),
     origDate: createParser(OrigDateParser, parse),
     origin: createParser(OriginParser, parse),
     origPlace: createParser(OrigPlaceParser, parse),
-    org: createParser(OrganizationParser, parse),
-    orgname: createParser(NamedEntityRefParser, parse),
-    p: createParser(ParagraphParser, parse),
-    persname: createParser(NamedEntityRefParser, parse),
     physDesc: createParser(PhysDescParser, parse),
-    placename: createParser(NamedEntityRefParser, parse),
     provenance: createParser(ProvenanceParser, parse),
-    ptr: createParser(PtrParser, parse),
-    person: createParser(PersonParser, parse),
-    personGrp: createParser(PersonGroupParser, parse),
-    place: createParser(PlaceParser, parse),
-    rdg: createParser(RdgParser, parse),
-    // event: createParser(EventParser), // TODO: check event parser
     recordHist: createParser(RecordHistParser, parse),
     repository: createParser(RepositoryParser, parse),
     rubric: createParser(RubricParser, parse),
     scriptDesc: createParser(ScriptDescParser, parse),
     seal: createParser(SealParser, parse),
     sealDesc: createParser(SealDescParser, parse),
-    sic: createParser(SicParser, parse),
     source: createParser(SourceParser, parse),
     summary: createParser(SummaryParser, parse),
-    surface: createParser(SurfaceParser, parse),
-    surrogates: createParser(SurrogatesParser, parse),
-    supplied: createParser(SuppliedParser, parse),
     support: createParser(SupportParser, parse),
     supportDesc: createParser(SupportDescParser, parse),
-    surplus: createParser(SurplusParser, parse),
+    surrogates: createParser(SurrogatesParser, parse),
     typeDesc: createParser(TypeDescParser, parse),
     typeNote: createParser(TypeNoteParser, parse),
-    w: createParser(WordParser, parse),
     width: createParser(WidthParser, parse),
+};
+
+const namesDatesParseF: { [T in NamesDatesTags]: Parser<XMLElement> } = {
+    event: createParser(NamedEntityRefParser, parse),
+    // event: createParser(EventParser), // TODO: check event parser
+    geogname: createParser(NamedEntityRefParser, parse),
+    org: createParser(OrganizationParser, parse),
+    orgname: createParser(NamedEntityRefParser, parse),
+    persname: createParser(NamedEntityRefParser, parse),
+    person: createParser(PersonParser, parse),
+    personGrp: createParser(PersonGroupParser, parse),
+    place: createParser(PlaceParser, parse),
+    placename: createParser(NamedEntityRefParser, parse),
+};
+
+const textCritParseF: { [T in TextCritTags]: Parser<XMLElement> } = {
+    app: createParser(AppParser, parse),
+    lem: createParser(RdgParser, parse),
+    rdg: createParser(RdgParser, parse),
+};
+
+const transcrParseF: { [T in TranscrTags]: Parser<XMLElement> } = {
+    damage: createParser(DamageParser, parse),
+    supplied: createParser(SuppliedParser, parse),
+    surface: createParser(SurfaceParser, parse),
+    surplus: createParser(SurplusParser, parse),
     zone: createParser(ZoneParser, parse),
+};
+
+export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
+    ...analysisParseF,
+    ...coreParseF,
+    ...gaijiParseF,
+    ...namesDatesParseF,
+    ...textCritParseF,
+    ...transcrParseF,
+    ...msDescriptionParseF,
 };
 
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
