@@ -772,3 +772,13 @@ export class Dim extends GenericElement {
     max?: number;
     gEl?: G[];
 }
+
+export class FileDesc extends GenericElement {
+    titleStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when titleStmt is handled
+    publicationStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when publicationStmt is handled
+    sourceDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sourceDesc is handled
+    editionStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editionStmt is handled
+    extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
+    seriesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when seriesStmt is handled
+    notesStmt?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when notesStmt is handled
+}
