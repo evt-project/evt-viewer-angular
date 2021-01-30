@@ -8,7 +8,7 @@ import { CharParser, GlyphParser, GParser } from './character-declarations-parse
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
-import { EditionStmtParser, FileDescParser, RespParser, RespStmtParser, TitleStmtParser } from './header-parser';
+import { EditionStmtParser, FileDescParser, PublicationStmtParser, RespParser, RespStmtParser, TitleStmtParser } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
     BindingParser, CollationParser, CollectionParser, ConditionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
@@ -29,7 +29,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'editionStmt' | 'fileDesc' | 'titleStmt';
+type HeaderTags = 'editionStmt' | 'fileDesc' | 'publicationStmt' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
     'decoDesc' | 'decoNote' | 'depth' | 'dim' | 'dimensions' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' |
@@ -75,6 +75,7 @@ const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
 const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     editionStmt: createParser(EditionStmtParser, parse),
     fileDesc: createParser(FileDescParser, parse),
+    publicationStmt: createParser(PublicationStmtParser, parse),
     titleStmt: createParser(TitleStmtParser, parse),
 };
 

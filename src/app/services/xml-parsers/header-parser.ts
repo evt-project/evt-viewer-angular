@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   EditionStmt, FileDesc, GenericElement, NamedEntityRef, Note,
-  Resp, RespStmt, TitleStmt, XMLElement,
+  PublicationStmt, Resp, RespStmt, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -92,6 +92,29 @@ export class EditionStmtParser extends GenericElemParser implements Parser<XMLEl
   }
 }
 
+export class PublicationStmtParser extends GenericElemParser implements Parser<XMLElement> {
+  private genericElemParser = createParser(GenericElemParser, this.genericParse);
+
+  parse(xml: XMLElement): PublicationStmt {
+    return {
+      type: PublicationStmt,
+      class: getClass(xml),
+      content: parseChildren(xml, this.genericParse, true),
+      attributes: this.attributeParser.parse(xml),
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      publisher: queryAndParseElements<GenericElement>(xml, 'publisher', this.genericElemParser),
+      distributor: queryAndParseElements<GenericElement>(xml, 'distributor', this.genericElemParser),
+      authority: queryAndParseElements<GenericElement>(xml, 'authority', this.genericElemParser),
+      pubPlace: queryAndParseElements<GenericElement>(xml, 'pubPlace', this.genericElemParser),
+      address: queryAndParseElements<GenericElement>(xml, 'address', this.genericElemParser),
+      idno: queryAndParseElements<GenericElement>(xml, 'idno', this.genericElemParser),
+      availability: queryAndParseElements<GenericElement>(xml, 'availability', this.genericElemParser),
+      date: queryAndParseElements<GenericElement>(xml, 'date', this.genericElemParser),
+      licence: queryAndParseElements<GenericElement>(xml, 'licence', this.genericElemParser),
+    };
+  }
+}
+
 export class FileDescParser extends GenericElemParser implements Parser<XMLElement> {
   private excludeFromParsing = [
     'listBibl',
@@ -105,6 +128,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   private genericElemParser = createParser(GenericElemParser, this.genericParse);
   private titleStmtParser = createParser(TitleStmtParser, this.genericParse);
   private editionStmtParser = createParser(EditionStmtParser, this.genericParse);
+  private publicationStmtParser = createParser(PublicationStmtParser, this.genericParse);
 
   parse(xml: XMLElement): FileDesc {
     xml = xml.cloneNode(true) as XMLElement;
@@ -119,7 +143,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       attributes: this.attributeParser.parse(xml),
       titleStmt: queryAndParseElement<TitleStmt>(xml, 'titleStmt', this.titleStmtParser),
       editionStmt: queryAndParseElement<EditionStmt>(xml, 'editionStmt', this.editionStmtParser),
-      publicationStmt: queryAndParseElements<GenericElement>(xml, 'publicationStmt', this.genericElemParser),
+      publicationStmt: queryAndParseElement<PublicationStmt>(xml, 'publicationStmt', this.publicationStmtParser),
       sourceDesc: queryAndParseElements<GenericElement>(xml, 'sourceDesc', this.genericElemParser),
       extent: queryAndParseElements<GenericElement>(xml, 'extent', this.genericElemParser),
       notesStmt: queryAndParseElements<GenericElement>(xml, 'notesStmt', this.genericElemParser),

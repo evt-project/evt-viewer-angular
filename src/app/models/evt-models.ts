@@ -775,7 +775,7 @@ export class Dim extends GenericElement {
 
 export class FileDesc extends GenericElement {
     titleStmt: TitleStmt;
-    publicationStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when publicationStmt is handled
+    publicationStmt: PublicationStmt;
     sourceDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sourceDesc is handled
     editionStmt?: EditionStmt;
     extent?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
@@ -809,4 +809,17 @@ export class EditionStmt extends GenericElement {
     structuredData: boolean;
     edition: Array<ParseResult<GenericElement>>; // TODO: Add specific type when edition is handled
     respStmt: RespStmt[];
+}
+
+export class PublicationStmt extends GenericElement {
+    structuredData: boolean;
+    publisher: Array<ParseResult<GenericElement>>; // TODO: Add specific type when publisher is handled
+    distributor: Array<ParseResult<GenericElement>>; // TODO: Add specific type when distributor is handled
+    authority: Array<ParseResult<GenericElement>>; // TODO: Add specific type when authority is handled
+    pubPlace: Array<ParseResult<GenericElement>>; // TODO: Add specific type when pubPlace is handled
+    address: Array<ParseResult<GenericElement>>; // TODO: Add specific type when address is handled
+    idno: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    availability: Array<ParseResult<GenericElement>>; // TODO: Add specific type when availability is handled
+    date: Array<ParseResult<GenericElement>>; // TODO: Add specific type when date is handled
+    licence: Array<ParseResult<GenericElement>>; // TODO: Add specific type when licence is handled
 }
