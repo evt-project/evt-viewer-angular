@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Xi:include support for edition text
 - Manuscript description data extraction
 - Deletion vizualization
 - Verses group visualization
