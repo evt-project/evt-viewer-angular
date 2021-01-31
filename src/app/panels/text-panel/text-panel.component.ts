@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
@@ -36,12 +37,14 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   );
 
   public currentStatus$ = combineLatest([
+    this.evtModelService.pages$,
     this.currentPage$,
     this.currentEdLevel$,
+    this.evtStatus.currentViewMode$,
   ]).pipe(
     delay(0),
-    filter(([page, editionLevel]) => !!page && !!editionLevel),
-    map(([page, editionLevel]) => ({ page, editionLevel })),
+    filter(([pages, currentPage, editionLevel, currentViewMode]) => !!pages && !!currentPage && !!editionLevel && !!currentViewMode),
+    map(([pages, currentPage, editionLevel, currentViewMode]) => ({ pages, currentPage, editionLevel, currentViewMode })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     shareReplay(1),
   );
@@ -58,10 +61,16 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
   }
 
+  public isMultiplePageFlow$ = this.currentStatus$.pipe(
+    map((x) => x.editionLevel.id === 'critical' && x.currentViewMode.id !== 'imageText'),
+    shareReplay(1),
+  );
+
   private subscriptions: Subscription[] = [];
 
   constructor(
     public evtModelService: EVTModelService,
+    public evtStatus: EVTStatusService,
   ) {
   }
 

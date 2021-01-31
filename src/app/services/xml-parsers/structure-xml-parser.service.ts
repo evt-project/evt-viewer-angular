@@ -24,7 +24,7 @@ export class StructureXmlParserService {
     const front: XMLElement = el.querySelector(this.frontTagName);
     const body: XMLElement = el.querySelector(this.bodyTagName);
 
-    const pbs = Array.from(el.querySelectorAll(this.pageTagName));
+    const pbs = Array.from(el.querySelectorAll(this.pageTagName)).filter((p) => !p.getAttribute('ed'));
     const frontPbs = pbs.filter((p) => isNestedInElem(p, this.frontTagName));
     const bodyPbs = pbs.filter((p) => isNestedInElem(p, this.bodyTagName));
     const doc = el.firstElementChild.ownerDocument;
