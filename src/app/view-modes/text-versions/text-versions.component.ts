@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { EditionLevel } from 'src/app/app.config';
 import { Page } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
@@ -26,6 +26,7 @@ export class TextVersionsComponent implements OnInit {
 
   public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels[0]),
+    shareReplay(1),
   );
 
   public get versionBtn(): { label: string, additionalClasses: string, title: string, icon?: EvtIconInfo } {
