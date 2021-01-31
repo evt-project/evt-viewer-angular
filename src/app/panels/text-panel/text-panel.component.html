@@ -18,7 +18,7 @@
                     [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
             </ng-container>
 
-            <evt-page *ngIf="!(isMultiplePageFlow$ | async)"
+            <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
                 [data]="currentStatus.currentPage"
                 [editionLevel]="currentStatus.editionLevel"
                 [textFlow]="textFlow"
