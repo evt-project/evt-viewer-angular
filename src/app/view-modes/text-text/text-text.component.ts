@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Page } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 
@@ -23,6 +23,7 @@ export class TextTextComponent implements OnInit, OnDestroy {
 
   public currentEditionLevels$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels),
+    shareReplay(1),
   );
 
   private editionLevelPanel1Change$: BehaviorSubject<EditionLevel> = new BehaviorSubject(undefined);

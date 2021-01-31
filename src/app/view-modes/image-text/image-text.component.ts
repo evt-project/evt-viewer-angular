@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Page } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { EditionLevel } from '../../app.config';
@@ -21,6 +21,7 @@ export class ImageTextComponent implements OnInit {
 
   public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels[0]),
+    shareReplay(1),
   );
 
   constructor(
