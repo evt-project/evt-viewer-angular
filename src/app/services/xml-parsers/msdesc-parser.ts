@@ -11,6 +11,7 @@ import {
 import { GapParser, GenericElemParser, LBParser, NoteParser, ParagraphParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
+import { xmlParser } from './parser-register';
 
 class GAttrParser extends GenericElemParser {
     protected gParser = createParser(GParser, this.genericParse);
@@ -888,6 +889,7 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('head', HeadParser)
 export class HeadParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Head {
         const genericElem = super.parse(xml);

@@ -73,6 +73,7 @@ export class TextParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('p', ParagraphParser)
 export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Paragraph {
@@ -88,6 +89,7 @@ export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('lb', LBParser)
 export class LBParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Lb {
@@ -120,6 +122,7 @@ export class ElementParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('note', NoteParser)
 export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Note {
@@ -150,6 +153,7 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     private isNamedEntityNote(xml: XMLElement) { return isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event'); }
 }
 
+@xmlParser('ptr', PtrParser)
 export class PtrParser extends EmptyParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
     elementParser = createParser(ElementParser, this.genericParse);
@@ -166,6 +170,7 @@ export class PtrParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('l', VerseParser)
 export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Verse {
@@ -181,6 +186,7 @@ export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('lg', VersesGroupParser)
 export class VersesGroupParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): VersesGroup {
@@ -234,6 +240,7 @@ export class DamageParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('gap', GapParser)
 export class GapParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Gap {
@@ -254,6 +261,7 @@ export class GapParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('add', AdditionParser)
 export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
     elementParser = createParser(ElementParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -285,6 +293,7 @@ export class WordParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('del', DeletionParser)
 export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
     elementParser = createParser(ElementParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);

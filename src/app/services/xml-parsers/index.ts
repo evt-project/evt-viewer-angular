@@ -52,7 +52,7 @@ const analysisParseF: { [T in AnalysisTags]: Parser<XMLElement> } = {
     w: createParser(WordParser, parse),
 };
 
-const coreParseF: { [T in CoreTags]: Parser<XMLElement> } = {
+const coreParseF: { [T in CoreTags]: Parser<XMLElement> } = { // DONE
     add: createParser(AdditionParser, parse),
     choice: createParser(ChoiceParser, parse),
     del: createParser(DeletionParser, parse),

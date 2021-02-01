@@ -8,6 +8,7 @@ import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextPa
 import { createParser, parseChildren, Parser } from './parser-models';
 import { xmlParser } from './parser-register';
 
+@xmlParser('event', NamedEntityRefParser)
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {
     elementParser = createParser(ElementParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);

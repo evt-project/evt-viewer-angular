@@ -1,6 +1,7 @@
 import { Sic, Surplus, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getClass, parseChildren, Parser } from './parser-models';
+import { xmlParser } from './parser-register';
 
 export class SurplusParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -18,6 +19,7 @@ export class SurplusParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('sic', SicParser)
 export class SicParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Sic {
