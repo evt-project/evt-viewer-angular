@@ -1,6 +1,6 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
-  EditionStmt, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
+  EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
@@ -174,6 +174,27 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       extent: queryAndParseElement<Extent>(xml, 'extent', createParser(ExtentParser, this.genericParse)),
       notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt', createParser(NotesStmtParser, this.genericParse)),
       seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt', createParser(SeriesStmtParser, this.genericParse)),
+    };
+  }
+}
+
+export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): EncodingDesc {
+    return {
+      ...super.parse(xml),
+      type: EncodingDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      projectDesc: queryAndParseElements<GenericElement>(xml, 'projectDesc', this.genericElemParser),
+      samplingDecl: queryAndParseElements<GenericElement>(xml, 'samplingDecl', this.genericElemParser),
+      editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl', this.genericElemParser),
+      tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl', this.genericElemParser),
+      styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl', this.genericElemParser),
+      refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl', this.genericElemParser),
+      classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl', this.genericElemParser),
+      geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl', this.genericElemParser),
+      unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl', this.genericElemParser),
+      schemaSpec: queryAndParseElements<GenericElement>(xml, 'schemaSpec', this.genericElemParser),
+      schemaRef: queryAndParseElements<GenericElement>(xml, 'schemaRef', this.genericElemParser),
     };
   }
 }
