@@ -1,4 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
+import { xmlParser } from '.';
 import {
     Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
@@ -6,7 +7,6 @@ import {
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 export class EmptyParser {
     genericParse: ParseFn;

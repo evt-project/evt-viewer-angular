@@ -1,8 +1,8 @@
+import { xmlParser } from '.';
 import { Char, CharMapping, CharProp, G, Graphic, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { GraphicParser } from './facsimile-parser';
 import { createParser, getDefaultAttr, getID, parseChildren, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('char', CharParser)
 export class CharParser extends EmptyParser implements Parser<XMLElement> {

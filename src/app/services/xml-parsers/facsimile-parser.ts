@@ -1,7 +1,7 @@
+import { xmlParser } from '.';
 import { Graphic, Point, Surface, XMLElement, Zone, ZoneHotSpot, ZoneLine, ZoneRendition } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('zone', ZoneParser)
 export class ZoneParser extends EmptyParser implements Parser<XMLElement> {

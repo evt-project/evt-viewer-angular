@@ -1,3 +1,4 @@
+import { xmlParser } from '.';
 import {
     GenericElement, NamedEntity, NamedEntityInfo, NamedEntityLabel,
     NamedEntityRef, NamedEntityType, Relation, XMLElement,
@@ -6,7 +7,6 @@ import { xpath } from '../../utils/dom-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('evt-named-entity-parser', NamedEntityRefParser)
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {

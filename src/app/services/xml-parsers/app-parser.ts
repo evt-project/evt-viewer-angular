@@ -1,10 +1,10 @@
 import { AppConfig } from 'src/app/app.config';
+import { xmlParser } from '.';
 import { ApparatusEntry, Note, Reading, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
 import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('rdg', RdgParser)
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
