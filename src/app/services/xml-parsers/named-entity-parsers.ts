@@ -119,7 +119,7 @@ export class PersonGroupParser extends EntityParser {
     }
 }
 
-@xmlParser('place', NamedEntity)
+@xmlParser('place', PlaceParser)
 export class PlaceParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity { return { ...super.parse(xml), label: this.getLabel(xml) }; }
 
