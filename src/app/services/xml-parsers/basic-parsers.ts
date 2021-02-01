@@ -63,6 +63,7 @@ export class AttributeMapParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('evt-text-parser', TextParser)
 export class TextParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Text {
         return {

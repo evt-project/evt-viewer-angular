@@ -1,5 +1,4 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
-import { TextParser } from './basic-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 import { Type } from "@angular/core";
 import { Map } from '../../utils/js-utils';
@@ -41,7 +40,7 @@ export function xmlParser(tagName: string, parserType: Type<any>) {
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
     if (!xml) { return { content: [xml] } as HTML; }
     // Text Node
-    if (xml.nodeType === 3) { return createParser(TextParser, parse).parse(xml); }
+    if (xml.nodeType === 3) { return ParserRegister.getParser('evt-text-parser').parse(xml); }
     // Comment
     if (xml.nodeType === 8) { return {} as Comment; }
     const tagName = xml.tagName.toLowerCase();
