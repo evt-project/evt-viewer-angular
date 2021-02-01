@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
-  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
   GenericElemParser, GenericParser, NoteParser, ParagraphParser,
@@ -10,6 +10,15 @@ import {
 import { MsDescParser } from './msdesc-parser';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, Parser } from './parser-models';
+
+class PContentParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProjectDesc {
+    return {
+      ...super.parse(xml),
+      content: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+    };
+  }
+}
 
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): Resp {
@@ -181,12 +190,20 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
-export class ProjectDescParser extends GenericElemParser implements Parser<XMLElement> {
+export class ProjectDescParser extends PContentParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProjectDesc {
     return {
       ...super.parse(xml),
       type: ProjectDesc,
-      content: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+    };
+  }
+}
+
+export class SamplingDeclParser extends PContentParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): SamplingDecl {
+    return {
+      ...super.parse(xml),
+      type: SamplingDecl,
     };
   }
 }
@@ -198,7 +215,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       type: EncodingDesc,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
       projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc', createParser(ProjectDescParser, this.genericParse)),
-      samplingDecl: queryAndParseElements<GenericElement>(xml, 'samplingDecl', this.genericElemParser),
+      samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl', createParser(SamplingDeclParser, this.genericParse)),
       editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl', this.genericElemParser),
       tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl', this.genericElemParser),
       styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl', this.genericElemParser),

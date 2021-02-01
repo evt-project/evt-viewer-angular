@@ -853,7 +853,7 @@ export class Extent extends GenericElement { }
 export class EncodingDesc extends GenericElement {
     structuredData: boolean;
     projectDesc: ProjectDesc[];
-    samplingDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when samplingDecl is handled
+    samplingDecl: SamplingDecl[];
     editorialDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editorialDecl is handled
     tagsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when tagsDecl is handled
     styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
@@ -866,5 +866,9 @@ export class EncodingDesc extends GenericElement {
 }
 
 export class ProjectDesc extends GenericElement {
+    content: Paragraph[];
+}
+
+export class SamplingDecl extends GenericElement {
     content: Paragraph[];
 }
