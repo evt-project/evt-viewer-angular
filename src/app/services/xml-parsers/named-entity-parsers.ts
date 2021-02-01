@@ -6,6 +6,7 @@ import { xpath } from '../../utils/dom-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
+import { xmlParser } from './parser-register';
 
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {
     elementParser = createParser(ElementParser, this.genericParse);
@@ -115,6 +116,7 @@ export class PersonGroupParser extends EntityParser {
     }
 }
 
+@xmlParser('place', NamedEntity)
 export class PlaceParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity { return { ...super.parse(xml), label: this.getLabel(xml) }; }
 

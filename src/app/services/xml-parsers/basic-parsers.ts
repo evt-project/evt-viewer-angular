@@ -6,6 +6,7 @@ import {
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
+import { xmlParser } from './parser-register';
 
 export class EmptyParser {
     genericParse: ParseFn;
@@ -49,6 +50,8 @@ export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
             .reduce((x, y) => ({ ...x, ...y }), {});
     }
 }
+
+@xmlParser('attribute-map-parser', AttributeMapParser)
 export class AttributeMapParser extends EmptyParser implements Parser<XMLElement> {
     parse(xml: XMLElement) {
         const attributes: AttributesMap = {};

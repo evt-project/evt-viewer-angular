@@ -1,7 +1,7 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { AppParser, RdgParser } from './app-parser';
 import {
-    AdditionParser, DamageParser, DeletionParser, ElementParser, GapParser, LBParser, NoteParser, ParagraphParser,
+    AdditionParser, DamageParser, DeletionParser, GapParser, LBParser, NoteParser, ParagraphParser,
     PtrParser, SuppliedParser, TextParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
@@ -25,9 +25,10 @@ import {
 } from './msdesc-parser';
 import {
     NamedEntityRefParser, OrganizationParser,
-    PersonGroupParser, PersonParser, PlaceParser,
+    PersonGroupParser, PersonParser,
 } from './named-entity-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
+import { ParserRegister } from './parser-register';
 
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
@@ -158,7 +159,7 @@ const namesDatesParseF: { [T in NamesDatesTags]: Parser<XMLElement> } = {
     persname: createParser(NamedEntityRefParser, parse),
     person: createParser(PersonParser, parse),
     personGrp: createParser(PersonGroupParser, parse),
-    place: createParser(PlaceParser, parse),
+    place: ParserRegister.getParser('place'),
     placename: createParser(NamedEntityRefParser, parse),
 };
 
@@ -194,7 +195,7 @@ export function parse(xml: XMLElement): ParseResult<GenericElement> {
     // Comment
     if (xml.nodeType === 8) { return {} as Comment; }
     const tagName = xml.tagName.toLowerCase();
-    const parser: Parser<XMLElement> = parseF[tagName] || createParser(ElementParser, parse);
+    const parser: Parser<XMLElement> = ParserRegister.getParser(tagName);
 
     return parser.parse(xml);
 }
