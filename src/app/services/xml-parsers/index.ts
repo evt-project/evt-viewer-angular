@@ -9,6 +9,10 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
+    EditionStmtParser, ExtentParser, FileDescParser, NotesStmtParser, PublicationStmtParser, RespParser, RespStmtParser,
+    SeriesStmtParser, SourceDescParser, TitleStmtParser,
+} from './header-parser';
+import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
     BindingParser, CollationParser, CollectionParser, ConditionParser, CustEventParser, CustodialHistParser, DecoDescParser, DecoNoteParser,
     DepthParser, DimensionsParser, DimParser, ExplicitParser, FiliationParser, FinalRubricParser, FoliationParser,
@@ -26,8 +30,9 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type AnalysisTags = 'w';
-type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'sic';
+type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
+type HeaderTags = 'editionStmt' | 'extent' | 'fileDesc' | 'notesStmt' | 'publicationStmt' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
     'decoDesc' | 'decoNote' | 'depth' | 'dim' | 'dimensions' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' |
@@ -40,7 +45,7 @@ type NamesDatesTags = 'event' | 'geogname' | 'org' | 'orgname' | 'persname' | 'p
 type TextCritTags = 'app' | 'lem' | 'rdg';
 type TranscrTags = 'damage' | 'supplied' | 'surface' | 'surplus' | 'zone';
 
-type SupportedTagNames = AnalysisTags | CoreTags | GaijiTags | MsDescriptionTags | TextCritTags | TranscrTags | NamesDatesTags;
+type SupportedTagNames = AnalysisTags | CoreTags | GaijiTags | HeaderTags | MsDescriptionTags | TextCritTags | TranscrTags | NamesDatesTags;
 
 const analysisParseF: { [T in AnalysisTags]: Parser<XMLElement> } = {
     w: createParser(WordParser, parse),
@@ -59,6 +64,8 @@ const coreParseF: { [T in CoreTags]: Parser<XMLElement> } = {
     note: createParser(NoteParser, parse),
     p: createParser(ParagraphParser, parse),
     ptr: createParser(PtrParser, parse),
+    resp: createParser(RespParser, parse),
+    respStmt: createParser(RespStmtParser, parse),
     sic: createParser(SicParser, parse),
 };
 
@@ -66,6 +73,17 @@ const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
     char: createParser(CharParser, parse),
     g: createParser(GParser, parse),
     glyph: createParser(GlyphParser, parse),
+};
+
+const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
+    editionStmt: createParser(EditionStmtParser, parse),
+    extent: createParser(ExtentParser, parse),
+    fileDesc: createParser(FileDescParser, parse),
+    notesStmt: createParser(NotesStmtParser, parse),
+    publicationStmt: createParser(PublicationStmtParser, parse),
+    seriesStmt: createParser(SeriesStmtParser, parse),
+    sourceDesc: createParser(SourceDescParser, parse),
+    titleStmt: createParser(TitleStmtParser, parse),
 };
 
 const msDescriptionParseF: { [T in MsDescriptionTags]: Parser<XMLElement> } = {
@@ -162,6 +180,7 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     ...analysisParseF,
     ...coreParseF,
     ...gaijiParseF,
+    ...headerParseF,
     ...namesDatesParseF,
     ...textCritParseF,
     ...transcrParseF,

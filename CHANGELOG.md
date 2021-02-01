@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- File description data extraction
 - Critical text pages division
 - Xi:include support for edition text
 - Manuscript description data extraction
