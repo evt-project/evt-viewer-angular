@@ -854,7 +854,7 @@ export class EncodingDesc extends GenericElement {
     structuredData: boolean;
     projectDesc: ProjectDesc[];
     samplingDecl: SamplingDecl[];
-    editorialDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editorialDecl is handled
+    editorialDecl: EditorialDecl[];
     tagsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when tagsDecl is handled
     styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
     refsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when refsDecl is handled
@@ -871,4 +871,16 @@ export class ProjectDesc extends GenericElement {
 
 export class SamplingDecl extends GenericElement {
     content: Paragraph[];
+}
+
+export class EditorialDecl extends GenericElement {
+    structuredData: boolean;
+    correction: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correction is handled
+    hyphenation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hyphenation is handled
+    interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
+    normalization: Array<ParseResult<GenericElement>>; // TODO: Add specific type when normalization is handled
+    punctuation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when punctuation is handled
+    quotation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quotation is handled
+    segmentation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when segmentation is handled
+    stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
 }

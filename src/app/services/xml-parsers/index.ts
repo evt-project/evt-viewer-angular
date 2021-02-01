@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    EditionStmtParser, EncodingDescParser, ExtentParser, FileDescParser, NotesStmtParser,
+    EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, NotesStmtParser,
     ProjectDescParser, PublicationStmtParser, RespParser, RespStmtParser,
     SamplingDeclParser, SeriesStmtParser, SourceDescParser, TitleStmtParser,
 } from './header-parser';
@@ -33,7 +33,8 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'editionStmt' | 'encodingDesc' | 'extent' | 'fileDesc' | 'notesStmt' | 'projectDesc' | 'publicationStmt' |
+type HeaderTags = 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'notesStmt' |
+    'projectDesc' | 'publicationStmt' |
     'samplingDecl' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
@@ -79,6 +80,7 @@ const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
 
 const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     editionStmt: createParser(EditionStmtParser, parse),
+    editorialDecl: createParser(EditorialDeclParser, parse),
     encodingDesc: createParser(EncodingDescParser, parse),
     extent: createParser(ExtentParser, parse),
     fileDesc: createParser(FileDescParser, parse),

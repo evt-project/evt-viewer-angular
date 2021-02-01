@@ -1,6 +1,6 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
-  EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
@@ -208,6 +208,24 @@ export class SamplingDeclParser extends PContentParser implements Parser<XMLElem
   }
 }
 
+export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): EditorialDecl {
+    return {
+      ...super.parse(xml),
+      type: EditorialDecl,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      correction: queryAndParseElements<GenericElement>(xml, 'correction', this.genericElemParser),
+      hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation', this.genericElemParser),
+      interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation', this.genericElemParser),
+      normalization: queryAndParseElements<GenericElement>(xml, 'normalization', this.genericElemParser),
+      punctuation: queryAndParseElements<GenericElement>(xml, 'punctuation', this.genericElemParser),
+      quotation: queryAndParseElements<GenericElement>(xml, 'quotation', this.genericElemParser),
+      segmentation: queryAndParseElements<GenericElement>(xml, 'segmentation', this.genericElemParser),
+      stdVals: queryAndParseElements<GenericElement>(xml, 'stdVals', this.genericElemParser),
+    };
+  }
+}
+
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
     return {
@@ -216,7 +234,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
       projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc', createParser(ProjectDescParser, this.genericParse)),
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl', createParser(SamplingDeclParser, this.genericParse)),
-      editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl', this.genericElemParser),
+      editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl', createParser(EditorialDeclParser, this.genericParse)),
       tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl', this.genericElemParser),
       styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl', this.genericElemParser),
       refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl', this.genericElemParser),
