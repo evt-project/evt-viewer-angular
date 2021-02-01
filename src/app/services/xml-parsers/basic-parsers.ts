@@ -279,6 +279,7 @@ export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('w', WordParser)
 export class WordParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Word {
