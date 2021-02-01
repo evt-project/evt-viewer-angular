@@ -9,10 +9,11 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    CorrectionParser,
+    CorrectionParser, CRefPatternParser,
     EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, HyphenationParser,
     InterpretationParser, NamespaceParser, NormalizationParser, NotesStmtParser,
-    ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser, RenditionParser, RespParser, RespStmtParser,
+    ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser,
+    RefsDeclParser, RefStateParser, RenditionParser, RespParser, RespStmtParser,
     SamplingDeclParser, SegmentationParser, SeriesStmtParser, SourceDescParser, StdValsParser, TagsDeclParser,
     TagUsageParser, TitleStmtParser,
 } from './header-parser';
@@ -36,9 +37,9 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'hyphenation' |
+type HeaderTags = 'correction' | 'cRefPattern' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'hyphenation' |
     'interpretation' | 'namespace' | 'normalization' | 'notesStmt' |
-    'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' | 'rendition' |
+    'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' | 'refsDecl' | 'refState' | 'rendition' |
     'samplingDecl' | 'segmentation' | 'seriesStmt' | 'sourceDesc' | 'stdVals' | 'tagsDecl' | 'tagUsage' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
@@ -84,6 +85,7 @@ const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
 
 const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     correction: createParser(CorrectionParser, parse),
+    cRefPattern: createParser(CRefPatternParser, parse),
     editionStmt: createParser(EditionStmtParser, parse),
     editorialDecl: createParser(EditorialDeclParser, parse),
     encodingDesc: createParser(EncodingDescParser, parse),
@@ -98,6 +100,8 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     publicationStmt: createParser(PublicationStmtParser, parse),
     punctuation: createParser(PunctuationParser, parse),
     quotation: createParser(QuotationParser, parse),
+    refsDecl: createParser(RefsDeclParser, parse),
+    refState: createParser(RefStateParser, parse),
     rendition: createParser(RenditionParser, parse),
     samplingDecl: createParser(SamplingDeclParser, parse),
     segmentation: createParser(SegmentationParser, parse),

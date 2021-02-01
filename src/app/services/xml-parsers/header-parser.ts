@@ -1,9 +1,9 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
-  Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
+  Correction, CorrectionMethod, CorrectionStatus, CRefPattern, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
   GenericElement, Hyphenation, HyphenationEol, Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Quotation, QuotationMarks, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
   SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
@@ -359,6 +359,45 @@ export class TagsDeclParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+export class CRefPatternParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CRefPattern {
+    return {
+      ...super.parse(xml),
+      type: CRefPattern,
+      matchPattern: xml.getAttribute('matchPattern'),
+      replacementPattern: xml.getAttribute('replacementPattern'),
+    };
+  }
+}
+
+export class RefStateParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): RefState {
+    return {
+      ...super.parse(xml),
+      type: RefState,
+      ed: xml.getAttribute('ed'),
+      unit: xml.getAttribute('unit'),
+      length: parseInt(xml.getAttribute('length'), 10) || 0,
+      delim: xml.getAttribute('delim'),
+    };
+  }
+}
+
+export class RefsDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  cRefPatternParser = createParser(CRefPatternParser, this.genericParse);
+  refStateParser = createParser(RefStateParser, this.genericParse);
+
+  parse(xml: XMLElement): RefsDecl {
+    return {
+      ...super.parse(xml),
+      type: RefsDecl,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      cRefPattern: queryAndParseElements<CRefPattern>(xml, 'cRefPattern', createParser(CRefPatternParser, this.genericParse)),
+      refState: queryAndParseElements<RefState>(xml, 'refState', createParser(RefStateParser, this.genericParse)),
+    };
+  }
+}
+
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
     return {
@@ -370,7 +409,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl', createParser(EditorialDeclParser, this.genericParse)),
       tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl', createParser(TagsDeclParser, this.genericParse)),
       styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl', this.genericElemParser),
-      refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl', this.genericElemParser),
+      refsDecl: queryAndParseElements<RefsDecl>(xml, 'refsDecl', createParser(RefsDeclParser, this.genericParse)),
       classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl', this.genericElemParser),
       geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl', this.genericElemParser),
       unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl', this.genericElemParser),
