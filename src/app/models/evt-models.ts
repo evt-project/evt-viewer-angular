@@ -882,7 +882,7 @@ export class EditorialDecl extends GenericElement {
     punctuation: Punctuation[];
     quotation: Quotation[];
     segmentation: Segmentation[];
-    stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
+    stdVals: StdVals[];
 }
 
 export type CorrectionStatus = 'high' | 'medium' | 'low' | 'unknown';
@@ -921,5 +921,9 @@ export class Hyphenation extends GenericElement {
 }
 
 export class Segmentation extends GenericElement {
+    content: Paragraph[];
+}
+
+export class StdVals extends GenericElement {
     content: Paragraph[];
 }

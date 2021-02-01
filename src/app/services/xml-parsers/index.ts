@@ -13,7 +13,7 @@ import {
     EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, HyphenationParser,
     NormalizationParser, NotesStmtParser,
     ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser, RespParser, RespStmtParser,
-    SamplingDeclParser, SegmentationParser, SeriesStmtParser, SourceDescParser, TitleStmtParser,
+    SamplingDeclParser, SegmentationParser, SeriesStmtParser, SourceDescParser, StdValsParser, TitleStmtParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser, AltIdentifierParser, BindingDescParser,
@@ -38,7 +38,7 @@ type GaijiTags = 'char' | 'g' | 'glyph';
 type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'hyphenation' |
     'normalization' | 'notesStmt' |
     'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' |
-    'samplingDecl' | 'segmentation' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
+    'samplingDecl' | 'segmentation' | 'seriesStmt' | 'sourceDesc' | 'stdVals' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
     'decoDesc' | 'decoNote' | 'depth' | 'dim' | 'dimensions' | 'explicit' | 'filiation' | 'finalRubric' | 'foliation' |
@@ -99,6 +99,7 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     segmentation: createParser(SegmentationParser, parse),
     seriesStmt: createParser(SeriesStmtParser, parse),
     sourceDesc: createParser(SourceDescParser, parse),
+    stdVals: createParser(StdValsParser, parse),
     titleStmt: createParser(TitleStmtParser, parse),
 };
 
