@@ -48,6 +48,7 @@ export class RespStmtParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('titleStmt', TitleStmtParser)
 export class TitleStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): TitleStmt {
     const title = queryAndParseElements<GenericElement>(xml, 'title[type="main"]', this.genericElemParser);
@@ -67,6 +68,7 @@ export class TitleStmtParser extends GenericParser implements Parser<XMLElement>
   }
 }
 
+@xmlParser('editionStmt', EditionStmtParser)
 export class EditionStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditionStmt {
     return {
@@ -79,6 +81,7 @@ export class EditionStmtParser extends GenericParser implements Parser<XMLElemen
   }
 }
 
+@xmlParser('publicationStmt', PublicationStmtParser)
 export class PublicationStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): PublicationStmt {
     return {
@@ -98,6 +101,7 @@ export class PublicationStmtParser extends GenericParser implements Parser<XMLEl
   }
 }
 
+@xmlParser('seriesStmt', SeriesStmtParser)
 export class SeriesStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): SeriesStmt {
     return {
@@ -113,6 +117,7 @@ export class SeriesStmtParser extends GenericParser implements Parser<XMLElement
   }
 }
 
+@xmlParser('notesStmt', NotesStmtParser)
 export class NotesStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): NotesStmt {
     return {
@@ -124,6 +129,7 @@ export class NotesStmtParser extends GenericParser implements Parser<XMLElement>
   }
 }
 
+@xmlParser('sourceDesc', SourceDescParser)
 export class SourceDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): SourceDesc {
     return {
@@ -140,6 +146,7 @@ export class SourceDescParser extends GenericParser implements Parser<XMLElement
   }
 }
 
+@xmlParser('extent', ExtentParser)
 export class ExtentParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): Extent {
     return {
@@ -149,6 +156,7 @@ export class ExtentParser extends GenericElemParser implements Parser<XMLElement
   }
 }
 
+@xmlParser('fileDesc', FileDescParser)
 export class FileDescParser extends GenericElemParser implements Parser<XMLElement> {
   private excludeFromParsing = [
     'listBibl',

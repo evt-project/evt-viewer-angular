@@ -70,13 +70,13 @@ const coreParseF: { [T in CoreTags]: Parser<XMLElement> } = { // DONE
     sic: createParser(SicParser, parse),
 };
 
-const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
+const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = { // DONE
     char: createParser(CharParser, parse),
     g: createParser(GParser, parse),
     glyph: createParser(GlyphParser, parse),
 };
 
-const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
+const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = { // DONE
     editionStmt: createParser(EditionStmtParser, parse),
     extent: createParser(ExtentParser, parse),
     fileDesc: createParser(FileDescParser, parse),
