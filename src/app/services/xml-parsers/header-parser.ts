@@ -5,10 +5,8 @@ import {
   NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
-import { MsDescParser } from './msdesc-parser';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, Parser } from './parser-models';
-
 
 @xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {

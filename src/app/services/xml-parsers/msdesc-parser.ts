@@ -1,4 +1,5 @@
 import { isBoolString } from 'src/app/utils/js-utils';
+import { xmlParser } from '.';
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
@@ -11,7 +12,6 @@ import {
 import { GapParser, GenericElemParser, LBParser, NoteParser, ParagraphParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
-import { xmlParser } from './parser-register';
 
 class GAttrParser extends GenericElemParser {
     protected gParser = createParser(GParser, this.genericParse);
