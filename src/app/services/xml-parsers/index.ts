@@ -11,7 +11,7 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     CorrectionParser,
     EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, NormalizationParser, NotesStmtParser,
-    ProjectDescParser, PublicationStmtParser, PunctuationParser, RespParser, RespStmtParser,
+    ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser, RespParser, RespStmtParser,
     SamplingDeclParser, SeriesStmtParser, SourceDescParser, TitleStmtParser,
 } from './header-parser';
 import {
@@ -35,7 +35,7 @@ type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
 type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'normalization' | 'notesStmt' |
-    'projectDesc' | 'publicationStmt' | 'punctuation' |
+    'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' |
     'samplingDecl' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
     'binding' | 'bindingDesc' | 'collation' | 'collection' | 'condition' | 'custEvent' | 'custodialHist' |
@@ -91,6 +91,7 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     projectDesc: createParser(ProjectDescParser, parse),
     publicationStmt: createParser(PublicationStmtParser, parse),
     punctuation: createParser(PunctuationParser, parse),
+    quotation: createParser(QuotationParser, parse),
     samplingDecl: createParser(SamplingDeclParser, parse),
     seriesStmt: createParser(SeriesStmtParser, parse),
     sourceDesc: createParser(SourceDescParser, parse),

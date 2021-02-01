@@ -2,7 +2,8 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
   GenericElement, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
   GenericElemParser, GenericParser, NoteParser, ParagraphParser,
@@ -242,6 +243,16 @@ export class PunctuationParser extends PContentParser implements Parser<XMLEleme
   }
 }
 
+export class QuotationParser extends PContentParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Quotation {
+    return {
+      ...super.parse(xml),
+      type: Quotation,
+      marks: xml.getAttribute('marks') as QuotationMarks,
+    };
+  }
+}
+
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
     return {
@@ -253,7 +264,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation', this.genericElemParser),
       normalization: queryAndParseElements<Normalization>(xml, 'normalization', createParser(NormalizationParser, this.genericParse)),
       punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation', createParser(PunctuationParser, this.genericParse)),
-      quotation: queryAndParseElements<GenericElement>(xml, 'quotation', this.genericElemParser),
+      quotation: queryAndParseElements<Quotation>(xml, 'quotation', createParser(QuotationParser, this.genericParse)),
       segmentation: queryAndParseElements<GenericElement>(xml, 'segmentation', this.genericElemParser),
       stdVals: queryAndParseElements<GenericElement>(xml, 'stdVals', this.genericElemParser),
     };
