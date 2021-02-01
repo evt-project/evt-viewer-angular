@@ -1,7 +1,7 @@
+import { xmlParser } from '.';
 import { Sic, Surplus, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getClass, parseChildren, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('surplus', SurplusParser)
 export class SurplusParser extends EmptyParser implements Parser<XMLElement> {

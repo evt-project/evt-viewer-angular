@@ -1,4 +1,5 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
+import { xmlParser } from '.';
 import {
   EditionStmt, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
@@ -7,7 +8,6 @@ import { GenericElemParser, GenericParser, NoteParser, queryAndParseElement, que
 import { MsDescParser } from './msdesc-parser';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, Parser } from './parser-models';
-import { xmlParser } from './parser-register';
 
 @xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
