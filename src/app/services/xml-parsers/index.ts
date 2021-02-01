@@ -10,7 +10,8 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     CorrectionParser,
-    EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, NormalizationParser, NotesStmtParser,
+    EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, HyphenationParser,
+    NormalizationParser, NotesStmtParser,
     ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser, RespParser, RespStmtParser,
     SamplingDeclParser, SeriesStmtParser, SourceDescParser, TitleStmtParser,
 } from './header-parser';
@@ -34,7 +35,8 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'normalization' | 'notesStmt' |
+type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'hyphenation' |
+    'normalization' | 'notesStmt' |
     'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' |
     'samplingDecl' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
@@ -86,6 +88,7 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     encodingDesc: createParser(EncodingDescParser, parse),
     extent: createParser(ExtentParser, parse),
     fileDesc: createParser(FileDescParser, parse),
+    hyphenation: createParser(HyphenationParser, parse),
     normalization: createParser(NormalizationParser, parse),
     notesStmt: createParser(NotesStmtParser, parse),
     projectDesc: createParser(ProjectDescParser, parse),

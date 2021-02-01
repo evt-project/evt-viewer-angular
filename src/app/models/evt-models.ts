@@ -876,7 +876,7 @@ export class SamplingDecl extends GenericElement {
 export class EditorialDecl extends GenericElement {
     structuredData: boolean;
     correction: Correction[];
-    hyphenation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hyphenation is handled
+    hyphenation: Hyphenation[];
     interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
     normalization: Normalization[];
     punctuation: Punctuation[];
@@ -912,4 +912,10 @@ export type QuotationMarks = 'none' | 'some' | 'all';
 export class Quotation extends GenericElement {
     content: Paragraph[];
     marks?: QuotationMarks;
+}
+
+export type HyphenationEol = 'all' | 'some' | 'hard' | 'none';
+export class Hyphenation extends GenericElement {
+    content: Paragraph[];
+    eol?: HyphenationEol;
 }
