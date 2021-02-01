@@ -1,9 +1,10 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
-  GenericElement, Hyphenation, HyphenationEol, Interpretation, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
+  GenericElement, Hyphenation, HyphenationEol, Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, Segmentation, SeriesStmt, SourceDesc, StdVals, TitleStmt, XMLElement,
+  Quotation, QuotationMarks, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
   GenericElemParser, GenericParser, NoteParser, ParagraphParser,
@@ -11,7 +12,7 @@ import {
 } from './basic-parsers';
 import { MsDescParser } from './msdesc-parser';
 import { NamedEntityRefParser } from './named-entity-parsers';
-import { createParser, Parser } from './parser-models';
+import { createParser, getID, Parser } from './parser-models';
 
 class PContentParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProjectDesc {
@@ -308,6 +309,56 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
   }
 }
 
+export class RenditionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Rendition {
+    return {
+      ...super.parse(xml),
+      type: Rendition,
+      id: getID(xml),
+      scope: xml.getAttribute('scope') as RenditionScope || '',
+      selector: xml.getAttribute('selector') || '',
+      scheme: xml.getAttribute('scheme') as Scheme || undefined,
+      schemeVersion: xml.getAttribute('schemeVersion') || '',
+    };
+  }
+}
+
+export class TagUsageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagUsage {
+    return {
+      ...super.parse(xml),
+      type: TagUsage,
+      gi: xml.getAttribute('gi'),
+      occurs: parseInt(xml.getAttribute('occurs'), 10) || undefined,
+      withId: parseInt(xml.getAttribute('withId'), 10) || undefined,
+    };
+  }
+}
+
+export class NamespaceParser extends GenericElemParser implements Parser<XMLElement> {
+  tagUsageParser = createParser(TagUsageParser, this.genericParse);
+
+  parse(xml: XMLElement): Namespace {
+    return {
+      ...super.parse(xml),
+      type: Namespace,
+      name: xml.getAttribute('name') || '',
+      tagUsage: queryAndParseElements<TagUsage>(xml, 'tagUsage', createParser(TagUsageParser, this.genericParse)),
+    };
+  }
+}
+
+export class TagsDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagsDecl {
+    return {
+      ...super.parse(xml),
+      type: TagsDecl,
+      rendition: queryAndParseElements<Rendition>(xml, 'rendition', createParser(RenditionParser, this.genericParse)),
+      namespace: queryAndParseElements<Namespace>(xml, 'namespace', createParser(NamespaceParser, this.genericParse)),
+    };
+  }
+}
+
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
     return {
@@ -317,7 +368,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc', createParser(ProjectDescParser, this.genericParse)),
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl', createParser(SamplingDeclParser, this.genericParse)),
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl', createParser(EditorialDeclParser, this.genericParse)),
-      tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl', this.genericElemParser),
+      tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl', createParser(TagsDeclParser, this.genericParse)),
       styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl', this.genericElemParser),
       refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl', this.genericElemParser),
       classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl', this.genericElemParser),
