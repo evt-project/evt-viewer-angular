@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
-  GenericElement, MsDesc, NamedEntityRef, Note,
+  GenericElement, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
@@ -220,6 +220,17 @@ export class CorrectionParser extends PContentParser implements Parser<XMLElemen
   }
 }
 
+export class NormalizationParser extends PContentParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Normalization {
+    return {
+      ...super.parse(xml),
+      type: Normalization,
+      sources: xml.getAttribute('source')?.split(' ') || [],
+      method: xml.getAttribute('method') as NormalizationMethod || 'silent',
+    };
+  }
+}
+
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
     return {
@@ -229,7 +240,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       correction: queryAndParseElements<Correction>(xml, 'correction', createParser(CorrectionParser, this.genericParse)),
       hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation', this.genericElemParser),
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation', this.genericElemParser),
-      normalization: queryAndParseElements<GenericElement>(xml, 'normalization', this.genericElemParser),
+      normalization: queryAndParseElements<Normalization>(xml, 'normalization', createParser(NormalizationParser, this.genericParse)),
       punctuation: queryAndParseElements<GenericElement>(xml, 'punctuation', this.genericElemParser),
       quotation: queryAndParseElements<GenericElement>(xml, 'quotation', this.genericElemParser),
       segmentation: queryAndParseElements<GenericElement>(xml, 'segmentation', this.genericElemParser),
