@@ -27,6 +27,7 @@ export function queryAndParseElement<T>(xml: XMLElement, name: string, p: Parser
     return el && p.parse(el) as unknown as T;
 }
 
+@xmlParser('evt-generic-elem-parser', GenericElemParser)
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
         return {
