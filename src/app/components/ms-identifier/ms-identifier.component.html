@@ -1,0 +1,28 @@
+<div>
+    <p>Identificatore del manoscritto:</p>
+    <div>
+        <span *ngIf="data.settlement.length>0 || data.country.length>0">Luogo:
+            <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
+            <span *ngIf="data.country.length>0">
+                <span *ngIf="data.settlement.length>0">, </span>
+                <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
+            </span>
+            <br/>
+        </span>
+        <span  *ngIf="data.repository">Archivio: 
+            <evt-content-viewer [content]="data.repository"></evt-content-viewer>
+            <br/>
+        </span>
+        <span  *ngIf="data.institution">Istituzione: 
+            <evt-content-viewer [content]="data.institution"></evt-content-viewer>
+            <br/>
+        </span>
+        <span *ngIf="data.idno.length>0">IDNO: 
+            <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
+            <br/>
+        </span>
+        <span  *ngIf="data.msName">Nome del manoscritto: 
+            <evt-content-viewer [content]="data.msName"></evt-content-viewer>
+        </span>
+    </div>
+</div>
