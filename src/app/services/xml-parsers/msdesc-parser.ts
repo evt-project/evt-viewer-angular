@@ -17,6 +17,7 @@ class GAttrParser extends GenericElemParser {
     protected gParser = createParser(GParser, this.genericParse);
 }
 
+@xmlParser('dim', DimParser)
 export class DimParser extends GAttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Dim {
         const genericElem = super.parse(xml);
@@ -39,6 +40,7 @@ export class DimParser extends GAttrParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('depth', DepthParser)
 export class DepthParser extends GAttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Depth {
         const genericElem = super.parse(xml);
@@ -60,6 +62,7 @@ export class DepthParser extends GAttrParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('width', WidthParser)
 export class WidthParser extends GAttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Width {
         const genericElem = super.parse(xml);
@@ -81,6 +84,7 @@ export class WidthParser extends GAttrParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('height', HeightParser)
 export class HeightParser extends GAttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Height {
         const genericElem = super.parse(xml);
@@ -102,6 +106,7 @@ export class HeightParser extends GAttrParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('dimensions', DimensionsParser)
 export class DimensionsParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Dimensions {
         const genericElem = super.parse(xml);
@@ -127,6 +132,7 @@ export class DimensionsParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('acquisition', AcquisitionParser)
 export class AcquisitionParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Acquisition {
         const genericElem = super.parse(xml);
@@ -142,6 +148,7 @@ export class AcquisitionParser extends GenericElemParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('origDate', OrigDateParser)
 export class OrigDateParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): OrigDate {
         const genericElem = super.parse(xml);
@@ -158,6 +165,7 @@ export class OrigDateParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('origPlace', OrigPlaceParser)
 export class OrigPlaceParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): OrigPlace {
         const genericElem = super.parse(xml);
@@ -172,6 +180,7 @@ export class OrigPlaceParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('origin', OriginParser)
 export class OriginParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Origin {
         const genericElem = super.parse(xml);
@@ -190,6 +199,7 @@ export class OriginParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('provenance', ProvenanceParser)
 export class ProvenanceParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Provenance {
         const genericElem = super.parse(xml);
@@ -203,6 +213,7 @@ export class ProvenanceParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('history', HistoryParser)
 export class HistoryParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): History {
 
@@ -217,6 +228,7 @@ export class HistoryParser extends GenericElemParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('layout', LayoutParser)
 export class LayoutParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Layout {
         const genericElem = super.parse(xml);
@@ -234,6 +246,7 @@ export class LayoutParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('layoutDesc', LayoutDescParser)
 export class LayoutDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): LayoutDesc {
 
@@ -249,6 +262,7 @@ export class LayoutDescParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('support', SupportParser)
 export class SupportParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Support {
 
@@ -261,6 +275,7 @@ export class SupportParser extends GenericElemParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('collation', CollationParser)
 export class CollationParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Collation {
 
@@ -272,6 +287,7 @@ export class CollationParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('condition', ConditionParser)
 export class ConditionParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Condition {
 
@@ -283,6 +299,7 @@ export class ConditionParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('foliation', FoliationParser)
 export class FoliationParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Foliation {
 
@@ -295,6 +312,7 @@ export class FoliationParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('supportDesc', SupportDescParser)
 export class SupportDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): SupportDesc {
 
@@ -313,6 +331,7 @@ export class SupportDescParser extends GenericElemParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('objectDesc', ObjectDescParser)
 export class ObjectDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): ObjectDesc {
         const genericElem = super.parse(xml);
@@ -328,6 +347,7 @@ export class ObjectDescParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('decoNote', DecoNoteParser)
 export class DecoNoteParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): DecoNote {
         const genericElem = super.parse(xml);
@@ -342,6 +362,7 @@ export class DecoNoteParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('binding', BindingParser)
 export class BindingParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Binding {
 
@@ -357,6 +378,7 @@ export class BindingParser extends GenericElemParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('bindingDesc', BindingDescParser)
 export class BindingDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): BindingDesc {
 
@@ -370,6 +392,7 @@ export class BindingDescParser extends GenericElemParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('summary', SummaryParser)
 export class SummaryParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Summary {
 
@@ -381,6 +404,7 @@ export class SummaryParser extends GenericElemParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('decoDesc', DecoDescParser)
 export class DecoDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): DecoDesc {
 
@@ -395,6 +419,7 @@ export class DecoDescParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('handDesc', HandDescParser)
 export class HandDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): HandDesc {
         const genericElem = super.parse(xml);
@@ -409,6 +434,7 @@ export class HandDescParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('additions', AdditionsParser)
 export class AdditionsParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Additions {
 
@@ -420,6 +446,7 @@ export class AdditionsParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('scriptDesc', ScriptDescParser)
 export class ScriptDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): ScriptDesc {
 
@@ -434,6 +461,7 @@ export class ScriptDescParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('seal', SealParser)
 export class SealParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Seal {
         const genericElem = super.parse(xml);
@@ -452,6 +480,7 @@ export class SealParser extends GenericElemParser implements Parser<XMLElement> 
     }
 }
 
+@xmlParser('sealDesc', SealDescParser)
 export class SealDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): SealDesc {
 
@@ -463,6 +492,7 @@ export class SealDescParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('typeNote', TypeNoteParser)
 export class TypeNoteParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): TypeNote {
         const genericElem = super.parse(xml);
@@ -477,6 +507,7 @@ export class TypeNoteParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('typeDesc', TypeDescParser)
 export class TypeDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): TypeDesc {
 
@@ -489,6 +520,7 @@ export class TypeDescParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('accMat', AccMatParser)
 export class AccMatParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): AccMat {
 
@@ -500,6 +532,7 @@ export class AccMatParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('musicNotation', MusicNotationParser)
 export class MusicNotationParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MusicNotation {
 
@@ -511,6 +544,7 @@ export class MusicNotationParser extends GenericElemParser implements Parser<XML
     }
 }
 
+@xmlParser('physDesc', PhysDescParser)
 export class PhysDescParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): PhysDesc {
 
@@ -532,6 +566,7 @@ export class PhysDescParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('finalRubric', FinalRubricParser)
 export class FinalRubricParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): FinalRubric {
 
@@ -543,6 +578,7 @@ export class FinalRubricParser extends GenericElemParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('locus', LocusParser)
 export class LocusParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Locus {
         const genericElem = super.parse(xml);
@@ -563,6 +599,7 @@ export class LocusParser extends GenericElemParser implements Parser<XMLElement>
     }
 }
 
+@xmlParser('locusGrp', LocusGrpParser)
 export class LocusGrpParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): LocusGrp {
         const genericElem = super.parse(xml);
@@ -577,6 +614,7 @@ export class LocusGrpParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('incipit', IncipitParser)
 export class IncipitParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Incipit {
         const genericElem = super.parse(xml);
@@ -593,6 +631,7 @@ export class IncipitParser extends GenericElemParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('explicit', ExplicitParser)
 export class ExplicitParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Explicit {
         const genericElem = super.parse(xml);
@@ -608,6 +647,7 @@ export class ExplicitParser extends GenericElemParser implements Parser<XMLEleme
     }
 }
 
+@xmlParser('rubric', RubricParser)
 export class RubricParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Rubric {
         const genericElem = super.parse(xml);
@@ -625,6 +665,7 @@ export class RubricParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('filiation', FiliationParser)
 export class FiliationParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Filiation {
         const genericElem = super.parse(xml);
@@ -638,6 +679,7 @@ export class FiliationParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('msItemStruct', MsItemStructParser)
 export class MsItemStructParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsItemStruct {
         const genericElem = super.parse(xml);
@@ -668,6 +710,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
     }
 }
 
+@xmlParser('msItem', MsItemParser)
 export class MsItemParser extends MsItemStructParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsItem {
 
@@ -684,6 +727,7 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
     }
 }
 
+@xmlParser('custEvent', CustEventParser)
 export class CustEventParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): CustEvent {
         const genericElem = super.parse(xml);
@@ -702,6 +746,7 @@ export class CustEventParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('custodialHist', CustodialHistParser)
 export class CustodialHistParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): CustodialHist {
 
@@ -716,6 +761,7 @@ export class CustodialHistParser extends GenericElemParser implements Parser<XML
     }
 }
 
+@xmlParser('source', SourceParser)
 export class SourceParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Source {
 
@@ -727,6 +773,7 @@ export class SourceParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('recordHist', RecordHistParser)
 export class RecordHistParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): RecordHist {
 
@@ -742,6 +789,7 @@ export class RecordHistParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('adminInfo', AdminInfoParser)
 export class AdminInfoParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): AdminInfo {
 
@@ -757,6 +805,7 @@ export class AdminInfoParser extends GenericElemParser implements Parser<XMLElem
     }
 }
 
+@xmlParser('surrogates', SurrogatesParser)
 export class SurrogatesParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Surrogates {
 
@@ -769,6 +818,7 @@ export class SurrogatesParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('additional', AdditionalParser)
 export class AdditionalParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Additional {
 
@@ -785,6 +835,7 @@ export class AdditionalParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('repository', RepositoryParser)
 export class RepositoryParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Repository {
         const genericElem = super.parse(xml);
@@ -798,6 +849,7 @@ export class RepositoryParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('msContents', MsContentsParser)
 export class MsContentsParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsContents {
 
@@ -811,6 +863,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('collection', CollectionParser)
 export class CollectionParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): CollectionEl {
         const genericElem = super.parse(xml);
@@ -824,6 +877,7 @@ export class CollectionParser extends GenericElemParser implements Parser<XMLEle
     }
 }
 
+@xmlParser('evt-identifier-parser', IdentifierParser)
 class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Identifier {
         return {
@@ -838,6 +892,7 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('altIdentifier', AltIdentifierParser)
 export class AltIdentifierParser extends IdentifierParser implements Parser<XMLElement> {
     parse(xml: XMLElement): AltIdentifier {
 
@@ -849,6 +904,7 @@ export class AltIdentifierParser extends IdentifierParser implements Parser<XMLE
     }
 }
 
+@xmlParser('msName', MsNameParser)
 export class MsNameParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsName {
 
@@ -862,6 +918,7 @@ export class MsNameParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('institution', InstitutionParser)
 export class InstitutionParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Institution {
 
@@ -874,6 +931,7 @@ export class InstitutionParser extends GenericElemParser implements Parser<XMLEl
     }
 }
 
+@xmlParser('msIdentifier', MsIdentifierParser)
 export class MsIdentifierParser extends IdentifierParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsIdentifier {
 
@@ -910,6 +968,7 @@ export class HeadParser extends GenericElemParser implements Parser<XMLElement> 
     }
 }
 
+@xmlParser('msFrag', MsFragParser)
 export class MsFragParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsFrag {
 
@@ -927,6 +986,7 @@ export class MsFragParser extends GenericElemParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('msPart', MsPartParser)
 export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsPart {
 
@@ -939,6 +999,7 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('msDesc', MsDescParser)
 export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsDesc {
 
