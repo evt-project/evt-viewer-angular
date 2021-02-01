@@ -49,6 +49,7 @@ import { OsdComponent } from './components/osd/osd.component';
 import { PageSelectorComponent } from './components/page-selector/page-selector.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
+import { PhysDescComponent } from './components/phys-desc/phys-desc.component';
 import { ReadingComponent } from './components/reading/reading.component';
 import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
@@ -136,6 +137,7 @@ export function initializeApp(appConfig: AppConfig) {
     PageComponent,
     PageSelectorComponent,
     ParagraphComponent,
+    PhysDescComponent,
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
