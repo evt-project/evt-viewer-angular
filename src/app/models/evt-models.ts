@@ -881,7 +881,7 @@ export class EditorialDecl extends GenericElement {
     normalization: Normalization[];
     punctuation: Punctuation[];
     quotation: Quotation[];
-    segmentation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when segmentation is handled
+    segmentation: Segmentation[];
     stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
 }
 
@@ -918,4 +918,8 @@ export type HyphenationEol = 'all' | 'some' | 'hard' | 'none';
 export class Hyphenation extends GenericElement {
     content: Paragraph[];
     eol?: HyphenationEol;
+}
+
+export class Segmentation extends GenericElement {
+    content: Paragraph[];
 }
