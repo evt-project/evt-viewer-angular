@@ -11,7 +11,7 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     CorrectionParser,
     EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, HyphenationParser,
-    NormalizationParser, NotesStmtParser,
+    InterpretationParser, NormalizationParser, NotesStmtParser,
     ProjectDescParser, PublicationStmtParser, PunctuationParser, QuotationParser, RespParser, RespStmtParser,
     SamplingDeclParser, SegmentationParser, SeriesStmtParser, SourceDescParser, StdValsParser, TitleStmtParser,
 } from './header-parser';
@@ -36,7 +36,7 @@ type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
 type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'hyphenation' |
-    'normalization' | 'notesStmt' |
+    'interpretation' | 'normalization' | 'notesStmt' |
     'projectDesc' | 'publicationStmt' | 'punctuation' | 'quotation' |
     'samplingDecl' | 'segmentation' | 'seriesStmt' | 'sourceDesc' | 'stdVals' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
@@ -89,6 +89,7 @@ const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
     extent: createParser(ExtentParser, parse),
     fileDesc: createParser(FileDescParser, parse),
     hyphenation: createParser(HyphenationParser, parse),
+    interpretation: createParser(InterpretationParser, parse),
     normalization: createParser(NormalizationParser, parse),
     notesStmt: createParser(NotesStmtParser, parse),
     projectDesc: createParser(ProjectDescParser, parse),

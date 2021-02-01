@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
-  GenericElement, Hyphenation, HyphenationEol, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
+  GenericElement, Hyphenation, HyphenationEol, Interpretation, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, Segmentation, SeriesStmt, SourceDesc, StdVals, TitleStmt, XMLElement,
 } from '../../models/evt-models';
@@ -281,6 +281,15 @@ export class StdValsParser extends PContentParser implements Parser<XMLElement> 
   }
 }
 
+export class InterpretationParser extends PContentParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Interpretation {
+    return {
+      ...super.parse(xml),
+      type: Interpretation,
+    };
+  }
+}
+
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
     return {
@@ -289,7 +298,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
       correction: queryAndParseElements<Correction>(xml, 'correction', createParser(CorrectionParser, this.genericParse)),
       hyphenation: queryAndParseElements<Hyphenation>(xml, 'hyphenation', createParser(HyphenationParser, this.genericParse)),
-      interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation', this.genericElemParser),
+      interpretation: queryAndParseElements<Interpretation>(xml, 'interpretation', createParser(InterpretationParser, this.genericParse)),
       normalization: queryAndParseElements<Normalization>(xml, 'normalization', createParser(NormalizationParser, this.genericParse)),
       punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation', createParser(PunctuationParser, this.genericParse)),
       quotation: queryAndParseElements<Quotation>(xml, 'quotation', createParser(QuotationParser, this.genericParse)),

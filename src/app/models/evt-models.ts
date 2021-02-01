@@ -877,7 +877,7 @@ export class EditorialDecl extends GenericElement {
     structuredData: boolean;
     correction: Correction[];
     hyphenation: Hyphenation[];
-    interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
+    interpretation: Interpretation[];
     normalization: Normalization[];
     punctuation: Punctuation[];
     quotation: Quotation[];
@@ -925,5 +925,9 @@ export class Segmentation extends GenericElement {
 }
 
 export class StdVals extends GenericElement {
+    content: Paragraph[];
+}
+
+export class Interpretation extends GenericElement {
     content: Paragraph[];
 }
