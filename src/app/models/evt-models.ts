@@ -879,7 +879,7 @@ export class EditorialDecl extends GenericElement {
     hyphenation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hyphenation is handled
     interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
     normalization: Normalization[];
-    punctuation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when punctuation is handled
+    punctuation: Punctuation[];
     quotation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quotation is handled
     segmentation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when segmentation is handled
     stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
@@ -898,4 +898,12 @@ export class Normalization extends GenericElement {
     content: Paragraph[];
     method: NormalizationMethod;
     sources: string[];
+}
+
+export type PunctuationMarks = 'none' | 'some' | 'all';
+export type PunctuationPlacement = 'internal' | 'external';
+export class Punctuation extends GenericElement {
+    content: Paragraph[];
+    marks?: PunctuationMarks;
+    placement?: PunctuationPlacement;
 }
