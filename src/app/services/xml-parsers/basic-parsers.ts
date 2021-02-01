@@ -108,6 +108,7 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('evt-elemet-paraser', ElementParser)
 export class ElementParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): GenericElement {

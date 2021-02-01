@@ -3,7 +3,6 @@ import { TextParser } from './basic-parsers';
 import { createParser, Parser, ParseResult } from './parser-models';
 import { Type } from "@angular/core";
 import { Map } from '../../utils/js-utils';
-import { ElementParser } from "./basic-parsers";
 
 export class ParserRegister {
     private static PARSER_MAP: Map<Type<any>> = {};
@@ -14,8 +13,8 @@ export class ParserRegister {
 
     // tslint:disable-next-line: no-any
     static getParser<T>(tagName: string): Parser<T> {
-        const name = ParserRegister.mapName(tagName)
-        return createParser(ParserRegister.PARSER_MAP[name] || ElementParser, parse) as Parser<T>;
+        const name = ParserRegister.mapName(tagName) || 'evt-elemet-paraser';
+        return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
 
     private static mapName(tagName) {
@@ -38,7 +37,6 @@ export function xmlParser(tagName: string, parserType: Type<any>) {
         ParserRegister.setParser(tagName, parserType);
     };
 }
-
 
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
     if (!xml) { return { content: [xml] } as HTML; }
