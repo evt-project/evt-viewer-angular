@@ -1,0 +1,23 @@
+<div>
+    <p>Descrizione fisica</p>
+<div>
+    <span *ngIf="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc.pEl">Descrizione del supporto:
+        <evt-content-viewer [content]="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc"></evt-content-viewer>
+    </span>
+    <br/>
+    <span *ngIf="data.objectDesc.layoutDesc">Impaginazione:
+        <evt-content-viewer [content]="data.objectDesc.layoutDesc"></evt-content-viewer>
+    </span>
+    <br/>
+    <span *ngIf="data.objectDesc.supportDesc.extent.length>0">Grandezza approssimativa del documento elettronico: <br/>
+        <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
+    </span>
+    <br/>
+    <span *ngIf="data.handDesc">Descrizione delle mani:
+        <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>
+    </span>
+    <br/>
+    <span *ngIf="data.decoDesc">Descrizione delle decorazioni:
+        <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>
+    </span>
+</div>
