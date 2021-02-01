@@ -1,11 +1,6 @@
 @import './themes';
-// TEMP
-.btn-primary {
-    @include themify($themes) {
-        color: themed('baseColorDark');
-        background-color: themed('baseColorLight');
-        border-color: themed('baseColorLight');
-    }
+.btn-sm {
+    height: 31px;
 }
 
 .badge-info {

@@ -6,29 +6,29 @@
 @import "./assets/scss/bootstrapOverrides";
 
 @font-face {
-    font-family: 'Junicode';
-    src: url('./assets/fonts/Junicode.woff') format('woff');
+    font-family: "Junicode";
+    src: url("./assets/fonts/Junicode.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Junicode';
-    src: url('./assets/fonts/Junicode-Bold.woff') format('woff');
+    font-family: "Junicode";
+    src: url("./assets/fonts/Junicode-Bold.woff") format("woff");
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Junicode';
-    src: url('./assets/fonts/Junicode-Italic.woff') format('woff');
+    font-family: "Junicode";
+    src: url("./assets/fonts/Junicode-Italic.woff") format("woff");
     font-weight: normal;
     font-style: italic;
 }
 
 @font-face {
-    font-family: 'Junicode';
-    src: url('./assets/fonts/Junicode-BoldItalic.woff') format('woff');
+    font-family: "Junicode";
+    src: url("./assets/fonts/Junicode-BoldItalic.woff") format("woff");
     font-weight: bold;
     font-style: italic;
 }
@@ -55,40 +55,91 @@ body {
     line-height: 1.5;
     border-radius: 0.2rem;
 
-    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
-        border-color: transparent;
+    .ng-select-container .ng-value-container .ng-placeholder {
+        top: 0 !important;
+        position: relative !important;
+    }
+
+    &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+        border: none;
     }
 
     .ng-select-container {
         height: 31px !important;
         min-height: 31px;
         vertical-align: middle;
-        border-color: transparent;
+        border: none;
+
+        @include themify($themes) {
+            background-color: themed("toolsBackground") !important;
+            color: themed("toolsColor");
+        }
     }
 
     .ng-arrow-wrapper {
         padding-left: 6px;
+        user-select: none;
+        height: 100%;
+        width: 24px;
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        @include themify($themes) {
+            background-color: themed("toolsBackgroundDarker") !important;
+        }
 
         .ng-arrow {
-            border-width: 4px 4px 2.5px;
+            border-width: 5px 5px 0;
+            vertical-align: text-bottom;
+
+            @include themify($themes) {
+                border-color: themed("baseColorDark") transparent transparent;
+            }
         }
     }
 
+    &.ng-select-opened > .ng-select-container {
+        .ng-arrow-wrapper {
+            opacity: 1;
+
+            .ng-arrow {
+                @include themify($themes) {
+                    border-color: transparent transparent themed("baseColorDark");
+                }
+            }
+        }
+    }
+
+    .ng-dropdown-panel {
+        @include themify($themes) {
+            background-color: themed("toolsBackground") !important;
+            color: themed("toolsColor");
+        }
+    }
     .ng-dropdown-panel-items {
-        @include set('box-shadow', '0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)');
-
-        .ng-option.ng-option-marked {
+        @include set("box-shadow", "0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)");
+        
+        .ng-option {
             @include themify($themes) {
-                background-color: rgba(themed('baseColorDark'), .1) !important;
+                background-color: themed("toolsBackground") !important;
+                color: themed("toolsColor");
+            }
+            &.ng-option-marked {
+                @include themify($themes) {
+                    background-color: rgba(themed("baseColorDark"), 0.1) !important;
+                }
+            }
+            &.ng-option-selected {
+                @include themify($themes) {
+                    background-color: themed("baseColorDark") !important;
+                    color: themed("baseColorLight") !important;
+                }
             }
         }
 
-        .ng-option.ng-option-selected {
-            @include themify($themes) {
-                background-color: themed('baseColorDark') !important;
-                color: themed('baseColorLight') !important;
-            }
-        }
     }
 
     &.ng-select-opened {
@@ -106,7 +157,8 @@ body {
     cursor: pointer;
 }
 
-.abbr, .expan {
+.abbr,
+.expan {
     color: purple;
     text-decoration: underline;
 }
@@ -117,4 +169,12 @@ body {
 
 .hidden {
     display: none;
+}
+
+.btn-close {
+    height: 20px !important;
+    width: 20px !important;
+    line-height: 0.8rem;
+    padding: 0;
+    font-size: 0.9rem;
 }

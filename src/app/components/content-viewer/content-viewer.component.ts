@@ -58,7 +58,7 @@ export class ContentViewerComponent implements OnDestroy {
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     map((data) => ({
       ...data,
-      type: this.componentRegister.getComponent(data.type),
+      type: this.componentRegister.getComponent(data?.type ?? GenericElement) || this.componentRegister.getComponent(GenericElement),
     })),
     shareReplay(1),
   );
@@ -97,7 +97,7 @@ export class ContentViewerComponent implements OnDestroy {
   );
   public attributes: Observable<AttributesMap> = this.contentChange.pipe(
     filter(parsedContent => !!parsedContent),
-    map((parsedContent) => ({ ...parsedContent.attributes || {}, ...{ class: parsedContent.class + ' edition-font' || 'edition-font' } })),
+    map((parsedContent) => ({ ...parsedContent.attributes || {}, ...{ class: `edition-font ${parsedContent.class || ''}` } })),
     shareReplay(1),
   );
 
@@ -120,8 +120,8 @@ export class ContentViewerComponent implements OnDestroy {
 
   private getHighlightData(data, ith: EntitiesSelectItem[]) {
     return {
-      highlight: ith?.some(i => this.entitiesSelectService.matchClassAndAttributes(i.value, data.attributes, data.class)) ?? false,
-      highlightColor: this.entitiesSelectService.getHighlightColor(data.attributes, data.class, ith),
+      highlight: ith?.some(i => this.entitiesSelectService.matchClassAndAttributes(i.value, data?.attributes ?? {}, data?.class)) ?? false,
+      highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
   }
 

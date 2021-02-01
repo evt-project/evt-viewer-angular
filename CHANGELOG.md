@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Critical text pages division
+- Xi:include support for edition text
+- Manuscript description data extraction
 - Deletion vizualization
 - Verses group visualization
 - Multiple line words normalization in interpretative and critical edition

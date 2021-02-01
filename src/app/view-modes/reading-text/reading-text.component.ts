@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { EditionLevel } from '../../app.config';
 import { Page } from '../../models/evt-models';
@@ -20,6 +20,7 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
 
   public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels[0]),
+    shareReplay(1),
   );
   public options: GridsterConfig = {};
 

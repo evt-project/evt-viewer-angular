@@ -1,6 +1,7 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { Attributes, Description, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { xpath } from '../../utils/dom-utils';
+import { flat } from '../../utils/js-utils';
 
 export type ParseResult<T extends GenericElement> = T | HTML | GenericElement | Attributes | Description | AttributesMap;
 
@@ -18,5 +19,9 @@ export function parseChildren(xml: XMLElement, parseFn: ParseFn) {
 }
 export function getDefaultN(n: string) { return n || ''; }
 export function getDefaultAttr(attr: string) { return attr || ''; }
+
+export function unhandledElement(xml: XMLElement, name: string, parseFn: ParseFn) {
+    return flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, parseFn)));
+}
 
 function complexElements(nodes: NodeListOf<ChildNode>): ChildNode[] { return Array.from(nodes).filter((n) => n.nodeType !== 8); }

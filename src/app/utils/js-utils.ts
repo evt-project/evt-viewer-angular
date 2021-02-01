@@ -2,6 +2,8 @@ export interface Map<T> {
     [key: string]: T;
 }
 
+export function flat<T>(a: T[][]): T[] { return a.reduce((x, y) => x.concat(y), []); }
+
 export function uuid(prefix?: string): string { // TODO: use proper UUID generation
     return !!prefix ? `${prefix}-${Math.random()}` : `${Math.random()}`;
 }
@@ -47,10 +49,9 @@ export function uniqueArrayCharKeys(a: string[]) {
  * @param objects - Objects to merge
  * @returns New object with merged key/values
  */
-export function mergeDeep(...objects) {
-    const isObject = obj => obj && typeof obj === 'object';
-
-    return objects.reduce((prev, obj) => {
+export function mergeDeep<T>(...objects: T[]) { // TODO: never used, remove?
+    const isObject = (obj: T) => obj && typeof obj === 'object';
+    const cb = (prev: T, obj: T) => {
         Object.keys(obj).forEach(key => {
             const pVal = prev[key];
             const oVal = obj[key];
@@ -65,7 +66,9 @@ export function mergeDeep(...objects) {
         });
 
         return prev;
-    },                    {});
+    };
+
+    return objects.reduce(cb, {});
 }
 
 export function getEventKeyCode(event) {
@@ -84,4 +87,8 @@ export function getEventKeyCode(event) {
 
 export function normalizeUrl(url) {
     return url && url.indexOf('http') < 0 ? 'http://' + url : url;
+}
+
+export function isBoolString(s: string){
+    return s === 'true';
 }
