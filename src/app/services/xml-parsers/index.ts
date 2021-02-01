@@ -7,15 +7,13 @@ export class ParserRegister {
     private static PARSER_MAP: Map<Type<any>> = {};
 
     static set(tagName: string, parserType: Type<any>) {
-        console.log('Set parser ', tagName, parserType)
         ParserRegister.PARSER_MAP[tagName] = parserType;
     }
 
     // tslint:disable-next-line: no-any
     static get<T>(tagName: string): Parser<T> {
         const name = ParserRegister.mapName(tagName) || 'evt-elemet-paraser';
-        console.log('GetParser for ', tagName, ' got ', name)
-        return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
+        return createParser(ParserRegister.PARSER_MAP[name] || ParserRegister.PARSER_MAP['evt-generic-elem-parser'], parse) as Parser<T>;
     }
 
     private static mapName(tagName) {
