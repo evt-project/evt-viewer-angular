@@ -9,6 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
+    CorrectionParser,
     EditionStmtParser, EditorialDeclParser, EncodingDescParser, ExtentParser, FileDescParser, NotesStmtParser,
     ProjectDescParser, PublicationStmtParser, RespParser, RespStmtParser,
     SamplingDeclParser, SeriesStmtParser, SourceDescParser, TitleStmtParser,
@@ -33,7 +34,7 @@ import { createParser, Parser, ParseResult } from './parser-models';
 type AnalysisTags = 'w';
 type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
-type HeaderTags = 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'notesStmt' |
+type HeaderTags = 'correction' | 'editionStmt' | 'editorialDecl' | 'encodingDesc' | 'extent' | 'fileDesc' | 'notesStmt' |
     'projectDesc' | 'publicationStmt' |
     'samplingDecl' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
@@ -79,6 +80,7 @@ const gaijiParseF: { [T in GaijiTags]: Parser<XMLElement> } = {
 };
 
 const headerParseF: { [T in HeaderTags]: Parser<XMLElement> } = {
+    correction: createParser(CorrectionParser, parse),
     editionStmt: createParser(EditionStmtParser, parse),
     editorialDecl: createParser(EditorialDeclParser, parse),
     encodingDesc: createParser(EncodingDescParser, parse),

@@ -1,6 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
+  Correction, CorrectionMethod, CorrectionStatus, EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc,
+  GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import {
@@ -208,13 +209,24 @@ export class SamplingDeclParser extends PContentParser implements Parser<XMLElem
   }
 }
 
+export class CorrectionParser extends PContentParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Correction {
+    return {
+      ...super.parse(xml),
+      type: Correction,
+      status: xml.getAttribute('status') as CorrectionStatus,
+      method: xml.getAttribute('method') as CorrectionMethod || 'silent',
+    };
+  }
+}
+
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
     return {
       ...super.parse(xml),
       type: EditorialDecl,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      correction: queryAndParseElements<GenericElement>(xml, 'correction', this.genericElemParser),
+      correction: queryAndParseElements<Correction>(xml, 'correction', createParser(CorrectionParser, this.genericParse)),
       hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation', this.genericElemParser),
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation', this.genericElemParser),
       normalization: queryAndParseElements<GenericElement>(xml, 'normalization', this.genericElemParser),
