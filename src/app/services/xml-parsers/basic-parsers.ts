@@ -1,5 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
-import { xmlParser } from '.';
+import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
@@ -43,6 +43,7 @@ export class GenericParser extends GenericElemParser {
     protected genericElemParser = createParser(GenericElemParser, this.genericParse);
 }
 
+@xmlParser('evt-attribute-parser', AttributeParser)
 export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
     parse(data: HTMLElement): Attributes {
         return Array.from(data.attributes)
@@ -76,9 +77,8 @@ export class TextParser implements Parser<XMLElement> {
 
 @xmlParser('p', ParagraphParser)
 export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Paragraph {
-        const attributes = this.attributeParser.parse(xml);
+        const attributes = ParserRegister.get('evt-attribute-parser').parse(xml) as Attributes;
         const paragraphComponent: Paragraph = {
             type: Paragraph,
             content: parseChildren(xml, this.genericParse),
