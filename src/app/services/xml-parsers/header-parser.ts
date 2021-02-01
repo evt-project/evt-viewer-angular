@@ -1,9 +1,12 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import {
   EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
-  NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
-import { GenericElemParser, GenericParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
+import {
+  GenericElemParser, GenericParser, NoteParser, ParagraphParser,
+  queryAndParseElement, queryAndParseElements,
+} from './basic-parsers';
 import { MsDescParser } from './msdesc-parser';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, Parser } from './parser-models';
@@ -178,13 +181,23 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+export class ProjectDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProjectDesc {
+    return {
+      ...super.parse(xml),
+      type: ProjectDesc,
+      content: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+    };
+  }
+}
+
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
     return {
       ...super.parse(xml),
       type: EncodingDesc,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      projectDesc: queryAndParseElements<GenericElement>(xml, 'projectDesc', this.genericElemParser),
+      projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc', createParser(ProjectDescParser, this.genericParse)),
       samplingDecl: queryAndParseElements<GenericElement>(xml, 'samplingDecl', this.genericElemParser),
       editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl', this.genericElemParser),
       tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl', this.genericElemParser),
