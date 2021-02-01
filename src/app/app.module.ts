@@ -36,6 +36,7 @@ import { GenericElementComponent } from './components/generic-element/generic-el
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
 import { LbComponent } from './components/lb/lb.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
+import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
@@ -122,6 +123,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
+    MsIdentifierComponent,
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
