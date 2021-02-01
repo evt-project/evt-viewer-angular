@@ -1,17 +1,17 @@
 import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { createParser, Parser, ParseResult } from './parser-models';
-import { Type } from "@angular/core";
+import { Type } from '@angular/core';
 import { Map } from '../../utils/js-utils';
 
 export class ParserRegister {
     private static PARSER_MAP: Map<Type<any>> = {};
 
-    static setParser(tagName: string, parserType: Type<any>) {
+    static set(tagName: string, parserType: Type<any>) {
         ParserRegister.PARSER_MAP[tagName] = parserType;
     }
 
     // tslint:disable-next-line: no-any
-    static getParser<T>(tagName: string): Parser<T> {
+    static get<T>(tagName: string): Parser<T> {
         const name = ParserRegister.mapName(tagName) || 'evt-elemet-paraser';
         return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
@@ -31,20 +31,21 @@ export class ParserRegister {
 
 // tslint:disable-next-line: no-any
 export function xmlParser(tagName: string, parserType: Type<any>) {
+
     // tslint:disable-next-line: no-any
     return (_: Type<any>) => {
-        ParserRegister.setParser(tagName, parserType);
+        ParserRegister.set(tagName, parserType);
     };
 }
 
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
     if (!xml) { return { content: [xml] } as HTML; }
     // Text Node
-    if (xml.nodeType === 3) { return ParserRegister.getParser('evt-text-parser').parse(xml); }
+    if (xml.nodeType === 3) { return ParserRegister.get('evt-text-parser').parse(xml); }
     // Comment
     if (xml.nodeType === 8) { return {} as Comment; }
     const tagName = xml.tagName.toLowerCase();
-    const parser: Parser<XMLElement> = ParserRegister.getParser(tagName);
+    const parser: Parser<XMLElement> = ParserRegister.get(tagName);
 
     return parser.parse(xml);
 }
