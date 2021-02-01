@@ -204,6 +204,7 @@ export class VersesGroupParser extends EmptyParser implements Parser<XMLElement>
     }
 }
 
+@xmlParser('supplied', SuppliedParser)
 export class SuppliedParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Supplied {
@@ -222,6 +223,7 @@ export class SuppliedParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('damage', DamageParser)
 export class DamageParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Damage {

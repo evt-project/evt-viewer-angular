@@ -13,7 +13,20 @@ export class ParserRegister {
 
     // tslint:disable-next-line: no-any
     static getParser<T>(tagName: string): Parser<T> {
-        return createParser(ParserRegister.PARSER_MAP[tagName] || ElementParser, parse) as Parser<T>;
+        const name = ParserRegister.mapName(tagName)
+        return createParser(ParserRegister.PARSER_MAP[name] || ElementParser, parse) as Parser<T>;
+    }
+
+    private static mapName(tagName) {
+        const nes = ['event', 'geogname', 'org', 'orgname', 'persname', 'person', 'personGrp', 'place', 'placename']
+        if (nes.includes(tagName)) {
+            return 'evt-named-entity-parser';
+        }
+        const crit = ['rdg', 'lem'];
+        if (crit.includes(tagName)) {
+            return 'rdg';
+        }
+        return tagName;
     }
 }
 

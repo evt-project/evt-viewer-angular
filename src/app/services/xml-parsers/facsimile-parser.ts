@@ -3,6 +3,7 @@ import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { xmlParser } from './parser-register';
 
+@xmlParser('zone', ZoneParser)
 export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): Zone {
@@ -70,6 +71,7 @@ export class GraphicParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('surface', SurfaceParser)
 export class SurfaceParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     graphicParser = createParser(GraphicParser, this.genericParse);
