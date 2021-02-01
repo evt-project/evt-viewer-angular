@@ -163,30 +163,6 @@ const namesDatesParseF: { [T in NamesDatesTags]: Parser<XMLElement> } = {
     placename: createParser(NamedEntityRefParser, parse),
 };
 
-const textCritParseF: { [T in TextCritTags]: Parser<XMLElement> } = {
-    app: createParser(AppParser, parse),
-    lem: createParser(RdgParser, parse),
-    rdg: createParser(RdgParser, parse),
-};
-
-const transcrParseF: { [T in TranscrTags]: Parser<XMLElement> } = {
-    damage: createParser(DamageParser, parse),
-    supplied: createParser(SuppliedParser, parse),
-    surface: createParser(SurfaceParser, parse),
-    surplus: createParser(SurplusParser, parse),
-    zone: createParser(ZoneParser, parse),
-};
-
-export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
-    ...analysisParseF,
-    ...coreParseF,
-    ...gaijiParseF,
-    ...headerParseF,
-    ...namesDatesParseF,
-    ...textCritParseF,
-    ...transcrParseF,
-    ...msDescriptionParseF,
-};
 
 export function parse(xml: XMLElement): ParseResult<GenericElement> {
     if (!xml) { return { content: [xml] } as HTML; }

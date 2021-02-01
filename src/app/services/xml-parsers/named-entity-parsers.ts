@@ -70,6 +70,7 @@ export class EntityParser extends EmptyParser implements Parser<XMLElement> {
     private getEntityType(tagName): NamedEntityType { return tagName.toLowerCase(); }
 }
 
+@xmlParser('person', PersonParser)
 export class PersonParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity {
         return {
@@ -101,6 +102,7 @@ export class PersonParser extends EntityParser {
     }
 }
 
+@xmlParser('personGrp', PersonGroupParser)
 export class PersonGroupParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity { return { ...super.parse(xml), label: this.getLabel(xml) }; }
 
@@ -150,6 +152,7 @@ export class EventParser extends EntityParser {
     }
 }
 
+@xmlParser('org', OrganizationParser)
 export class OrganizationParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity {
         return {
