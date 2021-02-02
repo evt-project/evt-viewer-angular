@@ -371,6 +371,8 @@ export class MsIdentifier extends Identifier {
     settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
     repository?: Repository;
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    collection?: CollectionEl;
+    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
 
 export class MsContents extends GenericElement {
