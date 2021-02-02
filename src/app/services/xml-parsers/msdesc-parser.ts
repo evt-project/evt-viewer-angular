@@ -831,8 +831,8 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
         return {
             ...super.parse(xml),
             type: AltIdentifier,
-            collection: queryAndParseElement(xml, 'repository', createParser(RepositoryParser, this.genericParse)),
-            repository: queryAndParseElement(xml, 'collection', createParser(CollectionParser, this.genericParse)),
+            collection: queryAndParseElement(xml, 'collection', createParser(RepositoryParser, this.genericParse)),
+            repository: queryAndParseElement(xml, 'repository', createParser(CollectionParser, this.genericParse)),
             idno: unhandledElement(xml, 'idno', this.genericParse),
             region: unhandledElement(xml, 'region', this.genericParse),
             settlement: unhandledElement(xml, 'settlement', this.genericParse),
@@ -887,6 +887,7 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
             altIdentifier: queryAndParseElement(xml, 'altIdentifier', createParser(AltIdentifierParser, this.genericParse)),
             msName: queryAndParseElement(xml, 'msName', createParser(MsNameParser, this.genericParse)),
             country: unhandledElement(xml, 'country', this.genericParse),
+        
         };
     }
 }
