@@ -883,6 +883,7 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Identifier {
         return {
             ...super.parse(xml),
+<<<<<<< HEAD
             type: Identifier,
             collection: queryAndParseElements(xml, 'collection'),
             repository: queryAndParseElement(xml, 'repository'),
@@ -890,6 +891,14 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             regions: unhandledElement(xml, 'region', this.genericParse),
             settlements: unhandledElement(xml, 'settlement', this.genericParse),
             countries: unhandledElement(xml, 'country', this.genericParse),
+=======
+            type: AltIdentifier,
+            collection: queryAndParseElement(xml, 'collection', createParser(RepositoryParser, this.genericParse)),
+            repository: queryAndParseElement(xml, 'repository', createParser(CollectionParser, this.genericParse)),
+            idno: unhandledElement(xml, 'idno', this.genericParse),
+            region: unhandledElement(xml, 'region', this.genericParse),
+            settlement: unhandledElement(xml, 'settlement', this.genericParse),
+>>>>>>> 0203522 (Fix altIdentifier parser)
         };
     }
 }
