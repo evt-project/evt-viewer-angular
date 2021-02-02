@@ -222,7 +222,7 @@ export class HistoryParser extends GenericElemParser implements Parser<XMLElemen
             type: History,
             acquisition: queryAndParseElement(xml, 'acquisition'),
             origin: queryAndParseElement(xml, 'origin'),
-            provenance: queryAndParseElement(xml, 'provenance'),
+            provenance: queryAndParseElements(xml, 'provenance'),
             summary: queryAndParseElement(xml, 'provenance'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
