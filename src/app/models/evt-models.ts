@@ -393,6 +393,7 @@ export class PhysDesc extends GenericElement {
     scriptDesc?: ScriptDesc;
     sealDesc?: SealDesc;
     typeDesc?: TypeDesc;
+    pEl?: Paragraph[];
 }
 
 export class History extends GenericElement {
