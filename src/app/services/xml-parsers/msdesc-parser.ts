@@ -219,11 +219,20 @@ export class HistoryParser extends GenericElemParser implements Parser<XMLElemen
         return {
             ...super.parse(xml),
             type: History,
+<<<<<<< HEAD
             acquisition: queryAndParseElement(xml, 'acquisition'),
             origin: queryAndParseElement(xml, 'origin'),
             provenance: queryAndParseElements(xml, 'provenance'),
             summary: queryAndParseElement(xml, 'summary'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
+=======
+            acquisition: queryAndParseElement(xml, 'acquisition', createParser(AcquisitionParser, this.genericParse)),
+            origin: queryAndParseElement(xml, 'origin', createParser(OriginParser, this.genericParse)),
+            provenance: queryAndParseElements<Provenance>(xml, 'provenance', createParser(ProvenanceParser, this.genericParse)),
+            summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+
+>>>>>>> 80691b8 (Update provenance in history parser)
         };
     }
 }
@@ -883,7 +892,6 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Identifier {
         return {
             ...super.parse(xml),
-<<<<<<< HEAD
             type: Identifier,
             collection: queryAndParseElements(xml, 'collection'),
             repository: queryAndParseElement(xml, 'repository'),
@@ -891,14 +899,6 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             regions: unhandledElement(xml, 'region', this.genericParse),
             settlements: unhandledElement(xml, 'settlement', this.genericParse),
             countries: unhandledElement(xml, 'country', this.genericParse),
-=======
-            type: AltIdentifier,
-            collection: queryAndParseElement(xml, 'collection', createParser(RepositoryParser, this.genericParse)),
-            repository: queryAndParseElement(xml, 'repository', createParser(CollectionParser, this.genericParse)),
-            idno: unhandledElement(xml, 'idno', this.genericParse),
-            region: unhandledElement(xml, 'region', this.genericParse),
-            settlement: unhandledElement(xml, 'settlement', this.genericParse),
->>>>>>> 0203522 (Fix altIdentifier parser)
         };
     }
 }
