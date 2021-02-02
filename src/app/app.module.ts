@@ -34,6 +34,7 @@ import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
+import { HistoryComponent } from './components/history/history.component';
 import { IdentifierComponent } from './components/identifier/identifier.component';
 import { LbComponent } from './components/lb/lb.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
@@ -123,6 +124,7 @@ export function initializeApp(appConfig: AppConfig) {
     GenericElementComponent,
     GlobalListsComponent,
     HighlightDirective,
+    HistoryComponent,
     HtmlAttributesDirective,
     HumanizePipe,
     IdentifierComponent,
