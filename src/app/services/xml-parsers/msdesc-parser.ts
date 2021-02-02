@@ -946,6 +946,8 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
             settlement: unhandledElement(xml, 'settlement', this.genericParse),
             repository: queryAndParseElement(xml, 'repository', createParser(RepositoryParser, this.genericParse)),
             idno: unhandledElement(xml, 'idno', this.genericParse),
+            collection: queryAndParseElement(xml, 'collection', createParser(CollectionParser, this.genericParse)),
+            region: unhandledElement(xml, 'region', this.genericParse),
         };
     }
 }
