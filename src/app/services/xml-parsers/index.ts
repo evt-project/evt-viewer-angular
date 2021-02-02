@@ -12,11 +12,15 @@ export class ParserRegister {
 
     // tslint:disable-next-line: no-any
     static get<T>(tagName: string): Parser<T> {
-        const name = ParserRegister.mapName(tagName) || 'evt-elemet-paraser';
-        return createParser(ParserRegister.PARSER_MAP[name] || ParserRegister.PARSER_MAP['evt-generic-elem-parser'], parse) as Parser<T>;
+        const name = ParserRegister.mapName(tagName);
+        return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
 
     private static mapName(tagName) {
+        if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
+            return 'evt-generic-elem-parser'; //TODO: check difference with 'evt-elemet-paraser';
+        }
+
         const nes = ['event', 'geogname', 'orgname', 'persname', 'placename'];
         if (nes.includes(tagName)) {
             return 'evt-named-entity-parser';

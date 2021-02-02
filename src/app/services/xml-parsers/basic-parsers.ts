@@ -28,6 +28,21 @@ export function queryAndParseElement<T>(xml: XMLElement, name: string): T {
     return el && p.parse(el) as unknown as T;
 }
 
+@xmlParser('evt-elemet-paraser', ElementParser)  // TODO check id it is possible to remove this and use only GenericElemParser
+export class ElementParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): GenericElement {
+        const genericElement: GenericElement = {
+            type: GenericElement,
+            class: getClass(xml),
+            content: parseChildren(xml, this.genericParse),
+            attributes: this.attributeParser.parse(xml),
+        };
+
+        return genericElement;
+    }
+}
+
 @xmlParser('evt-generic-elem-parser', GenericElemParser)
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
@@ -108,21 +123,6 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
             content: [],
             attributes,
         };
-    }
-}
-
-@xmlParser('evt-elemet-paraser', ElementParser)
-export class ElementParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
-    parse(xml: XMLElement): GenericElement {
-        const genericElement: GenericElement = {
-            type: GenericElement,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-        };
-
-        return genericElement;
     }
 }
 
