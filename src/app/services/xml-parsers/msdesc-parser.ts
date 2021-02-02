@@ -212,6 +212,7 @@ export class HistoryParser extends GenericElemParser implements Parser<XMLElemen
             origin: queryAndParseElement(xml, 'origin', createParser(OriginParser, this.genericParse)),
             provenance: queryAndParseElement(xml, 'provenance', createParser(ProvenanceParser, this.genericParse)),
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
 
         };
     }

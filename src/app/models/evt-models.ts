@@ -398,6 +398,7 @@ export class History extends GenericElement {
     origin?: Origin;
     provenance?: Provenance;
     summary?: Summary;
+    pEl?: Paragraph[];
 }
 
 export class Head extends GenericElement {
