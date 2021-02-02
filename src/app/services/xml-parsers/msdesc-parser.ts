@@ -529,6 +529,7 @@ export class PhysDescParser extends GenericElemParser implements Parser<XMLEleme
             scriptDesc: queryAndParseElement(xml, 'scriptDesc', createParser(ScriptDescParser, this.genericParse)),
             sealDesc: queryAndParseElement(xml, 'sealDesc', createParser(SealDescParser, this.genericParse)),
             typeDesc: queryAndParseElement(xml, 'typeDesc', createParser(TypeDescParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
 }
