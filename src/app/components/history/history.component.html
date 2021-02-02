@@ -8,17 +8,19 @@
             <span *ngIf="data.origin">Origine:
                 <evt-content-viewer [content]="data.origin"></evt-content-viewer>
             </span>
-            <span *ngIf="data.provenance">Provenienza:
-                <evt-content-viewer [content]="data.provenance"></evt-content-viewer>
-               
-                <br/>
+            <br/>
+            <span *ngIf="data.provenance.length>0">
+                <span *ngFor="let p of data.provenance | keyvalue" >Provenienza:
+                    <evt-content-viewer [content]="data.provenance[p.key]"></evt-content-viewer>
+                    <br/>
+                </span>
             </span>
             <span *ngIf="data.acquisition">Acquisizione:
                 <evt-content-viewer [content]="data.acquisition"></evt-content-viewer>
             </span>
         </span>
-        <ng-template #elseBlock>
-            <evt-content-viewer *ngFor="let p of data.pEl" [content]="p"></evt-content-viewer>
-        </ng-template>
+        <span #elseBlock>
+           <evt-content-viewer *ngFor="let parag of data.pEl" [content]="parag"></evt-content-viewer>
+        </span>
     </div>
 </div>
