@@ -77,6 +77,7 @@ import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { IdbService } from './services/idb.service';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
+import { XMLParsers } from './services/xml-parsers/xml-parsers';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
@@ -176,15 +177,16 @@ export function initializeApp(appConfig: AppConfig) {
     UiComponentsModule,
   ],
   providers: [
-    AppConfig,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [AppConfig], multi: true,
     },
-    IdbService,
+    AppConfig,
     GenericParserService,
+    IdbService,
     ThemesService,
+    XMLParsers,
   ],
   bootstrap: [
     AppComponent,
