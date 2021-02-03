@@ -21,13 +21,17 @@
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
             <br/>
         </span>
-        <span  *ngIf="data.collection">Raccolta: 
-            <evt-content-viewer [content]="data.collection"></evt-content-viewer>
-            <br/>
+        <span *ngIf="data.collection.length>0">
+            <span *ngFor="let c of data.collection | keyvalue" >Raccolta:
+                <evt-content-viewer [content]="data.collection[c.key]"></evt-content-viewer>
+                <br/>
+            </span>
         </span>
-        <span  *ngIf="data.msName">Nome del manoscritto: 
-            <evt-content-viewer [content]="data.msName"></evt-content-viewer>
-            <br/>
+        <span *ngIf="data.msName.length>0">
+            <span *ngFor="let m of data.msName | keyvalue" >Nome del manoscritto:
+                <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
+                <br/>
+            </span>
         </span>
         <span *ngIf="data.idno.length>0">IDNO: 
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
