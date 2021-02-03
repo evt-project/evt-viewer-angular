@@ -351,7 +351,7 @@ export class MsDesc extends MsPart {
 }
 
 export class Identifier extends GenericElement {
-    collection?: CollectionEl;
+    collection?: CollectionEl[];
     idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
     region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
     repository?: Repository;
