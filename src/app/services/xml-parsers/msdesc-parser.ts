@@ -942,7 +942,7 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
             type: MsIdentifier,
             id: getID(xml),
             institution: queryAndParseElement(xml, 'institution'),
-            altIdentifier: queryAndParseElement(xml, 'altIdentifier'),
+            altIdentifier: queryAndParseElements(xml, 'altIdentifier'),
             msName: queryAndParseElements(xml, 'msName'),
             country: unhandledElement(xml, 'country', this.genericParse),
         };

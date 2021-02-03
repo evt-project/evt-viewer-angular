@@ -365,7 +365,7 @@ export class AltIdentifier extends Identifier {
 export class MsIdentifier extends Identifier {
     id: string;
     institution?: Institution;
-    altIdentifier?: AltIdentifier;
+    altIdentifier?: AltIdentifier[];
     msName?: MsName[];
     country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
 }
