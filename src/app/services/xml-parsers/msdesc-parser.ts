@@ -809,6 +809,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
             msItem: queryAndParseElement(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct', createParser(MsItemStructParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
 }
