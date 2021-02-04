@@ -51,7 +51,7 @@
                 </li> 
                 <li *ngIf="data.altIdentifier[a.key].idno.length>0">IDNO:
                     <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
-                </li>
+                   <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
             </span>
         </span>
     </div>
