@@ -374,6 +374,7 @@ export class MsContents extends GenericElement {
     summary?: Summary;
     msItem?: MsItem;
     msItemStruct?: MsItemStruct;
+    pEl?: Paragraph[];
 }
 
 export class PhysDesc extends GenericElement {
