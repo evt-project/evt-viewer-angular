@@ -139,8 +139,11 @@ export function initializeApp(appConfig: AppConfig) {
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
     MsContentsComponent,
+<<<<<<< HEAD
     MsDescSectionComponent,
     MsFragComponent,
+=======
+>>>>>>> 9122920 (Add ms-contents-component in app.module)
     MsIdentifierComponent,
     MsItemComponent,
     MsPartComponent,
