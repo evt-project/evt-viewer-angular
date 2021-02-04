@@ -830,7 +830,7 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Identifier {
         return {
             ...super.parse(xml),
-            type: AltIdentifier,
+            type: Identifier,
             collection: queryAndParseElements<CollectionEl>(xml, 'collection', createParser(RepositoryParser, this.genericParse)),
             repository: queryAndParseElement(xml, 'repository', createParser(CollectionParser, this.genericParse)),
             idno: unhandledElement(xml, 'idno', this.genericParse),
