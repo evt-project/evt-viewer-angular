@@ -1,24 +1,26 @@
-import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
-import { createParser, Parser, ParseResult } from './parser-models';
 import { Type } from '@angular/core';
+import { Comment, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { Map } from '../../utils/js-utils';
+import { createParser, Parser, ParseResult } from './parser-models';
 
 export class ParserRegister {
+    // tslint:disable-next-line: no-any
     private static PARSER_MAP: Map<Type<any>> = {};
 
+    // tslint:disable-next-line: no-any
     static set(tagName: string, parserType: Type<any>) {
         ParserRegister.PARSER_MAP[tagName] = parserType;
     }
 
-    // tslint:disable-next-line: no-any
     static get<T>(tagName: string): Parser<T> {
         const name = ParserRegister.mapName(tagName);
+
         return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
 
     private static mapName(tagName) {
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
-            return 'evt-generic-elem-parser'; //TODO: check difference with 'evt-elemet-paraser';
+            return 'evt-generic-elem-parser'; // TODO: check difference with 'evt-elemet-paraser';
         }
 
         const nes = ['event', 'geogname', 'orgname', 'persname', 'placename'];
@@ -29,6 +31,7 @@ export class ParserRegister {
         if (crit.includes(tagName)) {
             return 'rdg';
         }
+
         return tagName;
     }
 }
@@ -38,7 +41,6 @@ export function xmlParser(tagName: string, parserType: Type<any>) {
 
     // tslint:disable-next-line: no-any
     return (_: Type<any>) => {
-        console.log('decorator set', tagName, parserType)
         ParserRegister.set(tagName, parserType);
     };
 }

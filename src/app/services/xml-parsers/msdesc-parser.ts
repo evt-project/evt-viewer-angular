@@ -9,7 +9,7 @@ import {
     Origin, OrigPlace, Paragraph, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
     Support, SupportDesc, Surrogates, TypeDesc, TypeNote, Width, XMLElement,
 } from '../../models/evt-models';
-import { GapParser, GenericElemParser, LBParser, NoteParser, ParagraphParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
+import { GenericElemParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
 
