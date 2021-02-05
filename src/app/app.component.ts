@@ -38,12 +38,10 @@ export class AppComponent implements OnDestroy {
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
 
+  @HostListener('window:keyup', ['$event']) keyEvent(e: KeyboardEvent) { this.shortcutsService.handleKeyboardEvent(e); }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(e: KeyboardEvent) {
-    this.shortcutsService.handleKeyboardEvent(e);
-  }
 }

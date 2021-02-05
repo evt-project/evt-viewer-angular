@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { parse } from '.';
 import { XMLElement } from '../../models/evt-models';
+import { parse } from '.';
 
 @Injectable()
 export class GenericParserService {

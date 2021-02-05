@@ -8,29 +8,31 @@ let totIdsGenerated = 0;
 
 /**
  * Function to check if an element is nested into another particular element.
+ *
  * @param element The element to be checked
  * @param parentTagName TagName of the element that does not be a parent of the given element
  * @param attributes attributes
  *
  * @returns Whether the given element is nested in a node with given TagName or not
  */
-export function isNestedInElem(element, parentTagName: string, attributes?: Array<{ key: string, value }>): boolean {
-  return !!element && isNodeNestedInElem(element, parentTagName, false, attributes);
-}
+export const isNestedInElem = (element, parentTagName: string, attributes?: Array<{ key: string; value }>): boolean =>
+  !!element && isNodeNestedInElem(element, parentTagName, false, attributes);
+
 /**
  * Function to check if an element is directly nested into another particular element.
+ *
  * @param element The element to be checked
  * @param parentTagName TagName of the element that does not be a parent of the given element
  * @param attributes attributes
  *
  * @returns Whether the given element is nested in a node with given TagName or not
  */
-export function isDirectlyNestedInElem(element, parentTagName: string, attributes?: Array<{ key: string, value }>): boolean {
-  return isNodeNestedInElem(element, parentTagName, true, attributes);
-}
+export const isDirectlyNestedInElem = (element, parentTagName: string, attributes?: Array<{ key: string; value }>): boolean =>
+  isNodeNestedInElem(element, parentTagName, true, attributes);
 
 /**
  * Function to check if an element is nested into another particular element.
+ *
  * @param element The element to be checked
  * @param parentTagName TagName of the element that does not be a parent of the given element
  * @param directCheck Whether to check only parentNode or analyize all ancestors
@@ -38,13 +40,13 @@ export function isDirectlyNestedInElem(element, parentTagName: string, attribute
  *
  * @returns Whether the given element is nested in a node with given TagName or not
  */
-export function isNodeNestedInElem(
+export const isNodeNestedInElem = (
   element,
   parentTagName: string,
   directCheck: boolean,
-  attributes?: Array<{ key: string, value }>,
-): boolean {
-  if (element.parentNode !== null) {
+  attributes?: Array<{ key: string; value }>,
+): boolean => {
+  if (element.parentNode !== undefined) {
     if (element.parentNode.tagName === 'text') {
       return false;
     }
@@ -73,16 +75,18 @@ export function isNodeNestedInElem(
   }
 
   return false;
-}
+};
+
 /**
  * This method will generate a string representing the xpath of the given element.
  * This string can be use as a unique identifier, since every element as a different xpath.
+ *
  * @param el XML element to analyze
  *
  * @returns calculated xpath of the given element
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function xpath(el: any): string {
+export const xpath = (el: any): string => {
   try {
     if (typeof el === 'string') {
       // document.evaluate(xpathExpression, contextNode, namespaceResolver, resultType, result );
@@ -91,9 +95,7 @@ export function xpath(el: any): string {
     if (!el || el.nodeType !== 1) { return ''; }
     let sames = [];
     if (el.parentNode) {
-      sames = [].filter.call(el.parentNode.children, (x) => {
-        return x.tagName === el.tagName;
-      });
+      sames = [].filter.call(el.parentNode.children, (x) => x.tagName === el.tagName);
     }
     let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : 1;
     countIndex = `[${countIndex}]`;
@@ -105,7 +107,7 @@ export function xpath(el: any): string {
 
     return `-id${totIdsGenerated}`;
   }
-}
+};
 
 /**
  * This method will an excerpted or truncated XHTML string and returns a well-balanced XHTML string
@@ -124,22 +126,22 @@ export function xpath(el: any): string {
  *    - gets just the tag name
  *    - and appends the end tag
  *
- * @param XHTMLstring string to balanced
+ * @param XHTMLString string to balanced
  *
  * @returns well-balanced XHTML string
  */
-export function balanceXHTML(XHTMLstring: string): string {
+export const balanceXHTML = (XHTMLString: string): string => {
   // Check for broken tags, e.g. <stro
   // Check for a < after the last >, indicating a broken tag
-  if (XHTMLstring) {
-    if (XHTMLstring.lastIndexOf('<') > XHTMLstring.lastIndexOf('>')) {
+  if (XHTMLString) {
+    if (XHTMLString.lastIndexOf('<') > XHTMLString.lastIndexOf('>')) {
       // Truncate broken tag
-      XHTMLstring = XHTMLstring.substring(0, XHTMLstring.lastIndexOf('<'));
+      XHTMLString = XHTMLString.substring(0, XHTMLString.lastIndexOf('<'));
     }
 
     // Check for broken elements, e.g. <strong>Hello, w
     // Get an array of all tags (start, end, and self-closing)
-    const tags = XHTMLstring.match(/<(?!\!)[^>]+>/g);
+    const tags = XHTMLString.match(/<(?!\!)[^>]+>/g);
     const stack = [];
     const tagToOpen = [];
     for (const tag in tags) {
@@ -168,18 +170,18 @@ export function balanceXHTML(XHTMLstring: string): string {
       // get just the tag name
       endTag = endTag.substring(1, endTag.search(/[ >]/));
       // append the end tag
-      XHTMLstring += '</' + endTag + '>';
+      XHTMLString += '</' + endTag + '>';
     }
 
     while (tagToOpen.length > 0) {
       const startTag = tagToOpen.shift();
-      XHTMLstring = '<' + startTag + '>' + XHTMLstring;
+      XHTMLString = '<' + startTag + '>' + XHTMLString;
     }
   }
 
   // Return the well-balanced XHTML string
-  return (XHTMLstring ? XHTMLstring : '');
-}
+  return (XHTMLString ? XHTMLString : '');
+};
 
 /**
  * Get all DOM elements contained between the node elements
@@ -190,7 +192,7 @@ export function balanceXHTML(XHTMLstring: string): string {
  * @returns list of nodes contained between start node and end node
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
+export const getElementsBetweenTreeNode = (start: any, end: any): XMLElement[] => {
   const range = document.createRange();
   range.setStart(start, 0);
   range.setEnd(end, end.length || end.childNodes.length);
@@ -203,16 +205,16 @@ export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const nodes = Array.from(fragment.childNodes);
 
   return nodes as XMLElement[];
-}
+};
 
-export function getOuterHTML(element): string {
+export const getOuterHTML = (element): string => {
   let outerHTML: string = element.outerHTML;
   outerHTML = outerHTML ? outerHTML.replace(/ xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '') : outerHTML;
 
   return outerHTML;
-}
+};
 
-export function getCommonAncestor(node1, node2) {
+export const getCommonAncestor = (node1, node2) => {
   const method = 'contains' in node1 ? 'contains' : 'compareDocumentPosition';
   const test = method === 'contains' ? 1 : 0x10;
 
@@ -226,8 +228,6 @@ export function getCommonAncestor(node1, node2) {
   }
 
   return undefined;
-}
+};
 
-export function createNsResolver(doc: Document) {
-  return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
-}
+export const createNsResolver = (doc: Document) => (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;

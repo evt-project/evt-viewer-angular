@@ -11,17 +11,17 @@ import { EVTModelService } from '../../services/evt-model.service';
 })
 export class PageSelectorComponent {
   public pages$ = this.evtModelService.pages$;
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  private _pageID: string;
-  @Input() set pageID(p: string) {
-    this._pageID = p;
-    this.selectedPage$.next(this._pageID);
-  }
-  get pageID() { return this._pageID; }
-
   selectedPage$ = new BehaviorSubject<string>(undefined);
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
+  private inner_pageID: string;
+  @Input() set pageID(p: string) {
+    this.inner_pageID = p;
+    this.selectedPage$.next(this.inner_pageID);
+  }
+  get pageID() { return this.inner_pageID; }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output() selectionChange = combineLatest([
     this.pages$,
     this.selectedPage$.pipe(distinctUntilChanged()),

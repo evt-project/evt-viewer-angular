@@ -122,11 +122,9 @@ export class EVTModelService {
   );
 
   public readonly appVariance$ = this.witnesses$.pipe(
-    switchMap((witList) => {
-      return this.significantReadingsNumber$.pipe(
+    switchMap((witList) => this.significantReadingsNumber$.pipe(
         map((signRdgsNum) => this.apparatusParser.getAppVariance(signRdgsNum, witList)),
-      );
-    }),
+      )),
     shareReplay(1),
   );
 

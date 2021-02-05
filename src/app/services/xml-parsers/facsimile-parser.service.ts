@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { parse } from '.';
 import { Surface, XMLElement, Zone } from '../../models/evt-models';
 import { SurfaceParser, ZoneParser } from './facsimile-parser';
 import { createParser } from './parser-models';
+import { parse } from '.';
 
 @Injectable({
     providedIn: 'root',

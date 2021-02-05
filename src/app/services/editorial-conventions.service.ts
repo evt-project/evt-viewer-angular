@@ -4,8 +4,8 @@ import { AppConfig } from '../app.config';
 import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-models';
 
 // List of handled editorial convention
-export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
-  'damage' | 'deletion' | 'sicCrux' | 'surplus';
+export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft'
+  | 'additionRight' | 'damage' | 'deletion' | 'sicCrux' | 'surplus';
 
 @Injectable({
   providedIn: 'root',
@@ -131,10 +131,10 @@ export class EditorialConventionsService {
     const defaultKeys = this.defaultLayouts[defaultsKey];
     let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
 
-    const externalLayouts = this._getExternalConfigs().find(c => {
-      return c.element === name &&
-        (!attributes || Object.keys(attributes).concat(Object.keys(c.attributes)).every(k => attributes[k] === c.attributes[k]));
-    })?.layouts ?? undefined;
+    const externalLayouts = this.getExternalConfigs().find(c => c.element === name &&
+      (!attributes || Object.keys(attributes)
+        .concat(Object.keys(c.attributes))
+        .every(k => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
 
     if (externalLayouts) {
       Object.keys(externalLayouts).forEach(editionLevel => {
@@ -151,7 +151,7 @@ export class EditorialConventionsService {
     return layouts;
   }
 
-  private _getExternalConfigs(): EditorialConvention[] {
+  private getExternalConfigs(): EditorialConvention[] {
     const customs = AppConfig.evtSettings.editorialConventions;
 
     return Object.keys(customs).map((key) => ({

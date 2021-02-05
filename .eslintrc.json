@@ -25,6 +25,17 @@
         "eslint-plugin-unicorn"
       ],
       "rules": {
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "variableLike",
+            "format": [
+              "camelCase",
+              "UPPER_CASE",
+              "PascalCase"
+            ]
+          }
+        ],
         "@angular-eslint/component-selector": [
           "error",
           {

@@ -2,12 +2,12 @@ import { XMLElement } from '../models/evt-models';
 
 // TODO get rid of any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare var window: any;
+declare let window: any;
 
-export function parseXml(xmlStr: string): XMLElement {
+export const parseXml = (xmlStr: string) => {
   if (typeof window.DOMParser !== 'undefined') {
 
-    return (new window.DOMParser()).parseFromString(xmlStr, 'text/xml');
+    return (new window.DOMParser()).parseFromString(xmlStr, 'text/xml') as XMLElement;
   }
 
   if (typeof window.ActiveXObject !== 'undefined' &&
@@ -16,23 +16,13 @@ export function parseXml(xmlStr: string): XMLElement {
     xmlDoc.async = 'false';
     xmlDoc.loadXML(xmlStr);
 
-    return xmlDoc;
+    return xmlDoc as XMLElement;
   }
   throw new Error('No XML parser found');
-}
+};
 
-export function replaceMultispaces(textContent: string) {
-  return textContent.replace(/\s{2,}/g, ' ');
-}
+export const replaceMultispaces = (textContent: string) => textContent.replace(/\s{2,}/g, ' ');
+export const replaceNewLines = (textContent: string) => replaceMultispaces(textContent.trim().replace(/\n/g, ' '));
+export const replaceNotWordChar = (textContent: string) => textContent && textContent.replace(/[\W_]/, ' ');
+export const removeSpaces = (textContent: string) => textContent.replace(/\s/g, '');
 
-export function replaceNewLines(textContent: string) {
-  return replaceMultispaces(textContent.trim().replace(/\n/g, ' '));
-}
-
-export function replaceNotWordChar(textContent: string) {
-  return textContent && textContent.replace(/[\W_]/, ' ') ;
-}
-
-export function removeSpaces(textContent: string) {
-  return textContent.replace(/\s/g, '');
-}

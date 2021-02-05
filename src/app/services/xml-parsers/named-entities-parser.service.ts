@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { parse } from '.';
 import { AppConfig } from '../../app.config';
 import {
   NamedEntitiesList, NamedEntity, NamedEntityOccurrence, NamedEntityOccurrenceRef, NamedEntityType, Page, XMLElement,
@@ -10,6 +9,7 @@ import { replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, ElementParser } from './basic-parsers';
 import { RelationParser } from './named-entity-parsers';
 import { createParser } from './parser-models';
+import { parse } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -38,58 +38,6 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private parseList(list: XMLElement) {
-    const attributeParser = createParser(AttributeMapParser, parse);
-    const parsedList: NamedEntitiesList = {
-      type: NamedEntitiesList,
-      id: list.getAttribute('xml:id') || xpath(list),
-      label: '',
-      namedEntityType: this.getListType(list.tagName),
-      content: [],
-      sublists: [],
-      originalEncoding: list,
-      relations: [],
-      description: [],
-      attributes: attributeParser.parse(list),
-    };
-
-    const relationParse = createParser(RelationParser, parse);
-    list.childNodes.forEach((child: XMLElement) => {
-      if (child.nodeType === 1) {
-        switch (child.tagName.toLowerCase()) {
-          case 'head':
-            parsedList.label = replaceNewLines(child.textContent);
-            break;
-          case 'desc':
-            parsedList.description.push(parse(child));
-            break;
-          case 'relation':
-            if (this.neListsConfig.relations.enabled) {
-              parsedList.relations.push(relationParse.parse(child));
-            }
-            break;
-          case 'listrelation':
-            if (this.neListsConfig.relations.enabled) {
-              child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(relationParse.parse(r)));
-            }
-            break;
-          default:
-            if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
-              const parsedSubList = this.parseList(child);
-              parsedList.sublists.push(parsedSubList);
-              parsedList.content = parsedList.content.concat(parsedSubList.content);
-              parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
-            } else {
-              parsedList.content.push(parse(child) as NamedEntity);
-            }
-        }
-      }
-    });
-    parsedList.label = parsedList.label || list.getAttribute('type') || `List of ${parsedList.namedEntityType}`;
-
-    return parsedList;
-  }
-
   public getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
     return {
       lists: lists.filter(list => type.indexOf(list.namedEntityType) >= 0),
@@ -97,15 +45,6 @@ export class NamedEntitiesParserService {
     };
   }
 
-  private getListsToParseTagNames() {
-    return Object.keys(this.neListsConfig)
-      .map((i) => this.neListsConfig[i].enabled ? this.tagNamesMap[i] : undefined)
-      .filter(ne => !!ne);
-  }
-
-  private getListType(tagName): NamedEntityType {
-    return tagName.replace('list', '').toLowerCase();
-  }
 
   public parseNamedEntitiesOccurrences(pages: Page[]) {
     return pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))
@@ -161,6 +100,69 @@ export class NamedEntitiesParserService {
           } as Array<Map<NamedEntityOccurrence>>;
         },
         {});
+  }
+
+
+  private parseList(list: XMLElement) {
+    const attributeParser = createParser(AttributeMapParser, parse);
+    const parsedList: NamedEntitiesList = {
+      type: NamedEntitiesList,
+      id: list.getAttribute('xml:id') || xpath(list),
+      label: '',
+      namedEntityType: this.getListType(list.tagName),
+      content: [],
+      sublists: [],
+      originalEncoding: list,
+      relations: [],
+      description: [],
+      attributes: attributeParser.parse(list),
+    };
+
+    const relationParse = createParser(RelationParser, parse);
+    list.childNodes.forEach((child: XMLElement) => {
+      if (child.nodeType === 1) {
+        switch (child.tagName.toLowerCase()) {
+          case 'head':
+            parsedList.label = replaceNewLines(child.textContent);
+            break;
+          case 'desc':
+            parsedList.description.push(parse(child));
+            break;
+          case 'relation':
+            if (this.neListsConfig.relations.enabled) {
+              parsedList.relations.push(relationParse.parse(child));
+            }
+            break;
+          case 'listrelation':
+            if (this.neListsConfig.relations.enabled) {
+              child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(relationParse.parse(r)));
+            }
+            break;
+          default:
+            if (this.getListsToParseTagNames().indexOf(child.tagName) >= 0) {
+              const parsedSubList = this.parseList(child);
+              parsedList.sublists.push(parsedSubList);
+              parsedList.content = parsedList.content.concat(parsedSubList.content);
+              parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
+            } else {
+              parsedList.content.push(parse(child) as NamedEntity);
+            }
+        }
+      }
+    });
+    parsedList.label = parsedList.label || list.getAttribute('type') || `List of ${parsedList.namedEntityType}`;
+
+    return parsedList;
+  }
+
+  private getListsToParseTagNames() {
+    return Object.keys(this.neListsConfig)
+      .map((i) => this.neListsConfig[i].enabled ? this.tagNamesMap[i] : undefined)
+      .filter(ne => !!ne);
+  }
+
+  private getListType(tagName): NamedEntityType {
+    return tagName.replace('list', '').toLowerCase();
   }
 
   private parseNamedEntityOccurrence(xml: XMLElement) {

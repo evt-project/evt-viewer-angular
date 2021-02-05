@@ -5,27 +5,25 @@ import { flat } from '../../utils/js-utils';
 
 export type ParseResult<T extends GenericElement> = T | HTML | GenericElement | Attributes | Description | AttributesMap;
 
-export interface Parser<T> { parse(data: T): ParseResult<GenericElement>; }
+export interface Parser<T> { parse(data: T): ParseResult<GenericElement> }
 
 // TODO: check if args are needed and if this can manage singleton instances
 // TODO: maybe a simple new is enough?
 export type ParseFn = (d: XMLElement) => ParseResult<GenericElement>;
-export function createParser<U, T extends Parser<U>>(c: new (raw: ParseFn) => T, data: ParseFn): T { return new c(data); }
+export const createParser = <U, T extends Parser<U>>(c: new (raw: ParseFn) => T, data: ParseFn): T => new c(data);
 
-export function getID(xml: XMLElement, prefix: string = '') { return xml.getAttribute('xml:id') || prefix + xpath(xml); }
-export function getClass(xml: XMLElement) { return xml.tagName ? xml.tagName.toLowerCase() : ''; }
-export function parseChildren(xml: XMLElement, parseFn: ParseFn, excludeEmptyText?: boolean) {
-    return complexElements(xml.childNodes, excludeEmptyText).map(child => parseFn(child as XMLElement));
-}
-export function getDefaultN(n: string) { return n || ''; }
-export function getDefaultAttr(attr: string) { return attr || ''; }
+export const getID = (xml: XMLElement, prefix: string = '') => xml.getAttribute('xml:id') || prefix + xpath(xml);
+export const getClass = (xml: XMLElement) => xml.tagName ? xml.tagName.toLowerCase() : '';
+export const parseChildren = (xml: XMLElement, parseFn: ParseFn, excludeEmptyText?: boolean) =>
+    complexElements(xml.childNodes, excludeEmptyText).map(child => parseFn(child as XMLElement));
+export const getDefaultN = (n: string) => n || '';
+export const getDefaultAttr = (attr: string) => attr || '';
 
-export function unhandledElement(xml: XMLElement, name: string, parseFn: ParseFn) {
-    return flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, parseFn)));
-}
+export const unhandledElement = (xml: XMLElement, name: string, parseFn: ParseFn) =>
+    flat(Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, parseFn)));
 
-export function complexElements(nodes: NodeListOf<ChildNode>, excludeEmptyText?: boolean): ChildNode[] {
+export const complexElements = (nodes: NodeListOf<ChildNode>, excludeEmptyText?: boolean): ChildNode[] => {
     const interestingNodes = Array.from(nodes).filter((n) => n.nodeType !== 8);
 
     return excludeEmptyText ? interestingNodes.filter((n) => n.nodeType !== 3 || n.textContent.trim()) : interestingNodes;
-}
+};

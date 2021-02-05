@@ -10,18 +10,10 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
   styleUrls: ['./edition-level-selector.component.scss'],
 })
 export class EditionLevelSelectorComponent {
+
   public editionLevels = (AppConfig.evtSettings.edition.availableEditionLevels || []).filter((el) => !el.disabled);
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  private _edLevelID: EditionLevelType;
-  @Input() set editionLevelID(p: EditionLevelType) {
-    this._edLevelID = p;
-    this.selectedEditionLevel$.next(this._edLevelID);
-  }
-  get editionLevelID() { return this._edLevelID; }
-
   selectedEditionLevel$ = new BehaviorSubject<EditionLevelType>(undefined);
-
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output() selectionChange = combineLatest([
     of(this.editionLevels),
     this.selectedEditionLevel$.pipe(distinctUntilChanged()),
@@ -31,8 +23,17 @@ export class EditionLevelSelectorComponent {
     filter(e => !!e),
   );
 
+
   icon: EvtIconInfo = {
     icon: 'layer-group', // TODO: Choose better icon
     additionalClasses: 'mr-2',
   };
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
+  private inner_edLevelID: EditionLevelType;
+  @Input() set editionLevelID(p: EditionLevelType) {
+    this.inner_edLevelID = p;
+    this.selectedEditionLevel$.next(this.inner_edLevelID);
+  }
+  get editionLevelID() { return this.inner_edLevelID; }
 }

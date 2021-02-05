@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { parse } from '.';
 import { ApparatusEntry, Reading, Witness, XMLElement } from '../../models/evt-models';
 import { AppParser } from './app-parser';
 import { createParser } from './parser-models';
+import { parse } from '.';
 
 @Injectable({
   providedIn: 'root',

@@ -30,6 +30,7 @@ export class TextTextComponent implements OnInit, OnDestroy {
   private editionLevelPanel2Change$: BehaviorSubject<EditionLevel> = new BehaviorSubject(undefined);
   private lastPanelChanged$: BehaviorSubject<1 | 2> = new BehaviorSubject(undefined);
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   public editionLevelChange$ = combineLatest([
     this.editionLevelPanel1Change$,
     this.editionLevelPanel2Change$,
@@ -71,6 +72,10 @@ export class TextTextComponent implements OnInit, OnDestroy {
     this.lastPanelChanged$.next(changedPanel);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
   private initGridster() {
     this.options = {
       gridType: GridType.Fit,
@@ -89,7 +94,4 @@ export class TextTextComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
-  }
 }

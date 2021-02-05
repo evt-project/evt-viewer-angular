@@ -13,20 +13,21 @@ import { EvtIconInfo } from 'src/app/ui-components/icon/icon.component';
 export class CollationComponent implements OnInit, OnDestroy {
   @ViewChild('collationPanel', { static: true }) collationPanel: ElementRef;
 
-  private witnesses: WitnessItem[] = [];
 
   public options: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public collationPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
   public collationOptions: GridsterConfig = {};
 
-  private subscriptions = [];
 
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
   );
 
-  public get witnessBtn(): { label: string, additionalClasses: string, title: string, icon: EvtIconInfo } {
+  private subscriptions = [];
+  private witnesses: WitnessItem[] = [];
+
+  public get witnessBtn(): { label: string; additionalClasses: string; title: string; icon: EvtIconInfo } {
     return {
       label: this.witnesses.length > 0 ? '' : 'addWitness',
       title: this.witnesses.length > 0 ? 'addWitness' : '',
@@ -67,6 +68,11 @@ export class CollationComponent implements OnInit, OnDestroy {
   removeWitness(index) {
     this.witnesses.splice(index, 1);
     this.updateGridsterOptions();
+  }
+
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private initGridster() {
@@ -138,10 +144,6 @@ export class CollationComponent implements OnInit, OnDestroy {
     const fixedColWidth = collationPanelEl.clientWidth * 0.416666666667;
     this.collationOptions.fixedColWidth = this.witnesses.length > 2 ? fixedColWidth : undefined;
     this.changedOptions();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
 

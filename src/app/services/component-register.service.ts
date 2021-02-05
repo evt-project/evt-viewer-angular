@@ -5,12 +5,8 @@ import { Map } from '../utils/js-utils';
 const COMPONENT_MAP: Map<Type<any>> = {};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function register(dataType: Type<any>) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (cls: Type<any>) => {
-      COMPONENT_MAP[dataType.name] = cls;
-  };
-}
+export const register = (dataType: Type<any>) => (cls: Type<any>) => { COMPONENT_MAP[dataType.name] = cls; };
+
 
 @Injectable({
   providedIn: 'root',

@@ -14,7 +14,6 @@ export class PageComponent {
   @Input() editionLevel: EditionLevel;
   @Input() textFlow: boolean;
 
-  private d: Page;
   @Input() set data(v: Page) {
     this.d = v;
     this.pageDataChange.next(this.d);
@@ -23,4 +22,6 @@ export class PageComponent {
   pageDataChange = new BehaviorSubject<Page>(undefined);
 
   busy = of<boolean>(false); // TODO: manage loading
+  private d: Page;
+
 }

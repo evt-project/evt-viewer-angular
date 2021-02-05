@@ -6,8 +6,8 @@ import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
-    private readingGroupTagName = 'rdgGrp';
     attributeParser = createParser(AttributeParser, this.genericParse);
+    private readingGroupTagName = 'rdgGrp';
 
     public parse(rdg: XMLElement): Reading {
         return {
@@ -52,14 +52,14 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    noteParser = createParser(NoteParser, this.genericParse);
+    rdgParser = createParser(RdgParser, this.genericParse);
+
     private noteTagName = 'note';
     private appEntryTagName = 'app';
     private readingTagName = 'rdg';
     private lemmaTagName = 'lem';
-
-    attributeParser = createParser(AttributeParser, this.genericParse);
-    noteParser = createParser(NoteParser, this.genericParse);
-    rdgParser = createParser(RdgParser, this.genericParse);
 
     public parse(appEntry: XMLElement): ApparatusEntry {
         return {

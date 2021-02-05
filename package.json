@@ -1,6 +1,14 @@
 {
   "name": "evt-viewer-angular",
   "version": "0.0.0",
+  "eslintIgnore": [
+    "**/node_modules/**",
+    "**/e2e/**",
+    "**/*.spec.ts",
+    "src/test.ts",
+    "src/polyfills.ts",
+    "src/environments/**"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=4205",

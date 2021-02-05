@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { XMLElement } from 'src/app/models/evt-models';
-import { parse } from '.';
 import { LBParser, VerseParser } from './basic-parsers';
 import { createParser } from './parser-models';
+import { parse } from '.';
 
 @Injectable({
     providedIn: 'root',

@@ -2,24 +2,21 @@ export interface Map<T> {
     [key: string]: T;
 }
 
-export function flat<T>(a: T[][]): T[] { return a.reduce((x, y) => x.concat(y), []); }
+export const flat = <T>(a: T[][]) => a.reduce((x, y) => x.concat(y), []);
 
-export function uuid(prefix?: string): string { // TODO: use proper UUID generation
-    return !!prefix ? `${prefix}-${Math.random()}` : `${Math.random()}`;
-}
+// TODO: use proper UUID generation
+export const uuid = (prefix?: string): string => !!prefix ? `${prefix}-${Math.random()}` : `${Math.random()}`;
 
-export function mapToArray<T>(m: Map<T>) {
-    return Object.keys(m).map((id) => m[id]);
-}
+export const mapToArray = <T>(m: Map<T>) => Object.keys(m).map((id) => m[id]);
 
-export function arrayToMap<T, K extends keyof T>(arr: T[], key: K): Map<T> {
+export const arrayToMap = <T, K extends keyof T>(arr: T[], key: K): Map<T> => {
     const map: Map<T> = {};
     arr.forEach((x) => map[x[`${key}`]] = x);
 
     return map;
-}
+};
 
-export function uniqueObjCharKeys<T>(m: Map<T>) {
+export const uniqueObjCharKeys = <T>(m: Map<T>) => {
     const keys = [];
     Object.keys(m).forEach(key => {
         if (keys.indexOf(key[0].toLowerCase()) < 0) {
@@ -29,8 +26,9 @@ export function uniqueObjCharKeys<T>(m: Map<T>) {
     keys.sort();
 
     return keys;
-}
-export function uniqueArrayCharKeys(a: string[]) {
+};
+
+export const uniqueArrayCharKeys = (a: string[]) => {
     const keys = [];
     a.forEach(key => {
         if (keys.indexOf(key[0].toLowerCase()) < 0) {
@@ -40,7 +38,7 @@ export function uniqueArrayCharKeys(a: string[]) {
     keys.sort((strA, strB) => strA.toLowerCase().localeCompare(strB.toLowerCase()));
 
     return keys;
-}
+};
 
 /**
  * Performs a deep merge of objects and returns new object. Does not modify
@@ -49,7 +47,7 @@ export function uniqueArrayCharKeys(a: string[]) {
  * @param objects - Objects to merge
  * @returns New object with merged key/values
  */
-export function mergeDeep<T>(...objects: T[]) { // TODO: never used, remove?
+export const mergeDeep = <T>(...objects: T[]) => { // TODO: never used, remove?
     const isObject = (obj: T) => obj && typeof obj === 'object';
     const cb = (prev: T, obj: T) => {
         Object.keys(obj).forEach(key => {
@@ -69,9 +67,9 @@ export function mergeDeep<T>(...objects: T[]) { // TODO: never used, remove?
     };
 
     return objects.reduce(cb, {});
-}
+};
 
-export function getEventKeyCode(event) {
+export const getEventKeyCode = (event) => {
     let code: number | string;
 
     if (event.key !== undefined) {
@@ -83,12 +81,8 @@ export function getEventKeyCode(event) {
     }
 
     return code;
-}
+};
 
-export function normalizeUrl(url) {
-    return url && url.indexOf('http') < 0 ? 'http://' + url : url;
-}
+export const normalizeUrl = (url: string) => url && url.indexOf('http') < 0 ? 'http://' + url : url;
 
-export function isBoolString(s: string){
-    return s === 'true';
-}
+export const isBoolString = (s: string) => s === 'true';

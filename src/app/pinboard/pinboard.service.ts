@@ -13,7 +13,7 @@ export class PinboardService {
    * @todo Handle page/document/edition reference
    * @todo Handle saving in local storage and retrieving from it on loading
    */
-  toggleItem(item, additionalData?: { pinType?: string, renderer?: string }) {
+  toggleItem(item, additionalData?: { pinType?: string; renderer?: string }) {
     const itemId = item.id || item.path;
     const items = this.items$.getValue();
     if (items[itemId]) {

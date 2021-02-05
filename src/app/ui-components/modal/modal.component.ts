@@ -40,22 +40,21 @@ export class ModalComponent implements OnInit {
     private modalService: ModalService) {
   }
 
+  @HostListener('click', ['$event'])
+  clickout(event) {
+    const modal = this.modalDialog.nativeElement;
+    const internalClick: boolean = event.path.find((o) => o.className && o.className.indexOf && o.className.indexOf(modal.className) >= 0);
+    if (this.closeOnShadow && !internalClick) {
+      this.closeDialog();
+    }
+  }
+
   ngOnInit() {
     this.closeOnShadow = this.closeOnShadow === undefined ? true : this.closeOnShadow;
     this.closeOnEsc = this.closeOnEsc === undefined ? true : this.closeOnEsc;
     this.fixedHeight = this.fixedHeight === undefined ? false : this.fixedHeight;
   }
 
-  @HostListener('click', ['$event'])
-  clickout(event) {
-    const modal = this.modalDialog.nativeElement;
-    const internalClick: boolean = event.path.find((o) => {
-      return o.className && o.className.indexOf && o.className.indexOf(modal.className) >= 0;
-    });
-    if (this.closeOnShadow && !internalClick) {
-      this.closeDialog();
-    }
-  }
 
   handleEscape() {
     if (this.closeOnEsc) {

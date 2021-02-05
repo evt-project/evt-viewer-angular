@@ -18,7 +18,7 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
   @Input() defaultLayouts: Partial<EditorialConventionLayouts>;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  private _oldStyle: {
+  private oldStyle: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [cssProperty: string]: any;
   };
@@ -31,18 +31,18 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this._setLayout();
+    this.setLayout();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.data.isFirstChange() && changes.data.previousValue !== changes.data.currentValue) {
-      this._setLayout();
+      this.setLayout();
     }
   }
 
-  private _setLayout() {
+  private setLayout() {
     const layouts = this.editorialConventionsService.getLayouts(this.data.name, this.data.attributes, this.data.defaultsKey);
-    this._cleanPreviousLayout();
+    this.cleanPreviousLayout();
     if (layouts && this.data.editionLevel) {
       const editionLayout = layouts[this.data.editionLevel];
       if (editionLayout) {
@@ -62,22 +62,22 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
 
         if (editionLayout.style) {
           Object.keys(editionLayout.style).forEach(key => this.renderer.setStyle(this.el.nativeElement, key, editionLayout.style[key]));
-          this._oldStyle = editionLayout.style;
+          this.oldStyle = editionLayout.style;
         }
       }
     }
   }
 
-  private _cleanPreviousLayout() {
+  private cleanPreviousLayout() {
     const preEl = this.el.nativeElement.querySelector('.pre');
     if (preEl) { preEl.remove(); }
 
     const postEl = this.el.nativeElement.querySelector('.post');
     if (postEl) { postEl.remove(); }
 
-    if (this._oldStyle) {
-      Object.keys(this._oldStyle).forEach(key => this.renderer.setStyle(this.el.nativeElement, key, ''));
-      this._oldStyle = undefined;
+    if (this.oldStyle) {
+      Object.keys(this.oldStyle).forEach(key => this.renderer.setStyle(this.el.nativeElement, key, ''));
+      this.oldStyle = undefined;
     }
   }
 }

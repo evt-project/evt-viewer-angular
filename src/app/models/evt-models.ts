@@ -11,7 +11,7 @@ export interface EditorialConvention {
 export type EditorialConventionLayouts = Partial<{ [key in EditionLevelType]: Partial<EditorialConventionLayout> }>;
 export interface EditorialConventionLayout {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    style: { [cssProperty: string]: any; }; // List of CSS properties to be assigned to the output element
+    style: { [cssProperty: string]: any }; // List of CSS properties to be assigned to the output element
     pre: string; // Text to be shown before the element
     post: string; // Text to be shown after the element
 }
@@ -78,7 +78,7 @@ export interface NamedEntities {
     };
 }
 
-export interface Attributes { [key: string]: string; }
+export interface Attributes { [key: string]: string }
 
 export interface OriginalEncoding {
     originalEncoding: OriginalEncodingNodeType;

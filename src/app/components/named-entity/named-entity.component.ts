@@ -15,6 +15,7 @@ import { EVTModelService } from '../../services/evt-model.service';
 export class NamedEntityComponent implements OnInit {
   @Input() data: NamedEntity;
   @Input() inList: boolean;
+  @ViewChild('entityDetails') entityDetails: NgbNav;
   occurrences$ = this.evtModelService.entitiesOccurrences$.pipe(
     map(occ => occ[this.data.id] || []),
     shareReplay(1),
@@ -22,8 +23,6 @@ export class NamedEntityComponent implements OnInit {
   relations$ = this.evtModelService.relations$.pipe(
     map(el => el.filter(rel => rel.activeParts.indexOf(this.data.id) >= 0 ||
       rel.passiveParts.indexOf(this.data.id) >= 0 || rel.mutualParts.indexOf(this.data.id) >= 0)));
-
-  @ViewChild('entityDetails') entityDetails: NgbNav;
 
   public contentOpened = true;
 

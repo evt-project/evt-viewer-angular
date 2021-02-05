@@ -65,6 +65,10 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   private updateGridsterConfig() {
     this.pinnedBoardItem.x = this.apparatusesOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
     this.apparatusesItem.x = this.pinnedBoardOpened ? 2 : (this.textPanelItem.x !== 0 ? 0 : 1);
@@ -86,9 +90,5 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
         enabled: false,
       },
     };
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

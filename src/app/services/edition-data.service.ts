@@ -10,26 +10,13 @@ import { parseXml } from '../utils/xml-utils';
   providedIn: 'root',
 })
 export class EditionDataService {
-  private editionUrls = AppConfig.evtSettings.files.editionUrls || [];
   public parsedEditionSource$: Observable<OriginalEncodingNodeType> = this.loadAndParseEditionData();
+  private editionUrls = AppConfig.evtSettings.files.editionUrls || [];
 
   constructor(
     private http: HttpClient,
   ) {
   }
-
-  private loadAndParseEditionData() {
-    const editionUrl = this.editionUrls[0];
-
-    return this.http.get(editionUrl, { responseType: 'text' }).pipe(
-      map(source => parseXml(source)),
-      mergeMap((editionData) => this.loadXIinclude(editionData, editionUrl.substring(0, editionUrl.lastIndexOf('/') + 1))),
-      publishReplay(1),
-      refCount(),
-      catchError(() => this.handleLoadingError()),
-    );
-  }
-
   loadXIinclude(doc: HTMLElement, baseUrlPath: string) {
     const filesToInclude = Array.from(doc.getElementsByTagName('xi:include'));
     const xiIncludeLoadsSubs = filesToInclude.map(element =>
@@ -47,7 +34,7 @@ export class EditionDataService {
             // element.parentNode.replaceChild(includedTextElem, element);
             element.parentNode.appendChild(includedTextElem);
           }),
-          catchError(_ => {
+          catchError(() => {
             Array.from(element.getElementsByTagName('xi:fallback')).map((el) => {
               const divEl = document.createElement('div');
               divEl.classList.add('xiinclude-fallback');
@@ -65,6 +52,18 @@ export class EditionDataService {
     }
 
     return of(doc);
+  }
+
+  private loadAndParseEditionData() {
+    const editionUrl = this.editionUrls[0];
+
+    return this.http.get(editionUrl, { responseType: 'text' }).pipe(
+      map(source => parseXml(source)),
+      mergeMap((editionData) => this.loadXIinclude(editionData, editionUrl.substring(0, editionUrl.lastIndexOf('/') + 1))),
+      publishReplay(1),
+      refCount(),
+      catchError(() => this.handleLoadingError()),
+    );
   }
 
   private handleLoadingError() {

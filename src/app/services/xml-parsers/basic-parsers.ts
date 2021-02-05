@@ -16,15 +16,14 @@ export class AttrParser extends EmptyParser {
     protected attributeParser = createParser(AttributeParser, this.genericParse);
 }
 
-export function queryAndParseElements<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>) {
-    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
-}
+export const queryAndParseElements = <T>(xml: XMLElement, name: string, p: Parser<HTMLElement>) =>
+    Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
 
-export function queryAndParseElement<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>): T {
+export const queryAndParseElement = <T>(xml: XMLElement, name: string, p: Parser<HTMLElement>): T => {
     const el = xml.querySelector<XMLElement>(`:scope > ${name}`);
 
     return el && p.parse(el) as unknown as T;
-}
+};
 
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {

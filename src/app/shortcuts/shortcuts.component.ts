@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class ShortcutsComponent {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public shortcuts: Array<{ label: string, instructions: any[] }> = []; // TODO: get rid of instructions
+  public shortcuts: Array<{ label: string; instructions: any[] }> = []; // TODO: get rid of instructions
 
   constructor() {
     this.initShortcuts();

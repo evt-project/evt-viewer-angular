@@ -206,9 +206,9 @@ export class RelationParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
-function getEntityID(ref: string) { return ref ? ref.replace(/#/g, '') : ''; }
-function textLabel(elemName: string, xml: XMLElement) {
+const getEntityID = (ref: string) => ref ? ref.replace(/#/g, '') : '';
+const textLabel = (elemName: string, xml: XMLElement) => {
     const el = xml.querySelector<XMLElement>(elemName);
 
     return (el ? replaceNewLines(el.textContent) : '') || 'No info';
-}
+};

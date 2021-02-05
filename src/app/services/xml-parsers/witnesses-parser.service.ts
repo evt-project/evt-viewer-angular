@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { parse } from '.';
 import { Description, Witness, Witnesses, WitnessGroup, XMLElement } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { arrayToMap } from '../../utils/js-utils';
@@ -7,6 +6,7 @@ import { replaceNotWordChar } from '../../utils/xml-utils';
 import { AttributeParser } from './basic-parsers';
 import { GenericParserService } from './generic-parser.service';
 import { createParser, getID } from './parser-models';
+import { parse } from '.';
 
 @Injectable({
   providedIn: 'root',

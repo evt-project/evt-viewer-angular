@@ -18,7 +18,7 @@ export class EntitiesSelectService {
     return value.toLowerCase().replace(/\s/g, '').replace(/(\[.*?\])/g, '');
   }
 
-  public getAttributesFromValue(value): Array<{ key: string, value: string }> {
+  public getAttributesFromValue(value): Array<{ key: string; value: string }> {
     return (value.toLowerCase().replace(/\s/g, '').match(/(\[.*?\])/g) || [])
       .map(i => i.replace(/(\[|\]|\')/g, '').split('=')).map(i => ({ key: i[0], value: i[1] }));
   }

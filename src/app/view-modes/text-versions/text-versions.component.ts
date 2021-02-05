@@ -13,7 +13,6 @@ import { EvtIconInfo } from 'src/app/ui-components/icon/icon.component';
 })
 export class TextVersionsComponent implements OnInit {
   @ViewChild('versionsPanel', { static: true }) versionsPanel: ElementRef;
-  private versions: VersionItem[] = [];
 
   public options: GridsterConfig = {};
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
@@ -29,7 +28,7 @@ export class TextVersionsComponent implements OnInit {
     shareReplay(1),
   );
 
-  public get versionBtn(): { label: string, additionalClasses: string, title: string, icon?: EvtIconInfo } {
+  public get versionBtn(): { label: string; additionalClasses: string; title: string; icon?: EvtIconInfo } {
     return {
       label: this.versions.length > 0 ? '' : 'addVersion',
       title: this.versions.length > 0 ? 'addVersion' : '',
@@ -37,6 +36,8 @@ export class TextVersionsComponent implements OnInit {
       icon: { iconSet: 'fas', icon: 'plus' },
     };
   }
+
+  private versions: VersionItem[] = [];
 
   constructor(
     private evtStatusService: EVTStatusService,

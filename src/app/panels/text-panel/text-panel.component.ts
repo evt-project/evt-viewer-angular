@@ -15,22 +15,23 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 })
 export class TextPanelComponent implements OnInit, OnDestroy {
   @Input() hideEditionLevelSelector: boolean;
-
+  @Input() editionLevelID: EditionLevelType;
   @Input() pageID: string;
   public currentPage$ = new BehaviorSubject<Page>(undefined);
   public currentPageId$ = this.currentPage$.pipe(
     map(p => p?.id),
   );
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output() pageChange: Observable<Page> = this.currentPage$.pipe(
     filter(p => !!p),
     distinctUntilChanged(),
   );
 
-  @Input() editionLevelID: EditionLevelType;
   public currentEdLevel$ = new BehaviorSubject<EditionLevel>(undefined);
   public currentEdLevelId$ = this.currentEdLevel$.pipe(
     map(e => e?.id),
   );
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
     filter(e => !!e),
     distinctUntilChanged(),
@@ -51,7 +52,6 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
   public secondaryContent = '';
-  private showSecondaryContent = false;
 
   public selectedPage;
 
@@ -66,6 +66,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
+  private showSecondaryContent = false;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -82,18 +83,14 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.textFlow = undefined;
     }
   }
+
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
   }
 
   toggleSecondaryContent(newContent: string) {
-    if (this.secondaryContent !== newContent) {
-      this.showSecondaryContent = true;
-      this.secondaryContent = newContent;
-    } else {
-      this.showSecondaryContent = false;
-      this.secondaryContent = '';
-    }
+    this.showSecondaryContent = this.secondaryContent !== newContent;
+    this.secondaryContent = this.showSecondaryContent ? newContent : '';
   }
 
   getSecondaryContent(): string {

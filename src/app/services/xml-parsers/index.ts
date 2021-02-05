@@ -30,7 +30,8 @@ import {
 import { createParser, Parser, ParseResult } from './parser-models';
 
 type AnalysisTags = 'w';
-type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg' | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
+type CoreTags = 'add' | 'choice' | 'del' | 'gap' | 'graphic' | 'head' | 'l' | 'lb' | 'lg'
+    | 'note' | 'p' | 'ptr' | 'resp' | 'respStmt' | 'sic';
 type GaijiTags = 'char' | 'g' | 'glyph';
 type HeaderTags = 'editionStmt' | 'extent' | 'fileDesc' | 'notesStmt' | 'publicationStmt' | 'seriesStmt' | 'sourceDesc' | 'titleStmt';
 type MsDescriptionTags = 'accMat' | 'acquisition' | 'additional' | 'additions' | 'adminInfo' | 'altIdentifier' |
@@ -46,6 +47,18 @@ type TextCritTags = 'app' | 'lem' | 'rdg';
 type TranscrTags = 'damage' | 'supplied' | 'surface' | 'surplus' | 'zone';
 
 type SupportedTagNames = AnalysisTags | CoreTags | GaijiTags | HeaderTags | MsDescriptionTags | TextCritTags | TranscrTags | NamesDatesTags;
+
+export const parse = (xml: XMLElement): ParseResult<GenericElement> => {
+    if (!xml) { return { content: [xml] } as HTML; }
+    // Text Node
+    if (xml.nodeType === 3) { return createParser(TextParser, parse).parse(xml); }
+    // Comment
+    if (xml.nodeType === 8) { return {} as Comment; }
+    const tagName = xml.tagName.toLowerCase();
+    const parser: Parser<XMLElement> = parseF[tagName] || createParser(ElementParser, parse);
+
+    return parser.parse(xml);
+};
 
 const analysisParseF: { [T in AnalysisTags]: Parser<XMLElement> } = {
     w: createParser(WordParser, parse),
@@ -186,15 +199,3 @@ export const parseF: { [T in SupportedTagNames]: Parser<XMLElement> } = {
     ...transcrParseF,
     ...msDescriptionParseF,
 };
-
-export function parse(xml: XMLElement): ParseResult<GenericElement> {
-    if (!xml) { return { content: [xml] } as HTML; }
-    // Text Node
-    if (xml.nodeType === 3) { return createParser(TextParser, parse).parse(xml); }
-    // Comment
-    if (xml.nodeType === 8) { return {} as Comment; }
-    const tagName = xml.tagName.toLowerCase();
-    const parser: Parser<XMLElement> = parseF[tagName] || createParser(ElementParser, parse);
-
-    return parser.parse(xml);
-}

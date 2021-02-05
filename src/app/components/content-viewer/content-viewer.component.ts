@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AttributesMap } from 'ng-dynamic-component';
@@ -14,6 +15,14 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
   templateUrl: './content-viewer.component.html',
 })
 export class ContentViewerComponent implements OnDestroy {
+
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+  contentChange = new BehaviorSubject<GenericElement>(undefined);
+  itemsToHighlightChange = new BehaviorSubject<EntitiesSelectItem[]>([]);
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  private componentRef: ComponentRef<{}>;
+
   private v: GenericElement;
   @Input() set content(v: GenericElement) {
     this.v = v;
@@ -28,9 +37,6 @@ export class ContentViewerComponent implements OnDestroy {
   }
   get itemsToHighlight() { return this.ith; }
 
-  contentChange = new BehaviorSubject<GenericElement>(undefined);
-  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
-  itemsToHighlightChange = new BehaviorSubject<EntitiesSelectItem[]>([]);
 
   private edLevel: EditionLevelType;
   @Input() set editionLevel(el: EditionLevelType) {
@@ -38,6 +44,7 @@ export class ContentViewerComponent implements OnDestroy {
     this.editionLevelChange.next(el);
   }
   get editionLevel() { return this.edLevel; }
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
   private txtFlow: TextFlow;
@@ -46,13 +53,8 @@ export class ContentViewerComponent implements OnDestroy {
     this.textFlowChange.next(t);
   }
   get textFlow() { return this.txtFlow; }
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   textFlowChange = new BehaviorSubject<TextFlow>(undefined);
-
-  constructor(
-    private componentRegister: ComponentRegisterService,
-    private entitiesSelectService: EntitiesSelectService,
-  ) {
-  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
@@ -112,7 +114,19 @@ export class ContentViewerComponent implements OnDestroy {
     )),
   );
 
-  private componentRef: ComponentRef<{}>;
+  constructor(
+    private componentRegister: ComponentRegisterService,
+    private entitiesSelectService: EntitiesSelectService,
+  ) {
+  }
+
+  ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+      this.componentRef = undefined;
+    }
+  }
+
 
   private toBeHighlighted() {
     return true; // TODO: Decide when an item should be highlighted
@@ -125,10 +139,4 @@ export class ContentViewerComponent implements OnDestroy {
     };
   }
 
-  ngOnDestroy() {
-    if (this.componentRef) {
-      this.componentRef.destroy();
-      this.componentRef = undefined;
-    }
-  }
 }

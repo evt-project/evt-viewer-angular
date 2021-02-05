@@ -11,14 +11,14 @@ import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridsterModule } from 'angular-gridster2';
 import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { RouterModule, Routes } from '@angular/router';
+import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 
-import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
 
-import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
@@ -88,9 +88,7 @@ import { TextVersionsComponent } from './view-modes/text-versions/text-versions.
 const routes: Routes = [
 ];
 
-export function initializeApp(appConfig: AppConfig) {
-  return () => appConfig.load();
-}
+export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
 @NgModule({
   declarations: [

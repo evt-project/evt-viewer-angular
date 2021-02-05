@@ -51,6 +51,75 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
 
+  openShortCuts() {
+    this.itemClicked.emit('shortcuts');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'shortcuts' });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.modalId = 'shortcuts';
+    modalComp.title = 'shortcuts';
+    modalComp.bodyContentClass = 'p-3';
+    modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.bodyComponent = ShortcutsComponent;
+  }
+
+  // LANGUAGE
+  selectLanguage(event: MouseEvent, languageSelected: Language) {
+    event.stopPropagation();
+    this.translate.use(languageSelected.code);
+    this.itemClicked.emit('language');
+  }
+
+  getAvailableLanguages() {
+    return this.availableLangs;
+  }
+
+  // THEMES
+  selectTheme(event: MouseEvent, theme: ColorTheme) {
+    event.stopPropagation();
+    this.itemClicked.emit('theme');
+    this.themes.selectTheme(theme);
+  }
+
+  getAvailableThemes(): ColorTheme[] {
+    return this.themes.getAvailableThemes();
+  }
+
+  getCurrentTheme() {
+    return this.themes.getCurrentTheme();
+  }
+
+  openEVTInfo() {
+    this.itemClicked.emit('evtInfo');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'evtInfo' });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.modalId = 'evtInfo';
+    modalComp.title = 'aboutEVT';
+    modalComp.bodyContentClass = 'p-3';
+    modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.bodyComponent = EvtInfoComponent;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+  trackMenuItem(_index: number, item: MainMenuItem) {
+    return item.id;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+  trackLanguages(_index: number, item: Language) {
+    return item.code;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
+  trackTheme(_index: number, item: ColorTheme) {
+    return item.value;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   private loadUiConfig(): void {
     this.initDynamicItems();
   }
@@ -137,74 +206,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  openShortCuts() {
-    this.itemClicked.emit('shortcuts');
-    const modalRef = this.modalService.open(ModalComponent, { id: 'shortcuts' });
-    const modalComp = modalRef.componentInstance as ModalComponent;
-    modalComp.fixedHeight = true;
-    modalComp.modalId = 'shortcuts';
-    modalComp.title = 'shortcuts';
-    modalComp.bodyContentClass = 'p-3';
-    modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'mr-3' };
-    modalComp.bodyComponent = ShortcutsComponent;
-  }
-
-  // LANGUAGE
-  selectLanguage(event: MouseEvent, languageSelected: Language) {
-    event.stopPropagation();
-    this.translate.use(languageSelected.code);
-    this.itemClicked.emit('language');
-  }
-
-  getAvailableLanguages() {
-    return this.availableLangs;
-  }
-
-  // THEMES
-  selectTheme(event: MouseEvent, theme: ColorTheme) {
-    event.stopPropagation();
-    this.itemClicked.emit('theme');
-    this.themes.selectTheme(theme);
-  }
-
-  getAvailableThemes(): ColorTheme[] {
-    return this.themes.getAvailableThemes();
-  }
-
-  getCurrentTheme() {
-    return this.themes.getCurrentTheme();
-  }
-
-  openEVTInfo() {
-    this.itemClicked.emit('evtInfo');
-    const modalRef = this.modalService.open(ModalComponent, { id: 'evtInfo' });
-    const modalComp = modalRef.componentInstance as ModalComponent;
-    modalComp.fixedHeight = true;
-    modalComp.modalId = 'evtInfo';
-    modalComp.title = 'aboutEVT';
-    modalComp.bodyContentClass = 'p-3';
-    modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'mr-3' };
-    modalComp.bodyComponent = EvtInfoComponent;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
-  trackMenuItem(_index: number, item: MainMenuItem) {
-    return item.id;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
-  trackLanguages(_index: number, item: Language) {
-    return item.code;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  trackTheme(_index: number, item: ColorTheme) {
-    return item.value;
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
 }
 
 export interface Language {

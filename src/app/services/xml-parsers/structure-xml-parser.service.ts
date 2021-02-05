@@ -8,15 +8,16 @@ import { getID, ParseResult } from './parser-models';
   providedIn: 'root',
 })
 export class StructureXmlParserService {
+
+  readonly frontTagName = 'front';
+  readonly pageTagName = 'pb';
+  readonly bodyTagName = 'body';
+  private frontOrigContentAttr = 'document_front';
+
   constructor(
     private genericParserService: GenericParserService,
   ) {
   }
-
-  private frontOrigContentAttr = 'document_front';
-  readonly frontTagName = 'front';
-  readonly pageTagName = 'pb';
-  readonly bodyTagName = 'body';
 
   parsePages(el: XMLElement): EditionStructure {
     if (!el) { return { pages: [] }; }
@@ -66,17 +67,6 @@ export class StructureXmlParserService {
     };
   }
 
-  private parseSinglePage(doc: Document, el: XMLElement, id: string, label: string): Page {
-    const originalContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild, el.lastChild);
-
-    return {
-      id,
-      label,
-      originalContent,
-      parsedContent: this.parsePageContent(doc, originalContent),
-    };
-  }
-
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
     return pageContent
       .map((node) => {
@@ -113,9 +103,22 @@ export class StructureXmlParserService {
         isNestedInElem(el, '', [{ key: 'type', value: this.frontOrigContentAttr }])
       );
   }
+
+
+  private parseSinglePage(doc: Document, el: XMLElement, id: string, label: string): Page {
+    const originalContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild, el.lastChild);
+
+    return {
+      id,
+      label,
+      originalContent,
+      parsedContent: this.parsePageContent(doc, originalContent),
+    };
+  }
+
 }
 
-function getEditionOrigNode(el: XMLElement, doc: Document) {
+const getEditionOrigNode = (el: XMLElement, doc: Document) => {
   if (el.getAttribute && el.getAttribute('xpath')) {
     const path = doc.documentElement.namespaceURI ? el.getAttribute('xpath').replace(/\//g, '/ns:') : el.getAttribute('xpath');
     const xpathRes = doc.evaluate(path, doc, createNsResolver(doc), XPathResult.ANY_TYPE, undefined);
@@ -124,4 +127,4 @@ function getEditionOrigNode(el: XMLElement, doc: Document) {
   }
 
   return el;
-}
+};

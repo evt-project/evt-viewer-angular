@@ -14,8 +14,8 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit {
   @Input() row = 1;
 
   public indexPage = 0;
-  private items: GridItem[];
   public grid: GridItem[][][] = [];
+  private items: GridItem[];
 
   ngOnInit() {
     this.items = this.urls.map((url, i) => ({ url, name: 'page_' + i, active: false }));
@@ -23,7 +23,9 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit {
     this.row = this.isValid(this.row) ? this.row : 1;
     const gridSize = this.col * this.row;
     this.grid = Array(Math.ceil(this.items.length / gridSize)).fill(1)
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       .map((_, i) => this.items.slice(i * gridSize, i * gridSize + gridSize))
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       .map((p) => Array(this.row).fill(1).map((_, i) => p.slice(i * this.col, i * this.col + this.col)))
       ;
   }

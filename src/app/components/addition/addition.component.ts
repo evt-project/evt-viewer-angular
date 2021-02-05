@@ -22,11 +22,11 @@ export class AdditionComponent {
       name: 'add',
       attributes: this.data.attributes,
       editionLevel: this.editionLevel,
-      defaultsKey: this._getDefaultLayoutsKeys(),
+      defaultsKey: this.getDefaultLayoutsKeys(),
     };
   }
 
-  private _getDefaultLayoutsKeys(): EditorialConventionDefaults {
+  private getDefaultLayoutsKeys(): EditorialConventionDefaults {
     switch (this.data.place) {
       case 'above':
       case 'sup':

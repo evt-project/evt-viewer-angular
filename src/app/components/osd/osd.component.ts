@@ -7,7 +7,7 @@ import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { uuid } from '../../utils/js-utils';
 
-declare var OpenSeadragon;
+declare let OpenSeadragon;
 
 interface OsdAnnotation {
   id: string;
@@ -65,16 +65,14 @@ To:
   'width': 5472,
 }
 */
-function manifestResourcetoTileSource(manifestResource) {
-  return {
-    '@context': manifestResource.service['@context'],
-    '@id': manifestResource.service['@id'],
-    profile: [manifestResource.service['@profile']],
-    protocol: 'http://iiif.io/api/image',
-    height: manifestResource.height,
-    width: manifestResource.width,
-  };
-}
+const manifestResourcetoTileSource = (manifestResource) => ({
+  '@context': manifestResource.service['@context'],
+  '@id': manifestResource.service['@id'],
+  profile: [manifestResource.service['@profile']],
+  protocol: 'http://iiif.io/api/image',
+  height: manifestResource.height,
+  width: manifestResource.width,
+});
 
 @Component({
   selector: 'evt-osd',
@@ -84,43 +82,39 @@ function manifestResourcetoTileSource(manifestResource) {
 export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
+  @Output() pageChange = new EventEmitter<number>();
+  @Input() text: string;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
-  private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
-    if (v !== this._options) {
-      this._options = v;
-      this.optionsChange.next(this._options);
+    if (v !== this.inner_options) {
+      this.inner_options = v;
+      this.optionsChange.next(this.inner_options);
     }
   }
-  get options() { return this._options; }
+  get options() { return this.inner_options; }
   optionsChange = new BehaviorSubject({});
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
-  private _manifestURL: string;
   @Input() set manifestURL(v: string) {
-    if (v !== this._manifestURL) {
-      this._manifestURL = v;
-      this.manifestURLChange.next(this._manifestURL);
+    if (v !== this.inner_manifestURL) {
+      this.inner_manifestURL = v;
+      this.manifestURLChange.next(this.inner_manifestURL);
     }
   }
-  get manifestURL() { return this._manifestURL; }
+  get manifestURL() { return this.inner_manifestURL; }
   manifestURLChange = new BehaviorSubject(undefined);
 
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  private _page: number;
   @Input() set page(v: number) {
-    if (v !== this._page) {
-      this._page = v;
-      this.pageChange.next(this._page);
+    if (v !== this.inner_page) {
+      this.inner_page = v;
+      this.pageChange.next(this.inner_page);
     }
   }
-  get page() { return this._page; }
-  @Output() pageChange = new EventEmitter<number>();
+  get page() { return this.inner_page; }
 
-  @Input() text: string;
 
-  tileSources: Observable<Array<{}>> = this.manifestURLChange
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tileSources: Observable<any[]> = this.manifestURLChange
     .pipe(
       filter((url) => !!url),
       distinctUntilChanged(),
@@ -137,6 +131,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   annotationsHandle: OsdAnnotationAPI;
 
   private subscriptions: Subscription[] = [];
+  private inner_options;
+  private inner_page: number;
+  private inner_manifestURL: string;
 
   constructor(
     private http: HttpClient,
@@ -170,6 +167,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
     };
 
     this.subscriptions.push(combineLatest([this.optionsChange, this.tileSources])
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       .subscribe(([_, tileSources]) => {
         if (!!tileSources) {
           this.viewer = OpenSeadragon({

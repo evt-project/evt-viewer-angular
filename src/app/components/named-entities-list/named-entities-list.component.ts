@@ -13,17 +13,18 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   @Input() data: NamedEntitiesList;
   @Output() searchedEntities: EventEmitter<string> = new EventEmitter();
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  private _selectedKey: string;
   set selectedKey(k: string) {
-    this._selectedKey = k;
+    this.inner_selectedKey = k;
   }
-  get selectedKey() { return this._selectedKey; }
+  get selectedKey() { return this.inner_selectedKey; }
   public navigationKeys: string[] = [];
 
   public searchOpened = false;
   public querySearch = '';
   public querySearchSubmitted = '';
   public caseSensitiveSearch = false;
+
+  private inner_selectedKey: string;
 
   ngOnInit() {
     this.initKeys();
