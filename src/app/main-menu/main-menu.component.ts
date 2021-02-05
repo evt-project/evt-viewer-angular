@@ -187,17 +187,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     modalComp.bodyComponent = EvtInfoComponent;
   }
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   trackMenuItem(_index: number, item: MainMenuItem) {
     return item.id;
   }
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   trackLanguages(_index: number, item: Language) {
     return item.code;
   }
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   trackTheme(_index: number, item: ColorTheme) {
     return item.value;
   }

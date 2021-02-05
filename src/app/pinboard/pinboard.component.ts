@@ -9,7 +9,7 @@ import { PinboardService } from './pinboard.service';
 })
 export class PinboardComponent implements OnInit, OnChanges {
   @Input() types: string[];
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   itemsPinned$: Observable<any[]>; // TODO: get rid of any
 
   constructor(private pinboard: PinboardService) {

@@ -1,0 +1,105 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "plugins": [
+        "eslint-plugin-no-null",
+        "eslint-plugin-unicorn"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "evt",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "evt",
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/array-type": [
+          "error",
+          {
+            "default": "array-simple"
+          }
+        ],
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-for-in-array": "error",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+        "arrow-parens": [
+          "off",
+          "always"
+        ],
+        "comma-dangle": [
+          "error",
+          "always-multiline"
+        ],
+        "eqeqeq": [
+          "error",
+          "always"
+        ],
+        "import/order": "error",
+        "no-duplicate-case": "error",
+        "no-empty": "error",
+        "no-irregular-whitespace": "error",
+        "no-multiple-empty-lines": "error",
+        "no-null/no-null": "error",
+        "no-template-curly-in-string": "error",
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          }
+        ],
+        "space-before-function-paren": [
+          "error",
+          "never"
+        ],
+        "unicorn/filename-case": "error"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}

@@ -58,7 +58,7 @@ export class MainHeaderComponent implements OnDestroy {
     }
   }
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   trackViewModes(_index: number, item: ViewMode) {
     return item.id;
   }

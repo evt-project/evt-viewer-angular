@@ -85,7 +85,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
     if (v !== this._options) {
@@ -96,7 +96,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   get options() { return this._options; }
   optionsChange = new BehaviorSubject({});
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _manifestURL: string;
   @Input() set manifestURL(v: string) {
     if (v !== this._manifestURL) {
@@ -107,7 +107,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   get manifestURL() { return this._manifestURL; }
   manifestURLChange = new BehaviorSubject(undefined);
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _page: number;
   @Input() set page(v: number) {
     if (v !== this._page) {
