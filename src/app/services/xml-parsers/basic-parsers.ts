@@ -38,6 +38,10 @@ export class GenericElemParser extends AttrParser implements Parser<XMLElement> 
     }
 }
 
+export class GenericParser extends GenericElemParser {
+    protected genericElemParser = createParser(GenericElemParser, this.genericParse);
+}
+
 export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
     parse(data: HTMLElement): Attributes {
         return Array.from(data.attributes)

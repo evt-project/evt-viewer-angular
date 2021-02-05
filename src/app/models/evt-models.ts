@@ -772,3 +772,80 @@ export class Dim extends GenericElement {
     max?: number;
     gEl?: G[];
 }
+
+export class FileDesc extends GenericElement {
+    titleStmt: TitleStmt;
+    publicationStmt: PublicationStmt;
+    sourceDesc: SourceDesc;
+    editionStmt?: EditionStmt;
+    extent?: Extent;
+    seriesStmt?: SeriesStmt;
+    notesStmt?: NotesStmt;
+}
+
+export class TitleStmt extends GenericElement {
+    titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    subtitles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when subtitle is handled
+    authors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
+    principals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when principal is handled
+    respStmts: RespStmt[];
+    editors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editor is handled
+    sponsors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when sponsor is handled
+    funders: Array<ParseResult<GenericElement>>; // TODO: Add specific type when funder is handled
+}
+
+export class RespStmt extends GenericElement {
+    responsibility: Resp;
+    people: Array<ParseResult<NamedEntityRef>>;
+    notes: Note[];
+}
+
+export class Resp extends GenericElement {
+    normalizedResp: string;
+    date: string;
+}
+
+export class EditionStmt extends GenericElement {
+    structuredData: boolean;
+    edition: Array<ParseResult<GenericElement>>; // TODO: Add specific type when edition is handled
+    respStmt: RespStmt[];
+}
+
+export class PublicationStmt extends GenericElement {
+    structuredData: boolean;
+    publisher: Array<ParseResult<GenericElement>>; // TODO: Add specific type when publisher is handled
+    distributor: Array<ParseResult<GenericElement>>; // TODO: Add specific type when distributor is handled
+    authority: Array<ParseResult<GenericElement>>; // TODO: Add specific type when authority is handled
+    pubPlace: Array<ParseResult<GenericElement>>; // TODO: Add specific type when pubPlace is handled
+    address: Array<ParseResult<GenericElement>>; // TODO: Add specific type when address is handled
+    idno: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    availability: Array<ParseResult<GenericElement>>; // TODO: Add specific type when availability is handled
+    date: Array<ParseResult<GenericElement>>; // TODO: Add specific type when date is handled
+    licence: Array<ParseResult<GenericElement>>; // TODO: Add specific type when licence is handled
+}
+
+export class SeriesStmt extends GenericElement {
+    structuredData: boolean;
+    title: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    idno: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    respStmt: RespStmt[];
+    biblScope: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblScope is handled
+    editor: Array<ParseResult<GenericElement>>; // TODO: Add specific type when editor is handled
+}
+
+export class NotesStmt extends GenericElement {
+    notes: Note[];
+    relatedItems: Array<ParseResult<GenericElement>>; // TODO: Add specific type when relatedItem is handled
+}
+
+export class SourceDesc extends GenericElement {
+    structuredData: boolean;
+    msDesc: MsDesc;
+    bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    biblFull: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblFull is handled
+    biblStruct: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblStruct is handled
+    recordingStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when recordingStmt is handled
+    scriptStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptStmt is handled
+}
+
+export class Extent extends GenericElement { }
