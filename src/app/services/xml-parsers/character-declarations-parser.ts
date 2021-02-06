@@ -1,8 +1,10 @@
+import { xmlParser } from '.';
 import { Char, CharMapping, CharProp, G, Graphic, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { GraphicParser } from './facsimile-parser';
 import { createParser, getDefaultAttr, getID, parseChildren, Parser } from './parser-models';
 
+@xmlParser('char', CharParser)
 export class CharParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): Char {
@@ -63,6 +65,7 @@ export class CharParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('glyph', GlyphParser)
 export class GlyphParser extends CharParser implements Parser<XMLElement> {
 
     public parse(xml: XMLElement): Char {
@@ -91,6 +94,7 @@ export class GlyphParser extends CharParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('g', GParser)
 export class GParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): G {

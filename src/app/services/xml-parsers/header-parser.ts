@@ -1,13 +1,14 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
+import { xmlParser } from '.';
 import {
   EditionStmt, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
-import { GenericElemParser, GenericParser, NoteParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
-import { MsDescParser } from './msdesc-parser';
+import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
 import { createParser, Parser } from './parser-models';
 
+@xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): Resp {
     const { ref, when } = this.attributeParser.parse(xml);
@@ -22,6 +23,7 @@ export class RespParser extends GenericElemParser implements Parser<XMLElement> 
   }
 }
 
+@xmlParser('respStmt', RespStmtParser)
 export class RespStmtParser extends GenericElemParser implements Parser<XMLElement> {
   private namedEntityRefParser = createParser(NamedEntityRefParser, this.genericParse);
 
@@ -38,105 +40,112 @@ export class RespStmtParser extends GenericElemParser implements Parser<XMLEleme
     return {
       ...super.parse(xml),
       type: RespStmt,
-      responsibility: queryAndParseElement<Resp>(xml, 'resp', createParser(RespParser, this.genericParse)),
-      notes: queryAndParseElements<Note>(xml, 'note', createParser(NoteParser, this.genericParse)),
+      responsibility: queryAndParseElement<Resp>(xml, 'resp'),
+      notes: queryAndParseElements<Note>(xml, 'note'),
       people,
     };
   }
 }
 
+@xmlParser('titleStmt', TitleStmtParser)
 export class TitleStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): TitleStmt {
-    const title = queryAndParseElements<GenericElement>(xml, 'title[type="main"]', this.genericElemParser);
+    const title = queryAndParseElements<GenericElement>(xml, 'title[type="main"]');
 
     return {
       ...super.parse(xml),
       type: TitleStmt,
-      titles: title.length > 0 ? title : queryAndParseElements<GenericElement>(xml, 'title:not([type="sub"])', this.genericElemParser),
-      subtitles: queryAndParseElements<GenericElement>(xml, 'title[type="sub"]', this.genericElemParser),
-      authors: queryAndParseElements<GenericElement>(xml, 'author', this.genericElemParser),
-      editors: queryAndParseElements<GenericElement>(xml, 'editor', this.genericElemParser),
-      sponsors: queryAndParseElements<GenericElement>(xml, 'sponsor', this.genericElemParser),
-      funders: queryAndParseElements<GenericElement>(xml, 'funder', this.genericElemParser),
-      principals: queryAndParseElements<GenericElement>(xml, 'principal', this.genericElemParser),
-      respStmts: queryAndParseElements<RespStmt>(xml, 'respStmt', createParser(RespStmtParser, this.genericParse)),
+      titles: title.length > 0 ? title : queryAndParseElements<GenericElement>(xml, 'title:not([type="sub"])'),
+      subtitles: queryAndParseElements<GenericElement>(xml, 'title[type="sub"]'),
+      authors: queryAndParseElements<GenericElement>(xml, 'author'),
+      editors: queryAndParseElements<GenericElement>(xml, 'editor'),
+      sponsors: queryAndParseElements<GenericElement>(xml, 'sponsor'),
+      funders: queryAndParseElements<GenericElement>(xml, 'funder'),
+      principals: queryAndParseElements<GenericElement>(xml, 'principal'),
+      respStmts: queryAndParseElements<RespStmt>(xml, 'respStmt'),
     };
   }
 }
 
+@xmlParser('editionStmt', EditionStmtParser)
 export class EditionStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditionStmt {
     return {
       ...super.parse(xml),
       type: EditionStmt,
-      edition: queryAndParseElements<GenericElement>(xml, 'edition', this.genericElemParser),
-      respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt', createParser(RespStmtParser, this.genericParse)),
+      edition: queryAndParseElements<GenericElement>(xml, 'edition'),
+      respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt'),
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
     };
   }
 }
 
+@xmlParser('publicationStmt', PublicationStmtParser)
 export class PublicationStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): PublicationStmt {
     return {
       ...super.parse(xml),
       type: PublicationStmt,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      publisher: queryAndParseElements<GenericElement>(xml, 'publisher', this.genericElemParser),
-      distributor: queryAndParseElements<GenericElement>(xml, 'distributor', this.genericElemParser),
-      authority: queryAndParseElements<GenericElement>(xml, 'authority', this.genericElemParser),
-      pubPlace: queryAndParseElements<GenericElement>(xml, 'pubPlace', this.genericElemParser),
-      address: queryAndParseElements<GenericElement>(xml, 'address', this.genericElemParser),
-      idno: queryAndParseElements<GenericElement>(xml, 'idno', this.genericElemParser),
-      availability: queryAndParseElements<GenericElement>(xml, 'availability', this.genericElemParser),
-      date: queryAndParseElements<GenericElement>(xml, 'date', this.genericElemParser),
-      licence: queryAndParseElements<GenericElement>(xml, 'licence', this.genericElemParser),
+      publisher: queryAndParseElements<GenericElement>(xml, 'publisher'),
+      distributor: queryAndParseElements<GenericElement>(xml, 'distributor'),
+      authority: queryAndParseElements<GenericElement>(xml, 'authority'),
+      pubPlace: queryAndParseElements<GenericElement>(xml, 'pubPlace'),
+      address: queryAndParseElements<GenericElement>(xml, 'address'),
+      idno: queryAndParseElements<GenericElement>(xml, 'idno'),
+      availability: queryAndParseElements<GenericElement>(xml, 'availability'),
+      date: queryAndParseElements<GenericElement>(xml, 'date'),
+      licence: queryAndParseElements<GenericElement>(xml, 'licence'),
     };
   }
 }
 
+@xmlParser('seriesStmt', SeriesStmtParser)
 export class SeriesStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): SeriesStmt {
     return {
       ...super.parse(xml),
       type: SeriesStmt,
       structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
-      title: queryAndParseElements<GenericElement>(xml, 'title', this.genericElemParser),
-      idno: queryAndParseElements<GenericElement>(xml, 'idno', this.genericElemParser),
-      respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt', createParser(RespStmtParser, this.genericParse)),
-      editor: queryAndParseElements<GenericElement>(xml, 'editor', this.genericElemParser),
-      biblScope: queryAndParseElements<GenericElement>(xml, 'biblScope', this.genericElemParser),
+      title: queryAndParseElements<GenericElement>(xml, 'title'),
+      idno: queryAndParseElements<GenericElement>(xml, 'idno'),
+      respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt'),
+      editor: queryAndParseElements<GenericElement>(xml, 'editor'),
+      biblScope: queryAndParseElements<GenericElement>(xml, 'biblScope'),
     };
   }
 }
 
+@xmlParser('notesStmt', NotesStmtParser)
 export class NotesStmtParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): NotesStmt {
     return {
       ...super.parse(xml),
       type: NotesStmt,
-      notes: queryAndParseElements<Note>(xml, 'note', createParser(NoteParser, this.genericParse)),
-      relatedItems: queryAndParseElements<GenericElement>(xml, 'relatedItem', this.genericElemParser),
+      notes: queryAndParseElements<Note>(xml, 'note'),
+      relatedItems: queryAndParseElements<GenericElement>(xml, 'relatedItem'),
     };
   }
 }
 
+@xmlParser('sourceDesc', SourceDescParser)
 export class SourceDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): SourceDesc {
     return {
       ...super.parse(xml),
       type: SourceDesc,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      msDesc: queryAndParseElement<MsDesc>(xml, 'note', createParser(MsDescParser, this.genericParse)),
-      bibl: queryAndParseElements<GenericElement>(xml, 'bibl', this.genericElemParser),
-      biblFull: queryAndParseElements<GenericElement>(xml, 'biblFull', this.genericElemParser),
-      biblStruct: queryAndParseElements<GenericElement>(xml, 'biblStruct', this.genericElemParser),
-      recordingStmt: queryAndParseElements<GenericElement>(xml, 'recordingStmt', this.genericElemParser),
-      scriptStmt: queryAndParseElements<GenericElement>(xml, 'scriptStmt', this.genericElemParser),
+      msDesc: queryAndParseElement<MsDesc>(xml, 'note'),
+      bibl: queryAndParseElements<GenericElement>(xml, 'bibl'),
+      biblFull: queryAndParseElements<GenericElement>(xml, 'biblFull'),
+      biblStruct: queryAndParseElements<GenericElement>(xml, 'biblStruct'),
+      recordingStmt: queryAndParseElements<GenericElement>(xml, 'recordingStmt'),
+      scriptStmt: queryAndParseElements<GenericElement>(xml, 'scriptStmt'),
     };
   }
 }
 
+@xmlParser('extent', ExtentParser)
 export class ExtentParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): Extent {
     return {
@@ -146,6 +155,7 @@ export class ExtentParser extends GenericElemParser implements Parser<XMLElement
   }
 }
 
+@xmlParser('fileDesc', FileDescParser)
 export class FileDescParser extends GenericElemParser implements Parser<XMLElement> {
   private excludeFromParsing = [
     'listBibl',
@@ -166,14 +176,13 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
     return {
       ...super.parse(xml),
       type: FileDesc,
-      titleStmt: queryAndParseElement<TitleStmt>(xml, 'titleStmt', createParser(TitleStmtParser, this.genericParse)),
-      editionStmt: queryAndParseElement<EditionStmt>(xml, 'editionStmt', createParser(EditionStmtParser, this.genericParse)),
-      publicationStmt: queryAndParseElement<PublicationStmt>(
-        xml, 'publicationStmt', createParser(PublicationStmtParser, this.genericParse)),
-      sourceDesc: queryAndParseElement<SourceDesc>(xml, 'sourceDesc', createParser(SourceDescParser, this.genericParse)),
-      extent: queryAndParseElement<Extent>(xml, 'extent', createParser(ExtentParser, this.genericParse)),
-      notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt', createParser(NotesStmtParser, this.genericParse)),
-      seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt', createParser(SeriesStmtParser, this.genericParse)),
+      titleStmt: queryAndParseElement<TitleStmt>(xml, 'titleStmt'),
+      editionStmt: queryAndParseElement<EditionStmt>(xml, 'editionStmt'),
+      publicationStmt: queryAndParseElement<PublicationStmt>(xml, 'publicationStmt'),
+      sourceDesc: queryAndParseElement<SourceDesc>(xml, 'sourceDesc'),
+      extent: queryAndParseElement<Extent>(xml, 'extent'),
+      notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt'),
+      seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt'),
     };
   }
 }

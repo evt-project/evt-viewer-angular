@@ -1,7 +1,9 @@
+import { xmlParser } from '.';
 import { Choice, ChoiceType, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
 
+@xmlParser('choice', ChoiceParser)
 export class ChoiceParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Choice {

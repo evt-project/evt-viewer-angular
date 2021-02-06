@@ -1,7 +1,9 @@
+import { xmlParser } from '.';
 import { Graphic, Point, Surface, XMLElement, Zone, ZoneHotSpot, ZoneLine, ZoneRendition } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 
+@xmlParser('zone', ZoneParser)
 export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): Zone {
@@ -54,6 +56,7 @@ export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('graphic', GraphicParser)
 export class GraphicParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): Graphic {
@@ -68,6 +71,7 @@ export class GraphicParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('surface', SurfaceParser)
 export class SurfaceParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     graphicParser = createParser(GraphicParser, this.genericParse);

@@ -1,4 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
+import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
@@ -16,16 +17,20 @@ export class AttrParser extends EmptyParser {
     protected attributeParser = createParser(AttributeParser, this.genericParse);
 }
 
-export function queryAndParseElements<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>) {
+export function queryAndParseElements<T>(xml: XMLElement, name: string) {
+    const p = ParserRegister.get(name);
+
     return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
 }
 
-export function queryAndParseElement<T>(xml: XMLElement, name: string, p: Parser<HTMLElement>): T {
+export function queryAndParseElement<T>(xml: XMLElement, name: string): T {
     const el = xml.querySelector<XMLElement>(`:scope > ${name}`);
+    const p = ParserRegister.get(name);
 
     return el && p.parse(el) as unknown as T;
 }
 
+@xmlParser('evt-generic-elem-parser', GenericElemParser)
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
         return {
@@ -42,6 +47,7 @@ export class GenericParser extends GenericElemParser {
     protected genericElemParser = createParser(GenericElemParser, this.genericParse);
 }
 
+@xmlParser('evt-attribute-parser', AttributeParser)
 export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
     parse(data: HTMLElement): Attributes {
         return Array.from(data.attributes)
@@ -49,6 +55,8 @@ export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
             .reduce((x, y) => ({ ...x, ...y }), {});
     }
 }
+
+@xmlParser('attribute-map-parser', AttributeMapParser)
 export class AttributeMapParser extends EmptyParser implements Parser<XMLElement> {
     parse(xml: XMLElement) {
         const attributes: AttributesMap = {};
@@ -60,6 +68,7 @@ export class AttributeMapParser extends EmptyParser implements Parser<XMLElement
     }
 }
 
+@xmlParser('evt-text-parser', TextParser)
 export class TextParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Text {
         return {
@@ -70,10 +79,10 @@ export class TextParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('p', ParagraphParser)
 export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Paragraph {
-        const attributes = this.attributeParser.parse(xml);
+        const attributes = ParserRegister.get('evt-attribute-parser').parse(xml) as Attributes;
         const paragraphComponent: Paragraph = {
             type: Paragraph,
             content: parseChildren(xml, this.genericParse),
@@ -85,6 +94,7 @@ export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('lb', LBParser)
 export class LBParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Lb {
@@ -103,20 +113,7 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
-export class ElementParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
-    parse(xml: XMLElement): GenericElement {
-        const genericElement: GenericElement = {
-            type: GenericElement,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-        };
-
-        return genericElement;
-    }
-}
-
+@xmlParser('note', NoteParser)
 export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Note {
@@ -147,9 +144,10 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     private isNamedEntityNote(xml: XMLElement) { return isNestedInElem(xml, 'relation') || isNestedInElem(xml, 'event'); }
 }
 
+@xmlParser('ptr', PtrParser)
 export class PtrParser extends EmptyParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     parse(xml: XMLElement): GenericElement {
         if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
             const noteId = xml.getAttribute('target').replace('#', '');
@@ -163,6 +161,7 @@ export class PtrParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('l', VerseParser)
 export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Verse {
@@ -178,6 +177,7 @@ export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('lg', VersesGroupParser)
 export class VersesGroupParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): VersesGroup {
@@ -195,6 +195,7 @@ export class VersesGroupParser extends EmptyParser implements Parser<XMLElement>
     }
 }
 
+@xmlParser('supplied', SuppliedParser)
 export class SuppliedParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Supplied {
@@ -213,6 +214,7 @@ export class SuppliedParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('damage', DamageParser)
 export class DamageParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Damage {
@@ -231,6 +233,7 @@ export class DamageParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('gap', GapParser)
 export class GapParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Gap {
@@ -251,8 +254,9 @@ export class GapParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('add', AdditionParser)
 export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Addition {
         return {
@@ -266,6 +270,7 @@ export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('w', WordParser)
 export class WordParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Word {
@@ -282,8 +287,9 @@ export class WordParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('del', DeletionParser)
 export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Deletion {
         return {

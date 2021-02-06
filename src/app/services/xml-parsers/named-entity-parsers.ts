@@ -1,14 +1,16 @@
+import { xmlParser } from '.';
 import {
     GenericElement, NamedEntity, NamedEntityInfo, NamedEntityLabel,
     NamedEntityRef, NamedEntityType, Relation, XMLElement,
 } from '../../models/evt-models';
 import { xpath } from '../../utils/dom-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
-import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextParser } from './basic-parsers';
+import { AttributeMapParser, AttributeParser, EmptyParser, GenericElemParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
 
+@xmlParser('evt-named-entity-parser', NamedEntityRefParser)
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): NamedEntityRef | GenericElement {
         const ref = xml.getAttribute('ref');
@@ -68,6 +70,7 @@ export class EntityParser extends EmptyParser implements Parser<XMLElement> {
     private getEntityType(tagName): NamedEntityType { return tagName.toLowerCase(); }
 }
 
+@xmlParser('person', PersonParser)
 export class PersonParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity {
         return {
@@ -99,6 +102,7 @@ export class PersonParser extends EntityParser {
     }
 }
 
+@xmlParser('personGrp', PersonGroupParser)
 export class PersonGroupParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity { return { ...super.parse(xml), label: this.getLabel(xml) }; }
 
@@ -115,6 +119,7 @@ export class PersonGroupParser extends EntityParser {
     }
 }
 
+@xmlParser('place', PlaceParser)
 export class PlaceParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity { return { ...super.parse(xml), label: this.getLabel(xml) }; }
 
@@ -147,6 +152,7 @@ export class EventParser extends EntityParser {
     }
 }
 
+@xmlParser('org', OrganizationParser)
 export class OrganizationParser extends EntityParser {
     parse(xml: XMLElement): NamedEntity {
         return {

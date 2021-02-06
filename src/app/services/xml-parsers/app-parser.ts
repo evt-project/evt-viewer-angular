@@ -1,10 +1,12 @@
 import { AppConfig } from 'src/app/app.config';
+import { xmlParser } from '.';
 import { ApparatusEntry, Note, Reading, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
 import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
 
+@xmlParser('rdg', RdgParser)
 export class RdgParser extends EmptyParser implements Parser<XMLElement> {
     private readingGroupTagName = 'rdgGrp';
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -51,6 +53,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
     }
 }
 
+@xmlParser('app', AppParser)
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
     private appEntryTagName = 'app';
