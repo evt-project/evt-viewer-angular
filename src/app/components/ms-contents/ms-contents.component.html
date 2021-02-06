@@ -11,10 +11,26 @@
                     <span *ngIf="data.msItem[m.key].colophon.length>0">
                         <evt-content-viewer *ngFor="let c of data.msItem[m.key].colophon" [content]="c"></evt-content-viewer>
                         <br/>
-                        <br/> <!--da togliere-->
+                        <br/> 
+                    </span>
+                    <span *ngFor="let dt of data.msItem[m.key].docTitle | keyvalue" >Titolo del documento: 
+                        <evt-content-viewer [content]="data.msItem[m.key].docTitle[dt.key]"></evt-content-viewer>
+                        <br/>
                     </span>
                     <span *ngFor="let a of data.msItem[m.key].author | keyvalue" >Autore: 
                         <evt-content-viewer [content]="data.msItem[m.key].author[a.key]"></evt-content-viewer>
+                        <br/>
+                    </span>
+                    <span *ngFor="let da of data.msItem[m.key].docAuthor | keyvalue" >Autore del documento: 
+                        <evt-content-viewer [content]="data.msItem[m.key].docAuthor[da.key]"></evt-content-viewer>
+                        <br/>
+                    </span>
+                    <span *ngFor="let di of data.msItem[m.key].docImprint | keyvalue" >Sigla editoriale del documento: 
+                        <evt-content-viewer [content]="data.msItem[m.key].docImprint[di.key]"></evt-content-viewer>
+                        <br/>
+                    </span>
+                    <span *ngFor="let dd of data.msItem[m.key].docDate | keyvalue" >Data del documento: 
+                        <evt-content-viewer [content]="data.msItem[m.key].docDate[dd.key]"></evt-content-viewer>
                         <br/>
                     </span>
                     <span *ngIf="data.msItem[m.key].textLang.length>0">Lingua: 
