@@ -855,11 +855,18 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: MsContents,
+<<<<<<< HEAD
             summary: queryAndParseElement(xml, 'summary'),
             msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
             textLangs: unhandledElement(xml, 'textLang', this.genericParse),
+=======
+            summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
+            msItem: queryAndParseElements<MsItem>(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
+            msItemStruct: queryAndParseElement(xml, 'msItemStruct', createParser(MsItemStructParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+>>>>>>> daae265 (Fix filiation and msItem in msdesc-parser)
         };
     }
 }
