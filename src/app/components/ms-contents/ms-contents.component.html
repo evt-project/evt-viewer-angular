@@ -1,1 +1,38 @@
-<p>Contenuto del manoscritto:</p>
+<div>
+    <p>Contenuto del manoscritto:</p>
+    <div>
+        <span *ngIf="data.msItem || data.msItemStruct || data.summary; else elseBlock">
+            <span *ngIf="data.summary">
+                <evt-content-viewer [content]="data.summary"></evt-content-viewer>
+                <br/>
+            </span>
+            <span *ngIf="data.msItem.length>0">
+                <span *ngFor="let m of data.msItem | keyvalue" >
+                    <span *ngIf="data.msItem[m.key].colophon.length>0">
+                        <evt-content-viewer *ngFor="let c of data.msItem[m.key].colophon" [content]="c"></evt-content-viewer>
+                        <br/>
+                        <br/> <!--da togliere-->
+                    </span>
+                    <span *ngFor="let a of data.msItem[m.key].author | keyvalue" >Autore: 
+                        <evt-content-viewer [content]="data.msItem[m.key].author[a.key]"></evt-content-viewer>
+                        <br/>
+                    </span>
+                    <span *ngIf="data.msItem[m.key].textLang.length>0">Lingua: 
+                        <evt-content-viewer *ngFor="let t of data.msItem[m.key].textLang" [content]="t"></evt-content-viewer>
+                        <br/>
+                    </span>
+                    <span *ngIf="data.msItem[m.key].filiation"> 
+                        <span *ngFor="let f of data.msItem[m.key].filiation | keyvalue" >Filiazione:
+                            <evt-content-viewer [content]="data.msItem[m.key].filiation[f.key]"></evt-content-viewer>
+                            <br/>
+                        </span>
+                    </span>
+                </span>
+            </span>
+        </span>
+        <span #elseBlock>
+            <evt-content-viewer *ngFor="let p of data.pEl" [content]="p"></evt-content-viewer>
+        </span>
+    </div>
+</div>
+ 
