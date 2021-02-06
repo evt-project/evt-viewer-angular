@@ -19,10 +19,6 @@ export class ParserRegister {
     }
 
     private static mapName(tagName) {
-        if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
-            return 'evt-generic-elem-parser';
-        }
-
         const nes = ['event', 'geogname', 'orgname', 'persname', 'placename'];
         if (nes.includes(tagName)) {
             return 'evt-named-entity-parser';
@@ -30,6 +26,10 @@ export class ParserRegister {
         const crit = ['rdg', 'lem'];
         if (crit.includes(tagName)) {
             return 'rdg';
+        }
+
+        if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
+            return 'evt-generic-elem-parser';
         }
 
         return tagName;
