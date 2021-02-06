@@ -682,6 +682,7 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
             docDate: unhandledElement(xml, 'docDate', this.genericParse),
             locusGrp: queryAndParseElement<LocusGrp>(xml, 'locusGrp', createParser(LocusGrpParser, this.genericParse)),
             gapEl: queryAndParseElements(xml, 'gap', createParser(GapParser, this.genericParse)),
+            msItem: queryAndParseElements(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
         };
     }
 }
