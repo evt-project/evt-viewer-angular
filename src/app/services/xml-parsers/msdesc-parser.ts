@@ -663,7 +663,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             explicit: queryAndParseElement<Explicit>(xml, 'explicit', createParser(ExplicitParser, this.genericParse)),
             finalRubric: queryAndParseElement<FinalRubric>(xml, 'finalRubric', createParser(FinalRubricParser, this.genericParse)),
             decoNote: queryAndParseElement<DecoNote>(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
-            filiation: queryAndParseElement<Filiation>(xml, 'filiation', createParser(FiliationParser, this.genericParse)),
+            filiation: queryAndParseElements<Filiation>(xml, 'filiation', createParser(FiliationParser, this.genericParse)),
             locus: queryAndParseElement<Locus>(xml, 'locus', createParser(LocusParser, this.genericParse)),
             noteEl: queryAndParseElements<Note>(xml, 'note', createParser(NoteParser, this.genericParse)),
         };
@@ -807,7 +807,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
             ...super.parse(xml),
             type: MsContents,
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
-            msItem: queryAndParseElement(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
+            msItem: queryAndParseElements<MsItem>(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct', createParser(MsItemStructParser, this.genericParse)),
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
