@@ -456,6 +456,7 @@ export class MsItem extends MsItemStruct {
     docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
     locusGrp?: LocusGrp;
     gapEl?: Gap[];
+    msItem?: MsItem[];
 }
 
 export class Summary extends GenericElement {
