@@ -20,7 +20,7 @@ export class ParserRegister {
 
     private static mapName(tagName) {
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
-            return 'evt-generic-elem-parser'; // TODO: check difference with 'evt-elemet-paraser';
+            return 'evt-generic-elem-parser';
         }
 
         const nes = ['event', 'geogname', 'orgname', 'persname', 'placename'];

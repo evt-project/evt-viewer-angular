@@ -30,21 +30,6 @@ export function queryAndParseElement<T>(xml: XMLElement, name: string): T {
     return el && p.parse(el) as unknown as T;
 }
 
-@xmlParser('evt-elemet-paraser', ElementParser)  // TODO check id it is possible to remove this and use only GenericElemParser
-export class ElementParser extends EmptyParser implements Parser<XMLElement> {
-    attributeParser = createParser(AttributeParser, this.genericParse);
-    parse(xml: XMLElement): GenericElement {
-        const genericElement: GenericElement = {
-            type: GenericElement,
-            class: getClass(xml),
-            content: parseChildren(xml, this.genericParse),
-            attributes: this.attributeParser.parse(xml),
-        };
-
-        return genericElement;
-    }
-}
-
 @xmlParser('evt-generic-elem-parser', GenericElemParser)
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
@@ -162,7 +147,7 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
 @xmlParser('ptr', PtrParser)
 export class PtrParser extends EmptyParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     parse(xml: XMLElement): GenericElement {
         if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
             const noteId = xml.getAttribute('target').replace('#', '');
@@ -271,7 +256,7 @@ export class GapParser extends EmptyParser implements Parser<XMLElement> {
 
 @xmlParser('add', AdditionParser)
 export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Addition {
         return {
@@ -304,7 +289,7 @@ export class WordParser extends EmptyParser implements Parser<XMLElement> {
 
 @xmlParser('del', DeletionParser)
 export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Deletion {
         return {

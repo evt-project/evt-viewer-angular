@@ -7,7 +7,7 @@ import {
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
-import { AttributeMapParser, ElementParser } from './basic-parsers';
+import { AttributeMapParser, GenericElemParser } from './basic-parsers';
 import { RelationParser } from './named-entity-parsers';
 import { createParser } from './parser-models';
 
@@ -165,7 +165,7 @@ export class NamedEntitiesParserService {
 
   private parseNamedEntityOccurrence(xml: XMLElement) {
     const doc = xml.closest('text');
-    const elementParser = createParser(ElementParser, parse);
+    const elementParser = createParser(GenericElemParser, parse);
 
     return {
       ref: xml.getAttribute('ref').replace('#', ''),

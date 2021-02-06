@@ -5,12 +5,12 @@ import {
 } from '../../models/evt-models';
 import { xpath } from '../../utils/dom-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
-import { AttributeMapParser, AttributeParser, ElementParser, EmptyParser, TextParser } from './basic-parsers';
+import { AttributeMapParser, AttributeParser, EmptyParser, GenericElemParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
 
 @xmlParser('evt-named-entity-parser', NamedEntityRefParser)
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {
-    elementParser = createParser(ElementParser, this.genericParse);
+    elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): NamedEntityRef | GenericElement {
         const ref = xml.getAttribute('ref');
