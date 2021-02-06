@@ -702,7 +702,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             explicit: queryAndParseElement<Explicit>(xml, 'explicit'),
             finalRubric: queryAndParseElement<FinalRubric>(xml, 'finalRubric'),
             decoNote: queryAndParseElement<DecoNote>(xml, 'decoNote'),
-            filiation: queryAndParseElement<Filiation>(xml, 'filiation'),
+            filiation: queryAndParseElements<Filiation>(xml, 'filiation'),
             locus: queryAndParseElement<Locus>(xml, 'locus'),
             noteEl: queryAndParseElements<Note>(xml, 'note'),
         };
@@ -856,7 +856,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
             ...super.parse(xml),
             type: MsContents,
             summary: queryAndParseElement(xml, 'summary'),
-            msItem: queryAndParseElement(xml, 'msItem'),
+            msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
