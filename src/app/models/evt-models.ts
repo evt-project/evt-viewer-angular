@@ -372,7 +372,7 @@ export class MsIdentifier extends Identifier {
 
 export class MsContents extends GenericElement {
     summary?: Summary;
-    msItem?: MsItem;
+    msItem?: MsItem[];
     msItemStruct?: MsItemStruct;
     pEl?: Paragraph[];
 }
