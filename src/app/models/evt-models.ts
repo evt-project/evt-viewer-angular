@@ -445,7 +445,7 @@ export class MsItemStruct extends GenericElement {
     decoNote?: DecoNote;
     listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    filiation?: Filiation;
+    filiation?: Filiation[];
     noteEl?: Note[];
     textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLan is handled
     locus?: Locus;
