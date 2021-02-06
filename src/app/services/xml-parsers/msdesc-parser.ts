@@ -700,25 +700,14 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             quote: unhandledElement(xml, 'quote', this.genericParse),
             listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
             colophon: unhandledElement(xml, 'colophon', this.genericParse),
-<<<<<<< HEAD
             rubric: queryAndParseElement<Rubric>(xml, 'rubric'),
             incipit: queryAndParseElement<Incipit>(xml, 'incipit'),
             explicit: queryAndParseElement<Explicit>(xml, 'explicit'),
             finalRubric: queryAndParseElement<FinalRubric>(xml, 'finalRubric'),
             decoNote: queryAndParseElement<DecoNote>(xml, 'decoNote'),
-            filiation: queryAndParseElement<Filiation>(xml, 'filiation'),
+            filiation: queryAndParseElements<Filiation>(xml, 'filiation'),
             locus: queryAndParseElement<Locus>(xml, 'locus'),
             noteEl: queryAndParseElements<Note>(xml, 'note'),
-=======
-            rubric: queryAndParseElement<Rubric>(xml, 'rubric', createParser(RubricParser, this.genericParse)),
-            incipit: queryAndParseElement<Incipit>(xml, 'incipit', createParser(IncipitParser, this.genericParse)),
-            explicit: queryAndParseElement<Explicit>(xml, 'explicit', createParser(ExplicitParser, this.genericParse)),
-            finalRubric: queryAndParseElement<FinalRubric>(xml, 'finalRubric', createParser(FinalRubricParser, this.genericParse)),
-            decoNote: queryAndParseElement<DecoNote>(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
-            filiation: queryAndParseElements<Filiation>(xml, 'filiation', createParser(FiliationParser, this.genericParse)),
-            locus: queryAndParseElement<Locus>(xml, 'locus', createParser(LocusParser, this.genericParse)),
-            noteEl: queryAndParseElements<Note>(xml, 'note', createParser(NoteParser, this.genericParse)),
->>>>>>> daae265 (Fix filiation and msItem in msdesc-parser)
         };
     }
 }
@@ -736,6 +725,7 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
             docDate: unhandledElement(xml, 'docDate', this.genericParse),
             locusGrp: queryAndParseElement<LocusGrp>(xml, 'locusGrp'),
             gapEl: queryAndParseElements(xml, 'gap'),
+            msItem: queryAndParseElements(xml, 'msItem'),
         };
     }
 }
