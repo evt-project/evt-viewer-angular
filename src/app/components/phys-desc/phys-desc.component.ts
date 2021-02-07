@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { PhysDescParser } from 'src/app/services/xml-parsers/msdesc-parser';
 import { PhysDesc } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
@@ -9,7 +8,7 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./phys-desc.component.scss'],
 })
 
-@register(PhysDescParser)
+@register(PhysDesc)
 export class PhysDescComponent {
   @Input() data: PhysDesc;
 }
