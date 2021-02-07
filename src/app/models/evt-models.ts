@@ -551,15 +551,16 @@ export class Support extends GenericElement {
 }
 
 export class BindingDesc extends GenericElement {
-    binding?: Binding;
+    binding?: Binding[];
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote;
+    decoNote?: DecoNote[];
+    pEl?: Paragraph[];
 }
 
 export class Binding extends GenericElement {
     contemporary?: boolean;
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote;
+    decoNote?: DecoNote[];
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
