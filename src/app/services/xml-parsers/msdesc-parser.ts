@@ -325,6 +325,7 @@ export class ObjectDescParser extends GenericElemParser implements Parser<XMLEle
             form,
             layoutDesc: queryAndParseElement(xml, 'layoutDesc', createParser(LayoutDescParser, this.genericParse)),
             supportDesc: queryAndParseElement(xml, 'supportDesc', createParser(SupportDescParser, this.genericParse)),
+            pEl: queryAndParseElements(xml, 'p', createParser(ParagraphParser, this.genericParse)),
         };
     }
 }
