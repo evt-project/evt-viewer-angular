@@ -8,11 +8,9 @@
             <span *ngIf="data.origin">Origine:
                 <evt-content-viewer [content]="data.origin"></evt-content-viewer>
             </span>
-            <br/>
             <span *ngIf="data.provenance.length>0">
                 <span *ngFor="let p of data.provenance | keyvalue" >Provenienza:
                     <evt-content-viewer [content]="data.provenance[p.key]"></evt-content-viewer>
-                    <br/>
                 </span>
             </span>
             <span *ngIf="data.acquisition">Acquisizione:
@@ -20,7 +18,11 @@
             </span>
         </span>
         <span #elseBlock>
-           <evt-content-viewer *ngFor="let parag of data.pEl" [content]="parag"></evt-content-viewer>
+            <span *ngIf="data.pEl.length>0">
+                <span *ngFor="let p of data.pEl | keyvalue" >
+                    <evt-content-viewer [content]="data.pEl[p.key]"></evt-content-viewer>
+                </span>
+            </span>
         </span>
     </div>
 </div>
