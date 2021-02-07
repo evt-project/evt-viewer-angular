@@ -386,9 +386,15 @@ export class BindingDescParser extends GenericElemParser implements Parser<XMLEl
             ...super.parse(xml),
             type: BindingDesc,
             condition: unhandledElement(xml, 'condition', this.genericParse),
+<<<<<<< HEAD
             decoNote: queryAndParseElements(xml, 'decoNote'),
             binding: queryAndParseElements(xml, 'binding'),
             pEl: queryAndParseElements(xml, 'p'),
+=======
+            decoNote: queryAndParseElements(xml, 'decoNote', createParser(DecoNoteParser, this.genericParse)),
+            binding: queryAndParseElements(xml, 'binding', createParser(BindingParser, this.genericParse)),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+>>>>>>> 620ac4c (Fix decoNote and binding elements in BindingDesc and Binding parsers)
         };
     }
 }
