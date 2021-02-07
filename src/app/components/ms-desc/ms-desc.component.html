@@ -1,0 +1,14 @@
+<div>
+    <span *ngIf="data.msIdentifier">
+        <evt-content-viewer [content]="data.msIdentifier"></evt-content-viewer>
+    </span>
+    <span *ngIf="data.msContents">
+        <evt-content-viewer [content]="data.msContents"></evt-content-viewer>
+    </span>
+    <span *ngIf="data.physDesc">
+        <evt-content-viewer [content]="data.physDesc"></evt-content-viewer>
+    </span>
+    <span *ngIf="data.history">
+        <evt-content-viewer [content]="data.history"></evt-content-viewer>
+    </span>
+</div>
