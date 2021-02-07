@@ -13,11 +13,11 @@
             </span>
             <br/>
         </span>
-        <span  *ngIf="data.repository">Archivio: 
+        <span *ngIf="data.repository">Archivio: 
             <evt-content-viewer [content]="data.repository"></evt-content-viewer>
             <br/>
         </span>
-        <span  *ngIf="data.institution">Istituzione: 
+        <span *ngIf="data.institution">Istituzione: 
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
             <br/>
         </span>
@@ -37,7 +37,7 @@
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
             <br/>
         </span>
-        <span  *ngIf="data.altIdentifier.length>0">
+        <span *ngIf="data.altIdentifier.length>0">
             <span *ngFor="let a of data.altIdentifier | keyvalue" >Identificatore alternativo:
                 <li *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">Luogo:
                     <evt-content-viewer *ngFor="let s of data.altIdentifier[a.key].settlement" [content]="s"></evt-content-viewer>
