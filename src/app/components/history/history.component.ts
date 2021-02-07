@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { HistoryParser } from 'src/app/services/xml-parsers/msdesc-parser';
 import { History } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 
@@ -9,7 +8,7 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./history.component.scss'],
 })
 
-@register(HistoryParser)
+@register(History)
 export class HistoryComponent {
   @Input() data: History;
 
