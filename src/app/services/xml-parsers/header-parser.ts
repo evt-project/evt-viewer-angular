@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  EditionStmt, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
+  EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
@@ -183,6 +183,28 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       extent: queryAndParseElement<Extent>(xml, 'extent'),
       notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt'),
       seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt'),
+    };
+  }
+}
+
+@xmlParser('encodingDesc', EncodingDescParser)
+export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): EncodingDesc {
+    return {
+      ...super.parse(xml),
+      type: EncodingDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      projectDesc: queryAndParseElements<GenericElement>(xml, 'projectDesc'),
+      samplingDecl: queryAndParseElements<GenericElement>(xml, 'samplingDecl'),
+      editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl'),
+      tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl'),
+      styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl'),
+      refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl'),
+      classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl'),
+      geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl'),
+      unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl'),
+      schemaSpec: queryAndParseElements<GenericElement>(xml, 'schemaSpec'),
+      schemaRef: queryAndParseElements<GenericElement>(xml, 'schemaRef'),
     };
   }
 }
