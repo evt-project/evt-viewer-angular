@@ -2,7 +2,7 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   EditionStmt, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
-  NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -187,6 +187,17 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('projectDesc', ProjectDescParser)
+export class ProjectDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProjectDesc {
+    return {
+      ...super.parse(xml),
+      type: ProjectDesc,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
 @xmlParser('encodingDesc', EncodingDescParser)
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
@@ -194,7 +205,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       ...super.parse(xml),
       type: EncodingDesc,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      projectDesc: queryAndParseElements<GenericElement>(xml, 'projectDesc'),
+      projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc'),
       samplingDecl: queryAndParseElements<GenericElement>(xml, 'samplingDecl'),
       editorialDecl: queryAndParseElements<GenericElement>(xml, 'editorialDecl'),
       tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl'),
