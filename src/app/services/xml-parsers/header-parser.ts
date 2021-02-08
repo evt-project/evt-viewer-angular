@@ -1,6 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
+  Abstract,
   Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
   Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
@@ -444,13 +445,25 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('abstract', AbstractParser)
+export class AbstractParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Abstract {
+    return {
+      ...super.parse(xml),
+      type: Abstract,
+      resp: xml.getAttribute('resp'),
+      lang: xml.getAttribute('xml:lang'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
     return {
       ...super.parse(xml),
       type: ProfileDesc,
-      abstract: queryAndParseElements<GenericElement>(xml, 'abstract'),
+      abstract: queryAndParseElements<Abstract>(xml, 'abstract'),
       calendarDesc: queryAndParseElements<GenericElement>(xml, 'calendarDesc'),
       correspDesc: queryAndParseElements<GenericElement>(xml, 'correspDesc'),
       creation: queryAndParseElements<GenericElement>(xml, 'creation'),

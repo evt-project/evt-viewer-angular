@@ -971,8 +971,13 @@ export class CRefPattern extends GenericElement {
     replacementPattern: string;
 }
 
+export class Abstract extends GenericElement {
+    resp: string;
+    lang: string;
+}
+
 export class ProfileDesc extends GenericElement {
-    abstract: Array<ParseResult<GenericElement>>; // TODO: Add specific type when abstract is handled
+    abstract: Abstract[];
     calendarDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when calendarDesc is handled
     correspDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correspDesc is handled
     creation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when creation is handled
