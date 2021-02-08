@@ -40,6 +40,7 @@ import { IdentifierComponent } from './components/identifier/identifier.componen
 import { LbComponent } from './components/lb/lb.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
 import { MsContentsComponent } from './components/ms-contents/ms-contents.component';
+import { MsFragComponent } from './components/ms-frag/ms-frag.component';
 import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
 import { MsItemComponent } from './components/ms-item/ms-item.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
@@ -138,6 +139,7 @@ export function initializeApp(appConfig: AppConfig) {
     ManuscriptThumbnailsViewerComponent,
     MsContentsComponent,
     MsDescSectionComponent,
+    MsFragComponent,
     MsIdentifierComponent,
     MsItemComponent,
     NamedEntitiesListComponent,
