@@ -5,7 +5,7 @@ import {
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef,
   Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -251,6 +251,18 @@ export class PunctuationParser extends GenericElemParser implements Parser<XMLEl
   }
 }
 
+@xmlParser('quotation', QuotationParser)
+export class QuotationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Quotation {
+    return {
+      ...super.parse(xml),
+      type: Quotation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      marks: xml.getAttribute('marks') as QuotationMarks,
+    };
+  }
+}
+
 @xmlParser('editorialDecl', EditorialDeclParser)
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
@@ -263,7 +275,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation'),
       normalization: queryAndParseElements<Normalization>(xml, 'normalization'),
       punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation'),
-      quotation: queryAndParseElements<GenericElement>(xml, 'quotation'),
+      quotation: queryAndParseElements<Quotation>(xml, 'quotation'),
       segmentation: queryAndParseElements<GenericElement>(xml, 'segmentation'),
       stdVals: queryAndParseElements<GenericElement>(xml, 'stdVals'),
     };

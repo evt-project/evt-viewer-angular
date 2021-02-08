@@ -896,6 +896,12 @@ export class Punctuation extends GenericElement {
     placement?: PunctuationPlacement;
 }
 
+export type QuotationMarks = 'none' | 'some' | 'all';
+export class Quotation extends GenericElement {
+    content: Paragraph[];
+    marks?: QuotationMarks;
+}
+
 export class EditorialDecl extends GenericElement {
     structuredData: boolean;
     correction: Correction[];
@@ -903,7 +909,7 @@ export class EditorialDecl extends GenericElement {
     interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
     normalization: Normalization[];
     punctuation: Punctuation[];
-    quotation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quotation is handled
+    quotation: Quotation[];
     segmentation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when segmentation is handled
     stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
 }
