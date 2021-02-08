@@ -912,6 +912,10 @@ export class Segmentation extends GenericElement {
     content: Paragraph[];
 }
 
+export class StdVals extends GenericElement {
+    content: Paragraph[];
+}
+
 export class EditorialDecl extends GenericElement {
     structuredData: boolean;
     correction: Correction[];
@@ -921,5 +925,5 @@ export class EditorialDecl extends GenericElement {
     punctuation: Punctuation[];
     quotation: Quotation[];
     segmentation: Segmentation[];
-    stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
+    stdVals: StdVals[];
 }
