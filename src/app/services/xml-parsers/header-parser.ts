@@ -1,13 +1,13 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  Abstract, Calendar, CalendarDesc,
+  Abstract, Calendar, CalendarDesc, CatRef, ClassCode,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
-  Interpretation, Language, LangUsage, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
+  Interpretation, Keywords, Language, LangUsage, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -546,6 +546,54 @@ export class LangUsageParser extends GenericElemParser implements Parser<XMLElem
   }
 }
 
+@xmlParser('classCode', ClassCodeParser)
+export class ClassCodeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ClassCode {
+    return {
+      ...super.parse(xml),
+      type: ClassCode,
+      scheme: xml.getAttribute('scheme'),
+    };
+  }
+}
+
+@xmlParser('catRef', CatRefParser)
+export class CatRefParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CatRef {
+    return {
+      ...super.parse(xml),
+      type: CatRef,
+      scheme: xml.getAttribute('scheme'),
+      target: xml.getAttribute('target'),
+    };
+  }
+}
+
+@xmlParser('keywords', KeywordsParser)
+export class KeywordsParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Keywords {
+    return {
+      ...super.parse(xml),
+      type: Keywords,
+      scheme: xml.getAttribute('scheme'),
+      terms: queryAndParseElements<Term>(xml, 'term'),
+    };
+  }
+}
+
+@xmlParser('textClass', TextClassParser)
+export class TextClassParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TextClass {
+    return {
+      ...super.parse(xml),
+      type: TextClass,
+      keywords: queryAndParseElements<Keywords>(xml, 'keywords'),
+      catRef: queryAndParseElements<CatRef>(xml, 'catRef'),
+      classCode: queryAndParseElements<ClassCode>(xml, 'classCode'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -561,7 +609,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),
       particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
       settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
-      textClass: queryAndParseElements<GenericElement>(xml, 'textClass'),
+      textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
       textDesc: queryAndParseElements<GenericElement>(xml, 'textDesc'),
     };
   }

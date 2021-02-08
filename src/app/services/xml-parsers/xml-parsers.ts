@@ -2,19 +2,19 @@ import { Injectable, Type } from '@angular/core';
 import { AppParser, RdgParser } from './app-parser';
 import {
     AdditionParser, DamageParser, DeletionParser, GapParser, LBParser, NoteParser, ParagraphParser, PtrParser, SuppliedParser,
-    VerseParser, VersesGroupParser, WordParser,
+    TermParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AbstractParser, CalendarDescParser, CalendarParser,
+    AbstractParser, CalendarDescParser, CalendarParser, CatRefParser, ClassCodeParser,
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
-    EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser, LanguageParser, LangUsageParser,
+    EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser, KeywordsParser, LanguageParser, LangUsageParser,
     NamespaceParser, NormalizationParser, ProfileDescParser, ProjectDescParser, PunctuationParser, QuotationParser,
     RefsDeclParser, RefStateParser, RenditionParser,
-    SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser,
+    SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser, TextClassParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser,
@@ -57,8 +57,10 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     BindingParser,
     CalendarDescParser,
     CalendarParser,
+    CatRefParser,
     CharParser,
     ChoiceParser,
+    ClassCodeParser,
     CollationParser,
     CollectionParser,
     ConditionParser,
@@ -95,6 +97,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     IncipitParser,
     InstitutionParser,
     InterpretationParser,
+    KeywordsParser,
     LanguageParser,
     LangUsageParser,
     LayoutDescParser,
@@ -155,6 +158,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     SurrogatesParser,
     TagsDeclParser,
     TagUsageParser,
+    TermParser,
+    TextClassParser,
     TypeDescParser,
     TypeNoteParser,
     VerseParser,

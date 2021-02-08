@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -299,6 +299,19 @@ export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             class: xml.tagName.toLowerCase(),
+        };
+    }
+}
+
+@xmlParser('term', TermParser)
+export class TermParser extends GenericElemParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Term {
+        return {
+            ...super.parse(xml),
+            type: Term,
+            id: xml.getAttribute('xml:id'),
+            ref: xml.getAttribute('ref'),
+            rend: xml.getAttribute('rend'),
         };
     }
 }

@@ -1008,6 +1008,32 @@ export class LangUsage extends GenericElement {
     languages: Language[];
 }
 
+export class CatRef extends GenericElement {
+    scheme?: string;
+    target?: string;
+}
+
+export class ClassCode extends GenericElement {
+    scheme?: string;
+}
+
+export class Term extends GenericElement {
+    id?: string;
+    ref?: string;
+    rend?: string;
+}
+
+export class Keywords extends GenericElement {
+    scheme?: string;
+    terms: Term[];
+}
+
+export class TextClass extends GenericElement {
+    catRef: CatRef[];
+    classCode: ClassCode[];
+    keywords: Keywords[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
@@ -1018,6 +1044,6 @@ export class ProfileDesc extends GenericElement {
     listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
     particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
     settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
-    textClass: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textClass is handled
+    textClass: TextClass[];
     textDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textDesc is handled
 }
