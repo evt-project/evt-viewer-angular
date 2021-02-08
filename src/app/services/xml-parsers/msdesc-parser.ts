@@ -971,8 +971,8 @@ export class HeadParser extends GenericElemParser implements Parser<XMLElement> 
             lbEl: queryAndParseElements(xml, 'lb'),
             hi: unhandledElement(xml, 'hi', this.genericParse),
             title: unhandledElement(xml, 'title', this.genericParse),
-            origPlace: queryAndParseElement(xml, 'origPlace', createParser(OrigPlaceParser, this.genericParse)),
-            origDate: queryAndParseElement(xml, 'origDate', createParser(OrigDateParser, this.genericParse)),
+            origPlace: queryAndParseElement(xml, 'origPlace'),
+            origDate: queryAndParseElement(xml, 'origDate'),
         };
     }
 }
@@ -1017,7 +1017,7 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
-            msFrag: queryAndParseElement(xml, 'msFrag'),
+            msFrag: queryAndParseElements(xml, 'msFrag'),
         };
     }
 }
