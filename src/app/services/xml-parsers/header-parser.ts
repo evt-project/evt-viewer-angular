@@ -4,7 +4,7 @@ import {
   Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
   Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
   SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
 } from '../../models/evt-models';
@@ -440,6 +440,27 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl'),
       schemaSpec: queryAndParseElements<GenericElement>(xml, 'schemaSpec'),
       schemaRef: queryAndParseElements<GenericElement>(xml, 'schemaRef'),
+    };
+  }
+}
+
+@xmlParser('profileDesc', ProfileDescParser)
+export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProfileDesc {
+    return {
+      ...super.parse(xml),
+      type: ProfileDesc,
+      abstract: queryAndParseElements<GenericElement>(xml, 'abstract'),
+      calendarDesc: queryAndParseElements<GenericElement>(xml, 'calendarDesc'),
+      correspDesc: queryAndParseElements<GenericElement>(xml, 'correspDesc'),
+      creation: queryAndParseElements<GenericElement>(xml, 'creation'),
+      handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),
+      langUsage: queryAndParseElements<GenericElement>(xml, 'langUsage'),
+      listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),
+      particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
+      settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
+      textClass: queryAndParseElements<GenericElement>(xml, 'textClass'),
+      textDesc: queryAndParseElements<GenericElement>(xml, 'textDesc'),
     };
   }
 }

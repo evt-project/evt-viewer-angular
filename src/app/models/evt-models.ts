@@ -970,3 +970,17 @@ export class CRefPattern extends GenericElement {
     matchPattern: string;
     replacementPattern: string;
 }
+
+export class ProfileDesc extends GenericElement {
+    abstract: Array<ParseResult<GenericElement>>; // TODO: Add specific type when abstract is handled
+    calendarDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when calendarDesc is handled
+    correspDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correspDesc is handled
+    creation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when creation is handled
+    handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
+    langUsage: Array<ParseResult<GenericElement>>; // TODO: Add specific type when langUsage is handled
+    listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
+    particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
+    settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
+    textClass: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textClass is handled
+    textDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textDesc is handled
+}
