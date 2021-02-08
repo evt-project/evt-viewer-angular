@@ -11,4 +11,14 @@
     <span *ngIf="data.history">
         <evt-content-viewer [content]="data.history"></evt-content-viewer>
     </span>
+    <span *ngIf="data.pEl.length>0">
+        <span *ngFor="let p of data.pEl | keyvalue" >
+            <evt-content-viewer [content]="data.pEl[p.key]"></evt-content-viewer>
+        </span>
+    </span> 
+    <span *ngIf="data.msPart.length>0">
+        <span *ngFor="let mp of data.msPart | keyvalue" >
+            <evt-content-viewer [content]="data.msPart[mp.key]"></evt-content-viewer>
+        </span>
+    </span> 
 </div>
