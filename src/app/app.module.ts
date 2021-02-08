@@ -40,6 +40,7 @@ import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thu
 import { MsContentsComponent } from './components/ms-contents/ms-contents.component';
 import { MsDescComponent } from './components/ms-desc/ms-desc.component';
 import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
+import { MsPartComponent } from './components/ms-part/ms-part.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
@@ -131,6 +132,7 @@ export function initializeApp(appConfig: AppConfig) {
     MsContentsComponent,
     MsDescComponent,
     MsIdentifierComponent,
+    MsPartComponent,
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,
