@@ -1,8 +1,8 @@
-<div>   
+<div> 
     <p>Storia del manoscritto</p>
     <div>
         <span *ngIf="data.summary || data.origin || data.provenance || data.acquisition; else elseBlock">
-            <span *ngIf="data.summary">Summary:
+            <span *ngIf="data.summary">
                 <evt-content-viewer [content]="data.summary"></evt-content-viewer>
             </span>
             <span *ngIf="data.origin">Origine:
