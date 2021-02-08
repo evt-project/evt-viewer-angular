@@ -2,7 +2,7 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Correction, CorrectionMethod, CorrectionStatus,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol, MsDesc, NamedEntityRef,
   Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
@@ -263,6 +263,18 @@ export class QuotationParser extends GenericElemParser implements Parser<XMLElem
   }
 }
 
+@xmlParser('hyphenation', HyphenationParser)
+export class HyphenationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Hyphenation {
+    return {
+      ...super.parse(xml),
+      type: Hyphenation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      eol: xml.getAttribute('eol') as HyphenationEol,
+    };
+  }
+}
+
 @xmlParser('editorialDecl', EditorialDeclParser)
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
@@ -271,7 +283,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       type: EditorialDecl,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
       correction: queryAndParseElements<Correction>(xml, 'correction'),
-      hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation'),
+      hyphenation: queryAndParseElements<Hyphenation>(xml, 'hyphenation'),
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation'),
       normalization: queryAndParseElements<Normalization>(xml, 'normalization'),
       punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation'),
