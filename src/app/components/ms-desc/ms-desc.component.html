@@ -1,29 +1,9 @@
 <div>
-    <span *ngIf="data.msIdentifier">
-        <evt-content-viewer [content]="data.msIdentifier"></evt-content-viewer>
-    </span>
-    <span *ngIf="data.msContents">
-        <evt-content-viewer [content]="data.msContents"></evt-content-viewer>
-    </span>
-    <span *ngIf="data.physDesc">
-        <evt-content-viewer [content]="data.physDesc"></evt-content-viewer>
-    </span>
-    <span *ngIf="data.history">
-        <evt-content-viewer [content]="data.history"></evt-content-viewer>
-    </span>
-    <span *ngIf="data.pEl.length>0">
-        <span *ngFor="let p of data.pEl | keyvalue" >
-            <evt-content-viewer [content]="data.pEl[p.key]"></evt-content-viewer>
-        </span>
-    </span> 
-    <span *ngIf="data.msPart.length>0">
-        <span *ngFor="let mp of data.msPart | keyvalue" >
-            <evt-content-viewer [content]="data.msPart[mp.key]"></evt-content-viewer>
-        </span>
-    </span> 
-    <span *ngIf="data.msFrag.length>0">
-        <span *ngFor="let mf of data.msFrag | keyvalue" >
-            <evt-content-viewer [content]="data.msFrag[mf.key]"></evt-content-viewer>
-        </span>
-    </span> 
+    <evt-content-viewer [content]="data?.msIdentifier"></evt-content-viewer>
+    <evt-content-viewer [content]="data?.msContents"></evt-content-viewer>
+    <evt-content-viewer [content]="data?.physDesc"></evt-content-viewer>
+    <evt-content-viewer [content]="data?.history"></evt-content-viewer>
+    <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer> 
+    <evt-content-viewer [content]="mp" *ngFor="let mp of data.msPart"></evt-content-viewer>  
+    <evt-content-viewer [content]="mf" *ngFor="let mf of data.msFrag"></evt-content-viewer>  
 </div>
