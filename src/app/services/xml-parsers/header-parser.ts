@@ -2,7 +2,8 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Correction, CorrectionMethod, CorrectionStatus,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef,
+  Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
@@ -223,6 +224,19 @@ export class CorrectionParser extends GenericElemParser implements Parser<XMLEle
   }
 }
 
+@xmlParser('normalization', NormalizationParser)
+export class NormalizationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Normalization {
+    return {
+      ...super.parse(xml),
+      type: Normalization,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      sources: xml.getAttribute('source')?.split(' ') || [],
+      method: xml.getAttribute('method') as NormalizationMethod || 'silent',
+    };
+  }
+}
+
 @xmlParser('editorialDecl', EditorialDeclParser)
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
@@ -233,7 +247,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       correction: queryAndParseElements<Correction>(xml, 'correction'),
       hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation'),
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation'),
-      normalization: queryAndParseElements<GenericElement>(xml, 'normalization'),
+      normalization: queryAndParseElements<Normalization>(xml, 'normalization'),
       punctuation: queryAndParseElements<GenericElement>(xml, 'punctuation'),
       quotation: queryAndParseElements<GenericElement>(xml, 'quotation'),
       segmentation: queryAndParseElements<GenericElement>(xml, 'segmentation'),
