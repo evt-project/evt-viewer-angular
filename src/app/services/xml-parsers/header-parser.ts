@@ -2,7 +2,7 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Abstract, Calendar, CalendarDesc,
-  Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, CRefPattern,
+  Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
   Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
@@ -512,6 +512,16 @@ export class CorrespDescParser extends GenericParser implements Parser<XMLElemen
   }
 }
 
+@xmlParser('creation', CreationParser)
+export class CreationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Creation {
+    return {
+      ...super.parse(xml),
+      type: Creation,
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -521,7 +531,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       abstract: queryAndParseElements<Abstract>(xml, 'abstract'),
       calendarDesc: queryAndParseElements<CalendarDesc>(xml, 'calendarDesc'),
       correspDesc: queryAndParseElements<CorrespDesc>(xml, 'correspDesc'),
-      creation: queryAndParseElements<GenericElement>(xml, 'creation'),
+      creation: queryAndParseElements<Creation>(xml, 'creation'),
       handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),
       langUsage: queryAndParseElements<GenericElement>(xml, 'langUsage'),
       listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),

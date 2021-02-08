@@ -996,11 +996,13 @@ export class CorrespDesc extends GenericElement {
     content: Array<CorrespAction | CorrespContext | Note | Paragraph>;
 }
 
+export class Creation extends GenericElement { }
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
     correspDesc: CorrespDesc[];
-    creation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when creation is handled
+    creation: Creation[];
     handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
     langUsage: Array<ParseResult<GenericElement>>; // TODO: Add specific type when langUsage is handled
     listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
