@@ -11,7 +11,7 @@ import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AbstractParser, CalendarDescParser, CalendarParser,
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
-    EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
+    EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser, LanguageParser, LangUsageParser,
     NamespaceParser, NormalizationParser, ProfileDescParser, ProjectDescParser, PunctuationParser, QuotationParser,
     RefsDeclParser, RefStateParser, RenditionParser,
     SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser,
@@ -95,6 +95,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     IncipitParser,
     InstitutionParser,
     InterpretationParser,
+    LanguageParser,
+    LangUsageParser,
     LayoutDescParser,
     LayoutParser,
     LBParser,

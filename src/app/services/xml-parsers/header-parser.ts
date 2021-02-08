@@ -4,7 +4,7 @@ import {
   Abstract, Calendar, CalendarDesc,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
-  Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
+  Interpretation, Language, LangUsage, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
   SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
@@ -522,6 +522,30 @@ export class CreationParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('language', LanguageParser)
+export class LanguageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Language {
+    return {
+      ...super.parse(xml),
+      type: Language,
+      ident: xml.getAttribute('ident'),
+      usage: parseInt(xml.getAttribute('usage'), 10) || undefined,
+    };
+  }
+}
+
+@xmlParser('langUsage', LangUsageParser)
+export class LangUsageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): LangUsage {
+    return {
+      ...super.parse(xml),
+      type: LangUsage,
+      structuredData: Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).length > 0,
+      languages: queryAndParseElements<Language>(xml, 'language'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -533,7 +557,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       correspDesc: queryAndParseElements<CorrespDesc>(xml, 'correspDesc'),
       creation: queryAndParseElements<Creation>(xml, 'creation'),
       handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),
-      langUsage: queryAndParseElements<GenericElement>(xml, 'langUsage'),
+      langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
       listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),
       particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
       settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),

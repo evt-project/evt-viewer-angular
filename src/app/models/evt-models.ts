@@ -998,13 +998,23 @@ export class CorrespDesc extends GenericElement {
 
 export class Creation extends GenericElement { }
 
+export class Language extends GenericElement {
+    ident: string;
+    usage?: number;
+}
+
+export class LangUsage extends GenericElement {
+    structuredData: boolean;
+    languages: Language[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
     correspDesc: CorrespDesc[];
     creation: Creation[];
     handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
-    langUsage: Array<ParseResult<GenericElement>>; // TODO: Add specific type when langUsage is handled
+    langUsage: LangUsage[];
     listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
     particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
     settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
