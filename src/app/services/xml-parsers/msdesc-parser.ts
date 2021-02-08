@@ -982,6 +982,7 @@ export class MsFragParser extends GenericElemParser implements Parser<XMLElement
             msContents: queryAndParseElement(xml, 'msContents'),
             msIdentifier: queryAndParseElement(xml, 'msIdentifier'),
             physDesc: queryAndParseElement(xml, 'physDesc'),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p'),
 
         };
     }
@@ -994,7 +995,7 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
         return {
             ...super.parse(xml),
             type: MsPart,
-            msPart: queryAndParseElement(xml, 'msPart'),
+            msPart: queryAndParseElements(xml, 'msPart'),
             head: queryAndParseElement(xml, 'head'),
         };
     }
