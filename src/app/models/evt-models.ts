@@ -857,7 +857,7 @@ export class EncodingDesc extends GenericElement {
     editorialDecl: EditorialDecl[];
     tagsDecl: TagsDecl[];
     styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
-    refsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when refsDecl is handled
+    refsDecl: RefsDecl[];
     classDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when classDecl is handled
     geoDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when geoDecl is handled
     unitDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when unitDecl is handled
@@ -956,4 +956,22 @@ export class Namespace extends GenericElement {
 export class TagsDecl extends GenericElement {
     rendition: Rendition[];
     namespace: Namespace[];
+}
+
+export class RefsDecl extends GenericElement {
+    structuredData: boolean;
+    cRefPattern: CRefPattern[];
+    refState: RefState[];
+}
+
+export class RefState extends GenericElement {
+    ed: string;
+    unit: string;
+    length: number;
+    delim?: string;
+}
+
+export class CRefPattern extends GenericElement {
+    matchPattern: string;
+    replacementPattern: string;
 }

@@ -9,8 +9,9 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
-    NamespaceParser, NormalizationParser, ProjectDescParser, PunctuationParser, QuotationParser, RenditionParser,
+    CorrectionParser, CRefPatternParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
+    NamespaceParser, NormalizationParser, ProjectDescParser, PunctuationParser, QuotationParser,
+    RefsDeclParser, RefStateParser, RenditionParser,
     SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser,
 } from './header-parser';
 import {
@@ -57,6 +58,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     CollectionParser,
     ConditionParser,
     CorrectionParser,
+    CRefPatternParser,
     CustEventParser,
     CustodialHistParser,
     DamageParser,
@@ -119,6 +121,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     QuotationParser,
     RdgParser,
     RecordHistParser,
+    RefsDeclParser,
+    RefStateParser,
     RenditionParser,
     RepositoryParser,
     RubricParser,
