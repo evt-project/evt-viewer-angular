@@ -142,6 +142,7 @@ export function initializeApp(appConfig: AppConfig) {
     MsDescSectionComponent,
     MsFragComponent,
     MsDescComponent,
+    MsFragComponent,
     MsIdentifierComponent,
     MsItemComponent,
     MsPartComponent,
