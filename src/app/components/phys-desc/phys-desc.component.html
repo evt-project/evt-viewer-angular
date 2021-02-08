@@ -1,23 +1,59 @@
 <div>
-    <p>Descrizione fisica</p>
-<div>
-    <span *ngIf="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc.pEl">Descrizione del supporto:
-        <evt-content-viewer [content]="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc"></evt-content-viewer>
-    </span>
-    <br/>
-    <span *ngIf="data.objectDesc.layoutDesc">Impaginazione:
-        <evt-content-viewer [content]="data.objectDesc.layoutDesc"></evt-content-viewer>
-    </span>
-    <br/>
-    <span *ngIf="data.objectDesc.supportDesc.extent.length>0">Grandezza approssimativa del documento elettronico: <br/>
-        <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
-    </span>
-    <br/>
-    <span *ngIf="data.handDesc">Descrizione delle mani:
-        <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>
-    </span>
-    <br/>
-    <span *ngIf="data.decoDesc">Descrizione delle decorazioni:
-        <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>
-    </span>
+    <p>Descrizione fisica:</p>
+    <div>
+        <span *ngIf="data.objectDesc || data.handDesc || data.decoDesc || data.bindingDesc; else elseBlock">
+            <span *ngIf="data.objectDesc">
+                <span *ngIf="data.objectDesc.pEl.length>0">
+                    <span *ngFor="let par of data.objectDesc.pEl | keyvalue" >
+                        <evt-content-viewer [content]="data.objectDesc.pEl[par.key]"></evt-content-viewer>
+                    </span>
+                </span> 
+                <span *ngIf="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc.pEl.length>0">Descrizione del supporto:
+                    <evt-content-viewer [content]="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc"></evt-content-viewer>       
+                </span>
+                <span *ngIf="data.objectDesc.supportDesc.extent.length>0">Grandezza approssimativa del documento elettronico:
+                    <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngIf="data.objectDesc.layoutDesc">Impaginazione:
+                    <evt-content-viewer [content]="data.objectDesc.layoutDesc"></evt-content-viewer>          
+                </span>
+            </span>
+            <span *ngIf="data.handDesc">Descrizione delle mani:
+                <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>
+            </span>
+            <span *ngIf="data.decoDesc">Descrizione delle decorazioni:
+                <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>
+            </span>
+            <span *ngIf="data.bindingDesc">Descrizione della rilegatura:
+                <span *ngIf="data.bindingDesc.decoNote">
+                    <span *ngFor="let decn of data.bindingDesc.decoNote | keyvalue" >
+                        <evt-content-viewer [content]="data.bindingDesc.decoNote[decn.key]"></evt-content-viewer>
+                    </span>
+                </span>      
+                <span *ngFor="let bd of data.bindingDesc.binding | keyvalue">
+                    <span *ngIf="data.bindingDesc.binding[bd.key].pEl">
+                        <span *ngFor="let p of data.bindingDesc.binding[bd.key].pEl | keyvalue" >
+                            <evt-content-viewer [content]="data.bindingDesc.binding[bd.key].pEl[p.key]"></evt-content-viewer>
+                        </span>
+                    </span>
+                    <span *ngIf="data.bindingDesc.binding[bd.key].decoNote">
+                        <span *ngFor="let dn of data.bindingDesc.binding[bd.key].decoNote | keyvalue" >
+                            <evt-content-viewer [content]="data.bindingDesc.binding[bd.key].decoNote[dn.key]"></evt-content-viewer>
+                        </span>
+                    </span>             
+                    <span *ngIf="data.bindingDesc.binding[bd.key].condition.length>0">
+                        <evt-content-viewer *ngFor="let c of data.bindingDesc.binding[bd.key].condition" [content]="c"></evt-content-viewer>
+                    </span>
+                </span>
+            </span>
+        </span>
+        <ng-template #elseBlock>
+            <span *ngIf="data.pEl.length>0">
+                <span *ngFor="let p of data.pEl | keyvalue" >
+                    <evt-content-viewer [content]="data.pEl[p.key]"></evt-content-viewer>
+                </span>
+            </span>  
+        </ng-template>
+    </div>
 </div>
