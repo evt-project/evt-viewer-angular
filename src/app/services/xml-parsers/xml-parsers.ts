@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AbstractParser,
+    AbstractParser, CalendarDescParser, CalendarParser,
     CorrectionParser, CRefPatternParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
     NamespaceParser, NormalizationParser, ProfileDescParser, ProjectDescParser, PunctuationParser, QuotationParser,
     RefsDeclParser, RefStateParser, RenditionParser,
@@ -54,6 +54,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     AppParser,
     BindingDescParser,
     BindingParser,
+    CalendarDescParser,
+    CalendarParser,
     CharParser,
     ChoiceParser,
     CollationParser,

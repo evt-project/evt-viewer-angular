@@ -1,7 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  Abstract,
+  Abstract, Calendar, CalendarDesc,
   Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
   Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
@@ -457,6 +457,29 @@ export class AbstractParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('calendar', CalendarParser)
+export class CalendarParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Calendar {
+    return {
+      ...super.parse(xml),
+      type: Calendar,
+      id: xml.getAttribute('xml:id'),
+      target: xml.getAttribute('target'),
+    };
+  }
+}
+
+@xmlParser('calendarDesc', CalendarDescParser)
+export class CalendarDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CalendarDesc {
+    return {
+      ...super.parse(xml),
+      type: CalendarDesc,
+      calendars: queryAndParseElements<Calendar>(xml, 'calendar'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -464,7 +487,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       ...super.parse(xml),
       type: ProfileDesc,
       abstract: queryAndParseElements<Abstract>(xml, 'abstract'),
-      calendarDesc: queryAndParseElements<GenericElement>(xml, 'calendarDesc'),
+      calendarDesc: queryAndParseElements<CalendarDesc>(xml, 'calendarDesc'),
       correspDesc: queryAndParseElements<GenericElement>(xml, 'correspDesc'),
       creation: queryAndParseElements<GenericElement>(xml, 'creation'),
       handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),

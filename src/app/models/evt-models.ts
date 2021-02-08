@@ -976,9 +976,18 @@ export class Abstract extends GenericElement {
     lang: string;
 }
 
+export class Calendar extends GenericElement {
+    id: string;
+    target: string;
+}
+
+export class CalendarDesc extends GenericElement {
+    calendars: Calendar[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
-    calendarDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when calendarDesc is handled
+    calendarDesc: CalendarDesc[];
     correspDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correspDesc is handled
     creation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when creation is handled
     handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
