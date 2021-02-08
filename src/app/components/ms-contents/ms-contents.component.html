@@ -1,128 +1,94 @@
 <div>
     <p>Contenuto del manoscritto:</p>
     <div>
-        <span *ngIf="data.msItem || data.msItemStruct || data.summary; else elseBlock">
-            <span *ngIf="data.summary">
+        <ng-container *ngIf="data.msItem || data.msItemStruct || data.summary; else elseBlock">
+            <ng-container *ngIf="data.summary">
                 <evt-content-viewer [content]="data.summary"></evt-content-viewer>
                 <br/>
-            </span>
-            <span *ngIf="data.msItem.length>0">
-                <span *ngFor="let m of data.msItem | keyvalue" >
-                    <span *ngIf="data.msItem[m.key].colophon.length>0">
-                        <evt-content-viewer *ngFor="let c of data.msItem[m.key].colophon" [content]="c"></evt-content-viewer>
-                        <br/>
-                        <br/>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].docTitle.length>0">
-                        <span *ngFor="let dt of data.msItem[m.key].docTitle | keyvalue" >Titolo del documento: 
-                            <evt-content-viewer [content]="data.msItem[m.key].docTitle[dt.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].author.length>0">
-                        <span *ngFor="let a of data.msItem[m.key].author | keyvalue" >Autore: 
-                            <evt-content-viewer [content]="data.msItem[m.key].author[a.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].docAuthor.length>0">
-                        <span *ngFor="let da of data.msItem[m.key].docAuthor | keyvalue" >Autore del documento: 
-                            <evt-content-viewer [content]="data.msItem[m.key].docAuthor[da.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].docImprint.length>0">
-                        <span *ngFor="let di of data.msItem[m.key].docImprint | keyvalue" >Sigla editoriale del documento: 
-                            <evt-content-viewer [content]="data.msItem[m.key].docImprint[di.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].docDate.length>0">
-                        <span *ngFor="let dd of data.msItem[m.key].docDate | keyvalue" >Data del documento: 
-                            <evt-content-viewer [content]="data.msItem[m.key].docDate[dd.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].textLang.length>0">Lingua: 
-                        <evt-content-viewer *ngFor="let t of data.msItem[m.key].textLang" [content]="t"></evt-content-viewer>
-                        <br/>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].filiation"> 
-                        <span *ngFor="let f of data.msItem[m.key].filiation | keyvalue" >Filiazione:
-                            <evt-content-viewer [content]="data.msItem[m.key].filiation[f.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                </span>
-                Testi:
+            </ng-container>       
+            <span *ngFor="let m of data.msItem | keyvalue" >  
+                <evt-content-viewer *ngFor="let c of data.msItem[m.key].colophon" [content]="c"></evt-content-viewer>  
                 <br/>
-                <span *ngFor="let m of data.msItem | keyvalue" >   
-                    <span *ngIf="data.msItem[m.key].title.length>0">
-                        <span *ngFor="let t of data.msItem[m.key].title | keyvalue" >
-                            <evt-content-viewer [content]="data.msItem[m.key].title[t.key]"></evt-content-viewer>
-                            <br/>
-                        </span>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].incipit">
-                        <evt-content-viewer [content]="data.msItem[m.key].incipit"></evt-content-viewer>
-                        <br/>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].explicit">
-                        <evt-content-viewer [content]="data.msItem[m.key].explicit"></evt-content-viewer>
-                        <br/>
-                    </span>
-                    <span *ngIf="data.msItem[m.key].locus">
-                        <evt-content-viewer [content]="data.msItem[m.key].locus"></evt-content-viewer>
-                        <br/>
-                    </span>  
-                    <span *ngIf="data.msItem[m.key].bibl.length>0">
-                        <evt-content-viewer *ngFor="let b of data.msItem[m.key].bibl" [content]="b"></evt-content-viewer>
-                    </span>  
-                    <span *ngIf="data.msItem[m.key].noteEl">
-                        <span *ngFor="let n of data.msItem[m.key].noteEl | keyvalue" >
-                            <evt-content-viewer [content]="data.msItem[m.key].noteEl[n.key]"></evt-content-viewer>
-                        </span>
-                        <br/>
-                    </span>                 
-                    <span *ngIf="data.msItem[m.key].msItem.length>0">
-                        <li> 
-                            <span *ngFor="let ms of data.msItem[m.key].msItem | keyvalue" >     
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].title.length>0">
-                                    <span *ngFor="let t of data.msItem[m.key].msItem[ms.key].title | keyvalue" >
-                                        <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].title[t.key]"></evt-content-viewer>
-                                        <br/>
-                                    </span>
-                                </span>
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].incipit">
-                                    <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].incipit"></evt-content-viewer>
-                                    <br/>
-                                </span>
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].explicit">
-                                    <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].explicit"></evt-content-viewer>
-                                    <br/>
-                                </span>
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].locus">
-                                    <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].locus"></evt-content-viewer>
-                                    <br/>
-                                </span> 
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].bibl.length>0">
-                                    <evt-content-viewer *ngFor="let b of data.msItem[m.key].msItem[ms.key].bibl" [content]="b"></evt-content-viewer>
-                                </span>
-                                <span *ngIf="data.msItem[m.key].msItem[ms.key].noteEl.length>0">
-                                    <span *ngFor="let n of data.msItem[m.key].msItem[ms.key].noteEl | keyvalue" >
-                                        <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].noteEl[n.key]"></evt-content-viewer>
-                                    </span>
-                                </span>
-                            </span>
-                        </li>
-                    </span>                   
-                    <br/><br/>
+                <span *ngFor="let dt of data.msItem[m.key].docTitle | keyvalue" >Titolo del documento: 
+                    <evt-content-viewer [content]="data.msItem[m.key].docTitle[dt.key]"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngFor="let a of data.msItem[m.key].author | keyvalue" >Autore: 
+                    <evt-content-viewer [content]="data.msItem[m.key].author[a.key]"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngFor="let da of data.msItem[m.key].docAuthor | keyvalue" >Autore del documento: 
+                    <evt-content-viewer [content]="data.msItem[m.key].docAuthor[da.key]"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngFor="let di of data.msItem[m.key].docImprint | keyvalue" >Sigla editoriale del documento: 
+                    <evt-content-viewer [content]="data.msItem[m.key].docImprint[di.key]"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngFor="let dd of data.msItem[m.key].docDate | keyvalue" >Data del documento: 
+                    <evt-content-viewer [content]="data.msItem[m.key].docDate[dd.key]"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngIf="data.msItem[m.key].textLang.length>0">Lingua: 
+                    <evt-content-viewer *ngFor="let t of data.msItem[m.key].textLang" [content]="t"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngFor="let f of data.msItem[m.key].filiation | keyvalue" >Filiazione:
+                    <evt-content-viewer [content]="data.msItem[m.key].filiation[f.key]"></evt-content-viewer>
+                    <br/>
                 </span>
             </span>
-        </span>
-        <span #elseBlock>
+            Testi:
+            <br/>
+            <span *ngFor="let m of data.msItem | keyvalue" > 
+                <span *ngFor="let t of data.msItem[m.key].title | keyvalue" >
+                    <evt-content-viewer [content]="data.msItem[m.key].title[t.key]"></evt-content-viewer>
+                    <br/>
+                </span> 
+                <ng-container *ngIf="data.msItem[m.key].incipit">
+                    <evt-content-viewer [content]="data.msItem[m.key].incipit"></evt-content-viewer>
+                    <br/>
+                </ng-container>
+                <ng-container *ngIf="data.msItem[m.key].explicit">
+                    <evt-content-viewer [content]="data.msItem[m.key].explicit"></evt-content-viewer>
+                    <br/>
+                </ng-container>
+                <ng-container *ngIf="data.msItem[m.key].locus">
+                    <evt-content-viewer [content]="data.msItem[m.key].locus"></evt-content-viewer>
+                    <br/>
+                </ng-container>
+                <evt-content-viewer *ngFor="let b of data.msItem[m.key].bibl" [content]="b"></evt-content-viewer>
+                <evt-content-viewer *ngFor="let n of data.msItem[m.key].noteEl" [content]="n"></evt-content-viewer>
+                <ng-container *ngIf="data.msItem[m.key].msItem.length>0">
+                    <li> 
+                        <span *ngFor="let ms of data.msItem[m.key].msItem | keyvalue" >      
+                            <span *ngFor="let t of data.msItem[m.key].msItem[ms.key].title | keyvalue" >
+                                <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].title[t.key]"></evt-content-viewer>
+                                <br/>
+                            </span>
+                            <ng-container *ngIf="data.msItem[m.key].msItem[ms.key].incipit">
+                                <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].incipit"></evt-content-viewer>
+                                <br/>
+                            </ng-container>
+                            <ng-container *ngIf="data.msItem[m.key].msItem[ms.key].explicit">
+                                <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].explicit"></evt-content-viewer>
+                                <br/>
+                            </ng-container>
+                            <ng-container *ngIf="data.msItem[m.key].msItem[ms.key].locus">
+                                <evt-content-viewer [content]="data.msItem[m.key].msItem[ms.key].locus"></evt-content-viewer>
+                                <br/>
+                            </ng-container> 
+                            <evt-content-viewer *ngFor="let b of data.msItem[m.key].msItem[ms.key].bibl" [content]="b"></evt-content-viewer>
+                            <evt-content-viewer *ngFor="let n of data.msItem[m.key].msItem[ms.key].noteEl" [content]="n"></evt-content-viewer>                       
+                        </span>
+                    </li>
+                </ng-container>  
+                <br/><br/>                 
+            </span>
+        </ng-container>
+        <ng-container #elseBlock>
             <evt-content-viewer *ngFor="let p of data.pEl" [content]="p"></evt-content-viewer>
-        </span>
+        </ng-container>
     </div>
 </div>
  
