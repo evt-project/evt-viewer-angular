@@ -8,7 +8,7 @@ import { CharParser, GlyphParser, GParser } from './character-declarations-parse
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
-import { EncodingDescParser, ProjectDescParser } from './header-parser';
+import { EncodingDescParser, ProjectDescParser, SamplingDeclParser } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser,
     AltIdentifierParser, BindingDescParser, BindingParser, CollationParser, CollectionParser, ConditionParser,
@@ -109,6 +109,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     RecordHistParser,
     RepositoryParser,
     RubricParser,
+    SamplingDeclParser,
     ScriptDescParser,
     SealDescParser,
     SealParser,
