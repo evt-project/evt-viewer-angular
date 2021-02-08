@@ -855,7 +855,7 @@ export class EncodingDesc extends GenericElement {
     projectDesc: ProjectDesc[];
     samplingDecl: SamplingDecl[];
     editorialDecl: EditorialDecl[];
-    tagsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when tagsDecl is handled
+    tagsDecl: TagsDecl[];
     styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
     refsDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when refsDecl is handled
     classDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when classDecl is handled
@@ -930,4 +930,30 @@ export class EditorialDecl extends GenericElement {
     quotation: Quotation[];
     segmentation: Segmentation[];
     stdVals: StdVals[];
+}
+
+export type RenditionScope = 'first-line' | 'first-letter' | 'before' | 'after';
+export type Scheme = 'css' | 'xslfo' | 'free' | 'other';
+export class Rendition extends GenericElement {
+    id: string;
+    scope?: RenditionScope | string;
+    selector?: string;
+    scheme?: Scheme;
+    schemeVersion?: string;
+}
+
+export class TagUsage extends GenericElement {
+    gi: string;
+    occurs: number;
+    withId?: number;
+}
+
+export class Namespace extends GenericElement {
+    name: string;
+    tagUsage: TagUsage[];
+}
+
+export class TagsDecl extends GenericElement {
+    rendition: Rendition[];
+    namespace: Namespace[];
 }

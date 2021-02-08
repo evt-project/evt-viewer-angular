@@ -9,8 +9,9 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser, NormalizationParser,
-    ProjectDescParser, PunctuationParser, QuotationParser, SamplingDeclParser, SegmentationParser, StdValsParser,
+    CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
+    NamespaceParser, NormalizationParser, ProjectDescParser, PunctuationParser, QuotationParser, RenditionParser,
+    SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser,
@@ -98,6 +99,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     MsPartParser,
     MusicNotationParser,
     NamedEntityRefParser,
+    NamespaceParser,
     NormalizationParser,
     NoteParser,
     ObjectDescParser,
@@ -117,6 +119,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     QuotationParser,
     RdgParser,
     RecordHistParser,
+    RenditionParser,
     RepositoryParser,
     RubricParser,
     SamplingDeclParser,
@@ -134,6 +137,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     SurfaceParser,
     SurplusParser,
     SurrogatesParser,
+    TagsDeclParser,
+    TagUsageParser,
     TypeDescParser,
     TypeNoteParser,
     VerseParser,

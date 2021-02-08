@@ -2,14 +2,15 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Correction, CorrectionMethod, CorrectionStatus,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol, 
-  Interpretation, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
+  Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, Segmentation, SeriesStmt, SourceDesc, StdVals, TitleStmt, XMLElement,
+  Quotation, QuotationMarks, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
-import { createParser, Parser } from './parser-models';
+import { createParser, getID, Parser } from './parser-models';
 
 @xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
@@ -327,6 +328,58 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
   }
 }
 
+@xmlParser('rendition', RenditionParser)
+export class RenditionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Rendition {
+    return {
+      ...super.parse(xml),
+      type: Rendition,
+      id: getID(xml),
+      scope: xml.getAttribute('scope') as RenditionScope || '',
+      selector: xml.getAttribute('selector') || '',
+      scheme: xml.getAttribute('scheme') as Scheme || undefined,
+      schemeVersion: xml.getAttribute('schemeVersion') || '',
+    };
+  }
+}
+
+@xmlParser('tagUsage', TagUsageParser)
+export class TagUsageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagUsage {
+    return {
+      ...super.parse(xml),
+      type: TagUsage,
+      gi: xml.getAttribute('gi'),
+      occurs: parseInt(xml.getAttribute('occurs'), 10) || undefined,
+      withId: parseInt(xml.getAttribute('withId'), 10) || undefined,
+    };
+  }
+}
+
+@xmlParser('namespace', NamespaceParser)
+export class NamespaceParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Namespace {
+    return {
+      ...super.parse(xml),
+      type: Namespace,
+      name: xml.getAttribute('name') || '',
+      tagUsage: queryAndParseElements<TagUsage>(xml, 'tagUsage'),
+    };
+  }
+}
+
+@xmlParser('tagsDecl', TagsDeclParser)
+export class TagsDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagsDecl {
+    return {
+      ...super.parse(xml),
+      type: TagsDecl,
+      rendition: queryAndParseElements<Rendition>(xml, 'rendition'),
+      namespace: queryAndParseElements<Namespace>(xml, 'namespace'),
+    };
+  }
+}
+
 @xmlParser('encodingDesc', EncodingDescParser)
 export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EncodingDesc {
@@ -337,7 +390,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc'),
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl'),
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl'),
-      tagsDecl: queryAndParseElements<GenericElement>(xml, 'tagsDecl'),
+      tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl'),
       styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl'),
       refsDecl: queryAndParseElements<GenericElement>(xml, 'refsDecl'),
       classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl'),
