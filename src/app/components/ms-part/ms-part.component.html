@@ -1,7 +1,6 @@
 <div> 
     <p>Parti del manoscritto:</p>
-    <div>
-        
+    <div>  
             <span *ngIf="data.msIdentifier">
                 <evt-content-viewer [content]="data.msIdentifier"></evt-content-viewer>
             </span>
@@ -28,6 +27,5 @@
             <span *ngIf="data.history">
                 <evt-content-viewer [content]="data.history"></evt-content-viewer>
             </span>
-        
     </div>
 </div>
