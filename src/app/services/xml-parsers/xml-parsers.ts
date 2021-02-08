@@ -10,7 +10,7 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, NormalizationParser,
-    ProjectDescParser, PunctuationParser, QuotationParser, SamplingDeclParser,
+    ProjectDescParser, PunctuationParser, QuotationParser, SamplingDeclParser, SegmentationParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser,
@@ -122,6 +122,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     ScriptDescParser,
     SealDescParser,
     SealParser,
+    SegmentationParser,
     SicParser,
     SourceParser,
     SummaryParser,

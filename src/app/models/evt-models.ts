@@ -908,6 +908,10 @@ export class Hyphenation extends GenericElement {
     eol?: HyphenationEol;
 }
 
+export class Segmentation extends GenericElement {
+    content: Paragraph[];
+}
+
 export class EditorialDecl extends GenericElement {
     structuredData: boolean;
     correction: Correction[];
@@ -916,6 +920,6 @@ export class EditorialDecl extends GenericElement {
     normalization: Normalization[];
     punctuation: Punctuation[];
     quotation: Quotation[];
-    segmentation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when segmentation is handled
+    segmentation: Segmentation[];
     stdVals: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stdVals is handled
 }
