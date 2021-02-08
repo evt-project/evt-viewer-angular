@@ -1,0 +1,33 @@
+<div> 
+    <p>Parti del manoscritto:</p>
+    <div>
+        
+            <span *ngIf="data.msIdentifier">
+                <evt-content-viewer [content]="data.msIdentifier"></evt-content-viewer>
+            </span>
+            <span *ngIf="data.head">
+                <span *ngIf="data.head.title.length>0">Titolo:
+                    <evt-content-viewer *ngFor="let t of data.head.title" [content]="t"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngIf="data.head.origPlace">Luogo di origine:
+                    <evt-content-viewer [content]="data.head.origPlace"></evt-content-viewer>
+                    <br/>
+                </span>
+                <span *ngIf="data.head.origDate">Data di origine:
+                    <evt-content-viewer [content]="data.head.origDate"></evt-content-viewer>
+                    <br/>
+                </span>
+            </span>
+            <span *ngIf="data.msContents">
+                <evt-content-viewer [content]="data.msContents"></evt-content-viewer>
+            </span>
+            <span *ngIf="data.physDesc">
+                <evt-content-viewer [content]="data.physDesc"></evt-content-viewer>
+            </span>
+            <span *ngIf="data.history">
+                <evt-content-viewer [content]="data.history"></evt-content-viewer>
+            </span>
+        
+    </div>
+</div>
