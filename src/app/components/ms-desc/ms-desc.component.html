@@ -21,4 +21,9 @@
             <evt-content-viewer [content]="data.msPart[mp.key]"></evt-content-viewer>
         </span>
     </span> 
+    <span *ngIf="data.msFrag.length>0">
+        <span *ngFor="let mf of data.msFrag | keyvalue" >
+            <evt-content-viewer [content]="data.msFrag[mf.key]"></evt-content-viewer>
+        </span>
+    </span> 
 </div>
