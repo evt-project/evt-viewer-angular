@@ -873,9 +873,17 @@ export class SamplingDecl extends GenericElement {
     content: Paragraph[];
 }
 
+export type CorrectionStatus = 'high' | 'medium' | 'low' | 'unknown';
+export type CorrectionMethod = 'silent' | 'markup';
+export class Correction extends GenericElement {
+    content: Paragraph[];
+    status?: CorrectionStatus;
+    method?: CorrectionMethod;
+}
+
 export class EditorialDecl extends GenericElement {
     structuredData: boolean;
-    correction: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correction is handled
+    correction: Correction[];
     hyphenation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hyphenation is handled
     interpretation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when interpretation is handled
     normalization: Array<ParseResult<GenericElement>>; // TODO: Add specific type when normalization is handled

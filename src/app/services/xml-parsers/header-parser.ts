@@ -1,6 +1,7 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
+  Correction, CorrectionMethod, CorrectionStatus,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Resp, RespStmt, SamplingDecl, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
 } from '../../models/evt-models';
@@ -209,6 +210,19 @@ export class SamplingDeclParser extends GenericElemParser implements Parser<XMLE
   }
 }
 
+@xmlParser('correction', CorrectionParser)
+export class CorrectionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Correction {
+    return {
+      ...super.parse(xml),
+      type: Correction,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      status: xml.getAttribute('status') as CorrectionStatus,
+      method: xml.getAttribute('method') as CorrectionMethod || 'silent',
+    };
+  }
+}
+
 @xmlParser('editorialDecl', EditorialDeclParser)
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
@@ -216,7 +230,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       ...super.parse(xml),
       type: EditorialDecl,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      correction: queryAndParseElements<GenericElement>(xml, 'correction'),
+      correction: queryAndParseElements<Correction>(xml, 'correction'),
       hyphenation: queryAndParseElements<GenericElement>(xml, 'hyphenation'),
       interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation'),
       normalization: queryAndParseElements<GenericElement>(xml, 'normalization'),
