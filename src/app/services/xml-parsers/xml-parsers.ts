@@ -9,7 +9,7 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, NormalizationParser,
+    CorrectionParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser, NormalizationParser,
     ProjectDescParser, PunctuationParser, QuotationParser, SamplingDeclParser, SegmentationParser, StdValsParser,
 } from './header-parser';
 import {
@@ -82,6 +82,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     HyphenationParser,
     IncipitParser,
     InstitutionParser,
+    InterpretationParser,
     LayoutDescParser,
     LayoutParser,
     LBParser,

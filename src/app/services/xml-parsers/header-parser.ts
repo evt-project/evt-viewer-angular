@@ -2,8 +2,8 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Correction, CorrectionMethod, CorrectionStatus,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol, MsDesc, NamedEntityRef,
-  Normalization, NormalizationMethod, Note,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol, 
+  Interpretation, MsDesc, NamedEntityRef, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, Resp, RespStmt, SamplingDecl, Segmentation, SeriesStmt, SourceDesc, StdVals, TitleStmt, XMLElement,
 } from '../../models/evt-models';
@@ -297,6 +297,17 @@ export class StdValsParser extends GenericElemParser implements Parser<XMLElemen
   }
 }
 
+@xmlParser('interpretation', InterpretationParser)
+export class InterpretationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Interpretation {
+    return {
+      ...super.parse(xml),
+      type: Interpretation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
 @xmlParser('editorialDecl', EditorialDeclParser)
 export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): EditorialDecl {
@@ -306,7 +317,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
       correction: queryAndParseElements<Correction>(xml, 'correction'),
       hyphenation: queryAndParseElements<Hyphenation>(xml, 'hyphenation'),
-      interpretation: queryAndParseElements<GenericElement>(xml, 'interpretation'),
+      interpretation: queryAndParseElements<Interpretation>(xml, 'interpretation'),
       normalization: queryAndParseElements<Normalization>(xml, 'normalization'),
       punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation'),
       quotation: queryAndParseElements<Quotation>(xml, 'quotation'),
