@@ -985,10 +985,21 @@ export class CalendarDesc extends GenericElement {
     calendars: Calendar[];
 }
 
+export type CorrespActionType = 'sent' | 'received' | 'transmitted' | 'redirected' | 'forwarded';
+export class CorrespAction extends GenericElement {
+    actionType: CorrespActionType | string;
+}
+
+export class CorrespContext extends GenericElement { }
+
+export class CorrespDesc extends GenericElement {
+    content: Array<CorrespAction | CorrespContext | Note | Paragraph>;
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
-    correspDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when correspDesc is handled
+    correspDesc: CorrespDesc[];
     creation: Array<ParseResult<GenericElement>>; // TODO: Add specific type when creation is handled
     handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
     langUsage: Array<ParseResult<GenericElement>>; // TODO: Add specific type when langUsage is handled

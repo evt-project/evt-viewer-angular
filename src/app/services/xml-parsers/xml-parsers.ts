@@ -10,7 +10,8 @@ import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AbstractParser, CalendarDescParser, CalendarParser,
-    CorrectionParser, CRefPatternParser, EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
+    CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CRefPatternParser,
+    EditorialDeclParser, EncodingDescParser, HyphenationParser, InterpretationParser,
     NamespaceParser, NormalizationParser, ProfileDescParser, ProjectDescParser, PunctuationParser, QuotationParser,
     RefsDeclParser, RefStateParser, RenditionParser,
     SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser,
@@ -62,6 +63,9 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     CollectionParser,
     ConditionParser,
     CorrectionParser,
+    CorrespActionParser,
+    CorrespContextParser,
+    CorrespDescParser,
     CRefPatternParser,
     CustEventParser,
     CustodialHistParser,

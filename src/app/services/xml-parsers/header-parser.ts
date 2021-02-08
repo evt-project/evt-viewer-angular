@@ -2,7 +2,7 @@ import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
   Abstract, Calendar, CalendarDesc,
-  Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
+  Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, CRefPattern,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
   Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
@@ -480,6 +480,38 @@ export class CalendarDescParser extends GenericElemParser implements Parser<XMLE
   }
 }
 
+@xmlParser('correspAction', CorrespActionParser)
+export class CorrespActionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespAction {
+    return {
+      ...super.parse(xml),
+      type: CorrespAction,
+      actionType: xml.getAttribute('type') as CorrespActionType,
+    };
+  }
+}
+
+@xmlParser('correspContext', CorrespContextParser)
+export class CorrespContextParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespContext {
+    return {
+      ...super.parse(xml),
+      type: CorrespContext,
+    };
+  }
+}
+
+@xmlParser('correspDesc', CorrespDescParser)
+export class CorrespDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespDesc {
+    return {
+      ...super.parse(xml),
+      type: CorrespDesc,
+      content: queryAndParseElements<CorrespAction | CorrespContext | Note | Paragraph>(xml, 'correspAction, correspContext, note, p'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -488,7 +520,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       type: ProfileDesc,
       abstract: queryAndParseElements<Abstract>(xml, 'abstract'),
       calendarDesc: queryAndParseElements<CalendarDesc>(xml, 'calendarDesc'),
-      correspDesc: queryAndParseElements<GenericElement>(xml, 'correspDesc'),
+      correspDesc: queryAndParseElements<CorrespDesc>(xml, 'correspDesc'),
       creation: queryAndParseElements<GenericElement>(xml, 'creation'),
       handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),
       langUsage: queryAndParseElements<GenericElement>(xml, 'langUsage'),
