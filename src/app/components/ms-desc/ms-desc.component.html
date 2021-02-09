@@ -3,7 +3,7 @@
     <evt-content-viewer [content]="data?.msContents"></evt-content-viewer>
     <evt-content-viewer [content]="data?.physDesc"></evt-content-viewer>
     <evt-content-viewer [content]="data?.history"></evt-content-viewer>
-    <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer> 
-    <evt-content-viewer [content]="mp" *ngFor="let mp of data.msPart"></evt-content-viewer>  
-    <evt-content-viewer [content]="mf" *ngFor="let mf of data.msFrag"></evt-content-viewer>  
+    <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer> 
+    <evt-content-viewer [content]="mp" *ngFor="let mp of data?.msPart"></evt-content-viewer>  
+    <evt-content-viewer [content]="mf" *ngFor="let mf of data?.msFrag"></evt-content-viewer>  
 </div>
