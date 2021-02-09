@@ -3,9 +3,8 @@ import { xmlParser } from '.';
 import {
     AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
     CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
-    G,
-    HandDesc, Head, Height, History, Identifier, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues, MsContents,
-    MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, Note, ObjectDesc, OrigDate,
+    G, HandDesc, HandNote, Head, Height, History, Identifier, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues,
+    MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, Note, ObjectDesc, OrigDate,
     Origin, OrigPlace, Paragraph, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
     Support, SupportDesc, Surrogates, TypeDesc, TypeNote, Width, XMLElement,
 } from '../../models/evt-models';
@@ -429,7 +428,7 @@ export class HandDescParser extends GenericElemParser implements Parser<XMLEleme
             ...genericElem,
             type: HandDesc,
             hands,
-            handNote: unhandledElement(xml, 'handNote', this.genericParse),
+            handNote: queryAndParseElements<HandNote>(xml, 'handNote'),
         };
     }
 }

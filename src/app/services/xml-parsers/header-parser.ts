@@ -3,7 +3,8 @@ import { xmlParser } from '.';
 import {
   Abstract, Calendar, CalendarDesc, CatRef, ClassCode,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement,
+  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol,
   Interpretation, Keywords, Language, LangUsage, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
   NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
@@ -594,6 +595,34 @@ export class TextClassParser extends GenericElemParser implements Parser<XMLElem
   }
 }
 
+@xmlParser('handNote', HandNoteParser)
+export class HandNoteParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): HandNote {
+    return {
+      ...super.parse(xml),
+      type: HandNote,
+      id: getID(xml),
+      scribe: xml.getAttribute('scribe'),
+      scribeRef: xml.getAttribute('scribeRef'),
+      script: xml.getAttribute('script'),
+      scriptRef: xml.getAttribute('scriptRef'),
+      medium: xml.getAttribute('medium'),
+      scope: xml.getAttribute('scope') as HandNoteScope,
+    };
+  }
+}
+
+@xmlParser('handNotes', HandNotesParser)
+export class HandNotesParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): HandNotes {
+    return {
+      ...super.parse(xml),
+      type: HandNotes,
+      content: queryAndParseElements<HandNote>(xml, 'keywords'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -604,7 +633,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       calendarDesc: queryAndParseElements<CalendarDesc>(xml, 'calendarDesc'),
       correspDesc: queryAndParseElements<CorrespDesc>(xml, 'correspDesc'),
       creation: queryAndParseElements<Creation>(xml, 'creation'),
-      handNotes: queryAndParseElements<GenericElement>(xml, 'handNotes'),
+      handNotes: queryAndParseElements<HandNotes>(xml, 'handNotes'),
       langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
       listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),
       particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),

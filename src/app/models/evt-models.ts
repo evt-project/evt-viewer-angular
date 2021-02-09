@@ -572,7 +572,7 @@ export class Additions extends GenericElement {
 
 export class HandDesc extends GenericElement {
     hands?: string;
-    handNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNote is handled
+    handNote?: HandNote[];
 }
 
 export class ScriptDesc extends GenericElement {
@@ -1034,12 +1034,27 @@ export class TextClass extends GenericElement {
     keywords: Keywords[];
 }
 
+export type HandNoteScope = 'sole' | 'major' | 'minor';
+export class HandNote extends GenericElement {
+    id: string;
+    scribe?: string;
+    scribeRef?: string;
+    script?: string;
+    scriptRef?: string;
+    medium?: string;
+    scope?: HandNoteScope;
+}
+
+export class HandNotes extends GenericElement {
+    content: HandNote[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
     correspDesc: CorrespDesc[];
     creation: Creation[];
-    handNotes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNotes is handled
+    handNotes: HandNotes[];
     langUsage: LangUsage[];
     listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
     particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
