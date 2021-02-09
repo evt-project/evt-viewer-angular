@@ -13,9 +13,10 @@ import {
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
     EditorialDeclParser, EncodingDescParser, HandNoteParser, HandNotesParser, HyphenationParser, InterpretationParser,
     KeywordsParser, LanguageParser, LangUsageParser,
+    ListTransposeParser,
     NamespaceParser, NormalizationParser, ProfileDescParser, ProjectDescParser, PunctuationParser, QuotationParser,
     RefsDeclParser, RefStateParser, RenditionParser,
-    SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser, TextClassParser,
+    SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser, TextClassParser, TransposeParser,
 } from './header-parser';
 import {
     AccMatParser, AcquisitionParser, AdditionalParser, AdditionsParser, AdminInfoParser,
@@ -106,6 +107,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     LayoutDescParser,
     LayoutParser,
     LBParser,
+    ListTransposeParser,
     LocusGrpParser,
     LocusParser,
     MsContentsParser,
@@ -163,6 +165,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     TagUsageParser,
     TermParser,
     TextClassParser,
+    TransposeParser,
     TypeDescParser,
     TypeNoteParser,
     VerseParser,

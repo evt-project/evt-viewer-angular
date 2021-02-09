@@ -3,12 +3,13 @@ import { xmlParser } from '.';
 import {
   Abstract, Calendar, CalendarDesc, CatRef, ClassCode,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
+  Description,
   EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement,
   HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol,
-  Interpretation, Keywords, Language, LangUsage, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, ProfileDesc, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
+  NotesStmt, Paragraph, ProfileDesc, ProjectDesc, Ptr, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
   Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TitleStmt, XMLElement,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -623,6 +624,29 @@ export class HandNotesParser extends GenericElemParser implements Parser<XMLElem
   }
 }
 
+@xmlParser('transpose', TransposeParser)
+export class TransposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Transpose {
+    return {
+      ...super.parse(xml),
+      type: Transpose,
+      content: queryAndParseElements<Ptr>(xml, 'ptr'),
+    };
+  }
+}
+
+@xmlParser('listTranspose', ListTransposeParser)
+export class ListTransposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ListTranspose {
+    return {
+      ...super.parse(xml),
+      type: ListTranspose,
+      description: queryAndParseElements<Description>(xml, 'desc'),
+      transposes: queryAndParseElements<Transpose>(xml, 'transpose'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -635,7 +659,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       creation: queryAndParseElements<Creation>(xml, 'creation'),
       handNotes: queryAndParseElements<HandNotes>(xml, 'handNotes'),
       langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
-      listTranspose: queryAndParseElements<GenericElement>(xml, 'listTranspose'),
+      listTranspose: queryAndParseElements<ListTranspose>(xml, 'listTranspose'),
       particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
       settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
       textClass: queryAndParseElements<TextClass>(xml, 'textClass'),

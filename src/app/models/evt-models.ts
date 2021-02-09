@@ -1049,6 +1049,23 @@ export class HandNotes extends GenericElement {
     content: HandNote[];
 }
 
+export class Ptr extends GenericElement {
+    id?: string;
+    target?: string;
+    cRef?: string;
+    ptrType?: string;
+    rend?: string;
+}
+
+export class Transpose extends GenericElement {
+    content: Ptr[];
+}
+
+export class ListTranspose extends GenericElement {
+    description: Description[];
+    transposes: Transpose[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
@@ -1056,7 +1073,7 @@ export class ProfileDesc extends GenericElement {
     creation: Creation[];
     handNotes: HandNotes[];
     langUsage: LangUsage[];
-    listTranspose: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listTranspose is handled
+    listTranspose: ListTranspose[];
     particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
     settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
     textClass: TextClass[];
