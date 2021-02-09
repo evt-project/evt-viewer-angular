@@ -849,3 +849,124 @@ export class SourceDesc extends GenericElement {
 }
 
 export class Extent extends GenericElement { }
+
+export class EncodingDesc extends GenericElement {
+    structuredData: boolean;
+    projectDesc: ProjectDesc[];
+    samplingDecl: SamplingDecl[];
+    editorialDecl: EditorialDecl[];
+    tagsDecl: TagsDecl[];
+    styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
+    refsDecl: RefsDecl[];
+    classDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when classDecl is handled
+    geoDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when geoDecl is handled
+    unitDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when unitDecl is handled
+    schemaSpec: Array<ParseResult<GenericElement>>; // TODO: Add specific type when schemaSpec is handled
+    schemaRef: Array<ParseResult<GenericElement>>; // TODO: Add specific type when schemaRef is handled
+}
+
+export class ProjectDesc extends GenericElement {
+    content: Paragraph[];
+}
+
+export class SamplingDecl extends GenericElement {
+    content: Paragraph[];
+}
+
+export type CorrectionStatus = 'high' | 'medium' | 'low' | 'unknown';
+export type CorrectionMethod = 'silent' | 'markup';
+export class Correction extends ProjectDesc {
+    status?: CorrectionStatus;
+    method?: CorrectionMethod;
+}
+
+export type NormalizationMethod = 'silent' | 'markup';
+export class Normalization extends ProjectDesc {
+    method: NormalizationMethod;
+    sources: string[];
+}
+
+export type PunctuationMarks = 'none' | 'some' | 'all';
+export type PunctuationPlacement = 'internal' | 'external';
+export class Punctuation extends ProjectDesc {
+    marks?: PunctuationMarks;
+    placement?: PunctuationPlacement;
+}
+
+export type QuotationMarks = 'none' | 'some' | 'all';
+export class Quotation extends ProjectDesc {
+    marks?: QuotationMarks;
+}
+
+export type HyphenationEol = 'all' | 'some' | 'hard' | 'none';
+export class Hyphenation extends ProjectDesc {
+    eol?: HyphenationEol;
+}
+
+export class Segmentation extends GenericElement {
+    content: Paragraph[];
+}
+
+export class StdVals extends GenericElement {
+    content: Paragraph[];
+}
+
+export class Interpretation extends GenericElement {
+    content: Paragraph[];
+}
+
+export class EditorialDecl extends GenericElement {
+    structuredData: boolean;
+    correction: Correction[];
+    hyphenation: Hyphenation[];
+    interpretation: Interpretation[];
+    normalization: Normalization[];
+    punctuation: Punctuation[];
+    quotation: Quotation[];
+    segmentation: Segmentation[];
+    stdVals: StdVals[];
+}
+
+export type RenditionScope = 'first-line' | 'first-letter' | 'before' | 'after';
+export type Scheme = 'css' | 'xslfo' | 'free' | 'other';
+export class Rendition extends GenericElement {
+    id: string;
+    scope?: RenditionScope | string;
+    selector?: string;
+    scheme?: Scheme;
+    schemeVersion?: string;
+}
+
+export class TagUsage extends GenericElement {
+    gi: string;
+    occurs: number;
+    withId?: number;
+}
+
+export class Namespace extends GenericElement {
+    name: string;
+    tagUsage: TagUsage[];
+}
+
+export class TagsDecl extends GenericElement {
+    rendition: Rendition[];
+    namespace: Namespace[];
+}
+
+export class RefsDecl extends GenericElement {
+    structuredData: boolean;
+    cRefPattern: CRefPattern[];
+    refState: RefState[];
+}
+
+export class RefState extends GenericElement {
+    ed: string;
+    unit: string;
+    length: number;
+    delim?: string;
+}
+
+export class CRefPattern extends GenericElement {
+    matchPattern: string;
+    replacementPattern: string;
+}

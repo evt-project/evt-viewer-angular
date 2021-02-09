@@ -1,12 +1,16 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  EditionStmt, Extent, FileDesc, GenericElement, MsDesc, NamedEntityRef, Note,
-  NotesStmt, PublicationStmt, Resp, RespStmt, SeriesStmt, SourceDesc, TitleStmt, XMLElement,
+  Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
+  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
+  Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
+  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
-import { createParser, Parser } from './parser-models';
+import { createParser, getID, Parser } from './parser-models';
 
 @xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
@@ -183,6 +187,259 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
       extent: queryAndParseElement<Extent>(xml, 'extent'),
       notesStmt: queryAndParseElement<NotesStmt>(xml, 'notesStmt'),
       seriesStmt: queryAndParseElement<SeriesStmt>(xml, 'seriesStmt'),
+    };
+  }
+}
+
+@xmlParser('projectDesc', ProjectDescParser)
+export class ProjectDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProjectDesc {
+    return {
+      ...super.parse(xml),
+      type: ProjectDesc,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
+@xmlParser('samplingDecl', SamplingDeclParser)
+export class SamplingDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): SamplingDecl {
+    return {
+      ...super.parse(xml),
+      type: SamplingDecl,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
+@xmlParser('correction', CorrectionParser)
+export class CorrectionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Correction {
+    return {
+      ...super.parse(xml),
+      type: Correction,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      status: xml.getAttribute('status') as CorrectionStatus,
+      method: xml.getAttribute('method') as CorrectionMethod || 'silent',
+    };
+  }
+}
+
+@xmlParser('normalization', NormalizationParser)
+export class NormalizationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Normalization {
+    return {
+      ...super.parse(xml),
+      type: Normalization,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      sources: xml.getAttribute('source')?.split(' ') || [],
+      method: xml.getAttribute('method') as NormalizationMethod || 'silent',
+    };
+  }
+}
+
+@xmlParser('punctuation', PunctuationParser)
+export class PunctuationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Punctuation {
+    return {
+      ...super.parse(xml),
+      type: Punctuation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      marks: xml.getAttribute('marks') as PunctuationMarks,
+      placement: xml.getAttribute('placement') as PunctuationPlacement,
+    };
+  }
+}
+
+@xmlParser('quotation', QuotationParser)
+export class QuotationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Quotation {
+    return {
+      ...super.parse(xml),
+      type: Quotation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      marks: xml.getAttribute('marks') as QuotationMarks,
+    };
+  }
+}
+
+@xmlParser('hyphenation', HyphenationParser)
+export class HyphenationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Hyphenation {
+    return {
+      ...super.parse(xml),
+      type: Hyphenation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+      eol: xml.getAttribute('eol') as HyphenationEol,
+    };
+  }
+}
+
+@xmlParser('segmentation', SegmentationParser)
+export class SegmentationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Segmentation {
+    return {
+      ...super.parse(xml),
+      type: Segmentation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
+@xmlParser('stdVals', StdValsParser)
+export class StdValsParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): StdVals {
+    return {
+      ...super.parse(xml),
+      type: StdVals,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
+@xmlParser('interpretation', InterpretationParser)
+export class InterpretationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Interpretation {
+    return {
+      ...super.parse(xml),
+      type: Interpretation,
+      content: queryAndParseElements<Paragraph>(xml, 'p'),
+    };
+  }
+}
+
+@xmlParser('editorialDecl', EditorialDeclParser)
+export class EditorialDeclParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): EditorialDecl {
+    return {
+      ...super.parse(xml),
+      type: EditorialDecl,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      correction: queryAndParseElements<Correction>(xml, 'correction'),
+      hyphenation: queryAndParseElements<Hyphenation>(xml, 'hyphenation'),
+      interpretation: queryAndParseElements<Interpretation>(xml, 'interpretation'),
+      normalization: queryAndParseElements<Normalization>(xml, 'normalization'),
+      punctuation: queryAndParseElements<Punctuation>(xml, 'punctuation'),
+      quotation: queryAndParseElements<Quotation>(xml, 'quotation'),
+      segmentation: queryAndParseElements<Segmentation>(xml, 'segmentation'),
+      stdVals: queryAndParseElements<StdVals>(xml, 'stdVals'),
+    };
+  }
+}
+
+@xmlParser('rendition', RenditionParser)
+export class RenditionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Rendition {
+    return {
+      ...super.parse(xml),
+      type: Rendition,
+      id: getID(xml),
+      scope: xml.getAttribute('scope') as RenditionScope || '',
+      selector: xml.getAttribute('selector') || '',
+      scheme: xml.getAttribute('scheme') as Scheme || undefined,
+      schemeVersion: xml.getAttribute('schemeVersion') || '',
+    };
+  }
+}
+
+@xmlParser('tagUsage', TagUsageParser)
+export class TagUsageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagUsage {
+    return {
+      ...super.parse(xml),
+      type: TagUsage,
+      gi: xml.getAttribute('gi'),
+      occurs: parseInt(xml.getAttribute('occurs'), 10) || undefined,
+      withId: parseInt(xml.getAttribute('withId'), 10) || undefined,
+    };
+  }
+}
+
+@xmlParser('namespace', NamespaceParser)
+export class NamespaceParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Namespace {
+    return {
+      ...super.parse(xml),
+      type: Namespace,
+      name: xml.getAttribute('name') || '',
+      tagUsage: queryAndParseElements<TagUsage>(xml, 'tagUsage'),
+    };
+  }
+}
+
+@xmlParser('tagsDecl', TagsDeclParser)
+export class TagsDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TagsDecl {
+    return {
+      ...super.parse(xml),
+      type: TagsDecl,
+      rendition: queryAndParseElements<Rendition>(xml, 'rendition'),
+      namespace: queryAndParseElements<Namespace>(xml, 'namespace'),
+    };
+  }
+}
+
+@xmlParser('cRefPattern', CRefPatternParser)
+export class CRefPatternParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CRefPattern {
+    return {
+      ...super.parse(xml),
+      type: CRefPattern,
+      matchPattern: xml.getAttribute('matchPattern'),
+      replacementPattern: xml.getAttribute('replacementPattern'),
+    };
+  }
+}
+
+@xmlParser('refState', RefStateParser)
+export class RefStateParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): RefState {
+    return {
+      ...super.parse(xml),
+      type: RefState,
+      ed: xml.getAttribute('ed'),
+      unit: xml.getAttribute('unit'),
+      length: parseInt(xml.getAttribute('length'), 10) || 0,
+      delim: xml.getAttribute('delim'),
+    };
+  }
+}
+
+@xmlParser('refsDecl', RefsDeclParser)
+export class RefsDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  cRefPatternParser = createParser(CRefPatternParser, this.genericParse);
+  refStateParser = createParser(RefStateParser, this.genericParse);
+
+  parse(xml: XMLElement): RefsDecl {
+    return {
+      ...super.parse(xml),
+      type: RefsDecl,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      cRefPattern: queryAndParseElements<CRefPattern>(xml, 'cRefPattern'),
+      refState: queryAndParseElements<RefState>(xml, 'refState'),
+    };
+  }
+}
+
+@xmlParser('encodingDesc', EncodingDescParser)
+export class EncodingDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): EncodingDesc {
+    return {
+      ...super.parse(xml),
+      type: EncodingDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc'),
+      samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl'),
+      editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl'),
+      tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl'),
+      styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl'),
+      refsDecl: queryAndParseElements<RefsDecl>(xml, 'refsDecl'),
+      classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl'),
+      geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl'),
+      unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl'),
+      schemaSpec: queryAndParseElements<GenericElement>(xml, 'schemaSpec'),
+      schemaRef: queryAndParseElements<GenericElement>(xml, 'schemaRef'),
     };
   }
 }
