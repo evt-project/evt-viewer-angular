@@ -1,20 +1,16 @@
 <div> 
     <p>Storia del manoscritto</p>
-    <div>
-        <ng-container *ngIf="data.summary || data.origin || data.provenance || data.acquisition; else elseBlock">
-            <evt-content-viewer [content]="data?.summary"></evt-content-viewer>
-            <ng-container *ngIf="data.origin">Origine:
-                <evt-content-viewer [content]="data.origin"></evt-content-viewer>
-            </ng-container>
-            <span *ngFor="let p of data.provenance | keyvalue" >Provenienza:
-                <evt-content-viewer [content]="data.provenance[p.key]"></evt-content-viewer>
-            </span>
-            <ng-container *ngIf="data.acquisition">Acquisizione:
-                <evt-content-viewer [content]="data.acquisition"></evt-content-viewer>
-            </ng-container>
+    <div> 
+        <evt-content-viewer [content]="data?.summary"></evt-content-viewer>
+        <ng-container *ngIf="data.origin">Origine:
+            <evt-content-viewer [content]="data.origin"></evt-content-viewer>
         </ng-container>
-        <ng-template #elseBlock>
-            <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
-        </ng-template>
+        <span *ngFor="let p of data.provenance | keyvalue" >Provenienza:
+            <evt-content-viewer [content]="data.provenance[p.key]"></evt-content-viewer>
+        </span>
+        <ng-container *ngIf="data.acquisition">Acquisizione:
+            <evt-content-viewer [content]="data.acquisition"></evt-content-viewer>
+        </ng-container>
+        <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
     </div>
 </div>
