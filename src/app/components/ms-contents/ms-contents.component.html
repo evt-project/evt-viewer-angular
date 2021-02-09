@@ -86,9 +86,9 @@
                 <br/><br/>                 
             </span>
         </ng-container>
-        <ng-container #elseBlock>
+        <ng-template #elseBlock>
             <evt-content-viewer *ngFor="let p of data.pEl" [content]="p"></evt-content-viewer>
-        </ng-container>
+        </ng-template>
     </div>
 </div>
  
