@@ -875,36 +875,31 @@ export class SamplingDecl extends GenericElement {
 
 export type CorrectionStatus = 'high' | 'medium' | 'low' | 'unknown';
 export type CorrectionMethod = 'silent' | 'markup';
-export class Correction extends GenericElement {
-    content: Paragraph[];
+export class Correction extends ProjectDesc {
     status?: CorrectionStatus;
     method?: CorrectionMethod;
 }
 
 export type NormalizationMethod = 'silent' | 'markup';
-export class Normalization extends GenericElement {
-    content: Paragraph[];
+export class Normalization extends ProjectDesc {
     method: NormalizationMethod;
     sources: string[];
 }
 
 export type PunctuationMarks = 'none' | 'some' | 'all';
 export type PunctuationPlacement = 'internal' | 'external';
-export class Punctuation extends GenericElement {
-    content: Paragraph[];
+export class Punctuation extends ProjectDesc {
     marks?: PunctuationMarks;
     placement?: PunctuationPlacement;
 }
 
 export type QuotationMarks = 'none' | 'some' | 'all';
-export class Quotation extends GenericElement {
-    content: Paragraph[];
+export class Quotation extends ProjectDesc {
     marks?: QuotationMarks;
 }
 
 export type HyphenationEol = 'all' | 'some' | 'hard' | 'none';
-export class Hyphenation extends GenericElement {
-    content: Paragraph[];
+export class Hyphenation extends ProjectDesc {
     eol?: HyphenationEol;
 }
 
