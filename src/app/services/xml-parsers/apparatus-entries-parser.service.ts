@@ -34,7 +34,7 @@ export class ApparatusEntriesParserService {
     return signRdgsNumber;
   }
 
-  public getAppVariance(signRdgsNum: { [key: string]: number }, witList: { [key: string]: Witness }) {
+  public getAppVariance(signRdgsNum: { [key: string]: number }, witList: Witness[]) {
     const appsVariance = {};
     if (Object.keys(witList).length > 1) {
       Object.keys(signRdgsNum).forEach((x) => {
