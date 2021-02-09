@@ -13,8 +13,8 @@
                 <evt-content-viewer [content]="data.acquisition"></evt-content-viewer>
             </ng-container>
         </ng-container>
-        <ng-container #elseBlock>
+        <ng-template #elseBlock>
             <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
-        </ng-container>
+        </ng-template>
     </div>
 </div>
