@@ -1066,6 +1066,56 @@ export class ListTranspose extends GenericElement {
     transposes: Transpose[];
 }
 
+export type ChannelMode = 's' | 'w' | 'sw' | 'ws' | 'm' | 'x';
+export class Channel extends GenericElement {
+    mode?: ChannelMode;
+}
+
+export class Constitution extends GenericElement {
+    constitutionType?: string;
+}
+
+export class Derivation extends GenericElement {
+    derivationType?: string;
+}
+
+export class Domain extends GenericElement {
+    domainType?: string;
+}
+
+export class Factuality extends GenericElement {
+    factualityType?: string;
+}
+
+export type ActiveParticipants = 'singular' | 'plural' | 'corporate' | 'unknown';
+export type PassiveParticipants = 'self' | 'single' | 'many' | 'group' | 'world';
+export class Interaction extends GenericElement {
+    interactionType?: string;
+    active?: ActiveParticipants | string;
+    passive?: PassiveParticipants | string;
+}
+
+export class Preparedness extends GenericElement {
+    preparednessType?: string;
+}
+
+export type Degree = 'high' | 'medium' | 'low' | 'unknown';
+export class Purpose extends GenericElement {
+    purposeType?: string;
+    degree?: Degree;
+}
+
+export class TextDesc extends GenericElement {
+    channel: Channel[];
+    constitution: Constitution[];
+    derivation: Derivation[];
+    domain: Domain[];
+    factuality: Factuality[];
+    interaction: Interaction[];
+    preparedness: Preparedness[];
+    purpose: Purpose[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
@@ -1077,5 +1127,5 @@ export class ProfileDesc extends GenericElement {
     particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
     settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
     textClass: TextClass[];
-    textDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textDesc is handled
+    textDesc: TextDesc[];
 }

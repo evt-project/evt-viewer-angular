@@ -1,15 +1,14 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  Abstract, Calendar, CalendarDesc, CatRef, ClassCode,
+  Abstract, Calendar, CalendarDesc, CatRef, Channel, ChannelMode, ClassCode, Constitution,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
-  Description,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement,
-  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol,
+  Degree, Derivation, Description, Domain, EditionStmt, EditorialDecl, EncodingDesc, Extent, Factuality, FileDesc, GenericElement,
+  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol, Interaction,
   Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, ProfileDesc, ProjectDesc, Ptr, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TitleStmt, Transpose, XMLElement,
+  NotesStmt, Paragraph, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -647,6 +646,115 @@ export class ListTransposeParser extends GenericElemParser implements Parser<XML
   }
 }
 
+@xmlParser('channel', ChannelParser)
+export class ChannelParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Channel {
+    return {
+      ...super.parse(xml),
+      type: Channel,
+      mode: xml.getAttribute('mode') as ChannelMode,
+    };
+  }
+}
+
+@xmlParser('constitution', ConstitutionParser)
+export class ConstitutionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Constitution {
+    return {
+      ...super.parse(xml),
+      type: Constitution,
+      constitutionType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('derivation', DerivationParser)
+export class DerivationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Derivation {
+    return {
+      ...super.parse(xml),
+      type: Derivation,
+      derivationType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('domain', DomainParser)
+export class DomainParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Domain {
+    return {
+      ...super.parse(xml),
+      type: Domain,
+      domainType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('factuality', FactualityParser)
+export class FactualityParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Factuality {
+    return {
+      ...super.parse(xml),
+      type: Factuality,
+      factualityType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('interaction', InteractionParser)
+export class InteractionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Interaction {
+    return {
+      ...super.parse(xml),
+      type: Interaction,
+      interactionType: xml.getAttribute('type'),
+      active: xml.getAttribute('type'),
+      passive: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('preparedness', PreparednessParser)
+export class PreparednessParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Preparedness {
+    return {
+      ...super.parse(xml),
+      type: Preparedness,
+      preparednessType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('purpose', PurposeParser)
+export class PurposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Purpose {
+    return {
+      ...super.parse(xml),
+      type: Purpose,
+      purposeType: xml.getAttribute('type'),
+      degree: xml.getAttribute('degree') as Degree,
+    };
+  }
+}
+
+@xmlParser('textDesc', TextDescParser)
+export class TextDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TextDesc {
+    return {
+      ...super.parse(xml),
+      type: TextDesc,
+      channel: queryAndParseElements<Channel>(xml, 'channel'),
+      constitution: queryAndParseElements<Constitution>(xml, 'constitution'),
+      derivation: queryAndParseElements<Derivation>(xml, 'derivation'),
+      domain: queryAndParseElements<Domain>(xml, 'domain'),
+      factuality: queryAndParseElements<Factuality>(xml, 'factuality'),
+      interaction: queryAndParseElements<Interaction>(xml, 'interaction'),
+      preparedness: queryAndParseElements<Preparedness>(xml, 'preparedness'),
+      purpose: queryAndParseElements<Purpose>(xml, 'purpose'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -663,7 +771,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
       settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
       textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
-      textDesc: queryAndParseElements<GenericElement>(xml, 'textDesc'),
+      textDesc: queryAndParseElements<TextDesc>(xml, 'textDesc'),
     };
   }
 }
