@@ -1,13 +1,21 @@
-<div>
-    <p>Additional</p>
+<div class="additional">
+    <p class="projectInfo-sectionSubHeader">Additional</p>
     <div>
-        <ng-container *ngIf="data?.adminInfo">Informazioni amministrative: 
-            <evt-content-viewer [content]="data?.adminInfo"></evt-content-viewer> 
+        <ng-container *ngIf="data?.adminInfo">
+            <span class="projectInfo-inlineLabel">Informazioni amministrative: </span>
+            <evt-content-viewer [content]="ce" *ngFor="let ce of data?.adminInfo?.custodialHist?.custEvent" class="custEvent"></evt-content-viewer>
+            <evt-content-viewer [content]="p" *ngFor="let p of data?.adminInfo?.custodialHist?.pEl"></evt-content-viewer>
+            <evt-content-viewer [content]="data?.adminInfo?.recordHist?.source" class="source"></evt-content-viewer> 
+            <evt-content-viewer [content]="c" *ngFor="let c of data?.adminInfo?.recordHist?.change" class="change"></evt-content-viewer> 
+            <evt-content-viewer [content]="par" *ngFor="let par of data?.adminInfo?.recordHist?.pEl"></evt-content-viewer> 
+            <evt-content-viewer [content]="a" *ngFor="let a of data?.adminInfo?.availability" class="availability"></evt-content-viewer> 
         </ng-container>
-        <ng-container *ngIf="data?.surrogates">Surrogati: 
+        <ng-container *ngIf="data?.surrogates">
+            <span class="projectInfo-inlineLabel">Surrogati: </span>
             <evt-content-viewer [content]="data.surrogates"></evt-content-viewer> 
         </ng-container>
-        <span *ngIf="data?.listBibl.length>0">Lista di citazioni:
+        <span *ngIf="data?.listBibl.length>0">
+            <span class="projectInfo-inlineLabel">Lista di citazioni: </span>
             <evt-content-viewer *ngFor="let lb of data.listBibl" [content]="lb"></evt-content-viewer>
         </span>
     </div>
