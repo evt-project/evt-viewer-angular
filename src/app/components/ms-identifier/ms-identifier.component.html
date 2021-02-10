@@ -1,7 +1,8 @@
-<div>
-    <p>Identificatore del manoscritto:</p>
+<div class="msIdentifier">
+    <p class="projectInfo-sectionSubHeader">Identificatore del manoscritto</p>
     <div>
-        <ng-container *ngIf="data.settlement.length>0 || data.country.length>0 || data.region.length>0">Luogo:
+        <span *ngIf="data.settlement.length>0 || data.country.length>0 || data.region.length>0" class="settlement">
+            <span class="projectInfo-inlineLabel">Luogo: </span>
             <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
             <ng-container *ngIf="data.region.length>0">
                 <ng-container *ngIf="data.settlement.length>0">, </ng-container>
@@ -10,33 +11,33 @@
             <ng-container *ngIf="data.country.length>0">
                 <ng-container *ngIf="data.settlement.length>0 || data.region.length>0">, </ng-container>
                 <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
-            </ng-container>
-            <br/>
-        </ng-container> 
-        <ng-container *ngIf="data.repository">Archivio: 
-            <evt-content-viewer [content]="data?.repository"></evt-content-viewer>
-            <br/>
-        </ng-container>
-        <ng-container *ngIf="data.institution">Istituzione: 
+            </ng-container>   
+        </span> 
+        <span *ngIf="data.repository" class="repository">
+            <span class="projectInfo-inlineLabel">Archivio: </span>
+            <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
+        </span>
+        <span *ngIf="data.institution" class="institution">
+            <span class="projectInfo-inlineLabel">Istituzione: </span>
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
-            <br/>
-        </ng-container>
-        <span *ngFor="let c of data.collection | keyvalue" >Raccolta:
+        </span>
+        <span *ngFor="let c of data.collection | keyvalue" class="collection">
+            <span class="projectInfo-inlineLabel">Raccolta: </span>
             <evt-content-viewer [content]="data.collection[c.key]"></evt-content-viewer>
-            <br/>
         </span>
-        <span *ngFor="let m of data.msName | keyvalue" >Nome del manoscritto:
+        <span *ngFor="let m of data.msName | keyvalue" class="msName">
+            <span class="projectInfo-inlineLabel">Nome del manoscritto: </span>
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
-            <br/>
         </span>
-        <ng-container *ngIf="data.idno.length>0">IDNO: 
+        <span *ngIf="data.idno.length>0" class="idno">
+            <span class="projectInfo-inlineLabel">IDNO: </span>
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
-            <br/>
-        </ng-container>
-        <span *ngFor="let a of data.altIdentifier | keyvalue" >Identificatore alternativo:
+        </span>
+        <span *ngFor="let a of data.altIdentifier | keyvalue">
+            <span class="projectInfo-inlineLabel">Identificatore alternativo: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
                 <li>
-                    Luogo:
+                    <span class="projectInfo-inlineLabel">Luogo: </span>
                     <evt-content-viewer *ngFor="let s of data.altIdentifier[a.key].settlement" [content]="s"></evt-content-viewer>
                     <span *ngIf="data.altIdentifier[a.key].region.length>0">
                         <span *ngIf="data.altIdentifier[a.key].settlement.length>0">, </span>
@@ -46,13 +47,13 @@
             </ng-container>
             <ng-container *ngIf="data.altIdentifier[a.key].repository">
                 <li>
-                    Archivio:
+                    <span class="projectInfo-inlineLabel">Archivio: </span>
                     <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
                 </li> 
             </ng-container>
             <ng-container *ngIf="data.altIdentifier[a.key].idno.length>0">
                 <li>
-                    IDNO:
+                    <span class="projectInfo-inlineLabel">IDNO: </span>
                     <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
                     <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
                 </li>
