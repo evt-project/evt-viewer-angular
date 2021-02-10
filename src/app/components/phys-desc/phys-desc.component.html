@@ -1,32 +1,39 @@
-<div>
-    <p>Descrizione fisica:</p>
+<div class="physDesc">
+    <p class="projectInfo-sectionSubHeader">Descrizione fisica</p>
     <div>
         <ng-container *ngIf="data.structuredData; else elseBlock">
             <ng-container *ngIf="data.objectDesc">
                 <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl"></evt-content-viewer>  
-                <ng-container *ngIf="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc?.pEl.length>0">Descrizione del supporto:
+                <ng-container *ngIf="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc?.pEl.length>0">
+                    <span class="projectInfo-blockLabel">Descrizione del supporto</span>
                     <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc"></evt-content-viewer>       
                 </ng-container>
-                <ng-container *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">Grandezza approssimativa del documento elettronico:
+                <ng-container *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">
+                    <span class="projectInfo-sectionSubHeader">Grandezza approssimativa del documento elettronico</span>
                     <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
-                    <br/>
                 </ng-container> 
-                <ng-container *ngIf="data.objectDesc.layoutDesc">Impaginazione:
+                <ng-container *ngIf="data.objectDesc.layoutDesc" class="layoutDesc">
                     <evt-content-viewer [content]="data.objectDesc.layoutDesc"></evt-content-viewer>          
                 </ng-container>
             </ng-container>
-            <ng-container *ngIf="data.handDesc">Descrizione delle mani:
-                <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>
-            </ng-container>
-            <ng-container *ngIf="data.decoDesc">Descrizione delle decorazioni:
-                <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>
-            </ng-container>
+            <div class="handDesc">
+                <ng-container *ngIf="data.handDesc">
+                    <span class="projectInfo-blockLabel">Descrizione delle mani</span>
+                    <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>
+                </ng-container>
+            </div>
+            <div class="decoDesc">
+                <ng-container *ngIf="data.decoDesc">
+                    <span class="projectInfo-blockLabel">Descrizione delle decorazioni</span>
+                    <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>
+                </ng-container>
+            </div>
             <ng-container *ngIf="data.bindingDesc">Descrizione della rilegatura:
                 <evt-content-viewer [content]="decn" *ngFor="let decn of data.bindingDesc.decoNote"></evt-content-viewer>   
                 <span *ngFor="let bd of data.bindingDesc.binding | keyvalue">
                     <evt-content-viewer [content]="p" *ngFor="let p of data.bindingDesc.binding[bd.key].pEl"></evt-content-viewer>  
-                    <evt-content-viewer [content]="dn" *ngFor="let dn of data.bindingDesc.binding[bd.key].decoNote"></evt-content-viewer> 
-                    <evt-content-viewer [content]="c" *ngFor="let c of data.bindingDesc.binding[bd.key].condition"></evt-content-viewer>
+                    <evt-content-viewer [content]="dn" *ngFor="let dn of data.bindingDesc.binding[bd.key].decoNote" class="decoNote"></evt-content-viewer> 
+                    <evt-content-viewer [content]="c" *ngFor="let c of data.bindingDesc.binding[bd.key].condition" class="condition"></evt-content-viewer>
                 </span>
             </ng-container>
         </ng-container>
