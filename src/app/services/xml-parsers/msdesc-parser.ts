@@ -759,7 +759,7 @@ export class CustodialHistParser extends GenericElemParser implements Parser<XML
             ...super.parse(xml),
             type: CustodialHist,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
-            custEvent: queryAndParseElement(xml, 'custEvent'),
+            custEvent: queryAndParseElements(xml, 'custEvent'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
