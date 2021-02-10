@@ -1,1 +1,14 @@
-<p>additional works!</p>
+<div>
+    <p>Additional</p>
+    <div>
+        <ng-container *ngIf="data?.adminInfo">Informazioni amministrative: 
+            <evt-content-viewer [content]="data?.adminInfo"></evt-content-viewer> 
+        </ng-container>
+        <ng-container *ngIf="data?.surrogates">Surrogati: 
+            <evt-content-viewer [content]="data.surrogates"></evt-content-viewer> 
+        </ng-container>
+        <span *ngIf="data?.listBibl.length>0">Lista di citazioni:
+            <evt-content-viewer *ngFor="let lb of data.listBibl" [content]="lb"></evt-content-viewer>
+        </span>
+    </div>
+</div>
