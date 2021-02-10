@@ -372,10 +372,12 @@ export class MsIdentifier extends Identifier {
 }
 
 export class MsContents extends GenericElement {
+    structuredData: boolean;
     summary?: Summary;
     msItem?: MsItem[];
     msItemStruct?: MsItemStruct;
     pEl?: Paragraph[];
+    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
 }
 
 export class PhysDesc extends GenericElement {
@@ -451,7 +453,7 @@ export class MsItemStruct extends GenericElement {
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
     filiation?: Filiation[];
     noteEl?: Note[];
-    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLan is handled
+    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
     locus?: Locus;
 }
 

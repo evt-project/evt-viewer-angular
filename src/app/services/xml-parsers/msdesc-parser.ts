@@ -809,10 +809,12 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: MsContents,
+            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             summary: queryAndParseElement(xml, 'summary', createParser(SummaryParser, this.genericParse)),
             msItem: queryAndParseElements<MsItem>(xml, 'msItem', createParser(MsItemParser, this.genericParse)),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct', createParser(MsItemStructParser, this.genericParse)),
             pEl: queryAndParseElements<Paragraph>(xml, 'p', createParser(ParagraphParser, this.genericParse)),
+            textLang: unhandledElement(xml, 'textLang', this.genericParse),
         };
     }
 }
