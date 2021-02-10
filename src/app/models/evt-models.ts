@@ -372,11 +372,20 @@ export class MsIdentifier extends Identifier {
 }
 
 export class MsContents extends GenericElement {
+<<<<<<< HEAD
     summary: Summary;
     msItem: MsItem[];
     msItemStruct: MsItemStruct;
     pEl: Paragraph[];
     textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+=======
+    structuredData: boolean;
+    summary?: Summary;
+    msItem?: MsItem[];
+    msItemStruct?: MsItemStruct;
+    pEl?: Paragraph[];
+    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+>>>>>>> 9125972 (Add structuredData and textLang in msContents parser)
 }
 
 export class PhysDesc extends GenericElement {
