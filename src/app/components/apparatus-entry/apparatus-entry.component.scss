@@ -1,0 +1,26 @@
+@import '../../../assets/scss/themes';
+
+.app-entry {
+    &.app-box-opened {
+        .app-entry-lem {
+            position: relative;
+            z-index: 1;
+            @include themify($themes) {
+                border: 1px solid themed('baseBorder');
+                border-bottom: 0;
+            }
+            padding-bottom: 5px;
+            
+        }
+    }
+}
+
+.app-entry-lem {
+    // TODO: Change background color when variance is handled
+    @include themify($themes) {
+        background-color: themed('appEntryBoxBackground');
+    }
+    display: inline-block;
+    line-height: 1;
+    cursor: pointer;
+}
