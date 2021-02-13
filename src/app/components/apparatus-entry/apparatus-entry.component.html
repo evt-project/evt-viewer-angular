@@ -1,3 +1,4 @@
-<span class="evt-app-entry" [attr.data-variance]="variance$ | async">
-   <evt-content-viewer *ngIf="data.lemma" [content]="data.lemma" [editionLevel]="editionLevel"></evt-content-viewer>
+<span class="app-entry" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-box-opened': boxOpened }">
+   <evt-content-viewer class="app-entry-lem" *ngIf="data.lemma" [content]="data.lemma" [editionLevel]="editionLevel" (click)="toggleAppEntryBox($event)"></evt-content-viewer>
+   <evt-apparatus-entry-box *ngIf="boxOpened" [data]="data"></evt-apparatus-entry-box>
 </span>

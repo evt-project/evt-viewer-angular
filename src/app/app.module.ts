@@ -22,6 +22,7 @@ import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
+import { ApparatusEntryBoxComponent } from './components/apparatus-entry-box/apparatus-entry-box.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
@@ -104,6 +105,7 @@ export function initializeApp(appConfig: AppConfig) {
   declarations: [
     AdditionComponent,
     AnnotatorDirective,
+    ApparatusEntryBoxComponent,
     ApparatusEntryComponent,
     AppComponent,
     CharComponent,

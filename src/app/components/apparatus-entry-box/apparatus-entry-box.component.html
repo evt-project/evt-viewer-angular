@@ -1,0 +1,18 @@
+<div class="card app-box-container">
+    <div class="card-body app-box-content">
+        <evt-content-viewer *ngIf="data.lemma" [content]="data.lemma"></evt-content-viewer>
+        <ng-container *ngIf="data.lemma.content.length > 0">
+            <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
+        </ng-container>
+        <span>] </span>
+
+        <ng-container *ngFor="let el of significantRdg">
+            <evt-content-viewer *ngIf="el.content.length !== 0" [content]="el"></evt-content-viewer>
+            <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
+            <!-- TODO: handle lacunastart and lacunaend -->
+            <ng-container *ngFor="let witID of el.witIDs">
+                <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

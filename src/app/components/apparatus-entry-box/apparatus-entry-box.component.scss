@@ -1,0 +1,14 @@
+@import '../../../assets/scss/themes';
+
+.app-box-container {
+    top: -1px;
+    z-index: 0;
+    border-radius: 0;
+    @include themify($themes) {
+        background-color: themed('appEntryBoxBackground');
+    }
+}
+
+.app-box-content {
+    padding: 5px;
+}

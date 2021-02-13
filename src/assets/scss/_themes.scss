@@ -2,6 +2,7 @@ $themes: (
     neutral: (
         baseColorDark: #000,
         baseColorLight: #fff,
+        baseBorder: rgba(0, 0, 0, 0.125),
         secondaryColorDark: #555,
         secondaryColorLight: #fff,
         panelBackgroundColor: #fff,
@@ -10,11 +11,13 @@ $themes: (
         toolsBackground: #fff,
         toolsBackgroundDarker: #ccc,
         toolsColor: #000,
-        toolsColorActive: #ffdd00
-    ),    
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f5f5f5,
+    ),
     modern: (
         baseColorDark: #263238,
         baseColorLight: #ECEFF1,
+        baseBorder: rgba(0, 0, 0, 0.125),
         secondaryColorDark: #607d8b,
         secondaryColorLight: #ECEFF1,
         panelBackgroundColor: #fff,
@@ -23,11 +26,13 @@ $themes: (
         toolsBackground: #ECEFF1,
         toolsColor: #263238,
         toolsBackgroundDarker: #b0bec5,
-        toolsColorActive: #ffdd00
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f1f4f5,
     ),
     classic: (
         baseColorDark: rgb(54, 45, 40),
         baseColorLight: rgb(245, 234, 212),
+        baseBorder: rgba(0, 0, 0, 0.125),
         secondaryColorDark: rgb(143, 119, 106),
         secondaryColorLight: rgb(245, 234, 212),
         panelBackgroundColor: #fff,
@@ -36,7 +41,8 @@ $themes: (
         toolsBackground: #f5ead4,
         toolsColor: rgb(54, 45, 40),
         toolsBackgroundDarker: #ccc4ba,
-        toolsColorActive: #ffdd00
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f9f7f5,
     ),
 );
 
