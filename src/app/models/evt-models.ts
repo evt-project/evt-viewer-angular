@@ -1121,6 +1121,21 @@ export class ParticDesc extends GenericElement {
     participants: NamedEntitiesList[];
 }
 
+export class Setting extends GenericElement {
+    who?: string;
+    name: GenericElement[]; // TODO: Add specific type when name is handled
+    date: GenericElement[]; // TODO: Add specific type when date is handled
+    time: GenericElement[]; // TODO: Add specific type when time is handled
+    locale: GenericElement[]; // TODO: Add specific type when locale is handled
+    activity: GenericElement[]; // TODO: Add specific type when activity is handled
+}
+
+export class SettingDesc extends GenericElement {
+    structuredData: boolean;
+    settings: Setting[];
+    places: NamedEntitiesList[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
@@ -1130,7 +1145,7 @@ export class ProfileDesc extends GenericElement {
     langUsage: LangUsage[];
     listTranspose: ListTranspose[];
     particDesc: ParticDesc[];
-    settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
+    settingDesc: SettingDesc[];
     textClass: TextClass[];
     textDesc: TextDesc[];
 }

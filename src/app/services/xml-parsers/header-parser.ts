@@ -9,7 +9,7 @@ import {
   NormalizationMethod, Note, NotesStmt, Paragraph, ParticDesc, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt,
   Punctuation, PunctuationMarks, PunctuationPlacement,
   Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
+  SeriesStmt, Setting, SettingDesc, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -768,6 +768,40 @@ export class ParticDescParser extends GenericElemParser implements Parser<XMLEle
   }
 }
 
+@xmlParser('setting', SettingParser)
+export class SettingParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Setting {
+    const names = queryAndParseElements<GenericElement>(xml, 'name');
+    const orgNames = queryAndParseElements<GenericElement>(xml, 'orgName');
+    const persNames = queryAndParseElements<GenericElement>(xml, 'persName');
+    const placeNames = queryAndParseElements<GenericElement>(xml, 'placeName');
+
+    return {
+      ...super.parse(xml),
+      type: Setting,
+      who: xml.getAttribute('who'),
+      name: names.concat(orgNames).concat(persNames).concat(placeNames),
+      date: queryAndParseElements(xml, 'date'),
+      time: queryAndParseElements(xml, 'time'),
+      locale: queryAndParseElements(xml, 'locale'),
+      activity: queryAndParseElements(xml, 'activity'),
+    };
+  }
+}
+
+@xmlParser('settingDesc', SettingDescParser)
+export class SettingDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): SettingDesc {
+    return {
+      ...super.parse(xml),
+      type: SettingDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      settings: queryAndParseElements<Setting>(xml, 'setting'),
+      places: queryAndParseElements<NamedEntitiesList>(xml, 'listPlace'),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -782,7 +816,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
       listTranspose: queryAndParseElements<ListTranspose>(xml, 'listTranspose'),
       particDesc: queryAndParseElements<ParticDesc>(xml, 'particDesc'),
-      settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
+      settingDesc: queryAndParseElements<SettingDesc>(xml, 'settingDesc'),
       textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
       textDesc: queryAndParseElements<TextDesc>(xml, 'textDesc'),
     };
