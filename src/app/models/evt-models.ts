@@ -1116,6 +1116,11 @@ export class TextDesc extends GenericElement {
     purpose: Purpose[];
 }
 
+export class ParticDesc extends GenericElement {
+    structuredData: boolean;
+    participants: NamedEntitiesList[];
+}
+
 export class ProfileDesc extends GenericElement {
     abstract: Abstract[];
     calendarDesc: CalendarDesc[];
@@ -1124,7 +1129,7 @@ export class ProfileDesc extends GenericElement {
     handNotes: HandNotes[];
     langUsage: LangUsage[];
     listTranspose: ListTranspose[];
-    particDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when particDesc is handled
+    particDesc: ParticDesc[];
     settingDesc: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settingDesc is handled
     textClass: TextClass[];
     textDesc: TextDesc[];

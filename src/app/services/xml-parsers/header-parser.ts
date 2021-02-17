@@ -5,8 +5,9 @@ import {
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
   Degree, Derivation, Description, Domain, EditionStmt, EditorialDecl, EncodingDesc, Extent, Factuality, FileDesc, GenericElement,
   HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol, Interaction,
-  Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
+  Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntitiesList, NamedEntityRef, Namespace, Normalization,
+  NormalizationMethod, Note, NotesStmt, Paragraph, ParticDesc, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt,
+  Punctuation, PunctuationMarks, PunctuationPlacement,
   Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
   SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
@@ -755,6 +756,18 @@ export class TextDescParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('particDesc', ParticDescParser)
+export class ParticDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ParticDesc {
+    return {
+      ...super.parse(xml),
+      type: ParticDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      participants: queryAndParseElements<NamedEntitiesList>(xml, 'listPerson').concat(queryAndParseElements<NamedEntitiesList>(xml, 'listOrg')),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -768,7 +781,7 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       handNotes: queryAndParseElements<HandNotes>(xml, 'handNotes'),
       langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
       listTranspose: queryAndParseElements<ListTranspose>(xml, 'listTranspose'),
-      particDesc: queryAndParseElements<GenericElement>(xml, 'particDesc'),
+      particDesc: queryAndParseElements<ParticDesc>(xml, 'particDesc'),
       settingDesc: queryAndParseElements<GenericElement>(xml, 'settingDesc'),
       textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
       textDesc: queryAndParseElements<TextDesc>(xml, 'textDesc'),

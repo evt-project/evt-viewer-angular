@@ -13,8 +13,8 @@ import {
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
     DerivationParser, DomainParser, EditorialDeclParser, EncodingDescParser, FactualityParser,
     HandNoteParser, HandNotesParser, HyphenationParser, InteractionParser, InterpretationParser, KeywordsParser,
-    LanguageParser, LangUsageParser, ListTransposeParser,
-    NamespaceParser, NormalizationParser, PreparednessParser, ProfileDescParser, ProjectDescParser, PunctuationParser, PurposeParser,
+    LanguageParser, LangUsageParser, ListTransposeParser, NamespaceParser, NormalizationParser,
+    ParticDescParser, PreparednessParser, ProfileDescParser, ProjectDescParser, PunctuationParser, PurposeParser,
     QuotationParser, RefsDeclParser, RefStateParser, RenditionParser,
     SamplingDeclParser, SegmentationParser, StdValsParser, TagsDeclParser, TagUsageParser, TextClassParser, TextDescParser, TransposeParser,
 } from './header-parser';
@@ -135,6 +135,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     OriginParser,
     OrigPlaceParser,
     ParagraphParser,
+    ParticDescParser,
     PersonGroupParser,
     PersonParser,
     PhysDescParser,
