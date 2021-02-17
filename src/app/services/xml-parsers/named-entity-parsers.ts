@@ -1,12 +1,90 @@
-import { xmlParser } from '.';
+import { AppConfig } from 'src/app/app.config';
+import { ParserRegister, xmlParser } from '.';
 import {
-    GenericElement, NamedEntity, NamedEntityInfo, NamedEntityLabel,
+    GenericElement, NamedEntitiesList, NamedEntity, NamedEntityInfo, NamedEntityLabel,
     NamedEntityRef, NamedEntityType, Relation, XMLElement,
 } from '../../models/evt-models';
 import { xpath } from '../../utils/dom-utils';
 import { replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, AttributeParser, EmptyParser, GenericElemParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
+
+export const namedEntitiesListsTagNamesMap: { [key: string]: string } = {
+    persons: 'listPerson',
+    places: 'listPlace',
+    organizations: 'listOrg',
+    events: 'listEvent',
+    occurrences: 'persName[ref], placeName[ref], orgName[ref], geogName[ref], event[ref]',
+};
+
+export function getListType(tagName): NamedEntityType {
+    return tagName.replace('list', '').toLowerCase();
+}
+
+export function getListsToParseTagNames() {
+    const neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
+
+    return Object.keys(neListsConfig)
+        .map((i) => neListsConfig[i].enabled ? namedEntitiesListsTagNamesMap[i] : undefined)
+        .filter(ne => !!ne);
+}
+
+@xmlParser('evt-named-entities-list-parser', NamedEntitiesListParser)
+export class NamedEntitiesListParser extends EmptyParser implements Parser<XMLElement> {
+    private neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    parse(xml: XMLElement): NamedEntitiesList {
+        const parsedList: NamedEntitiesList = {
+            type: NamedEntitiesList,
+            id: xml.getAttribute('xml:id') || xpath(xml),
+            label: '',
+            namedEntityType: getListType(xml.tagName),
+            content: [],
+            sublists: [],
+            originalEncoding: xml,
+            relations: [],
+            description: [],
+            attributes: this.attributeParser.parse(xml),
+        };
+
+        const relationParse = createParser(RelationParser, this.genericParse);
+        xml.childNodes.forEach((child: XMLElement) => {
+            if (child.nodeType === 1) {
+                switch (child.tagName.toLowerCase()) {
+                    case 'head':
+                        parsedList.label = replaceNewLines(child.textContent);
+                        break;
+                    case 'desc':
+                        parsedList.description.push(this.genericParse(child));
+                        break;
+                    case 'relation':
+                        if (this.neListsConfig.relations.enabled) {
+                            parsedList.relations.push(relationParse.parse(child));
+                        }
+                        break;
+                    case 'listrelation':
+                        if (this.neListsConfig.relations.enabled) {
+                            child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(relationParse.parse(r)));
+                        }
+                        break;
+                    default:
+                        if (getListsToParseTagNames().indexOf(child.tagName) >= 0) {
+                            const subListParser = ParserRegister.get('evt-named-entities-list-parser');
+                            const parsedSubList = subListParser.parse(child) as NamedEntitiesList;
+                            parsedList.sublists.push(parsedSubList);
+                            parsedList.content = parsedList.content.concat(parsedSubList.content);
+                            parsedList.relations = parsedList.relations.concat(parsedSubList.relations);
+                        } else {
+                            parsedList.content.push(this.genericParse(child) as NamedEntity);
+                        }
+                }
+            }
+        });
+        parsedList.label = parsedList.label || xml.getAttribute('type') || `List of ${parsedList.namedEntityType}`;
+
+        return parsedList;
+    }
+}
 
 @xmlParser('evt-named-entity-parser', NamedEntityRefParser)
 export class NamedEntityRefParser extends EmptyParser implements Parser<XMLElement> {

@@ -23,6 +23,10 @@ export class ParserRegister {
         if (nes.includes(tagName)) {
             return 'evt-named-entity-parser';
         }
+        const nels = ['listPerson', 'listPlace', 'listOrg', 'listEvent'];
+        if (nels.includes(tagName)) {
+            return 'evt-named-entities-list-parser';
+        }
         const crit = ['rdg', 'lem'];
         if (crit.includes(tagName)) {
             return 'rdg';
