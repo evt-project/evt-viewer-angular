@@ -59,5 +59,6 @@
     "place": "Luogo",
     "msIdentifier": "Identificatore del manoscritto",
     "repository": "Archivio",
-    "institution": "Istituzione"
+    "institution": "Istituzione",
+    "msName": "Nome del manoscritto"
 }

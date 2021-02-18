@@ -60,5 +60,6 @@
     "place": "Place",
     "msIdentifier": "Manuscript identifier",
     "repository": "Repository",
-    "institution": "Institution"
+    "institution": "Institution",
+    "msName": "Alternative name"
 }

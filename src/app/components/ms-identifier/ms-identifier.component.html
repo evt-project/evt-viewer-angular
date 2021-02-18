@@ -26,7 +26,7 @@
             <evt-content-viewer [content]="c" *ngFor="let c of data?.collection" class="collection"></evt-content-viewer>
         </span>
         <span *ngFor="let m of data.msName | keyvalue" class="msName">
-            <span class="projectInfo-inlineLabel">Nome del manoscritto: </span>
+            <span class="projectInfo-inlineLabel">{{ 'msName' | translate }}: </span>
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
         </span>
         <span *ngIf="data.idno.length>0" class="idno">
