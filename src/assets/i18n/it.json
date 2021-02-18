@@ -56,5 +56,6 @@
     "addVersion": "Aggiungi versione",
     "addWitness": "Aggiungi testimone",
     "collection": "Raccolta",
-    "place": "Luogo"
+    "place": "Luogo",
+    "msIdentifier": "Identificatore del manoscritto"
 }
