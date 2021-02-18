@@ -110,5 +110,10 @@
     "nextPage": "Next page",
     "lastPage": "Last page",
     "toggleToolbar": "Toggle navigation toolbar",
-    "viscoll": "Viscoll"
+    "viscoll": "Viscoll",
+    "editors": "Editors",
+    "sponsors": "Sponsors",
+    "funders": "Funders",
+    "principals": "Principal researchers",
+    "responsibles": "Responsibles"
 }

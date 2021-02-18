@@ -1,0 +1,23 @@
+<div class="main-title" *ngFor="let el of data?.titles" [evtHtmlAttributes]="el?.attributes">
+    <evt-content-viewer [content]="el"></evt-content-viewer>
+</div>
+<div class="sub-title" *ngFor="let el of data?.subtitles" [evtHtmlAttributes]="el?.attributes">
+    <evt-content-viewer [content]="el"></evt-content-viewer>
+</div>
+<div class="author" *ngFor="let author of data?.authors">
+    <evt-content-viewer [content]="author"></evt-content-viewer>
+</div>
+
+<ng-container *ngTemplateOutlet="section; context: { label: 'editors', items: data?.editors, class: 'editor' }"></ng-container>
+<ng-container *ngTemplateOutlet="section; context: { label: 'sponsors', items: data?.sponsors, class: 'sponsor' }"></ng-container>
+<ng-container *ngTemplateOutlet="section; context: { label: 'funders', items: data?.funders, class: 'funder' }"></ng-container>
+<ng-container *ngTemplateOutlet="section; context: { label: 'principals', items: data?.principals, class: 'principal' }"></ng-container>
+<ng-container *ngTemplateOutlet="section; context: { label: 'responsibles', items: data?.respStmts, class: 'principal' }"></ng-container>
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class">
+        <div content>
+            <evt-content-viewer *ngFor="let item of items" [content]="item" ></evt-content-viewer>
+        </div>
+    </evt-header-section>
+</ng-template>

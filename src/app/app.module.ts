@@ -65,6 +65,7 @@ import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TextComponent } from './components/text/text.component';
+import { TitleStmtComponent } from './components/title-stmt/title-stmt.component';
 import { VerseComponent } from './components/verse/verse.component';
 import { VersesGroupComponent } from './components/verses-group/verses-group.component';
 import { WordComponent } from './components/word/word.component';
@@ -181,6 +182,7 @@ export function initializeApp(appConfig: AppConfig) {
     TextSourcesComponent,
     TextTextComponent,
     TextVersionsComponent,
+    TitleStmtComponent,
     VerseComponent,
     VersesGroupComponent,
     VersionPanelComponent,
