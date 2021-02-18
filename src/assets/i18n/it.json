@@ -60,5 +60,6 @@
     "msIdentifier": "Identificatore del manoscritto",
     "repository": "Archivio",
     "institution": "Istituzione",
-    "msName": "Nome del manoscritto"
+    "msName": "Nome del manoscritto",
+    "idno": "Identificatore"
 }

@@ -61,5 +61,6 @@
     "msIdentifier": "Manuscript identifier",
     "repository": "Repository",
     "institution": "Institution",
-    "msName": "Alternative name"
+    "msName": "Alternative name",
+    "idno": "Identifier"
 }

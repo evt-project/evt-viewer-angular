@@ -30,7 +30,7 @@
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
         </span>
         <span *ngIf="data.idno.length>0" class="idno">
-            <span class="projectInfo-inlineLabel">IDNO: </span>
+            <span class="projectInfo-inlineLabel">{{ 'idno' | translate }}: </span>
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
         </span>
         <span *ngFor="let a of data.altIdentifier | keyvalue">
