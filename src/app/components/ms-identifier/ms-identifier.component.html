@@ -37,7 +37,7 @@
             <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
                 <li>
-                    <span class="projectInfo-inlineLabel">Luogo: </span>
+                    <span class="projectInfo-inlineLabel">{{ 'place' | translate }}: </span>
                     <evt-content-viewer *ngFor="let s of data.altIdentifier[a.key].settlement" [content]="s"></evt-content-viewer>
                     <span *ngIf="data.altIdentifier[a.key].region.length>0">
                         <span *ngIf="data.altIdentifier[a.key].settlement.length>0">, </span>
