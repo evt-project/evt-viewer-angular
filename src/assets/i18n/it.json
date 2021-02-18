@@ -94,5 +94,14 @@
     "sponsors": "Sponsor",
     "funders": "Finanziatori",
     "principals": "Ricercatori principali",
-    "responsibles": "Responsabili"
+    "responsibles": "Responsabili",
+    "publicationStatement": "Informazioni sulla pubblicazione",
+    "publisher": "Editore",
+    "distributor": "Distributore",
+    "authority": "Autorità",
+    "publicationPlace": "Luogo di pubblicazione",
+    "address": "Indirizzo",
+    "availability": "Disponibilità",
+    "date": "Data",
+    "licence": "Licenza"
 }
