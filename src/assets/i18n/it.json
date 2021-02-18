@@ -89,5 +89,10 @@
     "history": "Storia del manoscritto",
     "origin": "Origine",
     "provenance": "Provenienza",
-    "acquisition": "Acquisizione"
+    "acquisition": "Acquisizione",
+    "editors": "Editori",
+    "sponsors": "Sponsor",
+    "funders": "Finanziatori",
+    "principals": "Ricercatori principali",
+    "responsibles": "Responsabili"
 }

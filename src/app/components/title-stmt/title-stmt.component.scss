@@ -1,0 +1,21 @@
+.main-title,
+.sub-title,
+.author {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.main-title {
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.sub-title {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.author {
+    font-size: 1em;
+    font-style: italic;
+}

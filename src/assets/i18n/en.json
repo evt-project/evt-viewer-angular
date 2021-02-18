@@ -90,5 +90,10 @@
     "history": "Manuscript history",
     "origin": "Origin",
     "provenance": "Provenance",
-    "acquisition": "Acquisition"
+    "acquisition": "Acquisition",
+    "editors": "Editors",
+    "sponsors": "Sponsors",
+    "funders": "Funders",
+    "principals": "Principal researchers",
+    "responsibles": "Responsibles"
 }
