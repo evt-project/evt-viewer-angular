@@ -21,9 +21,9 @@
             <span class="projectInfo-inlineLabel">Istituzione: </span>
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
         </span>
-        <span *ngFor="let c of data.collection | keyvalue" class="collection">
+        <span *ngIf="data.collection.length > 0" class="collection">
             <span class="projectInfo-inlineLabel">Raccolta: </span>
-            <evt-content-viewer [content]="data.collection[c.key]"></evt-content-viewer>
+            <evt-content-viewer [content]="c" *ngFor="let c of data?.collection" class="collection"></evt-content-viewer>
         </span>
         <span *ngFor="let m of data.msName | keyvalue" class="msName">
             <span class="projectInfo-inlineLabel">Nome del manoscritto: </span>
