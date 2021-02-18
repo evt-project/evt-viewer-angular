@@ -34,7 +34,7 @@
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
         </span>
         <span *ngFor="let a of data.altIdentifier | keyvalue">
-            <span class="projectInfo-inlineLabel">Identificatore alternativo: </span>
+            <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
                 <li>
                     <span class="projectInfo-inlineLabel">Luogo: </span>

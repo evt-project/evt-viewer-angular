@@ -61,5 +61,6 @@
     "repository": "Archivio",
     "institution": "Istituzione",
     "msName": "Nome del manoscritto",
-    "idno": "Identificatore"
+    "idno": "Identificatore",
+    "altIdentifier": "Identificatore alternativo"
 }
