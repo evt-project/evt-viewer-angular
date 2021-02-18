@@ -22,7 +22,7 @@
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
         </span>
         <span *ngIf="data.collection.length > 0" class="collection">
-            <span class="projectInfo-inlineLabel">Raccolta: </span>
+            <span class="projectInfo-inlineLabel">{{ 'collection' | translate }}: </span>
             <evt-content-viewer [content]="c" *ngFor="let c of data?.collection" class="collection"></evt-content-viewer>
         </span>
         <span *ngFor="let m of data.msName | keyvalue" class="msName">
