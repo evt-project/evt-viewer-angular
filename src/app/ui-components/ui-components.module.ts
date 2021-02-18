@@ -10,6 +10,7 @@ import { AppTranslationModule } from '../app-translation.module';
 import { ButtonComponent } from './button/button.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { EscapeDirective } from './directives/escape.directive';
+import { HeaderSectionComponent } from './header-section/header-section.component';
 import { IconComponent } from './icon/icon.component';
 import { ModalComponent } from './modal/modal.component';
 import { PanelComponent } from './panel/panel.component';
@@ -17,11 +18,12 @@ import { PanelComponent } from './panel/panel.component';
 @NgModule({
   declarations: [
     ButtonComponent,
-    IconComponent,
-    PanelComponent,
-    ModalComponent,
     ClickOutsideDirective,
     EscapeDirective,
+    HeaderSectionComponent,
+    IconComponent,
+    ModalComponent,
+    PanelComponent,
   ],
   imports: [
     CommonModule,
@@ -34,12 +36,13 @@ import { PanelComponent } from './panel/panel.component';
   ],
   exports: [
     ButtonComponent,
-    IconComponent,
-    PanelComponent,
-    ModalComponent,
     ClickOutsideDirective,
     EscapeDirective,
+    HeaderSectionComponent,
+    IconComponent,
+    ModalComponent,
     NgSelectModule,
+    PanelComponent,
   ],
   entryComponents: [
     ModalComponent,

@@ -1,0 +1,6 @@
+<div class="section {{additionalClass}}" [class.has-inline-label]="inlineLabel">
+    <div class="section-label" *ngIf="label">{{ label | translate }}{{inlineLabel ? ': ' : ''}}</div>
+    <div class="section-content">
+        <ng-content select="[content]"></ng-content>
+    </div>
+</div>
