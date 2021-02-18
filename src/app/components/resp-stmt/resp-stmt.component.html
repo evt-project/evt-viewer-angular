@@ -1,0 +1,14 @@
+<div class="resp-stmt">
+    <ng-container *ngIf="data.responsibility">
+        <span class="responsibility" (click)="openNormalizedResp(data.responsibility)" [class.has-link]="data.responsibility.normalizedResp">
+            <ng-container *ngIf="data.responsibility.date">({{data.responsibility.date}}) </ng-container>
+            <evt-content-viewer *ngFor="let el of data.responsibility.content" [content]="el"></evt-content-viewer>
+            {{ ' ' }}
+        </span>
+    </ng-container>
+    <span *ngFor="let subj of data?.people; let i = index">
+        <evt-content-viewer [content]="subj"></evt-content-viewer>
+        <ng-container>{{ i < data?.people.length - 1 ? ', ' : '' }}</ng-container>
+    </span>
+    <evt-content-viewer *ngFor="let note of data?.notes" [content]="note"></evt-content-viewer>
+</div>
