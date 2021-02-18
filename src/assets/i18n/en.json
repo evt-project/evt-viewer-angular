@@ -59,5 +59,6 @@
     "collection": "Collection",
     "place": "Place",
     "msIdentifier": "Manuscript identifier",
-    "repository": "Repository"
+    "repository": "Repository",
+    "institution": "Institution"
 }

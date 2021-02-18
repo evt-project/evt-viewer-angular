@@ -58,5 +58,6 @@
     "collection": "Raccolta",
     "place": "Luogo",
     "msIdentifier": "Identificatore del manoscritto",
-    "repository": "Archivio"
+    "repository": "Archivio",
+    "institution": "Istituzione"
 }

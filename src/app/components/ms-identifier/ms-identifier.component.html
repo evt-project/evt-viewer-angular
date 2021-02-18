@@ -18,7 +18,7 @@
             <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
         </span>
         <span *ngIf="data.institution" class="institution">
-            <span class="projectInfo-inlineLabel">Istituzione: </span>
+            <span class="projectInfo-inlineLabel">{{ 'institution' | translate }}: </span>
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
         </span>
         <span *ngIf="data.collection.length > 0" class="collection">
