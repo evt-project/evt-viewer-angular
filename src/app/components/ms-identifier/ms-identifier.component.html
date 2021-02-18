@@ -2,7 +2,7 @@
     <p class="projectInfo-sectionSubHeader">Identificatore del manoscritto</p>
     <div>
         <span *ngIf="data.settlement.length>0 || data.country.length>0 || data.region.length>0" class="settlement">
-            <span class="projectInfo-inlineLabel">Luogo: </span>
+            <span class="projectInfo-inlineLabel">{{ 'place' | translate }}: </span>
             <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
             <ng-container *ngIf="data.region.length>0">
                 <ng-container *ngIf="data.settlement.length>0">, </ng-container>
