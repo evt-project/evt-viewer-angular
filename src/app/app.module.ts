@@ -61,6 +61,7 @@ import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { PhysDescComponent } from './components/phys-desc/phys-desc.component';
 import { ReadingComponent } from './components/reading/reading.component';
+import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
 import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
@@ -171,6 +172,7 @@ export function initializeApp(appConfig: AppConfig) {
     PinnerComponent,
     ReadingComponent,
     ReadingTextComponent,
+    RespStmtComponent,
     ShortcutsComponent,
     SicComponent,
     SourcesPanelComponent,
