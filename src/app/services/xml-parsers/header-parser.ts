@@ -139,7 +139,7 @@ export class SourceDescParser extends GenericParser implements Parser<XMLElement
       ...super.parse(xml),
       type: SourceDesc,
       structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
-      msDesc: queryAndParseElement<MsDesc>(xml, 'note'),
+      msDesc: queryAndParseElement<MsDesc>(xml, 'msDesc'),
       bibl: queryAndParseElements<GenericElement>(xml, 'bibl'),
       biblFull: queryAndParseElements<GenericElement>(xml, 'biblFull'),
       biblStruct: queryAndParseElements<GenericElement>(xml, 'biblStruct'),
