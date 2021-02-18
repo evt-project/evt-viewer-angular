@@ -115,5 +115,13 @@
     "sponsors": "Sponsors",
     "funders": "Funders",
     "principals": "Principal researchers",
-    "responsibles": "Responsibles"
+    "responsibles": "Responsibles",
+    "publicationStatement": "Publication statement",
+    "publisher": "Publisher",
+    "distributor": "Distributor",
+    "authority": "Authority",
+    "publicationPlace": "Publication place",
+    "address": "Address",
+    "date": "Date",
+    "licence": "Licence"
 }
