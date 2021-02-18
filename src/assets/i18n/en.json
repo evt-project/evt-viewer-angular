@@ -58,5 +58,6 @@
     "addWitness": "Add witness",
     "collection": "Collection",
     "place": "Place",
-    "msIdentifier": "Manuscript identifier"
+    "msIdentifier": "Manuscript identifier",
+    "repository": "Repository"
 }

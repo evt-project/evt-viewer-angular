@@ -14,7 +14,7 @@
             </ng-container>   
         </span> 
         <span *ngIf="data.repository" class="repository">
-            <span class="projectInfo-inlineLabel">Archivio: </span>
+            <span class="projectInfo-inlineLabel">{{ 'repository' | translate }}: </span>
             <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
         </span>
         <span *ngIf="data.institution" class="institution">
