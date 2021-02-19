@@ -80,6 +80,7 @@ import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { XMLParsers } from './services/xml-parsers/xml-parsers';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
+import { ProjectInfoSectionComponent } from './ui-components/project-info-section/project-info-section.component';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
@@ -139,6 +140,7 @@ export function initializeApp(appConfig: AppConfig) {
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
+    ProjectInfoSectionComponent,
     ReadingComponent,
     ReadingTextComponent,
     ShortcutsComponent,
