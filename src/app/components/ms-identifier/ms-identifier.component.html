@@ -17,10 +17,11 @@
             <span class="projectInfo-inlineLabel">{{ 'repository' | translate }}: </span>
             <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
         </span>
-        <span *ngIf="data?.institution" class="institution">
-            <span class="projectInfo-inlineLabel">{{ 'institution' | translate }}: </span>
-            <evt-content-viewer [content]="data.institution"></evt-content-viewer>
-        </span>
+        <evt-project-info-section *ngIf="data?.institution" [label]="'institution'" [sectionClass]="'institution'">
+            <div content>   
+               <evt-content-viewer [content]="data.institution"></evt-content-viewer>
+            </div>
+        </evt-project-info-section>
         <evt-project-info-section *ngIf="data?.collection.length>0" [label]="'collection'" [sectionClass]="'collection'">
             <div content>   
                <evt-content-viewer *ngFor="let c of data.collection" [content]="c"></evt-content-viewer>
