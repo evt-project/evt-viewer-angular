@@ -1,18 +1,19 @@
 <div class="msIdentifier">
     <p class="projectInfo-sectionSubHeader">{{ 'msidentifier' | translate }}</p>
     <div>
-        <span *ngIf="data?.settlement.length>0 || data?.country.length>0 || data?.region.length>0" class="settlement">
-            <span class="projectInfo-inlineLabel">{{ 'place' | translate }}: </span>
-            <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
-            <ng-container *ngIf="data.region.length>0">
-                <ng-container *ngIf="data.settlement.length>0">, </ng-container>
-                <evt-content-viewer *ngFor="let r of data.region" [content]="r"></evt-content-viewer>
-            </ng-container>
-            <ng-container *ngIf="data.country.length>0">
-                <ng-container *ngIf="data.settlement.length>0 || data.region.length>0">, </ng-container>
-                <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
-            </ng-container>   
-        </span> 
+        <evt-project-info-section *ngIf="data?.settlement.length>0 || data?.country.length>0 || data?.region.length>0" [label]="'place'" [sectionClass]="'settlement'">
+            <div content>   
+                <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
+                <ng-container *ngIf="data.region.length>0">
+                    <ng-container *ngIf="data.settlement.length>0">, </ng-container>
+                    <evt-content-viewer *ngFor="let r of data.region" [content]="r"></evt-content-viewer>
+                </ng-container>
+                <ng-container *ngIf="data.country.length>0">
+                    <ng-container *ngIf="data.settlement.length>0 || data.region.length>0">, </ng-container>
+                    <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
+                </ng-container> 
+            </div>
+        </evt-project-info-section>
         <evt-project-info-section *ngIf="data?.repository" [label]="'repository'" [sectionClass]="'repository'">
             <div content>   
                <evt-content-viewer [content]="data.repository"></evt-content-viewer>
@@ -28,7 +29,6 @@
                <evt-content-viewer *ngFor="let c of data.collection" [content]="c"></evt-content-viewer>
             </div>
         </evt-project-info-section>
-
         <evt-project-info-section *ngFor="let m of data?.msName | keyvalue" [label]="'msName'" [sectionClass]="'msName'">
             <div content>   
                <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
