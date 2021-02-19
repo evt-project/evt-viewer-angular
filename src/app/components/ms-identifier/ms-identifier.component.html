@@ -28,10 +28,12 @@
                <evt-content-viewer *ngFor="let c of data.collection" [content]="c"></evt-content-viewer>
             </div>
         </evt-project-info-section>
-        <span *ngFor="let m of data?.msName | keyvalue" class="msName">
-            <span class="projectInfo-inlineLabel">{{ 'msName' | translate }}: </span>
-            <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
-        </span>
+
+        <evt-project-info-section *ngFor="let m of data?.msName | keyvalue" [label]="'msName'" [sectionClass]="'msName'">
+            <div content>   
+               <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
+            </div>
+        </evt-project-info-section>
         <evt-project-info-section *ngIf="data?.idno.length>0" [label]="'idno'" [sectionClass]="'idno'">
             <div content>   
                <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
