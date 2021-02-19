@@ -51,12 +51,13 @@
                     </span>
                 </li>
             </ng-container>
-            <ng-container *ngIf="data.altIdentifier[a.key].repository">
-                <li>
-                    <span class="projectInfo-inlineLabel">{{ 'repository' | translate }}: </span>
-                    <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
-                </li> 
-            </ng-container>
+            <li *ngIf="data.altIdentifier[a.key].repository" >   
+                <evt-project-info-section [label]="'repository'">
+                    <div content>   
+                        <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
+                    </div>
+                </evt-project-info-section>
+            </li>   
             <ng-container *ngIf="data.altIdentifier[a.key].idno.length>0">
                 <li>
                     <span class="projectInfo-inlineLabel">{{ 'idno' | translate }}: </span>
