@@ -21,10 +21,11 @@
             <span class="projectInfo-inlineLabel">{{ 'institution' | translate }}: </span>
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
         </span>
-        <span *ngIf="data?.collection.length > 0" class="collection">
-            <span class="projectInfo-inlineLabel">{{ 'collection' | translate }}: </span>
-            <evt-content-viewer [content]="c" *ngFor="let c of data?.collection" class="collection"></evt-content-viewer>
-        </span>
+        <evt-project-info-section *ngIf="data?.collection.length>0" [label]="'collection'" [sectionClass]="'collection'">
+            <div content>   
+               <evt-content-viewer *ngFor="let c of data.collection" [content]="c"></evt-content-viewer>
+            </div>
+        </evt-project-info-section>
         <span *ngFor="let m of data?.msName | keyvalue" class="msName">
             <span class="projectInfo-inlineLabel">{{ 'msName' | translate }}: </span>
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
@@ -33,7 +34,7 @@
             <div content>   
                <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
             </div>
-         </evt-project-info-section>
+        </evt-project-info-section>
         <span *ngFor="let a of data?.altIdentifier | keyvalue">
             <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
