@@ -29,10 +29,11 @@
             <span class="projectInfo-inlineLabel">{{ 'msName' | translate }}: </span>
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
         </span>
-        <span *ngIf="data.idno.length>0" class="idno">
-            <span class="projectInfo-inlineLabel">{{ 'idno' | translate }}: </span>
-            <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
-        </span>
+        <evt-project-info-section *ngIf="data?.idno.length>0" [label]="'idno'" [sectionClass]="'idno'">
+            <div content>   
+               <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
+            </div>
+         </evt-project-info-section>
         <span *ngFor="let a of data?.altIdentifier | keyvalue">
             <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
