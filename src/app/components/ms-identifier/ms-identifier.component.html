@@ -1,7 +1,7 @@
 <div class="msIdentifier">
     <p class="projectInfo-sectionSubHeader">{{ 'msidentifier' | translate }}</p>
     <div>
-        <span *ngIf="data.settlement.length>0 || data.country.length>0 || data.region.length>0" class="settlement">
+        <span *ngIf="data?.settlement.length>0 || data?.country.length>0 || data?.region.length>0" class="settlement">
             <span class="projectInfo-inlineLabel">{{ 'place' | translate }}: </span>
             <evt-content-viewer *ngFor="let s of data.settlement" [content]="s"></evt-content-viewer>
             <ng-container *ngIf="data.region.length>0">
@@ -13,19 +13,19 @@
                 <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
             </ng-container>   
         </span> 
-        <span *ngIf="data.repository" class="repository">
+        <span *ngIf="data?.repository" class="repository">
             <span class="projectInfo-inlineLabel">{{ 'repository' | translate }}: </span>
             <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
         </span>
-        <span *ngIf="data.institution" class="institution">
+        <span *ngIf="data?.institution" class="institution">
             <span class="projectInfo-inlineLabel">{{ 'institution' | translate }}: </span>
             <evt-content-viewer [content]="data.institution"></evt-content-viewer>
         </span>
-        <span *ngIf="data.collection.length > 0" class="collection">
+        <span *ngIf="data?.collection.length > 0" class="collection">
             <span class="projectInfo-inlineLabel">{{ 'collection' | translate }}: </span>
             <evt-content-viewer [content]="c" *ngFor="let c of data?.collection" class="collection"></evt-content-viewer>
         </span>
-        <span *ngFor="let m of data.msName | keyvalue" class="msName">
+        <span *ngFor="let m of data?.msName | keyvalue" class="msName">
             <span class="projectInfo-inlineLabel">{{ 'msName' | translate }}: </span>
             <evt-content-viewer [content]="data.msName[m.key]"></evt-content-viewer>
         </span>
@@ -33,7 +33,7 @@
             <span class="projectInfo-inlineLabel">{{ 'idno' | translate }}: </span>
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
         </span>
-        <span *ngFor="let a of data.altIdentifier | keyvalue">
+        <span *ngFor="let a of data?.altIdentifier | keyvalue">
             <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
             <ng-container *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">
                 <li>
