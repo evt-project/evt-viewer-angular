@@ -39,8 +39,7 @@
                <evt-content-viewer *ngFor="let i of data.idno" [content]="i"></evt-content-viewer>
             </div>
         </evt-project-info-section>
-        <span *ngFor="let a of data?.altIdentifier | keyvalue">
-            <span class="projectInfo-inlineLabel">{{ 'altIdentifier' | translate }}: </span>
+        <evt-project-info-section *ngFor="let a of data?.altIdentifier | keyvalue" [label]="'altIdentifier'">
             <li *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0">   
                 <evt-project-info-section [label]="'place'">
                     <div content>   
@@ -52,7 +51,7 @@
                     </div>
                 </evt-project-info-section>
             </li>  
-            <li *ngIf="data.altIdentifier[a.key].repository" >   
+            <li *ngIf="data.altIdentifier[a.key].repository">   
                 <evt-project-info-section [label]="'repository'">
                     <div content>   
                         <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
@@ -67,6 +66,6 @@
                     </div>
                 </evt-project-info-section>
             </li>   
-        </span>
+        </evt-project-info-section>
     </div>
 </div>
