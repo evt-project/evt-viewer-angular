@@ -26,7 +26,7 @@
         </evt-project-info-section>
         <evt-project-info-section *ngIf="data?.collection.length>0" [label]="'collection'" [sectionClass]="'collection'">
             <span content>   
-               <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="prjectInfo-block"></evt-content-viewer>
+               <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block"></evt-content-viewer>
             </span>
         </evt-project-info-section>
         <evt-project-info-section *ngFor="let m of data?.msName | keyvalue" [label]="'msName'" [sectionClass]="'msName'">
