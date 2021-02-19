@@ -58,13 +58,14 @@
                     </div>
                 </evt-project-info-section>
             </li>   
-            <ng-container *ngIf="data.altIdentifier[a.key].idno.length>0">
-                <li>
-                    <span class="projectInfo-inlineLabel">{{ 'idno' | translate }}: </span>
-                    <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
-                    <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
-                </li>
-            </ng-container>
+            <li *ngIf="data.altIdentifier[a.key].idno.length>0">   
+                <evt-project-info-section [label]="'idno'">
+                    <div content>   
+                        <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
+                        <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
+                    </div>
+                </evt-project-info-section>
+            </li>   
         </span>
     </div>
 </div>
