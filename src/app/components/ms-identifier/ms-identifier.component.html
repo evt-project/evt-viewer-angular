@@ -13,10 +13,11 @@
                 <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
             </ng-container>   
         </span> 
-        <span *ngIf="data?.repository" class="repository">
-            <span class="projectInfo-inlineLabel">{{ 'repository' | translate }}: </span>
-            <evt-content-viewer [content]="data?.repository"></evt-content-viewer> 
-        </span>
+        <evt-project-info-section *ngIf="data?.repository" [label]="'repository'" [sectionClass]="'repository'">
+            <div content>   
+               <evt-content-viewer [content]="data.repository"></evt-content-viewer>
+            </div>
+        </evt-project-info-section>
         <evt-project-info-section *ngIf="data?.institution" [label]="'institution'" [sectionClass]="'institution'">
             <div content>   
                <evt-content-viewer [content]="data.institution"></evt-content-viewer>
