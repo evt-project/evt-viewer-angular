@@ -1149,3 +1149,27 @@ export class ProfileDesc extends GenericElement {
     textClass: TextClass[];
     textDesc: TextDesc[];
 }
+
+export type Status = 'approved' | 'candidate' | 'cleared' | 'deprecated' | 'draft' | 'embargoed' | 'expired' | 'frozen' | 'galley' | 'proposed' | 'published' | 'recommendation' | 'submitted' | 'unfinished' | 'withdrawn';
+
+export class Change extends GenericElement {
+    id?: string;
+    who?: string;
+    status?: Status | string;
+    when?: string;
+    notBefore?: string;
+    notAfter?: string;
+    targets?: string[];
+}
+
+export class ListChange extends GenericElement {
+    content: Array<ListChange | Change>;
+    id?: string;
+    description?: Description;
+    ordered?: boolean;
+}
+
+export class RevisionDesc extends GenericElement {
+    content: Array<ListChange | Change>;
+    status?: Status | string;
+}

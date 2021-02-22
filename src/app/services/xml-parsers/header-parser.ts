@@ -1,19 +1,21 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
+import { isBoolString } from 'src/app/utils/js-utils';
 import { xmlParser } from '.';
 import {
-  Abstract, Calendar, CalendarDesc, CatRef, Channel, ChannelMode, ClassCode, Constitution,
+  Abstract, Calendar, CalendarDesc, CatRef, Change, Channel, ChannelMode, ClassCode, Constitution,
   Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
   Degree, Derivation, Description, Domain, EditionStmt, EditorialDecl, EncodingDesc, Extent, Factuality, FileDesc, GenericElement,
-  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol, Interaction,
-  Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntitiesList, NamedEntityRef, Namespace, Normalization,
+  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol, Interaction, Interpretation,
+  Keywords, Language, LangUsage, ListChange, ListTranspose, MsDesc, NamedEntitiesList, NamedEntityRef, Namespace, Normalization,
   NormalizationMethod, Note, NotesStmt, Paragraph, ParticDesc, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt,
   Punctuation, PunctuationMarks, PunctuationPlacement,
-  Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, Setting, SettingDesc, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
+  Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, RevisionDesc,
+  SamplingDecl, Scheme, Segmentation, SeriesStmt, Setting, SettingDesc, SourceDesc, Status, StdVals,
+  TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
-import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
+import { GenericElemParser, GenericParser, parseElement, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
-import { createParser, getID, Parser } from './parser-models';
+import { complexElements, createParser, getDefaultAttr, getID, Parser } from './parser-models';
 
 @xmlParser('resp', RespParser)
 export class RespParser extends GenericElemParser implements Parser<XMLElement> {
@@ -738,6 +740,23 @@ export class PurposeParser extends GenericElemParser implements Parser<XMLElemen
   }
 }
 
+@xmlParser('change', ChangeParser)
+export class ChangeParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Change {
+    return {
+      ...super.parse(xml),
+      type: Change,
+      id: getID(xml),
+      who: getDefaultAttr(xml.getAttribute('who')).replace('#', ''),
+      status: xml.getAttribute('status') as Status,
+      when: xml.getAttribute('when'),
+      notBefore: xml.getAttribute('notBefore'),
+      notAfter: xml.getAttribute('notAfter'),
+      targets: getDefaultAttr(xml.getAttribute('target')).split(' ').map(t => t.replace('#', '')),
+    };
+  }
+}
+
 @xmlParser('textDesc', TextDescParser)
 export class TextDescParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): TextDesc {
@@ -802,6 +821,21 @@ export class SettingDescParser extends GenericElemParser implements Parser<XMLEl
   }
 }
 
+@xmlParser('listChange', ListChangeParser)
+export class ListChangeParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ListChange {
+    return {
+      ...super.parse(xml),
+      type: ListChange,
+      content: complexElements(xml.childNodes, true).filter((child: XMLElement) => child.tagName !== 'desc')
+        .map(child => parseElement<ListChange | Change>(child as XMLElement)),
+      description: queryAndParseElement<Description>(xml, 'desc'),
+      id: getID(xml),
+      ordered: isBoolString(xml.getAttribute('ordered')),
+    };
+  }
+}
+
 @xmlParser('profileDesc', ProfileDescParser)
 export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
   parse(xml: XMLElement): ProfileDesc {
@@ -819,6 +853,18 @@ export class ProfileDescParser extends GenericParser implements Parser<XMLElemen
       settingDesc: queryAndParseElements<SettingDesc>(xml, 'settingDesc'),
       textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
       textDesc: queryAndParseElements<TextDesc>(xml, 'textDesc'),
+    };
+  }
+}
+
+@xmlParser('revisionDesc', RevisionDescParser)
+export class RevisionDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): RevisionDesc {
+    return {
+      ...super.parse(xml),
+      type: RevisionDesc,
+      content: complexElements(xml.childNodes, true).map(child => parseElement<ListChange | Change>(child as XMLElement)),
+      status: xml.getAttribute('status') as Status,
     };
   }
 }
