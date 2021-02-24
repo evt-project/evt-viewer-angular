@@ -45,29 +45,30 @@
         </evt-ms-desc-section>
         <span *ngFor="let a of data?.altIdentifier | keyvalue" >
             <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="'inlineLabel'">
-                <div content>     
-                    <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0" [label]="'place'" [inlineLabel]="'inlineLabel'">
-                        <div content>   
-                            <evt-content-viewer *ngFor="let s of data.altIdentifier[a.key].settlement" [content]="s"></evt-content-viewer>
-                            <span *ngIf="data.altIdentifier[a.key].region.length>0">
-                                <span *ngIf="data.altIdentifier[a.key].settlement.length>0">, </span>
-                                <evt-content-viewer *ngFor="let r of data.altIdentifier[a.key].region" [content]="r"></evt-content-viewer>
-                            </span>
-                        </div>
-                    </evt-ms-desc-section> 
-                    <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].repository" [label]="'repository'" [inlineLabel]="'inlineLabel'">
-                        <span content>   
-                            <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
-                        </span>
-                    </evt-ms-desc-section>
-                    <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].idno.length>0" [label]="'idno'" [inlineLabel]="'inlineLabel'">
-                        <span content>   
-                            <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
-                            <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
-                        </span>
-                    </evt-ms-desc-section>  
+                <div content>   
+                    <evt-content-viewer></evt-content-viewer>
+                </div>
+            </evt-ms-desc-section>   
+            <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].settlement.length>0 || data.altIdentifier[a.key].region.length>0" [label]="'place'" [inlineLabel]="'inlineLabel'" [additionalClass]="'itemElement'">
+                <div content>   
+                    <evt-content-viewer *ngFor="let s of data.altIdentifier[a.key].settlement" [content]="s"></evt-content-viewer>
+                    <span *ngIf="data.altIdentifier[a.key].region.length>0">
+                        <span *ngIf="data.altIdentifier[a.key].settlement.length>0">, </span>
+                        <evt-content-viewer *ngFor="let r of data.altIdentifier[a.key].region" [content]="r"></evt-content-viewer>
+                    </span>
+                </div>
+            </evt-ms-desc-section> 
+            <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].repository" [label]="'repository'" [inlineLabel]="'inlineLabel'" [additionalClass]="'itemElement'" >
+                <div content>   
+                    <evt-content-viewer [content]="data.altIdentifier[a.key].repository"></evt-content-viewer>
                 </div>
             </evt-ms-desc-section>
+            <evt-ms-desc-section *ngIf="data.altIdentifier[a.key].idno.length>0" [label]="'idno'" [inlineLabel]="'inlineLabel'" [additionalClass]="'itemElement'">
+                <div content>   
+                    <evt-content-viewer *ngFor="let i of data.altIdentifier[a.key].idno" [content]="i"></evt-content-viewer>
+                    <evt-content-viewer *ngFor="let nt of data.altIdentifier[a.key].noteEl" [content]="nt"></evt-content-viewer>
+                </div>
+            </evt-ms-desc-section>  
         </span>
     </div>
 </div>
