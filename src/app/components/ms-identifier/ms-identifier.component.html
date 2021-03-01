@@ -46,7 +46,7 @@
         <span *ngFor="let a of data?.altIdentifier">
             <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="true">
                 <div content>   
-                    <evt-content-viewer></evt-content-viewer>
+                    <evt-content-viewer [content]="data?.altIdentifier"></evt-content-viewer>
                 </div>
             </evt-ms-desc-section>   
             <evt-ms-desc-section *ngIf="a.settlement.length>0 || a.region.length>0" [label]="'place'" [inlineLabel]="true" [additionalClass]="'itemElement'">
