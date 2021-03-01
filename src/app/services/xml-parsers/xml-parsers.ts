@@ -9,13 +9,13 @@ import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
 import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
-    AbstractParser, CalendarDescParser, CalendarParser, CatRefParser, ChannelParser, ClassCodeParser, ConstitutionParser,
+    AbstractParser, CalendarDescParser, CalendarParser, CatRefParser, ChangeParser, ChannelParser, ClassCodeParser, ConstitutionParser,
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
     DerivationParser, DomainParser, EditorialDeclParser, EncodingDescParser, FactualityParser,
     HandNoteParser, HandNotesParser, HyphenationParser, InteractionParser, InterpretationParser, KeywordsParser,
-    LanguageParser, LangUsageParser, ListTransposeParser, NamespaceParser, NormalizationParser,
+    LanguageParser, LangUsageParser, ListChangeParser, ListTransposeParser, NamespaceParser, NormalizationParser,
     ParticDescParser, PreparednessParser, ProfileDescParser, ProjectDescParser, PunctuationParser, PurposeParser,
-    QuotationParser, RefsDeclParser, RefStateParser, RenditionParser,
+    QuotationParser, RefsDeclParser, RefStateParser, RenditionParser, RevisionDescParser,
     SamplingDeclParser, SegmentationParser, SettingDescParser, SettingParser, StdValsParser,
     TagsDeclParser, TagUsageParser, TextClassParser, TextDescParser, TransposeParser,
 } from './header-parser';
@@ -62,6 +62,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     CalendarParser,
     CatRefParser,
     ChannelParser,
+    ChangeParser,
     CharParser,
     ChoiceParser,
     ClassCodeParser,
@@ -115,6 +116,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     LayoutParser,
     LBParser,
     ListTransposeParser,
+    ListChangeParser,
     LocusGrpParser,
     LocusParser,
     MsContentsParser,
@@ -155,6 +157,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     RefStateParser,
     RenditionParser,
     RepositoryParser,
+    RevisionDescParser,
     RubricParser,
     SamplingDeclParser,
     ScriptDescParser,

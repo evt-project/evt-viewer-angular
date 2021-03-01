@@ -30,6 +30,12 @@ export function queryAndParseElement<T>(xml: XMLElement, name: string): T {
     return el && p.parse(el) as unknown as T;
 }
 
+export function parseElement<T>(xml: XMLElement): T {
+    const p = ParserRegister.get(xml.tagName);
+
+    return xml && p.parse(xml) as unknown as T;
+}
+
 @xmlParser('evt-generic-elem-parser', GenericElemParser)
 export class GenericElemParser extends AttrParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
