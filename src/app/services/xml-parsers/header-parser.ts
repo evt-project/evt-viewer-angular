@@ -1,12 +1,15 @@
 import { isNestedInElem } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import {
-  Correction, CorrectionMethod, CorrectionStatus, CRefPattern,
-  EditionStmt, EditorialDecl, EncodingDesc, Extent, FileDesc, GenericElement, Hyphenation, HyphenationEol,
-  Interpretation, MsDesc, NamedEntityRef, Namespace, Normalization, NormalizationMethod, Note,
-  NotesStmt, Paragraph, ProjectDesc, PublicationStmt, Punctuation, PunctuationMarks, PunctuationPlacement,
-  Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
-  SeriesStmt, SourceDesc, StdVals, TagsDecl, TagUsage, TitleStmt, XMLElement,
+  Abstract, Calendar, CalendarDesc, CatRef, Channel, ChannelMode, ClassCode, Constitution,
+  Correction, CorrectionMethod, CorrectionStatus, CorrespAction, CorrespActionType, CorrespContext, CorrespDesc, Creation, CRefPattern,
+  Degree, Derivation, Description, Domain, EditionStmt, EditorialDecl, EncodingDesc, Extent, Factuality, FileDesc, GenericElement,
+  HandNote, HandNotes, HandNoteScope, Hyphenation, HyphenationEol, Interaction,
+  Interpretation, Keywords, Language, LangUsage, ListTranspose, MsDesc, NamedEntitiesList, NamedEntityRef, Namespace, Normalization,
+  NormalizationMethod, Note, NotesStmt, Paragraph, ParticDesc, Preparedness, ProfileDesc, ProjectDesc, Ptr, PublicationStmt,
+  Punctuation, PunctuationMarks, PunctuationPlacement,
+  Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, SamplingDecl, Scheme, Segmentation,
+  SeriesStmt, Setting, SettingDesc, SourceDesc, StdVals, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -440,6 +443,382 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       unitDecl: queryAndParseElements<GenericElement>(xml, 'unitDecl'),
       schemaSpec: queryAndParseElements<GenericElement>(xml, 'schemaSpec'),
       schemaRef: queryAndParseElements<GenericElement>(xml, 'schemaRef'),
+    };
+  }
+}
+
+@xmlParser('abstract', AbstractParser)
+export class AbstractParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Abstract {
+    return {
+      ...super.parse(xml),
+      type: Abstract,
+      resp: xml.getAttribute('resp'),
+      lang: xml.getAttribute('xml:lang'),
+    };
+  }
+}
+
+@xmlParser('calendar', CalendarParser)
+export class CalendarParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Calendar {
+    return {
+      ...super.parse(xml),
+      type: Calendar,
+      id: xml.getAttribute('xml:id'),
+      target: xml.getAttribute('target'),
+    };
+  }
+}
+
+@xmlParser('calendarDesc', CalendarDescParser)
+export class CalendarDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CalendarDesc {
+    return {
+      ...super.parse(xml),
+      type: CalendarDesc,
+      calendars: queryAndParseElements<Calendar>(xml, 'calendar'),
+    };
+  }
+}
+
+@xmlParser('correspAction', CorrespActionParser)
+export class CorrespActionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespAction {
+    return {
+      ...super.parse(xml),
+      type: CorrespAction,
+      actionType: xml.getAttribute('type') as CorrespActionType,
+    };
+  }
+}
+
+@xmlParser('correspContext', CorrespContextParser)
+export class CorrespContextParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespContext {
+    return {
+      ...super.parse(xml),
+      type: CorrespContext,
+    };
+  }
+}
+
+@xmlParser('correspDesc', CorrespDescParser)
+export class CorrespDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CorrespDesc {
+    return {
+      ...super.parse(xml),
+      type: CorrespDesc,
+      content: queryAndParseElements<CorrespAction | CorrespContext | Note | Paragraph>(xml, 'correspAction, correspContext, note, p'),
+    };
+  }
+}
+
+@xmlParser('creation', CreationParser)
+export class CreationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Creation {
+    return {
+      ...super.parse(xml),
+      type: Creation,
+    };
+  }
+}
+
+@xmlParser('language', LanguageParser)
+export class LanguageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Language {
+    return {
+      ...super.parse(xml),
+      type: Language,
+      ident: xml.getAttribute('ident'),
+      usage: parseInt(xml.getAttribute('usage'), 10) || undefined,
+    };
+  }
+}
+
+@xmlParser('langUsage', LangUsageParser)
+export class LangUsageParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): LangUsage {
+    return {
+      ...super.parse(xml),
+      type: LangUsage,
+      structuredData: Array.from(xml.querySelectorAll<XMLElement>(':scope > p')).length > 0,
+      languages: queryAndParseElements<Language>(xml, 'language'),
+    };
+  }
+}
+
+@xmlParser('classCode', ClassCodeParser)
+export class ClassCodeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ClassCode {
+    return {
+      ...super.parse(xml),
+      type: ClassCode,
+      scheme: xml.getAttribute('scheme'),
+    };
+  }
+}
+
+@xmlParser('catRef', CatRefParser)
+export class CatRefParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): CatRef {
+    return {
+      ...super.parse(xml),
+      type: CatRef,
+      scheme: xml.getAttribute('scheme'),
+      target: xml.getAttribute('target'),
+    };
+  }
+}
+
+@xmlParser('keywords', KeywordsParser)
+export class KeywordsParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Keywords {
+    return {
+      ...super.parse(xml),
+      type: Keywords,
+      scheme: xml.getAttribute('scheme'),
+      terms: queryAndParseElements<Term>(xml, 'term'),
+    };
+  }
+}
+
+@xmlParser('textClass', TextClassParser)
+export class TextClassParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TextClass {
+    return {
+      ...super.parse(xml),
+      type: TextClass,
+      keywords: queryAndParseElements<Keywords>(xml, 'keywords'),
+      catRef: queryAndParseElements<CatRef>(xml, 'catRef'),
+      classCode: queryAndParseElements<ClassCode>(xml, 'classCode'),
+    };
+  }
+}
+
+@xmlParser('handNote', HandNoteParser)
+export class HandNoteParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): HandNote {
+    return {
+      ...super.parse(xml),
+      type: HandNote,
+      id: getID(xml),
+      scribe: xml.getAttribute('scribe'),
+      scribeRef: xml.getAttribute('scribeRef'),
+      script: xml.getAttribute('script'),
+      scriptRef: xml.getAttribute('scriptRef'),
+      medium: xml.getAttribute('medium'),
+      scope: xml.getAttribute('scope') as HandNoteScope,
+    };
+  }
+}
+
+@xmlParser('handNotes', HandNotesParser)
+export class HandNotesParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): HandNotes {
+    return {
+      ...super.parse(xml),
+      type: HandNotes,
+      content: queryAndParseElements<HandNote>(xml, 'keywords'),
+    };
+  }
+}
+
+@xmlParser('transpose', TransposeParser)
+export class TransposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Transpose {
+    return {
+      ...super.parse(xml),
+      type: Transpose,
+      content: queryAndParseElements<Ptr>(xml, 'ptr'),
+    };
+  }
+}
+
+@xmlParser('listTranspose', ListTransposeParser)
+export class ListTransposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ListTranspose {
+    return {
+      ...super.parse(xml),
+      type: ListTranspose,
+      description: queryAndParseElements<Description>(xml, 'desc'),
+      transposes: queryAndParseElements<Transpose>(xml, 'transpose'),
+    };
+  }
+}
+
+@xmlParser('channel', ChannelParser)
+export class ChannelParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Channel {
+    return {
+      ...super.parse(xml),
+      type: Channel,
+      mode: xml.getAttribute('mode') as ChannelMode,
+    };
+  }
+}
+
+@xmlParser('constitution', ConstitutionParser)
+export class ConstitutionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Constitution {
+    return {
+      ...super.parse(xml),
+      type: Constitution,
+      constitutionType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('derivation', DerivationParser)
+export class DerivationParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Derivation {
+    return {
+      ...super.parse(xml),
+      type: Derivation,
+      derivationType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('domain', DomainParser)
+export class DomainParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Domain {
+    return {
+      ...super.parse(xml),
+      type: Domain,
+      domainType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('factuality', FactualityParser)
+export class FactualityParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Factuality {
+    return {
+      ...super.parse(xml),
+      type: Factuality,
+      factualityType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('interaction', InteractionParser)
+export class InteractionParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Interaction {
+    return {
+      ...super.parse(xml),
+      type: Interaction,
+      interactionType: xml.getAttribute('type'),
+      active: xml.getAttribute('type'),
+      passive: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('preparedness', PreparednessParser)
+export class PreparednessParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Preparedness {
+    return {
+      ...super.parse(xml),
+      type: Preparedness,
+      preparednessType: xml.getAttribute('type'),
+    };
+  }
+}
+
+@xmlParser('purpose', PurposeParser)
+export class PurposeParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Purpose {
+    return {
+      ...super.parse(xml),
+      type: Purpose,
+      purposeType: xml.getAttribute('type'),
+      degree: xml.getAttribute('degree') as Degree,
+    };
+  }
+}
+
+@xmlParser('textDesc', TextDescParser)
+export class TextDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): TextDesc {
+    return {
+      ...super.parse(xml),
+      type: TextDesc,
+      channel: queryAndParseElements<Channel>(xml, 'channel'),
+      constitution: queryAndParseElements<Constitution>(xml, 'constitution'),
+      derivation: queryAndParseElements<Derivation>(xml, 'derivation'),
+      domain: queryAndParseElements<Domain>(xml, 'domain'),
+      factuality: queryAndParseElements<Factuality>(xml, 'factuality'),
+      interaction: queryAndParseElements<Interaction>(xml, 'interaction'),
+      preparedness: queryAndParseElements<Preparedness>(xml, 'preparedness'),
+      purpose: queryAndParseElements<Purpose>(xml, 'purpose'),
+    };
+  }
+}
+
+@xmlParser('particDesc', ParticDescParser)
+export class ParticDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ParticDesc {
+    return {
+      ...super.parse(xml),
+      type: ParticDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      participants: queryAndParseElements<NamedEntitiesList>(xml, 'listPerson').concat(queryAndParseElements<NamedEntitiesList>(xml, 'listOrg')),
+    };
+  }
+}
+
+@xmlParser('setting', SettingParser)
+export class SettingParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): Setting {
+    const names = queryAndParseElements<GenericElement>(xml, 'name');
+    const orgNames = queryAndParseElements<GenericElement>(xml, 'orgName');
+    const persNames = queryAndParseElements<GenericElement>(xml, 'persName');
+    const placeNames = queryAndParseElements<GenericElement>(xml, 'placeName');
+
+    return {
+      ...super.parse(xml),
+      type: Setting,
+      who: xml.getAttribute('who'),
+      name: names.concat(orgNames).concat(persNames).concat(placeNames),
+      date: queryAndParseElements(xml, 'date'),
+      time: queryAndParseElements(xml, 'time'),
+      locale: queryAndParseElements(xml, 'locale'),
+      activity: queryAndParseElements(xml, 'activity'),
+    };
+  }
+}
+
+@xmlParser('settingDesc', SettingDescParser)
+export class SettingDescParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): SettingDesc {
+    return {
+      ...super.parse(xml),
+      type: SettingDesc,
+      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      settings: queryAndParseElements<Setting>(xml, 'setting'),
+      places: queryAndParseElements<NamedEntitiesList>(xml, 'listPlace'),
+    };
+  }
+}
+
+@xmlParser('profileDesc', ProfileDescParser)
+export class ProfileDescParser extends GenericParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): ProfileDesc {
+    return {
+      ...super.parse(xml),
+      type: ProfileDesc,
+      abstract: queryAndParseElements<Abstract>(xml, 'abstract'),
+      calendarDesc: queryAndParseElements<CalendarDesc>(xml, 'calendarDesc'),
+      correspDesc: queryAndParseElements<CorrespDesc>(xml, 'correspDesc'),
+      creation: queryAndParseElements<Creation>(xml, 'creation'),
+      handNotes: queryAndParseElements<HandNotes>(xml, 'handNotes'),
+      langUsage: queryAndParseElements<LangUsage>(xml, 'langUsage'),
+      listTranspose: queryAndParseElements<ListTranspose>(xml, 'listTranspose'),
+      particDesc: queryAndParseElements<ParticDesc>(xml, 'particDesc'),
+      settingDesc: queryAndParseElements<SettingDesc>(xml, 'settingDesc'),
+      textClass: queryAndParseElements<TextClass>(xml, 'textClass'),
+      textDesc: queryAndParseElements<TextDesc>(xml, 'textDesc'),
     };
   }
 }

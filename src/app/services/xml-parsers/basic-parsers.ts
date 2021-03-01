@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, PlacementType, Supplied, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -145,10 +145,10 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 @xmlParser('ptr', PtrParser)
-export class PtrParser extends EmptyParser implements Parser<XMLElement> {
+export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
     elementParser = createParser(GenericElemParser, this.genericParse);
-    parse(xml: XMLElement): GenericElement {
+    parse(xml: XMLElement): Ptr | Note | GenericElement {
         if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
             const noteId = xml.getAttribute('target').replace('#', '');
             const rootNode = xml.closest('TEI');
@@ -157,7 +157,15 @@ export class PtrParser extends EmptyParser implements Parser<XMLElement> {
             return noteEl ? this.noteParser.parse(noteEl) : this.elementParser.parse(xml);
         }
 
-        return this.elementParser.parse(xml);
+        return {
+            ...super.parse(xml),
+            type: Ptr,
+            id: getID(xml),
+            target: xml.getAttribute('target'),
+            cRef: xml.getAttribute('cRef'),
+            ptrType: xml.getAttribute('ptrType'),
+            rend: xml.getAttribute('rend'),
+        };
     }
 }
 
@@ -299,6 +307,19 @@ export class DeletionParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
             class: xml.tagName.toLowerCase(),
+        };
+    }
+}
+
+@xmlParser('term', TermParser)
+export class TermParser extends GenericElemParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Term {
+        return {
+            ...super.parse(xml),
+            type: Term,
+            id: xml.getAttribute('xml:id'),
+            ref: xml.getAttribute('ref'),
+            rend: xml.getAttribute('rend'),
         };
     }
 }

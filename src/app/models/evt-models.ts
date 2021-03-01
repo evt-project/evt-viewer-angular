@@ -572,7 +572,7 @@ export class Additions extends GenericElement {
 
 export class HandDesc extends GenericElement {
     hands?: string;
-    handNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when handNote is handled
+    handNote?: HandNote[];
 }
 
 export class ScriptDesc extends GenericElement {
@@ -969,4 +969,183 @@ export class RefState extends GenericElement {
 export class CRefPattern extends GenericElement {
     matchPattern: string;
     replacementPattern: string;
+}
+
+export class Abstract extends GenericElement {
+    resp: string;
+    lang: string;
+}
+
+export class Calendar extends GenericElement {
+    id: string;
+    target: string;
+}
+
+export class CalendarDesc extends GenericElement {
+    calendars: Calendar[];
+}
+
+export type CorrespActionType = 'sent' | 'received' | 'transmitted' | 'redirected' | 'forwarded';
+export class CorrespAction extends GenericElement {
+    actionType: CorrespActionType | string;
+}
+
+export class CorrespContext extends GenericElement { }
+
+export class CorrespDesc extends GenericElement {
+    content: Array<CorrespAction | CorrespContext | Note | Paragraph>;
+}
+
+export class Creation extends GenericElement { }
+
+export class Language extends GenericElement {
+    ident: string;
+    usage?: number;
+}
+
+export class LangUsage extends GenericElement {
+    structuredData: boolean;
+    languages: Language[];
+}
+
+export class CatRef extends GenericElement {
+    scheme?: string;
+    target?: string;
+}
+
+export class ClassCode extends GenericElement {
+    scheme?: string;
+}
+
+export class Term extends GenericElement {
+    id?: string;
+    ref?: string;
+    rend?: string;
+}
+
+export class Keywords extends GenericElement {
+    scheme?: string;
+    terms: Term[];
+}
+
+export class TextClass extends GenericElement {
+    catRef: CatRef[];
+    classCode: ClassCode[];
+    keywords: Keywords[];
+}
+
+export type HandNoteScope = 'sole' | 'major' | 'minor';
+export class HandNote extends GenericElement {
+    id: string;
+    scribe?: string;
+    scribeRef?: string;
+    script?: string;
+    scriptRef?: string;
+    medium?: string;
+    scope?: HandNoteScope;
+}
+
+export class HandNotes extends GenericElement {
+    content: HandNote[];
+}
+
+export class Ptr extends GenericElement {
+    id?: string;
+    target?: string;
+    cRef?: string;
+    ptrType?: string;
+    rend?: string;
+}
+
+export class Transpose extends GenericElement {
+    content: Ptr[];
+}
+
+export class ListTranspose extends GenericElement {
+    description: Description[];
+    transposes: Transpose[];
+}
+
+export type ChannelMode = 's' | 'w' | 'sw' | 'ws' | 'm' | 'x';
+export class Channel extends GenericElement {
+    mode?: ChannelMode;
+}
+
+export class Constitution extends GenericElement {
+    constitutionType?: string;
+}
+
+export class Derivation extends GenericElement {
+    derivationType?: string;
+}
+
+export class Domain extends GenericElement {
+    domainType?: string;
+}
+
+export class Factuality extends GenericElement {
+    factualityType?: string;
+}
+
+export type ActiveParticipants = 'singular' | 'plural' | 'corporate' | 'unknown';
+export type PassiveParticipants = 'self' | 'single' | 'many' | 'group' | 'world';
+export class Interaction extends GenericElement {
+    interactionType?: string;
+    active?: ActiveParticipants | string;
+    passive?: PassiveParticipants | string;
+}
+
+export class Preparedness extends GenericElement {
+    preparednessType?: string;
+}
+
+export type Degree = 'high' | 'medium' | 'low' | 'unknown';
+export class Purpose extends GenericElement {
+    purposeType?: string;
+    degree?: Degree;
+}
+
+export class TextDesc extends GenericElement {
+    channel: Channel[];
+    constitution: Constitution[];
+    derivation: Derivation[];
+    domain: Domain[];
+    factuality: Factuality[];
+    interaction: Interaction[];
+    preparedness: Preparedness[];
+    purpose: Purpose[];
+}
+
+export class ParticDesc extends GenericElement {
+    structuredData: boolean;
+    participants: NamedEntitiesList[];
+}
+
+export class Setting extends GenericElement {
+    who?: string;
+    name: GenericElement[]; // TODO: Add specific type when name is handled
+    date: GenericElement[]; // TODO: Add specific type when date is handled
+    time: GenericElement[]; // TODO: Add specific type when time is handled
+    locale: GenericElement[]; // TODO: Add specific type when locale is handled
+    activity: GenericElement[]; // TODO: Add specific type when activity is handled
+}
+
+export class SettingDesc extends GenericElement {
+    structuredData: boolean;
+    settings: Setting[];
+    places: NamedEntitiesList[];
+}
+
+export class ProfileDesc extends GenericElement {
+    abstract: Abstract[];
+    calendarDesc: CalendarDesc[];
+    correspDesc: CorrespDesc[];
+    creation: Creation[];
+    handNotes: HandNotes[];
+    langUsage: LangUsage[];
+    listTranspose: ListTranspose[];
+    particDesc: ParticDesc[];
+    settingDesc: SettingDesc[];
+    textClass: TextClass[];
+    textDesc: TextDesc[];
 }
