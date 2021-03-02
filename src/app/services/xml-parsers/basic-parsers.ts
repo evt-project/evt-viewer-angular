@@ -128,7 +128,7 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
             ? 'plain-text'
             : 'popover';
 
-        const noteType = !!xml.getAttribute('type') && isNestedInElem(xml, 'app')
+        const noteType = !xml.getAttribute('type') && isNestedInElem(xml, 'app')
             ? 'critical'
             : 'comment';
 
