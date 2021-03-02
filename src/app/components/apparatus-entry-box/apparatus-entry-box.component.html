@@ -1,18 +1,73 @@
 <div class="card app-box-container">
     <div class="card-body app-box-content">
-        <evt-content-viewer *ngIf="data.lemma" [content]="data.lemma"></evt-content-viewer>
+        <evt-reading *ngIf="data.lemma" [data]="data.lemma"></evt-reading>
         <ng-container *ngIf="data.lemma.content.length > 0">
             <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
         </ng-container>
         <span>] </span>
 
         <ng-container *ngFor="let el of significantRdg">
-            <evt-content-viewer *ngIf="el.content.length !== 0" [content]="el"></evt-content-viewer>
+            <evt-reading *ngIf="el.content.length !== 0" [data]="el"></evt-reading>
             <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
             <!-- TODO: handle lacunastart and lacunaend -->
             <ng-container *ngFor="let witID of el.witIDs">
                 <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
             </ng-container>
         </ng-container>
+    </div>
+    <div class="card-footer app-box-tabs">
+        <ul ngbNav #appEntryTab="ngbNav" class="nav-pills">
+            <li ngbNavItem="criticalNotes" *ngIf="data.notes.length > 0">
+                <a class="app-box-btn" ngbNavLink>Note critiche</a>
+                <ng-template ngbNavContent>
+                    <evt-note *ngFor="let note of data.notes" [data]="note"></evt-note>
+                </ng-template>
+            </li>
+            <li ngbNavItem="notSignificantRdg" *ngIf="notSignificantRdg.length > 0">
+                <a class="app-box-btn" ngbNavLink>Varianti ortografiche</a>
+                <ng-template ngbNavContent>
+                    <span class="d-block" *ngFor="let el of notSignificantRdg">
+                        <evt-reading [data]="el"></evt-reading>
+                        <span *ngFor="let witID of el.witIDs" class="font-italic"> {{ witID }} </span>
+                    </span>
+                </ng-template>
+            </li>
+            <li ngbNavItem="info">
+                <a class="app-box-btn" ngbNavLink>Info</a>
+                <ng-template ngbNavContent>
+                    <div class="info-lemma-wrapper" *ngIf="data.lemma">
+                        <span>Metadata for lemma </span>
+                        <evt-reading class="info-rdg" [data]="data.lemma"></evt-reading>
+                        <span class="d-block ml-2" *ngFor="let attr of data.attributes | keyvalue">
+                            <span class="info-label">{{ attr.key }}:</span> {{ attr.value }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="more-info-label">More info about the apparatus entry</span>
+                        <ng-container *ngFor="let rdg of readings">
+                            <div class="mb-2" *ngIf="rdg.attributes !== {}">
+                                <span>Metadata for </span>
+                                <evt-reading class="info-rdg" [data]="rdg"></evt-reading>
+                                <span class="d-block ml-2" *ngIf="rdg.attributes.wit">
+                                    <span class="info-label">Wit:</span> {{rdg.attributes.wit}}
+                                </span>
+                                <ng-container *ngFor="let attr of rdg.attributes | keyvalue">
+                                    <span class="d-block ml-2" *ngIf="attr.key !== 'wit'">
+                                        <span class="info-label">{{ attr.key }}:</span> {{ attr.value }}
+                                    </span>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-template>
+            </li>
+            <li ngbNavItem="xml">
+                <a class="app-box-btn" ngbNavLink>XML</a>
+                <ng-template ngbNavContent>
+                    <pre>{{ data.originalEncoding | xmlBeautify }}</pre>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="appEntryTab" class="tab-content"></div>
     </div>
 </div>
