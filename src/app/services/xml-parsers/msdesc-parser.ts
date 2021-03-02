@@ -888,6 +888,7 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             idno: unhandledElement(xml, 'idno', this.genericParse),
             region: unhandledElement(xml, 'region', this.genericParse),
             settlement: unhandledElement(xml, 'settlement', this.genericParse),
+            country: unhandledElement(xml, 'country', this.genericParse),
         };
     }
 }
@@ -942,7 +943,6 @@ export class MsIdentifierParser extends IdentifierParser implements Parser<XMLEl
             institution: queryAndParseElement(xml, 'institution'),
             altIdentifier: queryAndParseElements(xml, 'altIdentifier'),
             msName: queryAndParseElements(xml, 'msName'),
-            country: unhandledElement(xml, 'country', this.genericParse),
         };
     }
 }
