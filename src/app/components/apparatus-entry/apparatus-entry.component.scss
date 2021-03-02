@@ -2,7 +2,7 @@
 
 .app-entry {
     &.app-box-opened {
-        .app-entry-lem {
+        > .app-entry-lem {
             position: relative;
             z-index: 1;
             @include themify($themes) {
