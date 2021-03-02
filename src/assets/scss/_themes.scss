@@ -13,6 +13,7 @@ $themes: (
         toolsColor: #000,
         toolsColorActive: #ffdd00,
         appEntryBoxBackground: #f5f5f5,
+        appEntryBoxActiveTabBg: #e7e7e7,
     ),
     modern: (
         baseColorDark: #263238,
@@ -28,6 +29,7 @@ $themes: (
         toolsBackgroundDarker: #b0bec5,
         toolsColorActive: #ffdd00,
         appEntryBoxBackground: #f1f4f5,
+        appEntryBoxActiveTabBg: #eaecec,
     ),
     classic: (
         baseColorDark: rgb(54, 45, 40),
@@ -43,6 +45,7 @@ $themes: (
         toolsBackgroundDarker: #ccc4ba,
         toolsColorActive: #ffdd00,
         appEntryBoxBackground: #f9f7f5,
+        appEntryBoxActiveTabBg: #f2ede9,
     ),
 );
 

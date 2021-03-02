@@ -20,6 +20,18 @@ export class ApparatusEntryBoxComponent {
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg.significant);
   }
+  
+  get notSignificantRdg(): Reading[] {
+    return this.data.readings.filter((rdg) => !rdg.significant);
+  }
+
+  get readings(): Reading[] {
+    return [this.data.lemma].concat(this.significantRdg).concat(this.notSignificantRdg);
+  }
+
+  get witAttr(): string {
+    return this.data.attributes.wit;
+  }
 
   getWits$(witID: string): Observable<string[]> {
     return this.groups$.pipe(
