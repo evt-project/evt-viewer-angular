@@ -1,5 +1,5 @@
 <div [class.has-list-class]="listClass">
-    <evt-ms-desc-section [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true">
+    <evt-ms-desc-section *ngIf="data?.settlement.length>0 || data?.region.length>0 || data?.country.length>0" [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true">
         <div content>   
             <evt-content-viewer *ngFor="let s of data?.settlement" [content]="s"></evt-content-viewer>
             <ng-container *ngIf="data?.region.length>0">
