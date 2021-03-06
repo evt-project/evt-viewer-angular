@@ -1,1 +1,43 @@
-<p>ms-item works!</p>
+<div class="section" [class.has-list-class]="listClass">
+    <evt-ms-desc-section *ngIf="data?.colophon?.length>0" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let c of data.colophon" [content]="c" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docTitle.length>0" [label]="'docTitle'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let dt of data.docTitle" [content]="dt" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.author.length>0" [label]="'author'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let a of data.author" [content]="a" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docAuthor.length>0" [label]="'docAuthor'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let da of data.docAuthor" [content]="da" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docImprint.length>0" [label]="'docImprint'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let di of data.docImprint" [content]="di" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docDate.length>0" [label]="'docDate'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let dd of data.docDate" [content]="dd" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.textLang.length>0" [label]="'textLang'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let tl of data.textLang" [content]="tl" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.filiation.length>0" [label]="'filiation'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let f of data.filiation" [content]="f" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.title.length>0 || data?.incipit || data?.explicit || data?.locus || data?.bibl.length>0 || data?.noteEl.length>0" [label]="'texts'" [inlineLabel]="true"></evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.title.length>0" [inlineLabel]="true" [additionalClass]="'itemElement'">
+        <evt-content-viewer *ngFor="let t of data.title" [content]="t" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.incipit" [inlineLabel]="true" [additionalClass]="'itemElement'">
+        <evt-content-viewer [content]="data.incipit" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.explicit" [inlineLabel]="true" [additionalClass]="'itemElement'">
+        <evt-content-viewer [content]="data.explicit" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.locus" [inlineLabel]="true" [additionalClass]="'itemElement'">
+        <evt-content-viewer [content]="data.locus" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.bibl.length>0 || data?.noteEl.length>0" [inlineLabel]="true" [additionalClass]="'itemElement'">
+        <evt-content-viewer *ngFor="let b of data.bibl" [content]="b" content></evt-content-viewer>
+        <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n" content></evt-content-viewer>
+    </evt-ms-desc-section>
+</div>
