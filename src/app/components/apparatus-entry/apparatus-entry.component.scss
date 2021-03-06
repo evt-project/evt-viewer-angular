@@ -1,7 +1,7 @@
 @import '../../../assets/scss/themes';
 
 .app-entry {
-    &.app-box-opened {
+    &.app-detail-opened {
         > .app-entry-lem {
             position: relative;
             z-index: 1;
