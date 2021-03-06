@@ -11,4 +11,5 @@ import { register } from '../../services/component-register.service';
 @register(MsItem)
 export class MsItemComponent {
   @Input() data: MsItem;
+  @Input() listClass: boolean;
 }
