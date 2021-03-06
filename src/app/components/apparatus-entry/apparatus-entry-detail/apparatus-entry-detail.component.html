@@ -1,6 +1,7 @@
 <div class="card app-detail-container">
     <div class="card-body app-detail-content">
         <evt-apparatus-entry-readings [data]="data"></evt-apparatus-entry-readings>
+        <evt-pinner [item]="data" renderer="ApparatusEntryReadings" pinType="ApparatusEntry"></evt-pinner>
     </div>
     <div class="card-footer app-detail-tabs">
         <ul ngbNav #appEntryTab="ngbNav" class="nav-pills">
