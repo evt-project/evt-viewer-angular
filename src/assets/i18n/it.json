@@ -62,5 +62,15 @@
     "institution": "Istituzione",
     "msName": "Nome del manoscritto",
     "idno": "Identificatore",
-    "altIdentifier": "Identificatore alternativo"
+    "altIdentifier": "Identificatore alternativo",
+    "msContents": "Contenuto del manoscritto",
+    "textLang": "Lingua",
+    "docTitle": "Titolo del documento",
+    "author": "Autore",
+    "docAuthor": "Autore del documento",
+    "docImprint": "Sigla editoriale del documento",
+    "docDate": "Data del documento",
+    "filiation": "Filiazione",
+    "texts": "Testi",
+    "title": "Titolo"
 }

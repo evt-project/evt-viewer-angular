@@ -63,5 +63,15 @@
     "institution": "Institution",
     "msName": "Alternative name",
     "idno": "Identifier",
-    "altIdentifier": "Alternative identifier"
+    "altIdentifier": "Alternative identifier",
+    "msContents": "Manuscript contents",
+    "textLang": "Language",
+    "docTitle": "Document title",
+    "author": "Author",
+    "docAuthor": "Document author",
+    "docImprint": "Document imprint",
+    "docDate": "Document date",
+    "filiation": "Filiation",
+    "texts": "Texts",
+    "title": "Title"
 }
