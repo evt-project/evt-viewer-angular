@@ -1,16 +1,13 @@
 <div class="msIdentifier">
-    <evt-ms-desc-section [label]="'msIdentifier'"> 
-    </evt-ms-desc-section>
+    <evt-ms-desc-section [label]="'msIdentifier'"></evt-ms-desc-section>
     <div>
         <evt-identifier [data]="data"></evt-identifier>
-        <evt-ms-desc-section *ngIf="data?.institution" [label]="'institution'" [additionalClass]="'institution'" [inlineLabel]="true">  
-        </evt-ms-desc-section>
+        <evt-ms-desc-section *ngIf="data?.institution" [label]="'institution'" [additionalClass]="'institution'" [inlineLabel]="true"></evt-ms-desc-section>
         <evt-ms-desc-section *ngIf="data?.msName.length>0" [label]="'msName'" [additionalClass]="'msName'" [inlineLabel]="true"> 
             <evt-content-viewer *ngFor="let m of data.msName" [content]="m" class="projectInfo-block" content></evt-content-viewer>
         </evt-ms-desc-section>
         <span *ngFor="let a of data?.altIdentifier">
-            <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="true"> 
-            </evt-ms-desc-section>   
+            <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="true"></evt-ms-desc-section>   
             <evt-identifier [data]="a" [listClass]="true"></evt-identifier>
             <evt-ms-desc-section *ngIf="a.noteEl.length>0" [inlineLabel]="true" [additionalClass]="'itemElement'">
                 <evt-content-viewer *ngFor="let nt of a.noteEl" [content]="nt" content></evt-content-viewer>
