@@ -34,8 +34,10 @@ import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
 import { GlobalListsComponent } from './components/global-lists/global-lists.component';
+import { IdentifierComponent } from './components/identifier/identifier.component';
 import { LbComponent } from './components/lb/lb.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
+import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
@@ -79,6 +81,7 @@ import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
 import { XMLParsers } from './services/xml-parsers/xml-parsers';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
+import { MsDescSectionComponent } from './ui-components/ms-desc-section/ms-desc-section.component';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
@@ -116,12 +119,15 @@ export function initializeApp(appConfig: AppConfig) {
     HighlightDirective,
     HtmlAttributesDirective,
     HumanizePipe,
+    IdentifierComponent,
     ImagePanelComponent,
     ImageTextComponent,
     LbComponent,
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
+    MsDescSectionComponent,
+    MsIdentifierComponent,
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,

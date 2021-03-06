@@ -54,5 +54,13 @@
     "front": "Front",
     "mainText": "Testo principale",
     "addVersion": "Aggiungi versione",
-    "addWitness": "Aggiungi testimone"
+    "addWitness": "Aggiungi testimone",
+    "collection": "Raccolta",
+    "place": "Luogo",
+    "msIdentifier": "Identificatore del manoscritto",
+    "repository": "Archivio",
+    "institution": "Istituzione",
+    "msName": "Nome del manoscritto",
+    "idno": "Identificatore",
+    "altIdentifier": "Identificatore alternativo"
 }

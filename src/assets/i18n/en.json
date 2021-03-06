@@ -55,5 +55,13 @@
     "front": "Front",
     "mainText": "Main text",
     "addVersion": "Add version",
-    "addWitness": "Add witness"
+    "addWitness": "Add witness",
+    "collection": "Collection",
+    "place": "Place",
+    "msIdentifier": "Manuscript identifier",
+    "repository": "Repository",
+    "institution": "Institution",
+    "msName": "Alternative name",
+    "idno": "Identifier",
+    "altIdentifier": "Alternative identifier"
 }

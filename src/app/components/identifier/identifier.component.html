@@ -1,0 +1,24 @@
+<div [class.has-list-class]="listClass">
+    <evt-ms-desc-section *ngIf="data?.settlement.length>0 || data?.region.length>0 || data?.country.length>0" [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true">
+        <div content>   
+            <evt-content-viewer *ngFor="let s of data?.settlement" [content]="s"></evt-content-viewer>
+            <ng-container *ngIf="data?.region.length>0">
+                <ng-container *ngIf="data.settlement.length>0">, </ng-container>
+                <evt-content-viewer *ngFor="let r of data.region" [content]="r"></evt-content-viewer>
+            </ng-container>
+            <ng-container *ngIf="data?.country.length>0">
+                <ng-container *ngIf="data.settlement.length>0 || data.region.length>0">, </ng-container>
+                <evt-content-viewer *ngFor="let c of data.country" [content]="c"></evt-content-viewer>
+            </ng-container> 
+        </div>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.repository" [label]="'repository'" [additionalClass]="'repository'" [inlineLabel]="true" >
+        <evt-content-viewer [content]="data.repository" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.collection.length>0" [label]="'collection'" [additionalClass]="'collection'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.idno.length>0" [label]="'idno'" [additionalClass]="'idno'" [inlineLabel]="true">
+        <evt-content-viewer *ngFor="let i of data.idno" [content]="i" class="projectInfo-block" content></evt-content-viewer>
+    </evt-ms-desc-section>
+</div>
