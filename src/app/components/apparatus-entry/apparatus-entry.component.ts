@@ -15,7 +15,7 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible { }
 export class ApparatusEntryComponent {
   @Input() data: ApparatusEntry;
 
-  public boxOpened: Boolean = false;
+  public opened = false;
 
   variance$ = this.evtModelService.appVariance$.pipe(
     map((variances) => variances[this.data.id]),
@@ -28,12 +28,12 @@ export class ApparatusEntryComponent {
   }
 
   toggleAppEntryBox() {
-    this.boxOpened = !this.boxOpened;
+    this.opened = !this.opened;
   }
 
   closeAppEntryBox() {
-    if (this.boxOpened) {
-      this.boxOpened = false;
+    if (this.opened) {
+      this.opened = false;
     }
   }
 }

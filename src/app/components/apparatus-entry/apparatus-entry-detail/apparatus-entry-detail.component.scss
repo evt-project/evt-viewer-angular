@@ -1,6 +1,6 @@
-@import "../../../assets/scss/themes";
+@import "../../../../assets/scss/themes";
 
-.app-box-container {
+.app-detail-container {
     top: -1px;
     z-index: 0;
     border-radius: 0;
@@ -9,17 +9,17 @@
     }
 }
 
-.app-box-content,
-.app-box-tabs {
+.app-detail-content,
+.app-detail-tabs {
     background-color: transparent;
     font-size: 17px;
 }
 
-.app-box-content {
+.app-detail-content {
     padding: 5px;
 }
 
-.app-box-tabs {
+.app-detail-tabs {
     font-size: 16px;
     margin: 0 5px 0 5px;
     padding: 5px 0 0 0;

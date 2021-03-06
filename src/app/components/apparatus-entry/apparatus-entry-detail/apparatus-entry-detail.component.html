@@ -1,5 +1,5 @@
-<div class="card app-box-container">
-    <div class="card-body app-box-content">
+<div class="card app-detail-container">
+    <div class="card-body app-detail-content">
         <evt-reading *ngIf="data.lemma" [data]="data.lemma"></evt-reading>
         <ng-container *ngIf="data.lemma.content.length > 0">
             <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
@@ -15,16 +15,16 @@
             </ng-container>
         </ng-container>
     </div>
-    <div class="card-footer app-box-tabs">
+    <div class="card-footer app-detail-tabs">
         <ul ngbNav #appEntryTab="ngbNav" class="nav-pills">
             <li ngbNavItem="criticalNotes" *ngIf="data.notes.length > 0">
-                <a class="app-box-btn" ngbNavLink>Note critiche</a>
+                <a class="app-detail-btn" ngbNavLink>Note critiche</a>
                 <ng-template ngbNavContent>
                     <evt-note *ngFor="let note of data.notes" [data]="note"></evt-note>
                 </ng-template>
             </li>
             <li ngbNavItem="notSignificantRdg" *ngIf="notSignificantRdg.length > 0">
-                <a class="app-box-btn" ngbNavLink>Varianti ortografiche</a>
+                <a class="app-detail-btn" ngbNavLink>Varianti ortografiche</a>
                 <ng-template ngbNavContent>
                     <span class="d-block" *ngFor="let el of notSignificantRdg">
                         <evt-reading [data]="el"></evt-reading>
@@ -33,7 +33,7 @@
                 </ng-template>
             </li>
             <li ngbNavItem="info">
-                <a class="app-box-btn" ngbNavLink>Info</a>
+                <a class="app-detail-btn" ngbNavLink>Info</a>
                 <ng-template ngbNavContent>
                     <div class="info-lemma-wrapper" *ngIf="data.lemma">
                         <span>Metadata for lemma </span>
@@ -62,7 +62,7 @@
                 </ng-template>
             </li>
             <li ngbNavItem="xml">
-                <a class="app-box-btn" ngbNavLink>XML</a>
+                <a class="app-detail-btn" ngbNavLink>XML</a>
                 <ng-template ngbNavContent>
                     <pre>{{ data.originalEncoding | xmlBeautify }}</pre>
                 </ng-template>
