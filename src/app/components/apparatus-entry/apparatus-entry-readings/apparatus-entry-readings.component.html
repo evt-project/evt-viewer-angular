@@ -1,14 +1,16 @@
-<evt-reading *ngIf="data.lemma" [data]="data.lemma"></evt-reading>
-<ng-container *ngIf="data.lemma.content.length > 0">
-    <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
-</ng-container>
-<span>] </span>
+<span class="app-entry-detail-reading">
+    <evt-reading *ngIf="data.lemma" [data]="data.lemma"></evt-reading>
+    <ng-container *ngIf="data.lemma.content.length > 0">
+        <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
+    </ng-container>
+    <span>] </span>
+</span>
 
-<ng-container *ngFor="let el of significantRdg">
+<span class="app-entry-detail-reading" *ngFor="let el of significantRdg">
     <evt-reading *ngIf="el.content.length !== 0" [data]="el"></evt-reading>
     <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
     <!-- TODO: handle lacunastart and lacunaend -->
     <ng-container *ngFor="let witID of el.witIDs">
         <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
     </ng-container>
-</ng-container>
+</span>
