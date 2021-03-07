@@ -2,20 +2,17 @@
     <evt-ms-desc-section [label]="'msContents'"></evt-ms-desc-section>
     <div>
         <ng-container *ngIf="data?.structuredData; else elseBlock">
-            <evt-ms-desc-section *ngIf="data?.summary" [inlineLabel]="true">
+            <evt-ms-desc-section *ngIf="data?.summary" [label]="'summary'" [inlineLabel]="true">
                 <evt-content-viewer [content]="data.summary" content></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.textLang.length>0" [label]="'textLang'" [inlineLabel]="true">
                 <evt-content-viewer *ngFor="let tl of data.textLang" [content]="tl" content></evt-content-viewer>
             </evt-ms-desc-section>
-            <span *ngFor="let m of data?.msItem">
+            <evt-ms-desc-section *ngIf="data?.msItem.length>0" [label]="'texts'" [inlineLabel]="true"></evt-ms-desc-section>
+            <ng-container *ngFor="let m of data?.msItem">
                 <evt-ms-item [data]="m"></evt-ms-item>
-            </span>      
-            <span *ngFor="let m of data?.msItem">
-                <span *ngFor="let ms of m.msItem">   
-                    <evt-ms-item [data]="ms" [listClass]="true"></evt-ms-item>
-                </span> 
-            </span>       
+                <evt-ms-item *ngFor="let ms of m.msItem" [data]="ms" [listClass]="true"></evt-ms-item>
+            </ng-container>      
         </ng-container>     
         <ng-template #elseBlock>
             <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
