@@ -66,12 +66,17 @@
     "altIdentifier": "Alternative identifier",
     "msContents": "Manuscript contents",
     "textLang": "Language",
-    "docTitle": "Document title",
     "author": "Author",
-    "docAuthor": "Document author",
-    "docImprint": "Document imprint",
-    "docDate": "Document date",
+    "docImprint": "Imprint",
+    "docDate": "Date",
     "filiation": "Filiation",
     "texts": "Texts",
-    "title": "Title"
+    "title": "Title",
+    "summary": "Content summary",
+    "incipit": "Incipit",
+    "explicit": "Explicit",
+    "locus": "Locus",
+    "bibl": "Bibliography",
+    "colophon": "Colophon",
+    "note": "Note"
 }

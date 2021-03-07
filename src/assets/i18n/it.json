@@ -65,12 +65,13 @@
     "altIdentifier": "Identificatore alternativo",
     "msContents": "Contenuto del manoscritto",
     "textLang": "Lingua",
-    "docTitle": "Titolo del documento",
     "author": "Autore",
-    "docAuthor": "Autore del documento",
     "docImprint": "Sigla editoriale del documento",
     "docDate": "Data del documento",
     "filiation": "Filiazione",
     "texts": "Testi",
-    "title": "Titolo"
+    "title": "Titolo",
+    "summary": "Riassunto del contenuto",
+    "colophon": "Colophon",
+    "note": "Note"
 }
