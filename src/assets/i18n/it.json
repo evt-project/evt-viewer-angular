@@ -66,6 +66,10 @@
     "msContents": "Contenuto del manoscritto",
     "textLang": "Lingua",
     "author": "Autore",
+    "docDate": "Data",
     "title": "Titolo",
     "summary": "Riassunto del contenuto",
+    "items": "Testi",
+    "incipit": "Incipit",
+    "explicit": "Explicit"
 }
