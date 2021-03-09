@@ -67,16 +67,8 @@
     "msContents": "Manuscript contents",
     "textLang": "Language",
     "author": "Author",
-    "docImprint": "Imprint",
     "docDate": "Date",
-    "filiation": "Filiation",
-    "texts": "Texts",
     "title": "Title",
     "summary": "Content summary",
     "incipit": "Incipit",
-    "explicit": "Explicit",
-    "locus": "Locus",
-    "bibl": "Bibliography",
-    "colophon": "Colophon",
-    "note": "Note"
 }

@@ -66,12 +66,6 @@
     "msContents": "Contenuto del manoscritto",
     "textLang": "Lingua",
     "author": "Autore",
-    "docImprint": "Sigla editoriale del documento",
-    "docDate": "Data del documento",
-    "filiation": "Filiazione",
-    "texts": "Testi",
     "title": "Titolo",
     "summary": "Riassunto del contenuto",
-    "colophon": "Colophon",
-    "note": "Note"
 }
