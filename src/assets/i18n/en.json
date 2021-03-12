@@ -69,8 +69,8 @@
     "author": "Author",
     "docDate": "Date",
     "title": "Title",
-    "summary": "Content summary",
-    "items": "Items",
+    "summary": "Summary",
+    "items": "Contents",
     "incipit": "Incipit",
     "explicit": "Explicit"
 }
