@@ -71,5 +71,8 @@
     "summary": "Riassunto del contenuto",
     "items": "Testi",
     "incipit": "Incipit",
-    "explicit": "Explicit"
+    "explicit": "Explicit",
+    "colophon": "Colophon",
+    "note": "Note",
+    "docImprint": "Sigla editoriale"
 }
