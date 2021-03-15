@@ -1,16 +1,22 @@
 .section {
     margin-bottom: 20px;
-    &.has-nested {
-        margin-left: 20px;
-        margin-top: -20px;
-        margin-bottom: 20px;
+}
+
+.col-1 {
+    max-width: 7%;
+}
+
+.has-nested, .has-nested2 {
+    font-size: 0.95rem;
+    .col-label {
+        max-width: 4%;
     }
 }
 
-.projectInfo-block {
-    display: block;
+.title {
+    font-style: italic;
 }
 
-.incipit, .explicit, .title {
-    font-style: italic;
+.locus {
+    font-weight: bold;
 }
