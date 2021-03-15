@@ -12,4 +12,5 @@ import { register } from '../../services/component-register.service';
 export class MsItemComponent {
   @Input() data: MsItem;
   @Input() nested: boolean;
+  @Input() nested2: boolean;
 }
