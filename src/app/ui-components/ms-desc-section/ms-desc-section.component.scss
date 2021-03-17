@@ -1,9 +1,12 @@
 .section {
     .section-label {
         font-variant: small-caps;
-        color: #666;;
+        color: #666;
     }
     &.has-inline-label {
+        &.has-nested-element {
+            display: block;;
+        }
         display: flex;
         .section-label {
             margin-right: 5px;
