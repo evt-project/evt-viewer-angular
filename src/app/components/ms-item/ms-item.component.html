@@ -1,60 +1,86 @@
-<div class="section" [class.has-nested]="nested" [class.has-nested2]="nested2">   
-    <div class="row no-gutters" *ngIf="data?.locus">
-        <span class="col-1" *ngIf="nested || nested2"></span>
-        <span class="col-1" *ngIf="nested2"></span>
-        <div class="col-1 col-label">
-            <span *ngIf="data?.locus" class="locus">
-                <evt-content-viewer [content]="data?.locus"></evt-content-viewer>
-                <span>:</span>
-            </span>
-        </div>
-        <div class="col-6 col-content">
-            <span *ngFor="let t of data.title | keyvalue">
-                <evt-content-viewer [content]="data.title[t.key]" class="title"></evt-content-viewer>
-                <span *ngIf="t.key < [data.title.length-1]">, </span>
-            </span>
-            <span *ngFor="let dt of data.docTitle | keyvalue">
-                <evt-content-viewer [content]="data.docTitle[dt.key]" class="title"></evt-content-viewer>
-                <span *ngIf="dt.key < [data.docTitle.length-1]">, </span>
-            </span>
-            <evt-ms-desc-section *ngIf="data?.textLang.length>0" [label]="'textLang'" [inlineLabel]="true">
-                <div content>
-                    <span *ngFor="let tl of data.textLang | keyvalue">
-                        <evt-content-viewer [content]="data.textLang[tl.key]"></evt-content-viewer>
-                        <span *ngIf="tl.key < [data.textLang.length-1]">, </span>
-                    </span>
+<div class="container-fluid section-msItem" [class.has-nested]="nested">   
+    <div class="row" *ngIf="data?.locus">
+        <ng-container [ngSwitch]="nested">
+            <ng-container *ngSwitchCase="'nested1'">
+                <div class="col-3 col-sm-2 col-md-1 offset-md-1 offset-sm-1 offset-1">   
+                    <ng-container [ngTemplateOutlet]="colItemLocus"></ng-container>
                 </div>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.author.length>0 || data?.docAuthor.length>0" [label]="'author'" [inlineLabel]="true">
-                <div content>
-                    <span *ngFor="let a of data.author | keyvalue">
-                        <evt-content-viewer [content]="data.author[a.key]"></evt-content-viewer>
-                        <span *ngIf="a.key < [data.author.length-1]">, </span>
-                    </span>
-                    <span *ngFor="let da of data.docAuthor | keyvalue">
-                        <evt-content-viewer [content]="data.docAuthor[da.key]"></evt-content-viewer>
-                        <span *ngIf="da.key < [data.docAuthor.length-1]">, </span>
-                    </span>
+                <div class="col-8 col-sm-9 col-md-10">
+                    <ng-container [ngTemplateOutlet]="colItemInformation"></ng-container>
+                </div>    
+            </ng-container>
+            <ng-container *ngSwitchCase="'nested2'">
+                <div class="col-3 col-sm-2 col-md-1 offset-md-2 offset-sm-2 offset-2">
+                    <ng-container [ngTemplateOutlet]="colItemLocus"></ng-container>
                 </div>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.docDate.length>0" [label]="'docDate'" [inlineLabel]="true">
-                <evt-content-viewer *ngFor="let dd of data.docDate" [content]="dd" content></evt-content-viewer>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.colophon.length>0" [label]="'colophon'" [inlineLabel]="true">
-                <evt-content-viewer *ngFor="let dd of data.colophon" [content]="dd" content></evt-content-viewer>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.incipit" [label]="'incipit'" [inlineLabel]="true">
-                <evt-content-viewer [content]="data.incipit" class="incipit" content></evt-content-viewer>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.explicit" [label]="'explicit'" [inlineLabel]="true">
-                <evt-content-viewer [content]="data.explicit" class="explicit" content></evt-content-viewer>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.docImprint.length>0" [label]="'docImprint'" [inlineLabel]="true" [additionalClass]="'labelItem'">
-                <evt-content-viewer *ngFor="let di of data.docImprint" [content]="di" content></evt-content-viewer>
-            </evt-ms-desc-section>
-            <evt-ms-desc-section *ngIf="data?.noteEl.length>0" [label]="'note'" [inlineLabel]="true">
-                <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n" content></evt-content-viewer>
-            </evt-ms-desc-section>   
-        </div>
+                <div class="col-7 col-sm-8 col-md-9">
+                    <ng-container [ngTemplateOutlet]="colItemInformation"></ng-container>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <div class="col-3 col-sm-2 col-md-2 col-lg-1">
+                    <ng-container [ngTemplateOutlet]="colItemLocus"></ng-container>
+                </div>
+                <div class="col-9 col-sm-10 col-md-10 col-lg-11">
+                    <ng-container [ngTemplateOutlet]="colItemInformation"></ng-container>
+                </div>
+            </ng-container>
+        </ng-container>
     </div>
 </div>
+
+<ng-template #colItemLocus>
+    <span *ngIf="data?.locus" class="locus">
+        <evt-content-viewer [content]="data?.locus"></evt-content-viewer>
+        <span>:</span>
+    </span>
+</ng-template>
+
+<ng-template #colItemInformation>
+    <span *ngFor="let t of data.title | keyvalue">
+        <evt-content-viewer [content]="data.title[t.key]" class="title"></evt-content-viewer>
+        <span *ngIf="t.key < [data.title.length-1]">, </span>
+    </span>
+    <span *ngFor="let dt of data.docTitle | keyvalue">
+        <evt-content-viewer [content]="data.docTitle[dt.key]" class="title"></evt-content-viewer>
+        <span *ngIf="dt.key < [data.docTitle.length-1]">, </span>
+    </span>
+    <evt-ms-desc-section *ngIf="data?.textLang.length>0" [label]="'textLang'" [inlineLabel]="true" [nestedElement]="true"> 
+        <span content>
+            <span *ngFor="let tl of data.textLang | keyvalue">
+                <evt-content-viewer [content]="data.textLang[tl.key]"></evt-content-viewer>
+                <span *ngIf="tl.key < [data.textLang.length-1]">, </span>
+            </span>
+        </span>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.author.length>0 || data?.docAuthor.length>0" [label]="'author'" [inlineLabel]="true" [nestedElement]="true">
+        <span content>
+            <span *ngFor="let a of data.author | keyvalue">
+                <evt-content-viewer [content]="data.author[a.key]"></evt-content-viewer>
+                <span *ngIf="a.key < [data.author.length-1]">, </span>
+            </span>
+            <span *ngFor="let da of data.docAuthor | keyvalue">
+                <evt-content-viewer [content]="data.docAuthor[da.key]"></evt-content-viewer>
+                <span *ngIf="da.key < [data.docAuthor.length-1]">, </span>
+            </span>
+        </span>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docDate.length>0" [label]="'docDate'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer *ngFor="let dd of data.docDate" [content]="dd" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.colophon.length>0" [label]="'colophon'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer *ngFor="let dd of data.colophon" [content]="dd" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.incipit" [label]="'incipit'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer [content]="data.incipit" class="incipit" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.explicit" [label]="'explicit'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer [content]="data.explicit" class="explicit" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.docImprint.length>0" [label]="'docImprint'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer *ngFor="let di of data.docImprint" [content]="di" content></evt-content-viewer>
+    </evt-ms-desc-section>
+    <evt-ms-desc-section *ngIf="data?.noteEl.length>0" [label]="'note'" [inlineLabel]="true" [nestedElement]="true">
+        <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n" content></evt-content-viewer>
+    </evt-ms-desc-section> 
+</ng-template>
