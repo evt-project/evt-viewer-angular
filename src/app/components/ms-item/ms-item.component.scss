@@ -1,16 +1,9 @@
-.section {
-    margin-bottom: 20px;
+.section-msItem {
+    margin-bottom: 1rem;
 }
 
-.col-1 {
-    max-width: 7%;
-}
-
-.has-nested, .has-nested2 {
+.has-nested {
     font-size: 0.95rem;
-    .col-label {
-        max-width: 4%;
-    }
 }
 
 .title {
