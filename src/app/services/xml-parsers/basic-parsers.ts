@@ -123,8 +123,8 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
 export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     parse(xml: XMLElement): Note {
-        const noteLayout: NoteLayout = this.isFooterNote(xml) || this.isNamedEntityNote(xml) || isNestedInElem(xml, 'msItem')
-            || ['person', 'place', 'app'].some((v) => isNestedInElem(xml, v))
+        const noteLayout: NoteLayout = this.isFooterNote(xml) || this.isNamedEntityNote(xml)
+            || ['person', 'place', 'app', 'msItem'].some((v) => isNestedInElem(xml, v))
             ? 'plain-text'
             : 'popover';
 
