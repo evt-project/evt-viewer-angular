@@ -9,4 +9,5 @@ export class MsDescSectionComponent {
   @Input() label: string;
   @Input() additionalClass: string;
   @Input() inlineLabel: boolean;
+  @Input() nestedElement: boolean;
 }
