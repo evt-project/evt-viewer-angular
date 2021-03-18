@@ -2,12 +2,16 @@
     <span class="section-label" *ngIf="label">{{ label | translate }}{{inlineLabel ? ': ' : ''}}</span>
     <ng-container [ngSwitch]="nestedElement">
         <ng-container *ngSwitchCase=true>
-            <ng-content select="[content]"></ng-content>
+            <ng-container [ngTemplateOutlet]="content"></ng-container>
         </ng-container>
         <ng-container *ngSwitchDefault>
             <div class="section-content">
-                <ng-content select="[content]"></ng-content>
+                <ng-container [ngTemplateOutlet]="content"></ng-container>
             </div>
         </ng-container>
     </ng-container>
 </div>
+
+<ng-template #content>
+    <ng-content select="[content]"></ng-content>
+</ng-template>
