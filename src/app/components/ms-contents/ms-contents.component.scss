@@ -1,3 +1,7 @@
+.msContents {
+  padding-bottom: 10px
+}
+
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -6,39 +10,18 @@
 
 .flex-item-label {
   flex-basis: 20%;
-  padding-bottom: 1rem;
 }
 
 .flex-item-information {
   flex-basis: 80%;
 }
 
-@media (max-width: 490px) {
-    .flex-item-label {
-        flex-basis: 30%;
-      }
-      
-    .flex-item-information {
-        flex-basis: 70%;
-    }
-}
-
-@media (max-width: 950px) and (min-width: 710px) {
+@media (max-width: 970px) and (min-width: 930px) {
     .flex-item-label {
         flex-basis: 30%;
     }
       
     .flex-item-information {
         flex-basis: 70%;
-    }
-}
-
-@media (max-width: 710px) and (min-width: 639px) {
-    .flex-item-label {
-        flex-basis: 40%;
-    }
-      
-    .flex-item-information {
-        flex-basis: 60%;
     }
 }
