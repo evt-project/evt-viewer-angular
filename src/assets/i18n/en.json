@@ -61,7 +61,7 @@
     "msIdentifier": "Manuscript identifier",
     "repository": "Repository",
     "institution": "Institution",
-    "msName": "Manuscript Title",
+    "msName": "Name",
     "idno": "Shelfmark",
     "altIdentifier": "Other",
     "msContents": "Manuscript contents",
