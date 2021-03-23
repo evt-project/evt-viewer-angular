@@ -7,30 +7,30 @@
     </div>
     <div class="flex-item-information">
         <evt-ms-desc-section *ngIf="data?.title.length>0 || data?.docTitle.length>0" [inlineLabel]="true" [nestedElement]="true">
-            <span content>
-                <span *ngFor="let t of data.title; let i = index">
+            <ng-container content>
+                <ng-container *ngFor="let t of data.title; let i = index">
                     <evt-content-viewer [content]="t"></evt-content-viewer>
                     <span *ngIf="i < [data.title.length-1]">, </span>
-                </span>
+                </ng-container>
                 <!--TODO: modify component to handle different cases. Examples: 
                 - <docTitle>
                     <titlePart type="main">Les amours pastorales de Daphnis et Chloé</titlePart>
                   <docTitle>
                 -->
-                <span *ngFor="let dt of data.docTitle; let i = index">
+                <ng-container *ngFor="let dt of data.docTitle; let i = index">
                     <evt-content-viewer [content]="dt"></evt-content-viewer>
                     <span *ngIf="i < [data.docTitle.length-1]">, </span>
-                </span>
-            </span>
+                </ng-container>
+            </ng-container>
         </evt-ms-desc-section>
-        <span class="msItem-information">
+        <ng-container class="msItem-information">
             <evt-ms-desc-section *ngIf="data?.textLang.length>0" [label]="'textLang'" [inlineLabel]="true" [nestedElement]="true"> 
-                <span content>
-                    <span *ngFor="let tl of data.textLang; let i = index">
+                <ng-container content>
+                    <ng-container *ngFor="let tl of data.textLang; let i = index">
                         <evt-content-viewer [content]="tl"></evt-content-viewer>
                         <span *ngIf="i < [data.textLang.length-1]">, </span>
-                    </span>
-                </span>
+                    </ng-container>
+                </ng-container>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.author.length>0 || data?.docAuthor.length>0" [label]="'author'" [inlineLabel]="true" [nestedElement]="true">
                 <span content>
@@ -49,10 +49,10 @@
                         <name>Taylor, Jane</name>
                       </author>
                     -->
-                    <span *ngFor="let a of data.author; let i = index">
+                    <ng-container *ngFor="let a of data.author; let i = index">
                         <evt-content-viewer [content]="a"></evt-content-viewer>
                         <span *ngIf="i < [data.author.length-1]">, </span>
-                    </span>
+                    </ng-container>
                     <!--TODO: modify component to handle different cases. Examples: 
                     - <docAuthor>
                         <forename>Guillaume de Lorris </forename>
@@ -61,10 +61,10 @@
                         <surname>Longus</surname>
                       </docAuthor>
                     -->
-                    <span *ngFor="let da of data.docAuthor; let i = index">
+                    <ng-container *ngFor="let da of data.docAuthor; let i = index">
                         <evt-content-viewer [content]="da"></evt-content-viewer>
                         <span *ngIf="i < [data.docAuthor.length-1]">, </span>
-                    </span>
+                    </ng-container>
                 </span>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.docDate.length>0" [label]="'docDate'" [inlineLabel]="true" [nestedElement]="true">
@@ -85,6 +85,6 @@
             <evt-ms-desc-section *ngIf="data?.noteEl.length>0" [label]="'note'" [inlineLabel]="true" [nestedElement]="true">
                 <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n" content></evt-content-viewer>
             </evt-ms-desc-section> 
-        </span>
+        </ng-container>
     </div>    
 </div>
