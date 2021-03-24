@@ -501,6 +501,7 @@ export class ObjectDesc extends GenericElement {
     form?: string;
     layoutDesc?: LayoutDesc;
     supportDesc?: SupportDesc;
+    pEl?: Paragraph[];
 }
 
 export class LayoutDesc extends GenericElement {
