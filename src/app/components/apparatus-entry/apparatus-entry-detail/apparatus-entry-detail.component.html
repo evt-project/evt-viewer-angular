@@ -29,13 +29,17 @@
                         <span class="d-block ml-2" *ngFor="let attr of data.attributes | keyvalue">
                             <span class="info-label">{{ attr.key }}:</span> {{ attr.value }}
                         </span>
+                        <span class="d-block ml-2" *ngIf="(data.attributes | keyvalue).length === 0">
+                            <span class="font-italic">No data available</span>
+                        </span>
                     </div>
                     <div>
                         <span class="more-info-label">More info about the apparatus entry</span>
                         <ng-container *ngFor="let rdg of readings">
-                            <div class="mb-2" *ngIf="rdg.attributes !== {}">
+                            <div class="mb-2" *ngIf="(rdg.attributes | keyvalue).length !== 0">
                                 <span>Metadata for </span>
-                                <evt-reading class="info-rdg" [data]="rdg"></evt-reading>
+                                <evt-reading *ngIf="rdg.content.length !== 0" class="info-rdg" [data]="rdg"></evt-reading>
+                                <span class="font-italic" *ngIf="rdg.content.length === 0">omit.</span>
                                 <span class="d-block ml-2" *ngIf="rdg.attributes.wit">
                                     <span class="info-label">Wit:</span> {{rdg.attributes.wit}}
                                 </span>
