@@ -1,89 +1,81 @@
 <div class="phyDesc">
     <evt-ms-desc-section [label]="'phyDesc'"></evt-ms-desc-section>
-        <ng-container *ngIf="data?.structuredData; else elseBlock">
-            <div class="flex-container">
-                <ng-container *ngIf="data?.objectDesc?.pEl.length>0">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl" content></evt-content-viewer>
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc?.pEl.length>0">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc" content></evt-content-viewer>
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e" content></evt-content-viewer>
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.objectDesc?.supportDesc?.collation">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'collation'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data.objectDesc.supportDesc.collation" content></evt-content-viewer> 
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.objectDesc?.layoutDesc">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'layoutDesc'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data.objectDesc.layoutDesc" content></evt-content-viewer>     
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.handDesc">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'handDesc'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data.handDesc" content></evt-content-viewer>    
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.decoDesc">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'decoDesc'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data.decoDesc" content></evt-content-viewer>    
-                    </div>
-                </ng-container>
-
-                <ng-container *ngIf="data?.bindingDesc">
-                    <div class="flex-item-label">
-                        <evt-ms-desc-section [label]="'bindingDesc'" [inlineLabel]="true"></evt-ms-desc-section>
-                    </div>
-                    <div class="flex-item-information pb-3">
-                        <evt-content-viewer [content]="data.bindingDesc" content></evt-content-viewer>    
-                    </div>
-                </ng-container>
-
-            </div>
-        </ng-container>
-        <ng-template #elseBlock>
-            <div class="flex-container" *ngIf="data?.pEl.length>0">
+    <ng-container *ngIf="data?.structuredData; else elseBlock">
+        <div class="flex-container">
+            <ng-container *ngIf="data?.objectDesc?.pEl.length>0">
                 <div class="flex-item-label">
-                    <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"> </evt-ms-desc-section>
+                    <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-1">
-                    <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl" content></evt-content-viewer>
                 </div>
-            </div>  
-        </ng-template>
+            </ng-container>
+            <ng-container *ngIf="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc?.pEl.length>0">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc" content></evt-content-viewer>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e" content></evt-content-viewer>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.objectDesc?.supportDesc?.collation">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'collation'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data.objectDesc.supportDesc.collation" content></evt-content-viewer> 
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.objectDesc?.layoutDesc">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'layoutDesc'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data.objectDesc.layoutDesc" content></evt-content-viewer>     
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.handDesc">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'handDesc'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data.handDesc" content></evt-content-viewer>    
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.decoDesc">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'decoDesc'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data.decoDesc" content></evt-content-viewer>    
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data?.bindingDesc">
+                <div class="flex-item-label">
+                    <evt-ms-desc-section [label]="'bindingDesc'" [inlineLabel]="true"></evt-ms-desc-section>
+                </div>
+                <div class="flex-item-information pb-3">
+                    <evt-content-viewer [content]="data.bindingDesc" content></evt-content-viewer>    
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-template #elseBlock>
+        <div class="flex-container" *ngIf="data?.pEl.length>0">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"> </evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information pb-1">
+                <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
+            </div>
+        </div>  
+    </ng-template>
 </div>
