@@ -10,11 +10,13 @@
 
 .flex-item-label {
   flex-basis: 20%;
+  margin-bottom: 0.5rem;
 }
 
 .flex-item-information {
   flex-basis: 80%;
-  margin-bottom: -1rem;
+  margin-bottom: -0.5rem;
+
 }
 
 @media (max-width: 1110px) and (min-width: 639px) {
