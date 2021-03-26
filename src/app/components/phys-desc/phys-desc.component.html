@@ -6,7 +6,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl" content></evt-content-viewer>
                 </div>
             </ng-container>
@@ -14,7 +14,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc" content></evt-content-viewer>
                 </div>
             </ng-container>
@@ -22,7 +22,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e" content></evt-content-viewer>
                 </div>
             </ng-container>
@@ -30,7 +30,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'collation'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.objectDesc.supportDesc.collation" content></evt-content-viewer> 
                 </div>
             </ng-container>
@@ -38,7 +38,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'layoutDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.objectDesc.layoutDesc" content></evt-content-viewer>     
                 </div>
             </ng-container>
@@ -46,7 +46,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'handDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.handDesc" content></evt-content-viewer>    
                 </div>
             </ng-container>
@@ -54,7 +54,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'decoDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.decoDesc" content></evt-content-viewer>    
                 </div>
             </ng-container>
@@ -62,7 +62,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'bindingDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.bindingDesc" content></evt-content-viewer>    
                 </div>
             </ng-container>
