@@ -58,6 +58,7 @@ import { TextComponent } from './components/text/text.component';
 import { VerseComponent } from './components/verse/verse.component';
 import { VersesGroupComponent } from './components/verses-group/verses-group.component';
 import { WordComponent } from './components/word/word.component';
+import { AnnotatorDirective } from './directives/annotator.directive';
 import { EditorialConventionLayoutDirective } from './directives/editorial-convention-layout.directive';
 import { HighlightDirective } from './directives/highlight.directive';
 import { HtmlAttributesDirective } from './directives/html-attributes.directive';
@@ -76,6 +77,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { HumanizePipe } from './pipes/humanize.pipe';
 import { StartsWithPipe } from './pipes/starts-with.pipe';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
+import { AnnotatorService } from './services/annotator/annotator.service';
 import { IdbService } from './services/idb.service';
 import { ThemesService } from './services/themes.service';
 import { GenericParserService } from './services/xml-parsers/generic-parser.service';
@@ -99,6 +101,7 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AdditionComponent,
+    AnnotatorDirective,
     ApparatusEntryComponent,
     AppComponent,
     CharComponent,
@@ -183,6 +186,8 @@ export function initializeApp(appConfig: AppConfig) {
     UiComponentsModule,
   ],
   providers: [
+    AnnotatorService,
+    AppConfig,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
