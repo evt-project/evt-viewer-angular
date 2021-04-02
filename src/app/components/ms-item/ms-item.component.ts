@@ -16,21 +16,21 @@ export class MsItemComponent {
 
   get notEmptyElementDt() {
     const newDocTitle = this.data.docTitle.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newDocTitle.map((item: Text) => { item.text = item.text?.trim(); })
+    newDocTitle.map((item: Text) => { item.text = item.text?.trim(); });
 
     return newDocTitle;
   }
 
   get notEmptyElementA() {
     const newAuthor = this.data.author.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newAuthor.map((item: Text) => { item.text = item.text?.trim(); })
+    newAuthor.map((item: Text) => { item.text = item.text?.trim(); });
 
     return newAuthor;
   }
 
   get notEmptyElementDa() {
     const newDocAuthor = this.data.docAuthor.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newDocAuthor.map((item: Text) => { item.text = item.text?.trim(); })
+    newDocAuthor.map((item: Text) => { item.text = item.text?.trim(); });
 
     return newDocAuthor;
   }
