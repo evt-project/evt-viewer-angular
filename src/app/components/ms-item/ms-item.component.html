@@ -17,9 +17,9 @@
                     <titlePart type="main">Les amours pastorales de Daphnis et Chloé</titlePart>
                   <docTitle>
                 -->
-                <ng-container *ngFor="let dt of data.docTitle; let i = index">
+                <ng-container *ngFor="let dt of notEmptyElementDt; let i = index">
                     <evt-content-viewer [content]="dt"></evt-content-viewer>
-                    <span *ngIf="i < [data.docTitle.length-1]">, </span>
+                    <span *ngIf="i < [notEmptyElementDt.length-1]">, </span>
                 </ng-container>
             </ng-container>
         </evt-ms-desc-section>
@@ -34,36 +34,14 @@
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.author.length>0 || data?.docAuthor.length>0" [label]="'author'" [inlineLabel]="true" [nestedElement]="true">
                 <span content>
-                    <!--TODO: modify component to handle different cases. Examples: 
-                    - <author>
-                        <persName><surname>Baxter</surname>
-                      <author>
-                    - <author>
-                        <forename>Allen</forename>
-                        <surname>Renear</surname>
-                      </author>
-                    - <author>
-                        <orgName key="ARTE">Association relative à la télévision européenne</orgName>
-                      </author>
-                    - <author>
-                        <name>Taylor, Jane</name>
-                      </author>
-                    -->
-                    <ng-container *ngFor="let a of data.author; let i = index">
+                    <ng-container *ngFor="let a of notEmptyElementA; let i = index">
                         <evt-content-viewer [content]="a"></evt-content-viewer>
-                        <span *ngIf="i < [data.author.length-1]">, </span>
+                        <span *ngIf="i < [notEmptyElementA.length-1]">, </span>
                     </ng-container>
-                    <!--TODO: modify component to handle different cases. Examples: 
-                    - <docAuthor>
-                        <forename>Guillaume de Lorris </forename>
-                      </docAuthor>
-                    - <docAuthor>
-                        <surname>Longus</surname>
-                      </docAuthor>
-                    -->
-                    <ng-container *ngFor="let da of data.docAuthor; let i = index">
+                    <span *ngIf="data?.author.length>0 && data?.docAuthor.length>0">, </span>
+                    <ng-container *ngFor="let da of notEmptyElementDa; let i = index">
                         <evt-content-viewer [content]="da"></evt-content-viewer>
-                        <span *ngIf="i < [data.docAuthor.length-1]">, </span>
+                        <span *ngIf="i < [notEmptyElementDa.length-1]">, </span>
                     </ng-container>
                 </span>
             </evt-ms-desc-section>
