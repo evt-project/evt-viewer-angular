@@ -29,6 +29,7 @@ import { ContentViewerComponent } from './components/content-viewer/content-view
 import { DamageComponent } from './components/damage/damage.component';
 import { DeletionComponent } from './components/deletion/deletion.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
+import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
@@ -118,6 +119,7 @@ export function initializeApp(appConfig: AppConfig) {
     DamageComponent,
     DeletionComponent,
     EditionLevelSelectorComponent,
+    EditionStmtComponent,
     EditorialConventionLayoutDirective,
     EntitiesSelectComponent,
     EvtInfoComponent,

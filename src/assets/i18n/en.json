@@ -104,5 +104,7 @@
     "address": "Address",
     "availability": "Availability",
     "date": "Date",
-    "licence": "Licence"
+    "licence": "Licence",
+    "editionStatement": "Edition statement",
+    "edition": "Edition"
 }

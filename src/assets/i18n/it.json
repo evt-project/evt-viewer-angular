@@ -103,5 +103,7 @@
     "address": "Indirizzo",
     "availability": "Disponibilità",
     "date": "Data",
-    "licence": "Licenza"
+    "licence": "Licenza",
+    "editionStatement": "Informazioni sull'edizione",
+    "edition": "Edizione"
 }
