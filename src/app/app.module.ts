@@ -33,6 +33,7 @@ import { DeletionComponent } from './components/deletion/deletion.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
+import { ExtentComponent } from './components/extent/extent.component';
 import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
@@ -131,6 +132,7 @@ export function initializeApp(appConfig: AppConfig) {
     EditorialConventionLayoutDirective,
     EntitiesSelectComponent,
     EvtInfoComponent,
+    ExtentComponent,
     FilterPipe,
     GapComponent,
     GComponent,
