@@ -122,5 +122,7 @@
     "publicationPlace": "Luogo di pubblicazione",
     "address": "Indirizzo",
     "date": "Data",
-    "licence": "Licenza"
+    "licence": "Licenza",
+    "editionStatement": "Informazioni sull'edizione",
+    "edition": "Edizione"
 }

@@ -123,5 +123,7 @@
     "publicationPlace": "Publication place",
     "address": "Address",
     "date": "Date",
-    "licence": "Licence"
+    "licence": "Licence",
+    "editionStatement": "Edition statement",
+    "edition": "Edition"
 }
