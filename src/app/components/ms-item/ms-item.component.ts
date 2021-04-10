@@ -14,24 +14,30 @@ export class MsItemComponent {
   @Input() nested1: boolean;
   @Input() nested2: boolean;
 
-  get notEmptyElementDt() {
-    const newDocTitle = this.data.docTitle.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newDocTitle.map((item: Text) => { item.text = item.text?.trim(); });
+  get getDocTitle() {
+    return this.data.docTitle.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+      .map((item: Text & MsItem) => {
+        if (item.text) { item.text = item.text.trim(); }
 
-    return newDocTitle;
+        return item;
+      });
   }
 
-  get notEmptyElementA() {
-    const newAuthor = this.data.author.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newAuthor.map((item: Text) => { item.text = item.text?.trim(); });
+  get getAuthor() {
+    return this.data.author.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+      .map((item: Text & MsItem) => {
+        if (item.text) { item.text = item.text.trim(); }
 
-    return newAuthor;
+        return item;
+      });
   }
 
-  get notEmptyElementDa() {
-    const newDocAuthor = this.data.docAuthor.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0);
-    newDocAuthor.map((item: Text) => { item.text = item.text?.trim(); });
+  get getDocAuthor() {
+    return this.data.docAuthor.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+      .map((item: Text & MsItem) => {
+        if (item.text) { item.text = item.text.trim(); }
 
-    return newDocAuthor;
+        return item;
+      });
   }
 }
