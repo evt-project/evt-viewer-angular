@@ -17,9 +17,9 @@
                     <titlePart type="main">Les amours pastorales de Daphnis et Chloé</titlePart>
                   <docTitle>
                 -->
-                <ng-container *ngFor="let dt of notEmptyElementDt; let i = index">
+                <ng-container *ngFor="let dt of getDocTitle; let i = index">
                     <evt-content-viewer [content]="dt"></evt-content-viewer>
-                    <span *ngIf="i < [notEmptyElementDt.length-1]">, </span>
+                    <span *ngIf="i < [getDocTitle.length-1]">, </span>
                 </ng-container>
             </ng-container>
         </evt-ms-desc-section>
@@ -34,14 +34,14 @@
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.author.length>0 || data?.docAuthor.length>0" [label]="'author'" [inlineLabel]="true" [nestedElement]="true">
                 <span content>
-                    <ng-container *ngFor="let a of notEmptyElementA; let i = index">
+                    <ng-container *ngFor="let a of getAuthor; let i = index">
                         <evt-content-viewer [content]="a"></evt-content-viewer>
-                        <span *ngIf="i < [notEmptyElementA.length-1]">, </span>
+                        <span *ngIf="i < [getAuthor.length-1]">, </span>
                     </ng-container>
                     <span *ngIf="data?.author.length>0 && data?.docAuthor.length>0">, </span>
-                    <ng-container *ngFor="let da of notEmptyElementDa; let i = index">
+                    <ng-container *ngFor="let da of getDocAuthor; let i = index">
                         <evt-content-viewer [content]="da"></evt-content-viewer>
-                        <span *ngIf="i < [notEmptyElementDa.length-1]">, </span>
+                        <span *ngIf="i < [getDocAuthor.length-1]">, </span>
                     </ng-container>
                 </span>
             </evt-ms-desc-section>
