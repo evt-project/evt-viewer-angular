@@ -1,0 +1,27 @@
+.msContents {
+  padding-bottom: 1rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-item-label {
+  flex-basis: 20%;
+}
+
+.flex-item-information {
+  flex-basis: 80%;
+}
+
+@media (max-width: 970px) and (min-width: 930px) {
+    .flex-item-label {
+        flex-basis: 30%;
+    }
+      
+    .flex-item-information {
+        flex-basis: 70%;
+    }
+}

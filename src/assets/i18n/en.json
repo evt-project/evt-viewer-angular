@@ -61,7 +61,19 @@
     "msIdentifier": "Manuscript identifier",
     "repository": "Repository",
     "institution": "Institution",
-    "msName": "Alternative name",
-    "idno": "Identifier",
-    "altIdentifier": "Alternative identifier"
+    "msName": "Name",
+    "idno": "Shelfmark",
+    "altIdentifier": "Other",
+    "msContents": "Manuscript contents",
+    "textLang": "Language",
+    "author": "Author",
+    "docDate": "Date",
+    "title": "Title",
+    "summary": "Summary",
+    "items": "Contents",
+    "incipit": "Incipit",
+    "explicit": "Explicit",
+    "colophon": "Colophon",
+    "note": "Note",
+    "docImprint": "Document imprint"
 }

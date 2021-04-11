@@ -702,7 +702,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             explicit: queryAndParseElement<Explicit>(xml, 'explicit'),
             finalRubric: queryAndParseElement<FinalRubric>(xml, 'finalRubric'),
             decoNote: queryAndParseElement<DecoNote>(xml, 'decoNote'),
-            filiation: queryAndParseElement<Filiation>(xml, 'filiation'),
+            filiation: queryAndParseElements<Filiation>(xml, 'filiation'),
             locus: queryAndParseElement<Locus>(xml, 'locus'),
             noteEl: queryAndParseElements<Note>(xml, 'note'),
         };
@@ -722,6 +722,7 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
             docDate: unhandledElement(xml, 'docDate', this.genericParse),
             locusGrp: queryAndParseElement<LocusGrp>(xml, 'locusGrp'),
             gapEl: queryAndParseElements(xml, 'gap'),
+            msItem: queryAndParseElements(xml, 'msItem'),
         };
     }
 }
@@ -855,9 +856,12 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: MsContents,
+            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             summary: queryAndParseElement(xml, 'summary'),
-            msItem: queryAndParseElement(xml, 'msItem'),
+            msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p'),
+            textLang: unhandledElement(xml, 'textLang', this.genericParse),
         };
     }
 }

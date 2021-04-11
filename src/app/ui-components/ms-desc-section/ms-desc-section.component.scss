@@ -4,18 +4,20 @@
         color: #666;
     }
     &.has-inline-label {
+        &.has-nested-element {
+            display: block;
+        }
         display: flex;
         .section-label {
-            margin-right: 5px;
+            margin-right: 0.3rem;
         }
     }
     &:not(.has-inline-label){
         .section-label {
-            font-size: 0.9rem;
-            border-bottom: 1px dotted #666;
-            margin-bottom: 5px;
+            border-bottom: 0.07rem dotted #666;
+            margin-bottom: 0.3rem;
             display: block;
-            margin-top: 14px;
+            margin-top: 1rem;  
         }
     }
     ::ng-deep p {
@@ -23,6 +25,6 @@
     }
 }
 .itemElement {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
