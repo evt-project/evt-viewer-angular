@@ -1,4 +1,6 @@
-<span class="app-entry" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }" (clickOutside)="closeAppEntryBox()" (escape)="closeAppEntryBox()">
-   <evt-reading class="app-entry-lem" *ngIf="data.lemma" [data]="data.lemma" (click)="toggleAppEntryBox()"></evt-reading>
+<span class="app-entry" *ngIf="!isNestedInApp" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
+   <evt-reading class="app-entry-lem" *ngIf="data.lemma" [data]="data.lemma" (click)="toggleAppEntryBox($event);"></evt-reading>
    <evt-apparatus-entry-detail *ngIf="opened" [data]="data"></evt-apparatus-entry-detail>
 </span>
+
+<evt-reading *ngIf="data.lemma && isNestedInApp" [data]="data.lemma"></evt-reading>
