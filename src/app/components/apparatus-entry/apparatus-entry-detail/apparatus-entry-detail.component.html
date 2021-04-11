@@ -1,6 +1,11 @@
 <div class="card app-detail-container">
     <div class="card-body app-detail-content">
-        <evt-apparatus-entry-readings [data]="data"></evt-apparatus-entry-readings>
+        <span>
+            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data"></evt-apparatus-entry-readings>
+            <div class="app-detail-nested-readings-container">
+                <evt-apparatus-entry-readings class="app-detail-nested-readings" *ngFor="let nestedApp of nestedApps" [data]="nestedApp"></evt-apparatus-entry-readings>
+            </div>
+        </span>
         <evt-pinner [item]="data" renderer="ApparatusEntryReadings" pinType="ApparatusEntry"></evt-pinner>
     </div>
     <div class="card-footer app-detail-tabs">
