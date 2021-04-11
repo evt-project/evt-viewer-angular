@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EVTModelService } from '../../../services/evt-model.service';
-import { ApparatusEntry, Reading } from '../../../models/evt-models';
+import { ApparatusEntry, GenericElement, Reading } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 
 @Component({
@@ -31,6 +31,10 @@ export class ApparatusEntryDetailComponent {
 
   get witAttr(): string {
     return this.data.attributes.wit;
+  }
+
+  get nestedApps(): ApparatusEntry[] {
+    return this.data.lemma.content.filter((c: GenericElement) => c.type === ApparatusEntry) as ApparatusEntry[];
   }
 
   getWits$(witID: string): Observable<string[]> {
