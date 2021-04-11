@@ -105,6 +105,7 @@ export function initializeApp(appConfig: AppConfig) {
 @NgModule({
   declarations: [
     AdditionComponent,
+    AnnotatorDirective,
     ApparatusEntryComponent,
     ApparatusEntryDetailComponent,
     ApparatusEntryReadingsComponent,
