@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Manuscript contents visualization
+- Manuscript identifier visualization
 - Text selection for generate text annotations
 - Revision description data extraction
 - Profile description data extraction
