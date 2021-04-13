@@ -12,11 +12,6 @@
                     <evt-content-viewer [content]="t"></evt-content-viewer>
                     <span *ngIf="i < [data.title.length-1]">, </span>
                 </ng-container>
-                <!--TODO: modify component to handle different cases. Examples: 
-                - <docTitle>
-                    <titlePart type="main">Les amours pastorales de Daphnis et Chloé</titlePart>
-                  <docTitle>
-                -->
                 <ng-container *ngFor="let dt of getDocTitle; let i = index">
                     <evt-content-viewer [content]="dt"></evt-content-viewer>
                     <span *ngIf="i < [getDocTitle.length-1]">, </span>
