@@ -31,10 +31,10 @@
                     <div class="info-lemma-wrapper" *ngIf="data.lemma">
                         <span>{{'metadataForLemma' | translate}} </span>
                         <evt-reading class="info-rdg" [data]="data.lemma"></evt-reading>
-                        <span class="d-block ml-2" *ngFor="let attr of data.attributes | keyvalue">
-                            <span class="info-label" *ngIf="attr.key !== 'id'">{{ attr.key }}:</span> {{ attr.value }}
+                        <span class="d-block ml-2" *ngFor="let metadata of rdgMetadata | keyvalue">
+                            <span class="info-label" *ngIf="metadata.key !== 'id'">{{ metadata.key }}:</span> {{ metadata.value }}
                         </span>
-                        <span class="d-block ml-2" *ngIf="(data.attributes | keyvalue).length === 0">
+                        <span class="d-block ml-2" *ngIf="(rdgMetadata | keyvalue).length === 0">
                             <span class="font-italic">{{'noDataAvailable' | translate}}</span>
                         </span>
                     </div>
@@ -48,9 +48,9 @@
                                 <span class="d-block ml-2" *ngIf="rdg.attributes.wit">
                                     <span class="info-label">{{'wit' | translate}}</span> {{rdg.attributes.wit}}
                                 </span>
-                                <ng-container *ngFor="let attr of rdg.attributes | keyvalue">
-                                    <span class="d-block ml-2" *ngIf="attr.key !== 'wit'">
-                                        <span class="info-label">{{ attr.key }}:</span> {{ attr.value }}
+                                <ng-container *ngFor="let metadata of rdgMetadata | keyvalue">
+                                    <span class="d-block ml-2" *ngIf="metadata.key !== 'wit'">
+                                        <span class="info-label">{{ metadata.key }}:</span> {{ metadata.value }}
                                     </span>
                                 </ng-container>
                             </div>
