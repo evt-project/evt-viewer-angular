@@ -37,6 +37,14 @@ export class ApparatusEntryDetailComponent {
     return this.data.lemma.content.filter((c: GenericElement) => c.type === ApparatusEntry) as ApparatusEntry[];
   }
 
+  get rdgMetadata() {
+    return Object.keys(this.data.attributes).filter((key) => key !== 'id')
+      .reduce((obj, key) => {
+        obj[key] = this.data.attributes[key];
+        return obj;
+      }, {});
+  }
+
   getWits$(witID: string): Observable<string[]> {
     return this.groups$.pipe(
       map((groups) => {
