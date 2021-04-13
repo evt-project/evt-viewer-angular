@@ -11,13 +11,13 @@
     <div class="card-footer app-detail-tabs">
         <ul ngbNav #appEntryTab="ngbNav" class="nav-pills">
             <li ngbNavItem="criticalNotes" *ngIf="data.notes.length > 0">
-                <a class="app-detail-btn" ngbNavLink>Note critiche</a>
+                <a class="app-detail-btn" ngbNavLink>{{'criticalNotes' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-note *ngFor="let note of data.notes" [data]="note"></evt-note>
                 </ng-template>
             </li>
             <li ngbNavItem="notSignificantRdg" *ngIf="notSignificantRdg.length > 0">
-                <a class="app-detail-btn" ngbNavLink>Varianti ortografiche</a>
+                <a class="app-detail-btn" ngbNavLink>{{'ortographicVariants' | translate}}</a>
                 <ng-template ngbNavContent>
                     <span class="d-block" *ngFor="let el of notSignificantRdg">
                         <evt-reading [data]="el"></evt-reading>
@@ -26,27 +26,27 @@
                 </ng-template>
             </li>
             <li ngbNavItem="info">
-                <a class="app-detail-btn" ngbNavLink>Info</a>
+                <a class="app-detail-btn" ngbNavLink>{{'info' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="info-lemma-wrapper" *ngIf="data.lemma">
-                        <span>Metadata for lemma </span>
+                        <span>{{'metadataForLemma' | translate}} </span>
                         <evt-reading class="info-rdg" [data]="data.lemma"></evt-reading>
                         <span class="d-block ml-2" *ngFor="let attr of data.attributes | keyvalue">
-                            <span class="info-label">{{ attr.key }}:</span> {{ attr.value }}
+                            <span class="info-label" *ngIf="attr.key !== 'id'">{{ attr.key }}:</span> {{ attr.value }}
                         </span>
                         <span class="d-block ml-2" *ngIf="(data.attributes | keyvalue).length === 0">
-                            <span class="font-italic">No data available</span>
+                            <span class="font-italic">{{'noDataAvailable' | translate}}</span>
                         </span>
                     </div>
                     <div>
-                        <span class="more-info-label">More info about the apparatus entry</span>
+                        <span class="more-info-label">{{'moreInfoAboutApp' | translate}}</span>
                         <ng-container *ngFor="let rdg of readings">
                             <div class="mb-2" *ngIf="(rdg.attributes | keyvalue).length !== 0">
-                                <span>Metadata for </span>
+                                <span>{{'metadataFor' | translate}} </span>
                                 <evt-reading *ngIf="rdg.content.length !== 0" class="info-rdg" [data]="rdg"></evt-reading>
-                                <span class="font-italic" *ngIf="rdg.content.length === 0">omit.</span>
+                                <span class="font-italic" *ngIf="rdg.content.length === 0">{{'omit' | translate}}</span>
                                 <span class="d-block ml-2" *ngIf="rdg.attributes.wit">
-                                    <span class="info-label">Wit:</span> {{rdg.attributes.wit}}
+                                    <span class="info-label">{{'wit' | translate}}</span> {{rdg.attributes.wit}}
                                 </span>
                                 <ng-container *ngFor="let attr of rdg.attributes | keyvalue">
                                     <span class="d-block ml-2" *ngIf="attr.key !== 'wit'">
@@ -59,7 +59,7 @@
                 </ng-template>
             </li>
             <li ngbNavItem="xml">
-                <a class="app-detail-btn" ngbNavLink>XML</a>
+                <a class="app-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <pre>{{ data.originalEncoding | xmlBeautify }}</pre>
                 </ng-template>

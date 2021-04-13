@@ -75,5 +75,15 @@
     "explicit": "Explicit",
     "colophon": "Colophon",
     "note": "Note",
-    "docImprint": "Document imprint"
+    "docImprint": "Document imprint",
+    "criticalNotes": "Critical Notes",
+    "ortographicVariants": "Orthographic Variants",
+    "info": "Info",
+    "metadataForLemma": "Metadata for lemma",
+    "metadataFor": "Metadata for",
+    "noDataAvailable": "No data available",
+    "moreInfoAboutApp": "More info about the apparatus entry",
+    "omit": "omit.",
+    "wit": "Wit:",
+    "xml": "XML"
 }

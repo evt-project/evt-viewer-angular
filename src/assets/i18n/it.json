@@ -74,5 +74,15 @@
     "explicit": "Explicit",
     "colophon": "Colophon",
     "note": "Note",
-    "docImprint": "Sigla editoriale"
+    "docImprint": "Sigla editoriale",
+    "criticalNotes": "Note critiche",
+    "ortographicVariants": "Varianti ortografiche",
+    "info": "Info",
+    "metadataForLemma": "Metadata per il lemma",
+    "metadataFor": "Metadata per",
+    "noDataAvailable": "Nessuna informazione disponibile",
+    "moreInfoAboutApp": "Maggiori informazioni per l'entrata d'apparato",
+    "omit": "omit.",
+    "wit": "Wit:",
+    "xml": "XML"
 }
