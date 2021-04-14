@@ -4,7 +4,7 @@
             <evt-ms-desc-section [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>
         <div class="flex-item-information pb-0.5">  
-            <div content>   
+            <div>   
                 <evt-content-viewer *ngFor="let s of data?.settlement" [content]="s"></evt-content-viewer>
                 <ng-container *ngIf="data?.region.length>0">
                     <ng-container *ngIf="data.settlement.length>0">, </ng-container>
@@ -22,7 +22,7 @@
             <evt-ms-desc-section [label]="'repository'" [additionalClass]="'repository'" [inlineLabel]="true" ></evt-ms-desc-section>
         </div>  
         <div class="flex-item-information pb-0.5">    
-            <evt-content-viewer [content]="data.repository" content></evt-content-viewer>
+            <evt-content-viewer [content]="data.repository"></evt-content-viewer>
         </div>
     </ng-container>
     <ng-container *ngIf="data?.collection.length>0">
@@ -30,7 +30,7 @@
             <evt-ms-desc-section [label]="'collection'" [additionalClass]="'collection'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>    
         <div class="flex-item-information pb-0.5">   
-            <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block" content></evt-content-viewer>
+            <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block"></evt-content-viewer>
         </div>
     </ng-container>
     <ng-container *ngIf="data?.idno.length>0">
@@ -38,7 +38,7 @@
             <evt-ms-desc-section [label]="'idno'" [additionalClass]="'idno'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>
         <div class="flex-item-information pb-0.5">  
-            <evt-content-viewer *ngFor="let i of data.idno" [content]="i" class="projectInfo-block" content></evt-content-viewer>
+            <evt-content-viewer *ngFor="let i of data.idno" [content]="i" class="projectInfo-block"></evt-content-viewer>
         </div>
     </ng-container>
 </div> 
