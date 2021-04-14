@@ -6,7 +6,7 @@
                 <evt-ms-desc-section [label]="'msName'" [additionalClass]="'msName'" [inlineLabel]="true"></evt-ms-desc-section> 
             </div>
             <div class="flex-item-information pb-0.5"> 
-                <evt-content-viewer *ngFor="let m of data.msName" [content]="m" class="projectInfo-block" content></evt-content-viewer>
+                <evt-content-viewer *ngFor="let m of data.msName" [content]="m" class="projectInfo-block"></evt-content-viewer>
             </div>
         </ng-container>
         
@@ -15,7 +15,7 @@
                 <evt-ms-desc-section [label]="'institution'" [additionalClass]="'institution'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>  
             <div class="flex-item-information pb-0.5">      
-                <evt-content-viewer [content]="data?.institution" content></evt-content-viewer>
+                <evt-content-viewer [content]="data?.institution"></evt-content-viewer>
             </div>
         </ng-container>   
     </div> 
@@ -24,7 +24,7 @@
         <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="true"></evt-ms-desc-section>   
         <evt-identifier [data]="a" [listClass]="true"></evt-identifier>
         <evt-ms-desc-section *ngIf="a.noteEl.length>0" [inlineLabel]="true" [additionalClass]="'itemElement'">
-            <evt-content-viewer *ngFor="let nt of a.noteEl" [content]="nt" content></evt-content-viewer>
+            <evt-content-viewer *ngFor="let nt of a.noteEl" [content]="nt"></evt-content-viewer>
         </evt-ms-desc-section>
     </ng-container>
 </div>
