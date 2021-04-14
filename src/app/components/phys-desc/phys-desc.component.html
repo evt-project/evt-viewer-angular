@@ -7,7 +7,7 @@
                     <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl" content></evt-content-viewer>
+                    <evt-content-viewer [content]="parag" *ngFor="let parag of data.objectDesc.pEl"></evt-content-viewer>
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc?.pEl.length>0">
@@ -15,7 +15,7 @@
                     <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc" content></evt-content-viewer>
+                    <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc"></evt-content-viewer>
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">
@@ -23,7 +23,7 @@
                     <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e" content></evt-content-viewer>
+                    <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.objectDesc?.supportDesc?.collation">
@@ -31,7 +31,7 @@
                     <evt-ms-desc-section [label]="'collation'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data.objectDesc.supportDesc.collation" content></evt-content-viewer> 
+                    <evt-content-viewer [content]="data.objectDesc.supportDesc.collation"></evt-content-viewer> 
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.objectDesc?.layoutDesc">
@@ -39,7 +39,7 @@
                     <evt-ms-desc-section [label]="'layoutDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data.objectDesc.layoutDesc" content></evt-content-viewer>     
+                    <evt-content-viewer [content]="data.objectDesc.layoutDesc"></evt-content-viewer>     
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.handDesc">
@@ -47,7 +47,7 @@
                     <evt-ms-desc-section [label]="'handDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data.handDesc" content></evt-content-viewer>    
+                    <evt-content-viewer [content]="data.handDesc"></evt-content-viewer>    
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.decoDesc">
@@ -55,7 +55,7 @@
                     <evt-ms-desc-section [label]="'decoDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data.decoDesc" content></evt-content-viewer>    
+                    <evt-content-viewer [content]="data.decoDesc"></evt-content-viewer>    
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.bindingDesc">
@@ -63,7 +63,7 @@
                     <evt-ms-desc-section [label]="'bindingDesc'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="data.bindingDesc" content></evt-content-viewer>    
+                    <evt-content-viewer [content]="data.bindingDesc"></evt-content-viewer>    
                 </div>
             </ng-container>
         </div>
