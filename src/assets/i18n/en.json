@@ -84,5 +84,7 @@
     "decoDesc": "Decoration",
     "collation": "Collation",
     "description": "Description",
-    "bindingDesc": "Binding"
+    "bindingDesc": "Binding",
+    "condition": "Condition",
+    "foliation": "Foliation"
 }

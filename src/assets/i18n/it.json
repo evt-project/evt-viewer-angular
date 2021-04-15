@@ -78,10 +78,12 @@
     "phyDesc": "Descrizione fisica",
     "supportDesc": "Supporto",
     "extent": "Grandezza",
-    "layoutDesc": "Impaginazione",
+    "layoutDesc": "Layout",
     "handDesc": "Scrittura",
     "decoDesc": "Decorazioni",
     "collation": "Collazione",
     "description": "Descrizione",
-    "bindingDesc": "Rilegatura"
+    "bindingDesc": "Rilegatura",
+    "condition": "Condizione fisica",
+    "foliation": "Foliazione"
 }
