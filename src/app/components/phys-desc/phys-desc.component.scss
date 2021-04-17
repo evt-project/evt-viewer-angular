@@ -10,44 +10,43 @@
 
 .flex-item-label {
     flex-basis: 100%;
-    margin-bottom: 0.1rem;
 }
 
 .flex-item-information {
+    flex-basis: 100%;
     margin-bottom: 0.7rem;
+}
+
+::ng-deep p {
+    margin-bottom: 0;
 }
 
 @media (min-width: 594px) { 
     .flex-item-label {
         flex-basis: 20%;
-        margin-bottom: 1rem;
       }
       
     .flex-item-information {
         flex-basis: 80%;
-        margin-bottom: 0.2rem;
     }
 }
 
 @media (min-width: 640px) { 
     .flex-item-label {
         flex-basis: 100%;
-        margin-bottom: 0.1rem;
     }
 
     .flex-item-information {
-        margin-bottom: 0.7rem;
+        flex-basis:100%
     }
  }
 
 @media (min-width: 1190px) { 
     .flex-item-label {
         flex-basis: 20%;
-        margin-bottom: 1rem;
       }
       
     .flex-item-information {
         flex-basis: 80%;
-        margin-bottom: 0.2rem;
     }
  }
