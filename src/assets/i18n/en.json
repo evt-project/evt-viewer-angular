@@ -75,5 +75,16 @@
     "explicit": "Explicit",
     "colophon": "Colophon",
     "note": "Note",
-    "docImprint": "Document imprint"
+    "docImprint": "Document imprint",
+    "phyDesc": "Physical description",
+    "supportDesc": "Support",
+    "extent": "Extent",
+    "layoutDesc": "Layout",
+    "handDesc": "Writing",
+    "decoDesc": "Decoration",
+    "collation": "Collation",
+    "description": "Description",
+    "bindingDesc": "Binding",
+    "condition": "Condition",
+    "foliation": "Foliation"
 }

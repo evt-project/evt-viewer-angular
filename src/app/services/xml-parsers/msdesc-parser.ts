@@ -342,6 +342,7 @@ export class ObjectDescParser extends GenericElemParser implements Parser<XMLEle
             form,
             layoutDesc: queryAndParseElement(xml, 'layoutDesc'),
             supportDesc: queryAndParseElement(xml, 'supportDesc'),
+            pEl: queryAndParseElements(xml, 'p'),
         };
     }
 }
@@ -369,7 +370,7 @@ export class BindingParser extends GenericElemParser implements Parser<XMLElemen
             ...super.parse(xml),
             type: Binding,
             contemporary: true || false,
-            decoNote: queryAndParseElement(xml, 'decoNote'),
+            decoNote: queryAndParseElements(xml, 'decoNote'),
             pEl: queryAndParseElements(xml, 'p'),
             condition: unhandledElement(xml, 'condition', this.genericParse),
             ab: unhandledElement(xml, 'ab', this.genericParse),
@@ -385,8 +386,9 @@ export class BindingDescParser extends GenericElemParser implements Parser<XMLEl
             ...super.parse(xml),
             type: BindingDesc,
             condition: unhandledElement(xml, 'condition', this.genericParse),
-            decoNote: queryAndParseElement(xml, 'decoNote'),
-            binding: queryAndParseElement(xml, 'binding'),
+            decoNote: queryAndParseElements(xml, 'decoNote'),
+            binding: queryAndParseElements(xml, 'binding'),
+            pEl: queryAndParseElements(xml, 'p'),
         };
     }
 }
@@ -561,6 +563,7 @@ export class PhysDescParser extends GenericElemParser implements Parser<XMLEleme
             scriptDesc: queryAndParseElement(xml, 'scriptDesc'),
             sealDesc: queryAndParseElement(xml, 'sealDesc'),
             typeDesc: queryAndParseElement(xml, 'typeDesc'),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
     }
 }

@@ -7,7 +7,7 @@
                     <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information pb-3">
-                    <evt-content-viewer [content]="data.summary" content></evt-content-viewer>
+                    <evt-content-viewer [content]="data.summary"></evt-content-viewer>
                 </div>
             </ng-container>
             <ng-container *ngIf="data?.textLang.length>0">
@@ -15,7 +15,7 @@
                     <evt-ms-desc-section [label]="'textLang'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information pb-3">
-                    <div content>
+                    <div>
                         <span *ngFor="let tl of data.textLang; let i = index">
                             <evt-content-viewer [content]="tl"></evt-content-viewer>
                             <span *ngIf="i < [data.textLang.length-1]">, </span>

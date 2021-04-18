@@ -12,11 +12,6 @@
                     <evt-content-viewer [content]="t"></evt-content-viewer>
                     <span *ngIf="i < [data.title.length-1]">, </span>
                 </ng-container>
-                <!--TODO: modify component to handle different cases. Examples: 
-                - <docTitle>
-                    <titlePart type="main">Les amours pastorales de Daphnis et Chloé</titlePart>
-                  <docTitle>
-                -->
                 <ng-container *ngFor="let dt of getDocTitle; let i = index">
                     <evt-content-viewer [content]="dt"></evt-content-viewer>
                     <span *ngIf="i < [getDocTitle.length-1]">, </span>
@@ -46,22 +41,22 @@
                 </span>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.docDate.length>0" [label]="'docDate'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer *ngFor="let dd of data.docDate" [content]="dd" content></evt-content-viewer>
+                <evt-content-viewer *ngFor="let dd of data.docDate" [content]="dd"></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.colophon.length>0" [label]="'colophon'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer *ngFor="let dd of data.colophon" [content]="dd" content></evt-content-viewer>
+                <evt-content-viewer *ngFor="let dd of data.colophon" [content]="dd"></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.incipit" [label]="'incipit'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer [content]="data.incipit" class="incipit" content></evt-content-viewer>
+                <evt-content-viewer [content]="data.incipit" class="incipit"></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.explicit" [label]="'explicit'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer [content]="data.explicit" class="explicit" content></evt-content-viewer>
+                <evt-content-viewer [content]="data.explicit" class="explicit"></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.docImprint.length>0" [label]="'docImprint'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer *ngFor="let di of data.docImprint" [content]="di" content></evt-content-viewer>
+                <evt-content-viewer *ngFor="let di of data.docImprint" [content]="di"></evt-content-viewer>
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.noteEl.length>0" [label]="'note'" [inlineLabel]="true" [nestedElement]="true">
-                <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n" content></evt-content-viewer>
+                <evt-content-viewer *ngFor="let n of data.noteEl" [content]="n"></evt-content-viewer>
             </evt-ms-desc-section> 
         </ng-container>
     </div>    

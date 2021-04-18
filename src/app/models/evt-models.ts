@@ -391,6 +391,7 @@ export class PhysDesc extends GenericElement {
     scriptDesc?: ScriptDesc;
     sealDesc?: SealDesc;
     typeDesc?: TypeDesc;
+    pEl?: Paragraph[];
 }
 
 export class History extends GenericElement {
@@ -500,6 +501,7 @@ export class ObjectDesc extends GenericElement {
     form?: string;
     layoutDesc?: LayoutDesc;
     supportDesc?: SupportDesc;
+    pEl?: Paragraph[];
 }
 
 export class LayoutDesc extends GenericElement {
@@ -550,15 +552,16 @@ export class Support extends GenericElement {
 }
 
 export class BindingDesc extends GenericElement {
-    binding?: Binding;
+    binding?: Binding[];
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote;
+    decoNote?: DecoNote[];
+    pEl?: Paragraph[];
 }
 
 export class Binding extends GenericElement {
     contemporary?: boolean;
     condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote;
+    decoNote?: DecoNote[];
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }

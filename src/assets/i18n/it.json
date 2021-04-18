@@ -74,5 +74,16 @@
     "explicit": "Explicit",
     "colophon": "Colophon",
     "note": "Note",
-    "docImprint": "Sigla editoriale"
+    "docImprint": "Sigla editoriale",
+    "phyDesc": "Descrizione fisica",
+    "supportDesc": "Supporto",
+    "extent": "Grandezza",
+    "layoutDesc": "Layout",
+    "handDesc": "Scrittura",
+    "decoDesc": "Decorazioni",
+    "collation": "Collazione",
+    "description": "Descrizione",
+    "bindingDesc": "Rilegatura",
+    "condition": "Condizione fisica",
+    "foliation": "Foliazione"
 }
