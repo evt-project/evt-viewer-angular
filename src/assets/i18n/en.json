@@ -86,5 +86,9 @@
     "description": "Description",
     "bindingDesc": "Binding",
     "condition": "Condition",
-    "foliation": "Foliation"
+    "foliation": "Foliation",
+    "history": "Manuscript history",
+    "origin": "Origin",
+    "provenance": "Provenance",
+    "acquisition": "Acquisition"
 }
