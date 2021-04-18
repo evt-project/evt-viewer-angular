@@ -34,29 +34,3 @@
         </div>
     </div>
 </div>
-
-
-<!--
-<div class="history"> 
-    <p class="projectInfo-sectionSubHeader">Storia del manoscritto</p>
-    <div> 
-        <evt-content-viewer [content]="data?.summary"></evt-content-viewer>
-
-        <ng-container *ngIf="data.origin">
-            <span class="projectInfo-blockLabel">Origine: </span>
-            <evt-content-viewer [content]="data.origin"></evt-content-viewer>
-        </ng-container>
-
-        <span *ngFor="let p of data.provenance | keyvalue">
-            <span class="projectInfo-blockLabel">Provenienza: </span>
-            <evt-content-viewer [content]="data.provenance[p.key]"></evt-content-viewer>
-        </span>
-
-        <ng-container *ngIf="data.acquisition">
-            <span class="projectInfo-blockLabel">Acquisizione: </span>
-            <evt-content-viewer [content]="data.acquisition"></evt-content-viewer>
-        </ng-container>
-        <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
-    </div>
-</div>
--->
