@@ -13,29 +13,40 @@
 }
 
 .flex-item-label {
-  flex-basis: 20%;
+    flex-basis: 100%;
 }
 
 .flex-item-information {
-  flex-basis: 80%;
+    flex-basis: 100%;
+    margin-bottom: 0.7rem;
 }
 
-@media (max-width: 1110px) and (min-width: 639px){
+@media (min-width: 560px) { 
+    .flex-item-label {
+        flex-basis: 20%;
+      }
+      
+    .flex-item-information {
+        flex-basis: 80%;
+    }
+}
+
+@media (min-width: 639px) {
     .flex-item-label {
         flex-basis: 100%;
     }
 
     .flex-item-information {
-        padding-bottom: 0.7rem;
+        flex-basis:100%
     }
 }
 
-@media (max-width: 560px){
+@media (min-width: 1100px) { 
     .flex-item-label {
-        flex-basis: 100%;
-    }
-
+        flex-basis: 20%;
+      }
+      
     .flex-item-information {
-        padding-bottom: 0.7rem;
+        flex-basis: 80%;
     }
 }
