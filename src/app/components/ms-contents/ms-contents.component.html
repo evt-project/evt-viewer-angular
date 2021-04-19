@@ -6,7 +6,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="data.summary"></evt-content-viewer>
                 </div>
             </ng-container>
@@ -14,7 +14,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'textLang'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <div>
                         <span *ngFor="let tl of data.textLang; let i = index">
                             <evt-content-viewer [content]="tl"></evt-content-viewer>
@@ -45,7 +45,7 @@
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
                 </div>
-                <div class="flex-item-information pb-3">
+                <div class="flex-item-information">
                     <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
                 </div>
             </ng-container>
