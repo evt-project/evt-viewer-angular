@@ -3,7 +3,7 @@
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>
-        <div class="flex-item-information pb-0.5">  
+        <div class="flex-item-information">  
             <div>   
                 <evt-content-viewer *ngFor="let s of data?.settlement" [content]="s"></evt-content-viewer>
                 <ng-container *ngIf="data?.region.length>0">
@@ -21,7 +21,7 @@
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'repository'" [additionalClass]="'repository'" [inlineLabel]="true" ></evt-ms-desc-section>
         </div>  
-        <div class="flex-item-information pb-0.5">    
+        <div class="flex-item-information">    
             <evt-content-viewer [content]="data.repository"></evt-content-viewer>
         </div>
     </ng-container>
@@ -29,7 +29,7 @@
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'collection'" [additionalClass]="'collection'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>    
-        <div class="flex-item-information pb-0.5">   
+        <div class="flex-item-information">   
             <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block"></evt-content-viewer>
         </div>
     </ng-container>
@@ -37,7 +37,7 @@
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'idno'" [additionalClass]="'idno'" [inlineLabel]="true"></evt-ms-desc-section>
         </div>
-        <div class="flex-item-information pb-0.5">  
+        <div class="flex-item-information">  
             <evt-content-viewer *ngFor="let i of data.idno" [content]="i" class="projectInfo-block"></evt-content-viewer>
         </div>
     </ng-container>
