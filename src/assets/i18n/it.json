@@ -61,7 +61,7 @@
     "repository": "Archivio",
     "institution": "Istituzione",
     "msName": "Nome",
-    "idno": "Codice",
+    "idno": "Identificatore",
     "altIdentifier": "Identificatore alternativo",
     "msContents": "Contenuto del manoscritto",
     "textLang": "Lingua",
