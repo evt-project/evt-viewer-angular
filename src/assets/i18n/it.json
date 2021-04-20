@@ -89,5 +89,12 @@
     "history": "Storia del manoscritto",
     "origin": "Origine",
     "provenance": "Provenienza",
-    "acquisition": "Acquisizione"
+    "acquisition": "Acquisizione",
+    "additional": "Ulteriori informazioni",
+    "listBibl": "Lista di citazioni",
+    "surrogates": "Surrogati",
+    "adminInfo": "Informazioni amministrative",
+    "recordHist": "Storia registrata",
+    "custodialHist": "Storia della conservazione",
+    "availability": "Disponibilità"
 }
