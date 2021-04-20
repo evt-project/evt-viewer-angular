@@ -5,16 +5,15 @@
             <div class="flex-item-label">
                 <evt-ms-desc-section [label]="'msName'" [additionalClass]="'msName'" [inlineLabel]="true"></evt-ms-desc-section> 
             </div>
-            <div class="flex-item-information pb-0.5"> 
+            <div class="flex-item-information"> 
                 <evt-content-viewer *ngFor="let m of data.msName" [content]="m" class="projectInfo-block"></evt-content-viewer>
             </div>
         </ng-container>
-        
         <ng-container *ngIf="data?.institution">
             <div class="flex-item-label" *ngIf="data?.institution">
                 <evt-ms-desc-section [label]="'institution'" [additionalClass]="'institution'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>  
-            <div class="flex-item-information pb-0.5">      
+            <div class="flex-item-information">      
                 <evt-content-viewer [content]="data?.institution"></evt-content-viewer>
             </div>
         </ng-container>   

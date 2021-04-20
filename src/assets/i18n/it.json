@@ -60,7 +60,7 @@
     "msIdentifier": "Identificatore del manoscritto",
     "repository": "Archivio",
     "institution": "Istituzione",
-    "msName": "Nome del manoscritto",
+    "msName": "Nome",
     "idno": "Identificatore",
     "altIdentifier": "Identificatore alternativo",
     "msContents": "Contenuto del manoscritto",
@@ -68,7 +68,7 @@
     "author": "Autore",
     "docDate": "Data",
     "title": "Titolo",
-    "summary": "Riassunto del contenuto",
+    "summary": "Riassunto",
     "items": "Testi",
     "incipit": "Incipit",
     "explicit": "Explicit",
@@ -85,5 +85,9 @@
     "description": "Descrizione",
     "bindingDesc": "Rilegatura",
     "condition": "Condizione fisica",
-    "foliation": "Foliazione"
+    "foliation": "Foliazione",
+    "history": "Storia del manoscritto",
+    "origin": "Origine",
+    "provenance": "Provenienza",
+    "acquisition": "Acquisizione"
 }

@@ -397,8 +397,9 @@ export class PhysDesc extends GenericElement {
 export class History extends GenericElement {
     acquisition?: Acquisition;
     origin?: Origin;
-    provenance?: Provenance;
+    provenance?: Provenance[];
     summary?: Summary;
+    pEl?: Paragraph[];
 }
 
 export class Head extends GenericElement {
