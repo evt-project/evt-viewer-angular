@@ -5,12 +5,22 @@
 }
 
 .flex-item-locus {
-    flex-basis: 30%;
-    padding-right: 1rem;
+    flex-basis: 20%;
   }
   
 .flex-item-information {
-    flex-basis: 70%;
+    flex-basis: 80%;
+    padding-right: 1rem;
+}
+
+.has-nested1, .has-nested2{
+    .flex-item-locus {
+        flex-basis: 100%;
+    }
+    
+    .flex-item-information {
+        flex-basis: 100%;
+    }
 }
 
 .section-msItem {
@@ -37,22 +47,38 @@
     font-size: 0.95rem;
 }
 
-@media (min-width: 639px) {
-    .flex-item-locus {
-        flex-basis: 40%;
-    }
-      
-    .flex-item-information {
-        flex-basis: 60%;
+@media (min-width: 450px) {
+    .has-nested1, .has-nested2{
+        .flex-item-locus {
+            flex-basis: 20%;
+        }
+        
+        .flex-item-information {
+            flex-basis: 80%;
+        }
     }
 }
 
-@media (min-width: 950px) {
-    .flex-item-locus {
-        flex-basis: 20%;
-      }
-      
-    .flex-item-information {
-        flex-basis: 80%;
+@media (min-width: 639px) {
+    .has-nested1, .has-nested2{
+        .flex-item-locus {
+            flex-basis: 100%;
+        }
+        
+        .flex-item-information {
+            flex-basis: 100%;
+        }
+    }
+}
+
+@media (min-width: 800px) {
+    .has-nested1, .has-nested2{
+        .flex-item-locus {
+            flex-basis: 20%;
+        }
+        
+        .flex-item-information {
+            flex-basis: 80%;
+        }
     }
 }
