@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Additional visualization
 - History visualization
 - Physical description visualization
 - Manuscript contents visualization
