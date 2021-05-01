@@ -9,7 +9,7 @@ export class ParserRegister {
 
     // tslint:disable-next-line: no-any
     static set(tagName: string, parserType: Type<any>) {
-        ParserRegister.PARSER_MAP[tagName] = parserType;
+        ParserRegister.PARSER_MAP[tagName.toLowerCase()] = parserType;
     }
 
     static get<T>(tagName: string): Parser<T> {
