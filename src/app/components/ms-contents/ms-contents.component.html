@@ -10,15 +10,15 @@
                     <evt-content-viewer [content]="data.summary"></evt-content-viewer>
                 </div>
             </ng-container>
-            <ng-container *ngIf="data?.textLang.length>0">
+            <ng-container *ngIf="data?.textLangs.length>0">
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'textLang'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
                     <div>
-                        <span *ngFor="let tl of data.textLang; let i = index">
-                            <evt-content-viewer [content]="tl"></evt-content-viewer>
-                            <span *ngIf="i < [data.textLang.length-1]">, </span>
+                        <span *ngFor="let textLangs of data.textLangs; let i = index">
+                            <evt-content-viewer *ngFor="let textLang of textLangs" [content]="textLang"></evt-content-viewer>
+                            <span *ngIf="i < [data.textLangs.length-1]">, </span>
                         </span>
                     </div>
                 </div>
