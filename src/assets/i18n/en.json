@@ -90,5 +90,12 @@
     "history": "Manuscript history",
     "origin": "Origin",
     "provenance": "Provenance",
-    "acquisition": "Acquisition"
+    "acquisition": "Acquisition",
+    "additional": "Additional information",
+    "listBibl": "Citation list",
+    "surrogates": "Surrogates",
+    "adminInfo": "Administrative information",
+    "recordHist": "Recorded history",
+    "custodialHist": "Custodial history",
+    "availability": "Availability"
 }
