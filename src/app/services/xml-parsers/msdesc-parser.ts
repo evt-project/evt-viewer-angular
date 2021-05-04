@@ -695,7 +695,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             defective: isBoolString(xml.getAttribute('defective')),
             author: unhandledElement(xml, 'author', this.genericParse),
             title: unhandledElement(xml, 'title', this.genericParse),
-            textLang: unhandledElement(xml, 'textLang', this.genericParse),
+            textLangs: unhandledElement(xml, 'textLang', this.genericParse),
             bibl: unhandledElement(xml, 'bibl', this.genericParse),
             respStmt: unhandledElement(xml, 'respStmt', this.genericParse),
             quote: unhandledElement(xml, 'quote', this.genericParse),
@@ -865,7 +865,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
             msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
-            textLang: unhandledElement(xml, 'textLang', this.genericParse),
+            textLangs: unhandledElement(xml, 'textLang', this.genericParse),
         };
     }
 }
@@ -892,10 +892,10 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             type: Identifier,
             collection: queryAndParseElements(xml, 'collection'),
             repository: queryAndParseElement(xml, 'repository'),
-            idno: unhandledElement(xml, 'idno', this.genericParse),
-            region: unhandledElement(xml, 'region', this.genericParse),
-            settlement: unhandledElement(xml, 'settlement', this.genericParse),
-            country: unhandledElement(xml, 'country', this.genericParse),
+            idnos: unhandledElement(xml, 'idno', this.genericParse),
+            regions: unhandledElement(xml, 'region', this.genericParse),
+            settlements: unhandledElement(xml, 'settlement', this.genericParse),
+            countries: unhandledElement(xml, 'country', this.genericParse),
         };
     }
 }

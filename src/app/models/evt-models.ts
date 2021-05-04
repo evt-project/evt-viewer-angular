@@ -352,11 +352,11 @@ export class MsDesc extends MsPart {
 
 export class Identifier extends GenericElement {
     collection?: CollectionEl[];
-    idno?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    idnos?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    regions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
     repository?: Repository;
-    settlement?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-    country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
+    settlements?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
+    countries?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
 }
 
 export class AltIdentifier extends Identifier {
@@ -376,7 +376,7 @@ export class MsContents extends GenericElement {
     msItem?: MsItem[];
     msItemStruct?: MsItemStruct;
     pEl?: Paragraph[];
-    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+    textLangs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
 }
 
 export class PhysDesc extends GenericElement {
@@ -449,7 +449,7 @@ export class MsItemStruct extends GenericElement {
     bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
     filiation?: Filiation[];
     noteEl?: Note[];
-    textLang?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+    textLangs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
     locus?: Locus;
 }
 
