@@ -125,5 +125,6 @@
     "date": "Date",
     "licence": "Licence",
     "editionStatement": "Edition statement",
-    "edition": "Edition"
+    "edition": "Edition",
+    "seriesStatement": "Series statement"
 }

@@ -124,5 +124,6 @@
     "date": "Data",
     "licence": "Licenza",
     "editionStatement": "Informazioni sull'edizione",
-    "edition": "Edizione"
+    "edition": "Edizione",
+    "seriesStatement": "Informazioni sulla serie"
 }
