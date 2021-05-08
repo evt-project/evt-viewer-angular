@@ -13,7 +13,7 @@ export class ParserRegister {
     }
 
     static get<T>(tagName: string): Parser<T> {
-        const name = ParserRegister.mapName(tagName);
+        const name = ParserRegister.mapName(tagName.toLowerCase());
 
         return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
