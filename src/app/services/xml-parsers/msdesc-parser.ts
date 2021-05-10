@@ -253,7 +253,6 @@ export class LayoutDescParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: LayoutDesc,
-            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
             summary: queryAndParseElement(xml, 'provenance'),
@@ -553,7 +552,6 @@ export class PhysDescParser extends GenericElemParser implements Parser<XMLEleme
         return {
             ...super.parse(xml),
             type: PhysDesc,
-            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             objectDesc: queryAndParseElement(xml, 'objectDesc'),
             bindingDesc: queryAndParseElement(xml, 'bindingDesc'),
             decoDesc: queryAndParseElement(xml, 'decoDesc'),
@@ -757,7 +755,6 @@ export class CustodialHistParser extends GenericElemParser implements Parser<XML
         return {
             ...super.parse(xml),
             type: CustodialHist,
-            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             custEvent: queryAndParseElements(xml, 'custEvent'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
@@ -784,7 +781,6 @@ export class RecordHistParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: RecordHist,
-            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             changes: unhandledElement(xml, 'change', this.genericParse),
             source: queryAndParseElements(xml, 'source'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
@@ -800,7 +796,6 @@ export class AdminInfoParser extends GenericElemParser implements Parser<XMLElem
         return {
             ...super.parse(xml),
             type: AdminInfo,
-            structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
             noteEl: queryAndParseElements(xml, 'note'),
             availabilities: unhandledElement(xml, 'availability', this.genericParse),
             custodialHist: queryAndParseElement(xml, 'custodialHist'),
@@ -860,7 +855,6 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: MsContents,
-            structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             summary: queryAndParseElement(xml, 'summary'),
             msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),

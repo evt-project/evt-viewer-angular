@@ -371,7 +371,6 @@ export class MsIdentifier extends Identifier {
 }
 
 export class MsContents extends GenericElement {
-    structuredData: boolean;
     summary?: Summary;
     msItem?: MsItem[];
     msItemStruct?: MsItemStruct;
@@ -380,7 +379,6 @@ export class MsContents extends GenericElement {
 }
 
 export class PhysDesc extends GenericElement {
-    structuredData: boolean;
     objectDesc?: ObjectDesc;
     bindingDesc?: BindingDesc;
     decoDesc?: DecoDesc;
@@ -506,7 +504,6 @@ export class ObjectDesc extends GenericElement {
 }
 
 export class LayoutDesc extends GenericElement {
-    structuredData: boolean;
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
     layout?: Layout;
@@ -626,7 +623,6 @@ export class Additional extends GenericElement {
 }
 
 export class AdminInfo extends GenericElement {
-    structuredData: boolean;
     noteEl?: Note[];
     availabilities?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
     custodialHist?: CustodialHist;
@@ -634,7 +630,6 @@ export class AdminInfo extends GenericElement {
 }
 
 export class CustodialHist extends GenericElement {
-    structuredData: boolean;
     pEl?: Paragraph[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
     custEvent?: CustEvent[];
@@ -650,7 +645,6 @@ export class CustEvent extends GenericElement {
 }
 
 export class RecordHist extends GenericElement {
-    structuredData: boolean;
     pEl?: Paragraph[];
     changes?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when change is handled
     source?: Source[];
