@@ -14,7 +14,7 @@
                 <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>
             <div class="flex-item-information">
-                <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc"></evt-content-viewer>
+                <evt-content-viewer [content]="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc"></evt-content-viewer>
             </div>
         </div>
         <div class="flex-container" *ngIf="data?.objectDesc?.supportDesc?.condition">
@@ -30,7 +30,7 @@
                 <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>
             <div class="flex-item-information">
-                <div *ngFor="let extents of data.objectDesc?.supportDesc?.extents">
+                <div *ngFor="let extents of data.objectDesc.supportDesc.extents">
                     <evt-content-viewer *ngFor="let extent of extents" [content]="extent"></evt-content-viewer>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                 <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"> </evt-ms-desc-section>
             </div>
             <div class="flex-item-information pb-1">
-                <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
+                <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
             </div>
         </div>  
     </ng-template>
