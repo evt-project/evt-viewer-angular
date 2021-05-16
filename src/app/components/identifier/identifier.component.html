@@ -8,13 +8,13 @@
                 <span *ngFor="let settlements of data.settlements">
                     <evt-content-viewer *ngFor="let settlements of settlements" [content]="settlements"></evt-content-viewer>
                 </span>
-                <ng-container *ngIf="data?.regions.length>0">
+                <ng-container *ngIf="data.regions.length>0">
                     <ng-container *ngIf="data.settlements.length>0">, </ng-container>
                     <span *ngFor="let regions of data.regions">
                         <evt-content-viewer *ngFor="let region of regions" [content]="region"></evt-content-viewer>
                     </span>
                 </ng-container>
-                <ng-container *ngIf="data?.countries.length>0">
+                <ng-container *ngIf="data.countries.length>0">
                     <ng-container *ngIf="data.settlements.length>0 || data.regions.length>0">, </ng-container>
                     <span *ngFor="let countries of data.countries">
                         <evt-content-viewer *ngFor="let country of countries" [content]="country"></evt-content-viewer>
