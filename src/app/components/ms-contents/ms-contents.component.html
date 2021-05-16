@@ -10,15 +10,15 @@
                     <evt-content-viewer [content]="data.summary"></evt-content-viewer>
                 </div>
             </ng-container>
-            <ng-container *ngIf="data?.textLang.length>0">
+            <ng-container *ngIf="data?.textLangs.length>0">
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'textLang'" [inlineLabel]="true"></evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
                     <div>
-                        <span *ngFor="let tl of data.textLang; let i = index">
-                            <evt-content-viewer [content]="tl"></evt-content-viewer>
-                            <span *ngIf="i < [data.textLang.length-1]">, </span>
+                        <span *ngFor="let textLangs of data.textLangs; let i = index">
+                            <evt-content-viewer *ngFor="let textLang of textLangs" [content]="textLang"></evt-content-viewer>
+                            <span *ngIf="i < [data.textLangs.length-1]">, </span>
                         </span>
                     </div>
                 </div>
@@ -31,9 +31,9 @@
         </div>
         <ng-container *ngFor="let m of data?.msItem">
             <evt-ms-item [data]="m"></evt-ms-item>
-            <ng-container *ngIf="m?.msItem.length>0">
+            <ng-container *ngIf="m.msItem?.length>0">
                 <evt-ms-item *ngFor="let ms of m.msItem" [data]="ms" [nested1]="true"></evt-ms-item>
-                <ng-container *ngFor="let ms of m?.msItem">
+                <ng-container *ngFor="let ms of m.msItem">
                     <evt-ms-item *ngFor="let item of ms.msItem" [data]="item" [nested2]="true"></evt-ms-item>
                 </ng-container>
             </ng-container>
@@ -41,12 +41,12 @@
     </ng-container>
     <ng-template #elseBlock>
         <div class="flex-container" *ngIf="data?.pEl.length>0">
-            <ng-container *ngIf="data?.pEl.length>0">
+            <ng-container>
                 <div class="flex-item-label">
                     <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
                 </div>
                 <div class="flex-item-information">
-                    <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
+                    <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
                 </div>
             </ng-container>
         </div>

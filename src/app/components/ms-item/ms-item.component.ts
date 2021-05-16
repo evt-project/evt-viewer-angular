@@ -15,7 +15,7 @@ export class MsItemComponent {
   @Input() nested2: boolean;
 
   get getDocTitle() {
-    return this.data.docTitle.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+    return this.data.docTitles.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
       .map((item: Text & MsItem) => {
         if (item.text) { item.text = item.text.trim(); }
 
@@ -24,7 +24,7 @@ export class MsItemComponent {
   }
 
   get getAuthor() {
-    return this.data.author.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+    return this.data.authors.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
       .map((item: Text & MsItem) => {
         if (item.text) { item.text = item.text.trim(); }
 
@@ -33,7 +33,7 @@ export class MsItemComponent {
   }
 
   get getDocAuthor() {
-    return this.data.docAuthor.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
+    return this.data.docAuthors.filter((el: Text & MsItem) => el.text?.trim() || el.content?.length > 0)
       .map((item: Text & MsItem) => {
         if (item.text) { item.text = item.text.trim(); }
 

@@ -322,7 +322,7 @@ export class SupportDescParser extends GenericElemParser implements Parser<XMLEl
             material: xml.getAttribute('material') as MaterialValues,
             pEl: queryAndParseElements(xml, 'p'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
-            extent: unhandledElement(xml, 'extent', this.genericParse),
+            extents: unhandledElement(xml, 'extent', this.genericParse),
             support: queryAndParseElement(xml, 'support'),
             collation: queryAndParseElement(xml, 'collation'),
             foliation: queryAndParseElement(xml, 'foliation'),
@@ -693,14 +693,14 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             type: MsItemStruct,
             n: getDefaultN(n),
             defective: isBoolString(xml.getAttribute('defective')),
-            author: unhandledElement(xml, 'author', this.genericParse),
-            title: unhandledElement(xml, 'title', this.genericParse),
-            textLang: unhandledElement(xml, 'textLang', this.genericParse),
+            authors: unhandledElement(xml, 'author', this.genericParse),
+            titles: unhandledElement(xml, 'title', this.genericParse),
+            textLangs: unhandledElement(xml, 'textLang', this.genericParse),
             bibl: unhandledElement(xml, 'bibl', this.genericParse),
             respStmt: unhandledElement(xml, 'respStmt', this.genericParse),
             quote: unhandledElement(xml, 'quote', this.genericParse),
             listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
-            colophon: unhandledElement(xml, 'colophon', this.genericParse),
+            colophons: unhandledElement(xml, 'colophon', this.genericParse),
             rubric: queryAndParseElement<Rubric>(xml, 'rubric'),
             incipit: queryAndParseElement<Incipit>(xml, 'incipit'),
             explicit: queryAndParseElement<Explicit>(xml, 'explicit'),
@@ -720,9 +720,9 @@ export class MsItemParser extends MsItemStructParser implements Parser<XMLElemen
         return {
             ...super.parse(xml),
             type: MsItem,
-            docAuthor: unhandledElement(xml, 'docAuthor', this.genericParse),
-            docTitle: unhandledElement(xml, 'docTitle', this.genericParse),
-            docImprint: unhandledElement(xml, 'docImprint', this.genericParse),
+            docAuthors: unhandledElement(xml, 'docAuthor', this.genericParse),
+            docTitles: unhandledElement(xml, 'docTitle', this.genericParse),
+            docImprints: unhandledElement(xml, 'docImprint', this.genericParse),
             docDate: unhandledElement(xml, 'docDate', this.genericParse),
             locusGrp: queryAndParseElement<LocusGrp>(xml, 'locusGrp'),
             gapEl: queryAndParseElements(xml, 'gap'),
@@ -785,8 +785,8 @@ export class RecordHistParser extends GenericElemParser implements Parser<XMLEle
             ...super.parse(xml),
             type: RecordHist,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
-            change: unhandledElement(xml, 'change', this.genericParse),
-            source: queryAndParseElement(xml, 'source'),
+            changes: unhandledElement(xml, 'change', this.genericParse),
+            source: queryAndParseElements(xml, 'source'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
@@ -802,7 +802,7 @@ export class AdminInfoParser extends GenericElemParser implements Parser<XMLElem
             type: AdminInfo,
             structuredData: Array.from(xml.querySelectorAll(':scope > note')).length === 0,
             noteEl: queryAndParseElements(xml, 'note'),
-            availability: unhandledElement(xml, 'availability', this.genericParse),
+            availabilities: unhandledElement(xml, 'availability', this.genericParse),
             custodialHist: queryAndParseElement(xml, 'custodialHist'),
             recordHist: queryAndParseElement(xml, 'recordHist'),
         };
@@ -816,7 +816,7 @@ export class SurrogatesParser extends GenericElemParser implements Parser<XMLEle
         return {
             ...super.parse(xml),
             type: Surrogates,
-            bibl: unhandledElement(xml, 'bibl', this.genericParse),
+            bibls: unhandledElement(xml, 'bibl', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };
     }
@@ -832,7 +832,7 @@ export class AdditionalParser extends GenericElemParser implements Parser<XMLEle
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
+            listBibls: unhandledElement(xml, 'listBibl', this.genericParse),
             adminInfo: queryAndParseElement(xml, 'adminInfo'),
             surrogates: queryAndParseElement(xml, 'surrogates'),
         };
@@ -865,7 +865,7 @@ export class MsContentsParser extends GenericElemParser implements Parser<XMLEle
             msItem: queryAndParseElements(xml, 'msItem'),
             msItemStruct: queryAndParseElement(xml, 'msItemStruct'),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
-            textLang: unhandledElement(xml, 'textLang', this.genericParse),
+            textLangs: unhandledElement(xml, 'textLang', this.genericParse),
         };
     }
 }
@@ -892,10 +892,10 @@ class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
             type: Identifier,
             collection: queryAndParseElements(xml, 'collection'),
             repository: queryAndParseElement(xml, 'repository'),
-            idno: unhandledElement(xml, 'idno', this.genericParse),
-            region: unhandledElement(xml, 'region', this.genericParse),
-            settlement: unhandledElement(xml, 'settlement', this.genericParse),
-            country: unhandledElement(xml, 'country', this.genericParse),
+            idnos: unhandledElement(xml, 'idno', this.genericParse),
+            regions: unhandledElement(xml, 'region', this.genericParse),
+            settlements: unhandledElement(xml, 'settlement', this.genericParse),
+            countries: unhandledElement(xml, 'country', this.genericParse),
         };
     }
 }

@@ -1,7 +1,7 @@
 <div class="phyDesc">
     <evt-ms-desc-section [label]="'phyDesc'"></evt-ms-desc-section>
     <ng-container *ngIf="data?.structuredData; else elseBlock">
-        <div class="flex-container" *ngIf="data?.objectDesc?.pEl.length>0">
+        <div class="flex-container" *ngIf="data?.objectDesc?.pEl?.length>0">
             <div class="flex-item-label">
                 <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>
@@ -14,7 +14,7 @@
                 <evt-ms-desc-section [label]="'supportDesc'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>
             <div class="flex-item-information">
-                <evt-content-viewer [content]="data?.objectDesc?.supportDesc?.support || data?.objectDesc?.supportDesc"></evt-content-viewer>
+                <evt-content-viewer [content]="data.objectDesc.supportDesc.support || data.objectDesc.supportDesc"></evt-content-viewer>
             </div>
         </div>
         <div class="flex-container" *ngIf="data?.objectDesc?.supportDesc?.condition">
@@ -25,12 +25,14 @@
                 <evt-content-viewer [content]="data.objectDesc.supportDesc.condition"></evt-content-viewer>
             </div>
         </div>
-        <div class="flex-container" *ngIf="data?.objectDesc?.supportDesc?.extent.length>0">
+        <div class="flex-container" *ngIf="data?.objectDesc?.supportDesc?.extents.length>0">
             <div class="flex-item-label">
                 <evt-ms-desc-section [label]="'extent'" [inlineLabel]="true"></evt-ms-desc-section>
             </div>
             <div class="flex-item-information">
-                <evt-content-viewer *ngFor="let e of data.objectDesc.supportDesc.extent" [content]="e"></evt-content-viewer>
+                <div *ngFor="let extents of data.objectDesc.supportDesc.extents">
+                    <evt-content-viewer *ngFor="let extent of extents" [content]="extent"></evt-content-viewer>
+                </div>
             </div>
         </div>
         <div class="flex-container" *ngIf="data?.objectDesc?.supportDesc?.foliation">
@@ -88,7 +90,7 @@
                 <evt-ms-desc-section [label]="'description'" [inlineLabel]="true"> </evt-ms-desc-section>
             </div>
             <div class="flex-item-information pb-1">
-                <evt-content-viewer [content]="par" *ngFor="let par of data?.pEl"></evt-content-viewer>  
+                <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
             </div>
         </div>  
     </ng-template>
