@@ -29,12 +29,12 @@
             </evt-ms-desc-section>
             <evt-ms-desc-section *ngIf="data?.authors?.length>0 || data?.docAuthors?.length>0" [label]="'author'" [inlineLabel]="true" [nestedElement]="true">
                 <ng-container content>
-                    <span *ngFor="let authors of data?.authors; let i = index">
+                    <span *ngFor="let authors of data.authors; let i = index">
                         <evt-content-viewer *ngFor="let author of authors" [content]="author"></evt-content-viewer>
                         <span *ngIf="i < [data.authors.length-1]">, </span>
                     </span>
-                    <span *ngIf="data?.authors.length>0 && data?.docAuthors.length>0">, </span>
-                    <span *ngFor="let docAuthors of data?.docAuthors; let i = index">
+                    <span *ngIf="data.authors.length>0 && data.docAuthors.length>0">, </span>
+                    <span *ngFor="let docAuthors of data.docAuthors; let i = index">
                         <evt-content-viewer *ngFor="let docAuthor of docAuthors" [content]="docAuthor"></evt-content-viewer>
                         <span *ngIf="i < [data.docAuthors.length-1]">, </span>
                     </span>
