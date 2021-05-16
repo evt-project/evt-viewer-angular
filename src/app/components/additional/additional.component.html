@@ -1,13 +1,13 @@
 <div class="additional">
     <evt-ms-desc-section [label]="'additional'"></evt-ms-desc-section>
-    <div class="flex-container" *ngIf="data?.adminInfo.recordHist">
+    <div class="flex-container" *ngIf="data?.adminInfo?.recordHist">
         <evt-ms-desc-section [label]="'recordHist'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
         <div class="flex-item-information">
-            <evt-content-viewer [content]="data?.adminInfo?.recordHist?.source" class="projectInfo-block"></evt-content-viewer> 
-            <div *ngFor="let changes of data?.adminInfo?.recordHist?.changes">
+            <evt-content-viewer *ngFor="let s of data.adminInfo.recordHist?.source" [content]="s" class="projectInfo-block"></evt-content-viewer>
+            <div *ngFor="let changes of data.adminInfo.recordHist?.changes">
                 <evt-content-viewer *ngFor="let change of changes" [content]="change"></evt-content-viewer>
             </div>
-            <evt-content-viewer [content]="par" *ngFor="let par of data?.adminInfo?.recordHist?.pEl"></evt-content-viewer> 
+            <evt-content-viewer [content]="par" *ngFor="let par of data.adminInfo.recordHist?.pEl"></evt-content-viewer> 
         </div>
     </div>
     <div class="flex-container" *ngIf="data?.adminInfo?.custodialHist">
@@ -28,7 +28,7 @@
     <div class="flex-container" *ngIf="data?.adminInfo?.noteEl?.length>0">
         <evt-ms-desc-section [label]="'adminInfo'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
         <div class="flex-item-information">
-            <evt-content-viewer [content]="n" *ngFor="let n of data?.adminInfo.noteEl"></evt-content-viewer> 
+            <evt-content-viewer [content]="n" *ngFor="let n of data.adminInfo.noteEl"></evt-content-viewer> 
         </div>
     </div>
     <div class="flex-container" *ngIf="data?.listBibls.length>0">
@@ -42,8 +42,8 @@
     <div class="flex-container" *ngIf="data?.surrogates">
         <evt-ms-desc-section [label]="'surrogates'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
         <div class="flex-item-information">
-            <evt-content-viewer [content]="par" *ngFor="let par of data?.surrogates?.pEl"></evt-content-viewer> 
-            <div *ngFor="let bibls of data?.surrogates?.bibls">
+            <evt-content-viewer [content]="par" *ngFor="let par of data.surrogates?.pEl"></evt-content-viewer> 
+            <div *ngFor="let bibls of data.surrogates?.bibls">
                 <evt-content-viewer *ngFor="let bibl of bibls" [content]="bibl"></evt-content-viewer>
             </div>
         </div>
