@@ -786,7 +786,7 @@ export class RecordHistParser extends GenericElemParser implements Parser<XMLEle
             type: RecordHist,
             structuredData: Array.from(xml.querySelectorAll(':scope > p')).length === 0,
             changes: unhandledElement(xml, 'change', this.genericParse),
-            source: queryAndParseElement(xml, 'source'),
+            source: queryAndParseElements(xml, 'source'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
             pEl: queryAndParseElements<Paragraph>(xml, 'p'),
         };

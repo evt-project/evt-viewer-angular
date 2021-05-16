@@ -653,7 +653,7 @@ export class RecordHist extends GenericElement {
     structuredData: boolean;
     pEl?: Paragraph[];
     changes?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when change is handled
-    source?: Source;
+    source?: Source[];
     ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
 
