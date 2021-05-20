@@ -1,9 +1,8 @@
 <div class="msFrag"> 
-    <p class="projectInfo-sectionSubHeader">Frammento del manoscritto:</p>
-    <div>  
-        <evt-content-viewer [content]="data?.msIdentifier"></evt-content-viewer>
-        <evt-content-viewer [content]="data?.msContents"></evt-content-viewer>
-        <evt-content-viewer [content]="data?.physDesc"></evt-content-viewer>
-        <evt-content-viewer [content]="data?.history"></evt-content-viewer>
-    </div>
+    <evt-ms-desc-section [label]="'msFrag'" [dotted]=false></evt-ms-desc-section>    
+    <evt-ms-identifier *ngIf="data?.msIdentifier" [data]="data?.msIdentifier"></evt-ms-identifier>
+    <evt-ms-contents *ngIf="data?.msContents" [data]="data?.msContents"></evt-ms-contents>
+    <evt-phys-desc *ngIf="data?.physDesc" [data]="data?.physDesc"></evt-phys-desc>
+    <evt-history *ngIf="data?.history" [data]="data?.history"></evt-history>
+    <evt-additional *ngIf="data?.additional" [data]="data?.additional"></evt-additional>
 </div>
