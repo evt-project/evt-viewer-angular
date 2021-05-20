@@ -97,5 +97,6 @@
     "adminInfo": "Administrative information",
     "recordHist": "Recorded history",
     "custodialHist": "Custodial history",
-    "availability": "Availability"
+    "availability": "Availability",
+    "msFrag": "Manuscript fragment"
 }
