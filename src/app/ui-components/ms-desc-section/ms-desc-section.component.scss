@@ -14,10 +14,15 @@
     }
     &:not(.has-inline-label){
         .section-label {
-            border-bottom: 0.07rem dotted #666;
             margin-bottom: 0.3rem;
             display: block;
             margin-top: 1rem;  
+        }
+        &.has-dotted {
+            border-bottom: 0.07rem dotted #666;
+        }
+        &:not(.has-dotted){
+            font-size: 22px;
         }
     }
     ::ng-deep p {
