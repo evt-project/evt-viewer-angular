@@ -332,98 +332,98 @@ export class Deletion extends GenericElement {
 }
 
 export class MsFrag extends GenericElement {
-    additional?: Additional;
-    altIdentifier?: AltIdentifier;
-    history?: History;
-    msContents?: MsContents;
-    msIdentifier?: MsIdentifier;
-    physDesc?: PhysDesc;
+    additional: Additional;
+    altIdentifier: AltIdentifier;
+    history: History;
+    msContents: MsContents;
+    msIdentifier: MsIdentifier;
+    physDesc: PhysDesc;
 }
 
 export class MsPart extends MsFrag {
-    head?: Head;
-    msPart?: MsPart;
+    head: Head;
+    msPart: MsPart;
 }
 
 export class MsDesc extends MsPart {
     id: string;
-    msFrag?: MsFrag;
+    msFrag: MsFrag;
 }
 
 export class Identifier extends GenericElement {
-    collection?: CollectionEl[];
-    idnos?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    regions?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
-    repository?: Repository;
-    settlements?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
-    countries?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
+    collection: CollectionEl[];
+    idnos: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    regions: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    repository: Repository;
+    settlements: Array<ParseResult<GenericElement>>; // TODO: Add specific type when settlement is handled
+    countries: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
 }
 
 export class AltIdentifier extends Identifier {
-    noteEl?: Note[];
+    noteEl: Note[];
 }
 
 export class MsIdentifier extends Identifier {
     id: string;
-    institution?: Institution;
-    altIdentifier?: AltIdentifier[];
-    msName?: MsName[];
+    institution: Institution;
+    altIdentifier: AltIdentifier[];
+    msName: MsName[];
 }
 
 export class MsContents extends GenericElement {
-    summary?: Summary;
-    msItem?: MsItem[];
-    msItemStruct?: MsItemStruct;
-    pEl?: Paragraph[];
-    textLangs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+    summary: Summary;
+    msItem: MsItem[];
+    msItemStruct: MsItemStruct;
+    pEl: Paragraph[];
+    textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
 }
 
 export class PhysDesc extends GenericElement {
-    objectDesc?: ObjectDesc;
-    bindingDesc?: BindingDesc;
-    decoDesc?: DecoDesc;
-    handDesc?: HandDesc;
-    accMat?: AccMat;
-    additions?: Additions;
-    musicNotation?: MusicNotation;
-    scriptDesc?: ScriptDesc;
-    sealDesc?: SealDesc;
-    typeDesc?: TypeDesc;
-    pEl?: Paragraph[];
+    objectDesc: ObjectDesc;
+    bindingDesc: BindingDesc;
+    decoDesc: DecoDesc;
+    handDesc: HandDesc;
+    accMat: AccMat;
+    additions: Additions;
+    musicNotation: MusicNotation;
+    scriptDesc: ScriptDesc;
+    sealDesc: SealDesc;
+    typeDesc: TypeDesc;
+    pEl: Paragraph[];
 }
 
 export class History extends GenericElement {
-    acquisition?: Acquisition;
-    origin?: Origin;
-    provenance?: Provenance[];
-    summary?: Summary;
-    pEl?: Paragraph[];
+    acquisition: Acquisition;
+    origin: Origin;
+    provenance: Provenance[];
+    summary: Summary;
+    pEl: Paragraph[];
 }
 
 export class Head extends GenericElement {
-    place?: string;
-    rend?: string;
-    style?: string;
-    rendition?: string;
-    n?: string;
-    facs?: string;
-    lbEl?: Lb[];
-    hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
+    place: string;
+    rend: string;
+    style: string;
+    rendition: string;
+    n: string;
+    facs: string;
+    lbEl: Lb[];
+    hi: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
 }
 
 export class Institution extends GenericElement {
-    country?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
-    region?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
+    country: Array<ParseResult<GenericElement>>; // TODO: Add specific type when country is handled
+    region: Array<ParseResult<GenericElement>>; // TODO: Add specific type when region is handled
 }
 
 export class Repository extends GenericElement {
-    lang?: string;
+    lang: string;
 }
 
 export class MsName extends GenericElement {
-    name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
-    rs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rs is handled
-    gEl?: G[];
+    name: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
+    rs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when rs is handled
+    gEl: G[];
 }
 
 export class CollectionEl extends GenericElement {
@@ -431,348 +431,348 @@ export class CollectionEl extends GenericElement {
 }
 
 export class MsItemStruct extends GenericElement {
-    n?: string;
-    defective?: boolean;
-    authors?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
+    n: string;
+    defective: boolean;
+    authors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when author is handled
     respStmt: Array<ParseResult<GenericElement>>; // TODO: Add specific type when restStmt is handled
-    titles?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
-    rubric?: Rubric;
-    incipit?: Incipit;
-    quote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
-    explicit?: Explicit;
-    finalRubric?: FinalRubric;
-    colophons?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
-    decoNote?: DecoNote;
-    listBibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    bibl?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    filiation?: Filiation[];
-    noteEl?: Note[];
-    textLangs?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
-    locus?: Locus;
+    titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    rubric: Rubric;
+    incipit: Incipit;
+    quote: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
+    explicit: Explicit;
+    finalRubric: FinalRubric;
+    colophons: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
+    decoNote: DecoNote;
+    listBibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    filiation: Filiation[];
+    noteEl: Note[];
+    textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
+    locus: Locus;
 }
 
 export class MsItem extends MsItemStruct {
-    docAuthors?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docAuthor is handled
-    docTitles?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docTitle is handled
-    docImprints?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
-    docDate?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
-    locusGrp?: LocusGrp;
-    gapEl?: Gap[];
-    msItem?: MsItem[];
+    docAuthors: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docAuthor is handled
+    docTitles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docTitle is handled
+    docImprints: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docImprint is handled
+    docDate: Array<ParseResult<GenericElement>>; // TODO: Add specific type when docDate is handled
+    locusGrp: LocusGrp;
+    gapEl: Gap[];
+    msItem: MsItem[];
 }
 
 export class Summary extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Acquisition extends GenericElement {
-    notBefore?: string;
-    notAfter?: string;
-    name?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
+    notBefore: string;
+    notAfter: string;
+    name: Array<ParseResult<GenericElement>>; // TODO: Add specific type when name is handled
 }
 
 export class Origin extends GenericElement {
-    notBefore?: string;
-    notAfter?: string;
-    evidence?: string;
-    resp?: string;
-    origDate?: OrigDate;
-    origPlace?: OrigPlace;
+    notBefore: string;
+    notAfter: string;
+    evidence: string;
+    resp: string;
+    origDate: OrigDate;
+    origPlace: OrigPlace;
 }
 
 export class OrigDate extends GenericElement {
-    notBefore?: string;
-    notAfter?: string;
-    when?: string;
-    origDateType?: string;
+    notBefore: string;
+    notAfter: string;
+    when: string;
+    origDateType: string;
 }
 
 export class OrigPlace extends GenericElement {
-    key?: string;
-    origPlaceType?: string;
+    key: string;
+    origPlaceType: string;
 }
 
 export class Provenance extends GenericElement {
-    when?: string;
+    when: string;
 }
 
 export class ObjectDesc extends GenericElement {
-    form?: string;
-    layoutDesc?: LayoutDesc;
-    supportDesc?: SupportDesc;
-    pEl?: Paragraph[];
+    form: string;
+    layoutDesc: LayoutDesc;
+    supportDesc: SupportDesc;
+    pEl: Paragraph[];
 }
 
 export class LayoutDesc extends GenericElement {
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
-    layout?: Layout;
-    summary?: Summary;
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    layout: Layout;
+    summary: Summary;
 }
 
 export class Layout extends GenericElement {
-    columns?: number;
-    streams?: number;
-    ruledLines?: number;
-    writtenLines?: number;
+    columns: number;
+    streams: number;
+    ruledLines: number;
+    writtenLines: number;
     pEl: Paragraph[];
 }
 
 export type MaterialValues = 'paper' | 'parch' | 'perg' | 'mixes';
 
 export class SupportDesc extends GenericElement {
-    material?: MaterialValues;
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
-    extents?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
-    collation?: Collation;
-    condition?: Condition;
-    foliation?: Foliation;
-    support?: Support;
+    material: MaterialValues;
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    extents: Array<ParseResult<GenericElement>>; // TODO: Add specific type when extent is handled
+    collation: Collation;
+    condition: Condition;
+    foliation: Foliation;
+    support: Support;
 }
 
 export class Condition extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Collation extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Foliation extends GenericElement {
     id: string;
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Support extends GenericElement {
-    material?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when material is handled
-    watermark?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
+    material: Array<ParseResult<GenericElement>>; // TODO: Add specific type when material is handled
+    watermark: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
 }
 
 export class BindingDesc extends GenericElement {
-    binding?: Binding[];
-    condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote[];
-    pEl?: Paragraph[];
+    binding: Binding[];
+    condition: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
+    decoNote: DecoNote[];
+    pEl: Paragraph[];
 }
 
 export class Binding extends GenericElement {
-    contemporary?: boolean;
-    condition?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
-    decoNote?: DecoNote[];
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    contemporary: boolean;
+    condition: Array<ParseResult<GenericElement>>; // TODO: Add specific type when condition is handled
+    decoNote: DecoNote[];
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
 
 export class DecoDesc extends GenericElement {
-    decoNote?: DecoNote;
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
-    summary?: Summary;
+    decoNote: DecoNote;
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    summary: Summary;
 }
 
 export class Additions extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class HandDesc extends GenericElement {
-    hands?: string;
-    handNote?: HandNote[];
+    hands: string;
+    handNote: HandNote[];
 }
 
 export class ScriptDesc extends GenericElement {
-    scriptNote?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptNote is handled
-    summary?: Summary;
+    scriptNote: Array<ParseResult<GenericElement>>; // TODO: Add specific type when scriptNote is handled
+    summary: Summary;
 }
 
 export class Seal extends GenericElement {
-    contemporary?: boolean;
-    sealType?: string;
-    n?: string;
-    decoNote?: DecoNote;
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    contemporary: boolean;
+    sealType: string;
+    n: string;
+    decoNote: DecoNote;
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
 
 export class SealDesc extends GenericElement {
-    seal?: Seal;
+    seal: Seal;
 }
 
 export class TypeDesc extends GenericElement {
-    summary?: Summary;
-    typeNote?: TypeNote;
+    summary: Summary;
+    typeNote: TypeNote;
 }
 
 export class TypeNote extends GenericElement {
     id: string;
-    scope?: string;
+    scope: string;
 }
 
 export class MusicNotation extends GenericElement {
-    term?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
+    term: Array<ParseResult<GenericElement>>; // TODO: Add specific type when term is handled
 }
 
 export class AccMat extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Additional extends GenericElement {
-    listBibls?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    adminInfo?: AdminInfo;
-    surrogates?: Surrogates;
+    listBibls: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    adminInfo: AdminInfo;
+    surrogates: Surrogates;
 }
 
 export class AdminInfo extends GenericElement {
-    noteEl?: Note[];
-    availabilities?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    custodialHist?: CustodialHist;
-    recordHist?: RecordHist;
+    noteEl: Note[];
+    availabilities: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
+    custodialHist: CustodialHist;
+    recordHist: RecordHist;
 }
 
 export class CustodialHist extends GenericElement {
-    pEl?: Paragraph[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    pEl: Paragraph[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
     custEvent?: CustEvent[];
 }
 
 export class CustEvent extends GenericElement {
     custEventType: string;
-    notBefore?: string;
-    notAfter?: string;
-    when?: string;
-    from?: string;
-    to?: string;
+    notBefore: string;
+    notAfter: string;
+    when: string;
+    from: string;
+    to: string;
 }
 
 export class RecordHist extends GenericElement {
-    pEl?: Paragraph[];
-    changes?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when change is handled
-    source?: Source[];
-    ab?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
+    pEl: Paragraph[];
+    changes: Array<ParseResult<GenericElement>>; // TODO: Add specific type when change is handled
+    source: Source[];
+    ab: Array<ParseResult<GenericElement>>; // TODO: Add specific type when ab is handled
 }
 
 export class Source extends GenericElement {
-    pEl?: Paragraph[];
+    pEl: Paragraph[];
 }
 
 export class Surrogates extends GenericElement {
-    bibls?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
-    pEl?: Paragraph[];
+    bibls: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    pEl: Paragraph[];
 }
 
 export class Rubric extends GenericElement {
-    lang?: string;
-    rend?: string;
-    lbEl?: Lb[];
-    locus?: Locus;
-    stamp?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stamp is handled
+    lang: string;
+    rend: string;
+    lbEl: Lb[];
+    locus: Locus;
+    stamp: Array<ParseResult<GenericElement>>; // TODO: Add specific type when stamp is handled
 }
 
 export class FinalRubric extends GenericElement {
-    lbEl?: Lb[];
+    lbEl: Lb[];
 }
 
 export class Incipit extends GenericElement {
-    lang?: string;
-    defective?: boolean;
-    lbEl?: Lb[];
-    locus?: Locus;
+    lang: string;
+    defective: boolean;
+    lbEl: Lb[];
+    locus: Locus;
 }
 
 export class Explicit extends GenericElement {
-    lang?: string;
-    defective?: boolean;
-    locus?: Locus;
+    lang: string;
+    defective: boolean;
+    locus: Locus;
 }
 
 export class Locus extends GenericElement {
-    scheme?: string;
-    from?: string;
-    to?: string;
-    facs?: string;
-    target?: string;
-    hi?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
-    gEl?: G[];
-    locus?: Locus;
+    scheme: string;
+    from: string;
+    to: string;
+    facs: string;
+    target: string;
+    hi: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
+    gEl: G[];
+    locus: Locus;
 }
 
 export class LocusGrp extends GenericElement {
-    scheme?: string;
-    locus?: Locus;
+    scheme: string;
+    locus: Locus;
 }
 
 export class DecoNote extends GenericElement {
-    decoNoteType?: string;
-    watermark?: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
+    decoNoteType: string;
+    watermark: Array<ParseResult<GenericElement>>; // TODO: Add specific type when watermark is handled
 }
 
 export class Filiation extends GenericElement {
-    filiationType?: string;
+    filiationType: string;
 }
 
 export class Dimensions extends GenericElement {
-    dimensionsType?: string;
-    scope?: string;
-    extent?: string;
-    unit?: string;
-    quantity?: number;
-    atLeast?: number;
-    atMost?: number;
-    min?: number;
-    max?: number;
-    height?: Height;
-    width?: Width;
-    depth?: Depth;
-    dim?: Dim;
+    dimensionsType: string;
+    scope: string;
+    extent: string;
+    unit: string;
+    quantity: number;
+    atLeast: number;
+    atMost: number;
+    min: number;
+    max: number;
+    height: Height;
+    width: Width;
+    depth: Depth;
+    dim: Dim;
 }
 
 export class Height extends GenericElement {
-    scope?: string;
-    extent?: string;
-    unit?: string;
-    quantity?: number;
-    atLeast?: number;
-    atMost?: number;
-    min?: number;
-    max?: number;
-    gEl?: G[];
+    scope: string;
+    extent: string;
+    unit: string;
+    quantity: number;
+    atLeast: number;
+    atMost: number;
+    min: number;
+    max: number;
+    gEl: G[];
 }
 
 export class Width extends GenericElement {
-    scope?: string;
-    extent?: string;
-    unit?: string;
-    quantity?: number;
-    atLeast?: number;
-    atMost?: number;
-    min?: number;
-    max?: number;
-    gEl?: G[];
+    scope: string;
+    extent: string;
+    unit: string;
+    quantity: number;
+    atLeast: number;
+    atMost: number;
+    min: number;
+    max: number;
+    gEl: G[];
 }
 
 export class Depth extends GenericElement {
-    scope?: string;
-    extent?: string;
-    unit?: string;
-    quantity?: number;
-    atLeast?: number;
-    atMost?: number;
-    min?: number;
-    max?: number;
-    gEl?: G[];
+    scope: string;
+    extent: string;
+    unit: string;
+    quantity: number;
+    atLeast: number;
+    atMost: number;
+    min: number;
+    max: number;
+    gEl: G[];
 }
 
 export class Dim extends GenericElement {
     dimType: string;
-    scope?: string;
-    extent?: string;
-    unit?: string;
-    quantity?: number;
-    atLeast?: number;
-    atMost?: number;
-    min?: number;
-    max?: number;
-    gEl?: G[];
+    scope: string;
+    extent: string;
+    unit: string;
+    quantity: number;
+    atLeast: number;
+    atMost: number;
+    min: number;
+    max: number;
+    gEl: G[];
 }
 
 export class FileDesc extends GenericElement {
