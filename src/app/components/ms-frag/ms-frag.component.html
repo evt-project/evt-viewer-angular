@@ -1,5 +1,13 @@
 <div class="msFrag"> 
     <evt-ms-desc-section [label]="'msFrag'" [dotted]=false></evt-ms-desc-section>    
+    <div class="flex-container" *ngIf="data?.pEl.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
+        </div>
+    </div>
     <evt-ms-identifier *ngIf="data?.msIdentifier" [data]="data?.msIdentifier"></evt-ms-identifier>
     <evt-ms-contents *ngIf="data?.msContents" [data]="data?.msContents"></evt-ms-contents>
     <evt-phys-desc *ngIf="data?.physDesc" [data]="data?.physDesc"></evt-phys-desc>
