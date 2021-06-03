@@ -1,24 +1,62 @@
 <div class="msPart"> 
-    <p class="projectInfo-sectionSubHeader">Parte del manoscritto:</p>
-    <div>  
-        <evt-content-viewer [content]="data?.msIdentifier"></evt-content-viewer>
-        <ng-container *ngIf="data?.head?.title?.length>0">
-            <span class="projectInfo-inlineLabel">Titolo: </span>
-            <evt-content-viewer *ngFor="let t of data.head.title" [content]="t"></evt-content-viewer>
-            <br/>
-        </ng-container>
-        <ng-container *ngIf="data?.head?.origPlace">
-            <span class="projectInfo-inlineLabel">Luogo di origine: </span>
-            <evt-content-viewer [content]="data.head.origPlace"></evt-content-viewer>
-            <br/>
-        </ng-container>
-        <ng-container *ngIf="data?.head?.origDate">
-            <span class="projectInfo-inlineLabel">Data di origine: </span>
-            <evt-content-viewer [content]="data.head.origDate"></evt-content-viewer>
-            <br/>
-        </ng-container> 
-        <evt-content-viewer [content]="data?.msContents"></evt-content-viewer>
-        <evt-content-viewer [content]="data?.physDesc"></evt-content-viewer>
-        <evt-content-viewer [content]="data?.history"></evt-content-viewer>
+    <evt-ms-desc-section [label]="'msPart'" [dotted]=false></evt-ms-desc-section> 
+    <div class="flex-container" *ngIf="data?.pEl?.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
+        </div>
     </div>
+    <ng-container *ngIf="data?.head as head">
+        <div class="flex-container" *ngIf="head.title?.length>0">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'title'" [inlineLabel]="true"> </evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information">
+                <ng-container *ngFor="let titles of head.title; let i = index">
+                    <evt-content-viewer *ngFor="let title of titles" [content]="title"></evt-content-viewer>
+                    <span *ngIf="i < [head.title.length-1]">, </span>
+                </ng-container>
+            </div>
+        </div>
+        <div class="flex-container" *ngIf="head.origPlace">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'origPlace'" [inlineLabel]="true"> </evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information">
+                <evt-content-viewer [content]="head.origPlace"></evt-content-viewer>
+            </div>
+        </div>
+        <div class="flex-container" *ngIf="head.origDate">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'origDate'" [inlineLabel]="true"> </evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information">
+                <evt-content-viewer [content]="head.origDate"></evt-content-viewer>
+            </div>
+        </div>
+    </ng-container>
+    <evt-ms-identifier *ngIf="data?.msIdentifier" [data]="data?.msIdentifier"></evt-ms-identifier>
+    <div *ngIf="data?.altIdentifier as altIdentifier">
+        <evt-ms-desc-section [label]="'altIdentifier'" [dotted]=true></evt-ms-desc-section> 
+        <evt-identifier [data]="data.altIdentifier" [listClass]="false"></evt-identifier>
+        <div class="flex-container" *ngIf="altIdentifier.noteEl.length>0">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'note'" [inlineLabel]="true"></evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information">
+                <evt-content-viewer *ngFor="let no of altIdentifier.noteEl" [content]="no"></evt-content-viewer>
+            </div>
+        </div>
+    </div>
+    <evt-ms-contents *ngIf="data?.msContents" [data]="data?.msContents"></evt-ms-contents>
+    <evt-phys-desc *ngIf="data?.physDesc" [data]="data?.physDesc"></evt-phys-desc>
+    <evt-history *ngIf="data?.history" [data]="data?.history"></evt-history>
+    <evt-additional *ngIf="data?.additional" [data]="data?.additional"></evt-additional> 
+    <ng-container *ngFor="let p of data?.msPart">
+        <div>
+            <evt-ms-part [data]="p"></evt-ms-part>
+        </div>
+    </ng-container>
 </div>
