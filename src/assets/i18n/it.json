@@ -97,5 +97,6 @@
     "recordHist": "Storia registrata",
     "custodialHist": "Storia della conservazione",
     "availability": "Disponibilità",
-    "msFrag": "Frammento del manoscritto"
+    "msFrag": "Frammento del manoscritto",
+    "altIdentifierLabel": "Identificatore alternativo"
 }

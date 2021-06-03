@@ -98,5 +98,6 @@
     "recordHist": "Recorded history",
     "custodialHist": "Custodial history",
     "availability": "Availability",
-    "msFrag": "Manuscript fragment"
+    "msFrag": "Manuscript fragment",
+    "altIdentifierLabel": "Alternative identifier"
 }
