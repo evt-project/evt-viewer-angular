@@ -99,5 +99,8 @@
     "custodialHist": "Custodial history",
     "availability": "Availability",
     "msFrag": "Manuscript fragment",
-    "altIdentifierLabel": "Alternative identifier"
+    "altIdentifierLabel": "Alternative identifier",
+    "msPart": "Manuscript part",
+    "origPlace": "Origin place",
+    "origDate": "Origin date"
 }
