@@ -332,18 +332,18 @@ export class Deletion extends GenericElement {
 }
 
 export class MsFrag extends GenericElement {
-    additional?: Additional;
-    altIdentifier?: AltIdentifier;
-    history?: History;
-    msContents?: MsContents;
-    msIdentifier?: MsIdentifier;
-    physDesc?: PhysDesc;
-    pEl?: Paragraph[];
+    additional: Additional;
+    altIdentifier: AltIdentifier;
+    history: History;
+    msContents: MsContents;
+    msIdentifier: MsIdentifier;
+    physDesc: PhysDesc;
+    pEl: Paragraph[];
 }
 
 export class MsPart extends MsFrag {
-    head?: Head;
-    msPart?: MsPart[];
+    head: Head;
+    msPart: MsPart;
 }
 
 export class MsDesc extends MsPart {
