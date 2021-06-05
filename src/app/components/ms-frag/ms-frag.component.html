@@ -1,0 +1,28 @@
+<div class="msFrag"> 
+    <evt-ms-desc-section [label]="'msFrag'" [underline]=false></evt-ms-desc-section>    
+    <div class="flex-container" *ngIf="data?.pEl.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>  
+        </div>
+    </div>
+    <evt-ms-identifier *ngIf="data?.msIdentifier" [data]="data.msIdentifier"></evt-ms-identifier>
+    <div *ngIf="data?.altIdentifier as altIdentifier">
+        <evt-ms-desc-section [label]="'altIdentifierLabel'" [underline]=true></evt-ms-desc-section> 
+        <evt-identifier [data]="data.altIdentifier" [listClass]="false"></evt-identifier>
+        <div class="flex-container" *ngIf="altIdentifier.noteEl.length>0">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'note'" [inlineLabel]="true"></evt-ms-desc-section>
+            </div>
+            <div class="flex-item-information">
+                <evt-content-viewer *ngFor="let no of altIdentifier.noteEl" [content]="no"></evt-content-viewer>
+            </div>
+        </div>
+    </div>
+    <evt-ms-contents *ngIf="data?.msContents" [data]="data.msContents"></evt-ms-contents>
+    <evt-phys-desc *ngIf="data?.physDesc" [data]="data.physDesc"></evt-phys-desc>
+    <evt-history *ngIf="data?.history" [data]="data.history"></evt-history>
+    <evt-additional *ngIf="data?.additional" [data]="data.additional"></evt-additional>
+</div>

@@ -96,5 +96,7 @@
     "adminInfo": "Informazioni amministrative",
     "recordHist": "Storia registrata",
     "custodialHist": "Storia della conservazione",
-    "availability": "Disponibilità"
+    "availability": "Disponibilità",
+    "msFrag": "Frammento del manoscritto",
+    "altIdentifierLabel": "Identificatore alternativo"
 }

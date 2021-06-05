@@ -338,6 +338,7 @@ export class MsFrag extends GenericElement {
     msContents: MsContents;
     msIdentifier: MsIdentifier;
     physDesc: PhysDesc;
+    pEl: Paragraph[];
 }
 
 export class MsPart extends MsFrag {

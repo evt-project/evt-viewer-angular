@@ -982,6 +982,7 @@ export class MsFragParser extends GenericElemParser implements Parser<XMLElement
             msContents: queryAndParseElement(xml, 'msContents'),
             msIdentifier: queryAndParseElement(xml, 'msIdentifier'),
             physDesc: queryAndParseElement(xml, 'physDesc'),
+            pEl: queryAndParseElements<Paragraph>(xml, 'p'),
 
         };
     }
