@@ -1,5 +1,5 @@
 <div class="section {{ additionalClass }}" [class.has-inline-label]="inlineLabel" [class.has-nested-element]="nestedElement" 
-[class.has-dotted]="dotted">
+[class.underline-dotted]="underline">
     <span class="section-label" *ngIf="label">{{ label | translate }}{{inlineLabel ? ': ' : ''}}</span>
     <ng-container [ngSwitch]="nestedElement">
         <ng-container *ngSwitchCase=true>
