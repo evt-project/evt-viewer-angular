@@ -1,6 +1,6 @@
 <div class="msPart"> 
     <evt-ms-desc-section [label]="'msPart'" [underline]=false></evt-ms-desc-section> 
-    <div class="flex-container" *ngIf="data?.pEl?.length>0">
+    <div class="flex-container" *ngIf="data?.pEl.length>0">
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
         </div>
@@ -9,7 +9,7 @@
         </div>
     </div>
     <ng-container *ngIf="data?.head as head">
-        <div class="flex-container" *ngIf="head.title?.length>0">
+        <div class="flex-container" *ngIf="head.title.length>0">
             <div class="flex-item-label">
                 <evt-ms-desc-section [label]="'title'" [inlineLabel]="true"> </evt-ms-desc-section>
             </div>
