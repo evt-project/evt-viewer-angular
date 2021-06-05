@@ -18,13 +18,13 @@
             display: block;
             margin-top: 1rem;  
         }
-        &.has-dotted {
+        &.underline-dotted {
             border-bottom: 0.07rem dotted #666;
             margin-bottom: 5px;
            
         }
-        &:not(.has-dotted){
-            font-size: 22px;
+        &:not(.underline-dotted){
+            font-size: 1.37rem;
         }
     }
     ::ng-deep p {
