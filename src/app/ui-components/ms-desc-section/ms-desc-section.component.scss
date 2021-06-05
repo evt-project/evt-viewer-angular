@@ -10,6 +10,7 @@
         display: flex;
         .section-label {
             margin-right: 0.3rem;
+            line-height: 1;
         }
     }
     &:not(.has-inline-label){
