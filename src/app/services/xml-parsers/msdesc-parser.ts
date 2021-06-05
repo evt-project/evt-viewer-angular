@@ -998,7 +998,7 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
         return {
             ...super.parse(xml),
             type: MsPart,
-            msPart: queryAndParseElement(xml, 'msPart'),
+            msPart: queryAndParseElements(xml, 'msPart'),
             head: queryAndParseElement(xml, 'head'),
         };
     }
