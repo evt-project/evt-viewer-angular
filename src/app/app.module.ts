@@ -43,6 +43,7 @@ import { MsContentsComponent } from './components/ms-contents/ms-contents.compon
 import { MsFragComponent } from './components/ms-frag/ms-frag.component';
 import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
 import { MsItemComponent } from './components/ms-item/ms-item.component';
+import { MsPartComponent } from './components/ms-part/ms-part.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
@@ -142,6 +143,7 @@ export function initializeApp(appConfig: AppConfig) {
     MsFragComponent,
     MsIdentifierComponent,
     MsItemComponent,
+    MsPartComponent,
     NamedEntitiesListComponent,
     NamedEntityComponent,
     NamedEntityDetailComponent,

@@ -1,0 +1,48 @@
+.msPart {
+    margin-bottom: 2rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-item-label {
+    flex-basis: 100%;
+}
+
+.flex-item-information {
+    flex-basis: 100%;
+    margin-bottom: 0.7rem;
+}
+
+@media (min-width: 500px) { 
+    .flex-item-label {
+        flex-basis: 20%;
+      }
+      
+    .flex-item-information {
+        flex-basis: 80%;
+    }
+}
+
+@media (min-width: 640px) { 
+    .flex-item-label {
+        flex-basis: 100%;
+    }
+
+    .flex-item-information {
+        flex-basis:100%
+    }
+ }
+
+@media (min-width: 1000px) { 
+    .flex-item-label {
+        flex-basis: 20%;
+      }
+      
+    .flex-item-information {
+        flex-basis: 80%;
+    }
+ }

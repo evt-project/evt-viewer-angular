@@ -343,7 +343,7 @@ export class MsFrag extends GenericElement {
 
 export class MsPart extends MsFrag {
     head: Head;
-    msPart: MsPart;
+    msPart: MsPart[];
 }
 
 export class MsDesc extends MsPart {
@@ -410,6 +410,9 @@ export class Head extends GenericElement {
     facs: string;
     lbEl: Lb[];
     hi: Array<ParseResult<GenericElement>>; // TODO: Add specific type when hi is handled
+    title: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
+    origPlace: OrigPlace;
+    origDate: OrigDate;
 }
 
 export class Institution extends GenericElement {
