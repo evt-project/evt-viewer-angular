@@ -1012,7 +1012,7 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
-            msFrag: queryAndParseElements(xml, 'msFrag'),
+            msFrags: queryAndParseElements(xml, 'msFrag'),
         };
     }
 }

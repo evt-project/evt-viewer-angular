@@ -348,7 +348,7 @@ export class MsPart extends MsFrag {
 
 export class MsDesc extends MsPart {
     id: string;
-    msFrag: MsFrag[];
+    msFrags: MsFrag[];
 }
 
 export class Identifier extends GenericElement {
