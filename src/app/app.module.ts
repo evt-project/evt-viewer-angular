@@ -44,6 +44,7 @@ import { MsDescComponent } from './components/ms-desc/ms-desc.component';
 import { MsFragComponent } from './components/ms-frag/ms-frag.component';
 import { MsIdentifierComponent } from './components/ms-identifier/ms-identifier.component';
 import { MsItemComponent } from './components/ms-item/ms-item.component';
+import { MsPartComponent } from './components/ms-part/ms-part.component';
 import { NamedEntitiesListComponent } from './components/named-entities-list/named-entities-list.component';
 import { NamedEntityRefComponent } from './components/named-entity-ref/named-entity-ref.component';
 import { NamedEntityRelationComponent } from './components/named-entity-relation/named-entity-relation.component';
