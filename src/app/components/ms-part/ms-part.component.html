@@ -54,7 +54,7 @@
     <evt-phys-desc *ngIf="data?.physDesc" [data]="data.physDesc"></evt-phys-desc>
     <evt-history *ngIf="data?.history" [data]="data.history"></evt-history>
     <evt-additional *ngIf="data?.additional" [data]="data.additional"></evt-additional> 
-    <ng-container *ngFor="let p of data?.msPart" >
+    <ng-container *ngFor="let p of data?.msParts" >
         <ul>
             <li>
                 <evt-ms-part [data]="p"></evt-ms-part>
