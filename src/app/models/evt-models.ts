@@ -343,7 +343,7 @@ export class MsFrag extends GenericElement {
 
 export class MsPart extends MsFrag {
     head: Head;
-    msPart: MsPart[];
+    msParts: MsPart[];
 }
 
 export class MsDesc extends MsPart {
