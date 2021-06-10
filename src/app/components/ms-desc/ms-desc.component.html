@@ -53,8 +53,10 @@
     <evt-phys-desc *ngIf="data?.physDesc" [data]="data.physDesc"></evt-phys-desc>
     <evt-history *ngIf="data?.history" [data]="data.history"></evt-history>
     <evt-additional *ngIf="data?.additional" [data]="data.additional"></evt-additional>
-    <ng-container *ngFor="let f of data?.msFrag" >
-        <evt-ms-frag [data]="f"></evt-ms-frag>
+    <ng-container *ngFor="let frag of data?.msFrag" >
+        <evt-ms-frag [data]="frag"></evt-ms-frag>
     </ng-container>
-    <!-- TODO: add msPart -->
+    <ng-container *ngFor="let part of data?.msPart">
+        <evt-ms-part [data]="part"></evt-ms-part>
+    </ng-container>
 </div>
