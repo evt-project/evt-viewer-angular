@@ -96,6 +96,17 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleMsDescContent(){
+    if (!this.msDescOpen){
+      this.showSecondaryContent = true;
+      this.msDescOpen = true;
+      this.secondaryContent = '';
+    }
+    else {
+      this.showSecondaryContent = false;
+      this.msDescOpen = false;
+    }
+  }
   getSecondaryContent(): string {
     return this.secondaryContent;
   }
