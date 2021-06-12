@@ -2,6 +2,9 @@ import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { parse } from 'src/app/services/xml-parsers';
+import { MsDescParser } from 'src/app/services/xml-parsers/msdesc-parser';
+import { createParser } from 'src/app/services/xml-parsers/parser-models';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
@@ -52,6 +55,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
   public secondaryContent = '';
   private showSecondaryContent = false;
+  public msDescOpen = false;
 
   public selectedPage;
 
