@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Manuscript description visualization
+- Manuscript part visualization
+- Manuscript fragment visualization
 - Additional visualization
 - History visualization
 - Physical description visualization

@@ -1,5 +1,4 @@
-<div class="msPart"> 
-    <evt-ms-desc-section [label]="'msPart'" [underline]=false></evt-ms-desc-section> 
+<div>
     <div class="flex-container" *ngIf="data?.pEl.length>0">
         <div class="flex-item-label">
             <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"> </evt-ms-desc-section>
@@ -9,7 +8,7 @@
         </div>
     </div>
     <ng-container *ngIf="data?.head as head">
-        <div class="flex-container" *ngIf="head.title.length>0">
+        <div class="flex-container" *ngIf="head.title?.length>0">
             <div class="flex-item-label">
                 <evt-ms-desc-section [label]="'title'" [inlineLabel]="true"> </evt-ms-desc-section>
             </div>
@@ -39,7 +38,7 @@
     </ng-container>
     <evt-ms-identifier *ngIf="data?.msIdentifier" [data]="data.msIdentifier"></evt-ms-identifier>
     <div *ngIf="data?.altIdentifier as altIdentifier">
-        <evt-ms-desc-section [label]="'altIdentifier'" [underline]=true></evt-ms-desc-section> 
+        <evt-ms-desc-section [label]="'altIdentifierLabel'" [underline]=true></evt-ms-desc-section> 
         <evt-identifier [data]="data.altIdentifier" [listClass]="false"></evt-identifier>
         <div class="flex-container" *ngIf="altIdentifier.noteEl.length>0">
             <div class="flex-item-label">
@@ -53,12 +52,11 @@
     <evt-ms-contents *ngIf="data?.msContents" [data]="data.msContents"></evt-ms-contents>
     <evt-phys-desc *ngIf="data?.physDesc" [data]="data.physDesc"></evt-phys-desc>
     <evt-history *ngIf="data?.history" [data]="data.history"></evt-history>
-    <evt-additional *ngIf="data?.additional" [data]="data.additional"></evt-additional> 
-    <ng-container *ngFor="let p of data?.msParts" >
-        <ul>
-            <li>
-                <evt-ms-part [data]="p"></evt-ms-part>
-            </li>
-        </ul>
+    <evt-additional *ngIf="data?.additional" [data]="data.additional"></evt-additional>
+    <ng-container *ngFor="let frag of data?.msFrags" >
+        <evt-ms-frag [data]="frag"></evt-ms-frag>
+    </ng-container>
+    <ng-container *ngFor="let part of data?.msParts">
+        <evt-ms-part [data]="part"></evt-ms-part>
     </ng-container>
 </div>

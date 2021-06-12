@@ -998,7 +998,7 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
         return {
             ...super.parse(xml),
             type: MsPart,
-            msPart: queryAndParseElements(xml, 'msPart'),
+            msParts: queryAndParseElements(xml, 'msPart'),
             head: queryAndParseElement(xml, 'head'),
         };
     }
@@ -1012,7 +1012,7 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
-            msFrag: queryAndParseElement(xml, 'msFrag'),
+            msFrags: queryAndParseElements(xml, 'msFrag'),
         };
     }
 }

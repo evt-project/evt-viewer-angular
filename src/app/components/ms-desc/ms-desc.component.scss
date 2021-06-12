@@ -1,7 +1,3 @@
-.phyDesc {
-    margin-bottom: 2rem;
-}
-
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -21,7 +17,7 @@
     margin-bottom: 0;
 }
 
-@media (min-width: 594px) { 
+@media (min-width: 500px) { 
     .flex-item-label {
         flex-basis: 20%;
       }
@@ -41,12 +37,15 @@
     }
  }
 
-@media (min-width: 1190px) { 
+@media (min-width: 1000px) { 
     .flex-item-label {
         flex-basis: 20%;
-      }
+    }
       
     .flex-item-information {
         flex-basis: 80%;
     }
- }
+}
+
+
+
