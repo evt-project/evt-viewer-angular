@@ -30,7 +30,10 @@
                 [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
         </ng-container>
     </div>
-    <div secondary-content>{{ getSecondaryContent() }}</div>
+    <div secondary-content>
+        <evt-ms-desc *ngIf="msDescOpen" [data]="msDesc$ | async"></evt-ms-desc>
+        {{ getSecondaryContent() }}
+    </div>
 
     <div footer>
         <evt-button
