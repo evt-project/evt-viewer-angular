@@ -8,6 +8,11 @@
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
+        <evt-button
+            label="MS Desc"
+            additionalClasses="btn-primary mr-1"
+            (btnClick)="toggleMsDescContent()"
+            [active]="msDescOpen"></evt-button>
     </div>
     <div content evtAnnotator>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
