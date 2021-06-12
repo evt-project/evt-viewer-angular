@@ -90,6 +90,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (this.secondaryContent !== newContent) {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
+      this.msDescOpen = false;
     } else {
       this.showSecondaryContent = false;
       this.secondaryContent = '';
