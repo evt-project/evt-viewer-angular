@@ -66,6 +66,15 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
+  public msDesc$ = this.evtModelService.editionSource$.pipe(
+    map(s => {
+      const msDesc = s.querySelector<HTMLElement>('msDesc');
+      const msDescParser = createParser(MsDescParser, parse);
+
+      return msDescParser.parse(msDesc);
+    }),
+  );
+
   private subscriptions: Subscription[] = [];
 
   constructor(
