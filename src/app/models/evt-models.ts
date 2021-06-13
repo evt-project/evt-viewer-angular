@@ -351,6 +351,8 @@ export class MsDesc extends MsPart {
     msFrags: MsFrag[];
 }
 
+// TODO: fix classes MsDesc, MsPart and MsFrag
+
 export class Identifier extends GenericElement {
     collection: CollectionEl[];
     idnos: Array<ParseResult<GenericElement>>; // TODO: Add specific type when idno is handled
