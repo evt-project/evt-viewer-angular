@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { parse } from 'src/app/services/xml-parsers';
 import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
@@ -8,7 +9,9 @@ import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-p
 import { CharacterDeclarationsParserService } from './xml-parsers/character-declarations-parser.service';
 import { FacsimileParserService } from './xml-parsers/facsimile-parser.service';
 import { LinesVersesParserService } from './xml-parsers/lines-verses-parser.service';
+import { MsDescParser } from './xml-parsers/msdesc-parser';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
+import { createParser } from './xml-parsers/parser-models';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
@@ -162,6 +165,16 @@ export class EVTModelService {
     this.glyphs$,
   ]).pipe(
     map(([chars, glyphs]) => chars.concat(glyphs)),
+  );
+
+  public readonly msDesc$ = this.editionSource$.pipe(
+    map(s => {
+      const msDesc = s.querySelector<HTMLElement>('msDesc');
+      const msDescParser = createParser(MsDescParser, parse);
+
+      return msDescParser.parse(msDesc);
+    }),
+    shareReplay(1),
   );
 
   constructor(
