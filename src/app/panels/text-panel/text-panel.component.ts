@@ -121,9 +121,6 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.msDescOpen = false;
     }
   }
-  getSecondaryContent(): string {
-    return this.secondaryContent;
-  }
 
   toggleProseVerses() {
     this.textFlow = this.textFlow === 'prose' ? 'verses' : 'prose';
