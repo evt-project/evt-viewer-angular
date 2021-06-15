@@ -1,2 +1,19 @@
-
+<ng-select
+    class="mr-1"
+    [items]="msDesc$ | async"
+    bindLabel="label"
+    bindValue="id"
+    [clearable]="false"
+    [searchable]="true"
+    [ngModel]="selectedMsDesc$ | async"
+    (change)="msDescID = $event.id">
+    <ng-template
+        ng-label-tmp
+        let-item="item">
+        <evt-icon
+            [iconInfo]="{icon: 'file-alt', additionalClasses: 'mr-2'}"
+            label-left></evt-icon>
+        
+    </ng-template>
+</ng-select>
 
