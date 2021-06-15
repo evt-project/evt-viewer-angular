@@ -98,6 +98,7 @@ import { ReadingTextComponent } from './view-modes/reading-text/reading-text.com
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
+import { MsDescSelectorComponent } from './components/ms-desc-selector/ms-desc-selector.component';
 
 const routes: Routes = [
 ];
@@ -182,6 +183,7 @@ export function initializeApp(appConfig: AppConfig) {
     WitnessPanelComponent,
     WordComponent,
     XmlBeautifyPipe,
+    MsDescSelectorComponent,
   ],
   imports: [
     AppRoutingModule,
