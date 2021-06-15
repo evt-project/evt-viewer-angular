@@ -4,7 +4,7 @@ import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/oper
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
-import { Page } from '../../models/evt-models';
+import { MsDesc, Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
@@ -33,6 +33,16 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   );
   @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
     filter(e => !!e),
+    distinctUntilChanged(),
+  );
+
+  @Input() msDescID: string;
+  public currentMsDesc$ = new BehaviorSubject<MsDesc>(undefined);
+  public currentMsDescId$ = this.currentMsDesc$.pipe(
+    map(ms => ms?.id),
+  );
+  @Output() msDescChange: Observable<MsDesc> = this.currentMsDesc$.pipe(
+    filter(ms => !!ms),
     distinctUntilChanged(),
   );
 

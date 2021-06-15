@@ -8,6 +8,7 @@
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
+        <evt-ms-desc-selector [msDescID]="msDescID" (selectionChange)="currentMsDesc$.next($event)"></evt-ms-desc-selector>
         <evt-button
             label="MS Desc"
             additionalClasses="btn-primary mr-1"
