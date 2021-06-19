@@ -8,14 +8,11 @@ import { createParser } from './parser-models';
   providedIn: 'root',
 })
 export class MsDescParserService {
+  private msDescParser = createParser(MsDescParser, parse);
 
   parseMsDesc(xml: XMLElement): MsDesc[] {
-    if (!xml) { return []; }
 
-    return Array.from(xml.querySelectorAll<XMLElement>('msDesc')).map(ms => {
-      const msDesc = ms.querySelector<HTMLElement>('msDesc');
-      const msDescParser = createParser(MsDescParser, parse);
+    return Array.from(xml.querySelectorAll<XMLElement>('msDesc')).map(s => this.msDescParser.parse(s));
+  }
 
-      return msDescParser.parse(msDesc);
-    });
-}}
+}
