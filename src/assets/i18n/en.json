@@ -102,5 +102,6 @@
     "altIdentifierLabel": "Alternative identifier",
     "msPart": "Manuscript part",
     "origPlace": "Origin place",
-    "origDate": "Origin date"
+    "origDate": "Origin date",
+    "selectMsDesc": "Select MsDesc"
 }
