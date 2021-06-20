@@ -4,7 +4,7 @@ import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/oper
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
-import { MsDesc, Page } from '../../models/evt-models';
+import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
@@ -35,18 +35,15 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     filter(e => !!e),
     distinctUntilChanged(),
   );
+  public msDesc$ = this.evtModelService.msDesc$;
 
-  @Input() msDescID: string;
-  public currentMsDesc$ = new BehaviorSubject<MsDesc>(undefined);
-  public currentMsDescId$ = this.currentMsDesc$.pipe(
-    map(ms => ms?.id),
-  );
-  @Output() msDescChange: Observable<MsDesc> = this.currentMsDesc$.pipe(
-    filter(ms => !!ms),
-    distinctUntilChanged(),
-  );
+  // tslint:disable-next-line: variable-name
+  private _msDescID: string;
+  @Input() set msDescID(p: string) {
+     this._msDescID = p;
+   }
 
-  msDesc$ = this.evtModelService.msDesc$;
+  get msDescID() { return this._msDescID; } // id dell'msDesc selezionato nel selettore
 
   public currentStatus$ = combineLatest([
     this.evtModelService.pages$,
@@ -64,13 +61,13 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
   public secondaryContent = '';
   private showSecondaryContent = false;
-  public msDescOpen = false;
 
   public selectedPage;
 
   public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   public get proseVersesTogglerIcon(): EvtIconInfo {
+
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
   }
 
@@ -103,7 +100,6 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (this.secondaryContent !== newContent) {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
-      this.msDescOpen = false;
     } else {
       this.showSecondaryContent = false;
       this.secondaryContent = '';
@@ -111,15 +107,11 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   }
 
   toggleMsDescContent(){
-    if (!this.msDescOpen){
-      this.showSecondaryContent = true;
-      this.msDescOpen = true;
-      this.secondaryContent = '';
-    }
-    else {
-      this.showSecondaryContent = false;
-      this.msDescOpen = false;
-    }
+    this.showSecondaryContent = true;
+  }
+
+  resetMsDesc(){
+    this.showSecondaryContent = false;
   }
 
   toggleProseVerses() {
