@@ -4,6 +4,7 @@
     [clearable]="true"
     [searchable]="true"
     [placeholder]="'selectMsDesc' | translate" 
+    (change)="msDescID = $event.id"
     >
     <ng-template
         ng-label-tmp
