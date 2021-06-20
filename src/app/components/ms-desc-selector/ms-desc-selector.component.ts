@@ -15,7 +15,6 @@ export class MsDescSelectorComponent {
   private _msDescID: string;
   @Input() set msDescID(p: string) {
      this._msDescID = p;
-     alert(this._msDescID);
      this.selectedMsDesc$.next(this._msDescID);
    }
 
