@@ -43,9 +43,11 @@
         </ng-container>
     </div>
     <div secondary-content>
-        <div *ngIf="(msDesc$ | async) as msDescs">
-            <div *ngFor="let msDesc of msDescs">
-                <evt-ms-desc *ngIf="msDesc.id == msDescID" [data]="msDesc"></evt-ms-desc>    
+        <div *ngIf="msDescOpen">
+            <div *ngIf="(msDesc$ | async) as msDescs">
+                <div *ngFor="let msDesc of msDescs">
+                    <evt-ms-desc *ngIf="msDesc.id == msDescID" [data]="msDesc"></evt-ms-desc>    
+                </div>
             </div>
         </div>
     </div>
