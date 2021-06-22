@@ -93,6 +93,7 @@ import { XMLParsers } from './services/xml-parsers/xml-parsers';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { MsDescSectionComponent } from './ui-components/ms-desc-section/ms-desc-section.component';
 import { CollationComponent } from './view-modes/collation/collation.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
@@ -133,6 +134,7 @@ export function initializeApp(appConfig: AppConfig) {
     HtmlAttributesDirective,
     HumanizePipe,
     IdentifierComponent,
+    ImageImageComponent,
     ImagePanelComponent,
     ImageTextComponent,
     LbComponent,
