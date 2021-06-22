@@ -61,6 +61,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
   public secondaryContent = '';
   private showSecondaryContent = false;
+  public msDescOpen = false;
 
   public selectedPage;
 
@@ -97,17 +98,25 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   }
 
   toggleSecondaryContent(newContent: string) {
+    this.msDescOpen = !this.msDescOpen;
     if (this.secondaryContent !== newContent) {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
     } else {
+      if (this.msDescOpen) {
+        this.showSecondaryContent = true;
+      }
+      else {
       this.showSecondaryContent = false;
+      }
       this.secondaryContent = '';
     }
   }
 
   toggleMsDescContent(){
     this.showSecondaryContent = true;
+    this.secondaryContent = '';
+    this.msDescOpen = true;
   }
 
   resetMsDesc(){
