@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CollationComponent } from './view-modes/collation/collation.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
@@ -11,6 +12,7 @@ const appRoutes: Routes = [
   { path: 'imageText', component: ImageTextComponent },
   { path: 'readingText', component: ReadingTextComponent },
   { path: 'textText', component: TextTextComponent },
+  { path: 'imageImage', component: ImageImageComponent },
   { path: 'collation', component: CollationComponent },
   { path: 'textSources', component: TextSourcesComponent },
   { path: 'textVersions', component: TextVersionsComponent },
