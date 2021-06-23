@@ -1,8 +1,24 @@
-<evt-panel
-    [hideHeader]="true"
+<evt-panel [showSecondaryContent]="isSecondaryContentOpened()"
+    [hideHeader]="false"
     [hideFooter]="true">
     <div header-left>
-        <!-- TODO: Add dropdowns for navigation -->
+    <ng-select
+        class="mr-1"
+        [closeOnSelect]="true" 
+        [searchable]="false"
+        bindLabel="id"
+        bindValue="id"
+        [items]="msDesc$ | async"
+        [clearable]="true"
+        (clear)="resetMsDesc();"
+        [placeholder]="'selectMsDesc' | translate" 
+        (change)="msDescID = $event.id; toggleMsDescContent()">
+        <ng-template
+            ng-id-tmp
+            let-item="item">
+            {{ item.id }}
+        </ng-template>
+    </ng-select>
     </div>
     <div content>
         <evt-osd
@@ -10,5 +26,12 @@
             [manifestURL]="manifest">
         </evt-osd>
         <p *ngIf="!manifest">Found no manifest file</p>
+    </div>
+    <div secondary-content>
+        <div *ngIf="(msDesc$ | async) as msDescs">
+            <div *ngFor="let msDesc of msDescs">
+                <evt-ms-desc *ngIf="msDesc.id == msDescID" [data]="msDesc"></evt-ms-desc>    
+            </div>
+        </div>
     </div>
 </evt-panel>
