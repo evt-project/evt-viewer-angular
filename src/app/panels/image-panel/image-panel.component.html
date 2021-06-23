@@ -12,7 +12,7 @@
                 {{ item.label }}
             </ng-option>
         </ng-select>
-        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>
+        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
     <div content>
         <evt-osd
@@ -25,8 +25,8 @@
     </div>
 
     <div secondary-content>
-        <div *ngIf="msDescOpen">
-            <evt-ms-desc [data]="currentMsDesc$ | async"></evt-ms-desc>    
+        <div *ngIf="isMsDescOpen">
+            <evt-ms-desc [data]="msDesc$ | async"></evt-ms-desc>    
         </div>
     </div>
 </evt-panel>
