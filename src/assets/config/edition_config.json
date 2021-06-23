@@ -109,6 +109,12 @@
 			"label": "Text Text"
 		},
 		{
+			"icon": "imgImg",
+			"iconSet": "evt",
+			"id": "imageImage",
+			"label": "Image Image"
+		},
+		{
 			"icon": "collation",
 			"iconSet": "evt",
 			"id": "collation",
