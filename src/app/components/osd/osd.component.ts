@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -65,7 +65,19 @@ To:
   'width': 5472,
 }
 */
+
+const outputArray = [];
+let cont = 0;
+
 function manifestResourcetoTileSource(manifestResource) {
+  outputArray.push({
+    n: cont,
+    id: manifestResource.service['@id'],
+    context: manifestResource.service['@context'],
+  });
+
+  cont = cont + 1;
+
   return {
     '@context': manifestResource.service['@context'],
     '@id': manifestResource.service['@id'],
@@ -81,7 +93,7 @@ function manifestResourcetoTileSource(manifestResource) {
   templateUrl: './osd.component.html',
   styleUrls: ['./osd.component.scss'],
 })
-export class OsdComponent implements AfterViewInit, OnDestroy {
+export class OsdComponent implements AfterViewInit, OnDestroy, OnInit {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
@@ -117,6 +129,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   }
   get page() { return this._page; }
   @Output() pageChange = new EventEmitter<number>();
+
+  // tslint:disable-next-line: no-any
+  @Output() data: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() text: string;
 
@@ -191,5 +206,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  ngOnInit() {
+    this.data.emit(outputArray);
   }
 }
