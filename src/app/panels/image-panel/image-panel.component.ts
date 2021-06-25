@@ -14,6 +14,8 @@ export class ImagePanelComponent {
 
   public msDesc$ = this.evtModelService.msDesc$;
 
+  public childData = [];
+
   // tslint:disable-next-line: variable-name
   private _msDescID: string;
   @Input() set msDescID(p: string) {
@@ -40,4 +42,9 @@ export class ImagePanelComponent {
   resetMsDesc(){
     this.showSecondaryContent = false;
   }
+
+  eventHandler(event: []){
+    this.childData = event;
+  }
+
 }
