@@ -1,18 +1,18 @@
 <evt-panel [showSecondaryContent]="isSecondaryContentOpened()">
     <div header-left>
-        <ng-select 
-            class="mr-1 imgSelect"
-            bindLabel="label"
-            bindValue="label"
-            [searchable]="true" 
-            [clearable]="false"
-            [ngModel]="currentImg"
-            (change)="toggleImg($event)">
-            <ng-option [value]="item" *ngFor="let item of images;">
-                {{ item.label }}
-            </ng-option>
-        </ng-select>
-        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
+    <ng-select 
+        class="mr-1 imgSelect"
+        bindLabel="label"
+        bindValue="label"
+        [searchable]="true" 
+        [clearable]="false"
+        [ngModel]="currentImg"
+        (change)="toggleImg($event)">
+        <ng-option [value]="item" *ngFor="let item of images;">
+            {{ item.label }}
+        </ng-option>
+    </ng-select>
+    <evt-ms-desc-selector (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
     <div content>
         <evt-osd
@@ -23,10 +23,11 @@
         </evt-osd>
         <p *ngIf="!viewerData">Found no source file</p>
     </div>
-
     <div secondary-content>
-        <div *ngIf="isMsDescOpen">
-            <evt-ms-desc [data]="msDesc$ | async"></evt-ms-desc>    
+        <div *ngIf="(msDesc$ | async) as msDescs">
+            <div *ngFor="let msDesc of msDescs">
+                <evt-ms-desc *ngIf="msDesc.id == msDescID" [data]="msDesc"></evt-ms-desc>    
+            </div>
         </div>
     </div>
 </evt-panel>
