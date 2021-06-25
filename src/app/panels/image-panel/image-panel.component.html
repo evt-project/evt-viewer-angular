@@ -4,6 +4,17 @@
         class="mr-1"
         [closeOnSelect]="true" 
         [searchable]="false"
+        [items]="childData">
+        <ng-template
+            ng-n-tmp
+            let-item="item">
+            {{ item.n }}
+        </ng-template>
+    </ng-select>
+    <ng-select
+        class="mr-1"
+        [closeOnSelect]="true" 
+        [searchable]="false"
         bindLabel="id"
         bindValue="id"
         [items]="msDesc$ | async"
