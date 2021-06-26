@@ -79,7 +79,11 @@
         &.open {
             display: block;
         }
+        :ng-deep p {
+            margin-bottom: 0;
+        }
     }
+
     @include themify($themes) {
         color: themed('panelTextColor');
         background-color: themed('panelBackgroundColor');
