@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -66,17 +66,7 @@ To:
 }
 */
 
-const outputArray = [];
-let cont = 0;
-
 function manifestResourcetoTileSource(manifestResource) {
-  outputArray.push({
-    n: cont,
-    id: manifestResource.service['@id'],
-    context: manifestResource.service['@context'],
-  });
-
-  cont = cont + 1;
 
   return {
     '@context': manifestResource.service['@context'],
@@ -93,7 +83,7 @@ function manifestResourcetoTileSource(manifestResource) {
   templateUrl: './osd.component.html',
   styleUrls: ['./osd.component.scss'],
 })
-export class OsdComponent implements AfterViewInit, OnDestroy, OnInit {
+export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
@@ -121,7 +111,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy, OnInit {
   private _page: number;
   @Input() set page(v: number) {
     if (v !== this._page) {
-      this._page = v;
+      this._page = v + 1;
       this.pageChange.next(this._page);
     }
   }
@@ -192,6 +182,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy, OnInit {
 
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
+          this._page = page;
+          this.data.emit(page);
         });
       }));
   }
@@ -200,7 +192,4 @@ export class OsdComponent implements AfterViewInit, OnDestroy, OnInit {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  ngOnInit() {
-    this.data.emit(outputArray);
-  }
 }
