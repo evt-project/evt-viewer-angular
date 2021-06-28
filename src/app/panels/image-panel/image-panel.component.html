@@ -1,15 +1,16 @@
 <evt-panel [showSecondaryContent]="isSecondaryContentOpened()">
     <div header-left>
-    <ng-select
+    <ng-select 
         class="mr-1"
-        [closeOnSelect]="true" 
-        [searchable]="false"
-        [items]="childData">
-        <ng-template
-            ng-n-tmp
-            let-item="item">
-            {{ item.n }}
-        </ng-template>
+        bindLabel="label"
+        bindValue="label"
+        [searchable]="true" 
+        [clearable]="false"
+        [ngModel]="currentImg"
+        (change)="toggleImg($event)">
+        <ng-option [value]="item" *ngFor="let item of images;">
+            {{ item.label }}
+        </ng-option>
     </ng-select>
     <ng-select
         class="mr-1"
@@ -33,6 +34,7 @@
         <evt-osd
             *ngIf="manifest"
             [manifestURL]="manifest"
+            [page]="imageIndex"
             (data)="eventHandler($event)"
         >
         </evt-osd>
