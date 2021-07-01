@@ -43,7 +43,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
      this._msDescID = p;
    }
 
-  get msDescID() { return this._msDescID; } // id dell'msDesc selezionato nel selettore
+  get msDescID() { return this._msDescID; }
 
   public currentStatus$ = combineLatest([
     this.evtModelService.pages$,
@@ -93,6 +93,11 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.textFlow = undefined;
     }
   }
+
+  getSecondaryContent(): string {
+    return this.secondaryContent;
+  }
+
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
   }
@@ -103,17 +108,12 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
     } else {
-      if (this.msDescOpen) {
-        this.showSecondaryContent = true;
-      }
-      else {
-      this.showSecondaryContent = false;
-      }
+      this.showSecondaryContent = this.msDescOpen ? true : false;
       this.secondaryContent = '';
     }
   }
 
-  toggleMsDescContent(){
+  openMsDescContent(){
     this.showSecondaryContent = true;
     this.secondaryContent = '';
     this.msDescOpen = true;
