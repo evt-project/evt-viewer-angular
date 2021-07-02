@@ -62,8 +62,8 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public secondaryContent = '';
   private showSecondaryContent = false;
   public msDescOpen = false;
-
   public selectedPage;
+  public msDescIsOpen = false;
 
   public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
@@ -103,24 +103,22 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   }
 
   toggleSecondaryContent(newContent: string) {
-    this.msDescOpen = !this.msDescOpen;
     if (this.secondaryContent !== newContent) {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
-    } else {
-      this.showSecondaryContent = this.msDescOpen ? true : false;
-      this.secondaryContent = '';
+      this.msDescOpen = false;
     }
-  }
-
-  openMsDescContent(){
-    this.showSecondaryContent = true;
-    this.secondaryContent = '';
-    this.msDescOpen = true;
-  }
-
-  resetMsDesc(){
-    this.showSecondaryContent = false;
+    else {
+      if (this.msDescIsOpen){
+        this.showSecondaryContent = true;
+      }
+      else {
+        this.showSecondaryContent = false;
+        this.msDescOpen = false;
+      }
+      this.secondaryContent = '';
+      this.msDescOpen = true;
+    }
   }
 
   toggleProseVerses() {
@@ -130,4 +128,21 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
+
+  eventMsDescOpenHandler(event: boolean){
+    this.showSecondaryContent = event;
+    if (this.showSecondaryContent){
+      this.msDescOpen = true;
+      this.msDescIsOpen = true;
+      this.secondaryContent = '';
+    }
+    else {
+      this.msDescIsOpen = false;
+    }
+  }
+
+  eventMsDescIDHandler(event: string){
+    this.msDescID = event;
+  }
+
 }
