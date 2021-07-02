@@ -8,23 +8,7 @@
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
-        <ng-select
-            class="mr-1"
-            [closeOnSelect]="true" 
-            [searchable]="false"
-            bindLabel="id"
-            bindValue="id"
-            [items]="msDesc$ | async"
-            [clearable]="true"
-            (clear)="resetMsDesc();"
-            [placeholder]="'selectMsDesc' | translate" 
-            (change)="msDescID = $event.id; toggleMsDescContent()">
-            <ng-template
-                ng-id-tmp
-                let-item="item">
-                {{ item.id }}
-            </ng-template>
-        </ng-select>
+        <evt-ms-desc-selector (IDMsDesc)="eventMsDescIDHandler($event)" (msDescOpen)="eventMsDescOpenHandler($event)"></evt-ms-desc-selector>
     </div>
     <div content evtAnnotator>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
@@ -34,7 +18,6 @@
                     [textFlow]="textFlow"
                     [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
             </ng-container>
-
             <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
                 [data]="currentStatus.currentPage"
                 [editionLevel]="currentStatus.editionLevel"
