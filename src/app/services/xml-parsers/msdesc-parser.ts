@@ -1004,15 +1004,37 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
     }
 }
 
+let contMsDesc = 0;
+
 @xmlParser('msDesc', MsDescParser)
 export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
     parse(xml: XMLElement): MsDesc {
+        const genericElem = super.parse(xml);
+        const { n, label } = genericElem.attributes;
+        let firstIdnoValue = '';
 
-        return {
+        const manuscriptDescription: MsDesc = {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
+            n: getDefaultN(n),
+            label,
             msFrags: queryAndParseElements(xml, 'msFrag'),
         };
+
+        firstIdnoValue = this.getFirstIdnoValue(manuscriptDescription);
+
+        manuscriptDescription.label = xml.getAttribute('n') || xml.getAttribute('xml:id') || firstIdnoValue;
+
+        return manuscriptDescription;
+    }
+
+    getFirstIdnoValue(ms) {
+        contMsDesc++;
+        if (ms.msIdentifier.idnos.length > 0) {
+            return ms.msIdentifier.idnos[0][0].text;
+        }
+
+        return 'MS Desc' + ' ' + contMsDesc;
     }
 }
