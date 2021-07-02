@@ -348,6 +348,8 @@ export class MsPart extends MsFrag {
 
 export class MsDesc extends MsPart {
     id: string;
+    n: string;
+    label: string;
     msFrags: MsFrag[];
 }
 
