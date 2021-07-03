@@ -10,7 +10,7 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
 export class MsDescSelectorComponent {
   public msDesc$ = this.evtModelService.msDesc$;
 
-  @Output() IDMsDesc: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() msDescOpen: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -28,7 +28,7 @@ export class MsDescSelectorComponent {
   }
 
   openMsDescContent(){
-    this.IDMsDesc.emit(this.msDescID);
+    this.selectionChange.emit(this.msDescID);
     this.msDescOpen.emit(true);
   }
 
