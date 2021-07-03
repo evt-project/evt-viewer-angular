@@ -6,7 +6,7 @@ import {
     G, HandDesc, HandNote, Head, Height, History, Identifier, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues,
     MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, Note, ObjectDesc, OrigDate,
     Origin, OrigPlace, Paragraph, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
-    Support, SupportDesc, Surrogates, TypeDesc, TypeNote, Width, XMLElement,
+    Support, SupportDesc, Surrogates, Text, TypeDesc, TypeNote, Width, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
@@ -1032,7 +1032,14 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
     getFirstIdnoValue(ms) {
         contMsDesc++;
         if (ms.msIdentifier.idnos.length > 0) {
-            return ms.msIdentifier.idnos[0][0].text;
+            const item = ms.msIdentifier.idnos[0].filter((el: Text) => el.text?.trim() || el.content?.length > 0);
+            if (item[0].text) {
+                return item[0].text.trim();
+            }
+
+            if (item[0].content.length > 0){
+                return (item[0].content[0].text);
+            }
         }
 
         return 'MS Desc' + ' ' + contMsDesc;
