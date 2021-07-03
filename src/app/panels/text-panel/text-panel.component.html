@@ -8,7 +8,7 @@
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
-        <evt-ms-desc-selector (IDMsDesc)="eventMsDescIDHandler($event)" (msDescOpen)="eventMsDescOpenHandler($event)"></evt-ms-desc-selector>
+        <evt-ms-desc-selector (selectionChange)="eventMsDescIDHandler($event)" (msDescOpen)="eventMsDescOpenHandler($event)"></evt-ms-desc-selector>
     </div>
     <div content evtAnnotator>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
