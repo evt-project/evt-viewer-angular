@@ -11,7 +11,6 @@ export class MsDescSelectorComponent {
   public msDesc$ = this.evtModelService.msDesc$;
 
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
-
   @Output() msDescOpen: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // tslint:disable-next-line: variable-name
