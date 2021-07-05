@@ -1004,16 +1004,15 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
     }
 }
 
-let contMsDesc = 0;
-
 @xmlParser('msDesc', MsDescParser)
 export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
+    private msDescCounter = 0;
     parse(xml: XMLElement): MsDesc {
         const genericElem = super.parse(xml);
         const { n, label } = genericElem.attributes;
         let firstIdnoValue = '';
 
-        const manuscriptDescription: MsDesc = {
+        const msDesc: MsDesc = {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
@@ -1021,16 +1020,14 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
             label,
             msFrags: queryAndParseElements(xml, 'msFrag'),
         };
+        firstIdnoValue = this.getFirstIdnoValue(msDesc);
+        msDesc.label = xml.getAttribute('n') || xml.getAttribute('xml:id') || firstIdnoValue;
 
-        firstIdnoValue = this.getFirstIdnoValue(manuscriptDescription);
-
-        manuscriptDescription.label = xml.getAttribute('n') || xml.getAttribute('xml:id') || firstIdnoValue;
-
-        return manuscriptDescription;
+        return msDesc;
     }
 
     getFirstIdnoValue(ms) {
-        contMsDesc++;
+        this.msDescCounter++;
         if (ms.msIdentifier.idnos.length > 0) {
             const item = ms.msIdentifier.idnos[0].filter((el: Text) => el.text?.trim() || el.content?.length > 0);
             if (item[0].text) {
@@ -1042,6 +1039,6 @@ export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
             }
         }
 
-        return 'MS Desc' + ' ' + contMsDesc;
+        return `MS Desc ${this.msDescCounter}`;
     }
 }
