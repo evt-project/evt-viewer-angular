@@ -35,6 +35,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     filter(e => !!e),
     distinctUntilChanged(),
   );
+  public msDesc$ = this.evtModelService.msDesc$;
 
   public currentStatus$ = combineLatest([
     this.evtModelService.pages$,
@@ -52,12 +53,13 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
   public secondaryContent = '';
   private showSecondaryContent = false;
-
+  public msDescOpen = false;
   public selectedPage;
-
+  public msDescID = '';
   public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   public get proseVersesTogglerIcon(): EvtIconInfo {
+
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
   }
 
@@ -82,6 +84,11 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.textFlow = undefined;
     }
   }
+
+  getSecondaryContent(): string {
+    return this.secondaryContent;
+  }
+
   isSecondaryContentOpened(): boolean {
     return this.showSecondaryContent;
   }
@@ -90,14 +97,12 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (this.secondaryContent !== newContent) {
       this.showSecondaryContent = true;
       this.secondaryContent = newContent;
-    } else {
+      this.msDescOpen = false;
+    }
+    else {
       this.showSecondaryContent = false;
       this.secondaryContent = '';
     }
-  }
-
-  getSecondaryContent(): string {
-    return this.secondaryContent;
   }
 
   toggleProseVerses() {
@@ -107,4 +112,17 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
+
+  isMsDescOpen(event: boolean){
+    this.showSecondaryContent = event;
+    if (this.showSecondaryContent){
+      this.msDescOpen = true;
+      this.secondaryContent = '';
+    }
+  }
+
+  setMsDescID(event: string){
+    this.msDescID = event;
+  }
+
 }

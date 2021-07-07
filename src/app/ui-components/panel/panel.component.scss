@@ -61,7 +61,6 @@
     }
     .secondary-content {
         text-align: left;
-        font-size: 90%;
         margin-top: 42px;
         margin-bottom: 42px;
         display: none;
@@ -80,7 +79,11 @@
         &.open {
             display: block;
         }
+        :ng-deep p {
+            margin-bottom: 0;
+        }
     }
+
     @include themify($themes) {
         color: themed('panelTextColor');
         background-color: themed('panelBackgroundColor');

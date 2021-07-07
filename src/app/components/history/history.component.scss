@@ -21,10 +21,6 @@
     margin-bottom: 0.7rem;
 }
 
-::ng-deep p {
-    margin-bottom: 0;
-}
-
 @media (min-width: 612px) { 
     .flex-item-label {
         flex-basis: 20%;

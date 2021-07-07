@@ -348,6 +348,8 @@ export class MsPart extends MsFrag {
 
 export class MsDesc extends MsPart {
     id: string;
+    n: string;
+    label: string;
     msFrags: MsFrag[];
 }
 
@@ -848,7 +850,7 @@ export class NotesStmt extends GenericElement {
 
 export class SourceDesc extends GenericElement {
     structuredData: boolean;
-    msDesc: MsDesc;
+    msDescs: MsDesc[];
     bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
     biblFull: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblFull is handled
     biblStruct: Array<ParseResult<GenericElement>>; // TODO: Add specific type when biblStruct is handled
