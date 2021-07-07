@@ -37,14 +37,6 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   );
   public msDesc$ = this.evtModelService.msDesc$;
 
-  // tslint:disable-next-line: variable-name
-  private _msDescID: string;
-  @Input() set msDescID(p: string) {
-     this._msDescID = p;
-   }
-
-  get msDescID() { return this._msDescID; }
-
   public currentStatus$ = combineLatest([
     this.evtModelService.pages$,
     this.currentPage$,
@@ -63,8 +55,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
   private showSecondaryContent = false;
   public msDescOpen = false;
   public selectedPage;
-  public msDescIsOpen = false;
-
+  public msDescID = '';
   public textFlow: TextFlow = AppConfig.evtSettings.edition.defaultTextFlow || 'prose';
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   public get proseVersesTogglerIcon(): EvtIconInfo {
@@ -109,15 +100,8 @@ export class TextPanelComponent implements OnInit, OnDestroy {
       this.msDescOpen = false;
     }
     else {
-      if (this.msDescIsOpen){
-        this.showSecondaryContent = true;
-      }
-      else {
-        this.showSecondaryContent = false;
-        this.msDescOpen = false;
-      }
+      this.showSecondaryContent = false;
       this.secondaryContent = '';
-      this.msDescOpen = true;
     }
   }
 
@@ -129,19 +113,15 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  eventMsDescOpenHandler(event: boolean){
+  isMsDescOpen(event: boolean){
     this.showSecondaryContent = event;
     if (this.showSecondaryContent){
       this.msDescOpen = true;
-      this.msDescIsOpen = true;
       this.secondaryContent = '';
-    }
-    else {
-      this.msDescIsOpen = false;
     }
   }
 
-  eventMsDescIDHandler(event: string){
+  setMsDescID(event: string){
     this.msDescID = event;
   }
 
