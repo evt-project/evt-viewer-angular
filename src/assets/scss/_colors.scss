@@ -24,7 +24,11 @@ $editionColors: (
     versesBackground: #800000,
     versesColor: #ffffff,
     versesBorder: #000000,
-    highlightColor: #ffffcc
+    highlightColor: #ffffcc,
+    annotations: (
+        buttonColors: #FFFFFF,
+        noteColor: #E4EBF6
+    )
 );
 
 @function get-color($key) {
@@ -33,4 +37,8 @@ $editionColors: (
 
 @function get-ne-color($key) {
     @return get-color(namedEntities $key);
+}
+
+@function get-anno-color($key){
+    @return get-color(annotations $key);
 }
