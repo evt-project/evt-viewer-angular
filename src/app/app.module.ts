@@ -23,6 +23,7 @@ import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { TextAnnotatorComponent } from './components/annotator/text-annotator/text-annotator.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
@@ -171,6 +172,7 @@ export function initializeApp(appConfig: AppConfig) {
     StartsWithPipe,
     SuppliedComponent,
     SurplusComponent,
+    TextAnnotatorComponent,
     TextComponent,
     TextPanelComponent,
     TextSourcesComponent,

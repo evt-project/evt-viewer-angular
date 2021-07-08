@@ -90,6 +90,12 @@ export interface EditionConfig {
     proseVersesToggler: boolean;
     defaultTextFlow: TextFlow;
     verseNumberPrinter: number;
+    annotatorColors: AnnotatorColors;
+}
+
+export interface AnnotatorColors {
+    note: string;
+    highlights: string[];
 }
 
 export interface FileConfig {

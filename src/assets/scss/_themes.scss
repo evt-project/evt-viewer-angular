@@ -1,5 +1,6 @@
 $themes: (
     neutral: (
+        annotatorColor: #8dc6ff,
         baseColorDark: #000,
         baseColorLight: #fff,
         secondaryColorDark: #555,
@@ -13,6 +14,7 @@ $themes: (
         toolsColorActive: #ffdd00
     ),    
     modern: (
+        annotatorColor: #8dc6ff,
         baseColorDark: #263238,
         baseColorLight: #ECEFF1,
         secondaryColorDark: #607d8b,
@@ -25,7 +27,8 @@ $themes: (
         toolsBackgroundDarker: #b0bec5,
         toolsColorActive: #ffdd00
     ),
-    classic: (
+    classic: ( 
+        annotatorColor: #8dc6ff,
         baseColorDark: rgb(54, 45, 40),
         baseColorLight: rgb(245, 234, 212),
         secondaryColorDark: rgb(143, 119, 106),
