@@ -5,10 +5,11 @@
             [iconLeft]="{icon: 'info-circle'}"
             additionalClasses="btn-primary mr-1"
             (btnClick)="toggleSecondaryContent('INFO')"
+            (click) = "msDesc.ngSelectComponent.clearModel();"
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
-        <evt-ms-desc-selector (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
+        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
     <div content evtAnnotator>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
