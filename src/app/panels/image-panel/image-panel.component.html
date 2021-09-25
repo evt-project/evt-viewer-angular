@@ -24,7 +24,7 @@
         <p *ngIf="!viewerData">Found no source file</p>
     </div>
     <div secondary-content>
-        <div *ngIf="(msDesc$ | async) as msDescs">
+        <div *ngIf="msDescOpen && (msDesc$ | async) as msDescs">
             <div *ngFor="let msDesc of msDescs">
                 <evt-ms-desc *ngIf="msDesc.id == msDescID" [data]="msDesc"></evt-ms-desc>    
             </div>
