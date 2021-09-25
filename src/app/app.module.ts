@@ -56,6 +56,7 @@ import { NamedEntityDetailComponent } from './components/named-entity/named-enti
 import { NamedEntityOccurrenceComponent } from './components/named-entity/named-entity-occurrence/named-entity-occurrence.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
+import { NotesStmtComponent } from './components/notes-stmt/notes-stmt.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageSelectorComponent } from './components/page-selector/page-selector.component';
@@ -167,6 +168,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityRelationComponent,
     NavBarComponent,
     NoteComponent,
+    NotesStmtComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
