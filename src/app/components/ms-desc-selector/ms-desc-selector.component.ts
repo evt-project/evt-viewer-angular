@@ -1,5 +1,6 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, ViewChild } from '@angular/core';
 import { Component, Input } from '@angular/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { EVTModelService } from 'src/app/services/evt-model.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class MsDescSelectorComponent {
 
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() msDescOpen: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild('ngSelectComponent') ngSelectComponent: NgSelectComponent;
 
   // tslint:disable-next-line: variable-name
   private _msDescID: string;
