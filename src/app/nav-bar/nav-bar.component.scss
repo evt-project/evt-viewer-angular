@@ -1,0 +1,15 @@
+@import "../../assets/scss/themes";
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.nav-bar {
+    height: $base-navbar-height;
+    width: 100%;
+    padding: 0 20px;
+    vertical-align: middle;
+    text-align: center;
+    @include themify($themes) {
+        color: themed("baseColorLight");
+        background-color: themed("baseColorDark");
+    }
+}
