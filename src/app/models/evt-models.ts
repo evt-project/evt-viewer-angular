@@ -1184,3 +1184,10 @@ export class RevisionDesc extends GenericElement {
     content: Array<ListChange | Change>;
     status?: Status | string;
 }
+
+export class ProjectInfo {
+    fileDesc: FileDesc;
+    encodingDesc: EncodingDesc;
+    profileDesc: ProfileDesc;
+    revisionDesc: RevisionDesc;
+}
