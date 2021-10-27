@@ -67,6 +67,8 @@ export interface UiConfig {
         label: string;
         enabled: boolean;
     }>;
+    enableNavBar: boolean;
+    initNavBarOpened: boolean;
 }
 
 export interface EditionConfig {
