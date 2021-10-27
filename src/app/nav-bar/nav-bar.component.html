@@ -1,3 +1,12 @@
 <div class="nav-bar w-100">
-    NAV BAR!
+    <div class="navigation-btns-container">
+        <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="mr-1" 
+            [disabled]="(prevNavigationDisabled$ | async)" (btnClick)="goToFirstPage()"></evt-button>
+        <evt-button [iconRight]="{icon: 'caret-left'}" additionalClasses="mr-1" 
+            [disabled]="(prevNavigationDisabled$ | async)" (btnClick)="goToPrevPage()"></evt-button>
+        <evt-button [iconLeft]="{icon: 'caret-right'}" additionalClasses="mr-1" 
+            [disabled]="(nextNavigationDisabled$ | async)" (btnClick)="goToNextPage()"></evt-button>
+        <evt-button [iconLeft]="{icon: 'step-forward'}" 
+            [disabled]="(nextNavigationDisabled$ | async)" (btnClick)="goToLastPage()"></evt-button>
+    </div>
 </div>

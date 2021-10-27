@@ -5,6 +5,10 @@
     outline: none;
     border: none;
 
+    &[disabled]{
+        cursor: default;
+    }
+
     &.btn-sm {
         height: 31px;
     }
@@ -19,7 +23,7 @@
         border-color: themed("toolsBackground");
     }
 
-    &:hover {
+    &:hover:not([disabled]) {
         @include set("box-shadow", "1px 2px 3px rgba(0, 0, 0, .4) inset !important");
     }
 

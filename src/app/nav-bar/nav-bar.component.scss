@@ -8,6 +8,10 @@
     padding: 0 20px;
     vertical-align: middle;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     @include themify($themes) {
         color: themed("baseColorLight");
         background-color: themed("baseColorDark");
