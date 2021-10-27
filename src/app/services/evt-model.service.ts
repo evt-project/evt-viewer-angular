@@ -28,6 +28,10 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  public readonly projectInfo$ = this.prefatoryMatterParser.projectInfo$.pipe(
+    shareReplay(1),
+  );
+
   public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
     map((source) => this.editionStructureParser.parsePages(source).pages),
     shareReplay(1),
