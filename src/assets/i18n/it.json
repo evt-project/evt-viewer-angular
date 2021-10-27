@@ -127,5 +127,9 @@
     "edition": "Edizione",
     "seriesStatement": "Informazioni sulla serie",
     "notesStatement": "Note",
-    "sourceDesc": "Descrizione della fonte"
+    "sourceDesc": "Descrizione della fonte",
+    "fileDesc": "Descrizione del file",
+    "encodingDesc": "Codifica",
+    "profileDesc": "Profilo del testo",
+    "revisionDesc": "Revisioni"
 }

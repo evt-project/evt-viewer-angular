@@ -128,5 +128,9 @@
     "edition": "Edition",
     "seriesStatement": "Series statement",
     "notesStatement": "Notes statement",
-    "sourceDesc": "Source description"
+    "sourceDesc": "Source description",
+    "fileDesc": "File Description",
+    "encodingDesc": "Encoding",
+    "profileDesc": "Profile",
+    "revisionDesc": "Revisions"
 }
