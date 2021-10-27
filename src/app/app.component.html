@@ -1,5 +1,11 @@
 <evt-main-header></evt-main-header>
-<div class="temp-panel">
+<div class="temp-panel" [ngClass]="{'has-navbar': navbarOpened$ | async}">
   <router-outlet></router-outlet>
 </div>
+<ng-container *ngIf="hasNavBar">
+  <span class="navbar-toggler" [ngClass]="{opened: navbarOpened$ | async}" (click)="toggleToolbar()">
+    <evt-icon [iconInfo]="navbarTogglerIcon$ | async"></evt-icon>
+  </span>
+  <evt-nav-bar [ngClass]="{opened: navbarOpened$ | async}"></evt-nav-bar>
+</ng-container>
 <ngx-spinner #mainSpinner bdColor="rgba(51,51,51,0.8)"></ngx-spinner>
