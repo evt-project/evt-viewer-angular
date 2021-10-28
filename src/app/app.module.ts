@@ -1,3 +1,4 @@
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
@@ -201,6 +202,7 @@ export function initializeApp(appConfig: AppConfig) {
     Ng2HandySyntaxHighlighterModule,
     NgbModule,
     NgbPopoverModule,
+    NgxSliderModule,
     NgxSpinnerModule,
     RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' }),
     ScrollingModule,

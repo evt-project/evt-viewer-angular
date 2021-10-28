@@ -1,4 +1,6 @@
 <div class="nav-bar w-100">
+    <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ml-2 mr-2" 
+        [value]="currentPage$ | async" [options]="pageSliderOptions" (userChangeEnd)="changePage($event)"></ngx-slider>
     <div class="navigation-btns-container">
         <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="mr-1" 
             [disabled]="(prevNavigationDisabled$ | async)" (btnClick)="goToFirstPage()"></evt-button>

@@ -1,3 +1,4 @@
+import { ChangeContext } from '@angular-slider/ngx-slider';
 import { Component } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -22,10 +23,29 @@ export class NavBarComponent {
     map(([pages, page]) => pages.findIndex((p) => p.id === page.id) === pages.length - 1),
   );
 
+  currentPage$ = this.currentPageInfo$.pipe(
+    map(([pages, page]) => pages.findIndex((p) => p.id === page.id)),
+  );
+
+  pageSliderOptions$ = this.evtModelService.pages$.pipe(
+    map(pages => ({
+      floor: 0,
+      ceil: pages.length - 1,
+      showSelectionBar: true,
+      translate: (value: number): string => pages[value]?.label ?? '',
+    })),
+  );
+
   constructor(
     private evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
   ) {
+  }
+
+  changePage(event: ChangeContext) {
+    this.evtModelService.pages$.pipe(take(1)).subscribe(
+      (pages) => this.evtStatusService.updatePage$.next(pages[event.value]),
+    );
   }
 
   goToFirstPage() {
