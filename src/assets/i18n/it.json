@@ -102,5 +102,6 @@
     "msPart": "Parte del manoscritto",
     "origPlace": "Luogo di origine",
     "origDate": "Data di origine",
-    "selectMsDesc": "Seleziona MsDesc"
+    "selectMsDesc": "Seleziona MsDesc",
+    "thumbnails": "Miniature"
 }

@@ -14,5 +14,6 @@
 		}
 	],
 	"enableNavBar": true,
-	"initNavBarOpened": true
+	"initNavBarOpened": true,
+	"thumbnailsButton": true
 }

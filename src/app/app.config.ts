@@ -69,6 +69,7 @@ export interface UiConfig {
     }>;
     enableNavBar: boolean;
     initNavBarOpened: boolean;
+    thumbnailsButton: boolean;
 }
 
 export interface EditionConfig {

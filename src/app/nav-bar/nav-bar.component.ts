@@ -2,6 +2,7 @@ import { ChangeContext } from '@angular-slider/ngx-slider';
 import { Component } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { AppConfig } from '../app.config';
 import { EVTModelService } from '../services/evt-model.service';
 import { EVTStatusService } from '../services/evt-status.service';
 
@@ -35,6 +36,8 @@ export class NavBarComponent {
       translate: (value: number): string => pages[value]?.label ?? '',
     })),
   );
+
+  thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
 
   constructor(
     private evtStatusService: EVTStatusService,
@@ -82,5 +85,9 @@ export class NavBarComponent {
     this.evtModelService.pages$.pipe(take(1)).subscribe(
       (pages) => this.evtStatusService.updatePage$.next(pages[pages.length - 1]),
     );
+  }
+
+  toggleThumbnailsPanel() {
+    // TODO
   }
 }

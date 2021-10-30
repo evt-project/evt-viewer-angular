@@ -103,5 +103,6 @@
     "msPart": "Manuscript part",
     "origPlace": "Origin place",
     "origDate": "Origin date",
-    "selectMsDesc": "Select MsDesc"
+    "selectMsDesc": "Select MsDesc",
+    "thumbnails": "Thumbnails"
 }

@@ -1,4 +1,6 @@
 <div class="nav-bar w-100">
+    <evt-button *ngIf="thumbnailsButton" [iconRight]="{icon: 'th'}" additionalClasses="mr-1" [toggler]="true"
+        (btnClick)="toggleThumbnailsPanel()" [title]="'thumbnails' | translate"></evt-button>
     <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ml-2 mr-2" 
         [value]="currentPage$ | async" [options]="pageSliderOptions" (userChangeEnd)="changePage($event)"></ngx-slider>
     <div class="navigation-btns-container">
