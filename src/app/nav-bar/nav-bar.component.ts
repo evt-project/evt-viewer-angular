@@ -41,6 +41,7 @@ export class NavBarComponent {
   viscollButton = AppConfig.evtSettings.ui.viscollButton;
 
   thumbnailsPanelOpened$ = new BehaviorSubject(false);
+  viscollPanelOpened$ = new BehaviorSubject(false);
 
   constructor(
     private evtStatusService: EVTStatusService,
@@ -97,6 +98,8 @@ export class NavBarComponent {
   }
 
   toggleViscollPanel() {
-    // TODO
+    this.viscollPanelOpened$.pipe(take(1)).subscribe(opened => {
+      this.viscollPanelOpened$.next(!opened);
+    });
   }
 }
