@@ -103,5 +103,9 @@
     "origPlace": "Luogo di origine",
     "origDate": "Data di origine",
     "selectMsDesc": "Seleziona MsDesc",
-    "thumbnails": "Miniature"
+    "thumbnails": "Miniature",
+    "firstPage": "Prima pagina",
+    "previousPage": "Pagina precedente",
+    "nextPage": "Pagina successiva",
+    "lastPage": "Ultima pagina"
 }

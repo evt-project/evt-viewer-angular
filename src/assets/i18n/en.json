@@ -104,5 +104,9 @@
     "origPlace": "Origin place",
     "origDate": "Origin date",
     "selectMsDesc": "Select MsDesc",
-    "thumbnails": "Thumbnails"
+    "thumbnails": "Thumbnails",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page"
 }
