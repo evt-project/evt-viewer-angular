@@ -3,7 +3,7 @@
   <router-outlet></router-outlet>
 </div>
 <ng-container *ngIf="hasNavBar">
-  <span class="navbar-toggler" [ngClass]="{opened: navbarOpened$ | async}" (click)="toggleToolbar()">
+  <span class="navbar-toggler" [ngClass]="{opened: navbarOpened$ | async}" (click)="toggleToolbar()" [title]="'toggleToolbar' | translate">
     <evt-icon [iconInfo]="navbarTogglerIcon$ | async"></evt-icon>
   </span>
   <evt-nav-bar [ngClass]="{opened: navbarOpened$ | async}"></evt-nav-bar>

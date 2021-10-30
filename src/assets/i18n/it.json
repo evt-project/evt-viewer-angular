@@ -107,5 +107,6 @@
     "firstPage": "Prima pagina",
     "previousPage": "Pagina precedente",
     "nextPage": "Pagina successiva",
-    "lastPage": "Ultima pagina"
+    "lastPage": "Ultima pagina",
+    "toggleToolbar": "Apri/chiudi barra di navigazione"
 }

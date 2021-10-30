@@ -108,5 +108,6 @@
     "firstPage": "First page",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "lastPage": "Last page"
+    "lastPage": "Last page",
+    "toggleToolbar": "Toggle navigation toolbar"
 }
