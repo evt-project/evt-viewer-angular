@@ -81,3 +81,20 @@
         opacity: 1 !important;
     }
 }
+
+.thumbnails-panel {
+    left: 0;
+    bottom: $base-navbar-height;
+    top: $base-header-height;
+    @include calc('height', '100% - #{$base-navbar-height} - #{$base-header-height} - 2');
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #FFF;
+    border-left: none;
+    border-right: none;
+    z-index: 9;
+    @include themify($themes) {
+        background: themed("secondaryColorDark");
+    }
+}

@@ -1,6 +1,6 @@
 import { ChangeContext } from '@angular-slider/ngx-slider';
 import { Component } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AppConfig } from '../app.config';
 import { EVTModelService } from '../services/evt-model.service';
@@ -39,6 +39,8 @@ export class NavBarComponent {
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
   viscollButton = AppConfig.evtSettings.ui.viscollButton;
+
+  thumbnailsPanelOpened$ = new BehaviorSubject(false);
 
   constructor(
     private evtStatusService: EVTStatusService,
@@ -89,7 +91,9 @@ export class NavBarComponent {
   }
 
   toggleThumbnailsPanel() {
-    // TODO
+    this.thumbnailsPanelOpened$.pipe(take(1)).subscribe(opened => {
+      this.thumbnailsPanelOpened$.next(!opened);
+    });
   }
 
   toggleViscollPanel() {

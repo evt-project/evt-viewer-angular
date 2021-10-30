@@ -16,3 +16,8 @@
             [disabled]="(nextNavigationDisabled$ | async)" (btnClick)="goToLastPage()"></evt-button>
     </div>
 </div>
+
+<div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel">
+    <!-- TODO: Add thumbnails -->
+    THUMBNAILS
+</div>
