@@ -70,6 +70,7 @@ export interface UiConfig {
     enableNavBar: boolean;
     initNavBarOpened: boolean;
     thumbnailsButton: boolean;
+    viscollButton: boolean;
 }
 
 export interface EditionConfig {

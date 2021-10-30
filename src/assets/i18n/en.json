@@ -109,5 +109,6 @@
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "lastPage": "Last page",
-    "toggleToolbar": "Toggle navigation toolbar"
+    "toggleToolbar": "Toggle navigation toolbar",
+    "viscoll": "Viscoll"
 }

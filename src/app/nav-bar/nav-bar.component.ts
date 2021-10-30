@@ -38,6 +38,7 @@ export class NavBarComponent {
   );
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
+  viscollButton = AppConfig.evtSettings.ui.viscollButton;
 
   constructor(
     private evtStatusService: EVTStatusService,
@@ -88,6 +89,10 @@ export class NavBarComponent {
   }
 
   toggleThumbnailsPanel() {
+    // TODO
+  }
+
+  toggleViscollPanel() {
     // TODO
   }
 }

@@ -15,5 +15,6 @@
 	],
 	"enableNavBar": true,
 	"initNavBarOpened": true,
-	"thumbnailsButton": true
+	"thumbnailsButton": true,
+	"viscollButton": true
 }
