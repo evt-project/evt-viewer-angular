@@ -95,11 +95,21 @@ export class NavBarComponent {
     this.thumbnailsPanelOpened$.pipe(take(1)).subscribe(opened => {
       this.thumbnailsPanelOpened$.next(!opened);
     });
+    this.viscollPanelOpened$.pipe(take(1)).subscribe(opened => {
+      if (opened) {
+        this.viscollPanelOpened$.next(!opened);
+      }
+    });
   }
 
   toggleViscollPanel() {
     this.viscollPanelOpened$.pipe(take(1)).subscribe(opened => {
       this.viscollPanelOpened$.next(!opened);
+    });
+    this.thumbnailsPanelOpened$.pipe(take(1)).subscribe(opened => {
+      if (opened) {
+        this.thumbnailsPanelOpened$.next(!opened);
+      }
     });
   }
 }
