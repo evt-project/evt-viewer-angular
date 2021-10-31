@@ -38,9 +38,9 @@ export class NavBarComponent {
   );
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
-  viscollButton = AppConfig.evtSettings.ui.viscollButton;
-
   thumbnailsPanelOpened$ = new BehaviorSubject(false);
+
+  viscollButton = AppConfig.evtSettings.ui.viscollButton;
   viscollPanelOpened$ = new BehaviorSubject(false);
 
   constructor(
