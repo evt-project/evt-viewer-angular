@@ -97,5 +97,6 @@
     z-index: 9;
     @include themify($themes) {
         background: themed("secondaryColorDark");
+        color: themed("secondaryColorLight");
     }
 }
