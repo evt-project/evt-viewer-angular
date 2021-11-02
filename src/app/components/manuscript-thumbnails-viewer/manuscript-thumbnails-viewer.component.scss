@@ -39,7 +39,7 @@ p.item-page-index {
         color: themed("secondaryColorDark");
     }
 }
-.item-content:hover p.item-page-index {
+.item-content:hover p.item-page-index:not(.clicked-item-par) {
     @include themify($themes) {
         background: themed("secondaryColorDark");
         color: themed("baseColorLight");
@@ -65,7 +65,7 @@ p.item-page-index {
 
 .clicked-item-par {
     @include themify($themes) {
-        background-color: themed("baseColorLight") !important;
+        background-color: themed("baseColorLight");
         color: themed("secondaryColorDark");
     }
 }
@@ -82,4 +82,5 @@ p.item-page-index {
     min-width: $thumbnail-width;
     max-height: $thumbnail-height;
     max-width: $thumbnail-width;
+    cursor: pointer;
 }
