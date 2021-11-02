@@ -100,3 +100,8 @@
         color: themed("secondaryColorLight");
     }
 }
+
+::ng-deep .navigation-btns-container .btn {
+    min-width: 30px;
+    font-size: 1em;
+}
