@@ -174,9 +174,9 @@ export class Reading extends GenericElement {
 }
 
 export interface GridItem {
+    id: string;
     url: string;
     name: string;
-    active: boolean;
 }
 
 export type HTML = GenericElement & {

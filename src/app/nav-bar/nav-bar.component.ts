@@ -39,9 +39,6 @@ export class NavBarComponent implements AfterViewChecked {
     })),
   );
 
-  pagesUrls$ = this.evtModelService.pages$.pipe(
-    map(pages => pages?.map(p => p.url) ?? []),
-  );
   thViewerSettings$ = new BehaviorSubject({ col: 1, row: 1 });
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
@@ -52,8 +49,8 @@ export class NavBarComponent implements AfterViewChecked {
 
   constructor(
     private evtStatusService: EVTStatusService,
-    private evtModelService: EVTModelService,
     private cdref: ChangeDetectorRef,
+    public evtModelService: EVTModelService,
   ) {
   }
 

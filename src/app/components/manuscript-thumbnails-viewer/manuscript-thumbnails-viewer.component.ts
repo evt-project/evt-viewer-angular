@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { GridItem } from '../../models/evt-models';
+import { map } from 'rxjs/operators';
+import { GridItem, Page } from '../../models/evt-models';
+import { EVTStatusService } from '../../services/evt-status.service';
 
 @Component({
   selector: 'evt-manuscript-thumbnails',
@@ -9,13 +11,22 @@ import { GridItem } from '../../models/evt-models';
 
 export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
 
-  @Input() urls = [];
+  @Input() pages: Page[] = [];
   @Input() col = 1;
   @Input() row = 1;
 
   public indexPage = 0;
   private items: GridItem[];
   public grid: GridItem[][][] = [];
+
+  public currentItem$ = this.evtStatusService.currentPage$.pipe(
+    map(p => this.items.find(i => i.id === p.id)),
+  );
+
+  constructor(
+    private evtStatusService: EVTStatusService,
+  ) {
+  }
 
   ngOnInit() {
     this._setup();
@@ -28,7 +39,7 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
   }
 
   private _setup() {
-    this.items = this.urls.map((url, i) => ({ url, name: 'page_' + i, active: false }));
+    this.items = this.pages.map((page) => ({ url: page.url, name: page.label, id: page.id }));
     this.col = this.isValid(this.col) ? this.col : 1;
     this.row = this.isValid(this.row) ? this.row : 1;
     const gridSize = this.col * this.row;
