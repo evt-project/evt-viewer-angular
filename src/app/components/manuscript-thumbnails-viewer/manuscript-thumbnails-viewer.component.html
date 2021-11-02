@@ -14,7 +14,7 @@
     </div>
   </ng-container>
   <ng-container>
-    <div class="change-page-container" [hidden] = "!(grid.length >= 1)">
+    <div class="change-page-container" [hidden]="grid.length <= 1">
       <evt-button [iconRight]="{icon: 'caret-left'}" (btnClick)="goToPrevPage()"></evt-button>
       <p class="current-page">{{indexPage+1}}/{{grid.length}}</p>
       <evt-button [iconLeft]="{icon: 'caret-right'}" (btnClick)="goToNextPage()"></evt-button>
