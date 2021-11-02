@@ -17,9 +17,8 @@
     </div>
 </div>
 
-<div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel">
-    <!-- TODO: Add thumbnails -->
-    THUMBNAILS
+<div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
+    <evt-manuscript-thumbnails [urls]="pagesUrls$ | async" [col]="(thViewerSettings$ | async)?.col" [row]="(thViewerSettings$ | async)?.row"></evt-manuscript-thumbnails> 
 </div>
 
 <div *ngIf="viscollPanelOpened$ | async" class="viscoll-panel">

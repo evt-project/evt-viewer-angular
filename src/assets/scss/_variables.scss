@@ -24,3 +24,8 @@ $thumbnail-height: 150px;
 $thumbnail-width: 100px;
 
 // Bootstrap Variables Overrides
+
+:root {
+    --thumbnail-height: #{$thumbnail-height};
+    --thumbnail-width: #{$thumbnail-width};
+}

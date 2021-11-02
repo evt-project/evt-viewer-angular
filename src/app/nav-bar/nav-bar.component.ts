@@ -1,5 +1,5 @@
 import { ChangeContext } from '@angular-slider/ngx-slider';
-import { Component } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AppConfig } from '../app.config';
@@ -11,7 +11,9 @@ import { EVTStatusService } from '../services/evt-status.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavBarComponent {
+export class NavBarComponent implements AfterViewChecked {
+  @ViewChild('thumbnailsContainer') thumbnailsContainer: ElementRef;
+
   private currentPageInfo$ = combineLatest([
     this.evtModelService.pages$,
     this.evtStatusService.currentPage$,
@@ -37,6 +39,11 @@ export class NavBarComponent {
     })),
   );
 
+  pagesUrls$ = this.evtModelService.pages$.pipe(
+    map(pages => pages?.map(p => p.url) ?? []),
+  );
+  thViewerSettings$ = new BehaviorSubject({ col: 1, row: 1 });
+
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
   thumbnailsPanelOpened$ = new BehaviorSubject(false);
 
@@ -46,7 +53,12 @@ export class NavBarComponent {
   constructor(
     private evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
+    private cdref: ChangeDetectorRef,
   ) {
+  }
+
+  ngAfterViewChecked() {
+    this.calculateThumbsPerPage();
   }
 
   changePage(event: ChangeContext) {
@@ -111,5 +123,18 @@ export class NavBarComponent {
         this.thumbnailsPanelOpened$.next(!opened);
       }
     });
+  }
+
+  private calculateThumbsPerPage() {
+    const thContainer = this.thumbnailsContainer?.nativeElement;
+    if (thContainer) {
+      const thMaxHeight = parseInt(window.getComputedStyle(document.documentElement).getPropertyValue('--thumbnail-height'), 10);
+      const thMaxWidth = parseInt(window.getComputedStyle(document.documentElement).getPropertyValue('--thumbnail-width'), 10);
+      this.thViewerSettings$.next({
+        col: Math.floor(thContainer.clientWidth / thMaxWidth),
+        row: Math.floor(thContainer.clientHeight / thMaxHeight),
+      });
+      this.cdref.detectChanges();
+    }
   }
 }
