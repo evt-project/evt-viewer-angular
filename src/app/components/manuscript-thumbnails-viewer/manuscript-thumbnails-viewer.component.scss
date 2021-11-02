@@ -1,5 +1,6 @@
 @import "../../../assets/scss/themes";
 @import "../../../assets/scss/mixins";
+@import "../../../assets/scss/variables";
 
 .thumbnails-view {
     height: 100%;
@@ -74,4 +75,11 @@ p.item-page-index {
     }
     display: inline;
     padding: 0 10px;
+}
+
+.evt-img-page {
+    min-height: $thumbnail-height;
+    min-width: $thumbnail-width;
+    max-height: $thumbnail-height;
+    max-width: $thumbnail-width;
 }
