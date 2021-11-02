@@ -21,6 +21,10 @@
 ::ng-deep .nav-bar .ngx-slider {
     @include calc('max-width', '100% - 151px - 130px');
 
+    &[disabled] {
+        opacity: .65;
+    }
+
     .ngx-slider-bar-wrapper {
         padding-top: 8px;
     }

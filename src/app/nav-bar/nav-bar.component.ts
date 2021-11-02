@@ -30,15 +30,6 @@ export class NavBarComponent implements AfterViewChecked {
     map(([pages, page]) => pages.findIndex((p) => p.id === page.id)),
   );
 
-  pageSliderOptions$ = this.evtModelService.pages$.pipe(
-    map(pages => ({
-      floor: 0,
-      ceil: pages.length - 1,
-      showSelectionBar: true,
-      translate: (value: number): string => pages[value]?.label ?? '',
-    })),
-  );
-
   thViewerSettings$ = new BehaviorSubject({ col: 1, row: 1 });
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
@@ -46,6 +37,21 @@ export class NavBarComponent implements AfterViewChecked {
 
   viscollButton = AppConfig.evtSettings.ui.viscollButton;
   viscollPanelOpened$ = new BehaviorSubject(false);
+
+  navigationDisabled$ = combineLatest([this.thumbnailsPanelOpened$, this.viscollPanelOpened$]).pipe(
+    map(([thumbnailsPanelOpened, viscollPanelOpened]) => thumbnailsPanelOpened || viscollPanelOpened),
+  );
+
+  pageSliderOptions$ = combineLatest([this.navigationDisabled$, this.evtModelService.pages$])
+    .pipe(
+      map(([navigationDisabled, pages]) => ({
+        floor: 0,
+        ceil: pages.length - 1,
+        showSelectionBar: true,
+        translate: (value: number): string => pages[value]?.label ?? '',
+        disabled: navigationDisabled,
+      })),
+    );
 
   constructor(
     private evtStatusService: EVTStatusService,
