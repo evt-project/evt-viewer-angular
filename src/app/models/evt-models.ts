@@ -52,6 +52,7 @@ export interface Page {
     label: string;
     originalContent: OriginalEncodingNodeType[];
     parsedContent: Array<ParseResult<GenericElement>>;
+    url: string;
 }
 
 export interface NamedEntities {

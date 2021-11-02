@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConfig } from '../../app.config';
 import { EditionStructure, GenericElement, OriginalEncodingNodeType, Page, XMLElement } from '../../models/evt-models';
 import { createNsResolver, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
@@ -63,6 +64,7 @@ export class StructureXmlParserService {
       label: pb.getAttribute('n') || 'page',
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
+      url: this.getPageUrl(getID(pb, 'page')),
     };
   }
 
@@ -74,7 +76,14 @@ export class StructureXmlParserService {
       label,
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
+      url: this.getPageUrl(id),
     };
+  }
+
+  private getPageUrl(id) {
+    // TODO: check if exists <graphic> element connected to page and return its url
+    // TODO: handle multiple version of page
+    return `${AppConfig.evtSettings.files.imagesFolderUrl}/${id}.jpg`;
   }
 
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
