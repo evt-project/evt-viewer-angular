@@ -18,7 +18,8 @@
 </div>
 
 <div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
-    <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="(thViewerSettings$ | async)?.col" [row]="(thViewerSettings$ | async)?.row"></evt-manuscript-thumbnails> 
+    <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="(thViewerSettings$ | async)?.col" [row]="(thViewerSettings$ | async)?.row"
+        (clickedItem)="toggleThumbnailsPanel()"></evt-manuscript-thumbnails> 
 </div>
 
 <div *ngIf="viscollPanelOpened$ | async" class="viscoll-panel">
