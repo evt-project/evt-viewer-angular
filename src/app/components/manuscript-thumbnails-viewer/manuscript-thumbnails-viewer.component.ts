@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { GridItem } from '../../models/evt-models';
 
 @Component({
@@ -7,7 +7,7 @@ import { GridItem } from '../../models/evt-models';
   styleUrls: ['./manuscript-thumbnails-viewer.component.scss'],
 })
 
-export class ManuscriptThumbnailsViewerComponent implements OnInit {
+export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
 
   @Input() urls = [];
   @Input() col = 1;
@@ -18,6 +18,16 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit {
   public grid: GridItem[][][] = [];
 
   ngOnInit() {
+    this._setup();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (Object.keys(changes).some(k => changes[k].currentValue !== changes[k].previousValue)) {
+      this._setup();
+    }
+  }
+
+  private _setup() {
     this.items = this.urls.map((url, i) => ({ url, name: 'page_' + i, active: false }));
     this.col = this.isValid(this.col) ? this.col : 1;
     this.row = this.isValid(this.row) ? this.row : 1;
