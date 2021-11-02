@@ -100,6 +100,7 @@ export interface FileConfig {
     editionUrls: string[];
     manifestURL: string;
     logoUrl?: string;
+    imagesFolderUrl?: string;
 }
 
 export interface NamedEntitiesListsConfig {

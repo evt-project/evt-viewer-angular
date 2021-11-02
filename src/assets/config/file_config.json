@@ -1,4 +1,5 @@
 {
 	"editionUrls": ["assets/data/edition.xml"],
-	"manifestURL": "https://www.e-codices.unifr.ch/metadata/iiif/csg-0730/manifest.json"
+	"manifestURL": "https://www.e-codices.unifr.ch/metadata/iiif/csg-0730/manifest.json",
+	"imagesFolderUrl": "assets/data/images/single"
 }
