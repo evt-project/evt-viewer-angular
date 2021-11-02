@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { GridItem, Page } from '../../models/evt-models';
 import { EVTStatusService } from '../../services/evt-status.service';
@@ -10,6 +10,7 @@ import { EVTStatusService } from '../../services/evt-status.service';
 })
 
 export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
+  @Output() clickedItem = new EventEmitter<GridItem>();
 
   @Input() pages: Page[] = [];
   @Input() col = 1;
@@ -63,5 +64,6 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
 
   goToThumbPage(item) {
     this.evtStatusService.updatePage$.next(this.pages.find(p => p.id === item.id));
+    this.clickedItem.emit(item);
   }
 }
