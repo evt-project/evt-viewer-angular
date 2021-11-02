@@ -61,7 +61,7 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
     this.indexPage = Math.min(this.indexPage + 1, this.grid.length - 1);
   }
 
-  clickedItem(item) {
-    this.items.forEach(el => el.active = el === item);
+  goToThumbPage(item) {
+    this.evtStatusService.updatePage$.next(this.pages.find(p => p.id === item.id));
   }
 }
