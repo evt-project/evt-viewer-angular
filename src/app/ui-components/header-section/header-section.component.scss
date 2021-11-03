@@ -1,21 +1,21 @@
 .section {
     display: block;
-    .section-label {
+    > .section-label {
         display: inline;
         font-variant: small-caps;
         color: #666;
     }
     &.has-inline-label {
         display: flex;
-        .section-label {
+        > .section-label {
             margin-right: 5px;
         }
-        .section-content {
+        > .section-content {
             display: inline;
         }
     }
     &:not(.has-inline-label) {
-        .section-label {
+        > .section-label {
             font-size: 0.9rem;
             border-bottom: 1px dotted #666;
             margin-bottom: 5px;
