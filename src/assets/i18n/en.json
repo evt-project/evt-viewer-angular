@@ -132,5 +132,16 @@
     "fileDesc": "File Description",
     "encodingDesc": "Encoding",
     "profileDesc": "Profile",
-    "revisionDesc": "Revisions"
+    "revisionDesc": "Revisions",
+    "projectDesc": "Project description",
+    "samplingDecl": "Sampling declaration",
+    "editorialDecl": "Editorial practices declaration",
+    "tagsDecl": "Tagging declaration",
+    "styleDefDecl": "Style definition language declaration",
+    "refsDecl": "References declaration",
+    "classDecl": "Classification declarations",
+    "geoDecl": "Geographic coordinates declaration",
+    "unitDecl": "Unit declarations",
+    "schemaSpec": "Schema specification",
+    "schemaRef": "Schema reference"
 }

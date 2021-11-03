@@ -1,0 +1,5 @@
+@import "../../../assets/scss/mixins";
+
+.main-section-title {
+    @include headerSectionTitle();
+}

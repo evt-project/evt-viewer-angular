@@ -32,6 +32,7 @@ import { DamageComponent } from './components/damage/damage.component';
 import { DeletionComponent } from './components/deletion/deletion.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
+import { EncodingDescComponent } from './components/encoding-desc/encoding-desc.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { ExtentComponent } from './components/extent/extent.component';
 import { FileDescComponent } from './components/file-desc/file-desc.component';
@@ -134,6 +135,7 @@ export function initializeApp(appConfig: AppConfig) {
     EditionLevelSelectorComponent,
     EditionStmtComponent,
     EditorialConventionLayoutDirective,
+    EncodingDescComponent,
     EntitiesSelectComponent,
     EvtInfoComponent,
     ExtentComponent,
