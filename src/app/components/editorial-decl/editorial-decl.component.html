@@ -1,0 +1,24 @@
+<ng-container [ngSwitch]="data?.structuredData">
+    <ng-container *ngSwitchCase="true">
+        <ng-container *ngTemplateOutlet="section; context: { label: 'correction', items: data?.correction, class: 'correction' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'normalization', items: data?.normalization, class: 'normalization' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'punctuation', items: data?.punctuation, class: 'punctuation' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'quotation', items: data?.quotation, class: 'quotation' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'hyphenation', items: data?.hyphenation, class: 'hyphenation' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'segmentation', items: data?.segmentation, class: 'segmentation' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'stdVals', items: data?.stdVals, class: 'stdVals' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'interpretation', items: data?.interpretation, class: 'interpretation' }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <evt-content-viewer *ngFor="let element of data?.content" [content]="element"></evt-content-viewer>
+    </ng-container>
+</ng-container>
+
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class" [inlineLabel]="true">
+        <div content>
+            <evt-content-viewer *ngFor="let item of items" [content]="item" ></evt-content-viewer>
+        </div>
+    </evt-header-section>
+</ng-template>

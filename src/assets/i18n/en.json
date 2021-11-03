@@ -143,5 +143,13 @@
     "geoDecl": "Geographic coordinates declaration",
     "unitDecl": "Unit declarations",
     "schemaSpec": "Schema specification",
-    "schemaRef": "Schema reference"
+    "schemaRef": "Schema reference",
+    "correction": "Correction",
+    "hyphenation": "Hyphenation",
+    "interpretation": "Interpretation",
+    "normalization": "Normalization",
+    "punctuation": "Punctuation",
+    "quotation": "Quotation",
+    "segmentation": "Segmentation",
+    "stdVals": "Standard values"
 }
