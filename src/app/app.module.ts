@@ -70,6 +70,7 @@ import { ProjectDescComponent } from './components/project-desc/project-desc.com
 import { ProjectInfoComponent } from './components/project-info/project-info.component';
 import { PublicationStmtComponent } from './components/publication-stmt/publication-stmt.component';
 import { ReadingComponent } from './components/reading/reading.component';
+import { RenditionComponent } from './components/rendition/rendition.component';
 import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
 import { SamplingDeclComponent } from './components/sampling-decl/sampling-decl.component';
 import { SeriesStmtComponent } from './components/series-stmt/series-stmt.component';
@@ -192,6 +193,7 @@ export function initializeApp(appConfig: AppConfig) {
     PublicationStmtComponent,
     ReadingComponent,
     ReadingTextComponent,
+    RenditionComponent,
     RespStmtComponent,
     SamplingDeclComponent,
     SeriesStmtComponent,
