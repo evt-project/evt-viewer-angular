@@ -158,5 +158,8 @@
     "renditionFirstLineDesc": "lo stile si applica alla prima riga dell'elemento di destinazione",
     "renditionFirstLetterDesc": "lo stile si applica alla prima lettera dell'elemento di destinazione",
     "renditionBeforeDesc": "lo stile dovrebbe essere applicato immediatamente prima del contenuto dell'elemento di destinazione",
-    "renditionAfterDesc": "lo stile dovrebbe essere applicato immediatamente dopo il contenuto dell'elemento di destinazione"
+    "renditionAfterDesc": "lo stile dovrebbe essere applicato immediatamente dopo il contenuto dell'elemento di destinazione",
+    "occurrence": "occorrenza",
+    "occurrences": "occorrenze",
+    "withId": "con l'identificativo"
 }

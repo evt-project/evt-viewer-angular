@@ -1,0 +1,15 @@
+<div class="namespace">
+    <div class="namespace-name">{{data.name}}</div>
+    <ul class="namespace-tagUsage">
+        <li *ngFor="let usage of data.tagUsage">
+            <strong>{{usage.gi}}</strong>
+            <ng-container *ngIf="usage.occurs || usage.withId">
+                (<ng-container *ngIf="usage.occurs">{{usage.occurs}} {{ usage.occurs === 1 ? 'occurence' : 'occurences' | translate }}</ng-container>
+                <ng-container *ngIf="usage.withId"> {{ 'withId' | translate }} {{usage.withId}}</ng-container>)
+            </ng-container>
+            <div>
+                <evt-content-viewer *ngFor="let element of usage.content" [content]="element"></evt-content-viewer>
+            </div>
+        </li>
+    </ul>
+</div>

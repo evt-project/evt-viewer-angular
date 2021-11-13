@@ -159,5 +159,8 @@
     "renditionFirstLineDesc": "styling applies to the first line of the target element",
     "renditionFirstLetterDesc": "styling applies to the first letter of the target element",
     "renditionBeforeDesc": "styling should be applied immediately before the content of the target element",
-    "renditionAfterDesc": "styling should be applied immediately after the content of the target element"
+    "renditionAfterDesc": "styling should be applied immediately after the content of the target element",
+    "occurrence": "occurrence",
+    "occurrences": "occurrences",
+    "withId": "with identifier"
 }
