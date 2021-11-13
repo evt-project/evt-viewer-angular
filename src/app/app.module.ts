@@ -34,6 +34,7 @@ import { EditionLevelSelectorComponent } from './components/edition-level-select
 import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { ExtentComponent } from './components/extent/extent.component';
+import { FileDescComponent } from './components/file-desc/file-desc.component';
 import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
@@ -135,6 +136,7 @@ export function initializeApp(appConfig: AppConfig) {
     EntitiesSelectComponent,
     EvtInfoComponent,
     ExtentComponent,
+    FileDescComponent,
     FilterPipe,
     GapComponent,
     GComponent,

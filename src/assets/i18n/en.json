@@ -127,5 +127,6 @@
     "editionStatement": "Edition statement",
     "edition": "Edition",
     "seriesStatement": "Series statement",
-    "notesStatement": "Notes statement"
+    "notesStatement": "Notes statement",
+    "sourceDesc": "Source description"
 }

@@ -1,4 +1,3 @@
-<h4 *ngIf="data?.content?.length > 0" class="main-section-title">{{ 'publicationStatement' | translate }}</h4>
 <ng-container [ngSwitch]="data?.structuredData">
     <ng-container *ngSwitchCase="true">
         <ng-container *ngTemplateOutlet="section; context: { label: 'publisher', items: data?.publisher, class: 'publisher' }"></ng-container>

@@ -1,4 +1,3 @@
-<h4 *ngIf="data?.content?.length > 0" class="main-section-title">{{ 'notesStatement' | translate }}</h4>
 <div *ngFor="let note of data?.notes">
     <evt-content-viewer [content]="note"></evt-content-viewer>
 </div>

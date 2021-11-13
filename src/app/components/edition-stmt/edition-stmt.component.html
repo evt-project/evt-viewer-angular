@@ -1,4 +1,3 @@
-<h4 *ngIf="data?.content?.length > 0" class="main-section-title">{{ 'editionStatement' | translate }}</h4>
 <ng-container [ngSwitch]="data?.structuredData">
     <ng-container *ngSwitchCase="true">
         <ng-container *ngTemplateOutlet="section; context: { label: 'edition', items: data?.edition, class: 'edition' }"></ng-container>
@@ -11,7 +10,7 @@
 
 
 <ng-template #section let-label="label" let-items="items" let-class="class">
-    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [inlineLabel]="true" [additionalClass]="class">
         <div content>
             <evt-content-viewer *ngFor="let item of items" [content]="item" ></evt-content-viewer>
         </div>
