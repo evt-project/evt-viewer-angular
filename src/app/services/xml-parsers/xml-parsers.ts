@@ -16,7 +16,7 @@ import {
     LanguageParser, LangUsageParser, ListChangeParser, ListTransposeParser, NamespaceParser, NormalizationParser,
     ParticDescParser, PreparednessParser, ProfileDescParser, ProjectDescParser, PunctuationParser, PurposeParser,
     QuotationParser, RefsDeclParser, RefStateParser, RenditionParser, RevisionDescParser,
-    SamplingDeclParser, SegmentationParser, SettingDescParser, SettingParser, StdValsParser,
+    SamplingDeclParser, SegmentationParser, SettingDescParser, SettingParser, StdValsParser, StyleDefDeclParser,
     TagsDeclParser, TagUsageParser, TextClassParser, TextDescParser, TransposeParser,
 } from './header-parser';
 import {
@@ -169,6 +169,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     SicParser,
     SourceParser,
     StdValsParser,
+    StyleDefDeclParser,
     SummaryParser,
     SuppliedParser,
     SupportDescParser,
