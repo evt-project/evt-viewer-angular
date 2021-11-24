@@ -34,8 +34,8 @@
     }
 
     @include themify($themes) {
-        color: themed("toolsColor");
-        background-color: themed("toolsBackground");
+        color: themed("toolsBackground");
+        background-color: rgba(themed("toolsColor"), 0.7);
         border-color: themed("toolsBackground");
     }
 
