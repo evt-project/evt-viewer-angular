@@ -8,6 +8,7 @@ import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-p
 import { CharacterDeclarationsParserService } from './xml-parsers/character-declarations-parser.service';
 import { FacsimileParserService } from './xml-parsers/facsimile-parser.service';
 import { LinesVersesParserService } from './xml-parsers/lines-verses-parser.service';
+import { MsDescParserService } from './xml-parsers/ms-desc-parser.service';
 import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.service';
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
@@ -164,6 +165,11 @@ export class EVTModelService {
     map(([chars, glyphs]) => chars.concat(glyphs)),
   );
 
+  public readonly msDesc$ = this.editionSource$.pipe(
+    map((source) => this.msDescParser.parseMsDesc(source)),
+    shareReplay(1),
+);
+
   constructor(
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
@@ -174,6 +180,7 @@ export class EVTModelService {
     private facsimileParser: FacsimileParserService,
     private characterDeclarationsParser: CharacterDeclarationsParserService,
     private linesVersesParser: LinesVersesParserService,
+    private msDescParser: MsDescParserService,
   ) {
   }
 
