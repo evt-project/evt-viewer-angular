@@ -1,0 +1,20 @@
+<div class="fileDesc">
+    <ng-container *ngTemplateOutlet="section; context: { label: '', content: data?.titleStmt, class: 'titleStmt' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'editionStatement', content: data?.editionStmt, class: 'editionStmt' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'extent', content: data?.extent, class: 'extent' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'publicationStatement', content: data?.publicationStmt, class: 'publicationStmt' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'seriesStatement', content: data?.seriesStmt, class: 'seriesStmt' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'notesStatement', content: data?.notesStmt, class: 'notesStmt' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'sourceDesc', content: data?.sourceDesc, class: 'sourceDesc' }"></ng-container>
+</div>
+
+<ng-template #section let-label="label" let-content="content" let-class="class">
+    <ng-container *ngIf="content">
+        <h4 *ngIf="label" class="main-section-title {{class}}-title">{{ label | translate }}</h4>
+        <evt-header-section [additionalClass]="class">
+            <div content>
+                <evt-content-viewer [content]="content"></evt-content-viewer> 
+            </div>
+        </evt-header-section>
+    </ng-container>
+</ng-template>

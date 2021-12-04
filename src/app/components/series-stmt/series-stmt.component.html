@@ -1,0 +1,24 @@
+<div class="seriesStatement">
+    <ng-container [ngSwitch]="data?.structuredData">
+        <ng-container *ngSwitchCase="true">
+            <ng-container *ngTemplateOutlet="section; context: { label: '', items: data?.title, class: 'title' }"></ng-container>
+            <ng-container *ngTemplateOutlet="section; context: { label: '', items: data?.biblScope, class: 'biblScope' }"></ng-container>
+            <ng-container *ngTemplateOutlet="section; context: { label: '', items: data?.editor, class: 'editor' }"></ng-container>
+            <ng-container *ngTemplateOutlet="section; context: { label: 'idno', items: data?.idno, class: 'idno' }"></ng-container>
+            <ng-container *ngTemplateOutlet="section; context: { label: 'responsibles', items: data?.respStmt, class: 'respStmt', itemsSeparator: ', ' }"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <evt-content-viewer *ngFor="let element of data?.content" [content]="element"></evt-content-viewer>
+        </ng-container>
+    </ng-container>
+</div>
+
+<ng-template #section let-label="label" let-items="items" let-class="class" let-itemsSeparator="itemsSeparator">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class" [inlineLabel]="true">
+        <div content>
+            <ng-container *ngFor="let item of items; let i = index">
+                <evt-content-viewer [content]="item"></evt-content-viewer><ng-container *ngIf="itemsSeparator && i < items.length - 1">{{ itemsSeparator }}</ng-container> 
+            </ng-container>
+        </div>
+    </evt-header-section>
+</ng-template>

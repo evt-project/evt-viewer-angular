@@ -1,0 +1,5 @@
+<evt-header-section *ngIf="data?.content?.length > 0" [label]="'extent'" [additionalClass]="'extent'" [inlineLabel]="true">
+    <div content>
+        <evt-content-viewer *ngFor="let el of data.content" [content]="el"></evt-content-viewer> 
+    </div>
+</evt-header-section>

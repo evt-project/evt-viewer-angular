@@ -52,3 +52,14 @@
     background-color: $color-middle;
   }
 }
+
+@mixin headerSectionTitle() {
+  border-bottom: 1px dotted #666;
+  margin-bottom: 5px;
+  font-variant: small-caps;
+  color: #000;
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 14px;
+  text-align: left;
+}

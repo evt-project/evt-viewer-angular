@@ -131,7 +131,10 @@ export class NotesStmtParser extends GenericParser implements Parser<XMLElement>
     return {
       ...super.parse(xml),
       type: NotesStmt,
-      notes: queryAndParseElements<Note>(xml, 'note'),
+      notes: queryAndParseElements<Note>(xml, 'note').map(el => ({
+        ...el,
+        noteLayout: 'plain-text',
+      })),
       relatedItems: queryAndParseElements<GenericElement>(xml, 'relatedItem'),
     };
   }

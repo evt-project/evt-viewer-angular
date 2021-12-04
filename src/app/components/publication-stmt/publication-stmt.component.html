@@ -1,0 +1,24 @@
+<ng-container [ngSwitch]="data?.structuredData">
+    <ng-container *ngSwitchCase="true">
+        <ng-container *ngTemplateOutlet="section; context: { label: 'publisher', items: data?.publisher, class: 'publisher' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'distributor', items: data?.distributor, class: 'distributor' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'authority', items: data?.authority, class: 'authority' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'publicationPlace', items: data?.pubPlace, class: 'pubPlace' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'address', items: data?.address, class: 'address' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'idno', items: data?.idno, class: 'idno' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'availability', items: data?.availability, class: 'availability' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'date', items: data?.date, class: 'date' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'licence', items: data?.licence, class: 'licence' }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <evt-content-viewer *ngFor="let element of data?.content" [content]="element"></evt-content-viewer>
+    </ng-container>
+</ng-container>
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class" [inlineLabel]="true">
+        <div content>
+            <evt-content-viewer *ngFor="let item of items" [content]="item"></evt-content-viewer> 
+        </div>
+    </evt-header-section>
+</ng-template>

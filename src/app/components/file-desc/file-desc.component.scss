@@ -1,0 +1,19 @@
+@import "../../../assets/scss/mixins";
+
+.main-section-title {
+    @include headerSectionTitle();
+}
+
+::ng-deep .fileDesc {
+    .sourceDesc-title {
+        @include headerSectionTitle();
+    }
+    
+    .sourceDesc .section.underline-dotted {
+        border-bottom: none !important;
+    }
+    
+    .extent .section-label {
+        display: none !important;
+    }
+}

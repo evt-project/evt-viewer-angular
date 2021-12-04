@@ -31,7 +31,10 @@ import { ContentViewerComponent } from './components/content-viewer/content-view
 import { DamageComponent } from './components/damage/damage.component';
 import { DeletionComponent } from './components/deletion/deletion.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
+import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
+import { ExtentComponent } from './components/extent/extent.component';
+import { FileDescComponent } from './components/file-desc/file-desc.component';
 import { GComponent } from './components/g/g.component';
 import { GapComponent } from './components/gap/gap.component';
 import { GenericElementComponent } from './components/generic-element/generic-element.component';
@@ -54,17 +57,22 @@ import { NamedEntityDetailComponent } from './components/named-entity/named-enti
 import { NamedEntityOccurrenceComponent } from './components/named-entity/named-entity-occurrence/named-entity-occurrence.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
 import { NoteComponent } from './components/note/note.component';
+import { NotesStmtComponent } from './components/notes-stmt/notes-stmt.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
 import { PageSelectorComponent } from './components/page-selector/page-selector.component';
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { PhysDescComponent } from './components/phys-desc/phys-desc.component';
+import { PublicationStmtComponent } from './components/publication-stmt/publication-stmt.component';
 import { ReadingComponent } from './components/reading/reading.component';
+import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
+import { SeriesStmtComponent } from './components/series-stmt/series-stmt.component';
 import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TextComponent } from './components/text/text.component';
+import { TitleStmtComponent } from './components/title-stmt/title-stmt.component';
 import { VerseComponent } from './components/verse/verse.component';
 import { VersesGroupComponent } from './components/verses-group/verses-group.component';
 import { WordComponent } from './components/word/word.component';
@@ -123,9 +131,12 @@ export function initializeApp(appConfig: AppConfig) {
     DamageComponent,
     DeletionComponent,
     EditionLevelSelectorComponent,
+    EditionStmtComponent,
     EditorialConventionLayoutDirective,
     EntitiesSelectComponent,
     EvtInfoComponent,
+    ExtentComponent,
+    FileDescComponent,
     FilterPipe,
     GapComponent,
     GComponent,
@@ -159,6 +170,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityRelationComponent,
     NavBarComponent,
     NoteComponent,
+    NotesStmtComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
@@ -168,8 +180,11 @@ export function initializeApp(appConfig: AppConfig) {
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
+    PublicationStmtComponent,
     ReadingComponent,
     ReadingTextComponent,
+    RespStmtComponent,
+    SeriesStmtComponent,
     ShortcutsComponent,
     SicComponent,
     SourcesPanelComponent,
@@ -181,6 +196,7 @@ export function initializeApp(appConfig: AppConfig) {
     TextSourcesComponent,
     TextTextComponent,
     TextVersionsComponent,
+    TitleStmtComponent,
     VerseComponent,
     VersesGroupComponent,
     VersionPanelComponent,

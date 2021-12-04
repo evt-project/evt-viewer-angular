@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Notes statement visualization
+- Series statement visualization
+- Extent visualization
+- Edition statement visualization
+- Publication statement visualization
+- Resp statement visualization
+- Title statement visualization
+- Header section visualization
+- File description visualization
 - Navigation toolbar
 - Manuscript description header button
 - Manuscript description visualization
