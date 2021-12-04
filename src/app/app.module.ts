@@ -1,3 +1,4 @@
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
@@ -74,6 +75,7 @@ import { HtmlAttributesDirective } from './directives/html-attributes.directive'
 import { EvtInfoComponent } from './evt-info/evt-info.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
 import { PinboardPanelComponent } from './panels/pinboard-panel/pinboard-panel.component';
 import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
@@ -141,10 +143,10 @@ export function initializeApp(appConfig: AppConfig) {
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
     MsContentsComponent,
+    MsDescComponent,
     MsDescSectionComponent,
     MsDescSelectorComponent,
     MsFragComponent,
-    MsDescComponent,
     MsFragComponent,
     MsIdentifierComponent,
     MsItemComponent,
@@ -155,6 +157,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityOccurrenceComponent,
     NamedEntityRefComponent,
     NamedEntityRelationComponent,
+    NavBarComponent,
     NoteComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
@@ -199,6 +202,7 @@ export function initializeApp(appConfig: AppConfig) {
     Ng2HandySyntaxHighlighterModule,
     NgbModule,
     NgbPopoverModule,
+    NgxSliderModule,
     NgxSpinnerModule,
     RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' }),
     ScrollingModule,

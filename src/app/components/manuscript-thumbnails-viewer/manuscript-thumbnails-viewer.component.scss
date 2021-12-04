@@ -1,77 +1,86 @@
 @import "../../../assets/scss/themes";
 @import "../../../assets/scss/mixins";
+@import "../../../assets/scss/variables";
 
-.thumbnails-view{
+.thumbnails-view {
     height: 100%;
     @include themify($themes) {
-        background-color: themed('secondaryColorDark'); 
+        background-color: themed("secondaryColorDark");
     }
-    overflow: scroll;
+    overflow: auto;
     position: relative;
 }
 .change-page-container {
     padding: 10px;
     @include themify($themes) {
-        background-color: themed('baseColorDark'); 
+        background-color: themed("baseColorDark");
     }
     position: absolute;
     bottom: 0;
     width: 100%;
 }
-.page{
+.page {
     display: none;
     padding: 0 20px;
 }
 .active {
     display: block;
 }
-.item-content{
+.item-content {
     position: relative;
 }
 p.item-page-index {
     position: absolute;
     top: 70%;
-    @include calc('width', '100% - 16px');
+    @include calc("width", "100% - 16px");
     text-align: center;
     @include themify($themes) {
-        background-color: themed('baseColorLight'); 
-        color: themed('secondaryColorDark')
+        background-color: themed("baseColorLight");
+        color: themed("secondaryColorDark");
     }
 }
-.item-content:hover p.item-page-index{
+.item-content:hover p.item-page-index:not(.clicked-item-par) {
     @include themify($themes) {
-        background: themed('secondaryColorDark');
-        color: themed('baseColorLight')
+        background: themed("secondaryColorDark");
+        color: themed("baseColorLight");
     }
 }
-.pages-controller{
+.pages-controller {
     width: 20px;
     @include themify($themes) {
-        color: themed('baseColorLight')
+        color: themed("baseColorLight");
     }
     margin: 5px;
     @include themify($themes) {
-        border: 3px solid themed('baseColorLight');
+        border: 3px solid themed("baseColorLight");
     }
     border-radius: 3px;
 }
 
-.clicked-item{
+.clicked-item {
     @include themify($themes) {
-        border: 2px solid  themed('baseColorLight');
+        border: 2px solid themed("baseColorLight");
     }
 }
 
-.clicked-item-par{
+.clicked-item-par {
     @include themify($themes) {
-        background-color: themed('baseColorLight') !important;
-        color: themed('secondaryColorDark');
+        background-color: themed("baseColorLight");
+        color: themed("secondaryColorDark");
     }
 }
-.current-page{
+.current-page {
     @include themify($themes) {
-        color: themed('baseColorLight');
+        color: themed("baseColorLight");
     }
     display: inline;
     padding: 0 10px;
+}
+
+.evt-img-page {
+    min-height: $thumbnail-height;
+    min-width: $thumbnail-width;
+    max-height: $thumbnail-height;
+    max-width: $thumbnail-width;
+    cursor: pointer;
 }

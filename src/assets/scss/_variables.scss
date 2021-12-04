@@ -16,4 +16,16 @@ $base-footer: false;
 $mainContainer-top-menu: true;
 $mainContainer-bottom-menu: true;
 
+// NavBar
+$base-navbar-height: 45px;
+
+// Thumbnails
+$thumbnail-height: 150px;
+$thumbnail-width: 100px;
+
 // Bootstrap Variables Overrides
+
+:root {
+    --thumbnail-height: #{$thumbnail-height};
+    --thumbnail-width: #{$thumbnail-width};
+}

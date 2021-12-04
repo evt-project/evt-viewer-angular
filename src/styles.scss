@@ -38,6 +38,10 @@ body {
     height: 100%;
 }
 
+body {
+    overflow: hidden;
+}
+
 .edition-font {
     font-family: Junicode, Times, serif;
 }
@@ -121,7 +125,7 @@ body {
     }
     .ng-dropdown-panel-items {
         @include set("box-shadow", "0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)");
-        
+
         .ng-option {
             @include themify($themes) {
                 background-color: themed("toolsBackground") !important;
@@ -139,7 +143,6 @@ body {
                 }
             }
         }
-
     }
 
     &.ng-select-opened {

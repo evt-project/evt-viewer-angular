@@ -1,0 +1,28 @@
+<div class="nav-bar w-100">
+    <evt-button *ngIf="thumbnailsButton" [iconRight]="{icon: 'th'}" additionalClasses="mr-1" [active]="thumbnailsPanelOpened$ | async"
+        (btnClick)="toggleThumbnailsPanel()" [title]="'thumbnails' | translate"></evt-button>
+    <evt-button *ngIf="viscollButton" [iconRight]="{icon: 'rainbow', rotate:270}" additionalClasses="mr-1" [active]="viscollPanelOpened$ | async"
+        (btnClick)="toggleViscollPanel()" [title]="'viscoll' | translate"></evt-button>
+    <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ml-2 mr-2"
+        [value]="currentPage$ | async" [options]="pageSliderOptions" (userChangeEnd)="changePage($event)"></ngx-slider>
+    <div class="navigation-btns-container">
+        <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="mr-1" [title]="'firstPage' | translate"
+            [disabled]="(navigationDisabled$ | async) || (prevNavigationDisabled$ | async)" (btnClick)="goToFirstPage()"></evt-button>
+        <evt-button [iconRight]="{icon: 'caret-left'}" additionalClasses="mr-1" [title]="'previousPage' | translate"
+            [disabled]="(navigationDisabled$ | async) || (prevNavigationDisabled$ | async)" (btnClick)="goToPrevPage()"></evt-button>
+        <evt-button [iconLeft]="{icon: 'caret-right'}" additionalClasses="mr-1" [title]="'nextPage' | translate"
+            [disabled]="(navigationDisabled$ | async) || (nextNavigationDisabled$ | async)" (btnClick)="goToNextPage()"></evt-button>
+        <evt-button [iconLeft]="{icon: 'step-forward'}" [title]="'lastPage' | translate"
+            [disabled]="(navigationDisabled$ | async) || (nextNavigationDisabled$ | async)" (btnClick)="goToLastPage()"></evt-button>
+    </div>
+</div>
+
+<div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
+    <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="(thViewerSettings$ | async)?.col" [row]="(thViewerSettings$ | async)?.row"
+        (clickedItem)="toggleThumbnailsPanel()"></evt-manuscript-thumbnails> 
+</div>
+
+<div *ngIf="viscollPanelOpened$ | async" class="viscoll-panel">
+    <!-- TODO: Add Viscoll -->
+    Viscoll coming soon...
+</div>

@@ -1,9 +1,12 @@
 import { Component, ElementRef, HostBinding, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AppConfig } from './app.config';
 import { ThemesService } from './services/themes.service';
 import { ShortcutsService } from './shortcuts/shortcuts.service';
+import { EvtIconInfo } from './ui-components/icon/icon.component';
 
 @Component({
   selector: 'evt-root',
@@ -13,6 +16,12 @@ import { ShortcutsService } from './shortcuts/shortcuts.service';
 export class AppComponent implements OnDestroy {
   @ViewChild('mainSpinner') mainSpinner: ElementRef;
   private subscriptions: Subscription[] = [];
+  public hasNavBar = AppConfig.evtSettings.ui.enableNavBar;
+  public navbarOpened$ = new BehaviorSubject(this.hasNavBar && AppConfig.evtSettings.ui.initNavBarOpened);
+
+  public navbarTogglerIcon$: Observable<EvtIconInfo> = this.navbarOpened$.pipe(
+    map((opened: boolean) => opened ? { icon: 'caret-down', iconSet: 'fas' } : { icon: 'caret-up', iconSet: 'fas' }),
+  );
 
   constructor(
     private router: Router,
@@ -37,6 +46,11 @@ export class AppComponent implements OnDestroy {
   }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
+
+  toggleToolbar() {
+    this.navbarOpened$.next(!this.navbarOpened$.getValue());
+    window.dispatchEvent(new Event('resize')); // Needed to tell Gridster to resize
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

@@ -12,5 +12,9 @@
 			"label": "languageIt",
 			"enabled": true
 		}
-	]
+	],
+	"enableNavBar": true,
+	"initNavBarOpened": true,
+	"thumbnailsButton": true,
+	"viscollButton": true
 }

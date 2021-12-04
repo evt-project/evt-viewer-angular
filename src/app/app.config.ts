@@ -67,6 +67,10 @@ export interface UiConfig {
         label: string;
         enabled: boolean;
     }>;
+    enableNavBar: boolean;
+    initNavBarOpened: boolean;
+    thumbnailsButton: boolean;
+    viscollButton: boolean;
 }
 
 export interface EditionConfig {
@@ -96,6 +100,7 @@ export interface FileConfig {
     editionUrls: string[];
     manifestURL: string;
     logoUrl?: string;
+    imagesFolderUrl?: string;
 }
 
 export interface NamedEntitiesListsConfig {

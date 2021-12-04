@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GridItem } from '../../models/evt-models';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { GridItem, Page } from '../../models/evt-models';
+import { EVTStatusService } from '../../services/evt-status.service';
 
 @Component({
   selector: 'evt-manuscript-thumbnails',
@@ -7,9 +9,10 @@ import { GridItem } from '../../models/evt-models';
   styleUrls: ['./manuscript-thumbnails-viewer.component.scss'],
 })
 
-export class ManuscriptThumbnailsViewerComponent implements OnInit {
+export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
+  @Output() clickedItem = new EventEmitter<GridItem>();
 
-  @Input() urls = [];
+  @Input() pages: Page[] = [];
   @Input() col = 1;
   @Input() row = 1;
 
@@ -17,8 +20,27 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit {
   private items: GridItem[];
   public grid: GridItem[][][] = [];
 
+  public currentItem$ = this.evtStatusService.currentPage$.pipe(
+    map(p => this.items.find(i => i.id === p.id)),
+  );
+
+  constructor(
+    private evtStatusService: EVTStatusService,
+  ) {
+  }
+
   ngOnInit() {
-    this.items = this.urls.map((url, i) => ({ url, name: 'page_' + i, active: false }));
+    this._setup();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (Object.keys(changes).some(k => changes[k].currentValue !== changes[k].previousValue)) {
+      this._setup();
+    }
+  }
+
+  private _setup() {
+    this.items = this.pages.map((page) => ({ url: page.url, name: page.label, id: page.id }));
     this.col = this.isValid(this.col) ? this.col : 1;
     this.row = this.isValid(this.row) ? this.row : 1;
     const gridSize = this.col * this.row;
@@ -40,7 +62,8 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit {
     this.indexPage = Math.min(this.indexPage + 1, this.grid.length - 1);
   }
 
-  clickedItem(item) {
-    this.items.forEach(el => el.active = el === item);
+  goToThumbPage(item) {
+    this.evtStatusService.updatePage$.next(this.pages.find(p => p.id === item.id));
+    this.clickedItem.emit(item);
   }
 }

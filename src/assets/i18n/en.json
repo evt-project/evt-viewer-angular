@@ -103,5 +103,12 @@
     "msPart": "Manuscript part",
     "origPlace": "Origin place",
     "origDate": "Origin date",
-    "selectMsDesc": "Select MsDesc"
+    "selectMsDesc": "Select MsDesc",
+    "thumbnails": "Thumbnails",
+    "firstPage": "First page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page",
+    "toggleToolbar": "Toggle navigation toolbar",
+    "viscoll": "Viscoll"
 }
