@@ -23,8 +23,8 @@ export function queryAndParseElements<T>(xml: XMLElement, name: string) {
     return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
 }
 
-export function queryAndParseElement<T>(xml: XMLElement, name: string): T {
-    const el = xml.querySelector<XMLElement>(`:scope > ${name}`);
+export function queryAndParseElement<T>(xml: XMLElement, name: string, allAnnidationLevels?: boolean): T {
+    const el = xml.querySelector<XMLElement>(`${allAnnidationLevels ? '' : ':scope > '}${name}`);
     const p = ParserRegister.get(name);
 
     return el && p.parse(el) as unknown as T;

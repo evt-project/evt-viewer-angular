@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { AppConfig } from '../app.config';
 import { GlobalListsComponent } from '../components/global-lists/global-lists.component';
+import { ProjectInfoComponent } from '../components/project-info/project-info.component';
 import { EvtInfoComponent } from '../evt-info/evt-info.component';
 import { EVTModelService } from '../services/evt-model.service';
 import { ColorTheme, ThemesService } from '../services/themes.service';
@@ -104,9 +105,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   private openGlobalDialogInfo() {
-    // TODO openGlobalDialogInfo
-    console.log('openGlobalDialogInfo');
     this.itemClicked.emit('globalInfo');
+    const modalRef = this.modalService.open(ModalComponent, { id: 'project-info', animation: false });
+    const modalComp = modalRef.componentInstance as ModalComponent;
+    modalComp.fixedHeight = true;
+    modalComp.wider = true;
+    modalComp.modalId = 'project-info';
+    modalComp.title = 'projectInfo';
+    modalComp.bodyContentClass = 'p-0 h-100';
+    modalComp.headerIcon = { icon: 'info', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.bodyComponent = ProjectInfoComponent;
   }
 
   private openGlobalDialogLists() {

@@ -64,6 +64,7 @@ import { PageSelectorComponent } from './components/page-selector/page-selector.
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { PhysDescComponent } from './components/phys-desc/phys-desc.component';
+import { ProjectInfoComponent } from './components/project-info/project-info.component';
 import { PublicationStmtComponent } from './components/publication-stmt/publication-stmt.component';
 import { ReadingComponent } from './components/reading/reading.component';
 import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
@@ -180,6 +181,7 @@ export function initializeApp(appConfig: AppConfig) {
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
+    ProjectInfoComponent,
     PublicationStmtComponent,
     ReadingComponent,
     ReadingTextComponent,
@@ -250,6 +252,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityDetailComponent,
     NamedEntityRefComponent,
     NamedEntityRelationComponent,
+    ProjectInfoComponent,
     ShortcutsComponent,
   ],
 })
