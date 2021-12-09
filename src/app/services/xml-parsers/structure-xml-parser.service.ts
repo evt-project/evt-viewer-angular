@@ -36,7 +36,7 @@ export class StructureXmlParserService {
       };
     }
 
-    const frontPages = frontPbs.length === 0 && this.isMarkedAsOrigContent(front)
+    const frontPages = frontPbs.length === 0 && front && this.isMarkedAsOrigContent(front)
       ? [this.parseSinglePage(doc, front, 'page_front', this.frontTagName)]
       : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
 
