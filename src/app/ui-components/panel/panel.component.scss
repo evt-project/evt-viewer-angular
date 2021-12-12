@@ -76,6 +76,10 @@
         @include calc(min-height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} - #{($mainContainer-border-width*2)})});
         @include calc(height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} - #{($mainContainer-border-width*2)})});
         @include calc(width, #{calc(100% - #{($mainContainer-border-width*2+1)})});
+        &.noFooter {
+            @include calc(min-height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, false)} - #{($mainContainer-border-width*2)})});
+            @include calc(height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, false)} - #{($mainContainer-border-width*2)})});
+        }
         &.open {
             display: block;
         }
@@ -83,7 +87,7 @@
             margin-bottom: 0;
         }
     }
-
+    
     @include themify($themes) {
         color: themed('panelTextColor');
         background-color: themed('panelBackgroundColor');
