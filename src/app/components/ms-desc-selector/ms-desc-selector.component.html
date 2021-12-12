@@ -7,5 +7,5 @@
     [items]="msDesc$ | async" #ngSelectComponent
     (clear)="resetMsDesc();"
     [placeholder]="'selectMsDesc' | translate" 
-    (change)="msDescID = $event.id; openMsDescContent()">     
+    (change)="msDescID = $event?.id; openMsDescContent()">     
 </ng-select>
