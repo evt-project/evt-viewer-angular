@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, map, shareReplay, take } from 'rxjs/operators';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
@@ -133,6 +133,34 @@ export class TextPanelComponent implements OnInit, OnDestroy {
 
   setMsDescID(event: string) {
     this.msDescID = event;
+  }
+
+  updatePage() {
+    if (this.mainContent && this.editionLevelID === 'critical') {
+      const mainContentEl: HTMLElement = this.mainContent.nativeElement;
+      const pbs = mainContentEl.querySelectorAll('.pb');
+      let pbCount = 0;
+      let pbVisible = false;
+      let pbId = '';
+      const docViewTop = mainContentEl.scrollTop;
+      const docViewBottom = docViewTop + mainContentEl.parentElement.clientHeight;
+      while (pbCount < pbs.length && !pbVisible) {
+        pbId = pbs[pbCount].getAttribute('id');
+        const pbElem = mainContentEl.querySelector<HTMLElement>(`#${pbId}`);
+        const pbRect = pbElem.getBoundingClientRect();
+        if (pbRect.top && (pbRect.top <= docViewBottom) && (pbRect.top >= docViewTop)) {
+          pbVisible = true;
+        } else {
+          pbCount++;
+        }
+      }
+      combineLatest([this.evtModelService.pages$, this.currentPageId$])
+        .pipe(take(1)).subscribe(([pages, currentPageId]) => {
+          if (pbVisible && currentPageId !== pbId) {
+            this.evtStatus.updatePage$.next(pages.find(p => p.id === pbId));
+          }
+        });
+    }
   }
 
   private _scrollToPage(pageId: string) {

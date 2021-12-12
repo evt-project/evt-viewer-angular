@@ -1,4 +1,4 @@
-<evt-panel [showSecondaryContent]="isSecondaryContentOpened()">
+<evt-panel [showSecondaryContent]="isSecondaryContentOpened()" (scrollContent)="updatePage()">
     <div header-left>
         <evt-button
             label="Info"
