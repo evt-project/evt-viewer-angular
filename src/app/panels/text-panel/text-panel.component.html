@@ -11,7 +11,7 @@
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
         <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
-    <div content evtAnnotator>
+    <div content evtAnnotator #mainContent>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
             <ng-container *ngIf="isMultiplePageFlow$ | async">
                 <evt-page *ngFor="let page of currentStatus.pages"

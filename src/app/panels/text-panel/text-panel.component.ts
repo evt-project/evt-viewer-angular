@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
@@ -14,6 +14,8 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
   styleUrls: ['./text-panel.component.scss'],
 })
 export class TextPanelComponent implements OnInit, OnDestroy {
+  @ViewChild('mainContent') mainContent: ElementRef;
+
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() pageID: string;
@@ -83,6 +85,14 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (!this.enableProseVersesToggler) {
       this.textFlow = undefined;
     }
+
+    this.subscriptions.push(
+      this.currentStatus$.pipe(
+        map(currentStatus => currentStatus.currentPage),
+        filter(page => !!page),
+        delay(0), // Needed to have the HTML pb el available
+      ).subscribe((page) => this._scrollToPage(page.id)),
+    );
   }
 
   getSecondaryContent(): string {
@@ -113,16 +123,27 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  isMsDescOpen(event: boolean){
+  isMsDescOpen(event: boolean) {
     this.showSecondaryContent = event;
-    if (this.showSecondaryContent){
+    if (this.showSecondaryContent) {
       this.msDescOpen = true;
       this.secondaryContent = '';
     }
   }
 
-  setMsDescID(event: string){
+  setMsDescID(event: string) {
     this.msDescID = event;
   }
 
+  private _scrollToPage(pageId: string) {
+    if (this.mainContent) {
+      const mainContentEl: HTMLElement = this.mainContent.nativeElement;
+      const pageEl = mainContentEl.querySelector<HTMLElement>(`#${pageId}`);
+      if (pageEl) {
+        pageEl.scrollIntoView();
+      } else {
+        mainContentEl.parentElement.scrollTop = 0;
+      }
+    }
+  }
 }
