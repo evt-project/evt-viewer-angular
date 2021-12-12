@@ -1,8 +1,9 @@
-<evt-panel
-    [hideHeader]="true"
+<evt-panel [showSecondaryContent]="msDescOpen"
+    [hideHeader]="false"
     [hideFooter]="true">
     <div header-left>
         <!-- TODO: Add dropdowns for navigation -->
+        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
     <div content>
         <evt-osd
@@ -10,5 +11,11 @@
             [manifestURL]="manifest">
         </evt-osd>
         <p *ngIf="!manifest">Found no manifest file</p>
+    </div>
+
+    <div secondary-content>
+        <div *ngIf="msDescOpen">
+            <evt-ms-desc [data]="currentMsDesc$ | async"></evt-ms-desc>    
+        </div>
     </div>
 </evt-panel>
