@@ -1,23 +1,22 @@
-import { Component, Input, Optional, SkipSelf } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Optional, SkipSelf } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
-import { ApparatusEntry } from '../../models/evt-models';
+import { ApparatusEntry, GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible } from '../components-mixins';
 import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatus-entry-detail.component';
-
-export interface ApparatusEntryComponent extends EditionlevelSusceptible { }
 @Component({
   selector: 'evt-apparatus-entry',
   templateUrl: './apparatus-entry.component.html',
   styleUrls: ['./apparatus-entry.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @register(ApparatusEntry)
-export class ApparatusEntryComponent {
+export class ApparatusEntryComponent implements OnInit {
   @Input() data: ApparatusEntry;
 
   public opened = false;
-  public isNestedInApp: boolean;
+  public isInsideAppDetail: boolean;
+  public nestedApps: ApparatusEntry[] = [];
 
   variance$ = this.evtModelService.appVariance$.pipe(
     map((variances) => variances[this.data.id]),
@@ -28,7 +27,23 @@ export class ApparatusEntryComponent {
     private evtModelService: EVTModelService,
     @Optional() @SkipSelf() private parentDetailComponent?: ApparatusEntryDetailComponent,
   ) {
-    this.isNestedInApp = this.parentDetailComponent ? true : false;
+    this.isInsideAppDetail = this.parentDetailComponent ? true : false;
+  }
+
+  ngOnInit() {
+    if (this.data.hasNestedApp) {
+      this.getNestedApps(this.data);
+    }
+  }
+
+  getNestedApps(app: ApparatusEntry) {
+    const nesApps = app.lemma.content.filter((c: ApparatusEntry | GenericElement) => c.type === ApparatusEntry);
+    nesApps.forEach((nesApp: ApparatusEntry) => {
+      this.nestedApps = this.nestedApps.concat(nesApp);
+      if (nesApp.hasNestedApp) {
+        this.getNestedApps(nesApp);
+      }
+    });
   }
 
   toggleAppEntryBox(e: MouseEvent) {

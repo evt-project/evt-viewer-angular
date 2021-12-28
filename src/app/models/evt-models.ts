@@ -160,12 +160,15 @@ export interface WitnessGroup {
     witnesses: string[];
     groupId: string;
 }
+
 export class ApparatusEntry extends GenericElement {
     id: string;
     lemma: Reading;
     readings: Reading[];
     notes: Note[];
     originalEncoding: string;
+    hasNestedApp: boolean;
+    nestedAppsIDs: string[];
 }
 
 export class Reading extends GenericElement {

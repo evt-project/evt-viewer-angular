@@ -1,5 +1,12 @@
-<span class="app-entry-reading" *ngIf="data.lemma" >
-    <evt-reading [data]="data.lemma"></evt-reading>
+<span class="app-entry-reading">
+    <!-- Handle apparatus readings without nested apps -->
+    <evt-reading *ngIf="!data.hasNestedApp" [data]="data.lemma"></evt-reading>
+
+    <!-- Handle apparatus readings with nested apps -->
+    <ng-container *ngIf="data.hasNestedApp">
+        <ng-container *ngTemplateOutlet="nestedAppsTemplate; context: { rdgHasCounter: rdgHasCounter }"></ng-container>
+    </ng-container>
+
     <ng-container *ngIf="data.lemma.content.length > 0">
         <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
     </ng-container>
@@ -14,3 +21,23 @@
         <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
     </ng-container>
 </span>
+
+<ng-template #nestedAppsTemplate let-rdgHasCounter="rdgHasCounter">
+    <ng-container *ngFor="let c of data.lemma.content">
+        <evt-content-viewer *ngIf="!isAppEntry(c)" class="{{ data.class }}" [content]="c"></evt-content-viewer>
+
+        <ng-container *ngIf="isAppEntry(c)">
+            <!-- Handle reading of nested app with no further nesting -->
+            <evt-reading [data]="c.lemma"></evt-reading>
+            <sup *ngIf="rdgHasCounter">{{ getNestedAppPos(c.id) + 1 }} </sup>
+
+            <!-- Handle reading of nested app with further nesting -->
+            <ng-container *ngIf="c.hasNestedApp">
+                <ng-container *ngFor="let nesID of c.nestedAppsIDs; let i = index">
+                    <evt-reading [data]="getNestedAppLemma(nesID)"></evt-reading>
+                    <sup *ngIf="rdgHasCounter">{{ getNestedAppPos(nesID) + 1 }}</sup>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</ng-template>

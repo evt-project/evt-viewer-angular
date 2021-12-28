@@ -74,7 +74,15 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             notes: this.parseAppNotes(appEntry),
             originalEncoding: getOuterHTML(appEntry),
             class: appEntry.tagName.toLowerCase(),
+            hasNestedApp: appEntry.querySelectorAll('app').length > 0,
+            nestedAppsIDs: this.getNestedAppsIDs(appEntry),
         };
+    }
+
+    private getNestedAppsIDs(app: XMLElement): string[] {
+        const nesApps = app.querySelectorAll('app');
+
+        return Array.from(nesApps).map((a: XMLElement) => getID(a));
     }
 
     private parseAppNotes(appEntry: XMLElement): Note[] {
