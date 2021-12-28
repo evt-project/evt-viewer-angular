@@ -52,8 +52,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
         return !Array.from(attributes).some(({ name, value }) => notSignificantReading.includes(`${name}=${value}`));
     }
 }
-
-@xmlParser('app', AppParser)
+@xmlParser('evt-apparatus-entry-parser', AppParser)
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
     private appEntryTagName = 'app';
