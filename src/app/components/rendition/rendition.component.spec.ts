@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RenditionComponent } from './rendition.component';
 
 describe('RenditionComponent', () => {
