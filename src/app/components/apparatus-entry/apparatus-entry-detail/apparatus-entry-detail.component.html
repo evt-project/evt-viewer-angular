@@ -1,11 +1,11 @@
 <div class="card app-detail-container">
     <div class="card-body app-detail-content">
         <span>
-            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data" [nestedApps]="nestedApps" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
+            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data" [nestedApps]="nestedApps" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
             <div *ngIf="data.nestedAppsIDs.length > 0" class="app-detail-nested-readings-container">
                 <span *ngFor="let nesApp of nestedApps; let i = index" class="app-detail-nested-readings">
                     <sup>{{ i + 1 }} </sup>
-                    <evt-apparatus-entry-readings [data]="nesApp" [nestedApps]="nestedApps" [rdgHasCounter]="false"></evt-apparatus-entry-readings>
+                    <evt-apparatus-entry-readings [data]="nesApp" [nestedApps]="nestedApps" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="false"></evt-apparatus-entry-readings>
                 </span>
             </div>
         </span>
@@ -33,7 +33,10 @@
                 <ng-template ngbNavContent>
                     <div class="info-lemma-wrapper" *ngIf="data.lemma">
                         <span>{{'metadataForLemma' | translate}} </span>
-                        <evt-reading class="info-rdg" [data]="data.lemma"></evt-reading>
+                        <evt-reading *ngIf="!data.hasNestedApp" class="info-rdg" [data]="data.lemma"></evt-reading>
+                        <span *ngIf="data.hasNestedApp" class="info-rdg">
+                            <ng-container *ngTemplateOutlet="nestedAppsReadingsTemplate; context: { rdgHasCounter: rdgHasCounter }"></ng-container>
+                        </span>
                         <span class="d-block ml-2" *ngFor="let metadata of rdgMetadata | keyvalue">
                             <span class="info-label" *ngIf="metadata.key !== 'id'">{{ metadata.key }}:</span> {{ metadata.value }}
                         </span>
@@ -44,11 +47,19 @@
                     <div>
                         <span class="more-info-label">{{'moreInfoAboutApp' | translate}}</span>
                         <ng-container *ngFor="let rdg of readings">
-                            <div class="mb-2" *ngIf="(rdg.attributes | keyvalue).length !== 0">
+                            <div *ngIf="(rdg.attributes | keyvalue).length !== 0" class="mb-2">
                                 <span>{{'metadataFor' | translate}} </span>
-                                <evt-reading *ngIf="rdg.content.length !== 0" class="info-rdg" [data]="rdg"></evt-reading>
-                                <span class="font-italic" *ngIf="rdg.content.length === 0">{{'omit' | translate}}</span>
-                                <span class="d-block ml-2" *ngIf="rdg.attributes.wit">
+                                <ng-container *ngIf="rdg.content.length !== 0">
+                                    <evt-reading *ngIf="!data.hasNestedApp" class="info-rdg" [data]="rdg"></evt-reading>
+                                    <ng-container *ngIf="data.hasNestedApp">
+                                        <ng-container *ngFor="let c of rdg.content">
+                                            <evt-content-viewer class="info-rdg" *ngIf="!isAppEntry(c)" [content]="c"></evt-content-viewer>
+                                            <evt-reading class="info-rdg" *ngIf="isAppEntry(c)" [data]="c.lemma"></evt-reading>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                                <span *ngIf="rdg.content.length === 0" class="font-italic info-rdg">{{'omit' | translate}}</span>
+                                <span *ngIf="rdg.attributes.wit" class="d-block ml-2">
                                     <span class="info-label">{{'wit' | translate}}</span> {{rdg.attributes.wit}}
                                 </span>
                                 <ng-container *ngFor="let metadata of rdgMetadata | keyvalue">
@@ -71,3 +82,23 @@
         <div [ngbNavOutlet]="appEntryTab" class="tab-content"></div>
     </div>
 </div>
+
+<ng-template #nestedAppsReadingsTemplate let-rdgHasCounter="rdgHasCounter">
+    <ng-container *ngFor="let c of data.lemma.content">
+        <evt-content-viewer *ngIf="!isAppEntry(c)" class="{{ data.class }}" [content]="c"></evt-content-viewer>
+
+        <ng-container *ngIf="isAppEntry(c)">
+            <!-- Handle reading of nested app with no further nesting -->
+            <evt-reading [data]="c.lemma"></evt-reading>
+            <sup *ngIf="rdgHasCounter">{{ getNestedAppPos(c.id) + 1 }} </sup>
+
+            <!-- Handle reading of nested app with further nesting -->
+            <ng-container *ngIf="c.hasNestedApp">
+                <ng-container *ngFor="let nesID of c.nestedAppsIDs; let i = index">
+                    <evt-reading [data]="getNestedAppLemma(nesID)"></evt-reading>
+                    <sup *ngIf="rdgHasCounter">{{ getNestedAppPos(nesID) + 1 }}</sup>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</ng-template>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ApparatusEntry, Reading } from '../../../models/evt-models';
+import { ApparatusEntry, GenericElement, Reading } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTModelService } from '../../../services/evt-model.service';
 @Component({
@@ -13,7 +13,21 @@ import { EVTModelService } from '../../../services/evt-model.service';
 export class ApparatusEntryDetailComponent {
   @Input() data: ApparatusEntry;
   @Input() nestedApps: ApparatusEntry[];
-  rdgHasCounter = true;
+  rdgHasCounter = false;
+
+  isAppEntry(item: GenericElement | ApparatusEntry): boolean {
+    return item.type === ApparatusEntry;
+  }
+
+  getNestedAppLemma(appId: string): Reading {
+    return this.nestedApps.find((c) => c.id === appId).lemma;
+  }
+
+  getNestedAppPos(appId: string): number {
+    const currentApp = this.nestedApps.find(nesApp => nesApp.id === appId);
+
+    return this.nestedApps.indexOf(currentApp);
+  }
 
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg.significant);

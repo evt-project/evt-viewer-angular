@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApparatusEntry, GenericElement, Reading } from 'src/app/models/evt-models';
+import { ApparatusEntry, Reading } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
 import { EVTModelService } from 'src/app/services/evt-model.service';
 
@@ -15,9 +15,10 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
 @register(ApparatusEntryReadingsComponent)
 export class ApparatusEntryReadingsComponent {
   @Input() data: ApparatusEntry;
-  @Input() isNested: boolean;
   @Input() nestedApps: ApparatusEntry[];
   @Input() rdgHasCounter: boolean;
+  // tslint:disable-next-line: no-any
+  @Input() template: TemplateRef<any>;
 
   groups$ = this.evtModelService.groups$;
 
@@ -28,20 +29,6 @@ export class ApparatusEntryReadingsComponent {
 
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg.significant);
-  }
-
-  isAppEntry(item: GenericElement | ApparatusEntry): boolean {
-    return item.type === ApparatusEntry;
-  }
-
-  getNestedAppLemma(appId: string): Reading {
-    return this.nestedApps.find((c) => c.id === appId).lemma;
-  }
-
-  getNestedAppPos(appId: string): number {
-    const currentApp = this.nestedApps.find(nesApp => nesApp.id === appId);
-
-    return this.nestedApps.indexOf(currentApp);
   }
 
   getWits$(witID: string): Observable<string[]> {
