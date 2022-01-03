@@ -15,11 +15,13 @@
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
             <ng-container *ngIf="isMultiplePageFlow$ | async">
                 <evt-page *ngFor="let page of currentStatus.pages"
+                    [attr.data-id]="page.id"
                     [data]="page"
                     [textFlow]="textFlow"
                     [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
             </ng-container>
             <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
+                [attr.data-id]="currentStatus.currentPage.id"
                 [data]="currentStatus.currentPage"
                 [editionLevel]="currentStatus.editionLevel"
                 [textFlow]="textFlow"
