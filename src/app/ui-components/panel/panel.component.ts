@@ -14,6 +14,7 @@ export class PanelComponent implements OnInit {
   @Input() showSecondaryContent: boolean;
 
   @Output() hide: EventEmitter<boolean> = new EventEmitter();
+  @Output() scrollContent: EventEmitter<MouseEvent> = new EventEmitter();
 
   ngOnInit() {
     this.comparable = this.comparable === undefined ? false : this.comparable;
@@ -34,6 +35,6 @@ export class PanelComponent implements OnInit {
 
   onScroll(event: MouseEvent) {
     event.preventDefault();
-    // TODO: broadcast event 'panel:scroll'
+    this.scrollContent.emit(event);
   }
 }

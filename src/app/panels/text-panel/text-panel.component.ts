@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, shareReplay } from 'rxjs/operators';
-import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { delay, distinctUntilChanged, filter, map, shareReplay, take } from 'rxjs/operators';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
+import { EVTStatusService } from '../../services/evt-status.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 @Component({
@@ -14,6 +14,8 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
   styleUrls: ['./text-panel.component.scss'],
 })
 export class TextPanelComponent implements OnInit, OnDestroy {
+  @ViewChild('mainContent') mainContent: ElementRef;
+
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() pageID: string;
@@ -68,6 +70,7 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
+  private updatingPageFromScroll = false;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -83,6 +86,14 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     if (!this.enableProseVersesToggler) {
       this.textFlow = undefined;
     }
+
+    this.subscriptions.push(
+      this.currentStatus$.pipe(
+        map(currentStatus => currentStatus.currentPage),
+        filter(page => !!page),
+        delay(0), // Needed to have the HTML pb el available
+      ).subscribe((page) => this._scrollToPage(page.id)),
+    );
   }
 
   getSecondaryContent(): string {
@@ -113,16 +124,58 @@ export class TextPanelComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  isMsDescOpen(event: boolean){
+  isMsDescOpen(event: boolean) {
     this.showSecondaryContent = event;
-    if (this.showSecondaryContent){
+    if (this.showSecondaryContent) {
       this.msDescOpen = true;
       this.secondaryContent = '';
     }
   }
 
-  setMsDescID(event: string){
+  setMsDescID(event: string) {
     this.msDescID = event;
   }
 
+  updatePage() {
+    if (this.mainContent && this.editionLevelID === 'critical') {
+      const mainContentEl: HTMLElement = this.mainContent.nativeElement;
+      const pbs = mainContentEl.querySelectorAll('evt-page');
+      let pbCount = 0;
+      let pbVisible = false;
+      let pbId = '';
+      const docViewTop = mainContentEl.scrollTop;
+      const docViewBottom = docViewTop + mainContentEl.parentElement.clientHeight;
+      while (pbCount < pbs.length && !pbVisible) {
+        pbId = pbs[pbCount].getAttribute('data-id');
+        const pbElem = mainContentEl.querySelector<HTMLElement>(`evt-page[data-id="${pbId}"]`);
+        const pbRect = pbElem.getBoundingClientRect();
+        if (pbRect.top && (pbRect.top <= docViewBottom) && (pbRect.top >= docViewTop)) {
+          pbVisible = true;
+        } else {
+          pbCount++;
+        }
+      }
+      combineLatest([this.evtModelService.pages$, this.currentPageId$])
+        .pipe(take(1)).subscribe(([pages, currentPageId]) => {
+          if (pbVisible && currentPageId !== pbId) {
+            this.updatingPageFromScroll = true;
+            this.evtStatus.updatePage$.next(pages.find(p => p.id === pbId));
+          }
+        });
+    }
+  }
+
+  private _scrollToPage(pageId: string) {
+    if (this.updatingPageFromScroll) {
+      this.updatingPageFromScroll = false;
+    } else if (this.mainContent) {
+      const mainContentEl: HTMLElement = this.mainContent.nativeElement;
+      const pageEl = mainContentEl.querySelector<HTMLElement>(`[data-id="${pageId}"]`);
+      if (pageEl) {
+        pageEl.scrollIntoView();
+      } else {
+        mainContentEl.parentElement.scrollTop = 0;
+      }
+    }
+  }
 }
