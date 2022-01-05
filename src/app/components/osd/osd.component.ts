@@ -111,8 +111,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   private _page: number;
   @Input() set page(v: number) {
     if (v !== this._page) {
-      this._page = v + 1;
-      this.pageChange.next(this._page);
+      this._page = v;
+      this.pageChange.next(this._page + 1);
     }
   }
 
@@ -120,8 +120,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @Output() pageChange = new EventEmitter<number>();
 
-  // tslint:disable-next-line: no-any
-  @Output() data: EventEmitter<any> = new EventEmitter<any>();
+  @Output() pageImg = new EventEmitter<number>();
 
   @Input() text: string;
 
@@ -183,7 +182,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
           this._page = page;
-          this.data.emit(page);
+          this.pageImg.emit(page);
         });
       }));
   }
