@@ -58,7 +58,6 @@ body {
     font-size: 0.875rem;
     line-height: 1.5;
     border-radius: 0.2rem;
-    width: 10rem;
 
     .ng-select-container .ng-value-container .ng-placeholder {
         top: 0 !important;
@@ -151,6 +150,10 @@ body {
             border-width: 0 4px 4px;
         }
     }
+}
+
+.imgSelect {
+    width: 10rem;
 }
 
 .overflow-y-auto {
