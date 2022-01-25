@@ -120,8 +120,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @Output() pageChange = new EventEmitter<number>();
 
-  @Output() pageImg = new EventEmitter<number>();
-
   @Input() text: string;
 
   viewer: Partial<OsdViewerAPI>;
@@ -181,8 +179,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
-          this._page = page;
-          this.pageImg.emit(page);
         });
       }));
   }
