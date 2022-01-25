@@ -38,7 +38,7 @@ export class ApparatusEntryDetailComponent {
   }
 
   get readings(): Reading[] {
-    return [this.data.lemma].concat(this.significantRdg).concat(this.notSignificantRdg);
+    return [this.data.lemma, ...this.significantRdg, ...this.notSignificantRdg]
   }
 
   get rdgMetadata() {
