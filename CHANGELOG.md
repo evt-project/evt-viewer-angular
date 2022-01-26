@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sampling declaration visualization
 - Project description visualization
 - Encoding description visualization
+- Image-image visualization
 - Critical edition navigation
 - Project Info modal
 - Notes statement visualization
