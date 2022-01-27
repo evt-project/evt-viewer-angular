@@ -15,7 +15,9 @@
         [class.p-4]="!hideHeader || !hideFooter">
         <ng-content select="[content]"></ng-content>
     </div>
-    <div class="secondary-content card-content" [class.open]="isSecondaryContentOpened()">
+    <div class="secondary-content card-content" 
+        [class.open]="isSecondaryContentOpened()"
+        [class.noFooter]="hideFooter">
         <ng-content select="[secondary-content]"></ng-content>
     </div>
     <div class="footer card-footer" *ngIf="!hideFooter">

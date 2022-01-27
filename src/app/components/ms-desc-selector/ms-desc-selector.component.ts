@@ -18,8 +18,8 @@ export class MsDescSelectorComponent {
   // tslint:disable-next-line: variable-name
   private _msDescID: string;
   @Input() set msDescID(p: string) {
-     this._msDescID = p;
-   }
+    this._msDescID = p;
+  }
 
   get msDescID() { return this._msDescID; }
 
@@ -28,12 +28,12 @@ export class MsDescSelectorComponent {
   ) {
   }
 
-  openMsDescContent(){
+  openMsDescContent() {
     this.selectionChange.emit(this.msDescID);
     this.msDescOpen.emit(true);
   }
 
-  resetMsDesc(){
+  resetMsDesc() {
     this.msDescOpen.emit(false);
   }
 }
