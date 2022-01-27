@@ -867,7 +867,7 @@ export class EncodingDesc extends GenericElement {
     samplingDecl: SamplingDecl[];
     editorialDecl: EditorialDecl[];
     tagsDecl: TagsDecl[];
-    styleDefDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when styleDefDecl is handled
+    styleDefDecl: ParseResult<GenericElement>; // TODO: Add specific type when styleDefDecl is handled
     refsDecl: RefsDecl[];
     classDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when classDecl is handled
     geoDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when geoDecl is handled

@@ -89,6 +89,10 @@ export function normalizeUrl(url) {
     return url && url.indexOf('http') < 0 ? 'http://' + url : url;
 }
 
-export function isBoolString(s: string){
+export function isBoolString(s: string) {
     return s === 'true';
+}
+
+export function snakeToCamelCased(str) {
+    return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }

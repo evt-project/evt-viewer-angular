@@ -1,0 +1,28 @@
+<ng-container [ngSwitch]="data?.structuredData">
+    <ng-container *ngSwitchCase="true">
+        <ng-container *ngTemplateOutlet="section; context: { label: 'projectDesc', items: data?.projectDesc, class: 'projectDesc' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'samplingDecl', items: data?.samplingDecl, class: 'samplingDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'editorialDecl', items: data?.editorialDecl, class: 'editorialDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'tagsDecl', items: data?.tagsDecl, class: 'tagsDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'refsDecl', items: data?.refsDecl, class: 'refsDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'classDecl', items: data?.classDecl, class: 'classDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'geoDecl', items: data?.geoDecl, class: 'geoDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'unitDecl', items: data?.unitDecl, class: 'unitDecl' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'schemaSpec', items: data?.schemaSpec, class: 'schemaSpec' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'schemaRef', items: data?.schemaRef, class: 'schemaRef' }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <evt-content-viewer *ngFor="let element of data?.content" [content]="element"></evt-content-viewer>
+    </ng-container>
+</ng-container>
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <ng-container *ngIf="items?.length > 0" >
+        <h4 *ngIf="label" class="main-section-title">{{ label | translate }}</h4>
+        <evt-header-section [additionalClass]="class">
+            <div content>
+                <evt-content-viewer *ngFor="let item of items" [content]="item"></evt-content-viewer> 
+            </div>
+        </evt-header-section>
+    </ng-container>
+</ng-template>

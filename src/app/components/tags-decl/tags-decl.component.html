@@ -1,0 +1,12 @@
+<div class="tagsDecl">
+    <ng-container *ngTemplateOutlet="section; context: { label: 'rendition', items: data?.rendition, class: 'rendition' }"></ng-container>
+    <ng-container *ngTemplateOutlet="section; context: { label: 'namespace', items: data?.namespace, class: 'namespace' }"></ng-container>
+</div>
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [additionalClass]="class" [inlineLabel]="true">
+        <div content>
+            <evt-content-viewer *ngFor="let item of items" [content]="item" ></evt-content-viewer>
+        </div>
+    </evt-header-section>
+</ng-template>

@@ -1,0 +1,22 @@
+.rendition {
+    margin-bottom: 10px;
+
+    &-section {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    label {
+        margin-bottom: 0;
+        margin-right: 5px;
+        font-weight: bolder;
+        font-variant: all-small-caps;
+    }
+}
+
+::ng-deep .rendition-content span * {
+    font-family: monospace;
+    font-size: 0.9em;
+    font-weight: lighter;
+}

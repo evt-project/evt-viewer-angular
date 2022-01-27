@@ -32,6 +32,8 @@ import { DamageComponent } from './components/damage/damage.component';
 import { DeletionComponent } from './components/deletion/deletion.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
+import { EditorialDeclComponent } from './components/editorial-decl/editorial-decl.component';
+import { EncodingDescComponent } from './components/encoding-desc/encoding-desc.component';
 import { EntitiesSelectComponent } from './components/entities-select/entities-select.component';
 import { ExtentComponent } from './components/extent/extent.component';
 import { FileDescComponent } from './components/file-desc/file-desc.component';
@@ -56,6 +58,7 @@ import { NamedEntityRelationComponent } from './components/named-entity-relation
 import { NamedEntityDetailComponent } from './components/named-entity/named-entity-detail/named-entity-detail.component';
 import { NamedEntityOccurrenceComponent } from './components/named-entity/named-entity-occurrence/named-entity-occurrence.component';
 import { NamedEntityComponent } from './components/named-entity/named-entity.component';
+import { NamespaceComponent } from './components/namespace/namespace.component';
 import { NoteComponent } from './components/note/note.component';
 import { NotesStmtComponent } from './components/notes-stmt/notes-stmt.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
@@ -64,14 +67,18 @@ import { PageSelectorComponent } from './components/page-selector/page-selector.
 import { PageComponent } from './components/page/page.component';
 import { ParagraphComponent } from './components/paragraph/paragraph.component';
 import { PhysDescComponent } from './components/phys-desc/phys-desc.component';
+import { ProjectDescComponent } from './components/project-desc/project-desc.component';
 import { ProjectInfoComponent } from './components/project-info/project-info.component';
 import { PublicationStmtComponent } from './components/publication-stmt/publication-stmt.component';
 import { ReadingComponent } from './components/reading/reading.component';
+import { RenditionComponent } from './components/rendition/rendition.component';
 import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
+import { SamplingDeclComponent } from './components/sampling-decl/sampling-decl.component';
 import { SeriesStmtComponent } from './components/series-stmt/series-stmt.component';
 import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
+import { TagsDeclComponent } from './components/tags-decl/tags-decl.component';
 import { TextComponent } from './components/text/text.component';
 import { TitleStmtComponent } from './components/title-stmt/title-stmt.component';
 import { VerseComponent } from './components/verse/verse.component';
@@ -134,6 +141,8 @@ export function initializeApp(appConfig: AppConfig) {
     EditionLevelSelectorComponent,
     EditionStmtComponent,
     EditorialConventionLayoutDirective,
+    EditorialDeclComponent,
+    EncodingDescComponent,
     EntitiesSelectComponent,
     EvtInfoComponent,
     ExtentComponent,
@@ -169,6 +178,7 @@ export function initializeApp(appConfig: AppConfig) {
     NamedEntityOccurrenceComponent,
     NamedEntityRefComponent,
     NamedEntityRelationComponent,
+    NamespaceComponent,
     NavBarComponent,
     NoteComponent,
     NotesStmtComponent,
@@ -181,11 +191,14 @@ export function initializeApp(appConfig: AppConfig) {
     PinboardComponent,
     PinboardPanelComponent,
     PinnerComponent,
+    ProjectDescComponent,
     ProjectInfoComponent,
     PublicationStmtComponent,
     ReadingComponent,
     ReadingTextComponent,
+    RenditionComponent,
     RespStmtComponent,
+    SamplingDeclComponent,
     SeriesStmtComponent,
     ShortcutsComponent,
     SicComponent,
@@ -193,6 +206,7 @@ export function initializeApp(appConfig: AppConfig) {
     StartsWithPipe,
     SuppliedComponent,
     SurplusComponent,
+    TagsDeclComponent,
     TextComponent,
     TextPanelComponent,
     TextSourcesComponent,

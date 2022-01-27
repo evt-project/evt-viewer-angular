@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Tags declaration visualization
+- Namespace declaration visualization
+- Rendition declaration visualization
+- Editorial declaration visualization
+- Sampling declaration visualization
+- Project description visualization
+- Encoding description visualization
 - Critical edition navigation
 - Project Info modal
 - Notes statement visualization

@@ -441,7 +441,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl'),
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl'),
       tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl'),
-      styleDefDecl: queryAndParseElements<GenericElement>(xml, 'styleDefDecl'),
+      styleDefDecl: queryAndParseElement<GenericElement>(xml, 'styleDefDecl'),
       refsDecl: queryAndParseElements<RefsDecl>(xml, 'refsDecl'),
       classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl'),
       geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl'),
