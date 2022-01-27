@@ -167,7 +167,6 @@ export class ApparatusEntry extends GenericElement {
     readings: Reading[];
     notes: Note[];
     originalEncoding: string;
-    hasNestedApp: boolean;
     nestedAppsIDs: string[];
 }
 

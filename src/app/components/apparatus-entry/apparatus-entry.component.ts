@@ -31,7 +31,7 @@ export class ApparatusEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.data.hasNestedApp) {
+    if (this.data.nestedAppsIDs.length > 0) {
       this.recoverNestedApps(this.data);
     }
   }
@@ -40,7 +40,7 @@ export class ApparatusEntryComponent implements OnInit {
     const nesApps = app.lemma.content.filter((c: ApparatusEntry | GenericElement) => c.type === ApparatusEntry);
     nesApps.forEach((nesApp: ApparatusEntry) => {
       this.nestedApps = this.nestedApps.concat(nesApp);
-      if (nesApp.hasNestedApp) {
+      if (nesApp.nestedAppsIDs.length > 0) {
         this.recoverNestedApps(nesApp);
       }
     });
