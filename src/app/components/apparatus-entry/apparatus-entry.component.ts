@@ -52,8 +52,6 @@ export class ApparatusEntryComponent implements OnInit {
   }
 
   closeAppEntryBox() {
-    if (this.opened) {
-      this.opened = false;
-    }
+    this.opened = false;
   }
 }
