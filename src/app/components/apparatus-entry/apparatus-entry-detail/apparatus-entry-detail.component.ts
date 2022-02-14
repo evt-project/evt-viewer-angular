@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ApparatusEntry, GenericElement, Reading } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTModelService } from '../../../services/evt-model.service';
@@ -10,24 +10,10 @@ import { EVTModelService } from '../../../services/evt-model.service';
 })
 
 @register(ApparatusEntryDetailComponent)
-export class ApparatusEntryDetailComponent {
+export class ApparatusEntryDetailComponent implements OnInit {
   @Input() data: ApparatusEntry;
-  @Input() nestedApps: ApparatusEntry[];
+  nestedApps: ApparatusEntry[] = [];
   rdgHasCounter = false;
-
-  isAppEntry(item: GenericElement | ApparatusEntry): boolean {
-    return item.type === ApparatusEntry;
-  }
-
-  getNestedAppLemma(appId: string): Reading {
-    return this.nestedApps.find((c) => c.id === appId).lemma;
-  }
-
-  getNestedAppPos(appId: string): number {
-    const currentApp = this.nestedApps.find(nesApp => nesApp.id === appId);
-
-    return this.nestedApps.indexOf(currentApp);
-  }
 
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg.significant);
@@ -53,5 +39,35 @@ export class ApparatusEntryDetailComponent {
   constructor(
     public evtModelService: EVTModelService,
   ) {
+  }
+
+  ngOnInit() {
+    if (this.data.nestedAppsIDs.length > 0) {
+      this.recoverNestedApps(this.data);
+    }
+  }
+
+  recoverNestedApps(app: ApparatusEntry) {
+    const nesApps = app.lemma.content.filter((c: ApparatusEntry | GenericElement) => c.type === ApparatusEntry);
+    nesApps.forEach((nesApp: ApparatusEntry) => {
+      this.nestedApps = this.nestedApps.concat(nesApp);
+      if (nesApp.nestedAppsIDs.length > 0) {
+        this.recoverNestedApps(nesApp);
+      }
+    });
+  }
+
+  isAppEntry(item: GenericElement | ApparatusEntry): boolean {
+    return item.type === ApparatusEntry;
+  }
+
+  getNestedAppLemma(appId: string): Reading {
+    return this.nestedApps.find((c) => c.id === appId).lemma;
+  }
+
+  getNestedAppPos(appId: string): number {
+    const currentApp = this.nestedApps.find(nesApp => nesApp.id === appId);
+
+    return this.nestedApps.indexOf(currentApp);
   }
 }

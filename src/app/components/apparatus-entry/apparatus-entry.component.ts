@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Optional, SkipSelf } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional, SkipSelf } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
-import { ApparatusEntry, GenericElement } from '../../models/evt-models';
+import { ApparatusEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatus-entry-detail.component';
@@ -11,7 +11,7 @@ import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @register(ApparatusEntry)
-export class ApparatusEntryComponent implements OnInit {
+export class ApparatusEntryComponent {
   @Input() data: ApparatusEntry;
 
   public opened = false;
@@ -28,22 +28,6 @@ export class ApparatusEntryComponent implements OnInit {
     @Optional() @SkipSelf() private parentDetailComponent?: ApparatusEntryDetailComponent,
   ) {
     this.isInsideAppDetail = this.parentDetailComponent ? true : false;
-  }
-
-  ngOnInit() {
-    if (this.data.nestedAppsIDs.length > 0) {
-      this.recoverNestedApps(this.data);
-    }
-  }
-
-  recoverNestedApps(app: ApparatusEntry) {
-    const nesApps = app.lemma.content.filter((c: ApparatusEntry | GenericElement) => c.type === ApparatusEntry);
-    nesApps.forEach((nesApp: ApparatusEntry) => {
-      this.nestedApps = this.nestedApps.concat(nesApp);
-      if (nesApp.nestedAppsIDs.length > 0) {
-        this.recoverNestedApps(nesApp);
-      }
-    });
   }
 
   toggleAppEntryBox(e: MouseEvent) {
