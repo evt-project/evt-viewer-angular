@@ -1,11 +1,11 @@
 <div class="card app-detail-container">
     <div class="card-body app-detail-content">
         <span>
-            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data" [nestedApps]="nestedApps" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
+            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
             <div *ngIf="data.nestedAppsIDs.length > 0" class="app-detail-nested-readings-container">
                 <span *ngFor="let nesApp of nestedApps; let i = index" class="app-detail-nested-readings">
                     <sup>{{ i + 1 }} </sup>
-                    <evt-apparatus-entry-readings [data]="nesApp" [nestedApps]="nestedApps" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="false"></evt-apparatus-entry-readings>
+                    <evt-apparatus-entry-readings [data]="nesApp" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="false"></evt-apparatus-entry-readings>
                 </span>
             </div>
         </span>

@@ -1,8 +1,10 @@
 <span class="app-entry-reading">
-    <!-- Handle apparatus readings without nested apps -->
+    <!--
+        It's necessary to handle both readings with and without nested apps, because nested apps inside app-entry-detail have different behaviour,
+        so we can't use apparatus-entry-component to render them.
+    -->
     <evt-reading *ngIf="data.nestedAppsIDs.length === 0" [data]="data.lemma"></evt-reading>
 
-    <!-- Handle apparatus readings with nested apps -->
     <ng-container *ngIf="data.nestedAppsIDs.length > 0">
         <ng-container *ngTemplateOutlet="template context: { rdgHasCounter: rdgHasCounter }"></ng-container>
     </ng-container>

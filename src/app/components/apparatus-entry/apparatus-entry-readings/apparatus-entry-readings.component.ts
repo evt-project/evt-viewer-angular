@@ -15,7 +15,6 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
 @register(ApparatusEntryReadingsComponent)
 export class ApparatusEntryReadingsComponent {
   @Input() data: ApparatusEntry;
-  @Input() nestedApps: ApparatusEntry[];
   @Input() rdgHasCounter: boolean;
   // tslint:disable-next-line: no-any
   @Input() template: TemplateRef<any>;
