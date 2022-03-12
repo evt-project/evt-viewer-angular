@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, SkipSelf } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional } from '@angular/core';
 import { map, shareReplay } from 'rxjs/operators';
 import { ApparatusEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
@@ -25,7 +25,7 @@ export class ApparatusEntryComponent {
 
   constructor(
     private evtModelService: EVTModelService,
-    @Optional() @SkipSelf() private parentDetailComponent?: ApparatusEntryDetailComponent,
+    @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
   ) {
     this.isInsideAppDetail = this.parentDetailComponent ? true : false;
   }
