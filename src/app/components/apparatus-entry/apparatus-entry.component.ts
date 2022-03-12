@@ -38,4 +38,8 @@ export class ApparatusEntryComponent {
   closeAppEntryBox() {
     this.opened = false;
   }
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
+  }
 }
