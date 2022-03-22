@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { map, shareReplay } from 'rxjs/operators';
-import { Page } from 'src/app/models/evt-models';
-import { EVTStatusService } from 'src/app/services/evt-status.service';
-import { EditionLevel } from '../../app.config';
+import { AppConfig, EditionLevel } from '../../app.config';
+import { Page, Surface, ViewerDataType, XMLImagesValues } from '../../models/evt-models';
+import { ViewerSource } from '../../models/evt-polymorphic-models';
+import { EVTModelService } from '../../services/evt-model.service';
+import { EVTStatusService } from '../../services/evt-status.service';
 
 @Component({
   selector: 'evt-image-text',
@@ -14,6 +16,10 @@ export class ImageTextComponent implements OnInit {
   public layoutOptions: GridsterConfig = {};
   public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
+
+  public imageViewer$ = this.evtModelService.surfaces$.pipe(
+    map((surface) => this.getImageViewerType(AppConfig.evtSettings.files.editionImagesSource, surface)),
+  );
 
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
@@ -26,7 +32,22 @@ export class ImageTextComponent implements OnInit {
 
   constructor(
     private evtStatusService: EVTStatusService,
+    private evtModelService: EVTModelService,
   ) {
+  }
+
+  getImageViewerType(editionImages, surface: Surface[]): ViewerDataType {
+    for (const key of Object.keys(editionImages)) {
+      if (editionImages[key].enabled) {
+        return ViewerSource.getDataType(key, surface);
+      }
+    }
+    const xmlImages: XMLImagesValues[] = [];
+    this.evtModelService.pages$.pipe().subscribe(
+      (pages) => pages.map(page => xmlImages.push({ url: page.facsUrl }),
+      ));
+
+    return { type: 'default', value: { xmlImages } };
   }
 
   ngOnInit() {
