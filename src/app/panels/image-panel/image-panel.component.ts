@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AppConfig } from '../../app.config';
+import { ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 
 @Component({
@@ -10,9 +10,7 @@ import { EVTModelService } from '../../services/evt-model.service';
   styleUrls: ['./image-panel.component.scss'],
 })
 export class ImagePanelComponent {
-  manifest = AppConfig.evtSettings.files.manifestURL !== '' && !!AppConfig.evtSettings.files.manifestURL
-    ? AppConfig.evtSettings.files.manifestURL
-    : undefined;
+  @Input() viewerData: ViewerDataType;
 
   currentMsDescId$ = new BehaviorSubject(undefined);
   currentMsDesc$ = combineLatest([this.evtModelService.msDesc$, this.currentMsDescId$]).pipe(
