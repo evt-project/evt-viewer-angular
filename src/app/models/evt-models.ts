@@ -50,9 +50,11 @@ export interface ViewMode {
 export interface Page {
     id: string;
     label: string;
+    facs: string;
     originalContent: OriginalEncodingNodeType[];
     parsedContent: Array<ParseResult<GenericElement>>;
     url: string;
+    facsUrl: string;
 }
 
 export interface NamedEntities {
@@ -1190,4 +1192,20 @@ export class ProjectInfo {
     encodingDesc: EncodingDesc;
     profileDesc: ProfileDesc;
     revisionDesc: RevisionDesc;
+}
+
+export interface ViewerDataValue {
+    manifestURL?: string;
+    xmlImages?: XMLImagesValues[];
+}
+
+export interface XMLImagesValues {
+    url: string;
+    width?: number;
+    height?: number;
+}
+
+export interface ViewerDataType {
+    type: string;
+    value: ViewerDataValue;
 }
