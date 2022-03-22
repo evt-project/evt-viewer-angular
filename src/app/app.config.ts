@@ -96,11 +96,20 @@ export interface EditionConfig {
     verseNumberPrinter: number;
 }
 
+export type EditionImagesSources = 'manifest' | 'graphics';
+
 export interface FileConfig {
     editionUrls: string[];
-    manifestURL: string;
+    editionImagesSource: {
+        [T in EditionImagesSources]: EditionImagesConfig;
+    };
     logoUrl?: string;
     imagesFolderUrl?: string;
+}
+
+export interface EditionImagesConfig {
+    value: string;
+    enabled: boolean;
 }
 
 export interface NamedEntitiesListsConfig {
