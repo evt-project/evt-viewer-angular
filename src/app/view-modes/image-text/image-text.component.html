@@ -1,6 +1,6 @@
 <gridster [options]="layoutOptions">
     <gridster-item [item]="imagePanelItem">
-        <evt-image-panel></evt-image-panel>
+        <evt-image-panel [viewerData]="imageViewer$ | async"></evt-image-panel>
     </gridster-item>
     <gridster-item [item]="textPanelItem">
         <evt-text-panel

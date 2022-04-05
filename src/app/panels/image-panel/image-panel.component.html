@@ -7,10 +7,10 @@
     </div>
     <div content>
         <evt-osd
-            *ngIf="manifest"
-            [manifestURL]="manifest">
+            *ngIf="viewerData"
+            [viewerData]="viewerData">
         </evt-osd>
-        <p *ngIf="!manifest">Found no manifest file</p>
+        <p *ngIf="!viewerData">Found no source file</p>
     </div>
 
     <div secondary-content>

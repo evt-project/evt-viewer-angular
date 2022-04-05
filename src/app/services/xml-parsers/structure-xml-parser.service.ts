@@ -37,11 +37,11 @@ export class StructureXmlParserService {
     }
 
     const frontPages = frontPbs.length === 0 && front && this.isMarkedAsOrigContent(front)
-      ? [this.parseSinglePage(doc, front, 'page_front', this.frontTagName)]
+      ? [this.parseSinglePage(doc, front, 'page_front', this.frontTagName, 'facs_front')]
       : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
 
     const bodyPages = bodyPbs.length === 0
-      ? [this.parseSinglePage(doc, body, 'page1', 'mainText')] // TODO: tranlsate mainText
+      ? [this.parseSinglePage(doc, body, 'page1', 'mainText', 'facs1')] // TODO: tranlsate mainText
       : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.bodyTagName));
 
     return {
@@ -62,28 +62,34 @@ export class StructureXmlParserService {
     return {
       id: getID(pb, 'page'),
       label: pb.getAttribute('n') || 'page',
+      facs: (pb.getAttribute('facs') || 'page').split('#').slice(-1)[0],
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
       url: this.getPageUrl(getID(pb, 'page')),
+      facsUrl: this.getPageUrl((pb.getAttribute('facs') || 'page').split('#').slice(-1)[0]),
     };
   }
 
-  private parseSinglePage(doc: Document, el: XMLElement, id: string, label: string): Page {
+  private parseSinglePage(doc: Document, el: XMLElement, id: string, label: string, facs: string): Page {
     const originalContent: XMLElement[] = getElementsBetweenTreeNode(el.firstChild, el.lastChild);
 
     return {
       id,
       label,
+      facs,
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
       url: this.getPageUrl(id),
+      facsUrl: this.getPageUrl(facs),
     };
   }
 
   private getPageUrl(id) {
     // TODO: check if exists <graphic> element connected to page and return its url
     // TODO: handle multiple version of page
-    return `${AppConfig.evtSettings.files.imagesFolderUrl}/${id}.jpg`;
+    const image = id.split('.')[0];
+
+    return `${AppConfig.evtSettings.files.imagesFolderUrl}/${image}.jpg`;
   }
 
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {

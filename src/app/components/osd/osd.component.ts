@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { ViewerDataType } from '../../models/evt-models';
+import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 
 declare var OpenSeadragon;
@@ -39,10 +41,8 @@ interface OsdViewerAPI {
   gestureSettingsMouse;
   raiseEvent: (evtName: string) => void;
 }
-
 /*
-From:
-{
+Observable<OsdTileSource[]>
   "@id": "https://www.e-codices.unifr.ch:443/loris/bge/bge-gr0044/bge-gr0044_e001.jp2/full/full/0/default.jpg",
   "@type": "dctypes:Image",
   "format": "image/jpeg",
@@ -65,16 +65,6 @@ To:
   'width': 5472,
 }
 */
-function manifestResourcetoTileSource(manifestResource) {
-  return {
-    '@context': manifestResource.service['@context'],
-    '@id': manifestResource.service['@id'],
-    profile: [manifestResource.service['@profile']],
-    protocol: 'http://iiif.io/api/image',
-    height: manifestResource.height,
-    width: manifestResource.width,
-  };
-}
 
 @Component({
   selector: 'evt-osd',
@@ -96,16 +86,14 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   get options() { return this._options; }
   optionsChange = new BehaviorSubject({});
 
-  // tslint:disable-next-line: variable-name
-  private _manifestURL: string;
-  @Input() set manifestURL(v: string) {
-    if (v !== this._manifestURL) {
-      this._manifestURL = v;
-      this.manifestURLChange.next(this._manifestURL);
-    }
+  private _viewerDataType: string; // tslint:disable-line: variable-name
+  public _viewerSource: ViewerDataInput; // tslint:disable-line: variable-name
+  @Input() set viewerData(v: ViewerDataType) {
+    this._viewerDataType = v.type;
+    this._viewerSource = ViewerSource.getSource(v, v.type);
+    this.sourceChange.next(this._viewerSource);
   }
-  get manifestURL() { return this._manifestURL; }
-  manifestURLChange = new BehaviorSubject(undefined);
+  sourceChange = new BehaviorSubject<ViewerDataInput>([]);
 
   // tslint:disable-next-line: variable-name
   private _page: number;
@@ -115,28 +103,20 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       this.pageChange.next(this._page);
     }
   }
+
   get page() { return this._page; }
+
   @Output() pageChange = new EventEmitter<number>();
 
   @Input() text: string;
-
-  tileSources: Observable<Array<{}>> = this.manifestURLChange
-    .pipe(
-      filter((url) => !!url),
-      distinctUntilChanged(),
-      switchMap((url) => this.http.get<{ sequences: Partial<Array<{ canvases }>> }>(url)),
-      map((manifest) => manifest // get the resource fields in the manifest json structure
-        .sequences.map((seq) => seq.canvases.map((canv) => canv.images).reduce((x, y) => x.concat(y), []))
-        .reduce((x, y) => x.concat(y), []).map((res) => res.resource)
-        .map(manifestResourcetoTileSource),
-      ),
-    );
 
   viewer: Partial<OsdViewerAPI>;
   viewerId: string;
   annotationsHandle: OsdAnnotationAPI;
 
   private subscriptions: Subscription[] = [];
+
+  tileSources: Observable<OsdTileSource[]>;
 
   constructor(
     private http: HttpClient,
@@ -153,6 +133,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
+
+    this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
 
     const commonOptions = {
       visibilityRatio: 0.1,

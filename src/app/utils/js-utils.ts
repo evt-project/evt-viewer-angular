@@ -96,3 +96,7 @@ export function isBoolString(s: string) {
 export function snakeToCamelCased(str) {
     return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
+
+export function isUrl(path: string) {
+    return /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(path);
+ }
