@@ -264,18 +264,6 @@ const DynamicComponents = [
   bootstrap: [
     AppComponent,
   ],
-  entryComponents: [
-    AdditionComponent,
-    EvtInfoComponent,
-    GlobalListsComponent,
-    NamedEntitiesListComponent,
-    NamedEntityComponent,
-    NamedEntityDetailComponent,
-    NamedEntityRefComponent,
-    NamedEntityRelationComponent,
-    ProjectInfoComponent,
-    ShortcutsComponent,
-  ],
 })
 export class AppModule implements DoBootstrap {
   constructor(
