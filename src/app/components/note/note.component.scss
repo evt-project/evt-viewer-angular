@@ -36,9 +36,10 @@
         white-space: nowrap;
         vertical-align: baseline;
         position: relative;
-        top: -1px;
+        top: -6.5px;
         background: black;
-
+        display: flex;
+        align-items: flex-end;
         .arrow {
             width: 0;
             height: 0;

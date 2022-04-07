@@ -1,7 +1,7 @@
 <div class="nav-bar w-100">
-    <evt-button *ngIf="thumbnailsButton" [iconRight]="{icon: 'th'}" additionalClasses="mr-1" [active]="thumbnailsPanelOpened$ | async"
+    <evt-button *ngIf="thumbnailsButton" [iconRight]="{icon: 'th'}" additionalClasses="me-1" [active]="thumbnailsPanelOpened$ | async"
         (btnClick)="toggleThumbnailsPanel()" [title]="'thumbnails' | translate"></evt-button>
-    <evt-button *ngIf="viscollButton" [iconRight]="{icon: 'rainbow', rotate:270}" additionalClasses="mr-1" [active]="viscollPanelOpened$ | async"
+    <evt-button *ngIf="viscollButton" [iconRight]="{icon: 'rainbow', rotate:270}" additionalClasses="me-1" [active]="viscollPanelOpened$ | async"
         (btnClick)="toggleViscollPanel()" [title]="'viscoll' | translate"></evt-button>
     <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ml-2 mr-2"
         [value]="currentPageIndex$ | async" [options]="pageSliderOptions" (userChangeEnd)="evtStatusService.updatePageNumber$.next($event?.value)"></ngx-slider>

@@ -29,7 +29,7 @@ export class EntitiesSelectComponent {
   iconColor: EvtIconInfo = {
     icon: 'circle',
     iconSet: 'fas',
-    additionalClasses: 'ml-2 mr-1',
+    additionalClasses: 'ms-2 me-1',
   };
 
   public selectedTypes: EntitiesSelectItem[] = [];

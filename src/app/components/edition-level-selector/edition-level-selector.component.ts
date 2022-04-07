@@ -33,6 +33,10 @@ export class EditionLevelSelectorComponent {
 
   icon: EvtIconInfo = {
     icon: 'layer-group', // TODO: Choose better icon
-    additionalClasses: 'mr-2',
+    additionalClasses: 'me-2',
   };
+
+  stopPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }

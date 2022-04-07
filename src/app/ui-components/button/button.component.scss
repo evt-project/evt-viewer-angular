@@ -19,7 +19,7 @@
 
     @include themify($themes) {
         color: themed("toolsColor");
-        background-color: themed("toolsBackground");
+        background: themed("toolsBackground");
         border-color: themed("toolsBackground");
     }
 

@@ -22,4 +22,8 @@ export class NamedEntityOccurrenceComponent {
     this.evtStatusService.currentNamedEntityId$.next(this.entityId);
     this.evtStatusService.updatePageId$.next(this.occurrence.pageId);
   }
+
+  stopPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }

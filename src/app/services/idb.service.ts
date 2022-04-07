@@ -8,7 +8,6 @@ interface AnnotationID {
 @Injectable({
   providedIn: 'root',
 })
-
 export class IdbService extends Dexie {
   public db: Dexie.Table<AnnotationID, number>;
   constructor() {

@@ -1,6 +1,6 @@
 /* Global styles. Place where eventually import other style files. */
 @import "./assets/scss/variables";
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 @import "./assets/scss/themes";
 @import "./assets/scss/mixins";
 @import "./assets/scss/bootstrapOverrides";

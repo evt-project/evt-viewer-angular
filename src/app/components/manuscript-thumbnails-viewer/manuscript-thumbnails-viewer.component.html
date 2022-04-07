@@ -5,8 +5,8 @@
 <ng-template #fullGrid >
   <ng-container *ngFor="let page of grid; let i = index">
     <div id="page_{{i+1}}" class="page" [ngClass]="{'active': indexPage === i }">
-      <div class="d-flex row flex-row bd-highlight mb-3" *ngFor="let row of page">
-        <div class="p-2 bd-highlight item-content " *ngFor="let item of row" (click)="goToThumbPage(item)">
+      <div class="d-flex flex-row bd-highlight mb-3" *ngFor="let row of page">
+        <div class="bd-highlight item-content " *ngFor="let item of row" (click)="goToThumbPage(item)">
             <img class="evt-img-page" src="{{item.url}}" alt="page" [ngClass]="{'clicked-item': (currentItem$ | async) === item }"/>
             <p class="item-page-index"[ngClass]="{'clicked-item-par': item.active }">{{item.name}}</p>
         </div>

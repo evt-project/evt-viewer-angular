@@ -4,14 +4,14 @@
     }" *ngIf="data" [evtHtmlAttributes]="data?.attributes">
     <div class="card-header ne-header" (click)="toggleContent()">
         <evt-icon *ngIf="inList && contentOpened"
-            [iconInfo]="{ icon: 'caret-down', additionalClasses: 'icon toggler mr-2'}">
+            [iconInfo]="{ icon: 'caret-down', additionalClasses: 'icon toggler me-2'}">
         </evt-icon>
         <evt-icon *ngIf="inList && !contentOpened"
-            [iconInfo]="{icon: 'caret-right', additionalClasses: 'icon toggler mr-2'}"></evt-icon>
+            [iconInfo]="{icon: 'caret-right', additionalClasses: 'icon toggler me-2'}"></evt-icon>
         <evt-icon *ngIf="data.namedEntityType === 'person'"
-            [iconInfo]="{icon: 'user', additionalClasses: 'icon mr-1'}"></evt-icon>
+            [iconInfo]="{icon: 'user', additionalClasses: 'icon me-1'}"></evt-icon>
         <evt-icon *ngIf="data.namedEntityType === 'place'"
-            [iconInfo]="{icon: 'map-marker', additionalClasses: 'icon mr-1'}">
+            [iconInfo]="{icon: 'map-marker', additionalClasses: 'icon me-1'}">
         </evt-icon>
         {{ data.label }}
         <evt-pinner [item]="data" renderer="NamedEntity" pinType="NamedEntities"></evt-pinner>

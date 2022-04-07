@@ -103,7 +103,7 @@ export class MainMenuComponent {
     modalComp.modalId = 'project-info';
     modalComp.title = 'projectInfo';
     modalComp.bodyContentClass = 'p-0 h-100';
-    modalComp.headerIcon = { icon: 'info', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.headerIcon = { icon: 'info', iconSet: 'fas', additionalClasses: 'me-3' };
     modalComp.bodyComponent = ProjectInfoComponent;
   }
 
@@ -116,7 +116,7 @@ export class MainMenuComponent {
     modalComp.modalId = 'global-lists';
     modalComp.title = 'lists';
     modalComp.bodyContentClass = 'p-0 h-100';
-    modalComp.headerIcon = { icon: 'clipboard-list', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.headerIcon = { icon: 'clipboard-list', iconSet: 'fas', additionalClasses: 'me-3' };
     modalComp.bodyComponent = GlobalListsComponent;
   }
 
@@ -143,7 +143,7 @@ export class MainMenuComponent {
     modalComp.modalId = 'shortcuts';
     modalComp.title = 'shortcuts';
     modalComp.bodyContentClass = 'p-3';
-    modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.headerIcon = { icon: 'keyboard', iconSet: 'fas', additionalClasses: 'me-3' };
     modalComp.bodyComponent = ShortcutsComponent;
   }
 
@@ -181,7 +181,7 @@ export class MainMenuComponent {
     modalComp.modalId = 'evtInfo';
     modalComp.title = 'aboutEVT';
     modalComp.bodyContentClass = 'p-3';
-    modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'mr-3' };
+    modalComp.headerIcon = { icon: 'copyright', iconSet: 'fas', additionalClasses: 'me-3' };
     modalComp.bodyComponent = EvtInfoComponent;
   }
 
