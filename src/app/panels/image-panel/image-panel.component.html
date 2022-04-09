@@ -8,7 +8,9 @@
     <div content>
         <evt-osd
             *ngIf="viewerData"
-            [viewerData]="viewerData">
+            [viewerData]="viewerData"
+            [page]="pageNumber"
+            (pageChange)="updatePage($event)">
         </evt-osd>
         <p *ngIf="!viewerData">Found no source file</p>
     </div>
