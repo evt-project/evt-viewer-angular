@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Link between text and images
 - Support for viewer information extracted from xml
 - Tags declaration visualization
 - Namespace declaration visualization
