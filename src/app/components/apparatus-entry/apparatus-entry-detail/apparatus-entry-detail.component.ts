@@ -29,11 +29,10 @@ export class ApparatusEntryDetailComponent implements OnInit {
 
   get rdgMetadata() {
     return Object.keys(this.data.attributes).filter((key) => key !== 'id')
-      .reduce((obj, key) => {
-        obj[key] = this.data.attributes[key];
-
-        return obj;
-      },      {});
+      .reduce((obj, key) => ({
+        ...obj,
+        [key]: this.data.attributes[key],
+      }),     {});
   }
 
   constructor(
@@ -66,8 +65,6 @@ export class ApparatusEntryDetailComponent implements OnInit {
   }
 
   getNestedAppPos(appId: string): number {
-    const currentApp = this.nestedApps.find(nesApp => nesApp.id === appId);
-
-    return this.nestedApps.indexOf(currentApp);
+    return this.nestedApps.findIndex((nesApp) => nesApp.id === appId);
   }
 }
