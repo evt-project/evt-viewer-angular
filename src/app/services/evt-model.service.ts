@@ -110,6 +110,11 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  public readonly groups$ = this.witnessesData$.pipe(
+    map(({ groups }) => groups),
+    shareReplay(1),
+  );
+
   // APPARATUS ENTRIES
   public readonly appEntries$ = this.editionSource$.pipe(
     map((source) => this.apparatusParser.parseAppEntries(source)),

@@ -1,0 +1,25 @@
+<span class="app-entry-reading">
+    <!--
+        It's necessary to handle both readings with and without nested apps, because nested apps inside app-entry-detail have different behaviour,
+        so we can't use apparatus-entry-component to render them.
+    -->
+    <evt-reading *ngIf="data.nestedAppsIDs.length === 0" [data]="data.lemma"></evt-reading>
+
+    <ng-container *ngIf="data.nestedAppsIDs.length > 0">
+        <ng-container *ngTemplateOutlet="template context: { rdgHasCounter: rdgHasCounter }"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="data.lemma.content.length > 0">
+        <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
+    </ng-container>
+    <span>] </span>
+</span>
+
+<span class="app-entry-reading" *ngFor="let el of significantRdg">
+    <evt-reading *ngIf="el.content.length !== 0" [data]="el"></evt-reading>
+    <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
+    <!-- TODO: handle lacunastart and lacunaend -->
+    <ng-container *ngFor="let witID of el.witIDs">
+        <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
+    </ng-container>
+</span>

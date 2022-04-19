@@ -24,6 +24,8 @@ import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { ApparatusEntryDetailComponent } from './components/apparatus-entry/apparatus-entry-detail/apparatus-entry-detail.component';
+import { ApparatusEntryReadingsComponent } from './components/apparatus-entry/apparatus-entry-readings/apparatus-entry-readings.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
@@ -131,6 +133,8 @@ export function initializeApp(appConfig: AppConfig) {
     AdditionalComponent,
     AnnotatorDirective,
     ApparatusEntryComponent,
+    ApparatusEntryDetailComponent,
+    ApparatusEntryReadingsComponent,
     AppComponent,
     CharComponent,
     ChoiceComponent,

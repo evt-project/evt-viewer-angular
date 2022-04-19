@@ -27,9 +27,9 @@ export class ParserRegister {
         if (nels.includes(tagName)) {
             return 'evt-named-entities-list-parser';
         }
-        const crit = ['rdg', 'lem'];
+        const crit = ['app'];
         if (crit.includes(tagName)) {
-            return 'rdg';
+            return 'evt-apparatus-entry-parser';
         }
 
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {

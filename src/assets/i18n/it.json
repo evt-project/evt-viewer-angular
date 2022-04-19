@@ -161,5 +161,15 @@
     "renditionAfterDesc": "lo stile dovrebbe essere applicato immediatamente dopo il contenuto dell'elemento di destinazione",
     "occurrence": "occorrenza",
     "occurrences": "occorrenze",
-    "withId": "con l'identificativo"
+    "withId": "con l'identificativo",
+    "criticalNotes": "Note critiche",
+    "ortographicVariants": "Varianti ortografiche",
+    "info": "Info",
+    "metadataForLemma": "Metadata per il lemma",
+    "metadataFor": "Metadata per",
+    "noDataAvailable": "Nessuna informazione disponibile",
+    "moreInfoAboutApp": "Maggiori informazioni per l'entrata d'apparato",
+    "omit": "omit.",
+    "wit": "Wit:",
+    "xml": "XML"
 }

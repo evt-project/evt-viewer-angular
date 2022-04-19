@@ -50,7 +50,6 @@ export class StructureXmlParserService {
   }
 
   parseDocumentPage(doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): Page {
-
     /* If there is a next page we retrieve the elements between two page nodes
     otherweise we retrieve the nodes between the page node and the last node of the body node */
     // TODO: check if querySelectorAll can return an empty array in this case
@@ -98,21 +97,21 @@ export class StructureXmlParserService {
         const origEl = getEditionOrigNode(node, doc);
         if (origEl.nodeName === this.frontTagName || isNestedInElem(origEl, this.frontTagName)) {
           if (this.hasOriginalContent(origEl)) {
-            return Array.from(node.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
+            return Array.from(origEl.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
               .map((c) => this.genericParserService.parse(c as XMLElement));
           }
           if (this.isMarkedAsOrigContent(origEl)) {
-            return [this.genericParserService.parse(node)];
+            return [this.genericParserService.parse(origEl)];
           }
 
           return [] as Array<ParseResult<GenericElement>>;
         }
 
         if (origEl.tagName === 'text' && origEl.querySelectorAll && origEl.querySelectorAll(this.frontTagName).length > 0) {
-          return this.parsePageContent(doc, Array.from(node.children) as HTMLElement[]);
+          return this.parsePageContent(doc, Array.from(origEl.children) as HTMLElement[]);
         }
 
-        return [this.genericParserService.parse(node)];
+        return [this.genericParserService.parse(origEl)];
       })
       .reduce((x, y) => x.concat(y), []);
   }

@@ -1,0 +1,96 @@
+@import "../../../../assets/scss/themes";
+
+.app-detail-container {
+    top: -0.063rem;
+    z-index: 0;
+    border-radius: 0;
+    cursor: auto;
+    @include themify($themes) {
+        background-color: themed("appEntryBoxBackground");
+    }
+}
+
+.app-detail-content,
+.app-detail-tabs {
+    background-color: transparent;
+    font-size: 1.063rem;
+}
+
+.app-detail-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.313rem;
+}
+
+.app-detail-readings {
+    display: block;
+}
+
+.app-detail-nested-readings {
+    display: block;
+    margin-left: 0.938rem;
+    font-size: 1rem;
+}
+
+.app-detail-tabs {
+    font-size: 1rem;
+    margin: 0 0.313rem 0 0.313rem;
+    padding: 0.313rem 0 0 0;
+    .nav-link {
+        background-color: transparent;
+        color: #000000;
+        line-height: 1;
+        padding: 0.25rem 0.375rem;
+        cursor: pointer;
+        border-radius: 0;
+        &.active {
+            color: #000000;
+        }
+    }
+    .nav-pills,
+    .tab-content {
+        margin-right: -0.313rem;
+        margin-left: -0.313rem;
+    }
+    .nav-link.active,
+    .tab-content {
+        @include themify($themes) {
+            background-color: themed("appEntryBoxActiveTabBg");
+        }
+    }
+    .tab-content {
+        padding: 0.625rem 0.813rem;
+        max-height: 12.5rem;
+        overflow: auto;
+        .info-lemma-wrapper {
+            @include themify($themes) {
+                border-bottom: 1px solid themed("baseBorder");
+            }
+            padding-bottom: 0.438rem;
+            margin-bottom: 0.625rem;
+        }
+        .info-rdg {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.063rem;
+        }
+        .info-label {
+            font-size: 0.813rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .more-info-label {
+            display: block;
+            font-size: 0.813rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        pre {
+            white-space: pre-wrap;
+            font-size: 75%;
+            margin-bottom: 0;
+            margin-top: -1rem;
+        }
+    }
+}

@@ -52,8 +52,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
         return !Array.from(attributes).some(({ name, value }) => notSignificantReading.includes(`${name}=${value}`));
     }
 }
-
-@xmlParser('app', AppParser)
+@xmlParser('evt-apparatus-entry-parser', AppParser)
 export class AppParser extends EmptyParser implements Parser<XMLElement> {
     private noteTagName = 'note';
     private appEntryTagName = 'app';
@@ -75,7 +74,14 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             notes: this.parseAppNotes(appEntry),
             originalEncoding: getOuterHTML(appEntry),
             class: appEntry.tagName.toLowerCase(),
+            nestedAppsIDs: this.getNestedAppsIDs(appEntry),
         };
+    }
+
+    private getNestedAppsIDs(app: XMLElement): string[] {
+        const nesApps = app.querySelectorAll('app');
+
+        return Array.from(nesApps).map((a: XMLElement) => getID(a));
     }
 
     private parseAppNotes(appEntry: XMLElement): Note[] {

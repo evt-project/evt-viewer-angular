@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 9
 
 ### Added
+- Apparatus entry inline visualization
 - Support for viewer information extracted from xml
 - Tags declaration visualization
 - Namespace declaration visualization

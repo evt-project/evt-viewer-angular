@@ -1,7 +1,6 @@
 import { Type } from '@angular/core';
 import { EditionLevelType } from '../app.config';
 import { ParseResult } from '../services/xml-parsers/parser-models';
-import { Map } from '../utils/js-utils';
 
 export interface EditorialConvention {
     element: string;
@@ -142,8 +141,8 @@ export class NamedEntityRef extends GenericElement {
 }
 
 export interface Witnesses {
-    witnesses: Map<Witness>;
-    groups: Map<WitnessGroup>;
+    witnesses: Witness[];
+    groups: WitnessGroup[];
 }
 
 export interface Witness {
@@ -161,12 +160,14 @@ export interface WitnessGroup {
     witnesses: string[];
     groupId: string;
 }
+
 export class ApparatusEntry extends GenericElement {
     id: string;
     lemma: Reading;
     readings: Reading[];
     notes: Note[];
     originalEncoding: string;
+    nestedAppsIDs: string[];
 }
 
 export class Reading extends GenericElement {

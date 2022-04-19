@@ -162,5 +162,15 @@
     "renditionAfterDesc": "styling should be applied immediately after the content of the target element",
     "occurrence": "occurrence",
     "occurrences": "occurrences",
-    "withId": "with identifier"
+    "withId": "with identifier",
+    "criticalNotes": "Critical Notes",
+    "ortographicVariants": "Orthographic Variants",
+    "info": "Info",
+    "metadataForLemma": "Metadata for lemma",
+    "metadataFor": "Metadata for",
+    "noDataAvailable": "No data available",
+    "moreInfoAboutApp": "More info about the apparatus entry",
+    "omit": "omit.",
+    "wit": "Wit:",
+    "xml": "XML"
 }
