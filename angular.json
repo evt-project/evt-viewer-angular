@@ -187,12 +187,22 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "evt-viewer-angular",
   "cli": {
-    "analytics": "c373e515-eb44-4b1b-85c7-56dd668954af"
+    "analytics": "c373e515-eb44-4b1b-85c7-56dd668954af",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }
