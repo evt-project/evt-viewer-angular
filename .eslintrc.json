@@ -35,6 +35,32 @@
             "prefix": "evt",
             "style": "kebab-case"
           }
+        ],
+        "@angular-eslint/directive-class-suffix": [
+          "error",
+          {
+              "suffixes": [
+                  "Directive"
+              ]
+          }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+              "suffixes": [
+                  "Component"
+              ]
+          }
+        ],
+        "curly": [
+          "error",
+          "all"
+        ],
+        "@typescript-eslint/array-type": [
+          "error",
+          {
+              "default": "array-simple"
+          }
         ]
       }
     },
