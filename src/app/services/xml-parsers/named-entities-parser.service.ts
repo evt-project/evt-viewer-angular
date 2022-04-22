@@ -32,16 +32,16 @@ export class NamedEntitiesParserService {
 
   public getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
     return {
-      lists: lists.filter(list => type.indexOf(list.namedEntityType) >= 0),
-      entities: entities.filter(entity => type.indexOf(entity.namedEntityType) >= 0),
+      lists: lists.filter((list) => type.indexOf(list.namedEntityType) >= 0),
+      entities: entities.filter((entity) => type.indexOf(entity.namedEntityType) >= 0),
     };
   }
 
   public parseNamedEntitiesOccurrences(pages: Page[]) {
-    return pages.map(p => this.getNamedEntitiesOccurrencesInPage(p))
+    return pages.map((p) => this.getNamedEntitiesOccurrencesInPage(p))
       .reduce(
         (x, y) => {
-          Object.keys(y).forEach(k => {
+          Object.keys(y).forEach((k) => {
             if (x[k]) {
               x[k] = x[k].concat([y[k]]);
             } else {
@@ -56,22 +56,22 @@ export class NamedEntitiesParserService {
 
   public getNamedEntitiesOccurrencesInPage(p: Page): Array<Map<NamedEntityOccurrence>> {
     return p.originalContent
-      .filter(e => e.nodeType === 1)
-      .map(e => {
+      .filter((e) => e.nodeType === 1)
+      .map((e) => {
         const occurrences = [];
         if (this.tagNamesMap.occurrences.indexOf(e.tagName) >= 0 && e.getAttribute('ref')) { // Handle first level page contents
           occurrences.push(this.parseNamedEntityOccurrence(e));
         }
 
         return occurrences.concat(Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
-          .map(el => this.parseNamedEntityOccurrence(el)));
+          .map((el) => this.parseNamedEntityOccurrence(el)));
       })
-      .filter(e => e.length > 0)
+      .filter((e) => e.length > 0)
       .reduce((x, y) => x.concat(y), [])
       .reduce(
         (x, y) => {
           const refsByDoc: NamedEntityOccurrenceRef[] = x[y.ref] ? x[y.ref].refsByDoc || [] : [];
-          const docRefs = refsByDoc.find(r => r.docId === y.docId);
+          const docRefs = refsByDoc.find((r) => r.docId === y.docId);
           if (docRefs) {
             docRefs.refs.push(y.el);
           } else {

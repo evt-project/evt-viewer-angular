@@ -21,8 +21,8 @@ export class VerseComponent {
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(
-      map(lines => lines.length > 0),
-      map(hasLines => {
+      map((lines) => lines.length > 0),
+      map((hasLines) => {
         // In diplomatic and interpretative edition, if the text doesn't have any line, verses are shown as block items,
         // unless current text flow is prose
         // In critical edition verses are always shown as block items, unless current text flow is prose

@@ -15,13 +15,13 @@ export class FacsimileParserService {
     parseSurfaces(xml: XMLElement): Surface[] {
         if (!xml) { return []; }
 
-        return Array.from(xml.querySelectorAll<XMLElement>('surface')).map(s => this.surfaceParser.parse(s));
+        return Array.from(xml.querySelectorAll<XMLElement>('surface')).map((s) => this.surfaceParser.parse(s));
     }
 
     parseZones(xml: XMLElement): Zone[] {
         if (!xml) { return []; }
 
-        return Array.from(xml.querySelectorAll<XMLElement>('zone')).map(z => this.zoneParser.parse(z));
+        return Array.from(xml.querySelectorAll<XMLElement>('zone')).map((z) => this.zoneParser.parse(z));
     }
 
 }

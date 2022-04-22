@@ -21,7 +21,7 @@ export class RenditionComponent {
       const descKey = snakeToCamelCased(`rendition-${this.data.scope}-desc`);
 
       return this.translateService.get(descKey).pipe(
-        map(translation => translation === descKey ? '' : `(${translation})`),
+        map((translation) => translation === descKey ? '' : `(${translation})`),
       );
     }
 

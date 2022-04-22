@@ -62,9 +62,9 @@ export class TextTextComponent implements OnInit, OnDestroy {
       if (!edLvl1 || !edLvl2) { return; }
       if (edLvl1 === edLvl2) {
         if (changedPanel === 1) {
-          edLvl2 = this.evtStatusService.availableEditionLevels.filter(e => e.id !== edLvl1.id)[0];
+          edLvl2 = this.evtStatusService.availableEditionLevels.filter((e) => e.id !== edLvl1.id)[0];
         } else if (changedPanel === 2) {
-          edLvl1 = this.evtStatusService.availableEditionLevels.filter(e => e.id !== edLvl2.id)[0];
+          edLvl1 = this.evtStatusService.availableEditionLevels.filter((e) => e.id !== edLvl2.id)[0];
         }
       }
       this.evtStatusService.updateEditionLevels$.next([edLvl1?.id, edLvl2?.id]);
@@ -85,6 +85,6 @@ export class TextTextComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }

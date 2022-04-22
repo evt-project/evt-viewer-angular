@@ -19,14 +19,14 @@ export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highli
 export class NamedEntityRefComponent {
   @Input() data: NamedEntityRef;
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
-    map(ne => ne.all.entities.length > 0),
+    map((ne) => ne.all.entities.length > 0),
   );
   noDetails$ = this.availableEntities$.pipe(
     map(info => !info),
   );
 
   entity$ = this.evtModelService.namedEntities$.pipe(
-    map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
+    map((ne) => ne.all.entities.find((e) => e.id === this.data.entityId) || 'notFound'),
   );
 
   toggleOpened$ = new Subject<boolean>();

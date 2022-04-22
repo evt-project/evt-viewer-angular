@@ -23,8 +23,8 @@ export class EntitiesSelectComponent {
   @Output() selectionChange: EventEmitter<EntitiesSelectItem[]> = new EventEmitter();
 
   entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.edition.entitiesSelectItems || [])
-    .filter(g => g.enable)
-    .reduce((x, y) => [...x, ...y.items.filter(i => i.enable).map(i => ({ ...i, group: y.label }))], []);
+    .filter((g) => g.enable)
+    .reduce((x, y) => [...x, ...y.items.filter(i => i.enable).map((i) => ({ ...i, group: y.label }))], []);
 
   iconColor: EvtIconInfo = {
     icon: 'circle',

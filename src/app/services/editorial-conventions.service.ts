@@ -131,13 +131,13 @@ export class EditorialConventionsService {
     const defaultKeys = this.defaultLayouts[defaultsKey];
     let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
 
-    const externalLayouts = this._getExternalConfigs().find(c => {
+    const externalLayouts = this._getExternalConfigs().find((c) => {
       return c.element === name &&
-        (!attributes || Object.keys(attributes).concat(Object.keys(c.attributes)).every(k => attributes[k] === c.attributes[k]));
+        (!attributes || Object.keys(attributes).concat(Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k]));
     })?.layouts ?? undefined;
 
     if (externalLayouts) {
-      Object.keys(externalLayouts).forEach(editionLevel => {
+      Object.keys(externalLayouts).forEach((editionLevel) => {
         layouts = {
           ...defaultKeys || {},
           [editionLevel]: {

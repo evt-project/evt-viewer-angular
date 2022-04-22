@@ -12,20 +12,20 @@ export class PinboardPanelComponent {
 
   public selectedPinTypes: string[] = [];
   public pinboardTypes$ = this.pinboard.getItems().pipe(
-    map(items => {
+    map((items) => {
       const types = [];
-      items.forEach(item => {
+      items.forEach((item) => {
         const pinType = item.pinType;
-        if (pinType && !types.find(i => i.id === item.pinType)) {
+        if (pinType && !types.find((i) => i.id === item.pinType)) {
           types.push({ id: pinType, label: pinType });
         }
       });
 
       return types;
     }),
-    tap(types => {
+    tap((types) => {
       if (this.selectedPinTypes && this.selectedPinTypes.length > 0) {
-        this.selectedPinTypes = [...this.selectedPinTypes.filter(type => types.find(i => i.id === type))];
+        this.selectedPinTypes = [...this.selectedPinTypes.filter((type) => types.find((i) => i.id === type))];
       }
     }));
 

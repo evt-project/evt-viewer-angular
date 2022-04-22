@@ -21,7 +21,7 @@ export function arrayToMap<T, K extends keyof T>(arr: T[], key: K): Map<T> {
 
 export function uniqueObjCharKeys<T>(m: Map<T>) {
     const keys = [];
-    Object.keys(m).forEach(key => {
+    Object.keys(m).forEach((key) => {
         if (keys.indexOf(key[0].toLowerCase()) < 0) {
             keys.push(key[0].toLowerCase());
         }
@@ -32,7 +32,7 @@ export function uniqueObjCharKeys<T>(m: Map<T>) {
 }
 export function uniqueArrayCharKeys(a: string[]) {
     const keys = [];
-    a.forEach(key => {
+    a.forEach((key) => {
         if (keys.indexOf(key[0].toLowerCase()) < 0) {
             keys.push(key[0].toLowerCase());
         }
@@ -52,7 +52,7 @@ export function uniqueArrayCharKeys(a: string[]) {
 export function mergeDeep<T>(...objects: T[]) { // TODO: never used, remove?
     const isObject = (obj: T) => obj && typeof obj === 'object';
     const cb = (prev: T, obj: T) => {
-        Object.keys(obj).forEach(key => {
+        Object.keys(obj).forEach((key) => {
             const pVal = prev[key];
             const oVal = obj[key];
 

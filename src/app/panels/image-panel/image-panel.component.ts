@@ -37,7 +37,7 @@ export class ImagePanelComponent {
   currentMsDescId$ = new BehaviorSubject(undefined);
   currentMsDesc$ = combineLatest([this.evtModelService.msDesc$, this.currentMsDescId$]).pipe(
     filter(([msDesc, currentId]) => !!msDesc && !!currentId),
-    map(([msDesc, currentId]) => msDesc.find(m => m.id === currentId)),
+    map(([msDesc, currentId]) => msDesc.find((m) => m.id === currentId)),
   );
 
   msDescOpen = false;

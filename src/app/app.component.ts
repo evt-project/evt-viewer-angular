@@ -53,7 +53,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   @HostListener('window:keyup', ['$event'])

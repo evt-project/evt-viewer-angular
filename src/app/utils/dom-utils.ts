@@ -56,7 +56,7 @@ export function isNodeNestedInElem(
         return false;
       }
       let matchingAttr = 0;
-      attributes.forEach(attr => {
+      attributes.forEach((attr) => {
         if (element.parentNode.attributes[attr.key] &&
           element.parentNode.attributes[attr.key].value === attr.value) {
           matchingAttr++;

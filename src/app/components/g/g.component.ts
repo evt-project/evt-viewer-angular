@@ -19,12 +19,12 @@ export class GComponent {
   @Input() data: G;
 
   specialChars$ = this.evtModelService.specialChars$.pipe(
-    map((specialChars) => specialChars.find(char => char.id === this.data.charId)),
+    map((specialChars) => specialChars.find((char) => char.id === this.data.charId)),
   );
 
   diplomaticMapping$ = this.specialChars$.pipe(
     map((specialChar) => {
-      const mapping = specialChar?.mappings.find(m => m.type === 'diplomatic');
+      const mapping = specialChar?.mappings.find((m) => m.type === 'diplomatic');
 
       return mapping?.content ?? [];
     }),
@@ -32,7 +32,7 @@ export class GComponent {
 
   normalizedMapping$ = this.specialChars$.pipe(
     map((specialChar) => {
-      const mapping = specialChar?.mappings.find(m => m.type === 'normalized');
+      const mapping = specialChar?.mappings.find((m) => m.type === 'normalized');
 
       return mapping?.content ?? [];
     }),

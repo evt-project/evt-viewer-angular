@@ -67,7 +67,7 @@ export class MainMenuComponent {
         },
         label: 'openLists',
         enabled$: this.evtModelService.namedEntities$.pipe(
-          map(ne => this.editionConfig.showLists && ne.all.entities.length > 0),
+          map((ne) => this.editionConfig.showLists && ne.all.entities.length > 0),
         ),
         callback: () => this.openGlobalDialogLists(),
       },
@@ -129,7 +129,7 @@ export class MainMenuComponent {
     // TODO downloadXML
     this.itemClicked.emit('downloadXML');
     if (this.fileConfig && this.fileConfig.editionUrls) {
-      this.fileConfig.editionUrls.forEach(url => window.open(url, '_blank'));
+      this.fileConfig.editionUrls.forEach((url) => window.open(url, '_blank'));
     } else {
       alert('Loading data... \nPlease try again later.');
     }

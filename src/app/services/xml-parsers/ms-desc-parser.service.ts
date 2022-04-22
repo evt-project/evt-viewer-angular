@@ -12,7 +12,7 @@ export class MsDescParserService {
 
   parseMsDesc(xml: XMLElement): MsDesc[] {
 
-    return Array.from(xml.querySelectorAll<XMLElement>('msDesc')).map(s => this.msDescParser.parse(s));
+    return Array.from(xml.querySelectorAll<XMLElement>('msDesc')).map((s) => this.msDescParser.parse(s));
   }
 
 }

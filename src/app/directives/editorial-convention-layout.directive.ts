@@ -61,7 +61,7 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
         }
 
         if (editionLayout.style) {
-          Object.keys(editionLayout.style).forEach(key => this.renderer.setStyle(this.el.nativeElement, key, editionLayout.style[key]));
+          Object.keys(editionLayout.style).forEach((key) => this.renderer.setStyle(this.el.nativeElement, key, editionLayout.style[key]));
           this._oldStyle = editionLayout.style;
         }
       }
@@ -76,7 +76,7 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
     if (postEl) { postEl.remove(); }
 
     if (this._oldStyle) {
-      Object.keys(this._oldStyle).forEach(key => this.renderer.setStyle(this.el.nativeElement, key, ''));
+      Object.keys(this._oldStyle).forEach((key) => this.renderer.setStyle(this.el.nativeElement, key, ''));
       this._oldStyle = undefined;
     }
   }

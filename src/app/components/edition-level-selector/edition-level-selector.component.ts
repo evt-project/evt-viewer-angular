@@ -27,8 +27,8 @@ export class EditionLevelSelectorComponent {
     this.selectedEditionLevel$.pipe(distinctUntilChanged()),
   ]).pipe(
     filter(([edLevels, edLevelID]) => !!edLevelID && !!edLevels && edLevels.length > 0),
-    map(([edLevels, edLevelID]) => !!edLevelID ? edLevels.find(p => p.id === edLevelID) || edLevels[0] : edLevels[0]),
-    filter(e => !!e),
+    map(([edLevels, edLevelID]) => !!edLevelID ? edLevels.find((p) => p.id === edLevelID) || edLevels[0] : edLevels[0]),
+    filter((e) => !!e),
   );
 
   icon: EvtIconInfo = {

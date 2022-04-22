@@ -61,6 +61,10 @@
           {
               "default": "array-simple"
           }
+        ],
+        "arrow-parens": [
+          "error",
+          "always"
         ]
       }
     },

@@ -16,11 +16,11 @@ export class NamedEntityComponent implements OnInit {
   @Input() data: NamedEntity;
   @Input() inList: boolean;
   occurrences$ = this.evtModelService.entitiesOccurrences$.pipe(
-    map(occ => occ[this.data.id] || []),
+    map((occ) => occ[this.data.id] || []),
     shareReplay(1),
   );
   relations$ = this.evtModelService.relations$.pipe(
-    map(el => el.filter(rel => rel.activeParts.indexOf(this.data.id) >= 0 ||
+    map((el) => el.filter((rel) => rel.activeParts.indexOf(this.data.id) >= 0 ||
       rel.passiveParts.indexOf(this.data.id) >= 0 || rel.mutualParts.indexOf(this.data.id) >= 0)));
 
   @ViewChild('entityDetails') entityDetails: NgbNav;

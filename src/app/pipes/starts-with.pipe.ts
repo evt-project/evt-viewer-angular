@@ -9,6 +9,6 @@ export class StartsWithPipe implements PipeTransform {
         if (!items) { return []; }
         if (!value || value.length === 0) { return items; }
 
-        return items.filter(it => it[field] && it[field].toLowerCase()[0] === value);
+        return items.filter((it) => it[field] && it[field].toLowerCase()[0] === value);
     }
 }

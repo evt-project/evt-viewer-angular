@@ -38,7 +38,7 @@ export class RespStmtParser extends GenericElemParser implements Parser<XMLEleme
 
   parse(xml: XMLElement): RespStmt {
     const people = Array.from(xml.querySelectorAll<XMLElement>(':scope > name, :scope > orgName, :scope > persName'))
-      .map(p => {
+      .map((p) => {
         if (['orgName', 'persName'].includes(p.tagName)) {
           return this.namedEntityRefParser.parse(p) as NamedEntityRef;
         }
@@ -84,7 +84,7 @@ export class EditionStmtParser extends GenericParser implements Parser<XMLElemen
       type: EditionStmt,
       edition: queryAndParseElements<GenericElement>(xml, 'edition'),
       respStmt: queryAndParseElements<RespStmt>(xml, 'respStmt'),
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
     };
   }
 }
@@ -95,7 +95,7 @@ export class PublicationStmtParser extends GenericParser implements Parser<XMLEl
     return {
       ...super.parse(xml),
       type: PublicationStmt,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       publisher: queryAndParseElements<GenericElement>(xml, 'publisher'),
       distributor: queryAndParseElements<GenericElement>(xml, 'distributor'),
       authority: queryAndParseElements<GenericElement>(xml, 'authority'),
@@ -131,7 +131,7 @@ export class NotesStmtParser extends GenericParser implements Parser<XMLElement>
     return {
       ...super.parse(xml),
       type: NotesStmt,
-      notes: queryAndParseElements<Note>(xml, 'note').map(el => ({
+      notes: queryAndParseElements<Note>(xml, 'note').map((el) => ({
         ...el,
         noteLayout: 'plain-text',
       })),
@@ -146,7 +146,7 @@ export class SourceDescParser extends GenericParser implements Parser<XMLElement
     return {
       ...super.parse(xml),
       type: SourceDesc,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       msDescs: queryAndParseElements<MsDesc>(xml, 'msDesc'),
       bibl: queryAndParseElements<GenericElement>(xml, 'bibl'),
       biblFull: queryAndParseElements<GenericElement>(xml, 'biblFull'),
@@ -183,7 +183,7 @@ export class FileDescParser extends GenericElemParser implements Parser<XMLEleme
     xml = xml.cloneNode(true) as XMLElement;
     Array.from(xml.querySelectorAll<XMLElement>(this.excludeFromParsing.toString()))
       .filter((list) => !isNestedInElem(list, list.tagName))
-      .forEach(el => el.remove());
+      .forEach((el) => el.remove());
 
     return {
       ...super.parse(xml),
@@ -323,7 +323,7 @@ export class EditorialDeclParser extends GenericParser implements Parser<XMLElem
     return {
       ...super.parse(xml),
       type: EditorialDecl,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       correction: queryAndParseElements<Correction>(xml, 'correction'),
       hyphenation: queryAndParseElements<Hyphenation>(xml, 'hyphenation'),
       interpretation: queryAndParseElements<Interpretation>(xml, 'interpretation'),
@@ -435,7 +435,7 @@ export class RefsDeclParser extends GenericElemParser implements Parser<XMLEleme
     return {
       ...super.parse(xml),
       type: RefsDecl,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       cRefPattern: queryAndParseElements<CRefPattern>(xml, 'cRefPattern'),
       refState: queryAndParseElements<RefState>(xml, 'refState'),
     };
@@ -448,7 +448,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
     return {
       ...super.parse(xml),
       type: EncodingDesc,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       projectDesc: queryAndParseElements<ProjectDesc>(xml, 'projectDesc'),
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl'),
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl'),
@@ -767,7 +767,7 @@ export class ChangeParser extends GenericParser implements Parser<XMLElement> {
       when: xml.getAttribute('when'),
       notBefore: xml.getAttribute('notBefore'),
       notAfter: xml.getAttribute('notAfter'),
-      targets: getDefaultAttr(xml.getAttribute('target')).split(' ').map(t => t.replace('#', '')),
+      targets: getDefaultAttr(xml.getAttribute('target')).split(' ').map((t) => t.replace('#', '')),
     };
   }
 }
@@ -796,7 +796,7 @@ export class ParticDescParser extends GenericElemParser implements Parser<XMLEle
     return {
       ...super.parse(xml),
       type: ParticDesc,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       participants: queryAndParseElements<NamedEntitiesList>(xml, 'listPerson').concat(queryAndParseElements<NamedEntitiesList>(xml, 'listOrg')),
     };
   }
@@ -829,7 +829,7 @@ export class SettingDescParser extends GenericElemParser implements Parser<XMLEl
     return {
       ...super.parse(xml),
       type: SettingDesc,
-      structuredData: Array.from(xml.children).filter(el => el.tagName === 'p').length !== xml.children.length,
+      structuredData: Array.from(xml.children).filter((el) => el.tagName === 'p').length !== xml.children.length,
       settings: queryAndParseElements<Setting>(xml, 'setting'),
       places: queryAndParseElements<NamedEntitiesList>(xml, 'listPlace'),
     };
@@ -843,7 +843,7 @@ export class ListChangeParser extends GenericParser implements Parser<XMLElement
       ...super.parse(xml),
       type: ListChange,
       content: complexElements(xml.childNodes, true).filter((child: XMLElement) => child.tagName !== 'desc')
-        .map(child => parseElement<ListChange | Change>(child as XMLElement)),
+        .map((child) => parseElement<ListChange | Change>(child as XMLElement)),
       description: queryAndParseElement<Description>(xml, 'desc'),
       id: getID(xml),
       ordered: isBoolString(xml.getAttribute('ordered')),
@@ -878,7 +878,7 @@ export class RevisionDescParser extends GenericParser implements Parser<XMLEleme
     return {
       ...super.parse(xml),
       type: RevisionDesc,
-      content: complexElements(xml.childNodes, true).map(child => parseElement<ListChange | Change>(child as XMLElement)),
+      content: complexElements(xml.childNodes, true).map((child) => parseElement<ListChange | Change>(child as XMLElement)),
       status: xml.getAttribute('status') as Status,
     };
   }

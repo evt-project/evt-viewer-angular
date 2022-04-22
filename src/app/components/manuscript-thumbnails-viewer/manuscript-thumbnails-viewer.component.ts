@@ -21,7 +21,7 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
   public grid: GridItem[][][] = [];
 
   public currentItem$ = this.evtStatusService.currentPage$.pipe(
-    map(p => this.items.find(i => i.id === p.id)),
+    map((p) => this.items.find((i) => i.id === p.id)),
   );
 
   constructor(
@@ -34,7 +34,7 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (Object.keys(changes).some(k => changes[k].currentValue !== changes[k].previousValue)) {
+    if (Object.keys(changes).some((k) => changes[k].currentValue !== changes[k].previousValue)) {
       this._setup();
     }
   }
@@ -63,7 +63,7 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
   }
 
   goToThumbPage(item) {
-    this.evtStatusService.updatePage$.next(this.pages.find(p => p.id === item.id));
+    this.evtStatusService.updatePage$.next(this.pages.find((p) => p.id === item.id));
     this.clickedItem.emit(item);
   }
 }

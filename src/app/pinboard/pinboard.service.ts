@@ -39,10 +39,10 @@ export class PinboardService {
   // tslint:disable-next-line: no-any
   getItems(types?: string[]): Observable<any[]> { // TODO get rid of any
     return this.items$.pipe(
-      map(items => {
+      map((items) => {
         let itemsArray = Array.from(Object.keys(items), (key) => items[key]);
         if (types && types.length > 0) {
-          itemsArray = itemsArray.filter(item => item.pinType && types.indexOf(item.pinType) >= 0);
+          itemsArray = itemsArray.filter((item) => item.pinType && types.indexOf(item.pinType) >= 0);
         }
 
         return itemsArray;

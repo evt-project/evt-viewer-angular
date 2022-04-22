@@ -22,7 +22,7 @@ export class EditionDataService {
     const editionUrl = this.editionUrls[0];
 
     return this.http.get(editionUrl, { responseType: 'text' }).pipe(
-      map(source => parseXml(source)),
+      map((source) => parseXml(source)),
       mergeMap((editionData) => this.loadXIinclude(editionData, editionUrl.substring(0, editionUrl.lastIndexOf('/') + 1))),
       publishReplay(1),
       refCount(),
@@ -32,7 +32,7 @@ export class EditionDataService {
 
   loadXIinclude(doc: HTMLElement, baseUrlPath: string) {
     const filesToInclude = Array.from(doc.getElementsByTagName('xi:include'));
-    const xiIncludeLoadsSubs = filesToInclude.map(element =>
+    const xiIncludeLoadsSubs = filesToInclude.map((element) =>
       this.http.get(baseUrlPath + element.getAttribute('href'), { responseType: 'text' })
         .pipe(
           tap((fileData) => {
@@ -47,7 +47,7 @@ export class EditionDataService {
             // element.parentNode.replaceChild(includedTextElem, element);
             element.parentNode.appendChild(includedTextElem);
           }),
-          catchError(_ => {
+          catchError((_) => {
             Array.from(element.getElementsByTagName('xi:fallback')).map((el) => {
               const divEl = document.createElement('div');
               divEl.classList.add('xiinclude-fallback');

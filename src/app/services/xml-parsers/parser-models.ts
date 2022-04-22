@@ -14,13 +14,13 @@ export function createParser<U, T extends Parser<U>>(c: new (raw: ParseFn) => T,
 export function getID(xml: XMLElement, prefix: string = '') { return xml.getAttribute('xml:id') || prefix + xpath(xml); }
 export function getClass(xml: XMLElement) { return xml.tagName ? xml.tagName.toLowerCase() : ''; }
 export function parseChildren(xml: XMLElement, parseFn: ParseFn, excludeEmptyText?: boolean) {
-    return complexElements(xml.childNodes, excludeEmptyText).map(child => parseFn(child as XMLElement));
+    return complexElements(xml.childNodes, excludeEmptyText).map((child) => parseFn(child as XMLElement));
 }
 export function getDefaultN(n: string) { return n || ''; }
 export function getDefaultAttr(attr: string) { return attr || ''; }
 
 export function unhandledElement(xml: XMLElement, name: string, parseFn: ParseFn) {
-    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(e => parseChildren(e, parseFn));
+    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map((e) => parseChildren(e, parseFn));
 }
 
 export function complexElements(nodes: NodeListOf<ChildNode>, excludeEmptyText?: boolean): ChildNode[] {
