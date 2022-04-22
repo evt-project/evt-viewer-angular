@@ -32,9 +32,7 @@ export class ApparatusEntryReadingsComponent {
 
   getWits$(witID: string): Observable<string[]> {
     return this.groups$.pipe(
-      map((groups) => {
-        return groups.filter((g) => g.id === witID).map((g) => g.witnesses).reduce((x, y) => ([ ...x, ...y ]), []);
-      }),
+      map((groups) => groups.filter((g) => g.id === witID).map((g) => g.witnesses).reduce((x, y) => ([ ...x, ...y ]), [])),
       map((groupWits) => groupWits.length > 0 ? groupWits : [witID]),
     );
   }

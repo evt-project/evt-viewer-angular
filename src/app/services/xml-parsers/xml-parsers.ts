@@ -42,11 +42,9 @@ import {
 // tslint:disable-next-line: no-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
     // tslint:disable-next-line: no-any
-    return (_: any) => {
-        return class extends _ {
+    return (_: any) => class extends _ {
             declarations = declarations;
         };
-    };
 }
 
 @Injectable({

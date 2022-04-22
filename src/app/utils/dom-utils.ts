@@ -91,9 +91,7 @@ export function xpath(el: any): string {
     if (!el || el.nodeType !== 1) { return ''; }
     let sames = [];
     if (el.parentNode) {
-      sames = [].filter.call(el.parentNode.children, (x) => {
-        return x.tagName === el.tagName;
-      });
+      sames = [].filter.call(el.parentNode.children, (x) => x.tagName === el.tagName);
     }
     let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : 1;
     countIndex = `[${countIndex}]`;
