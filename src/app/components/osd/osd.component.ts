@@ -66,18 +66,6 @@ To:
 }
 */
 
-function manifestResourcetoTileSource(manifestResource) {
-
-  return {
-    '@context': manifestResource.service['@context'],
-    '@id': manifestResource.service['@id'],
-    profile: [manifestResource.service['@profile']],
-    protocol: 'http://iiif.io/api/image',
-    height: manifestResource.height,
-    width: manifestResource.width,
-  };
-}
-
 @Component({
   selector: 'evt-osd',
   templateUrl: './osd.component.html',
