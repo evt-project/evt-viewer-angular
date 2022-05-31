@@ -1,8 +1,8 @@
 <gridster [options]="layoutOptions">
     <gridster-item [item]="imagePanel1Item">
-        <evt-image-panel></evt-image-panel>
+        <evt-image-panel [viewerData]="imageViewer$ | async"></evt-image-panel>
     </gridster-item>
     <gridster-item [item]="imagePanel2Item">
-        <evt-image-panel></evt-image-panel>
+        <evt-image-panel [viewerData]="imageViewer$ | async"></evt-image-panel>
     </gridster-item>
 </gridster>
