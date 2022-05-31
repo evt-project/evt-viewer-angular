@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 
@@ -8,7 +8,7 @@ import { EVTModelService } from '../../services/evt-model.service';
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent implements OnInit{
+export class ImagePanelComponent {
   @Input() viewerData: ViewerDataType;
 
   get imageIndex() { return this._imageIndex; }
@@ -39,8 +39,9 @@ export class ImagePanelComponent implements OnInit{
     this.cdref.detectChanges();
   }
 
-  ngOnInit() {
-    if (this.viewerData.type === 'manifest'){
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnChanges() {
+    if (this.viewerData?.type === 'manifest'){
       this.manifest = this.viewerData.value?.manifestURL;
       // tslint:disable-next-line: no-any
       this.http.get(`${this.manifest}`).subscribe((item: any) => {
@@ -49,6 +50,9 @@ export class ImagePanelComponent implements OnInit{
         });
         this.currentImg = this.images[0].label;
       });
+    }
+    else {
+      this.currentImg = 'Error loading';
     }
   }
 
