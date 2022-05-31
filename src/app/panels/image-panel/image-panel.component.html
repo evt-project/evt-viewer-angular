@@ -17,9 +17,9 @@
     <div content>
         <evt-osd
             *ngIf="viewerData"
-            [viewerData]="viewerData">
+            [viewerData]="viewerData"
             [page]="imageIndex"
-            (pageChange)="eventPageImg($event)"
+            (pageChange)="eventPageImg($event)">
         </evt-osd>
         <p *ngIf="!viewerData">Found no source file</p>
     </div>
