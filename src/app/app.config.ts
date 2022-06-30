@@ -94,6 +94,8 @@ export interface EditionConfig {
     proseVersesToggler: boolean;
     defaultTextFlow: TextFlow;
     verseNumberPrinter: number;
+    readingColorLight: string;
+    readingColorDark: string;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';
