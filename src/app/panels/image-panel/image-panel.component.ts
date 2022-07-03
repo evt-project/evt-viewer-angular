@@ -29,13 +29,20 @@ export class ImagePanelComponent {
   // tslint:disable-next-line: variable-name
   private _imageIndex: number;
   public manifest;
+  public imagePath;
+  public filename;
 
   toggleImg(event){
     this._imageIndex = this.images.indexOf(event);
   }
 
   eventPageImg(pageImg: number){
-    this.currentImg = this.images[pageImg - 1].label;
+    if (this.viewerData?.type === 'manifest'){
+      this.currentImg = this.images[pageImg - 1].label;
+    }
+    if (this.viewerData?.type === 'default'){
+      this.currentImg = this.images[pageImg - 1].url.split('/').pop().split('.')[0];
+    }
     this.cdref.detectChanges();
   }
 
@@ -50,6 +57,12 @@ export class ImagePanelComponent {
         });
         this.currentImg = this.images[0].label;
       });
+    }
+    if (this.viewerData?.type === 'default'){
+      this.images = this.viewerData?.value?.xmlImages;
+      this.imagePath =  this.viewerData?.value?.xmlImages[0]?.url;
+      this.filename = this.imagePath.split('/').pop().split('.')[0];
+      this.currentImg = this.filename;
     }
     else {
       this.currentImg = 'Error loading';
