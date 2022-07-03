@@ -40,7 +40,7 @@ export class ImagePanelComponent {
     if (this.viewerData?.type === 'manifest'){
       this.currentImg = this.images[pageImg - 1].label;
     }
-    if (this.viewerData?.type === 'default'){
+    if (this.viewerData?.type === 'default' || this.viewerData?.type === 'graphics'){
       this.currentImg = this.images[pageImg - 1].url.split('/').pop().split('.')[0];
     }
     this.cdref.detectChanges();
@@ -58,7 +58,7 @@ export class ImagePanelComponent {
         this.currentImg = this.images[0].label;
       });
     }
-    if (this.viewerData?.type === 'default'){
+    if (this.viewerData?.type === 'default' || this.viewerData?.type === 'graphics'){
       this.images = this.viewerData?.value?.xmlImages;
       this.imagePath =  this.viewerData?.value?.xmlImages[0]?.url;
       this.filename = this.imagePath.split('/').pop().split('.')[0];
