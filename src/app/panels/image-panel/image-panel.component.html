@@ -9,7 +9,7 @@
         [ngModel]="currentImg"
         (change)="toggleImg($event)">
         <ng-option [value]="item" *ngFor="let item of images;">
-            {{ item.label }}
+            {{ item.label || item.url.split('/').pop().split('.')[0] }}
         </ng-option>
     </ng-select>
     <evt-ms-desc-selector (selectionChange)="setMsDescID($event)" (msDescOpen)="isMsDescOpen($event)"></evt-ms-desc-selector>
