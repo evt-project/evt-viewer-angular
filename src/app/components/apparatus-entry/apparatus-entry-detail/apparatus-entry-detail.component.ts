@@ -24,7 +24,7 @@ export class ApparatusEntryDetailComponent implements OnInit {
   }
 
   get readings(): Reading[] {
-    return [this.data.lemma, ...this.significantRdg, ...this.notSignificantRdg]
+    return [this.data.lemma, ...this.significantRdg, ...this.notSignificantRdg];
   }
 
   get rdgMetadata() {
