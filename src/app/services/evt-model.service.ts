@@ -32,6 +32,11 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  public readonly styleDefaults$ = this.prefatoryMatterParser.projectInfo$.pipe(
+    map((projectInfo) => projectInfo?.encodingDesc?.styleDefDecl),
+    shareReplay(1),
+  );
+
   public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
     map((source) => this.editionStructureParser.parsePages(source).pages),
     shareReplay(1),

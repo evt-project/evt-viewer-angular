@@ -7,8 +7,8 @@
         <div class="rendition-section rendition-selector" *ngIf="data.selector">
             <label>{{'selector' | translate}}: </label><span>{{data.selector}}</span>
         </div>
-        <div class="rendition-section rendition-scheme" *ngIf="data.scheme">
-            <label>{{'scheme' | translate}}: </label><span>{{data.scheme}} {{data.schemeVersion}}</span>
+        <div class="rendition-section rendition-scheme" *ngIf="scheme$ | async">
+            <label>{{'scheme' | translate}}: </label><span>{{scheme$ | async}} {{schemeVersion$ | async}}</span>
         </div>
         <div class="rendition-section rendition-content">
             <label>{{'rules' | translate}}: </label>
@@ -17,7 +17,7 @@
             </span>
         </div>
     </ng-container>
-    <ng-container *ngIf="!data.scope && !data.selector && !data.scheme && data.id">
+    <ng-container *ngIf="noDetails$ | async">
         <div class="rendition-section rendition-content">
             <label>{{data.id}}:</label>
             <span>

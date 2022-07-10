@@ -11,7 +11,7 @@ import {
   Punctuation, PunctuationMarks, PunctuationPlacement,
   Purpose, Quotation, QuotationMarks, RefsDecl, RefState, Rendition, RenditionScope, Resp, RespStmt, RevisionDesc,
   SamplingDecl, Scheme, Segmentation, SeriesStmt, Setting, SettingDesc, SourceDesc, Status, StdVals,
-  TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
+  StyleDefDecl, TagsDecl, TagUsage, Term, TextClass, TextDesc, TitleStmt, Transpose, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, GenericParser, parseElement, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { NamedEntityRefParser } from './named-entity-parsers';
@@ -388,6 +388,18 @@ export class TagsDeclParser extends GenericElemParser implements Parser<XMLEleme
   }
 }
 
+@xmlParser('styleDefDecl', StyleDefDeclParser)
+export class StyleDefDeclParser extends GenericElemParser implements Parser<XMLElement> {
+  parse(xml: XMLElement): StyleDefDecl {
+    return {
+      ...super.parse(xml),
+      type: TagsDecl,
+      scheme: xml.getAttribute('scheme'),
+      schemeVersion: xml.getAttribute('schemeVersion'),
+    };
+  }
+}
+
 @xmlParser('cRefPattern', CRefPatternParser)
 export class CRefPatternParser extends GenericElemParser implements Parser<XMLElement> {
   parse(xml: XMLElement): CRefPattern {
@@ -441,7 +453,7 @@ export class EncodingDescParser extends GenericParser implements Parser<XMLEleme
       samplingDecl: queryAndParseElements<SamplingDecl>(xml, 'samplingDecl'),
       editorialDecl: queryAndParseElements<EditorialDecl>(xml, 'editorialDecl'),
       tagsDecl: queryAndParseElements<TagsDecl>(xml, 'tagsDecl'),
-      styleDefDecl: queryAndParseElement<GenericElement>(xml, 'styleDefDecl'),
+      styleDefDecl: queryAndParseElement<StyleDefDecl>(xml, 'styleDefDecl'),
       refsDecl: queryAndParseElements<RefsDecl>(xml, 'refsDecl'),
       classDecl: queryAndParseElements<GenericElement>(xml, 'classDecl'),
       geoDecl: queryAndParseElements<GenericElement>(xml, 'geoDecl'),

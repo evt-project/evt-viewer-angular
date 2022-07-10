@@ -864,13 +864,18 @@ export class SourceDesc extends GenericElement {
 
 export class Extent extends GenericElement { }
 
+export class StyleDefDecl extends GenericElement {
+    scheme: string;
+    schemeVersion: string;
+}
+
 export class EncodingDesc extends GenericElement {
     structuredData: boolean;
     projectDesc: ProjectDesc[];
     samplingDecl: SamplingDecl[];
     editorialDecl: EditorialDecl[];
     tagsDecl: TagsDecl[];
-    styleDefDecl: ParseResult<GenericElement>; // TODO: Add specific type when styleDefDecl is handled
+    styleDefDecl: StyleDefDecl;
     refsDecl: RefsDecl[];
     classDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when classDecl is handled
     geoDecl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when geoDecl is handled
