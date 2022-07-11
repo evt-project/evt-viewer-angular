@@ -100,7 +100,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @Input() set page(v: number) {
     if (v !== this._page) {
       this._page = v;
-      this.pageChange.next(this._page);
+      this.pageChange.next(this._page + 1);
     }
   }
 
@@ -174,4 +174,5 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
+
 }

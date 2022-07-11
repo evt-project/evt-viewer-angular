@@ -8,7 +8,7 @@ describe('ImageTextComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageTextComponent ]
+      declarations: [ ImageTextComponent ],
     })
     .compileComponents();
   }));
