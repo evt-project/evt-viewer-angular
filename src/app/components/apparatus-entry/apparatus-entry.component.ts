@@ -67,8 +67,8 @@ export class ApparatusEntryComponent {
     @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
     @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
   ) {
-    this.isInsideAppDetail = this.parentDetailComponent ? true : false;
-    this.appIsInsideApp = this.parentAppComponent ? true : false;
+    this.isInsideAppDetail = !!this.parentDetailComponent;
+    this.appIsInsideApp = !!this.parentAppComponent;
   }
 
   toggleAppEntryBox(e: MouseEvent) {
