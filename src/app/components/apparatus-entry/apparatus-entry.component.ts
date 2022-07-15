@@ -4,10 +4,10 @@ import { AppConfig } from 'src/app/app.config';
 import { ApparatusEntry, HighlightData } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
 import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatus-entry-detail.component';
 
-export interface ApparatusEntryComponent extends Highlightable { }
+export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highlightable { }
 
 @Component({
   selector: 'evt-apparatus-entry',
@@ -17,13 +17,6 @@ export interface ApparatusEntryComponent extends Highlightable { }
 })
 @register(ApparatusEntry)
 export class ApparatusEntryComponent {
-  @Input() data: ApparatusEntry;
-
-  public opened = false;
-  public isInsideAppDetail: boolean;
-  public appIsInsideApp: boolean;
-  public nestedApps: ApparatusEntry[] = [];
-
   private _hd: HighlightData;
   @Input() set highlightData(hd: HighlightData) {
     hd.highlight = true;
@@ -34,6 +27,26 @@ export class ApparatusEntryComponent {
   get highlightData() {
     return this._hd;
   }
+
+  constructor(
+    private evtModelService: EVTModelService,
+    @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
+    @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
+  ) {
+    this.isInsideAppDetail = !!this.parentDetailComponent;
+    this.appIsInsideApp = !!this.parentAppComponent;
+  }
+  @Input() data: ApparatusEntry;
+
+  public opened = false;
+  public isInsideAppDetail: boolean;
+  public appIsInsideApp: boolean;
+  public nestedApps: ApparatusEntry[] = [];
+
+  variance$ = this.evtModelService.appVariance$.pipe(
+    map((variances) => variances[this.data.id]),
+    shareReplay(1),
+  );
 
   @HostListener('mouseenter') onMouseEnter() {
     if (this.appIsInsideApp) {
@@ -55,20 +68,6 @@ export class ApparatusEntryComponent {
         highlightColor: AppConfig.evtSettings.edition.readingColorLight,
       };
     }
-  }
-
-  variance$ = this.evtModelService.appVariance$.pipe(
-    map((variances) => variances[this.data.id]),
-    shareReplay(1),
-  );
-
-  constructor(
-    private evtModelService: EVTModelService,
-    @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
-    @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
-  ) {
-    this.isInsideAppDetail = !!this.parentDetailComponent;
-    this.appIsInsideApp = !!this.parentAppComponent;
   }
 
   toggleAppEntryBox(e: MouseEvent) {
