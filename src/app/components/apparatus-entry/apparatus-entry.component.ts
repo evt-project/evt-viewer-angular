@@ -62,12 +62,10 @@ export class ApparatusEntryComponent {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    if (!this.opened) {
-      this._hd = {
-        ...this._hd,
-        highlightColor: AppConfig.evtSettings.edition.readingColorLight,
-      };
-    }
+    this._hd = {
+      ...this._hd,
+      highlightColor: !this.opened ? AppConfig.evtSettings.edition.readingColorLight : AppConfig.evtSettings.edition.readingColorDark,
+    };
   }
 
   toggleAppEntryBox(e: MouseEvent) {
