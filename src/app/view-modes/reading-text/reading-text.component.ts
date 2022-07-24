@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { EditionLevel } from '../../app.config';
@@ -11,8 +10,21 @@ import { Page } from '../../models/evt-models';
   templateUrl: './reading-text.component.html',
   styleUrls: ['./reading-text.component.scss'],
 })
-export class ReadingTextComponent implements OnInit, OnDestroy {
-  public layoutOptions: GridsterConfig = {};
+export class ReadingTextComponent {
+  public layoutOptions: GridsterConfig = {
+    gridType: GridType.Fit,
+    displayGrid: DisplayGrid.None,
+    compactType: CompactType.CompactLeft,
+    margin: 0,
+    maxCols: 3,
+    maxRows: 1,
+    draggable: {
+      enabled: false,
+    },
+    resizable: {
+      enabled: false,
+    },
+  };
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
@@ -30,15 +42,9 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
   public pinnedBoardOpened = false;
   public pinnedBoardItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
 
-  private subscriptions: Subscription[] = [];
-
   constructor(
     private evtStatusService: EVTStatusService,
   ) {
-  }
-
-  ngOnInit() {
-    this.initGridster();
   }
 
   changePage(selectedPage: Page) {
@@ -71,24 +77,4 @@ export class ReadingTextComponent implements OnInit, OnDestroy {
     this.changedOptions();
   }
 
-  private initGridster() {
-    this.layoutOptions = {
-      gridType: GridType.Fit,
-      displayGrid: DisplayGrid.None,
-      compactType: CompactType.CompactLeft,
-      margin: 0,
-      maxCols: 3,
-      maxRows: 1,
-      draggable: {
-        enabled: false,
-      },
-      resizable: {
-        enabled: false,
-      },
-    };
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
 }
