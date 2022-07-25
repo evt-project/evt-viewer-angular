@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
@@ -14,7 +14,7 @@ import { normalizeUrl } from '../utils/js-utils';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent implements OnDestroy {
+export class MainHeaderComponent {
   public title$ = combineLatest([
     of(AppConfig?.evtSettings?.edition?.editionTitle),
     this.evtModelService.title$,
@@ -29,12 +29,8 @@ export class MainHeaderComponent implements OnDestroy {
   get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
   get logoUrl() {
-    const customLogo = AppConfig?.evtSettings?.files?.logoUrl ?? undefined;
-
-    return customLogo ?? '/assets/images/logo.png';
+    return AppConfig?.evtSettings?.files?.logoUrl ?? '/assets/images/logo.png';
   }
-
-  private subscriptions = [];
 
   constructor(
     public themes: ThemesService,
@@ -67,10 +63,6 @@ export class MainHeaderComponent implements OnDestroy {
     if (this.editionHome) {
       window.open(this.editionHome, '_blank');
     }
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }
