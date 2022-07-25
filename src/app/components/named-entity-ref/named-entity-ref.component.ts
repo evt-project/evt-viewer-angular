@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { map, tap } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { map, scan, startWith } from 'rxjs/operators';
 
 import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
@@ -21,35 +21,31 @@ export class NamedEntityRefComponent {
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.all.entities.length > 0),
   );
+  noDetails$ = this.availableEntities$.pipe(
+    map(info => !info),
+  );
 
   entity$ = this.evtModelService.namedEntities$.pipe(
     map(ne => ne.all.entities.find(e => e.id === this.data.entityId) || 'notFound'),
   );
 
-  public highlighted$ = this.entitiesSelectService.selectedItems$.pipe(
-    tap(items => {
-      if (this.data) {
-        this.data.class = this.data.class || '';
-        this.data.attributes = this.data.attributes || {};
-      }
-
-      return items;
-    }),
-    map(items => items.some(i => i && this.data &&
-      this.entitiesSelectService.matchClassAndAttributes(i.value, this.data.attributes, this.data.class))),
+  toggleOpened$ = new Subject<boolean>();
+  opened$ = this.toggleOpened$.pipe(
+    scan((currentState: boolean, val: boolean | undefined) => val === undefined ? !currentState : val, false),
+    startWith(false),
   );
 
-  public opened = false;
+  entityHighlight$ = combineLatest([
+    this.opened$,
+    this.evtStatusService.currentNamedEntityId$,
+  ]).pipe(
+    map(([opened, currentId]) => currentId === this.data.entityId && !opened),
+  );
 
   constructor(
     public evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
-    private entitiesSelectService: EntitiesSelectService,
   ) {
   }
 
-  toggleEntityData(event: MouseEvent) {
-    event.stopPropagation();
-    this.opened = !this.opened;
-  }
 }
