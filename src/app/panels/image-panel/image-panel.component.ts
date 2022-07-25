@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-import { EVTStatusService } from '../../services/evt-status.service';
+import { Component, Input, Output } from '@angular/core';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, withLatestFrom } from 'rxjs/operators';
 import { Page, ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 
@@ -10,21 +9,30 @@ import { EVTModelService } from '../../services/evt-model.service';
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent{
+export class ImagePanelComponent {
   @Input() viewerData: ViewerDataType;
 
-  // tslint:disable-next-line: variable-name
-  private _pageNumber: number;
-  @Input() set pageID(v: string) {
-      this.evtModelService.pages$.pipe(
-        take(1)).subscribe((pages) => this._pageNumber = pages.findIndex(page => page.id === v));
-  }
-  get pageNumber(): number { return this._pageNumber + 1; }
+  @Input() pageID: string;
 
   public currentPage$ = new BehaviorSubject<Page>(undefined);
   public currentPageId$ = this.currentPage$.pipe(
     map(p => p?.id),
   );
+  updatePageNumber$ = new Subject<number>();
+  pageNumber$ = this.currentPageId$.pipe(
+    withLatestFrom(this.evtModelService.pages$),
+    map(([pageId, pages]) => pages.findIndex(page => page.id === pageId)),
+  );
+  @Output() pageChange: Observable<Page> = merge(
+    this.updatePageNumber$.pipe(
+      filter(n => !!n),
+      withLatestFrom(this.evtModelService.pages$),
+      map(([n, pages]) => pages[n]),
+    ),
+    this.currentPage$.pipe(
+      filter(p => !!p),
+      distinctUntilChanged(),
+    ));
 
   currentMsDescId$ = new BehaviorSubject(undefined);
   currentMsDesc$ = combineLatest([this.evtModelService.msDesc$, this.currentMsDescId$]).pipe(
@@ -36,14 +44,11 @@ export class ImagePanelComponent{
 
   constructor(
     private evtModelService: EVTModelService,
-    private evtStatus: EVTStatusService,
   ) {
   }
 
-  updatePage(viewerPage: number){
-    this.evtModelService.pages$.pipe(take(1)).subscribe(
-      (pages) => this.evtStatus.updatePage$.next(pages[viewerPage - 1]),
-    );
+  updatePage(viewerPage: number) {
+    this.updatePageNumber$.next(viewerPage > 0 ? viewerPage - 1 : 0);
   }
 
   setMsDescOpen(isOpen: boolean) {
