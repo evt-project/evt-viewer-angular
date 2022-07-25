@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Observable, of } from 'rxjs';
@@ -21,15 +21,14 @@ import { ModalService } from '../ui-components/modal/modal.service';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent implements OnInit, OnDestroy {
+export class MainMenuComponent {
   @Output() itemClicked = new EventEmitter<string>();
-  public dynamicItems: MainMenuItem[] = [];
+  public dynamicItems: MainMenuItem[] = this.getDynamicItems();
   public uiConfig = AppConfig.evtSettings.ui;
   public fileConfig = AppConfig.evtSettings.files;
   public editionConfig = AppConfig.evtSettings.edition;
 
-  private isOpened = false;
-  private subscriptions = [];
+  private isOpened = true;
   private availableLangs = AppConfig.evtSettings.ui.availableLanguages.filter((l) => l.enabled);
 
   constructor(
@@ -40,11 +39,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
-    this.loadUiConfig();
-    this.isOpened = true;
-  }
-
   closeMenu() {
     if (this.isOpened) {
       this.isOpened = false;
@@ -52,13 +46,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadUiConfig(): void {
-    this.initDynamicItems();
-  }
-
-  private initDynamicItems() {
+  private getDynamicItems(): MainMenuItem[] {
     // TODO Check if available from uiConfig
-    this.dynamicItems = [
+    return [
       {
         id: 'projectInfo',
         iconInfo: {
@@ -210,9 +200,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     return item.value;
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
 }
 
 export interface Language {
