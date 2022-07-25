@@ -100,7 +100,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @Input() set page(v: number) {
     if (v !== this._page) {
       this._page = v;
-      this.pageChange.next(this._page);
     }
   }
 
@@ -164,7 +163,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             ...this.options,
           });
         }
-
+        this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
         });
