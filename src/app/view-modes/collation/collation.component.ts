@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { map } from 'rxjs/operators';
 import { Page } from 'src/app/models/evt-models';
@@ -10,17 +10,45 @@ import { EvtIconInfo } from 'src/app/ui-components/icon/icon.component';
   templateUrl: './collation.component.html',
   styleUrls: ['./collation.component.scss'],
 })
-export class CollationComponent implements OnInit, OnDestroy {
+export class CollationComponent {
   @ViewChild('collationPanel', { static: true }) collationPanel: ElementRef;
 
   private witnesses: WitnessItem[] = [];
 
-  public options: GridsterConfig = {};
+  public options: GridsterConfig = {
+    gridType: GridType.Fit,
+    displayGrid: DisplayGrid.None,
+    margin: 0,
+    maxCols: 2,
+    maxRows: 1,
+    draggable: {
+      enabled: false,
+    },
+    resizable: {
+      enabled: false,
+    },
+  };
   public textPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public collationPanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
-  public collationOptions: GridsterConfig = {};
-
-  private subscriptions = [];
+  public collationOptions: GridsterConfig = {
+    gridType: GridType.Fit,
+    displayGrid: DisplayGrid.None,
+    compactType: CompactType.CompactLeft,
+    scrollToNewItems: true,
+    margin: 0,
+    maxRows: 1,
+    draggable: {
+      enabled: true,
+      ignoreContent: true,
+      dragHandleClass: 'panel-header',
+    },
+    resizable: {
+      enabled: false,
+    },
+    mobileBreakpoint: 0,
+    itemResizeCallback: this.updateFixedColWidth.bind(this),
+    itemChangeCallback: this.itemChange.bind(this),
+  };
 
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
@@ -38,10 +66,6 @@ export class CollationComponent implements OnInit, OnDestroy {
   constructor(
     private evtStatusService: EVTStatusService,
   ) {
-  }
-
-  ngOnInit() {
-    this.initGridster();
   }
 
   changePage(selectedPage: Page) {
@@ -67,41 +91,6 @@ export class CollationComponent implements OnInit, OnDestroy {
   removeWitness(index) {
     this.witnesses.splice(index, 1);
     this.updateGridsterOptions();
-  }
-
-  private initGridster() {
-    this.options = {
-      gridType: GridType.Fit,
-      displayGrid: DisplayGrid.None,
-      margin: 0,
-      maxCols: 2,
-      maxRows: 1,
-      draggable: {
-        enabled: false,
-      },
-      resizable: {
-        enabled: false,
-      },
-    };
-    this.collationOptions = {
-      gridType: GridType.Fit,
-      displayGrid: DisplayGrid.None,
-      compactType: CompactType.CompactLeft,
-      scrollToNewItems: true,
-      margin: 0,
-      maxRows: 1,
-      draggable: {
-        enabled: true,
-        ignoreContent: true,
-        dragHandleClass: 'panel-header',
-      },
-      resizable: {
-        enabled: false,
-      },
-      mobileBreakpoint: 0,
-      itemResizeCallback: this.updateFixedColWidth.bind(this),
-      itemChangeCallback: this.itemChange.bind(this),
-    };
   }
 
   private itemChange() {
@@ -138,10 +127,6 @@ export class CollationComponent implements OnInit, OnDestroy {
     const fixedColWidth = collationPanelEl.clientWidth * 0.416666666667;
     this.collationOptions.fixedColWidth = this.witnesses.length > 2 ? fixedColWidth : undefined;
     this.changedOptions();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
 
