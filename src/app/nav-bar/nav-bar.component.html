@@ -4,23 +4,25 @@
     <evt-button *ngIf="viscollButton" [iconRight]="{icon: 'rainbow', rotate:270}" additionalClasses="mr-1" [active]="viscollPanelOpened$ | async"
         (btnClick)="toggleViscollPanel()" [title]="'viscoll' | translate"></evt-button>
     <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ml-2 mr-2"
-        [value]="currentPage$ | async" [options]="pageSliderOptions" (userChangeEnd)="changePage($event)"></ngx-slider>
+        [value]="currentPageIndex$ | async" [options]="pageSliderOptions" (userChangeEnd)="evtStatusService.updatePageNumber$.next($event?.value)"></ngx-slider>
     <div class="navigation-btns-container">
         <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="mr-1" [title]="'firstPage' | translate"
-            [disabled]="(navigationDisabled$ | async) || (prevNavigationDisabled$ | async)" (btnClick)="goToFirstPage()"></evt-button>
+            [disabled]="prevNavigationDisabled$ | async" (btnClick)="evtStatusService.updatePageNumber$.next(0)"></evt-button>
         <evt-button [iconRight]="{icon: 'caret-left'}" additionalClasses="mr-1" [title]="'previousPage' | translate"
-            [disabled]="(navigationDisabled$ | async) || (prevNavigationDisabled$ | async)" (btnClick)="goToPrevPage()"></evt-button>
+            [disabled]="prevNavigationDisabled$ | async" (btnClick)="evtStatusService.updatePageNumber$.next(currentPageIndexStatic - 1)"></evt-button>
         <evt-button [iconLeft]="{icon: 'caret-right'}" additionalClasses="mr-1" [title]="'nextPage' | translate"
-            [disabled]="(navigationDisabled$ | async) || (nextNavigationDisabled$ | async)" (btnClick)="goToNextPage()"></evt-button>
+            [disabled]="nextNavigationDisabled$ | async" (btnClick)="evtStatusService.updatePageNumber$.next(currentPageIndexStatic + 1)"></evt-button>
         <evt-button [iconLeft]="{icon: 'step-forward'}" [title]="'lastPage' | translate"
-            [disabled]="(navigationDisabled$ | async) || (nextNavigationDisabled$ | async)" (btnClick)="goToLastPage()"></evt-button>
+            [disabled]="nextNavigationDisabled$ | async" (btnClick)="evtStatusService.updatePageNumber$.next(-1)"></evt-button>
     </div>
 </div>
 
-<div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
-    <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="(thViewerSettings$ | async)?.col" [row]="(thViewerSettings$ | async)?.row"
-        (clickedItem)="toggleThumbnailsPanel()"></evt-manuscript-thumbnails> 
-</div>
+<ng-container *ngIf="thViewerSettings$ | async as thViewerSettings">
+    <div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
+        <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="thViewerSettings?.col" [row]="thViewerSettings?.row"
+            (clickedItem)="toggleThumbnailsPanel()"></evt-manuscript-thumbnails> 
+    </div>
+</ng-container>
 
 <div *ngIf="viscollPanelOpened$ | async" class="viscoll-panel">
     <!-- TODO: Add Viscoll -->
