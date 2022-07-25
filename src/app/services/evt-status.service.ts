@@ -41,6 +41,7 @@ export class EVTStatusService {
     public updateViewMode$: BehaviorSubject<ViewMode> = new BehaviorSubject(undefined);
     public updateDocument$: BehaviorSubject<string> = new BehaviorSubject('');
     public updatePage$: Subject<Page> = new Subject();
+    public updatePageId$: Subject<string> = new Subject();
     public updatePageNumber$: Subject<number> = new Subject();
     public updateEditionLevels$: Subject<EditionLevelType[]> = new Subject();
     public updateWitnesses$: BehaviorSubject<string[]> = new BehaviorSubject([]);
@@ -52,8 +53,10 @@ export class EVTStatusService {
         this.updateDocument$,
     );
     public currentPage$ = merge(
-        this.route.queryParams.pipe(
-            map((params: URLParams) => params.p),
+        merge(
+            this.route.queryParams.pipe(map((params: URLParams) => params.p)),
+            this.updatePageId$,
+        ).pipe(
             mergeMap((id) => this.evtModelService.pages$.pipe(
                 map(pages => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0])),
             ),
