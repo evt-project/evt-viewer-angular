@@ -25,7 +25,7 @@ export class ImagePanelComponent {
   );
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
-      filter(n => !!n),
+      filter(n => n !== undefined),
       withLatestFrom(this.evtModelService.pages$),
       map(([n, pages]) => pages[n]),
     ),

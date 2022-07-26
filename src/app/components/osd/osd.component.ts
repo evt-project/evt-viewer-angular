@@ -162,6 +162,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             ...this.options,
           });
         }
+        this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
         });
