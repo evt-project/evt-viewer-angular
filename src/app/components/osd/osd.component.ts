@@ -154,6 +154,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         if (!!tileSources) {
           this.viewer = OpenSeadragon({
             ...commonOptions,
+            ...this.options,
             tileSources,
           });
         } else {
