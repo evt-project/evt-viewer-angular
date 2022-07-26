@@ -10,5 +10,5 @@
 			"enabled": false
 		}
 	},
-	"imagesFolderUrl": "assets/data/images/single"
+	"imagesFolderUrl": "./assets/data/images/single"
 }
