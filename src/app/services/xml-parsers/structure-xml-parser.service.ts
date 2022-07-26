@@ -65,7 +65,7 @@ export class StructureXmlParserService {
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
       url: this.getPageUrl(getID(pb, 'page')),
-      facsUrl: this.getPageUrl((pb.getAttribute('facs') || 'page').split('#').slice(-1)[0]),
+      facsUrl: this.getPageUrl((pb.getAttribute('facs') || getID(pb, 'page')).split('#').slice(-1)[0]),
     };
   }
 
@@ -79,7 +79,7 @@ export class StructureXmlParserService {
       originalContent,
       parsedContent: this.parsePageContent(doc, originalContent),
       url: this.getPageUrl(id),
-      facsUrl: this.getPageUrl(facs),
+      facsUrl: this.getPageUrl(facs || id),
     };
   }
 
