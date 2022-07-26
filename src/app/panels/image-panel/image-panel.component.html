@@ -9,7 +9,7 @@
     <div content>
         <evt-osd
             *ngIf="viewerData"
-            [viewerData]="viewerData"
+            [viewerData]="viewerData" [options]="{showNavigationControl: false}"
             [page]="pageNumber$ | async"
             (pageChange)="updatePage($event)">
         </evt-osd>
