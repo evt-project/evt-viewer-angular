@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, Optional, SkipSelf } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from 'src/app/app.config';
 import { ApparatusEntry, HighlightData } from '../../models/evt-models';
@@ -17,16 +18,10 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highli
 })
 @register(ApparatusEntry)
 export class ApparatusEntryComponent {
-  private _hd: HighlightData;
-  @Input() set highlightData(hd: HighlightData) {
-    hd.highlight = true;
-    hd.highlightColor = AppConfig.evtSettings.edition.readingColorLight;
-    this._hd = hd;
-  }
-
-  get highlightData() {
-    return this._hd;
-  }
+  highlightData$ = new BehaviorSubject<HighlightData | undefined>({
+    highlight: true,
+    highlightColor: AppConfig.evtSettings.edition.readingColorLight,
+  });
 
   constructor(
     private evtModelService: EVTModelService,
@@ -50,22 +45,22 @@ export class ApparatusEntryComponent {
 
   @HostListener('mouseenter') onMouseEnter() {
     if (this.appIsInsideApp) {
-      this.parentAppComponent._hd = {
-        ...this._hd,
+      this.parentAppComponent.highlightData$.next({
+        highlight: true,
         highlightColor: AppConfig.evtSettings.edition.readingColorLight,
-      };
+      });
     }
-    this._hd = {
-      ...this._hd,
+    this.highlightData$.next({
+      highlight: true,
       highlightColor: AppConfig.evtSettings.edition.readingColorDark,
-    };
+    });
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this._hd = {
-      ...this._hd,
+    this.highlightData$.next({
+      highlight: true,
       highlightColor: !this.opened ? AppConfig.evtSettings.edition.readingColorLight : AppConfig.evtSettings.edition.readingColorDark,
-    };
+    });
   }
 
   toggleAppEntryBox(e: MouseEvent) {
