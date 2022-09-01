@@ -29,13 +29,13 @@ export class ApparatusEntryComponent {
     @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
   ) {
     this.isInsideAppDetail = !!this.parentDetailComponent;
-    this.appIsInsideApp = !!this.parentAppComponent;
+    this.isNestedApp = !!this.parentAppComponent;
   }
   @Input() data: ApparatusEntry;
 
   public opened = false;
   public isInsideAppDetail: boolean;
-  public appIsInsideApp: boolean;
+  public isNestedApp: boolean;
   public nestedApps: ApparatusEntry[] = [];
 
   variance$ = this.evtModelService.appVariance$.pipe(
@@ -44,7 +44,7 @@ export class ApparatusEntryComponent {
   );
 
   @HostListener('mouseenter') onMouseEnter() {
-    if (this.appIsInsideApp) {
+    if (this.isNestedApp) {
       this.parentAppComponent.highlightData$.next({
         highlight: true,
         highlightColor: AppConfig.evtSettings.edition.readingColorLight,
