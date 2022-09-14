@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, Input, Optional, Skip
 import { BehaviorSubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AppConfig } from 'src/app/app.config';
-import { ApparatusEntry, HighlightData } from '../../models/evt-models';
+import { ApparatusEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
@@ -18,19 +18,6 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highli
 })
 @register(ApparatusEntry)
 export class ApparatusEntryComponent {
-  highlightData$ = new BehaviorSubject<HighlightData | undefined>({
-    highlight: true,
-    highlightColor: AppConfig.evtSettings.edition.readingColorLight,
-  });
-
-  constructor(
-    private evtModelService: EVTModelService,
-    @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
-    @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
-  ) {
-    this.isInsideAppDetail = !!this.parentDetailComponent;
-    this.isNestedApp = !!this.parentAppComponent;
-  }
   @Input() data: ApparatusEntry;
 
   public opened = false;
@@ -43,24 +30,33 @@ export class ApparatusEntryComponent {
     shareReplay(1),
   );
 
+  highlightColor$ = new BehaviorSubject<string>(AppConfig.evtSettings.edition.readingColorLight);
+  highlightData$ = this.highlightColor$.pipe(
+    map(color => ({
+        highlight: true,
+        highlightColor: color,
+    })),
+  );
+
+  constructor(
+    private evtModelService: EVTModelService,
+    @Optional() private parentDetailComponent?: ApparatusEntryDetailComponent,
+    @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
+  ) {
+    this.isInsideAppDetail = !!this.parentDetailComponent;
+    this.isNestedApp = !!this.parentAppComponent;
+  }
+
   @HostListener('mouseenter') onMouseEnter() {
     if (this.isNestedApp) {
-      this.parentAppComponent.highlightData$.next({
-        highlight: true,
-        highlightColor: AppConfig.evtSettings.edition.readingColorLight,
-      });
+      this.parentAppComponent.highlightColor$.next(AppConfig.evtSettings.edition.readingColorLight);
     }
-    this.highlightData$.next({
-      highlight: true,
-      highlightColor: AppConfig.evtSettings.edition.readingColorDark,
-    });
+    this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorDark);
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this.highlightData$.next({
-      highlight: true,
-      highlightColor: !this.opened ? AppConfig.evtSettings.edition.readingColorLight : AppConfig.evtSettings.edition.readingColorDark,
-    });
+    !this.opened ? this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorLight) :
+      this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorDark);
   }
 
   toggleAppEntryBox(e: MouseEvent) {
