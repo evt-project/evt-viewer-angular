@@ -129,5 +129,7 @@
 	],
 	"proseVersesToggler": true,
 	"defaultTextFlow": "prose",
-	"verseNumberPrinter": 5
+	"verseNumberPrinter": 5,
+	"readingColorLight": "rgb(208, 220, 255)",
+	"readingColorDark": "rgb(101, 138, 255)"
 }
