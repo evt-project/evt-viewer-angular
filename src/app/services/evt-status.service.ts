@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject, timer } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, shareReplay, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, mergeMap, shareReplay, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { AppConfig, EditionLevelType } from '../app.config';
 import { Page, ViewMode } from '../models/evt-models';
@@ -41,6 +41,8 @@ export class EVTStatusService {
     public updateViewMode$: BehaviorSubject<ViewMode> = new BehaviorSubject(undefined);
     public updateDocument$: BehaviorSubject<string> = new BehaviorSubject('');
     public updatePage$: Subject<Page> = new Subject();
+    public updatePageId$: Subject<string> = new Subject();
+    public updatePageNumber$: Subject<number> = new Subject();
     public updateEditionLevels$: Subject<EditionLevelType[]> = new Subject();
     public updateWitnesses$: BehaviorSubject<string[]> = new BehaviorSubject([]);
     public updateVersions$: BehaviorSubject<string[]> = new BehaviorSubject([]);
@@ -50,16 +52,22 @@ export class EVTStatusService {
         this.route.queryParams.pipe(map((params: URLParams) => params.d)),
         this.updateDocument$,
     );
-    public currentPage$ = combineLatest([
+    public currentPage$ = merge(
         merge(
             this.route.queryParams.pipe(map((params: URLParams) => params.p)),
-            this.updatePage$.pipe(map(p => p.id)),
+            this.updatePageId$,
+        ).pipe(
+            mergeMap((id) => this.evtModelService.pages$.pipe(
+                map(pages => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0])),
+            ),
         ),
-        this.evtModelService.pages$.pipe(
-            filter((pages) => !!pages && pages.length > 0),
+        this.updatePage$.pipe(
+            filter(p => !!p),
         ),
-    ]).pipe(
-        map(([id, pages]) => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0]),
+        this.updatePageNumber$.pipe(
+            withLatestFrom(this.evtModelService.pages$),
+            map(([n, pages]) => n < 0 ? pages[pages.length - 1] : pages[n]),
+        ),
     );
     public currentEditionLevels$ = merge(
         this.route.queryParams.pipe(

@@ -11,6 +11,7 @@ export class PanelComponent implements OnInit {
   @Input() closable: boolean;
   @Input() hideHeader: boolean;
   @Input() hideFooter: boolean;
+  @Input() noPadding: boolean;
   @Input() showSecondaryContent: boolean;
 
   @Output() hide: EventEmitter<boolean> = new EventEmitter();

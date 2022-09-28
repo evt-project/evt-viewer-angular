@@ -13,7 +13,21 @@ import { EditionLevel } from '../../app.config';
   styleUrls: ['./text-text.component.scss'],
 })
 export class TextTextComponent implements OnInit, OnDestroy {
-  public options: GridsterConfig = {};
+  public options: GridsterConfig = {
+    gridType: GridType.Fit,
+    displayGrid: DisplayGrid.None,
+    margin: 0,
+    maxCols: 2,
+    maxRows: 1,
+    draggable: {
+      enabled: true,
+      ignoreContent: true,
+      dragHandleClass: 'panel-header',
+    },
+    resizable: {
+      enabled: false,
+    },
+  };
   public textPanel1Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
   public textPanel2Item: GridsterItem = { cols: 1, rows: 1, y: 0, x: 1 };
 
@@ -44,7 +58,6 @@ export class TextTextComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initGridster();
     this.editionLevelChange$.subscribe(([edLvl1, edLvl2, changedPanel]) => {
       if (!edLvl1 || !edLvl2) { return; }
       if (edLvl1 === edLvl2) {
@@ -69,24 +82,6 @@ export class TextTextComponent implements OnInit, OnDestroy {
       this.editionLevelPanel2Change$.next(edLvl);
     }
     this.lastPanelChanged$.next(changedPanel);
-  }
-
-  private initGridster() {
-    this.options = {
-      gridType: GridType.Fit,
-      displayGrid: DisplayGrid.None,
-      margin: 0,
-      maxCols: 2,
-      maxRows: 1,
-      draggable: {
-        enabled: true,
-        ignoreContent: true,
-        dragHandleClass: 'panel-header',
-      },
-      resizable: {
-        enabled: false,
-      },
-    };
   }
 
   ngOnDestroy() {

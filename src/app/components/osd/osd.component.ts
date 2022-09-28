@@ -100,7 +100,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @Input() set page(v: number) {
     if (v !== this._page) {
       this._page = v;
-      this.pageChange.next(this._page);
+      this.viewer?.goToPage(v);
     }
   }
 
@@ -121,13 +121,11 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   constructor(
     private http: HttpClient,
   ) {
-    this.subscriptions.push(this.pageChange.pipe(
-      distinctUntilChanged(),
-    ).subscribe((x) => {
-      if (!!this.viewer) {
-        this.viewer.goToPage(x - 1);
-      }
-    }));
+    this.subscriptions.push(
+      this.pageChange.pipe(
+        distinctUntilChanged(),
+      ).subscribe((x) => this.viewer?.goToPage(x - 1)),
+    );
   }
 
   ngAfterViewInit() {
@@ -156,6 +154,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         if (!!tileSources) {
           this.viewer = OpenSeadragon({
             ...commonOptions,
+            ...this.options,
             tileSources,
           });
         } else {
@@ -164,7 +163,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             ...this.options,
           });
         }
-
+        this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
         });

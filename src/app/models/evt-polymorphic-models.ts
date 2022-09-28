@@ -96,13 +96,13 @@ class XMLSource {
         const localImagesFolder = AppConfig.evtSettings.files.imagesFolderUrl;
         const xmlImages: XMLImagesValues[] = data.map(s =>
             s[AppConfig.evtSettings.files.editionImagesSource[key].value]
-    ? {
-        url: isUrl(s.corresp) ? s.corresp : localImagesFolder + s.corresp,
-    } : {
-        width: s[key][0].width,
-        height: s[key][0].height,
-        url: isUrl(s[key][0].url) ? s[key][0].url : localImagesFolder + s[key][0].url,
-    });
+                ? {
+                    url: isUrl(s.corresp) ? s.corresp : localImagesFolder + s.corresp,
+                } : {
+                    width: s[key][0].width,
+                    height: s[key][0].height,
+                    url: isUrl(s[key][0].url) ? s[key][0].url : localImagesFolder + s[key][0].url,
+                });
 
         return { type: key, value: { xmlImages } };
     }
