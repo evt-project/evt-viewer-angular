@@ -209,12 +209,12 @@ To add a new language to the localization so that it is automatically displayed 
         "code": "CD", 
         "dir": "ltr",
         "label": "Lang Label",
-        "enabled": true
+        "enable": true
     }
     ```
     * `code` indicates the language code (the one used to name the JSON file);
     * `label` indicates the language label, to be shown in the UI
-    * `enabled` indicates if the language should be activated or deactivated
+    * `enable` indicates if the language should be activated or deactivated
   
 * In every other JSON translations file the key `"language_LANGUAGE_CODE"` to have a translation of the name of the new language in all the others already present and managed.
 * Finally, add a `.png` file that depicts the flag identifying the new language in the `assets/images` folder. This file must be named with the code of the new language and must preferably be a square with not too large dimensions.

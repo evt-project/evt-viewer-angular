@@ -5,12 +5,12 @@
 		{
 			"code": "en",
 			"label": "languageEn",
-			"enabled": true
+			"": true
 		},
 		{
 			"code": "it",
 			"label": "languageIt",
-			"enabled": true
+			"enable": true
 		}
 	],
 	"enableNavBar": true,

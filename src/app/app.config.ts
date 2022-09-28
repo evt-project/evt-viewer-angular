@@ -33,10 +33,10 @@ export class AppConfig {
                         console.log(ui, edition, files);
                         // Handle default values => TODO: Decide how to handle defaults!!
                         if (ui.defaultLocalization) {
-                            if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enabled)) {
+                            if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enable)) {
                                 this.translate.use(ui.defaultLocalization);
                             } else {
-                                const firstAvailableLang = ui.availableLanguages.find((l) => l.enabled);
+                                const firstAvailableLang = ui.availableLanguages.find((l) => l.enable);
                                 if (firstAvailableLang) {
                                     this.translate.use(firstAvailableLang.code);
                                 }
@@ -67,7 +67,7 @@ export interface UiConfig {
     availableLanguages: Array<{
         code: string;
         label: string;
-        enabled: boolean;
+        enable: boolean;
     }>;
     enableNavBar: boolean;
     initNavBarOpened: boolean;
@@ -118,12 +118,12 @@ export interface FileConfig {
 
 export interface EditionImagesConfig {
     value: string;
-    enabled: boolean;
+    enable: boolean;
 }
 
 export interface NamedEntitiesListsConfig {
     defaultLabel: string;
-    enabled: boolean;
+    enable: boolean;
 }
 export type EditionLevelType = 'diplomatic' | 'interpretative' | 'critical';
 export interface EditionLevel {

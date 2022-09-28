@@ -29,7 +29,7 @@ export class MainMenuComponent {
   public editionConfig = AppConfig.evtSettings.edition;
 
   private isOpened = true;
-  private availableLangs = AppConfig.evtSettings.ui.availableLanguages.filter((l) => l.enabled);
+  private availableLangs = AppConfig.evtSettings.ui.availableLanguages.filter((l) => l.enable);
 
   constructor(
     public themes: ThemesService,
