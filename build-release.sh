@@ -11,7 +11,7 @@ fi
 . ./user_paths.sh
 
 if [ "$XML_DATA_FOLDER" ]; then
-    cp -r $XML_DATA_FOLDER release/assets/data
+    cp -r $XML_DATA_FOLDER release/assets/
     echo "xml data folder copied in release."
 fi
 
