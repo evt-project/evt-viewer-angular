@@ -49,7 +49,7 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "none",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
@@ -58,13 +58,63 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "3mb",
+                  "maximumError": "7mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "15kb"
+                }
+              ]
+            },
+            "release": {
+              "outputPath": "release/core",
+              "deployUrl": "core/",
+              "index": {
+                "input": "src/index.html",
+                "output": "./../index.html"
+              },
+              "assets": [
+                {
+                  "glob": "favicon.ico",
+                  "input": "src/",
+                  "output": "./../"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets/",
+                  "ignore": [
+                    "fonts/evt-icons-project.json",
+                    "scss/**",
+                    "data/**"
+                  ],
+                  "output": "./../assets/"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "7mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb",
+                  "maximumError": "15kb"
                 }
               ]
             }
@@ -78,6 +128,9 @@
           "configurations": {
             "production": {
               "browserTarget": "evt-viewer-angular:build:production"
+            },
+            "release": {
+              "browserTarget": "evt-viewer-angular:build:release"
             }
           }
         },
