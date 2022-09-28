@@ -43,7 +43,7 @@ export interface ViewMode {
     icon: string;
     iconSet?: 'evt' | 'far' | 'fas';
     label: string;
-    disabled?: boolean;
+    enable?: boolean;
 }
 
 export interface Page {

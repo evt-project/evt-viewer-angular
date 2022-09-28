@@ -130,7 +130,7 @@ export interface EditionLevel {
     id: EditionLevelType;
     label: string;
     title?: string;
-    disabled?: boolean;
+    enable?: boolean;
 }
 
 export interface EditorialConventionsConfig {

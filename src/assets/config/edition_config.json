@@ -6,15 +6,18 @@
 	"availableEditionLevels": [
 		{
 			"id": "diplomatic",
-			"label": "diplomatic"
+			"label": "diplomatic",
+			"enable": true
 		},
 		{
 			"id": "interpretative",
-			"label": "interpretative"
+			"label": "interpretative",
+			"enable": true
 		},
 		{
 			"id": "critical",
-			"label": "critical"
+			"label": "critical",
+			"enable": true
 		}
 	],
 	"namedEntitiesLists": {
@@ -46,24 +49,29 @@
 				{
 					"value": "persName",
 					"label": "persons",
-					"color": "#ffcdd2"
+					"color": "#ffcdd2",
+					"enable": true
 				},
 				{
 					"value": "persName[type='episcopus']",
 					"label": "bishops",
-					"color": "rgb(139, 98, 236)"
+					"color": "rgb(139, 98, 236)",
+					"enable": true
 				},
 				{
 					"value": "placeName,geogName",
 					"label": "places",
-					"color": "#A5D6A7"
+					"color": "#A5D6A7",
+					"enable": true
 				},
 				{
 					"value": "orgName",
 					"label": "organizations",
-					"color": "#FFB74D"
+					"color": "#FFB74D",
+					"enable": true
 				}
-			]
+			],
+			"enable": true
 		},
 		{
 			"label": "Other",
@@ -71,17 +79,21 @@
 				{
 					"value": "event",
 					"label": "events",
-					"color": "#fcfc60"
+					"color": "#fcfc60",
+					"enable": true
 				},
 				{
 					"value": "rolename",
-					"label": "roles"
+					"label": "roles",
+					"enable": true
 				},
 				{
 					"value": "measure",
-					"label": "measures"
+					"label": "measures",
+					"enable": true
 				}
-			]
+			],
+			"enable": true
 		}
 	],
 	"notSignificantVariants": [
@@ -94,37 +106,43 @@
 			"icon": "txt",
 			"iconSet": "evt",
 			"id": "readingText",
-			"label": "Reading Text"
+			"label": "Reading Text",
+			"enable": true
 		},
 		{
 			"icon": "imgTxt",
 			"iconSet": "evt",
 			"id": "imageText",
-			"label": "Image Text"
+			"label": "Image Text",
+			"enable": true
 		},
 		{
 			"icon": "txtTxt",
 			"iconSet": "evt",
 			"id": "textText",
-			"label": "Text Text"
+			"label": "Text Text",
+			"enable": true
 		},
 		{
 			"icon": "collation",
 			"iconSet": "evt",
 			"id": "collation",
-			"label": "Collation"
+			"label": "Collation",
+			"enable": true
 		},
 		{
 			"icon": "srcTxt",
 			"iconSet": "evt",
 			"id": "textSources",
-			"label": "Text Sources"
+			"label": "Text Sources",
+			"enable": true
 		},
 		{
 			"icon": "versions",
 			"iconSet": "evt",
 			"id": "textVersions",
-			"label": "Text Versions"
+			"label": "Text Versions",
+			"enable": true
 		}
 	],
 	"proseVersesToggler": true,
