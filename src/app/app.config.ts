@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { ViewMode, ViewModeId } from './models/evt-models';
 import { Attributes, EditorialConventionLayout } from './models/evt-models';
@@ -22,28 +22,30 @@ export class AppConfig {
 
     load() {
         return new Promise<void>((resolve) => {
-            forkJoin([
-                this.http.get<UiConfig>(this.uiConfigUrl),
-                this.http.get<EditionConfig>(this.editionConfigUrl),
-                this.http.get<FileConfig>(this.fileConfigUrl),
-                this.http.get<EditorialConventionsConfig>(this.editorialConventionsConfigUrl),
-            ]).pipe(
-                map(([ui, edition, files, editorialConventions]) => {
-                    console.log(ui, edition, files);
-                    // Handle default values => TODO: Decide how to handle defaults!!
-                    if (ui.defaultLocalization) {
-                        if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enabled)) {
-                            this.translate.use(ui.defaultLocalization);
-                        } else {
-                            const firstAvailableLang = ui.availableLanguages.find((l) => l.enabled);
-                            if (firstAvailableLang) {
-                                this.translate.use(firstAvailableLang.code);
+            this.http.get<FileConfig>(this.fileConfigUrl).pipe(
+                switchMap((files: FileConfig) => forkJoin([
+                    this.http.get<UiConfig>(files.configurationUrls?.ui ?? this.uiConfigUrl),
+                    this.http.get<EditionConfig>(files.configurationUrls?.edition ?? this.editionConfigUrl),
+                    this.http.get<EditorialConventionsConfig>(
+                        files.configurationUrls?.editorialConventions ?? this.editorialConventionsConfigUrl),
+                ]).pipe(
+                    map(([ui, edition, editorialConventions]) => {
+                        console.log(ui, edition, files);
+                        // Handle default values => TODO: Decide how to handle defaults!!
+                        if (ui.defaultLocalization) {
+                            if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enabled)) {
+                                this.translate.use(ui.defaultLocalization);
+                            } else {
+                                const firstAvailableLang = ui.availableLanguages.find((l) => l.enabled);
+                                if (firstAvailableLang) {
+                                    this.translate.use(firstAvailableLang.code);
+                                }
                             }
                         }
-                    }
 
-                    return { ui, edition, files, editorialConventions };
-                }),
+                        return { ui, edition, files, editorialConventions };
+                    }),
+                )),
             ).subscribe(evtConfig => {
                 AppConfig.evtSettings = evtConfig;
                 console.log('evtConfig', evtConfig);
@@ -107,6 +109,11 @@ export interface FileConfig {
     };
     logoUrl?: string;
     imagesFolderUrl?: string;
+    configurationUrls?: {
+        edition: string;
+        ui: string;
+        editorialConventions: string;
+    };
 }
 
 export interface EditionImagesConfig {

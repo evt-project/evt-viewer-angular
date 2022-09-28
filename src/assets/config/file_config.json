@@ -10,5 +10,10 @@
 			"enabled": false
 		}
 	},
-	"imagesFolderUrl": "./assets/data/images/single"
+	"imagesFolderUrl": "./assets/data/images/single",
+	"configurationUrls": {
+		"edition": "assets/config/edition_config.json",
+		"ui": "assets/config/ui_config.json",
+		"editorialConventions": "assets/config/editorial_conventions_config.json"
+	}
 }
