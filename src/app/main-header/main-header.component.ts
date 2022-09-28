@@ -22,7 +22,7 @@ export class MainHeaderComponent {
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
   );
 
-  public viewModes: ViewMode[] = AppConfig.evtSettings.edition.availableViewModes?.filter((e => e.enable)) ?? [];
+  public viewModes: ViewMode[] = AppConfig.evtSettings.ui.availableViewModes?.filter((e => e.enable)) ?? [];
   public currentViewMode$ = this.evtStatusService.currentViewMode$;
   public mainMenuOpened = false;
   public editionConfig: EditionConfig = AppConfig.evtSettings.edition;

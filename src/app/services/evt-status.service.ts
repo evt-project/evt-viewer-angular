@@ -27,7 +27,7 @@ export class EVTStatusService {
     }
 
     get availableViewModes() {
-        return AppConfig.evtSettings.edition.availableViewModes?.filter((e => e.enable)) ?? [];
+        return AppConfig.evtSettings.ui.availableViewModes?.filter((e => e.enable)) ?? [];
     }
     get defaultViewMode(): ViewMode {
         const defaultConfig = AppConfig.evtSettings.edition.defaultViewMode;

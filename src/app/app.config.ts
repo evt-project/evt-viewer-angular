@@ -62,6 +62,7 @@ export interface EVTConfig {
 }
 
 export interface UiConfig {
+    availableViewModes: ViewMode[];
     localization: boolean;
     defaultLocalization: string;
     availableLanguages: Array<{
@@ -92,7 +93,6 @@ export interface EditionConfig {
     notSignificantVariants: string[];
     defaultEdition: EditionLevelType;
     defaultViewMode: ViewModeId;
-    availableViewModes: ViewMode[];
     proseVersesToggler: boolean;
     defaultTextFlow: TextFlow;
     verseNumberPrinter: number;
