@@ -2,6 +2,8 @@ nvm use 12
 
 npm run build -- --c=release  
 
+cp USER_README.md release/README.md
+
 if [ ! -f ./user_paths.sh ]; then
     echo "user_paths.sh file not found."
 fi
