@@ -879,7 +879,7 @@ export class CollectionParser extends GenericElemParser implements Parser<XMLEle
 }
 
 @xmlParser('evt-identifier-parser', IdentifierParser)
-class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
+export class IdentifierParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Identifier {
         return {
             ...super.parse(xml),
