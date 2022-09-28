@@ -23,9 +23,9 @@ For a complete list of features, please refer to the [AngularJS version] (https:
 
 2 - A short guide to EVT
 --------------------------------
-If you are interested in **using** EVT 2 to prepare an edition right away, you should probably download the ready-to-use release package that can be downloaded from [SourceForge](https://sourceforge.net/projects/evt-project/). See the *Installation and use* section first, then *Configuration*, to understand how EVT works and how you can use it to publish your editions. A more detailed guide will be published separately, as a reference manual, and will also include instructions about customization.
+If you are interested in **using** EVT to prepare an edition right away, you should probably download the ready-to-use release package that can be downloaded from [SourceForge](https://sourceforge.net/projects/evt-project/). See the *Installation and use* section first, then *Configuration*, to understand how EVT works and how you can use it to publish your editions. A more detailed guide will be published separately, as a reference manual, and will also include instructions about customization.
 
-If, on the other hand, you are interested in **developing** a specific functionality in EVT 2, or in modifying an existing one, or preparing your edition with the most recent (yet stable) version of EVT, you should download the [*GitHub Development framework*](https://github.com/evt-project/evt-viewer). See the *Development framework installation and use* section to know how to install and configure the environment needed for this purpose. If you intend to change the source code for personal needs, please **fork** the project. If you want to contribute to the main project (by fixing a bug or adding a feature), please ask for a **pull request** and/or contact us at evt.developers@gmail.com.
+If, on the other hand, you are interested in **developing** a specific functionality in EVT, or in modifying an existing one, or preparing your edition with the most recent (yet stable) version of EVT, you should download the [*GitHub Development framework*](https://github.com/evt-project/evt-viewer). See the *Development framework installation and use* section to know how to install and configure the environment needed for this purpose. If you intend to change the source code for personal needs, please **fork** the project. If you want to contribute to the main project (by fixing a bug or adding a feature), please ask for a **pull request** and/or contact us at evt.developers@gmail.com.
 
 ### 2.1 - Installation and use
 Work in progress... stay in touch!
@@ -75,7 +75,12 @@ Run `npm run ng generate component component-name` to generate a new component. 
     $ npm run build
 
 The build artifacts will be stored in the `dist/` directory.
-With the second instruction you can use the `--prod` flag for a production build.
+With the second instruction you can use the `--c=production` flag for a production build.
+
+## 3.6.1 - Build for release
+    $ npm run build:release
+
+The build artifacts will be stored in the `release/` directory. If you set properly the variables in user_paths.sh file, both xml sample data and sample config will be copied in `release/assets` folder.
 
 ### 3.7 - Generate documentation 
 For the documentation we use [Compodoc](https://compodoc.github.io/website/)
