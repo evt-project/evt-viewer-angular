@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --port=4205",
     "build": "ng build",
+    "build:release": "sh build-release.sh",
     "build:gh-pages": "ng build --prod --base-href /evt-viewer-angular/",
     "test": "ng test",
     "lint": "ng lint",
