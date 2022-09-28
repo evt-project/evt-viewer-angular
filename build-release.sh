@@ -11,11 +11,16 @@ fi
 . ./user_paths.sh
 
 if [ "$XML_DATA_FOLDER" ]; then
-    cp -r $XML_DATA_FOLDER release/assets/data
-    echo "xml data folder copied in dist."
+    cp -r $XML_DATA_FOLDER release/assets/
+    echo "xml data folder copied in release."
 fi
 
 if [ "$CONFIG_FOLDER" ]; then
     cp -r $CONFIG_FOLDER release/assets/
-    echo "config folder copied in dist."
+    echo "config folder copied in release."
+fi
+
+if [ "$EXAMPLES_README" ]; then
+    cp $EXAMPLES_README release/EXAMPLES_README.md
+    echo "Examples README copied in release."
 fi
