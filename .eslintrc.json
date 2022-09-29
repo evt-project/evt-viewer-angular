@@ -39,16 +39,16 @@
         "@angular-eslint/directive-class-suffix": [
           "error",
           {
-              "suffixes": [
-                  "Directive"
-              ]
+            "suffixes": [
+              "Directive"
+            ]
           }
         ],
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-              "suffixes": [
-                  "Component"
+            "suffixes": [
+              "Component"
             ]
           }
         ],
@@ -60,7 +60,7 @@
         "@typescript-eslint/array-type": [
           "error",
           {
-              "default": "array-simple"
+            "default": "array-simple"
           }
         ],
         "arrow-parens": [
@@ -79,6 +79,17 @@
           "error",
           {
             "code": 150
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "static-field",
+              "instance-field",
+              "static-method",
+              "instance-method"
+            ]
           }
         ]
       }
