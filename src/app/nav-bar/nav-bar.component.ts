@@ -14,7 +14,7 @@ export class NavBarComponent {
   updateThContainerInfo$ = new Subject<HTMLElement>();
   thContainerInfo$ = this.updateThContainerInfo$.pipe(
     scan((currentEl, val) => val || currentEl, undefined),
-    filter(thContainer => !!thContainer),
+    filter((thContainer) => !!thContainer),
     map((thContainer: HTMLElement) => ({
       width: thContainer.clientWidth,
       height: thContainer.clientHeight,
@@ -38,9 +38,9 @@ export class NavBarComponent {
   currentPageIndexStatic;
   currentPageIndex$ = this.evtStatusService.currentPage$.pipe(
     withLatestFrom(this.evtModelService.pages$),
-    filter(p => !!p),
+    filter((p) => !!p),
     map(([page, pages]) => pages.findIndex((p) => p.id === page.id)),
-    tap(i => this.currentPageIndexStatic = i),
+    tap((i) => this.currentPageIndexStatic = i),
   );
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;

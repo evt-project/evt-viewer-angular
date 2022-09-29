@@ -62,7 +62,7 @@ export class EVTStatusService {
             ),
         ),
         this.updatePage$.pipe(
-            filter(p => !!p),
+            filter((p) => !!p),
         ),
         this.updatePageNumber$.pipe(
             withLatestFrom(this.evtModelService.pages$),

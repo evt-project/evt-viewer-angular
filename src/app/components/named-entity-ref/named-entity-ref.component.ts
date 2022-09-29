@@ -22,7 +22,7 @@ export class NamedEntityRefComponent {
     map((ne) => ne.all.entities.length > 0),
   );
   noDetails$ = this.availableEntities$.pipe(
-    map(info => !info),
+    map((info) => !info),
   );
 
   entity$ = this.evtModelService.namedEntities$.pipe(

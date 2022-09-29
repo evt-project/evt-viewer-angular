@@ -32,7 +32,7 @@ export class ApparatusEntryComponent {
 
   highlightColor$ = new BehaviorSubject<string>(AppConfig.evtSettings.edition.readingColorLight);
   highlightData$ = this.highlightColor$.pipe(
-    map(color => ({
+    map((color) => ({
         highlight: true,
         highlightColor: color,
     })),

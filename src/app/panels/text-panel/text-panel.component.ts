@@ -57,7 +57,7 @@ export class TextPanelComponent {
           }
           if (pbVisible && currentPage?.id !== pbId) {
             this.updatingPageFromScroll = true;
-            currentPage = pages.find(p => p.id === pbId);
+            currentPage = pages.find((p) => p.id === pbId);
           }
         }
 
