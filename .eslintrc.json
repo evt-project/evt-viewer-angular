@@ -97,7 +97,10 @@
         "no-template-curly-in-string": "error",
         "no-shadow": "error",
         "no-unsafe-finally": "error",
-        "no-unused-expressions": "error"
+        "no-unused-expressions": "error",
+        "no-var": "error",
+        "no-trailing-spaces": "error",
+        "no-multiple-empty-lines": "error"
       }
     },
     {

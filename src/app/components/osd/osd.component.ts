@@ -9,6 +9,7 @@ import { ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 
+// eslint-disable-next-line no-var
 declare var OpenSeadragon;
 
 interface OsdAnnotation {
