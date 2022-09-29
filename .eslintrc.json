@@ -121,7 +121,24 @@
             "ignoreParameters": true
           }
         ],
-        "@typescript-eslint/no-non-null-assertion": "error"
+        "@typescript-eslint/no-non-null-assertion": "error",
+        "no-fallthrough": "error",
+        "@typescript-eslint/no-var-requires": "error",
+        "sort-imports": [
+          "error",
+          {
+            "ignoreDeclarationSort": true,
+            "ignoreCase": true
+          }
+        ],
+        "quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }
+        ]
       }
     },
     {
