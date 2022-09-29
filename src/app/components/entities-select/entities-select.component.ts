@@ -5,13 +5,13 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 export interface EntitiesSelectItemGroup {
   label: string;
   items: EntitiesSelectItem[];
-  disabled?: boolean;
+  enable?: boolean;
 }
 export interface EntitiesSelectItem {
   label: string;
   value: string; // This will be used to identify the items to be selected, by indicating tag name and attributes (for XML)
   color?: string;
-  disabled?: boolean;
+  enable?: boolean;
 }
 
 @Component({
@@ -23,8 +23,8 @@ export class EntitiesSelectComponent {
   @Output() selectionChange: EventEmitter<EntitiesSelectItem[]> = new EventEmitter();
 
   entitiesTypes: Array<EntitiesSelectItem & { group: string }> = (AppConfig.evtSettings.edition.entitiesSelectItems || [])
-    .filter(g => !g.disabled)
-    .reduce((x, y) => [...x, ...y.items.filter(i => !i.disabled).map(i => ({ ...i, group: y.label }))], []);
+    .filter(g => g.enable)
+    .reduce((x, y) => [...x, ...y.items.filter(i => i.enable).map(i => ({ ...i, group: y.label }))], []);
 
   iconColor: EvtIconInfo = {
     icon: 'circle',

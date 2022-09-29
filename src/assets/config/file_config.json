@@ -3,12 +3,17 @@
 	"editionImagesSource": {
 		"manifest": {
 			"value": "https://www.e-codices.unifr.ch/metadata/iiif/csg-0730/manifest.json",
-			"enabled": false
+			"enable": false
 		},
 		"graphics": {
 			"value": "url",
-			"enabled": false
+			"enable": false
 		}
 	},
-	"imagesFolderUrl": "./assets/data/images/single"
+	"imagesFolderUrl": "assets/data/images/single",
+	"configurationUrls": {
+		"edition": "assets/config/edition_config.json",
+		"ui": "assets/config/ui_config.json",
+		"editorialConventions": "assets/config/editorial_conventions_config.json"
+	}
 }

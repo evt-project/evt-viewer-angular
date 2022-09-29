@@ -36,7 +36,7 @@ export class ImageTextComponent {
     map(([surface, pages]) => {
       const editionImages = AppConfig.evtSettings.files.editionImagesSource;
       for (const key of Object.keys(editionImages)) {
-        if (editionImages[key].enabled) {
+        if (editionImages[key].enable) {
           return ViewerSource.getDataType(key, surface);
         }
       }
