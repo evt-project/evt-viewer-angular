@@ -49,9 +49,10 @@
           {
               "suffixes": [
                   "Component"
-              ]
+            ]
           }
         ],
+        "@angular-eslint/contextual-lifecycle": "error",
         "curly": [
           "error",
           "all"
