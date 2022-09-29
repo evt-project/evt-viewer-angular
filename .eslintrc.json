@@ -111,7 +111,9 @@
             ]
           }
         ],
-        "@typescript-eslint/no-explicit-any": "error"
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/no-for-in-array": "error",
+        "@typescript-eslint/no-empty-function": "error"
       }
     },
     {
