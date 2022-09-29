@@ -16,7 +16,7 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
 export class ApparatusEntryReadingsComponent {
   @Input() data: ApparatusEntry;
   @Input() rdgHasCounter: boolean;
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() template: TemplateRef<any>;
 
   groups$ = this.evtModelService.groups$;

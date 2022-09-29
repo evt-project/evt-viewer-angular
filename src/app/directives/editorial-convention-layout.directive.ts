@@ -19,7 +19,7 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
 
   // tslint:disable-next-line: variable-name
   private _oldStyle: {
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [cssProperty: string]: any;
   };
 

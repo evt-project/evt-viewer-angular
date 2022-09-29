@@ -36,7 +36,7 @@ export class PinboardService {
     return items[itemId];
   }
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getItems(types?: string[]): Observable<any[]> { // TODO get rid of any
     return this.items$.pipe(
       map((items) => {

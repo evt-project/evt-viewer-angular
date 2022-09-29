@@ -54,7 +54,7 @@ export class ContentViewerComponent implements OnDestroy {
   ) {
   }
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     map((data) => ({
       ...data,
@@ -63,7 +63,7 @@ export class ContentViewerComponent implements OnDestroy {
     shareReplay(1),
   );
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public inputs: Observable<{ [keyName: string]: any }> = combineLatest([
     this.contentChange,
     this.itemsToHighlightChange,

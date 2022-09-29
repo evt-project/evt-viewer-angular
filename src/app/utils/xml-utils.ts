@@ -1,7 +1,7 @@
 import { XMLElement } from '../models/evt-models';
 
 // TODO get rid of any
-// eslint-disable-next-line no-var
+// eslint-disable-next-line no-var, @typescript-eslint/no-explicit-any
 declare var window: any;
 
 export function parseXml(xmlStr: string): XMLElement {

@@ -81,7 +81,7 @@ export function isNodeNestedInElem(
  *
  * @returns calculated xpath of the given element
  */
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function xpath(el: any): string {
   try {
     if (typeof el === 'string') {
@@ -187,7 +187,7 @@ export function balanceXHTML(XHTMLstring: string): string {
  *
  * @returns list of nodes contained between start node and end node
  */
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const range = document.createRange();
   range.setStart(start, 0);
