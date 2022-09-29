@@ -19,7 +19,7 @@ export class NamedEntitiesParserService {
     const listsToParse = getListsToParseTagNames();
     const listParser = ParserRegister.get('evt-named-entities-list-parser');
     // We consider only first level lists; inset lists will be considered
-    const lists = Array.from(document.querySelectorAll<XMLElement>(listsToParse.toString()))
+    const lists = (listsToParse.toString() ? Array.from(document.querySelectorAll<XMLElement>(listsToParse.toString())) : [])
       .filter((list) => !isNestedInElem(list, list.tagName))
       .map((l) => listParser.parse(l) as NamedEntitiesList);
 
