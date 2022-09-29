@@ -2,7 +2,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
-import { ApplicationRef, APP_INITIALIZER, DoBootstrap, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
