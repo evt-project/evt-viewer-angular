@@ -96,7 +96,8 @@
         "no-eval": "error",
         "no-template-curly-in-string": "error",
         "no-shadow": "error",
-        "no-unsafe-finally": "error"
+        "no-unsafe-finally": "error",
+        "no-unused-expressions": "error"
       }
     },
     {
