@@ -29,7 +29,7 @@ export class NamedEntityRefComponent {
     map((ne) => ne.all.entities.find((e) => e.id === this.data.entityId) || 'notFound'),
   );
 
-  toggleOpened$ = new Subject<boolean>();
+  toggleOpened$ = new Subject<boolean | void>();
   opened$ = this.toggleOpened$.pipe(
     scan((currentState: boolean, val: boolean | undefined) => val === undefined ? !currentState : val, false),
     startWith(false),
