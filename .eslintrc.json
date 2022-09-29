@@ -94,7 +94,9 @@
         ],
         "no-cond-assign": "error",
         "no-eval": "error",
-        "no-template-curly-in-string": "error"
+        "no-template-curly-in-string": "error",
+        "no-shadow": "error",
+        "no-unsafe-finally": "error"
       }
     },
     {
