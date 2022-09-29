@@ -64,7 +64,8 @@ export class NamedEntitiesListParser extends EmptyParser implements Parser<XMLEl
                         break;
                     case 'listrelation':
                         if (this.neListsConfig.relations.enable) {
-                            child.querySelectorAll<XMLElement>('relation').forEach((r) => parsedList.relations.push(relationParse.parse(r)));
+                            child.querySelectorAll<XMLElement>('relation')
+                                .forEach((r) => parsedList.relations.push(relationParse.parse(r)));
                         }
                         break;
                     default:

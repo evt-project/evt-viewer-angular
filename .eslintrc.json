@@ -69,6 +69,16 @@
         "arrow-body-style": [
           "error",
           "as-needed"
+        ],
+        "no-restricted-imports": [
+          "error",
+          "rxjs/Rx"
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 150
+          }
         ]
       }
     },

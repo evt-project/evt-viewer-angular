@@ -1169,7 +1169,8 @@ export class ProfileDesc extends GenericElement {
     textDesc: TextDesc[];
 }
 
-export type Status = 'approved' | 'candidate' | 'cleared' | 'deprecated' | 'draft' | 'embargoed' | 'expired' | 'frozen' | 'galley' | 'proposed' | 'published' | 'recommendation' | 'submitted' | 'unfinished' | 'withdrawn';
+export type Status = 'approved' | 'candidate' | 'cleared' | 'deprecated' | 'draft' | 'embargoed' | 'expired' |
+    'frozen' | 'galley' | 'proposed' | 'published' | 'recommendation' | 'submitted' | 'unfinished' | 'withdrawn';
 
 export class Change extends GenericElement {
     id?: string;

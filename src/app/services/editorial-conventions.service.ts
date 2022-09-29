@@ -132,7 +132,8 @@ export class EditorialConventionsService {
     let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
 
     const externalLayouts = this._getExternalConfigs().find((c) => c.element === name &&
-        (!attributes || Object.keys(attributes).concat(Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
+      (!attributes || Object.keys(attributes).concat(
+        Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
 
     if (externalLayouts) {
       Object.keys(externalLayouts).forEach((editionLevel) => {
