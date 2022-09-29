@@ -25,7 +25,7 @@ export function getListsToParseTagNames() {
     const neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
 
     return Object.keys(neListsConfig)
-        .map((i) => neListsConfig[i].enabled ? namedEntitiesListsTagNamesMap[i] : undefined)
+        .map((i) => neListsConfig[i].enable ? namedEntitiesListsTagNamesMap[i] : undefined)
         .filter((ne) => !!ne);
 }
 
