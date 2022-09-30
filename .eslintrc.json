@@ -158,7 +158,12 @@
         "@angular-eslint/no-output-native": "error",
         "@angular-eslint/no-output-on-prefix": "error",
         "@angular-eslint/no-outputs-metadata-property": "error",
-        "@angular-eslint/use-lifecycle-interface": "error"
+        "@angular-eslint/use-lifecycle-interface": "error",
+        "no-useless-rename": "error",
+        "prefer-const": "error",
+        "use-isnan": "error",
+        "eqeqeq": "error",
+        "no-duplicate-case": "error"
       }
     },
     {
