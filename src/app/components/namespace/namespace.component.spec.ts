@@ -5,7 +5,7 @@ describe('NamespaceComponent', () => {
   let component: NamespaceComponent;
   let fixture: ComponentFixture<NamespaceComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ NamespaceComponent ],
     })

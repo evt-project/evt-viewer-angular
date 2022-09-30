@@ -165,7 +165,15 @@
         "eqeqeq": "error",
         "no-duplicate-case": "error",
         "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-        "no-else-return": "error"
+        "no-else-return": "error",
+        "space-before-function-paren": [
+          "error",
+          {
+            "anonymous": "never",
+            "named": "never",
+            "asyncArrow": "always"
+          }
+        ]
       }
     },
     {

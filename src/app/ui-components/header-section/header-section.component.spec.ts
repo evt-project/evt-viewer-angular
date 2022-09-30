@@ -8,9 +8,9 @@ describe('HeaderSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderSectionComponent ],
+      declarations: [HeaderSectionComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -5,7 +5,7 @@ describe('EncodingDescComponent', () => {
   let component: EncodingDescComponent;
   let fixture: ComponentFixture<EncodingDescComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ EncodingDescComponent ],
     })
