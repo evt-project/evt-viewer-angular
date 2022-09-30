@@ -46,9 +46,8 @@ export class ManuscriptThumbnailsViewerComponent implements OnInit, OnChanges {
     const gridSize = this.col * this.row;
     this.grid = Array(Math.ceil(this.items.length / gridSize)).fill(1)
       .map((_, i) => this.items.slice(i * gridSize, i * gridSize + gridSize))
-      .map((p) => Array(this.row).fill(1).map((_, i) => p.slice(i * this.col, i * this.col + this.col)))
-      ;
-  }
+      .map((p) => Array(this.row).fill(1).map((_, i) => p.slice(i * this.col, i * this.col + this.col)));
+}
 
   isValid(value) {
     return !(isNaN(value) || value <= 0);
