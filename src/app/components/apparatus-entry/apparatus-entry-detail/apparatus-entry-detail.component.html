@@ -37,10 +37,10 @@
                         <span *ngIf="data.nestedAppsIDs.length > 0" class="info-rdg">
                             <ng-container *ngTemplateOutlet="nestedAppsReadingsTemplate; context: { rdgHasCounter: rdgHasCounter }"></ng-container>
                         </span>
-                        <span class="d-block ml-2" *ngFor="let metadata of rdgMetadata | keyvalue">
+                        <span class="d-block ms-2" *ngFor="let metadata of rdgMetadata | keyvalue">
                             <span class="info-label" *ngIf="metadata.key !== 'id'">{{ metadata.key }}:</span> {{ metadata.value }}
                         </span>
-                        <span class="d-block ml-2" *ngIf="(rdgMetadata | keyvalue).length === 0">
+                        <span class="d-block ms-2" *ngIf="(rdgMetadata | keyvalue).length === 0">
                             <span class="font-italic">{{'noDataAvailable' | translate}}</span>
                         </span>
                     </div>
@@ -59,11 +59,11 @@
                                     </ng-container>
                                 </ng-container>
                                 <span *ngIf="rdg.content.length === 0" class="font-italic info-rdg">{{'omit' | translate}}</span>
-                                <span *ngIf="rdg.attributes.wit" class="d-block ml-2">
+                                <span *ngIf="rdg.attributes.wit" class="d-block ms-2">
                                     <span class="info-label">{{'wit' | translate}}</span> {{rdg.attributes.wit}}
                                 </span>
                                 <ng-container *ngFor="let metadata of rdgMetadata | keyvalue">
-                                    <span class="d-block ml-2" *ngIf="metadata.key !== 'wit'">
+                                    <span class="d-block ms-2" *ngIf="metadata.key !== 'wit'">
                                         <span class="info-label">{{ metadata.key }}:</span> {{ metadata.value }}
                                     </span>
                                 </ng-container>
