@@ -100,7 +100,7 @@ export class WitnessesParserService {
 
   private parseGroupWitnesses(list: XMLElement) {
     return Array.from(list.children)
-      .filter(({nodeName}) => nodeName === this.witListTagName || nodeName === this.witTagName)
+      .filter(({ nodeName }) => nodeName === this.witListTagName || nodeName === this.witTagName)
       .map((child) => child.getAttribute('xml:id'));
   }
 

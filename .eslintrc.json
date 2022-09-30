@@ -138,7 +138,11 @@
             "avoidEscape": true,
             "allowTemplateLiterals": true
           }
-        ]
+        ],
+        "eol-last": ["error", "always"],
+        "object-curly-spacing": ["error", "always"],
+        "key-spacing": "error",
+        "comma-dangle": ["error", "always-multiline"]
       }
     },
     {
