@@ -139,10 +139,19 @@
             "allowTemplateLiterals": true
           }
         ],
-        "eol-last": ["error", "always"],
-        "object-curly-spacing": ["error", "always"],
+        "eol-last": [
+          "error",
+          "always"
+        ],
+        "object-curly-spacing": [
+          "error",
+          "always"
+        ],
         "key-spacing": "error",
-        "comma-dangle": ["error", "always-multiline"]
+        "comma-dangle": [
+          "error",
+          "always-multiline"
+        ]
       }
     },
     {
