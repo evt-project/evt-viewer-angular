@@ -175,7 +175,20 @@
           }
         ],
         "no-whitespace-before-property": "error",
-        "newline-before-return": "error"
+        "newline-before-return": "error",
+        "no-irregular-whitespace": "error",
+        "semi-style": [
+          "error",
+          "last"
+        ],
+        "camelcase": [
+          "error",
+          {
+            "properties": "always",
+            "ignoreImports": true,
+            "ignoreGlobals": true 
+          }
+        ]
       }
     },
     {
