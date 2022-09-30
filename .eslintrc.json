@@ -159,6 +159,7 @@
         "@angular-eslint/no-output-on-prefix": "error",
         "@angular-eslint/no-outputs-metadata-property": "error",
         "@angular-eslint/use-lifecycle-interface": "error",
+        "@angular-eslint/use-pipe-transform-interface": "error",
         "no-useless-rename": "error",
         "prefer-const": "error",
         "use-isnan": "error",
