@@ -173,7 +173,9 @@
             "named": "never",
             "asyncArrow": "always"
           }
-        ]
+        ],
+        "no-whitespace-before-property": "error",
+        "newline-before-return": "error"
       }
     },
     {
