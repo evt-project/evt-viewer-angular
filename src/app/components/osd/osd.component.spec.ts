@@ -8,7 +8,7 @@ describe('OsdComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OsdComponent ]
+      declarations: [ OsdComponent ],
     })
     .compileComponents();
   }));

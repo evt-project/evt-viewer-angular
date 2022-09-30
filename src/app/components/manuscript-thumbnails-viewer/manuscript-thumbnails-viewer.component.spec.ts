@@ -8,7 +8,7 @@ describe('ManuscriptThumbnailsViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManuscriptThumbnailsViewerComponent ]
+      declarations: [ ManuscriptThumbnailsViewerComponent ],
     })
     .compileComponents();
   }));

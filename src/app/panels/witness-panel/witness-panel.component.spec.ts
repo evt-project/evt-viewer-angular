@@ -8,7 +8,7 @@ describe('WitnessPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ WitnessPanelComponent ]
+      declarations: [ WitnessPanelComponent ],
     })
     .compileComponents();
   }));

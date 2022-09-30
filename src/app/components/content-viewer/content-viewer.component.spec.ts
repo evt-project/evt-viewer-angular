@@ -8,7 +8,7 @@ describe('ContentViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContentViewerComponent ]
+      declarations: [ ContentViewerComponent ],
     })
     .compileComponents();
   }));

@@ -8,7 +8,7 @@ describe('MsIdentifierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MsIdentifierComponent ]
+      declarations: [ MsIdentifierComponent ],
     })
     .compileComponents();
   });

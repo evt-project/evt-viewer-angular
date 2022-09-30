@@ -8,7 +8,7 @@ describe('EvtInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EvtInfoComponent ]
+      declarations: [ EvtInfoComponent ],
     })
     .compileComponents();
   }));

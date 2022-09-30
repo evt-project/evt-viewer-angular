@@ -8,7 +8,7 @@ describe('MsPartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MsPartComponent ]
+      declarations: [ MsPartComponent ],
     })
     .compileComponents();
   });

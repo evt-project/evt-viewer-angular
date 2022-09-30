@@ -8,7 +8,7 @@ describe('MsDescComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MsDescComponent ]
+      declarations: [ MsDescComponent ],
     })
     .compileComponents();
   });

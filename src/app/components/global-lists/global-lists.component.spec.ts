@@ -8,7 +8,7 @@ describe('GlobalListsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GlobalListsComponent ]
+      declarations: [ GlobalListsComponent ],
     })
     .compileComponents();
   }));

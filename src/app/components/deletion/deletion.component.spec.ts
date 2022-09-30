@@ -8,7 +8,7 @@ describe('DeletionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeletionComponent ]
+      declarations: [ DeletionComponent ],
     })
     .compileComponents();
   }));

@@ -8,7 +8,7 @@ describe('GComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GComponent ]
+      declarations: [ GComponent ],
     })
     .compileComponents();
   }));

@@ -8,7 +8,7 @@ describe('EditionLevelSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditionLevelSelectorComponent ]
+      declarations: [ EditionLevelSelectorComponent ],
     })
     .compileComponents();
   }));

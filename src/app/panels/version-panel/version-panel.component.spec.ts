@@ -8,7 +8,7 @@ describe('VersionPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ VersionPanelComponent ]
+      declarations: [ VersionPanelComponent ],
     })
     .compileComponents();
   }));
