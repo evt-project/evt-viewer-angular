@@ -151,7 +151,9 @@
         "comma-dangle": [
           "error",
           "always-multiline"
-        ]
+        ],
+        "@angular-eslint/no-conflicting-lifecycle": "error",
+        "@angular-eslint/no-host-metadata-property": "error"
       }
     },
     {
