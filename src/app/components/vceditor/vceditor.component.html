@@ -1,0 +1,17 @@
+<p><a href="">VCEditor</a></p>
+<span *ngFor="let quire of quires">
+    <img src={{quire.quireImg}}/>
+    <span *ngFor="let leaf of quire.memberleaves">
+        <span *ngIf="leaf.memberrecto[0].foliodata.params.image.url; else norectoimg"><img src={{leaf.memberrecto[0].foliodata.params.image.url}}/></span>
+        <ng-template #norectoimg><img class="blankfolioimg" src="https://cdn.rawgit.com/leoba/VisColl/master/data/support/images/x.jpg"/></ng-template>
+        <span *ngIf="leaf.memberverso[0].foliodata.params.image.url; else noversoimg"><img src={{leaf.memberverso[0].foliodata.params.image.url}}/></span>
+        <ng-template #noversoimg><img class="blankfolioimg" src="https://cdn.rawgit.com/leoba/VisColl/master/data/support/images/x.jpg"/></ng-template>
+    </span><br/>
+    <span *ngIf="quire.terms[0]">Termini fascicolo: <span *ngFor="let qterm of quire.terms">{{qterm.params.title}}</span><br/></span>
+    <span *ngFor="let leaf of quire.memberleaves">
+    <span *ngIf="leaf.terms[0]">Termini foglia {{leaf.leafdata.params.folio_number}}: <span *ngFor="let lterm of leaf.terms">{{lterm.params.title}}</span><br/></span>
+    <span *ngIf="leaf.memberrecto[0].terms[0]">Termini retto: <span *ngFor="let rterm of leaf.memberrecto[0].terms">{{rterm.params.title}}</span><br/></span>
+    <span *ngIf="leaf.memberverso[0].terms[0]">Termini verso: <span *ngFor="let vterm of leaf.memberverso[0].terms">{{vterm.params.title}}</span><br/></span>
+    </span>
+    <hr/>
+</span>
