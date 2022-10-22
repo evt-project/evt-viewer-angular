@@ -8,7 +8,7 @@ describe('TextVersionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TextVersionsComponent ]
+      declarations: [ TextVersionsComponent ],
     })
     .compileComponents();
   }));

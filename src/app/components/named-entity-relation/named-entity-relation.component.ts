@@ -40,8 +40,8 @@ export class NamedEntityRelationComponent {
   private getEntities(partIdsGroup: 'activeParts' | 'mutualParts' | 'passiveParts'):
     Observable<Array<{ id: string; entity: NamedEntity; label: string }>> {
     return this.evtModelService.namedEntities$.pipe(
-      map(ne => this.data[partIdsGroup].map(entityId => {
-        const entity = ne.all.entities.find(e => e.id === entityId);
+      map((ne) => this.data[partIdsGroup].map((entityId) => {
+        const entity = ne.all.entities.find((e) => e.id === entityId);
 
         return {
           id: entityId,
@@ -51,7 +51,7 @@ export class NamedEntityRelationComponent {
           },
         };
       })),
-      map(nes => nes.filter(e => !!e)),
+      map((nes) => nes.filter((e) => !!e)),
     );
   }
 }

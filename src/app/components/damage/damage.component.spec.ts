@@ -8,7 +8,7 @@ describe('DamageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DamageComponent ]
+      declarations: [ DamageComponent ],
     })
     .compileComponents();
   }));

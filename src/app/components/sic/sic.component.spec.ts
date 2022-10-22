@@ -8,7 +8,7 @@ describe('SicComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SicComponent ]
+      declarations: [ SicComponent ],
     })
     .compileComponents();
   }));

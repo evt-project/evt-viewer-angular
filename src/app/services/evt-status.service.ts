@@ -14,26 +14,26 @@ export type URLParams = { [T in URLParamsKeys]: string };
     providedIn: 'root',
 })
 export class EVTStatusService {
-    public availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => e.enable)) || [];
+    public availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter(((e) => e.enable)) || [];
     get defaultEditionLevelId(): EditionLevelType {
         const defaultConfig = AppConfig.evtSettings.edition.defaultEdition;
-        const availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter((e => e.enable)) ?? [];
+        const availableEditionLevels = AppConfig.evtSettings.edition.availableEditionLevels?.filter(((e) => e.enable)) ?? [];
         let defaultEdition = availableEditionLevels[0];
         if (defaultConfig) {
-            defaultEdition = availableEditionLevels.find(e => e.id === defaultConfig) ?? defaultEdition;
+            defaultEdition = availableEditionLevels.find((e) => e.id === defaultConfig) ?? defaultEdition;
         }
 
         return defaultEdition?.id;
     }
 
     get availableViewModes() {
-        return AppConfig.evtSettings.ui.availableViewModes?.filter((e => e.enable)) ?? [];
+        return AppConfig.evtSettings.ui.availableViewModes?.filter(((e) => e.enable)) ?? [];
     }
     get defaultViewMode(): ViewMode {
         const defaultConfig = AppConfig.evtSettings.edition.defaultViewMode;
         let defaultViewMode = this.availableViewModes[0];
         if (defaultConfig) {
-            defaultViewMode = this.availableViewModes.find(e => e.id === defaultConfig) ?? defaultViewMode;
+            defaultViewMode = this.availableViewModes.find((e) => e.id === defaultConfig) ?? defaultViewMode;
         }
 
         return defaultViewMode;
@@ -58,11 +58,11 @@ export class EVTStatusService {
             this.updatePageId$,
         ).pipe(
             mergeMap((id) => this.evtModelService.pages$.pipe(
-                map(pages => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0])),
+                map((pages) => !id ? pages[0] : pages.find((p) => p.id === id) || pages[0])),
             ),
         ),
         this.updatePage$.pipe(
-            filter(p => !!p),
+            filter((p) => !!p),
         ),
         this.updatePageNumber$.pipe(
             withLatestFrom(this.evtModelService.pages$),
@@ -73,7 +73,7 @@ export class EVTStatusService {
         this.route.queryParams.pipe(
             map((params: URLParams) => (params.el?.split(',') ?? [])),
             map((editionLevels) => editionLevels?.length > 0 ? editionLevels : [this.defaultEditionLevelId]),
-            map((editionLevels: EditionLevelType[]) => editionLevels.filter(el => !!el)),
+            map((editionLevels: EditionLevelType[]) => editionLevels.filter((el) => !!el)),
         ),
         this.updateEditionLevels$,
     );
@@ -106,7 +106,7 @@ export class EVTStatusService {
         ]) => {
             if (viewMode.id === 'textText') {
                 if (editionLevels.length === 1) {
-                    editionLevels.push(this.availableEditionLevels.filter(e => e.id !== editionLevels[0])[0].id);
+                    editionLevels.push(this.availableEditionLevels.filter((e) => e.id !== editionLevels[0])[0].id);
                 }
             } else if (viewMode.id === 'collation') {
                 editionLevels = [];
@@ -126,7 +126,7 @@ export class EVTStatusService {
     );
 
     public currentUrl$: Observable<{ view: string; params: URLParams }> = this.currentStatus$.pipe(
-        map(currentStatus => this.getUrlFromStatus(currentStatus)),
+        map((currentStatus) => this.getUrlFromStatus(currentStatus)),
     );
 
     public currentNamedEntityId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
@@ -136,7 +136,7 @@ export class EVTStatusService {
         private router: Router,
         private route: ActivatedRoute,
     ) {
-        this.currentStatus$.subscribe(currentStatus => {
+        this.currentStatus$.subscribe((currentStatus) => {
             const { view, params } = this.getUrlFromStatus(currentStatus);
             if (Object.keys(params).length > 0) {
                 this.router.navigate([`/${view}`], { queryParams: params });
@@ -145,22 +145,22 @@ export class EVTStatusService {
             }
         });
         this.router.events.pipe(
-            filter(event => event instanceof NavigationStart),
+            filter((event) => event instanceof NavigationStart),
             first(),
         ).subscribe((event: NavigationStart) => {
             const currentViewMode = this.updateViewMode$.getValue();
             if (!currentViewMode) {
                 const pathMatch = event.url.match(/(?<!\?.+)(?<=\/)[\w-]+(?=[/\r\n?]|$)/gm);
                 if (pathMatch) {
-                    this.updateViewMode$.next(this.availableViewModes.find(vm => vm.id === pathMatch[0]));
+                    this.updateViewMode$.next(this.availableViewModes.find((vm) => vm.id === pathMatch[0]));
                 } else {
                     this.updateViewMode$.next(this.defaultViewMode);
                 }
             }
         });
         this.currentNamedEntityId$.pipe(
-            filter(id => !!id),
-            switchMap(id => timer(5000).pipe(map(() => id))),
+            filter((id) => !!id),
+            switchMap((id) => timer(5000).pipe(map(() => id))),
         ).subscribe(() => this.currentNamedEntityId$.next(undefined));
     }
 

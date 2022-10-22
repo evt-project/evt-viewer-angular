@@ -21,7 +21,7 @@ export class RenditionComponent {
       const descKey = snakeToCamelCased(`rendition-${this.data.scope}-desc`);
 
       return this.translateService.get(descKey).pipe(
-        map(translation => translation === descKey ? '' : `(${translation})`),
+        map((translation) => translation === descKey ? '' : `(${translation})`),
       );
     }
 
@@ -33,7 +33,7 @@ export class RenditionComponent {
       return of(this.data.scheme);
     }
 
-    return this.evtModelService.styleDefaults$.pipe((map(styleDefaults => styleDefaults?.scheme ?? '')));
+    return this.evtModelService.styleDefaults$.pipe((map((styleDefaults) => styleDefaults?.scheme ?? '')));
   }
 
   get schemeVersion$() {
@@ -41,11 +41,11 @@ export class RenditionComponent {
       return of(this.data.schemeVersion);
     }
 
-    return this.evtModelService.styleDefaults$.pipe((map(styleDefaults => styleDefaults?.schemeVersion ?? '')));
+    return this.evtModelService.styleDefaults$.pipe((map((styleDefaults) => styleDefaults?.schemeVersion ?? '')));
   }
 
   get noDetails$() {
-    return this.scheme$.pipe((map(scheme => !scheme && !this.data?.scope && !this.data?.selector && this.data?.id)));
+    return this.scheme$.pipe((map((scheme) => !scheme && !this.data?.scope && !this.data?.selector && this.data?.id)));
   }
 
   constructor(

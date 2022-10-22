@@ -46,7 +46,7 @@ export class AppConfig {
                         return { ui, edition, files, editorialConventions };
                     }),
                 )),
-            ).subscribe(evtConfig => {
+            ).subscribe((evtConfig) => {
                 AppConfig.evtSettings = evtConfig;
                 console.log('evtConfig', evtConfig);
                 resolve();

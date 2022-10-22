@@ -5,7 +5,7 @@ describe('EditorialDeclComponent', () => {
   let component: EditorialDeclComponent;
   let fixture: ComponentFixture<EditorialDeclComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ EditorialDeclComponent ],
     })

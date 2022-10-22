@@ -5,7 +5,7 @@ describe('TagsDeclComponent', () => {
   let component: TagsDeclComponent;
   let fixture: ComponentFixture<TagsDeclComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TagsDeclComponent ],
     })

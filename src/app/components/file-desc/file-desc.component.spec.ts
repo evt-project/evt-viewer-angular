@@ -6,7 +6,7 @@ describe('FileDescComponent', () => {
   let component: FileDescComponent;
   let fixture: ComponentFixture<FileDescComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ FileDescComponent ],
     })

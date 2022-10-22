@@ -5,7 +5,7 @@ describe('ProjectDescComponent', () => {
   let component: ProjectDescComponent;
   let fixture: ComponentFixture<ProjectDescComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ProjectDescComponent ],
     })

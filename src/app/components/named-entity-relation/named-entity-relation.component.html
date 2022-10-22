@@ -4,7 +4,7 @@
     }" [evtHtmlAttributes]="data?.attributes">
     <small class="relation-type" *ngIf="data.relationType">{{ data.relationType | lowercase }}</small>
     <div>
-        <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'mr-2'}"></evt-icon>
+        <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'me-2'}"></evt-icon>
         <ng-template ngFor let-part let-last="last" [ngForOf]="activeParts$ | async">
             <ng-template [ngTemplateOutlet]="relationParticipant"
                 [ngTemplateOutletContext]="{ part: part, last: last }">

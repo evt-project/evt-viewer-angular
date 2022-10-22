@@ -19,8 +19,8 @@ export class LbComponent {
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(
-      map(lines => lines.length > 0),
-      map(hasLines => {
+      map((lines) => lines.length > 0),
+      map((hasLines) => {
         // If line has no information about number or the ID line is shown as a block item, no matters what
         if (!this.data.attributes.id && !this.data.attributes.n) {
           return true;

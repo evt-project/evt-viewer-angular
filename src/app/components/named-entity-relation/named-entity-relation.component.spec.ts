@@ -8,7 +8,7 @@ describe('NamedEntityRelationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NamedEntityRelationComponent ]
+      declarations: [ NamedEntityRelationComponent ],
     })
     .compileComponents();
   }));

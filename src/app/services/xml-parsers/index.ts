@@ -4,10 +4,10 @@ import { Map } from '../../utils/js-utils';
 import { createParser, Parser, ParseResult } from './parser-models';
 
 export class ParserRegister {
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private static PARSER_MAP: Map<Type<any>> = {};
 
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static set(tagName: string, parserType: Type<any>) {
         ParserRegister.PARSER_MAP[tagName.toLowerCase()] = parserType;
     }
@@ -40,10 +40,10 @@ export class ParserRegister {
     }
 }
 
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function xmlParser(tagName: string, parserType: Type<any>) {
 
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (_: Type<any>) => {
         ParserRegister.set(tagName, parserType);
     };

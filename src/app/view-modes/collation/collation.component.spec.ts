@@ -8,7 +8,7 @@ describe('CollationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CollationComponent ]
+      declarations: [ CollationComponent ],
     })
     .compileComponents();
   }));

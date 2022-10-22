@@ -6,6 +6,7 @@
         [autoClose]="'outside'" 
         popoverClass="evt-note"
         container="body" 
+        (click)="stopPropagation($event)"
         [placement]="['auto']">
         {{refByDoc.refs?.length}}
     </span>

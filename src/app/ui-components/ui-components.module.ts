@@ -16,37 +16,34 @@ import { ModalComponent } from './modal/modal.component';
 import { PanelComponent } from './panel/panel.component';
 
 @NgModule({
-  declarations: [
-    ButtonComponent,
-    ClickOutsideDirective,
-    EscapeDirective,
-    HeaderSectionComponent,
-    IconComponent,
-    ModalComponent,
-    PanelComponent,
-  ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    AppTranslationModule,
-    DynamicAttributesModule,
-    DynamicModule,
-    NgbModule,
-    NgSelectModule,
-  ],
-  exports: [
-    ButtonComponent,
-    ClickOutsideDirective,
-    EscapeDirective,
-    HeaderSectionComponent,
-    IconComponent,
-    ModalComponent,
-    NgSelectModule,
-    PanelComponent,
-  ],
-  entryComponents: [
-    ModalComponent,
-  ],
+    declarations: [
+        ButtonComponent,
+        ClickOutsideDirective,
+        EscapeDirective,
+        HeaderSectionComponent,
+        IconComponent,
+        ModalComponent,
+        PanelComponent,
+    ],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        AppTranslationModule,
+        DynamicAttributesModule,
+        DynamicModule,
+        NgbModule,
+        NgSelectModule,
+    ],
+    exports: [
+        ButtonComponent,
+        ClickOutsideDirective,
+        EscapeDirective,
+        HeaderSectionComponent,
+        IconComponent,
+        ModalComponent,
+        NgSelectModule,
+        PanelComponent,
+    ],
 })
 export class UiComponentsModule {
 }

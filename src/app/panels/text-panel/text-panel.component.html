@@ -3,7 +3,7 @@
         <evt-button
             label="Info"
             [iconLeft]="{icon: 'info-circle'}"
-            additionalClasses="btn-primary mr-1"
+            additionalClasses="btn-primary me-1"
             (btnClick)="toggleSecondaryContent('INFO')"
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="updatePage$.next($event)"></evt-page-selector>
@@ -34,7 +34,7 @@
         <evt-button
             [iconLeft]="{icon: 'search'}"
             label="Search"
-            additionalClasses="mr-1"
+            additionalClasses="me-1"
             (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
             [active]="secondaryContent === 'SEARCH_RESULTS'">
         </evt-button>
@@ -42,7 +42,7 @@
         <evt-button *ngIf="enableProseVersesToggler"
             [iconLeft]="proseVersesTogglerIcon"
             [label]="textFlow | translate"
-            additionalClasses="ml-1"
+            additionalClasses="ms-1"
             (btnClick)="toggleProseVerses()">
         </evt-button>
     </div>

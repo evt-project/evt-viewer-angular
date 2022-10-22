@@ -6,7 +6,7 @@ describe('MsDescSectionComponent', () => {
   let component: MsDescSectionComponent;
   let fixture: ComponentFixture<MsDescSectionComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MsDescSectionComponent ],
     })

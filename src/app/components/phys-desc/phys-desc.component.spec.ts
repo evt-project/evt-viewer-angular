@@ -8,7 +8,7 @@ describe('PhysDescComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PhysDescComponent ]
+      declarations: [ PhysDescComponent ],
     })
     .compileComponents();
   });

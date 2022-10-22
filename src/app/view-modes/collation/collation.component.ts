@@ -128,6 +128,7 @@ export class CollationComponent {
     this.collationOptions.fixedColWidth = this.witnesses.length > 2 ? fixedColWidth : undefined;
     this.changedOptions();
   }
+
 }
 
 interface WitnessItem {

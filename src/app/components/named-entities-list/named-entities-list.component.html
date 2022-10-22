@@ -14,7 +14,7 @@
         </form>
         <nav *ngIf="!searchOpened">
             <ul class="pagination pagination-sm justify-content-center m-0 p-1">
-                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="mr-2">
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="me-2">
                 </evt-button>
                 <li class="page-item" *ngFor="let key of navigationKeys" [class.active]="selectedKey === key">
                     <span class="page-link" (click)="selectedKey=key">{{key}}</span>

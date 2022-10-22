@@ -54,7 +54,7 @@ export class ContentViewerComponent implements OnDestroy {
   ) {
   }
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public parsedContent: Observable<{ [keyName: string]: any }> = this.contentChange.pipe(
     map((data) => ({
       ...data,
@@ -63,7 +63,7 @@ export class ContentViewerComponent implements OnDestroy {
     shareReplay(1),
   );
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public inputs: Observable<{ [keyName: string]: any }> = combineLatest([
     this.contentChange,
     this.itemsToHighlightChange,
@@ -96,7 +96,7 @@ export class ContentViewerComponent implements OnDestroy {
     shareReplay(1),
   );
   public attributes: Observable<AttributesMap> = this.contentChange.pipe(
-    filter(parsedContent => !!parsedContent),
+    filter((parsedContent) => !!parsedContent),
     map((parsedContent) => ({ ...parsedContent.attributes || {}, ...{ class: `edition-font ${parsedContent.class || ''}` } })),
     shareReplay(1),
   );
@@ -120,7 +120,7 @@ export class ContentViewerComponent implements OnDestroy {
 
   private getHighlightData(data, ith: EntitiesSelectItem[]) {
     return {
-      highlight: ith?.some(i => this.entitiesSelectService.matchClassAndAttributes(i.value, data?.attributes ?? {}, data?.class)) ?? false,
+      highlight: ith?.some((i) => this.entitiesSelectService.matchClassAndAttributes(i.value, data?.attributes ?? {}, data?.class)) ?? false,
       highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
   }

@@ -57,7 +57,7 @@ export class TextPanelComponent {
           }
           if (pbVisible && currentPage?.id !== pbId) {
             this.updatingPageFromScroll = true;
-            currentPage = pages.find(p => p.id === pbId);
+            currentPage = pages.find((p) => p.id === pbId);
           }
         }
 
@@ -69,10 +69,10 @@ export class TextPanelComponent {
     distinctUntilChanged((x, y) => x?.id === y?.id),
   );
   public currentPageId$ = this.currentPage$.pipe(
-    map(p => p?.id),
+    map((p) => p?.id),
   );
   @Output() pageChange: Observable<Page> = this.currentPage$.pipe(
-    filter(p => !!p),
+    filter((p) => !!p),
     tap((page) => this._scrollToPage(page?.id)),
   );
 
@@ -90,10 +90,10 @@ export class TextPanelComponent {
 
   public currentEdLevel$ = new BehaviorSubject<EditionLevel>(undefined);
   public currentEdLevelId$ = this.currentEdLevel$.pipe(
-    map(e => e?.id),
+    map((e) => e?.id),
   );
   @Output() editionLevelChange: Observable<EditionLevel> = this.currentEdLevel$.pipe(
-    filter(e => !!e),
+    filter((e) => !!e),
     distinctUntilChanged(),
   );
 

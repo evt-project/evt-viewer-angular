@@ -16,28 +16,28 @@ export class ImagePanelComponent {
 
   public currentPage$ = new BehaviorSubject<Page>(undefined);
   public currentPageId$ = this.currentPage$.pipe(
-    map(p => p?.id),
+    map((p) => p?.id),
   );
   updatePageNumber$ = new Subject<number>();
   pageNumber$ = this.currentPageId$.pipe(
     withLatestFrom(this.evtModelService.pages$),
-    map(([pageId, pages]) => pages.findIndex(page => page.id === pageId)),
+    map(([pageId, pages]) => pages.findIndex((page) => page.id === pageId)),
   );
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
-      filter(n => n !== undefined),
+      filter((n) => n !== undefined),
       withLatestFrom(this.evtModelService.pages$),
       map(([n, pages]) => pages[n]),
     ),
     this.currentPage$.pipe(
-      filter(p => !!p),
+      filter((p) => !!p),
       distinctUntilChanged(),
     ));
 
   currentMsDescId$ = new BehaviorSubject(undefined);
   currentMsDesc$ = combineLatest([this.evtModelService.msDesc$, this.currentMsDescId$]).pipe(
     filter(([msDesc, currentId]) => !!msDesc && !!currentId),
-    map(([msDesc, currentId]) => msDesc.find(m => m.id === currentId)),
+    map(([msDesc, currentId]) => msDesc.find((m) => m.id === currentId)),
   );
 
   msDescOpen = false;

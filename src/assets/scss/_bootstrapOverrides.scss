@@ -3,6 +3,11 @@
     height: 31px;
 }
 
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .badge-info {
     @include themify($themes) {
         color: themed('baseColorLight');

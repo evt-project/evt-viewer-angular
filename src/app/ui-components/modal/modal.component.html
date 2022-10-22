@@ -8,9 +8,9 @@
           {{title | translate}}
           <ng-content select="[title]"></ng-content>
         </span>
-        <button type="button" class="close" (click)="closeDialog()" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <evt-button [type]="'button'" data-dismiss="modal" aria-label="Close" [toggler]="true"
+          (btnClick)="closeDialog()" additionalClasses="rounded-circle btn-close p-0" 
+          [iconLeft]="{icon: 'times'}"></evt-button>
       </div>
       <div class="modal-body p-0" [class.no-scroll]="scrollDisabled">
         <div class="{{bodyContentClass}}">

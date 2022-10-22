@@ -20,7 +20,7 @@ export class AttrParser extends EmptyParser {
 export function queryAndParseElements<T>(xml: XMLElement, name: string) {
     const p = ParserRegister.get(name);
 
-    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map(g => p.parse(g) as unknown as T);
+    return Array.from(xml.querySelectorAll<XMLElement>(`:scope > ${name}`)).map((g) => p.parse(g) as unknown as T);
 }
 
 export function queryAndParseElement<T>(xml: XMLElement, name: string, allAnnidationLevels?: boolean): T {

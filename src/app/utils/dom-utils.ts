@@ -56,7 +56,7 @@ export function isNodeNestedInElem(
         return false;
       }
       let matchingAttr = 0;
-      attributes.forEach(attr => {
+      attributes.forEach((attr) => {
         if (element.parentNode.attributes[attr.key] &&
           element.parentNode.attributes[attr.key].value === attr.value) {
           matchingAttr++;
@@ -81,7 +81,7 @@ export function isNodeNestedInElem(
  *
  * @returns calculated xpath of the given element
  */
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function xpath(el: any): string {
   try {
     if (typeof el === 'string') {
@@ -91,9 +91,7 @@ export function xpath(el: any): string {
     if (!el || el.nodeType !== 1) { return ''; }
     let sames = [];
     if (el.parentNode) {
-      sames = [].filter.call(el.parentNode.children, (x) => {
-        return x.tagName === el.tagName;
-      });
+      sames = [].filter.call(el.parentNode.children, (x) => x.tagName === el.tagName);
     }
     let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : 1;
     countIndex = `[${countIndex}]`;
@@ -189,7 +187,7 @@ export function balanceXHTML(XHTMLstring: string): string {
  *
  * @returns list of nodes contained between start node and end node
  */
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const range = document.createRange();
   range.setStart(start, 0);

@@ -44,7 +44,7 @@ export class ImageTextComponent {
       return {
         type: 'default',
         value: {
-          xmlImages: pages.map(page => ({ url: page.facsUrl })) as XMLImagesValues[],
+          xmlImages: pages.map((page) => ({ url: page.facsUrl })) as XMLImagesValues[],
         },
       };
     }),

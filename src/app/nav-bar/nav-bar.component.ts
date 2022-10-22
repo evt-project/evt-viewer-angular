@@ -11,10 +11,10 @@ import { EVTStatusService } from '../services/evt-status.service';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent {
-  updateThContainerInfo$ = new Subject<HTMLElement>();
+  updateThContainerInfo$ = new Subject<HTMLElement | void>();
   thContainerInfo$ = this.updateThContainerInfo$.pipe(
     scan((currentEl, val) => val || currentEl, undefined),
-    filter(thContainer => !!thContainer),
+    filter((thContainer) => !!thContainer),
     map((thContainer: HTMLElement) => ({
       width: thContainer.clientWidth,
       height: thContainer.clientHeight,
@@ -38,20 +38,20 @@ export class NavBarComponent {
   currentPageIndexStatic;
   currentPageIndex$ = this.evtStatusService.currentPage$.pipe(
     withLatestFrom(this.evtModelService.pages$),
-    filter(p => !!p),
+    filter((p) => !!p),
     map(([page, pages]) => pages.findIndex((p) => p.id === page.id)),
-    tap(i => this.currentPageIndexStatic = i),
+    tap((i) => this.currentPageIndexStatic = i),
   );
 
   thumbnailsButton = AppConfig.evtSettings.ui.thumbnailsButton;
-  toggleThumbnailsPanel$ = new Subject<boolean>();
+  toggleThumbnailsPanel$ = new Subject<boolean | void>();
   thumbnailsPanelOpened$ = this.toggleThumbnailsPanel$.pipe(
     scan((currentState: boolean, val: boolean | undefined) => val === undefined ? !currentState : val, false),
     startWith(false),
   );
 
   viscollButton = AppConfig.evtSettings.ui.viscollButton;
-  toggleViscollPanel$ = new Subject<boolean>();
+  toggleViscollPanel$ = new Subject<boolean | void>();
   viscollPanelOpened$ = this.toggleViscollPanel$.pipe(
     scan((currentState: boolean, val: boolean | undefined) => val === undefined ? !currentState : val, false),
     startWith(false),

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./shortcuts.component.scss'],
 })
 export class ShortcutsComponent {
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public shortcuts: Array<{ label: string, instructions: any[] }> = []; // TODO: get rid of instructions
 
   constructor() {

@@ -8,7 +8,7 @@ describe('ApparatusEntryDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApparatusEntryDetailComponent ]
+      declarations: [ ApparatusEntryDetailComponent ],
     })
     .compileComponents();
   });

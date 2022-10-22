@@ -8,7 +8,7 @@ describe('IdentifierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IdentifierComponent ]
+      declarations: [ IdentifierComponent ],
     })
     .compileComponents();
   });

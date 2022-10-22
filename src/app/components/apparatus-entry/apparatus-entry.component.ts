@@ -32,9 +32,9 @@ export class ApparatusEntryComponent {
 
   highlightColor$ = new BehaviorSubject<string>(AppConfig.evtSettings.edition.readingColorLight);
   highlightData$ = this.highlightColor$.pipe(
-    map(color => ({
-        highlight: true,
-        highlightColor: color,
+    map((color) => ({
+      highlight: true,
+      highlightColor: color,
     })),
   );
 
@@ -55,8 +55,11 @@ export class ApparatusEntryComponent {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    !this.opened ? this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorLight) :
+    if (this.opened) {
       this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorDark);
+    } else {
+      this.highlightColor$.next(AppConfig.evtSettings.edition.readingColorLight)
+    }
   }
 
   toggleAppEntryBox(e: MouseEvent) {

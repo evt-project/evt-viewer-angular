@@ -25,8 +25,8 @@ export function getListsToParseTagNames() {
     const neListsConfig = AppConfig.evtSettings.edition.namedEntitiesLists || {};
 
     return Object.keys(neListsConfig)
-        .map((i) => neListsConfig[i].enabled ? namedEntitiesListsTagNamesMap[i] : undefined)
-        .filter(ne => !!ne);
+        .map((i) => neListsConfig[i].enable ? namedEntitiesListsTagNamesMap[i] : undefined)
+        .filter((ne) => !!ne);
 }
 
 @xmlParser('evt-named-entities-list-parser', NamedEntitiesListParser)
@@ -64,7 +64,8 @@ export class NamedEntitiesListParser extends EmptyParser implements Parser<XMLEl
                         break;
                     case 'listrelation':
                         if (this.neListsConfig.relations.enable) {
-                            child.querySelectorAll<XMLElement>('relation').forEach(r => parsedList.relations.push(relationParse.parse(r)));
+                            child.querySelectorAll<XMLElement>('relation')
+                                .forEach((r) => parsedList.relations.push(relationParse.parse(r)));
                         }
                         break;
                     default:

@@ -14,7 +14,7 @@ export class HtmlAttributesDirective implements OnInit {
   }
 
   ngOnInit() {
-    Object.keys(this.attributes).forEach(key => {
+    Object.keys(this.attributes).forEach((key) => {
       this.renderer.setAttribute(this.el.nativeElement, `data-${key}`, this.attributes[key]);
     });
   }

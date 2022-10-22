@@ -11,7 +11,7 @@ export class LinesVersesParserService {
     public parseLines(document: XMLElement) {
         // Significant verses are those with at least @n or @xml:id attribute
         return Array.from(document.querySelectorAll<XMLElement>('lb'))
-            .filter(el => el.getAttribute('n') || el.getAttribute('xml:id'))
+            .filter((el) => el.getAttribute('n') || el.getAttribute('xml:id'))
             .map((l) => this.parseLine(l));
     }
 

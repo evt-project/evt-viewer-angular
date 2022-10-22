@@ -11,7 +11,7 @@ export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
         const attributes = this.attributeParser.parse(xml);
         if (xml.getAttribute('points')) {
             coords = attributes.points.split(' ')
-                .map(stringPoint => {
+                .map((stringPoint) => {
                     const points = stringPoint.split(',');
 
                     return {
@@ -77,16 +77,16 @@ export class SurfaceParser extends EmptyParser implements Parser<XMLElement> {
     graphicParser = createParser(GraphicParser, this.genericParse);
     zoneParser = createParser(ZoneParser, this.genericParse);
     public parse(xml: XMLElement): Surface {
-        const zones = Array.from(xml.querySelectorAll<XMLElement>('zone')).map(z => this.zoneParser.parse(z));
+        const zones = Array.from(xml.querySelectorAll<XMLElement>('zone')).map((z) => this.zoneParser.parse(z));
 
         return {
             type: Surface,
             id: getID(xml),
             corresp: xml.getAttribute('corresp')?.replace('#', ''),
-            graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map(g => this.graphicParser.parse(g)),
+            graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
             zones: {
-                lines: zones.filter(z => z.rendition === 'Line') as ZoneLine[],
-                hotspots: zones.filter(z => z.rendition === 'HotSpot') as ZoneHotSpot[],
+                lines: zones.filter((z) => z.rendition === 'Line') as ZoneLine[],
+                hotspots: zones.filter((z) => z.rendition === 'HotSpot') as ZoneHotSpot[],
             },
             attributes: this.attributeParser.parse(xml),
             content: parseChildren(xml, this.genericParse),

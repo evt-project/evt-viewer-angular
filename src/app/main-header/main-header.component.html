@@ -1,12 +1,12 @@
 <nav class="navbar justify-content-between temp-header">
     <a class="navbar-brand">
-        <img [src]="logoUrl" height="30" class="d-inline-block align-top mr-2" alt="">
+        <img [src]="logoUrl" height="30" class="d-inline-block align-top me-2" alt="">
         <span (click)="openEditionHome()" class="edition-font" [class.pointer]="editionHome">{{ (title$ | async) | translate }}</span>
         <a *ngIf="editionHome" [href]="editionHome" target="_blank"
-            class="ml-2 edition-home-link">
+            class="ms-2 edition-home-link">
             <evt-icon [iconInfo]="{icon: 'external-link-alt', iconSet: 'fas' }"></evt-icon>
         </a>
-        <span class="ml-2 badge badge-pill badge-info inverted font-weight-normal edition-badge" *ngIf="editionConfig?.badge">{{editionConfig?.badge}}</span>
+        <span class="ms-2 badge badge-pill badge-info inverted font-weight-normal edition-badge" *ngIf="editionConfig?.badge">{{editionConfig?.badge}}</span>
     </a>
     <div>
         <evt-button additionalClasses="btn-no-border viewMode-btn" 

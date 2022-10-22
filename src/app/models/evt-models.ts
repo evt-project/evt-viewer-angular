@@ -9,7 +9,7 @@ export interface EditorialConvention {
 }
 export type EditorialConventionLayouts = Partial<{ [key in EditionLevelType]: Partial<EditorialConventionLayout> }>;
 export interface EditorialConventionLayout {
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     style: { [cssProperty: string]: any; }; // List of CSS properties to be assigned to the output element
     pre: string; // Text to be shown before the element
     post: string; // Text to be shown after the element
@@ -21,7 +21,7 @@ export interface HighlightData {
 }
 
 export class GenericElement {
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     type: Type<any>;
     path?: string;
     class?: string;
@@ -1169,7 +1169,8 @@ export class ProfileDesc extends GenericElement {
     textDesc: TextDesc[];
 }
 
-export type Status = 'approved' | 'candidate' | 'cleared' | 'deprecated' | 'draft' | 'embargoed' | 'expired' | 'frozen' | 'galley' | 'proposed' | 'published' | 'recommendation' | 'submitted' | 'unfinished' | 'withdrawn';
+export type Status = 'approved' | 'candidate' | 'cleared' | 'deprecated' | 'draft' | 'embargoed' | 'expired' |
+    'frozen' | 'galley' | 'proposed' | 'published' | 'recommendation' | 'submitted' | 'unfinished' | 'withdrawn';
 
 export class Change extends GenericElement {
     id?: string;

@@ -41,7 +41,8 @@ class ViewerController<T extends Record<string, ViewerSource>> {
     getSource<K extends keyof T>(source: ViewerDataType, type: string | K): ReturnType<T[K]['getSource']> {
         return this.factories[type].getSource(source) as ReturnType<T[K]['getSource']>;
     }
-    getTileSource<K extends keyof T>(change: BehaviorSubject<ViewerDataInput>, type: string | K, http?: HttpClient): ReturnType<T[K]['getTileSource']> {
+    getTileSource<K extends keyof T>(change: BehaviorSubject<ViewerDataInput>, type: string | K, http?: HttpClient)
+        : ReturnType<T[K]['getTileSource']> {
         return this.factories[type].getTileSource(change, http) as ReturnType<T[K]['getTileSource']>;
     }
     getDataType<K extends keyof T>(type: string, data?: Surface[]): ReturnType<T[K]['getDataType']> {
@@ -94,7 +95,7 @@ class ManifestSource {
 class XMLSource {
     getDataType(key: string, data: Surface[]): ViewerDataType {
         const localImagesFolder = AppConfig.evtSettings.files.imagesFolderUrl;
-        const xmlImages: XMLImagesValues[] = data.map(s =>
+        const xmlImages: XMLImagesValues[] = data.map((s) =>
             s[AppConfig.evtSettings.files.editionImagesSource[key].value]
                 ? {
                     url: isUrl(s.corresp) ? s.corresp : localImagesFolder + s.corresp,

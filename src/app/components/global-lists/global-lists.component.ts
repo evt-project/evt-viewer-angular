@@ -17,12 +17,12 @@ interface GlobalList extends NamedEntitiesList {
 })
 export class GlobalListsComponent {
   lists$: Observable<GlobalList[]> = this.evtModelService.namedEntities$.pipe(
-    map(ne => (ne.persons.lists.concat(ne.places.lists, ne.organizations.lists, ne.events.lists))),
-    map(lists => (lists.map(list => ({
+    map((ne) => (ne.persons.lists.concat(ne.places.lists, ne.organizations.lists, ne.events.lists))),
+    map((lists) => (lists.map((list) => ({
       ...list,
       icon: this.listsIcons[list.namedEntityType] || 'list',
     })))),
-    tap(lists => {
+    tap((lists) => {
       if (!this.selectedList && lists[0]) {
         this.openList(undefined, lists[0]);
       }
@@ -31,7 +31,7 @@ export class GlobalListsComponent {
   selectedList: NamedEntitiesList;
 
   relations$: Observable<Relation[]> = this.evtModelService.namedEntities$.pipe(
-    map(ne => ne.relations),
+    map((ne) => ne.relations),
   );
 
   showRelations = false;

@@ -27,21 +27,21 @@ export class CharParser extends EmptyParser implements Parser<XMLElement> {
             return charNameEl.textContent;
         }
         const localPropName = Array.from(xml.querySelectorAll<XMLElement>('localProp'))
-            .find(el => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'name');
+            .find((el) => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'name');
 
         return localPropName ? getDefaultAttr(localPropName.getAttribute('value')) : '';
     }
 
     getEntityName(xml: XMLElement) {
         const localPropName = Array.from(xml.querySelectorAll<XMLElement>('localProp'))
-            .find(el => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'entity');
+            .find((el) => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'entity');
 
         return localPropName ? getDefaultAttr(localPropName.getAttribute('value')) : '';
     }
 
     getMappings(xml: XMLElement): CharMapping[] {
         return Array.from(xml.querySelectorAll<XMLElement>('mapping'))
-            .map(el => ({
+            .map((el) => ({
                 type: getDefaultAttr(el.getAttribute('type')),
                 subtype: getDefaultAttr(el.getAttribute('subtype')),
                 attributes: this.attributeParser.parse(el),
@@ -51,7 +51,7 @@ export class CharParser extends EmptyParser implements Parser<XMLElement> {
 
     getLocalProps(xml: XMLElement): CharProp[] {
         return Array.from(xml.querySelectorAll<XMLElement>('localProp'))
-            .map(el => ({
+            .map((el) => ({
                 name: getDefaultAttr(el.getAttribute('name')),
                 value: getDefaultAttr(el.getAttribute('value')),
             }));
@@ -61,7 +61,7 @@ export class CharParser extends EmptyParser implements Parser<XMLElement> {
         const graphicParser = createParser(GraphicParser, this.genericParse);
 
         return Array.from(xml.querySelectorAll<XMLElement>('graphic'))
-            .map(el => graphicParser.parse(el));
+            .map((el) => graphicParser.parse(el));
     }
 }
 
@@ -88,7 +88,7 @@ export class GlyphParser extends CharParser implements Parser<XMLElement> {
             return charNameEl.textContent;
         }
         const localPropName = Array.from(xml.querySelectorAll<XMLElement>('localProp'))
-            .find(el => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'name');
+            .find((el) => getDefaultAttr(el.getAttribute('name')).toLowerCase() === 'name');
 
         return localPropName ? getDefaultAttr(localPropName.getAttribute('value')) : '';
     }

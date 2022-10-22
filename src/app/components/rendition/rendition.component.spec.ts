@@ -5,7 +5,7 @@ describe('RenditionComponent', () => {
   let component: RenditionComponent;
   let fixture: ComponentFixture<RenditionComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RenditionComponent],
     })

@@ -5,7 +5,7 @@ describe('SamplingDeclComponent', () => {
   let component: SamplingDeclComponent;
   let fixture: ComponentFixture<SamplingDeclComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SamplingDeclComponent ],
     })
