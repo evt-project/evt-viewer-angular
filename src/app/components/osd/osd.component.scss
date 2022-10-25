@@ -2,10 +2,6 @@
     height: 100%;
 }
 
-::ng-deep .hideToolbar .openseadragon-container :nth-child(2) {
-    display: none !important;
-}
-
 ::ng-deep .openseadragon-canvas {
     background: #000 !important;
 }
