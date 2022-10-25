@@ -119,6 +119,7 @@ import { ReadingTextComponent } from './view-modes/reading-text/reading-text.com
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
+import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
 
 const routes: Routes = [
 ];
@@ -194,6 +195,7 @@ const DynamicComponents = [
     EvtInfoComponent,
     FilterPipe,
     GlobalListsComponent,
+    HandleImgErrorDirective,
     HighlightDirective,
     HtmlAttributesDirective,
     HumanizePipe,
