@@ -60,5 +60,6 @@
 	"enableNavBar": true,
 	"initNavBarOpened": true,
 	"thumbnailsButton": true,
-	"viscollButton": true
+	"viscollButton": true,
+	"theme": "modern"
 }
