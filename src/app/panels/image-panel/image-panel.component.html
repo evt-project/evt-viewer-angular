@@ -6,7 +6,7 @@
         <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>
         <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>
     </div>
-    <div content>
+    <div content class="full-height">
         <evt-osd
             *ngIf="viewerData"
             [viewerData]="viewerData" [options]="{showNavigationControl: false}"

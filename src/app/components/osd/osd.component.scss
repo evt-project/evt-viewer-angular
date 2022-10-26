@@ -1,7 +1,22 @@
 .full-height {
-    height: 100vh;
+    height: 100%;
 }
 
 ::ng-deep .hideToolbar .openseadragon-container :nth-child(2) {
     display: none !important;
+}
+
+::ng-deep .openseadragon-canvas {
+    background: #000 !important;
+}
+
+::ng-deep .openseadragon-message {
+    background: url("/assets/images/empty-image.jpg") no-repeat !important;
+    background-size: 100% 100% !important;
+    z-index: 999999;
+    position: relative !important;
+
+    * {
+        display: none;
+    }
 }
