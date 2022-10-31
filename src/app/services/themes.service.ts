@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConfig } from '../app.config';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +23,7 @@ export class ThemesService {
                 label: 'themeClassic',
             },
         ];
-        this.selectTheme(this.themes[0]);
+        this.selectTheme(this.themes.find((t) => t.value === AppConfig.evtSettings.ui.theme) ?? this.themes[0]);
     }
 
     selectTheme(theme: ColorTheme) {
