@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostBinding, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -28,6 +29,7 @@ export class AppComponent implements OnDestroy {
     private spinner: NgxSpinnerService,
     private shortcutsService: ShortcutsService,
     private themes: ThemesService,
+    private titleService: Title,
   ) {
     this.router.events.subscribe((event) => {
       switch (true) {
@@ -43,6 +45,7 @@ export class AppComponent implements OnDestroy {
           break;
       }
     });
+    this.titleService.setTitle(AppConfig.evtSettings.edition.editionTitle || 'EVT');
   }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }
