@@ -148,6 +148,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         clickToZoom: false,
         dblClickToZoom: true,
       },
+      placeholderFillStyle: 'assets/images/empty-image.jpg',
     };
 
     this.subscriptions.push(combineLatest([this.optionsChange, this.tileSources])
@@ -167,6 +168,13 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
+        });
+        this.viewer.addHandler('open-failed', () => {
+          const canvasEl: HTMLCanvasElement = this.div?.nativeElement?.querySelector('.openseadragon-canvas canvas');
+          if (canvasEl) {
+            const context = canvasEl.getContext('2d');
+            context.clearRect(0, 0, canvasEl.width, canvasEl.height);
+          }
         });
       }));
   }
