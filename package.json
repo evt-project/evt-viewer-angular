@@ -1,6 +1,6 @@
 {
   "name": "evt-viewer-angular",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=4205",
