@@ -22,23 +22,23 @@
 	"namedEntitiesLists": {
 		"persons": {
 			"defaultLabel": "Persons",
-			"enabled": true
+			"enable": true
 		},
 		"places": {
 			"defaultLabel": "Places",
-			"enabled": true
+			"enable": true
 		},
 		"organizations": {
 			"defaultLabel": "Organizations",
-			"enabled": true
+			"enable": true
 		},
 		"relations": {
 			"defaultLabel": "Relations",
-			"enabled": true
+			"enable": true
 		},
 		"events": {
 			"defaultLabel": "Events",
-			"enabled": true
+			"enable": true
 		}
 	},
 	"showLists": true,
