@@ -1,5 +1,5 @@
 <div class="row h-100 m-0">
-    <div class="bg-light col-3 p-0 border-right">
+    <div class="bg-light col-3 p-0 border-right position-relative">
         <ng-template ngFor let-list [ngForOf]="lists$ | async">
             <ng-template [ngTemplateOutlet]="listTemplate"
                 [ngTemplateOutletContext]="{ list: list, last: false }">
