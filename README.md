@@ -241,21 +241,16 @@ They are defined respectively in the files below:
 
 To use them, please refer to official scss documentation.
 
-5 - EVT Configuration
+5 - EVT Configuration: technical details
 ---------------------
-There are several configuration options, ranging from the folders where edition data is stored to User Interface layout and available tools, that can be set by editing the configuration files that you can find in the `assets/config` directory.
-To facilitate the configuration work, configuration options are divided into three macro group:
-* Edition Configuration (`edition_config.json`), where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc.
-* File Configuration (`file_config.json`), where to set the path(s) to the file(s) of the digital edition.
-* Ui Configuration (`ui_config.json`), where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. 
-
 Configurations is defined as a `AppConfig` provider and is injected into main app module. It is loaded during app initialization, to that it will be immediately available for every component. 
-The three groups are gathered (although kept divided) in a single `EVTConfig` object.
+The four groups are gathered (although kept divided) in a single `EVTConfig` object.
 ```
 interface EVTConfig {
     ui: UiConfig;
     edition: EditionConfig;
     files: FileConfig;
+    editorialConventions: EditorialConventionsConfig;
 }
 ```
 If you want to use a parameter from configuration in your component, you just need to import `AppConfig` and directly use its properties:
@@ -274,18 +269,7 @@ export class MyComponent {
 }
 ```
 
-### 5.1 - Edition Configuration
-* `title: string;`, the main title of the digital edition. If you want to allow the translation of the title, use the proper key of the locale json file. If you leave it blank the default 'EVT Viewer' title will be shown.
-* `\\ [...] `
-  
-### 5.2 - File Configuration
-* `editionUrls: string[];`, list of paths to file(s) of your encoded edition. It can point either to an internal folder or to an external online resource.
-* `\\ [...] `
-
-### 5.3 - UI Configuration
-* `localization: boolean;`, whether to have localization buttons to allow language change at runtime
-* `defaultLocalization: string;`, the code of the default language to be used
-* `\\ [...] `
+If you want to add a parameter in configuration, you need to add it first to the interface of the specific group, indicating the exact type of data you expect for it.
 
 6 - EVT Manual
 ---------------------
