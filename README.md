@@ -28,7 +28,11 @@ If you are interested in **using** EVT to prepare an edition right away, you sho
 If, on the other hand, you are interested in **developing** a specific functionality in EVT, or in modifying an existing one, or preparing your edition with the most recent (yet stable) version of EVT, you should download the [*GitHub Development framework*](https://github.com/evt-project/evt-viewer). See the *Development framework installation and use* section to know how to install and configure the environment needed for this purpose. If you intend to change the source code for personal needs, please **fork** the project. If you want to contribute to the main project (by fixing a bug or adding a feature), please ask for a **pull request** and/or contact us at evt.developers@gmail.com.
 
 ### 2.1 - Installation and use
-Work in progress... stay in touch!
+EVT 3 can be used to prepare an edition right away, immediately after downloading the release package on your hard drive: see the [​Installation and management of the edition data](https://github.com/evt-project/evt-viewer-angular/wiki/Installation-and-use#installation-and-management-of-the-edition-data) section of the Wiki first, then [Configuration​](https://github.com/evt-project/evt-viewer-angular/wiki/Configuration), to understand how EVT works and how you can use it to publish your editions.
+
+If, on the other hand, you are interested in ​developing a specific functionality in EVT 3, or in modifying an existing one, we suggest that you clone the project as it is.​ The ​README.md explains how to install and configure the development environment needed for this purpose. This step is only needed if you want to start working with EVT source code, so it is in no way necessary for basic users. See [Development](https://github.com/evt-project/evt-viewer-angular/wiki/Development) section and subsections of the Wiki for further information on development guidelines.
+
+
 
 ### 2.2 - Configuration
 Work in progress... stay in touch!
