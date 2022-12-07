@@ -274,7 +274,9 @@ If you want to add a parameter in configuration, you need to add it first to the
 6 - EVT Manual
 ---------------------
 
-Work in progress... stay in touch!
+As a user manual please refer to the [Wiki](https://github.com/evt-project/evt-viewer-angular/wiki). It will always be updated based on the features merged into the `develop` branch. 
+
+For the functionalities and instructions related to a specific release, it is possible to refer to the `evt-documentation.pdf` file inside the `doc` folder in the release package.
 
 
 7 - Feedback
