@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Dependency Updates
-- Updated to Angular 9
+- Updated to Angular 13
 
 ### Added
 - Text/images connection in page change
