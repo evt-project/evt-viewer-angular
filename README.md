@@ -1,4 +1,4 @@
-EVT 2.0 (evt-viewer-angular) [![Build Status](https://travis-ci.org/evt-project/evt-viewer-angular.svg?branch=master)](https://travis-ci.org/evt-project/evt-viewer-angular)
+EVT 3.0 (evt-viewer-angular) [![Build Status](https://travis-ci.org/evt-project/evt-viewer-angular.svg?branch=master)](https://travis-ci.org/evt-project/evt-viewer-angular)
 ===============
 
 1 - Introduction
@@ -28,10 +28,22 @@ If you are interested in **using** EVT to prepare an edition right away, you sho
 If, on the other hand, you are interested in **developing** a specific functionality in EVT, or in modifying an existing one, or preparing your edition with the most recent (yet stable) version of EVT, you should download the [*GitHub Development framework*](https://github.com/evt-project/evt-viewer). See the *Development framework installation and use* section to know how to install and configure the environment needed for this purpose. If you intend to change the source code for personal needs, please **fork** the project. If you want to contribute to the main project (by fixing a bug or adding a feature), please ask for a **pull request** and/or contact us at evt.developers@gmail.com.
 
 ### 2.1 - Installation and use
-Work in progress... stay in touch!
+EVT 3 can be used to prepare an edition right away, immediately after downloading the release package on your hard drive: see the [​Installation and management of the edition data](https://github.com/evt-project/evt-viewer-angular/wiki/Installation-and-use#installation-and-management-of-the-edition-data) section of the Wiki first, then [Configuration​](https://github.com/evt-project/evt-viewer-angular/wiki/Configuration), to understand how EVT works and how you can use it to publish your editions.
+
+If, on the other hand, you are interested in ​developing a specific functionality in EVT 3, or in modifying an existing one, we suggest that you clone the project as it is.​ The ​README.md explains how to install and configure the development environment needed for this purpose. This step is only needed if you want to start working with EVT source code, so it is in no way necessary for basic users. See [Development](https://github.com/evt-project/evt-viewer-angular/wiki/Development) section and subsections of the Wiki for further information on development guidelines.
+
+
 
 ### 2.2 - Configuration
-Work in progress... stay in touch!
+There are several configuration options, ranging from setting the folders where edition data is stored to choosing the User Interface layout and the tools to be made available for the final user, that can be set by editing the configuration files in the `assets/config` directory. To facilitate the configuration work, configuration options are divided into three macro groups:
+
+* Edition Configuration (`edition_config.json`), where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Edition-Configuration).
+* File Configuration (`file_config.json`), where to set the path(s) to the file(s) of the digital edition. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/File-Configuration).
+* UI Configuration (`ui_config.json`), where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
+
+It is also possible to configurate the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.json`. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
+
+For more information please refer to the [Configuration section](https://github.com/evt-project/evt-viewer-angular/wiki/Configuration) on the Wiki.
 
 
 3 - Development framework installation and use
@@ -45,13 +57,13 @@ For development, you will only need Node.js installed on your environement. And 
 ### 3.2 - Node
 [Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
 You should be able to run the following command after the installation procedure
-below.
+below. To properly install all the dependency, please use 12.20.x/14.15.x/16.10.x or later minor version of NodeJS.
 
     $ node --version
-    v10.15.3
+    v14.15.0
 
     $ npm --version
-    6.4.1
+    v6.14.8
 
 ### 3.3 - Install 
     $ git clone https://github.com/evt-project/evt-viewer-angular.git
@@ -62,10 +74,10 @@ below.
 ### 3.4 - Start & watch with development server
     $ npm run start
 
-If nothing happens, then open your browser and navigate to `http://localhost:4200/`.
+If nothing happens, then open your browser and navigate to `http://localhost:4205/`.
 The app will automatically reload if you change any of the source files.
 
-With the second instruction you can choose the port where to run the application (es `ng serve --port=4202`, thenn connecto to `http://localhost:4202/`).
+If you want to use a different port where to run the application you can run `npm run ng serve -- --port=4200`, then connecto to `http://localhost:4200/`).
 
 ### 3.5 - Code scaffolding
 
@@ -229,21 +241,16 @@ They are defined respectively in the files below:
 
 To use them, please refer to official scss documentation.
 
-5 - EVT Configuration
+5 - EVT Configuration: technical details
 ---------------------
-There are several configuration options, ranging from the folders where edition data is stored to User Interface layout and available tools, that can be set by editing the configuration files that you can find in the `assets/config` directory.
-To facilitate the configuration work, configuration options are divided into three macro group:
-* Edition Configuration (`edition_config.json`), where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc.
-* File Configuration (`file_config.json`), where to set the path(s) to the file(s) of the digital edition.
-* Ui Configuration (`ui_config.json`), where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. 
-
 Configurations is defined as a `AppConfig` provider and is injected into main app module. It is loaded during app initialization, to that it will be immediately available for every component. 
-The three groups are gathered (although kept divided) in a single `EVTConfig` object.
+The four groups are gathered (although kept divided) in a single `EVTConfig` object.
 ```
 interface EVTConfig {
     ui: UiConfig;
     edition: EditionConfig;
     files: FileConfig;
+    editorialConventions: EditorialConventionsConfig;
 }
 ```
 If you want to use a parameter from configuration in your component, you just need to import `AppConfig` and directly use its properties:
@@ -262,23 +269,14 @@ export class MyComponent {
 }
 ```
 
-### 5.1 - Edition Configuration
-* `title: string;`, the main title of the digital edition. If you want to allow the translation of the title, use the proper key of the locale json file. If you leave it blank the default 'EVT Viewer' title will be shown.
-* `\\ [...] `
-  
-### 5.2 - File Configuration
-* `editionUrls: string[];`, list of paths to file(s) of your encoded edition. It can point either to an internal folder or to an external online resource.
-* `\\ [...] `
-
-### 5.3 - UI Configuration
-* `localization: boolean;`, whether to have localization buttons to allow language change at runtime
-* `defaultLocalization: string;`, the code of the default language to be used
-* `\\ [...] `
+If you want to add a parameter in configuration, you need to add it first to the interface of the specific group, indicating the exact type of data you expect for it.
 
 6 - EVT Manual
 ---------------------
 
-Work in progress... stay in touch!
+As a user manual please refer to the [Wiki](https://github.com/evt-project/evt-viewer-angular/wiki). It will always be updated based on the features merged into the `develop` branch. 
+
+For the functionalities and instructions related to a specific release, it is possible to refer to the `evt-documentation.pdf` file inside the `doc` folder in the release package.
 
 
 7 - Feedback
