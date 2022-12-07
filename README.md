@@ -35,7 +35,15 @@ If, on the other hand, you are interested in ​developing a specific functional
 
 
 ### 2.2 - Configuration
-Work in progress... stay in touch!
+There are several configuration options, ranging from setting the folders where edition data is stored to choosing the User Interface layout and the tools to be made available for the final user, that can be set by editing the configuration files in the `assets/config` directory. To facilitate the configuration work, configuration options are divided into three macro groups:
+
+* Edition Configuration (`edition_config.json`), where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Edition-Configuration).
+* File Configuration (`file_config.json`), where to set the path(s) to the file(s) of the digital edition. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/File-Configuration).
+* UI Configuration (`ui_config.json`), where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
+
+It is also possible to configurate the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.json`. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
+
+For more information please refer to the [Configuration section](https://github.com/evt-project/evt-viewer-angular/wiki/Configuration) on the Wiki.
 
 
 3 - Development framework installation and use
