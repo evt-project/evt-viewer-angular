@@ -74,10 +74,10 @@ below. To properly install all the dependency, please use 12.20.x/14.15.x/16.10.
 ### 3.4 - Start & watch with development server
     $ npm run start
 
-If nothing happens, then open your browser and navigate to `http://localhost:4200/`.
+If nothing happens, then open your browser and navigate to `http://localhost:4205/`.
 The app will automatically reload if you change any of the source files.
 
-With the second instruction you can choose the port where to run the application (es `ng serve --port=4202`, thenn connecto to `http://localhost:4202/`).
+If you want to use a different port where to run the application you can run `npm run ng serve -- --port=4200`, then connecto to `http://localhost:4200/`).
 
 ### 3.5 - Code scaffolding
 
