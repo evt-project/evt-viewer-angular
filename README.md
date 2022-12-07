@@ -57,13 +57,13 @@ For development, you will only need Node.js installed on your environement. And 
 ### 3.2 - Node
 [Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
 You should be able to run the following command after the installation procedure
-below.
+below. To properly install all the dependency, please use 12.20.x/14.15.x/16.10.x or later minor version of NodeJS.
 
     $ node --version
-    v10.15.3
+    v14.15.0
 
     $ npm --version
-    6.4.1
+    v6.14.8
 
 ### 3.3 - Install 
     $ git clone https://github.com/evt-project/evt-viewer-angular.git
