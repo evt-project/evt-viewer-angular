@@ -1,0 +1,29 @@
+<div class="msIdentifier">
+    <evt-ms-desc-section [label]="'msIdentifier'" [underline]=true></evt-ms-desc-section>
+    <div class="flex-container">
+        <ng-container *ngIf="data?.msName.length>0">
+            <div class="flex-item-label">
+                <evt-ms-desc-section [label]="'msName'" [additionalClass]="'msName'" [inlineLabel]="true"></evt-ms-desc-section> 
+            </div>
+            <div class="flex-item-information"> 
+                <evt-content-viewer *ngFor="let m of data.msName" [content]="m" class="projectInfo-block"></evt-content-viewer>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="data?.institution">
+            <div class="flex-item-label" *ngIf="data?.institution">
+                <evt-ms-desc-section [label]="'institution'" [additionalClass]="'institution'" [inlineLabel]="true"></evt-ms-desc-section>
+            </div>  
+            <div class="flex-item-information">      
+                <evt-content-viewer [content]="data?.institution"></evt-content-viewer>
+            </div>
+        </ng-container>   
+    </div> 
+    <evt-identifier [data]="data"></evt-identifier>  
+    <ng-container *ngFor="let a of data?.altIdentifier">
+        <evt-ms-desc-section [label]="'altIdentifier'" [inlineLabel]="true"></evt-ms-desc-section>   
+        <evt-identifier [data]="a" [listClass]="true"></evt-identifier>
+        <evt-ms-desc-section *ngIf="a.noteEl.length>0" [inlineLabel]="true" [additionalClass]="'itemElement'">
+            <evt-content-viewer *ngFor="let nt of a.noteEl" [content]="nt"></evt-content-viewer>
+        </evt-ms-desc-section>
+    </ng-container>
+</div>

@@ -1,0 +1,13 @@
+@import "../../../assets/scss/mixins";
+
+.main-section-title {
+    @include headerSectionTitle();
+}
+
+.seriesStatement {
+    ::ng-deep {
+        .resp-stmt {
+            display: inline-block;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+@import "../../../assets/scss/colors";
+@import "../../../assets/scss/themes";
+
+.verse {
+    .verse-num {
+        position: relative;
+        z-index: 1;
+        margin-right: 5px;
+        display: inline-flex;
+        justify-content: center;
+        min-width: 16px;
+        height: 16px;
+        color: get-color(versesColor);
+        font-size: 0.7em;
+        &:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: get-color(versesBackground);
+            border-radius: 100%;
+            border: 1px solid get-color(versesBorder);
+            position: absolute;
+            z-index: -1;
+        }
+    }
+    &.display-block {
+        display: block;
+        .verse-num {
+            @include themify($themes) {            
+                color: themed('secondaryColorDark')
+            }
+            &:before {
+                background: none;
+                border: none;
+            }
+            &.hidden {
+                visibility: hidden;
+            }
+        }
+    }
+}

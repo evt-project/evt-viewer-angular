@@ -1,0 +1,52 @@
+<div class="additional">
+    <evt-ms-desc-section [label]="'additional'" [underline]=true></evt-ms-desc-section>
+    <div class="flex-container" *ngIf="data?.adminInfo?.recordHist">
+        <evt-ms-desc-section [label]="'recordHist'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <evt-content-viewer *ngFor="let s of data.adminInfo.recordHist?.source" [content]="s" class="projectInfo-block"></evt-content-viewer>
+            <div *ngFor="let changes of data.adminInfo.recordHist?.changes">
+                <evt-content-viewer *ngFor="let change of changes" [content]="change"></evt-content-viewer>
+            </div>
+            <evt-content-viewer [content]="par" *ngFor="let par of data.adminInfo.recordHist?.pEl"></evt-content-viewer> 
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.adminInfo?.custodialHist">
+        <evt-ms-desc-section [label]="'custodialHist'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <evt-content-viewer *ngFor="let ce of data.adminInfo.custodialHist?.custEvent" [content]="ce" class="projectInfo-block"></evt-content-viewer>
+            <evt-content-viewer [content]="par" *ngFor="let par of data.adminInfo.custodialHist?.pEl"></evt-content-viewer> 
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.adminInfo?.availabilities?.length>0">
+        <evt-ms-desc-section [label]="'availability'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <div *ngFor="let availabilities of data.adminInfo.availabilities">
+                <evt-content-viewer *ngFor="let availability of availabilities" [content]="availability"></evt-content-viewer>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.adminInfo?.noteEl?.length>0">
+        <evt-ms-desc-section [label]="'adminInfo'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="n" *ngFor="let n of data.adminInfo.noteEl"></evt-content-viewer> 
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.listBibls.length>0">
+        <evt-ms-desc-section [label]="'listBibl'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <div *ngFor="let listBibls of data.listBibls">
+                <evt-content-viewer *ngFor="let listBibl of listBibls" [content]="listBibl"></evt-content-viewer>
+          </div>
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.surrogates">
+        <evt-ms-desc-section [label]="'surrogates'" [inlineLabel]="true" class="flex-item-label"></evt-ms-desc-section>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="par" *ngFor="let par of data.surrogates?.pEl"></evt-content-viewer> 
+            <div *ngFor="let bibls of data.surrogates?.bibls">
+                <evt-content-viewer *ngFor="let bibl of bibls" [content]="bibl"></evt-content-viewer>
+            </div>
+        </div>
+    </div>
+</div>
+

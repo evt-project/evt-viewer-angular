@@ -1,0 +1,94 @@
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
+
+.modal {
+  display: block;
+  max-width: 100%;
+  font-size: 1rem;
+
+  .modal-footer:empty {
+    height: 5px;
+    background: #fff;
+    padding: 0;
+    border: 0;
+  }
+
+  @include themify($themes) {
+    background: rgba(themed('baseColorDark'), .5);
+
+    .modal-header {
+      color: themed('baseColorLight');
+      background: themed('baseColorDark');
+    }
+
+    .close {
+      color: themed('baseColorLight');
+    }
+
+    .modal-body {
+      background: themed('baseColorLight');
+      color: themed('baseColorDark');
+    }
+  }
+
+  .modal-content {
+    background: transparent;
+  }
+
+  .modal-dialog {
+    max-width: 800px;
+    height: 80%;
+
+    &.wider {
+      max-width: 80%;
+    }
+  }
+
+  .modal-header {
+    padding: 0.5rem 1rem;
+
+    .modal-title {
+      font-size: 1.2em;
+    }
+
+    .close {
+      text-shadow: none;
+    }
+  }
+
+  &.fixed-height {
+    .modal-dialog {
+      overflow-y: initial !important
+    }
+
+    .modal-body {
+      height: 500px;
+      overflow-y: auto;
+    }
+  }
+
+  &.fixed-height {
+    .modal-dialog {
+      overflow-y: initial !important
+    }
+
+    .modal-body {
+      height: 500px;
+      overflow-y: auto;
+    }
+  }
+
+  .modal-body.no-scroll {
+    overflow: hidden !important;
+  }
+}
+
+button:focus {
+  outline: none;
+}
+
+::ng-deep evt-icon [class^="evt-icon"] {
+  font-size: 1.3rem;
+  vertical-align: bottom;
+}

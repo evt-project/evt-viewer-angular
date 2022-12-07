@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row mb-2 border-bottom pb-2 pt-2" *ngFor="let shortcut of shortcuts">
+    <div class="col">
+      {{ shortcut.label | translate }}
+    </div>
+    <div class="col">
+      <span class="shortcuts-instruction-item" *ngFor="let item of shortcut.instructions" [attr.type]="item.type">
+        {{item.text}}
+      </span>
+    </div>
+  </div>
+</div>

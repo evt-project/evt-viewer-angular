@@ -1,0 +1,33 @@
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
+
+.row {
+    height: 100%;
+}
+
+.versionsPanel {
+    height: 100%;
+    &.empty {
+        display: flex;
+
+        .btn {
+            margin: auto;
+        }
+    }
+}
+
+.btn-float-right {
+    position: absolute;
+    right: -.3rem;
+    transform: translate(0,-50%);
+    top: 50%;
+    z-index: 99999;
+    opacity: .5;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+:host ::ng-deep .versionsPanel gridster-item {
+    height: 100% !important;
+}

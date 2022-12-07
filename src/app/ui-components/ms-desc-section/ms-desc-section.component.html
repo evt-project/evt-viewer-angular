@@ -1,0 +1,18 @@
+<div class="section {{ additionalClass }}" [class.has-inline-label]="inlineLabel" [class.has-nested-element]="nestedElement" 
+[class.underline-dotted]="underline">
+    <span class="section-label" *ngIf="label">{{ label | translate }}{{inlineLabel ? ': ' : ''}}</span>
+    <ng-container [ngSwitch]="nestedElement">
+        <ng-container *ngSwitchCase=true>
+            <ng-container [ngTemplateOutlet]="content"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <div class="section-content">
+                <ng-container [ngTemplateOutlet]="content"></ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
+
+<ng-template #content>
+    <ng-content select="[content]"></ng-content>
+</ng-template>

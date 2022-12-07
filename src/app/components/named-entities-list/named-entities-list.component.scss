@@ -1,0 +1,9 @@
+@import '../../../assets/scss/mixins';
+
+.card {
+    height: 100%;
+}
+
+cdk-virtual-scroll-viewport {
+    @include calc('height', '100%');
+}

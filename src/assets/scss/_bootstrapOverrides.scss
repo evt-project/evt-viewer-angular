@@ -1,0 +1,24 @@
+@import './themes';
+.btn-sm {
+    height: 31px;
+}
+
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.badge-info {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+        border-color: themed('baseColorDark');
+    }
+    &.inverted {
+        @include themify($themes) {
+            color: themed('baseColorDark');
+            background-color: themed('baseColorLight');
+            border-color: themed('baseColorLight');
+        }
+    }
+}

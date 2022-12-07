@@ -1,0 +1,39 @@
+.char {
+    padding: 10px;
+    border: 1px solid #efefef;
+    margin: 2px;
+}
+
+.char-name {
+    font-weight: bolder;
+}
+
+.char-mapping {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.char-mapping-label,
+.char-mapping-value {
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.char-mapping-label {
+    width: 20%;
+    font-variant: small-caps;
+}
+
+.char-mapping-value {
+    width: 80%;
+
+    &[data-type="codepoint"] {
+        font-family: monospace;
+    }
+}

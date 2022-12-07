@@ -1,0 +1,15 @@
+<ng-container *ngIf="iconInfo">
+    <ng-container [ngSwitch]="true">
+        <ng-container *ngSwitchCase="iconInfo.iconSet === 'evt'">
+            <span class="evt-icon-{{iconInfo.icon}} {{iconInfo.additionalClasses}}"></span>
+        </ng-container>
+        <ng-container *ngSwitchCase="iconInfo.iconSet === 'fas' || iconInfo.iconSet === 'far'">
+            <!-- fas, far-->
+            <fa-icon [icon]="[iconInfo.iconSet, iconInfo.icon]" class="{{iconInfo.additionalClasses}}"
+                [rotate]="iconInfo.rotate" [transform]="iconInfo.transform" [mask]="iconInfo.mask"></fa-icon>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <span style="display: none">iconSet non supportato</span>
+        </ng-container>
+    </ng-container>
+</ng-container>

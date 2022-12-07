@@ -1,0 +1,13 @@
+<gridster [options]="options">
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevel$ | async"
+            (pageChange)="changePage($event)" 
+            (editionLevelChange)="changeEditionLevel($event)"
+        ></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="sourcesPanelItem">
+        <evt-sources-panel></evt-sources-panel>
+    </gridster-item>
+</gridster>

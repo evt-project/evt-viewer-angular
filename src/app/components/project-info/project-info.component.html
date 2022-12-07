@@ -1,0 +1,25 @@
+<div class="project-info-container row h-100 m-0">
+    <div class="project-info-tabs bg-light col-3 p-0 h-100 border-right">
+        <ng-container *ngIf="projectInfo$ | async as projectInfo">
+            <ng-template [ngTemplateOutlet]="sectionTemplate" [ngTemplateOutletContext]="{ key: 'fileDesc', data: projectInfo.fileDesc }"></ng-template>
+            <ng-template [ngTemplateOutlet]="sectionTemplate" [ngTemplateOutletContext]="{ key: 'encodingDesc', data: projectInfo.encodingDesc }"></ng-template>
+            <ng-template [ngTemplateOutlet]="sectionTemplate" [ngTemplateOutletContext]="{ key: 'profileDesc', data: projectInfo.profileDesc }"></ng-template>
+            <ng-template [ngTemplateOutlet]="sectionTemplate" [ngTemplateOutletContext]="{ key: 'revisionDesc', data: projectInfo.revisionDesc }"></ng-template>
+        </ng-container>
+    </div>
+    <div class="project-info-content col-9 p-3 h-100">
+        <evt-content-viewer [content]="selectedSection?.content"></evt-content-viewer>        
+    </div>
+</div>
+
+<ng-template #sectionTemplate let-key="key" let-data="data">
+    <div class="section-item border-bottom" (click)="openSection(key, data)" [ngClass]="{
+        hidden: !data || data.content?.length === 0,
+        'bg-dark': selectedSection?.key === key,
+        'text-light': selectedSection?.key === key
+    }">
+        <span class="p-2 w-100 d-block edition-font">
+            {{key | translate}}
+        </span>
+    </div>
+</ng-template>

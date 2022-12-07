@@ -1,0 +1,65 @@
+// ////////////////// //
+// GLOBAL SCSS MIXINS //
+// ////////////////// //
+
+// Set calculated property
+@mixin calc($property, $expression, $important:"") {
+  #{$property}: -moz-calc(#{$expression}) #{$important};
+  #{$property}: -o-calc(#{$expression}) #{$important};
+  #{$property}: -webkit-calc(#{$expression}) #{$important};
+  #{$property}: calc(#{$expression}) #{$important};
+}
+
+// Set CSS3 property for each different browser
+@mixin set($property, $value) {
+  -moz-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  -webkit-#{$property}: #{$value};
+  -khtml-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
+@function map-fetch($map, $keys) {
+  $key: nth($keys, 1);
+  $length: length($keys);
+  $value: map-get($map, $key);
+  @if ($length > 1) {
+      $rest: ();
+      @for $i from 2 through $length {
+          $rest: append($rest, nth($keys, $i));
+      }
+      @return map-fetch($value, $rest);
+  } @else {
+      @return $value;
+  }
+}
+
+@mixin namedEntityRefColors($color-base, $color-middle, $color-darker) {
+  background: $color-base;
+  border-bottom-color: $color-middle;
+
+  &.active {
+    background-color: $color-middle;
+    border-right-color: $color-middle;
+
+    &:not(:first-child) {
+      border-left-color: $color-middle;
+    }
+  }
+
+  &:hover {
+    background-color: $color-middle;
+  }
+}
+
+@mixin headerSectionTitle() {
+  border-bottom: 1px dotted #666;
+  margin-bottom: 5px;
+  font-variant: small-caps;
+  color: #000;
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 14px;
+  text-align: left;
+}

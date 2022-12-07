@@ -1,0 +1,49 @@
+@import '../../../assets/scss/colors';
+
+.choice {
+    &[data-intervention-type="normalization"] {
+        color: get-color(normalization);
+    }
+    &[data-intervention-type="emendation"] {
+        color: get-color(emendation);
+    }
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+::ng-deep .choice-popover {
+    background: #fffbf3;
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, .25);
+    border: 1px solid rgba(0, 0, 0, 0.35);
+
+    .popover-body {
+        padding: 0.1rem 0.5rem;
+    }
+
+    .arrow {
+        &::before {
+            border-bottom-color: rgba(0, 0, 0, 0.5);
+        }
+
+        &::after {
+            border-bottom-color: #fffbf3;
+        }
+    }
+
+    &.normalization {
+        background: get-color(normalizationBackground);
+
+        .arrow::after {
+            border-bottom-color: get-color(normalizationBackground);
+        }
+    }
+
+    &.emendation {
+        background: get-color(emendationBackground);
+
+        .arrow::after {
+            border-bottom-color: get-color(emendationBackground);
+        }
+    }
+}

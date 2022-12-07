@@ -1,0 +1,11 @@
+<div *ngFor="let note of data?.notes">
+    <evt-content-viewer [content]="note"></evt-content-viewer>
+</div>
+
+<evt-header-section *ngIf="data?.relatedItems?.length > 0" [label]="'relatedItems'" [additionalClass]="'relatedItems'" [inlineLabel]="false">
+    <div content>
+        <div *ngFor="let item of data?.relatedItems">
+            <evt-content-viewer [content]="item"></evt-content-viewer>
+        </div>
+    </div>
+</evt-header-section>

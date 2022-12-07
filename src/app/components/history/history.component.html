@@ -1,0 +1,36 @@
+<div class="history"> 
+    <evt-ms-desc-section [label]="'history'" [underline]=true></evt-ms-desc-section>
+    <div class="flex-container" *ngIf="data?.summary || data?.pEl.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'summary'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="data?.summary"></evt-content-viewer>
+            <evt-content-viewer [content]="par" *ngFor="let par of data.pEl"></evt-content-viewer>
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.origin">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'origin'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="data?.origin"></evt-content-viewer>
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.provenance.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'provenance'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer *ngFor="let p of data.provenance" [content]="p" class="projectInfo-block"></evt-content-viewer>
+        </div>
+    </div>
+    <div class="flex-container" *ngIf="data?.acquisition">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'acquisition'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">
+            <evt-content-viewer [content]="data?.acquisition"></evt-content-viewer>
+        </div>
+    </div>
+</div>

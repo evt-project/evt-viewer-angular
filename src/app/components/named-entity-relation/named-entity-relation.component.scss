@@ -1,0 +1,35 @@
+@import '../../../assets/scss/colors';
+@import '../../../assets/scss/themes';
+@import '../../../assets/scss/mixins';
+
+.relation-entity {
+    cursor: pointer;
+
+    &.disabled {
+        cursor: default;
+    }
+
+    &.person {
+        @include namedEntityRefColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
+    }
+
+    &.place {
+        @include namedEntityRefColors(get-ne-color(placeBase), get-ne-color(placeMiddle), get-ne-color(placeDarker));
+    }
+
+    &.org {
+        @include namedEntityRefColors(get-ne-color(orgBase), get-ne-color(orgMiddle), get-ne-color(orgDarker));
+    }
+
+    &.event {
+        @include namedEntityRefColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
+    }
+}
+
+.relation-type {
+    font-variant: small-caps;
+}
+
+.relation-description {
+    font-size: 90%;
+}

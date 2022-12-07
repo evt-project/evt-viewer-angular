@@ -1,0 +1,33 @@
+// /////////////////////////////////////////////////////// //
+// GLOBAL SCSS VARIABLES AND BOOTSTRAP VARIABLES OVERRIDES //
+// /////////////////////////////////////////////////////// //
+
+// Custom variables
+$base-minHeight: 600px;
+$base-fontSize: 30px;
+$base-header-height: 54px;
+
+$mainContainer-menu-height: 42px;
+$mainContainer-border-width: 2px;
+
+// Advanced
+// Customize visible elements
+$base-footer: false;
+$mainContainer-top-menu: true;
+$mainContainer-bottom-menu: true;
+
+// NavBar
+$base-navbar-height: 45px;
+
+// Thumbnails
+$thumbnail-height: 150px;
+$thumbnail-width: 100px;
+$thumbnail-padding: 8px;
+
+// Bootstrap Variables Overrides
+
+:root {
+    --thumbnail-height: #{$thumbnail-height};
+    --thumbnail-width: #{$thumbnail-width};
+    --thumbnail-padding: #{$thumbnail-padding};
+}

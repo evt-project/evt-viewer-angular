@@ -1,0 +1,30 @@
+<div class="pinnedItems-container" *ngIf="itemsPinned$ | async as itemsPinned; else loading">
+    <div *ngFor="let item of itemsPinned" class="pinnedItem">
+        <div class="pinnedItem-header">
+            <span class="pin-type"> {{ item.pinType | translate }}</span>
+            <span class="pin-date"> [{{ item.pinDate | date:'shortDate' }}]</span>
+            <evt-button [iconLeft]="{icon: 'trash-alt'}" [title]="'RemovePin' | translate" class="pin-remover"
+                (btnClick)="removePinnedItem(item)"></evt-button>
+        </div>
+        <ng-container [ngSwitch]="item.renderer">
+            <div *ngSwitchCase="'ApparatusEntryReadings'">
+                <evt-apparatus-entry-readings [data]="item"></evt-apparatus-entry-readings>
+            </div>
+            <div *ngSwitchDefault>
+                <evt-content-viewer *ngFor="let element of item.content" [content]="element"></evt-content-viewer>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="itemsPinned.length === 0 && types">
+        <span *ngIf="types.length > 0">
+            {{ 'filteredPinboardEmpty' | translate }}
+        </span>
+        <span *ngIf="!types || types.length === 0">
+            {{ 'pinboardEmpty' | translate }}
+        </span>
+    </div>
+</div>
+
+<ng-template #loading>
+    {{ 'pinboardLoading' | translate }}
+</ng-template>

@@ -1,0 +1,9 @@
+<div class="char">
+    <div class="char-name">{{ data.name }}</div>
+    <div class="char-mapping" *ngFor="let mapping of data.mappings">
+        <span class="char-mapping-label">{{ mapping.type }} {{ mapping.subtype }}</span>
+        <span class="char-mapping-value" [attr.data-type]="mapping.type" [attr.data-subtype]="mapping.subtype">
+            <evt-content-viewer *ngFor="let element of mapping.content" [content]="element"></evt-content-viewer>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="flex-container" [class.has-list-class]="listClass">
+    <ng-container *ngIf="data?.settlements.length>0 || data?.regions.length>0 || data?.countries.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'place'" [additionalClass]="'settlement'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">  
+            <div>   
+                <span *ngFor="let settlements of data.settlements">
+                    <evt-content-viewer *ngFor="let settlements of settlements" [content]="settlements"></evt-content-viewer>
+                </span>
+                <ng-container *ngIf="data.regions.length>0">
+                    <ng-container *ngIf="data.settlements.length>0">, </ng-container>
+                    <span *ngFor="let regions of data.regions">
+                        <evt-content-viewer *ngFor="let region of regions" [content]="region"></evt-content-viewer>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="data.countries.length>0">
+                    <ng-container *ngIf="data.settlements.length>0 || data.regions.length>0">, </ng-container>
+                    <span *ngFor="let countries of data.countries">
+                        <evt-content-viewer *ngFor="let country of countries" [content]="country"></evt-content-viewer>
+                    </span>
+                </ng-container> 
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="data?.repository">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'repository'" [additionalClass]="'repository'" [inlineLabel]="true" ></evt-ms-desc-section>
+        </div>  
+        <div class="flex-item-information">    
+            <evt-content-viewer [content]="data.repository"></evt-content-viewer>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="data?.collection.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'collection'" [additionalClass]="'collection'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>    
+        <div class="flex-item-information">   
+            <evt-content-viewer *ngFor="let c of data.collection" [content]="c" class="projectInfo-block"></evt-content-viewer>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="data?.idnos.length>0">
+        <div class="flex-item-label">
+            <evt-ms-desc-section [label]="'idno'" [additionalClass]="'idno'" [inlineLabel]="true"></evt-ms-desc-section>
+        </div>
+        <div class="flex-item-information">  
+            <div *ngFor="let idnos of data.idnos">
+                <evt-content-viewer *ngFor="let idno of idnos" [content]="idno"></evt-content-viewer>
+            </div>
+        </div>
+    </ng-container>
+</div> 

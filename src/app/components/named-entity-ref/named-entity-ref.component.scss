@@ -1,0 +1,54 @@
+@import "../../../assets/scss/colors";
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
+
+.namedEntityRef {
+  &:not(.noDetails) {
+    cursor: pointer;
+    &.opened {
+      border-bottom: 3px solid;
+    }
+  }
+  &:not(.opened):not(:hover) {
+    background-color: transparent;
+  }
+}
+
+.namedEntityRef:hover:not(.noDetails),
+.namedEntityRef.highlighted,
+.namedEntityRef.opened:not(.noDetails) {
+  &.person {
+    @include namedEntityRefColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
+  }
+  &.place {
+    @include namedEntityRefColors(get-ne-color(placeBase), get-ne-color(placeMiddle), get-ne-color(placeDarker));
+  }
+  &.org {
+    @include namedEntityRefColors(get-ne-color(orgBase), get-ne-color(orgMiddle), get-ne-color(orgDarker));
+  }
+  &.event {
+    @include namedEntityRefColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
+  }
+}
+
+.namedEntityRefDetail {
+  &.person {
+    background: get-ne-color(personBase);
+  }
+  &.place {
+    background: get-ne-color(placeBase);
+  }
+  &.org {
+    background: get-ne-color(orgBase);
+  }
+  &.event {
+    background: get-ne-color(eventBase);
+  }
+}
+.not-found-msg {
+  font-size: .9rem;
+}
+
+.entityHighlight {
+  background: #ffffcc !important;
+}

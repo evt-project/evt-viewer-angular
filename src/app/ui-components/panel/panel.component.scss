@@ -1,0 +1,119 @@
+@import '../../../assets/scss/themes';
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
+
+@function setInsideFrameHeight($top-menu, $bottom-menu) {
+    @if($top-menu==true and $bottom-menu==true) {
+        @return "100% - #{$mainContainer-menu-height*2}";
+    }
+    @else if($top-menu==true or $bottom-menu==true) {
+        @return "100% - #{$mainContainer-menu-height}";
+    }
+    @else {
+        @return 100%;
+    }
+}
+
+.panel {
+    &:not(.comparable) {
+        width: 100%;
+    }
+    white-space: normal;
+    position: relative;
+    height: 100%;
+    &.comparable {
+        width: 100%;
+        height: 100%;
+    }
+    .header,
+    .footer {
+        height: $mainContainer-menu-height;
+        min-height: $mainContainer-menu-height;
+        font-size: 16px;
+        padding: 6px;
+        .navbar {
+            padding: 0;
+        }
+    }
+    .footer {
+        padding: 3px 6px 6px;
+    }
+    .content {
+        @include calc(min-height, #{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)});
+        @include calc(height, #{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)});
+        &.noHeader {
+            @include calc(min-height, #{setInsideFrameHeight(false, $mainContainer-bottom-menu)});
+            @include calc(height, #{setInsideFrameHeight(false, $mainContainer-bottom-menu)});
+        }
+        &.noFooter {
+            @include calc(min-height, #{setInsideFrameHeight($mainContainer-top-menu, false)});
+            @include calc(height, #{setInsideFrameHeight($mainContainer-top-menu, false)});
+        }
+        &.noHeader.noFooter {
+            @include calc(min-height, #{setInsideFrameHeight(false, false)});
+            @include calc(height, #{setInsideFrameHeight(false, false)});
+        }
+        padding: .4rem;
+        overflow: auto;
+        font-size: 18px; //&.noBottomMenu {
+        //@include calc(height, #{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} + $mainContainer-menu-height);
+        //}
+    }
+    .secondary-content {
+        text-align: left;
+        margin-top: 42px;
+        margin-bottom: 42px;
+        display: none;
+        position: absolute;
+        z-index: 10;
+        padding: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        top: $mainContainer-border-width;
+        right: $mainContainer-border-width+1;
+        left: $mainContainer-border-width+1;
+        background: rgba(255, 255, 255, .95);
+        @include calc(min-height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} - #{($mainContainer-border-width*2)})});
+        @include calc(height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} - #{($mainContainer-border-width*2)})});
+        @include calc(width, #{calc(100% - #{($mainContainer-border-width*2+1)})});
+        &.noFooter {
+            @include calc(min-height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, false)} - #{($mainContainer-border-width*2)})});
+            @include calc(height, #{calc(#{setInsideFrameHeight($mainContainer-top-menu, false)} - #{($mainContainer-border-width*2)})});
+        }
+        &.open {
+            display: block;
+        }
+        :ng-deep p {
+            margin-bottom: 0;
+        }
+    }
+    
+    @include themify($themes) {
+        color: themed('panelTextColor');
+        background-color: themed('panelBackgroundColor');
+        .header,
+        .footer {
+            color: themed('baseColorLight');
+            background-color: themed('baseColorDark');
+        }
+        .content {
+            border: $mainContainer-border-width solid themed('baseColorDark');
+        }
+        .secondary-content {
+            background: themed('panelSecondaryBackgroundColor');
+        }
+        &.secondary {
+            .header,
+            .footer {
+                color: themed('secondaryColorLight');
+                background-color: themed('secondaryColorDark');
+            }
+            .content {
+                border-color: themed('secondaryColorDark');
+            }
+            .secondary-content {
+                background: themed('panelSecondaryBackgroundColor');
+            }
+        }
+    }
+}

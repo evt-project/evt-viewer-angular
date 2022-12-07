@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/release
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -32,6 +33,7 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -44,3 +46,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Compodoc Documentation
+/documentation

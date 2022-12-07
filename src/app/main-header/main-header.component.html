@@ -1,0 +1,25 @@
+<nav class="navbar justify-content-between temp-header">
+    <a class="navbar-brand">
+        <img [src]="logoUrl" height="30" class="d-inline-block align-top me-2" alt="">
+        <span (click)="openEditionHome()" class="edition-font" [class.pointer]="editionHome">{{ (title$ | async) | translate }}</span>
+        <a *ngIf="editionHome" [href]="editionHome" target="_blank"
+            class="ms-2 edition-home-link">
+            <evt-icon [iconInfo]="{icon: 'external-link-alt', iconSet: 'fas' }"></evt-icon>
+        </a>
+        <span class="ms-2 badge badge-pill badge-info inverted font-weight-normal edition-badge" *ngIf="editionConfig?.badge">{{editionConfig?.badge}}</span>
+    </a>
+    <div>
+        <evt-button additionalClasses="btn-no-border viewMode-btn" 
+            *ngFor="let viewMode of viewModes; trackBy: trackViewModes;" 
+            [title]="viewMode.label" [active]="viewMode.id === (currentViewMode$ | async)?.id" [inverted]="true"
+            (btnClick)="selectViewMode(viewMode)"
+            [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
+        </evt-button>
+        <evt-button (btnClick)="toggleMainMenu($event)" [inverted]="true" [toggler]="true"
+            additionalClasses="btn-no-border" [active]="mainMenuOpened"
+            [iconLeft]="{icon: 'ellipsis-v'}">
+        </evt-button>
+    </div>
+</nav>
+
+<evt-main-menu *ngIf="mainMenuOpened" (itemClicked)=handleItemClicked($event)></evt-main-menu>

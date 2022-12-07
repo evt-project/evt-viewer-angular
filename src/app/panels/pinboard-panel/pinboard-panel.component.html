@@ -1,0 +1,22 @@
+<evt-panel [closable]="true" [secondary]="true" (hide)="emitHide()">
+    <div header-left>{{'pinboard' | translate}}</div>
+    <evt-pinboard content [types]="selectedPinTypes"></evt-pinboard>
+    <div footer>
+        <ng-select 
+            [items]="pinboardTypes$ | async" [multiple]="true" 
+            [closeOnSelect]="false" [searchable]="true"
+            bindValue="id" bindLabel="label" [placeholder]="'filterPins' | translate" 
+            [(ngModel)]="selectedPinTypes" [disabled]="(pinboardTypes$ | async).length === 0">
+            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                    <span class="ng-value-label">{{item.label}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </div>
+                <div class="ng-value" *ngIf="items.length > 2">
+                    <span class="ng-value-label">{{items.length - 2}} {{'more' | translate}}...</span>
+                </div>
+            </ng-template>
+        </ng-select>
+    </div>
+
+</evt-panel>

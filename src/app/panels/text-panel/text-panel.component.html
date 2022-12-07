@@ -1,0 +1,49 @@
+<evt-panel [showSecondaryContent]="isSecondaryContentOpened()" (scrollContent)="updatePageFromScroll$.next()">
+    <div header-left>
+        <evt-button
+            label="Info"
+            [iconLeft]="{icon: 'info-circle'}"
+            additionalClasses="btn-primary me-1"
+            (btnClick)="toggleSecondaryContent('INFO')"
+            [active]="secondaryContent === 'INFO'"></evt-button>
+        <evt-page-selector [pageID]="pageID" (selectionChange)="updatePage$.next($event)"></evt-page-selector>
+        <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
+    </div>
+    <div content evtAnnotator #mainContent>
+        <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
+            <ng-container *ngIf="isMultiplePageFlow$ | async">
+                <evt-page *ngFor="let page of currentStatus.pages"
+                    [attr.data-id]="page.id"
+                    [data]="page"
+                    [textFlow]="textFlow"
+                    [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
+            </ng-container>
+            <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
+                [attr.data-id]="currentStatus.currentPage.id"
+                [data]="currentStatus.currentPage"
+                [editionLevel]="currentStatus.editionLevel"
+                [textFlow]="textFlow"
+                [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
+        </ng-container>
+    </div>
+    <div secondary-content>
+        {{ getSecondaryContent() }}
+    </div>
+
+    <div footer>
+        <evt-button
+            [iconLeft]="{icon: 'search'}"
+            label="Search"
+            additionalClasses="me-1"
+            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
+            [active]="secondaryContent === 'SEARCH_RESULTS'">
+        </evt-button>
+        <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
+        <evt-button *ngIf="enableProseVersesToggler"
+            [iconLeft]="proseVersesTogglerIcon"
+            [label]="textFlow | translate"
+            additionalClasses="ms-1"
+            (btnClick)="toggleProseVerses()">
+        </evt-button>
+    </div>
+</evt-panel>

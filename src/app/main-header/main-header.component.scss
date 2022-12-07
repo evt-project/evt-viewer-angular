@@ -1,0 +1,66 @@
+@import "../../assets/scss/themes";
+@import "../../assets/scss/variables";
+
+.navbar {
+    height: $base-header-height;
+    padding: 0 5px;
+
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        background-color: themed('baseColorDark');
+
+        a.navbar-brand {
+            color: themed('baseColorLight') !important;
+        }
+    }
+    a.navbar-brand {
+        max-width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .right-btn-group {
+        height: $base-header-height;
+        margin-top: 1px;
+    }
+}
+
+::ng-deep .viewMode-btn {
+    padding: 0 5px;
+    height: 38px;
+    line-height: .9px;
+    background: transparent !important;
+    
+    @include themify($themes) {
+        color: themed('baseColorLight');
+        &:hover {
+            background: rgba(themed('baseColorLight'), .2);
+        }
+    }
+    .viewMode-selector {
+        line-height: 0;
+        vertical-align: text-bottom;
+        font-size: 2rem;
+    }
+    &.active {
+        color: #ffcc00 !important; // TEMP
+    }
+}
+
+.edition-badge {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: text-bottom;
+    font-variant: all-small-caps;
+    font-size: 0.8rem;
+}
+
+.edition-home-link {
+    @include themify($themes) {
+        color: themed('baseColorLight');
+    }
+    font-size: .9rem;
+    vertical-align: text-bottom;
+}

@@ -1,0 +1,61 @@
+<div class="card ne-container {{ data.namedEntityType }}" (click)="tabSelected($event)" [ngClass]="{
+        inList: inList, 
+        contentOpened: contentOpened
+    }" *ngIf="data" [evtHtmlAttributes]="data?.attributes">
+    <div class="card-header ne-header" (click)="toggleContent()">
+        <evt-icon *ngIf="inList && contentOpened"
+            [iconInfo]="{ icon: 'caret-down', additionalClasses: 'icon toggler me-2'}">
+        </evt-icon>
+        <evt-icon *ngIf="inList && !contentOpened"
+            [iconInfo]="{icon: 'caret-right', additionalClasses: 'icon toggler me-2'}"></evt-icon>
+        <evt-icon *ngIf="data.namedEntityType === 'person'"
+            [iconInfo]="{icon: 'user', additionalClasses: 'icon me-1'}"></evt-icon>
+        <evt-icon *ngIf="data.namedEntityType === 'place'"
+            [iconInfo]="{icon: 'map-marker', additionalClasses: 'icon me-1'}">
+        </evt-icon>
+        {{ data.label }}
+        <evt-pinner [item]="data" renderer="NamedEntity" pinType="NamedEntities"></evt-pinner>
+    </div>
+    <div class="card-body ne-content" *ngIf="contentOpened">
+        <ul ngbNav #entityDetails="ngbNav" class="entity-details" [activeId]="selectedSection">
+            <li [ngbNavItem]="'info_'+data.id" [disabled]="data.content.length === 0">
+                <a ngbNavLink class="ui-font">{{'Info' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <div class="ne-detail-content">
+                        <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
+                        </evt-content-viewer>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="'occurrences_'+data.id">
+                <a ngbNavLink class="ui-font">{{'Occurrences' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <div class="ne-detail-content ui-font" *ngIf="occurrences$ | async as occurrences">
+                        <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
+                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence" [entityId]="data.id"></evt-named-entity-occurrence>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="'relations_'+data.id">
+                <a ngbNavLink class="ui-font">{{'Relations' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <div class="ne-detail-content" *ngIf="relations$ | async as relations">
+                        <span *ngIf="relations.length === 0" class="ui-font">{{'noRelations' | translate}}</span>
+                        <evt-named-entity-relation *ngFor="let relation of relations" 
+                            [data]="relation" [inEntity]="true"></evt-named-entity-relation>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="'xml_'+data.id">
+                <a ngbNavLink class="ui-font">{{'XMLSource' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <div class="ne-detail-content no-padding">
+                        <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">
+                        </evt-original-encoding-viewer>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="entityDetails"></div>
+    </div>
+</div>

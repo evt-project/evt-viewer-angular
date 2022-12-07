@@ -1,0 +1,15 @@
+@import '../../assets/scss/mixins';
+
+.shortcuts-instruction-item[type="key"] {
+    background: transparent linear-gradient(to bottom, rgb(240, 240, 240), rgb(252, 252, 252)) repeat scroll 0% 0%;
+    border-radius: 3px;
+    color: rgb(48, 48, 48);
+    border-width: 1px 1px 2px;
+    border-style: solid;
+    border-color: rgb(224, 224, 224);
+    border-image: none;
+    white-space: nowrap;
+    font-variant: small-caps;
+    font-family: monospace;
+    padding: 0px 3px;
+}

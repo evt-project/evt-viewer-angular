@@ -1,0 +1,11 @@
+<ng-select
+    class="me-1"
+    [closeOnSelect]="true" 
+    [searchable]="false"
+    bindLabel="label" 
+    bindValue="id"
+    [items]="msDesc$ | async" #ngSelectComponent
+    (clear)="resetMsDesc();"
+    [placeholder]="'selectMsDesc' | translate" 
+    (change)="msDescID = $event?.id; openMsDescContent()">     
+</ng-select>

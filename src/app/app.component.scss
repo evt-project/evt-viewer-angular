@@ -1,0 +1,58 @@
+@import "../assets/scss/themes";
+@import "../assets/scss/mixins";
+@import "../assets/scss/variables";
+
+// TEMP
+.temp-panel {
+    height: 100%;
+    @include calc("height", "100% - #{$base-header-height}");
+}
+
+.has-navbar {
+    @include calc("height", "100% - #{$base-header-height} - #{$base-navbar-height}");
+}
+
+.navbar-toggler {
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    width: 30px;
+    right: 2px;
+    z-index: 9;
+    opacity: 0.5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem 0.25rem 0 0;
+
+    transition: bottom 0.6s;
+
+    &:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    @include themify($themes) {
+        color: themed("toolsBackground");
+        background-color: rgba(themed("toolsColor"), 0.7);
+        border-color: themed("toolsBackground");
+    }
+
+    &.opened {
+        bottom: $base-navbar-height;
+        transition: bottom 0.5s;
+    }
+}
+
+::ng-deep evt-nav-bar {
+    .nav-bar {
+        position: fixed;
+        bottom: -$base-navbar-height;
+        transition: bottom 1s;
+    }
+    &.opened .nav-bar {
+        bottom: 0;
+        transition: bottom 0.5s;
+    }
+}

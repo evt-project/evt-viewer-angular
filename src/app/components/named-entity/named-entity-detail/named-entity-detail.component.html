@@ -1,0 +1,17 @@
+<div [title]="'&lt;' + data.label + '&gt;' | lowercase">
+    <span class="icon">
+        <evt-icon [iconInfo]="iconData[data.label] || defaultIcon"></evt-icon>
+    </span>
+    <span class="label" *ngIf="data.label">{{ data.label }}: </span>
+    <span class="text">
+        <ng-container *ngFor="let element of data.content">
+            <evt-content-viewer [content]="element"></evt-content-viewer>
+            <ul class="attributes-list">
+                <li *ngFor="let item of element.attributes | keyvalue">
+                    <span class="label">{{ item.key }}:</span> {{ item.value }}
+                </li>
+            </ul>
+        </ng-container>
+
+    </span>
+</div>

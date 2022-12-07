@@ -1,0 +1,26 @@
+<span class="evt-note" [evtHtmlAttributes]="data?.attributes" [attr.data-type]="data?.noteType">
+    <ng-container [ngSwitch]="data?.noteLayout">
+        <ng-container *ngSwitchCase="'plain-text'">
+            <evt-content-viewer *ngFor="let element of data.content" [content]="element">
+            </evt-content-viewer>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <button #popover="ngbPopover" type="button" class="btn btn-link popover-toggle evt-trigger" [ngbPopover]="popContent"
+                [autoClose]="'outside'" popoverClass="evt-note-popover {{data?.noteType}}" container="body" [placement]="['auto']"
+                (click)="onTriggerClicked($event)" [attr.data-note-type]="data.noteType">
+                <span class="note-icon">
+                    {{data.exponent}}
+                    <span class="arrow"></span>
+                </span>
+            </button>
+        </ng-container>
+    </ng-container>
+</span>
+
+<ng-template #popContent>
+    <evt-pinner [item]="data" pinType="Notes" [additionalStyle]="pinnerStyle"></evt-pinner>
+    <div class="content">
+        <evt-content-viewer *ngFor="let element of data.content" [content]="element">
+        </evt-content-viewer>
+    </div>
+</ng-template>

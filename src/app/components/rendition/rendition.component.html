@@ -1,0 +1,28 @@
+<div class="rendition">
+    <ng-container *ngIf="data.scope || data.selector || data.scheme">
+        <div class="rendition-section rendition-scope" *ngIf="data.scope">
+            <label>{{'scope' | translate}}: </label>
+            <span>{{data.scope}} {{ scopeDescription$ | async }}</span>
+        </div>
+        <div class="rendition-section rendition-selector" *ngIf="data.selector">
+            <label>{{'selector' | translate}}: </label><span>{{data.selector}}</span>
+        </div>
+        <div class="rendition-section rendition-scheme" *ngIf="scheme$ | async">
+            <label>{{'scheme' | translate}}: </label><span>{{scheme$ | async}} {{schemeVersion$ | async}}</span>
+        </div>
+        <div class="rendition-section rendition-content">
+            <label>{{'rules' | translate}}: </label>
+            <span>
+                <evt-content-viewer *ngFor="let element of data.content" [content]="element"></evt-content-viewer>
+            </span>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="noDetails$ | async">
+        <div class="rendition-section rendition-content">
+            <label>{{data.id}}:</label>
+            <span>
+                <evt-content-viewer *ngFor="let element of data.content" [content]="element"></evt-content-viewer>
+            </span>
+        </div>
+    </ng-container>
+</div>

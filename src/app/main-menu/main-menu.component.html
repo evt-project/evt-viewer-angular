@@ -1,0 +1,46 @@
+<div class="mainMenu" (clickOutside)="closeMenu()" (escape)="closeMenu()">
+    <ul>
+        <ng-container *ngFor="let item of dynamicItems; trackBy: trackMenuItem">
+            <li *ngIf="item.enabled$ | async">
+                <span (click)="item.callback()">
+                    <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate}}
+                </span>
+            </li>
+        </ng-container>
+    </ul>
+    <hr />
+    <ul>
+        <li *ngIf="uiConfig && uiConfig.localization">
+            <span class="no-action" data-prevent-close="true">
+                <evt-icon [iconInfo]="{icon: 'language', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'changeLanguage' | translate }}
+                <img *ngFor="let language of getAvailableLanguages(); trackBy: trackLanguages"
+                    src="../../assets/images/{{language.code}}.png" class="flag"
+                    [class.active]="translate.currentLang === language.code" [title]="language.label | translate"
+                    (click)="selectLanguage($event, language);" />
+            </span>
+        </li>
+        <li>
+            <span class="no-action" data-prevent-close="true">
+                <evt-icon [iconInfo]="{icon: 'paint-brush', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'changeTheme' | translate }}
+                <span class="theme-item" *ngFor="let theme of getAvailableThemes(); trackBy: trackTheme;"
+                    [class.active]="getCurrentTheme() === theme" [attr.data-theme]="theme.value"
+                    [title]="theme.label | translate" (click)="selectTheme($event, theme)">
+                </span>
+            </span>
+        </li>
+        <li>
+            <span (click)="openShortCuts()">
+                <evt-icon [iconInfo]="{icon: 'keyboard', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'shortcuts' | translate }}
+            </span>
+        </li>
+        <li>
+            <span (click)="openEVTInfo()">
+                <evt-icon [iconInfo]="{icon: 'copyright', additionalClasses: 'icon'}"></evt-icon>
+                {{ 'aboutEVT' | translate }}
+            </span>
+        </li>
+    </ul>
+</div>

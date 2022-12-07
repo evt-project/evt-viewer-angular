@@ -1,0 +1,109 @@
+{
+	"editionTitle": "My Digital Edition",
+	"badge": "alpha",
+	"editionHome": "evt.labcd.unipi.it/",
+	"availableEditionLevels": [
+		{
+			"id": "diplomatic",
+			"label": "diplomatic",
+			"enable": true
+		},
+		{
+			"id": "interpretative",
+			"label": "interpretative",
+			"enable": true
+		},
+		{
+			"id": "critical",
+			"label": "critical",
+			"enable": true
+		}
+	],
+	"namedEntitiesLists": {
+		"persons": {
+			"defaultLabel": "Persons",
+			"enable": true
+		},
+		"places": {
+			"defaultLabel": "Places",
+			"enable": true
+		},
+		"organizations": {
+			"defaultLabel": "Organizations",
+			"enable": true
+		},
+		"relations": {
+			"defaultLabel": "Relations",
+			"enable": true
+		},
+		"events": {
+			"defaultLabel": "Events",
+			"enable": true
+		}
+	},
+	"showLists": true,
+	"entitiesSelectItems": [
+		{
+			"label": "Named Entities",
+			"items": [
+				{
+					"value": "persName",
+					"label": "persons",
+					"color": "#ffcdd2",
+					"enable": true
+				},
+				{
+					"value": "persName[type='episcopus']",
+					"label": "bishops",
+					"color": "rgb(139, 98, 236)",
+					"enable": true
+				},
+				{
+					"value": "placeName,geogName",
+					"label": "places",
+					"color": "#A5D6A7",
+					"enable": true
+				},
+				{
+					"value": "orgName",
+					"label": "organizations",
+					"color": "#FFB74D",
+					"enable": true
+				}
+			],
+			"enable": true
+		},
+		{
+			"label": "Other",
+			"items": [
+				{
+					"value": "event",
+					"label": "events",
+					"color": "#fcfc60",
+					"enable": true
+				},
+				{
+					"value": "rolename",
+					"label": "roles",
+					"enable": true
+				},
+				{
+					"value": "measure",
+					"label": "measures",
+					"enable": true
+				}
+			],
+			"enable": true
+		}
+	],
+	"notSignificantVariants": [
+		"type=orthographic"
+	],
+	"defaultEdition": "diplomatic",
+	"defaultViewMode": "collation",
+	"proseVersesToggler": true,
+	"defaultTextFlow": "prose",
+	"verseNumberPrinter": 5,
+	"readingColorLight": "rgb(208, 220, 255)",
+	"readingColorDark": "rgb(101, 138, 255)"
+}

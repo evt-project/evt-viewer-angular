@@ -1,0 +1,18 @@
+<gridster [options]="options" *ngIf="currentEditionLevels$ | async as currentEditionLevels">
+    <gridster-item [item]="textPanel1Item">
+        <evt-text-panel 
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevels[0]"
+            (pageChange)="changePage($event)"     
+            (editionLevelChange)="changeEditionLevel($event, 1)"
+        ></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="textPanel2Item">
+        <evt-text-panel 
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevels[1]"
+            (pageChange)="changePage($event)"     
+            (editionLevelChange)="changeEditionLevel($event, 2)"
+        ></evt-text-panel>
+    </gridster-item>
+</gridster>

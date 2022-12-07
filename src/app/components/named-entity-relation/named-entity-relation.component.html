@@ -1,0 +1,37 @@
+<div class="relation pb-2" [ngClass]="{
+        'p-3': !inEntity,
+        'border-bottom': !inEntity
+    }" [evtHtmlAttributes]="data?.attributes">
+    <small class="relation-type" *ngIf="data.relationType">{{ data.relationType | lowercase }}</small>
+    <div>
+        <evt-icon [iconInfo]="{icon: 'network-wired', additionalClasses: 'me-2'}"></evt-icon>
+        <ng-template ngFor let-part let-last="last" [ngForOf]="activeParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+        
+        <ng-template ngFor let-part let-last="last" [ngForOf]="mutualParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+
+        {{ data.name | humanize | lowercase }}
+
+        <ng-template ngFor let-part let-last="last" [ngForOf]="passiveParts$ | async">
+            <ng-template [ngTemplateOutlet]="relationParticipant"
+                [ngTemplateOutletContext]="{ part: part, last: last }">
+            </ng-template>
+        </ng-template>
+
+        <evt-named-entity *ngIf="selectedEntity" [data]="selectedEntity" [inList]="false"></evt-named-entity>
+    </div>
+    <div class="relation-description text-secondary" *ngIf="data.description.length > 0">
+        <evt-content-viewer *ngFor="let el of data.description" [content]="el"></evt-content-viewer>
+    </div>
+</div>
+<ng-template #relationParticipant let-part="part" let-last="last">
+    <span class="relation-entity {{ part.entity?.namedEntityType }}" [class.disabled]="!part.entity"
+        (click)="toggleEntity(part.entity)">{{ part.label + (!last ? ', ' : '')}}</span>
+</ng-template>

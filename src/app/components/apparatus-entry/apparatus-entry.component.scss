@@ -1,0 +1,24 @@
+@import '../../../assets/scss/themes';
+
+.app-entry {
+    &.app-detail-opened {
+        > .app-entry-lem {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 0.313rem;
+            @include themify($themes) {
+                border: 1px solid themed('baseBorder');
+                border-bottom: 0;
+            }
+        }
+    }
+}
+
+.app-entry-lem {
+    cursor: pointer;
+    .app-entry-lem {
+        @include themify($themes) {
+            border: 1px solid themed('baseBorder');
+        }
+    }
+}

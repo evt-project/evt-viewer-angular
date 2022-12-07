@@ -1,0 +1,17 @@
+<gridster [options]="layoutOptions">
+    <gridster-item [item]="imagePanelItem">
+        <evt-image-panel 
+            [viewerData]="imageViewer$ | async"
+            [pageID]="currentPageID$ | async"
+            (pageChange)="changePage($event)"
+        ></evt-image-panel>
+    </gridster-item>
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevel$ | async"
+            (pageChange)="changePage($event)" 
+            (editionLevelChange)="changeEditionLevel($event)"
+        ></evt-text-panel>
+    </gridster-item>
+</gridster>

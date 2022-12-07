@@ -1,0 +1,27 @@
+<gridster [options]="options">
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel
+            [pageID]="currentPageID$ | async" 
+            [editionLevelID]="currentEditionLevel$ | async"
+            (pageChange)="changePage($event)" 
+            (editionLevelChange)="changeEditionLevel($event)"
+        ></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="versionsPanelItem">
+        <div class="versionsPanel" #versionsPanel
+        [class.align-self-center]="getVersions().length === 0" 
+        [class.empty]="getVersions().length === 0">
+            <gridster [options]="versionsOptions" *ngIf="getVersions().length > 0">
+                <gridster-item [item]="version.itemConfig" *ngFor="let version of getVersions(); let i = index">
+                <evt-version-panel
+                    (hide)="removeVersion(i)" [version]="version.label">
+                </evt-version-panel>
+                </gridster-item>
+            </gridster>
+            <evt-button class="btn" [class.btn-float-right]="getVersions().length > 0"
+                [additionalClasses]="versionBtn?.additionalClasses"
+                [label]="versionBtn?.label | translate" [iconLeft]="versionBtn?.icon" [title]="versionBtn?.title | translate"
+                (btnClick)="addVersion()"></evt-button>
+        </div> 
+    </gridster-item>
+</gridster>

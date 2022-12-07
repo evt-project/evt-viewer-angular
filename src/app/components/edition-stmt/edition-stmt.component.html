@@ -1,0 +1,18 @@
+<ng-container [ngSwitch]="data?.structuredData">
+    <ng-container *ngSwitchCase="true">
+        <ng-container *ngTemplateOutlet="section; context: { label: 'edition', items: data?.edition, class: 'edition' }"></ng-container>
+        <ng-container *ngTemplateOutlet="section; context: { label: 'responsibles', items: data?.respStmt, class: 'principal' }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <evt-content-viewer *ngFor="let element of data?.content" [content]="element"></evt-content-viewer>
+    </ng-container>
+</ng-container>
+
+
+<ng-template #section let-label="label" let-items="items" let-class="class">
+    <evt-header-section *ngIf="items?.length > 0" [label]="label" [inlineLabel]="true" [additionalClass]="class">
+        <div content>
+            <evt-content-viewer *ngFor="let item of items" [content]="item" ></evt-content-viewer>
+        </div>
+    </evt-header-section>
+</ng-template>

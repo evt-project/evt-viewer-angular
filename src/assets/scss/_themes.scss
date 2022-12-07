@@ -1,0 +1,118 @@
+$themes: (
+    neutral: (
+        baseColorDark: #000,
+        baseColorLight: #fff,
+        baseBorder: rgba(0, 0, 0, 0.125),
+        secondaryColorDark: #555,
+        secondaryColorLight: #fff,
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(255, 255, 255, 0.95),
+        toolsBackground: #fff,
+        toolsBackgroundDarker: #ccc,
+        toolsColor: #000,
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f5f5f5,
+        appEntryBoxActiveTabBg: #e7e7e7,
+    ),
+    modern: (
+        baseColorDark: #263238,
+        baseColorLight: #ECEFF1,
+        baseBorder: rgba(0, 0, 0, 0.125),
+        secondaryColorDark: #607d8b,
+        secondaryColorLight: #ECEFF1,
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95),
+        toolsBackground: #ECEFF1,
+        toolsColor: #263238,
+        toolsBackgroundDarker: #b0bec5,
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f1f4f5,
+        appEntryBoxActiveTabBg: #eaecec,
+    ),
+    classic: (
+        baseColorDark: rgb(54, 45, 40),
+        baseColorLight: rgb(245, 234, 212),
+        baseBorder: rgba(0, 0, 0, 0.125),
+        secondaryColorDark: rgb(143, 119, 106),
+        secondaryColorLight: rgb(245, 234, 212),
+        panelBackgroundColor: #fff,
+        panelTextColor: #000,
+        panelSecondaryBackgroundColor: rgba(236, 239, 241, 0.95),
+        toolsBackground: #f5ead4,
+        toolsColor: rgb(54, 45, 40),
+        toolsBackgroundDarker: #ccc4ba,
+        toolsColorActive: #ffdd00,
+        appEntryBoxBackground: #f9f7f5,
+        appEntryBoxActiveTabBg: #f2ede9,
+    ),
+);
+
+
+// Themify
+// This mixin will add a CSS rule for each theme for the CSS rules defined within it.
+// The `@each $theme, $map in $themes` tell Sass to loop over the `$themes` map that was defined above.
+// On each loop, it assigns these values to `$theme` and `$map` respectively.
+// - `$theme` - Theme name
+// - `$map` - Map of all theme variables
+// Then the `map-get()` function is used to get any theme variable from `$map` and output the correct property for each theme.
+// The `&` refer to parent selectors and placing it after `[data-theme="#{$theme}"]` tells Sass to output any parent selectors after the theme name.
+// To use this mixin, just be sure that the element for which you are defining the CSS rules is included in a `*[data-theme]="theme-name"` element
+// and embody every CSS rule that needs to be themified within the mixin:
+// ```
+//  btn-primary {
+    //  @include themify($themes) {
+        //  color: themed('baseColorDark');
+    //  }
+//  }
+// ```
+@mixin themify($themes: $themes) {
+    @each $theme, $map in $themes {
+        :host-context([data-theme="#{$theme}"]) &,
+        [data-theme="#{$theme}"] & {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+// ThemifySelf
+// This mixin will add a CSS rule for each theme for the CSS rules defined within it.
+// The `@each $theme, $map in $themes` tell Sass to loop over the `$themes` map that was defined above.
+// On each loop, it assigns these values to `$theme` and `$map` respectively.
+// - `$theme` - Theme name
+// - `$map` - Map of all theme variables
+// Then the `map-get()` function is used to get any theme variable from `$map` and output the correct property for each theme.
+// To use this mixin, just be sure that the element for which you are defining the CSS rules has the `[data-theme]="theme-name"` attribute
+// and embody every CSS rule that needs to be themified within the mixin:
+// ```
+//  btn-primary {
+    //  @include themifySelf($themes) {
+        //  color: themed('baseColorDark');
+    //  }
+//  }
+// ```
+@mixin themifySelf($themes: $themes) {
+    @each $theme, $map in $themes {
+         &[data-theme="#{$theme}"] {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}');
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+@function themed($key) {
+    @return map-get($theme-map, $key);
+}
+

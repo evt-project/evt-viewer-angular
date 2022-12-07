@@ -1,0 +1,14 @@
+@import "../../../assets/scss/themes";
+
+.p-num {
+  font-size: .8em;
+  padding-right: .3rem;
+
+  @include themify($themes) {
+    color: themed('secondaryColorDark');
+  }
+
+  &::after {
+    content: '.';
+  }
+}

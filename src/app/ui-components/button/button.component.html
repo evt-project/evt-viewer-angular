@@ -1,0 +1,18 @@
+<button type="button" (click)="clickButton($event)" 
+    class="btn btn-sm {{additionalClasses}}" 
+    [disabled]="disabled"
+    [ngClass]="{
+        'btn-light': !transparent,
+        'btn-inverted': inverted,
+        'btn-hovered': inverted && active,
+        'shadow-sm': !transparent,
+        transparent: transparent,
+        active: active
+    }"
+  [ngStyle]="additionalStyle"
+  [type]="type">
+  <ng-content select="[label-left]"></ng-content>
+  <evt-icon [iconInfo]="iconLeft" *ngIf="iconLeft"></evt-icon>
+  {{ label }}
+  <evt-icon [iconInfo]="iconRight" *ngIf="iconRight"></evt-icon>
+</button>

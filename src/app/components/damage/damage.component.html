@@ -1,0 +1,4 @@
+<span class="{{data.class}}" [evtEditorialConventionLayout]="editorialConventionData">
+    <evt-content-viewer *ngFor="let element of data.content" [content]="element"
+            [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
+</span>

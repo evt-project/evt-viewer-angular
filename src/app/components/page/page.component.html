@@ -1,0 +1,12 @@
+<evt-content-viewer
+    *ngFor="let element of (pageDataChange | async)?.parsedContent || []"
+    [content]="element" [editionLevel]="editionLevel?.id" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow">
+</evt-content-viewer>
+<ngx-spinner
+    *ngIf="busy | async"
+    name="pageSpinner"
+    type="ball-beat"
+    [fullScreen]="false"
+    bdColor="rgba(51,51,51,0.3)"
+    size="medium">
+</ngx-spinner>

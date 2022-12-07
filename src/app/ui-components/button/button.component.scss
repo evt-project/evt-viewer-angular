@@ -1,0 +1,79 @@
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
+
+.btn {
+    outline: none;
+    border: none;
+
+    &[disabled]{
+        cursor: default;
+    }
+
+    &.btn-sm {
+        height: 31px;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    @include themify($themes) {
+        color: themed("toolsColor");
+        background: themed("toolsBackground");
+        border-color: themed("toolsBackground");
+    }
+
+    &:hover:not([disabled]) {
+        @include set("box-shadow", "1px 2px 3px rgba(0, 0, 0, .4) inset !important");
+    }
+
+    &.active {
+        @include themify($themes) {
+            background: themed("toolsColorActive");
+        }
+    }
+
+    &.transparent {
+        background: none !important;
+        border-color: transparent !important;
+
+        &.active {
+            @include themify($themes) {
+                color: themed("toolsColorActive");
+            }
+        }
+    }
+
+    &.btn-inverted {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+
+        @include themify($themes) {
+            color: themed("toolsBackground");
+            background-color: themed("toolsColor");
+            border-color: themed("toolsColor");
+
+            &:hover,
+            &.btn-hovered {
+                background: rgba(themed("toolsBackground"), 0.2);
+            }
+        }
+    }
+
+    &.btn-floating {
+        @include set("box-shadow", "0 2px 4px rgba(0, 0, 0, .4) !important");
+        @include themify($themes) {
+            color: themed("toolsBackground");
+            background-color: themed("toolsColor");
+            border-color: themed("toolsColor");
+        }
+        &:hover {
+            @include set("box-shadow", "none !important");
+        }
+        &.rounded-circle {
+            height: 40px;
+            width: 40px;
+        }
+    }
+}

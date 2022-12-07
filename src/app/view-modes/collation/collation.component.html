@@ -1,0 +1,28 @@
+<gridster [options]="options">
+    <gridster-item [item]="textPanelItem">
+        <evt-text-panel
+            [pageID]="currentPageID$ | async" 
+            (pageChange)="changePage($event)"       
+            [hideEditionLevelSelector]="true" 
+            [editionLevelID]="'critical'"
+        ></evt-text-panel>
+    </gridster-item>
+    <gridster-item [item]="collationPanelItem">
+        <div class="collationPanel" #collationPanel
+        [class.align-self-center]="getWitnesses().length === 0" 
+        [class.empty]="getWitnesses().length === 0">
+            <gridster [options]="collationOptions" *ngIf="getWitnesses().length > 0">
+                <gridster-item [item]="witness.itemConfig" 
+                *ngFor="let witness of getWitnesses(); let i = index">
+                <evt-witness-panel
+                    (hide)="removeWitness(i)" [witness]="witness.label">
+                </evt-witness-panel>
+                </gridster-item>
+            </gridster>
+            <evt-button class="btn" [class.btn-float-right]="getWitnesses().length > 0"
+                [additionalClasses]="witnessBtn?.additionalClasses"
+                [label]="witnessBtn?.label | translate" [iconLeft]="witnessBtn?.icon" [title]="witnessBtn?.title | translate"
+                (btnClick)="addWitness()"></evt-button>
+        </div> 
+    </gridster-item>
+</gridster>

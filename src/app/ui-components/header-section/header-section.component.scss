@@ -1,0 +1,29 @@
+.section {
+    display: block;
+    > .section-label {
+        display: inline;
+        font-variant: small-caps;
+        color: #666;
+    }
+    &.has-inline-label {
+        display: flex;
+        > .section-label {
+            margin-right: 5px;
+        }
+        > .section-content {
+            display: inline;
+        }
+    }
+    &:not(.has-inline-label) {
+        > .section-label {
+            font-size: 0.9rem;
+            border-bottom: 1px dotted #666;
+            margin-bottom: 5px;
+            display: block;
+            margin-top: 14px;
+        }
+    }
+    ::ng-deep p {
+        margin-bottom: 0;
+    }
+}

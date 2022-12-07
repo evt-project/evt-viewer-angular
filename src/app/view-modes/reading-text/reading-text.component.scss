@@ -1,0 +1,21 @@
+.global-tools {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 20;
+}
+
+:host ::ng-deep {
+    .global-tools .btn {
+        height: 40px;
+        width: 40px;
+    }
+    .apparatuses {
+        .panel .content {
+            padding: 0 !important;
+        }
+        .tab-pane {
+            padding: 1rem;
+        }
+    }
+}
