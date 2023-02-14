@@ -1,4 +1,3 @@
-<p><a href="">VCEditor</a></p>
 <span *ngFor="let quire of quires">
     <img src={{quire.quireImg}}/>
     <span *ngFor="let leaf of quire.memberleaves">
@@ -10,7 +9,7 @@
     <span *ngIf="quire.terms[0]">Termini fascicolo: <span *ngFor="let qterm of quire.terms">{{qterm.params.title}}</span><br/></span>
     <span *ngFor="let leaf of quire.memberleaves">
     <span *ngIf="leaf.terms[0]">Termini foglia {{leaf.leafdata.params.folio_number}}: <span *ngFor="let lterm of leaf.terms">{{lterm.params.title}}</span><br/></span>
-    <span *ngIf="leaf.memberrecto[0].terms[0]">Termini retto: <span *ngFor="let rterm of leaf.memberrecto[0].terms">{{rterm.params.title}}</span><br/></span>
+    <span *ngIf="leaf.memberrecto[0].terms[0]">Termini recto: <span *ngFor="let rterm of leaf.memberrecto[0].terms">{{rterm.params.title}}</span><br/></span>
     <span *ngIf="leaf.memberverso[0].terms[0]">Termini verso: <span *ngFor="let vterm of leaf.memberverso[0].terms">{{vterm.params.title}}</span><br/></span>
     </span>
     <hr/>
