@@ -109,10 +109,12 @@ import { HttpClient } from '@angular/common/http';
     constructor(private http: HttpClient) { }
     
     takeData() {
-      let promise = this.http.get('./assets/data/visColl.json').toPromise();
-      promise.then(data=> {
+      let observable = this.http.get('./assets/data/visColl.json');
+      observable.subscribe({next: (data:any)=> {
       this.Data=data;
-      }).then(()=>this.assignmentcycle())
+      }
+    });
+      observable.subscribe(() => this.assignmentcycle());
     }
     
     assignmentcycle() {
