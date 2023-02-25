@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Angular 13
 
 ### Added
+- Text annotator component visualization
 - Text/images connection in page change
 - Support for styleDefDecl as default style of renditional information
 - Apparatus entry inline visualization
