@@ -24,6 +24,7 @@ import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { TextAnnotatorComponent } from './components/annotator/text-annotator/text-annotator.component';
 import { ApparatusEntryDetailComponent } from './components/apparatus-entry/apparatus-entry-detail/apparatus-entry-detail.component';
 import { ApparatusEntryReadingsComponent } from './components/apparatus-entry/apparatus-entry-readings/apparatus-entry-readings.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
@@ -220,6 +221,11 @@ const DynamicComponents = [
     ShortcutsComponent,
     SourcesPanelComponent,
     StartsWithPipe,
+    SuppliedComponent,
+    SurplusComponent,
+    TagsDeclComponent,
+    TextAnnotatorComponent,
+    TextComponent,
     TextPanelComponent,
     TextSourcesComponent,
     TextTextComponent,
