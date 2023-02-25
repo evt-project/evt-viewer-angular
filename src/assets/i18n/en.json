@@ -172,5 +172,12 @@
     "moreInfoAboutApp": "More info about the apparatus entry",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "annotate": "Annotation",
+    "highlight": "Highlight",
+    "annotatorNote": "Note",
+    "noteTitle": "Title",
+    "noteBody": "Enter the note",
+    "noteCancel": "Cancel",
+    "noteSave": "Save"
 }
