@@ -1,5 +1,6 @@
 $themes: (
     neutral: (
+        annotatorColor: #8dc6ff,
         baseColorDark: #000,
         baseColorLight: #fff,
         baseBorder: rgba(0, 0, 0, 0.125),
@@ -16,6 +17,7 @@ $themes: (
         appEntryBoxActiveTabBg: #e7e7e7,
     ),
     modern: (
+        annotatorColor: #8dc6ff,
         baseColorDark: #263238,
         baseColorLight: #ECEFF1,
         baseBorder: rgba(0, 0, 0, 0.125),
@@ -31,7 +33,8 @@ $themes: (
         appEntryBoxBackground: #f1f4f5,
         appEntryBoxActiveTabBg: #eaecec,
     ),
-    classic: (
+    classic: ( 
+        annotatorColor: #8dc6ff,
         baseColorDark: rgb(54, 45, 40),
         baseColorLight: rgb(245, 234, 212),
         baseBorder: rgba(0, 0, 0, 0.125),
