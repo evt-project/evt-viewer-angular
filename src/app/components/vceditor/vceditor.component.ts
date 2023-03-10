@@ -41,7 +41,7 @@ import { HttpClient } from '@angular/common/http';
           ]
       }};
   
-    sampleFolio = {foliodata: {"params": {
+    sampleSide = {sidedata: {"params": {
       "page_number": "",
       "texture": "",
       "image": {
@@ -68,8 +68,8 @@ import { HttpClient } from '@angular/common/http';
       "parentOrder": 1,
       "rectoOrder": 1,
       "versoOrder": 1},
-    memberrecto: this.sampleFolio,
-    memberverso: this.sampleFolio,
+    memberrecto: this.sampleSide,
+    memberverso: this.sampleSide,
     terms: []};
   
     sampleQuire:vcequire = {quiredata: {
@@ -99,10 +99,10 @@ import { HttpClient } from '@angular/common/http';
     terms: []};
 
 
-    leafs : Array<vceleaf> = [];
+    leaves : Array<vceleaf> = [];
     quires : Array<vcequire> = [];
-    rectos : Array<vcefolio> = [];
-    versos: Array<vcefolio> = [];
+    rectos : Array<vceside> = [];
+    versos: Array<vceside> = [];
     terms: Array<term> = [];
     Data: any;
     
@@ -119,29 +119,29 @@ import { HttpClient } from '@angular/common/http';
     
     assignmentcycle() {
       for (let rectocounter in this.Data.Rectos) {
-        let folio=JSON.parse(JSON.stringify(this.sampleFolio));
-        folio.foliodata=JSON.parse(JSON.stringify(this.Data.Rectos[rectocounter]));
-        this.rectos.push(folio);
+        let side=JSON.parse(JSON.stringify(this.sampleSide));
+        side.sidedata=JSON.parse(JSON.stringify(this.Data.Rectos[rectocounter]));
+        this.rectos.push(side);
       }
 
       for (let versocounter in this.Data.Versos) {
-        let folio=JSON.parse(JSON.stringify(this.sampleFolio));
-        folio.foliodata=JSON.parse(JSON.stringify(this.Data.Versos[versocounter]));
-        this.versos.push(folio);
+        let side=JSON.parse(JSON.stringify(this.sampleSide));
+        side.sidedata=JSON.parse(JSON.stringify(this.Data.Versos[versocounter]));
+        this.versos.push(side);
       }
 
       for (let leafcounter in this.Data.Leafs) {
         let leaf=JSON.parse(JSON.stringify(this.sampleLeaf));
         leaf.leafdata=JSON.parse(JSON.stringify(this.Data.Leafs[leafcounter]));
-        leaf.memberrecto=this.rectos.filter(recto => (recto.foliodata.parentOrder == Number(leafcounter)));
-        leaf.memberverso=this.versos.filter(verso => (verso.foliodata.parentOrder == Number(leafcounter)));
-        this.leafs.push(leaf);
+        leaf.memberrecto=this.rectos.filter(recto => (recto.sidedata.parentOrder == Number(leafcounter)));
+        leaf.memberverso=this.versos.filter(verso => (verso.sidedata.parentOrder == Number(leafcounter)));
+        this.leaves.push(leaf);
       }
        
       for (let groupcounter in this.Data.Groups) {
         let group=JSON.parse(JSON.stringify(this.sampleQuire));
         group.quiredata=JSON.parse(JSON.stringify(this.Data.Groups[groupcounter]));
-        group.memberleaves=this.leafs.filter(leaf => (leaf.leafdata.parentOrder == Number(groupcounter)));
+        group.memberleaves=this.leaves.filter(leaf => (leaf.leafdata.parentOrder == Number(groupcounter)));
         group.quireImg="./assets/data/SVG/"+this.Data.project.shelfmark.replace(/\s/g, "")+"-"+groupcounter.toString()+".svg";
         this.quires.push(group);
       }
@@ -157,7 +157,7 @@ import { HttpClient } from '@angular/common/http';
 
 
         for (let leafnumber in term.objects.Leaf) {
-          this.leafs[Number(term.objects.Leaf[leafnumber])-1].terms.push(term);
+          this.leaves[Number(term.objects.Leaf[leafnumber])-1].terms.push(term);
         };
       
       
@@ -177,8 +177,8 @@ import { HttpClient } from '@angular/common/http';
     }
   }
 
-  export class vcefolio {
-    foliodata:foliodataType;
+  export class vceside {
+    sidedata:sidedataType;
     terms:Array<term>;
     constructor(){}
   }
@@ -192,8 +192,8 @@ import { HttpClient } from '@angular/common/http';
   }
   export class vceleaf {
       leafdata:leafdataType;
-      memberrecto:vcefolio;
-      memberverso:vcefolio;
+      memberrecto:vceside;
+      memberverso:vceside;
       terms:Array<term>;
       constructor(){}
   }
@@ -229,11 +229,11 @@ import { HttpClient } from '@angular/common/http';
     stub: string|boolean;
     nestLevel: number;
   }
-  export interface foliodataType {
-    params: foliodataParamsType;
+  export interface sidedataType {
+    params: sidedataParamsType;
     parentOrder: number;
   }
-  export interface foliodataParamsType{
+  export interface sidedataParamsType{
     page_number: string;
     texture: string;
     image: imageType;
