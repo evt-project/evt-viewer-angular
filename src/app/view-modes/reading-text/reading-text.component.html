@@ -17,7 +17,10 @@
                     <li [ngbNavItem]="'critical'">
                         <a ngbNavLink>{{'CriticalApparatus' | translate}}</a>
                         <ng-template ngbNavContent>
-                            <div>{{'CriticalApparatus' | translate}}</div>
+                            <evt-critical-apparatus
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)">
+                            </evt-critical-apparatus>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'sources'">

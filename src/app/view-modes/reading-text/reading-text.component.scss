@@ -17,5 +17,17 @@
         .tab-pane {
             padding: 1rem;
         }
+
+        .nav {
+            font-family: serif;
+            --bs-nav-link-color: white;
+            --bs-nav-link-hover-color: white;
+        }
+
+        .nav-tabs {
+            color: #ECEFF1;
+            background-color: #263238;
+        }
+
     }
 }

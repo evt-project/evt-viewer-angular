@@ -171,5 +171,8 @@
     "moreInfoAboutApp": "Maggiori informazioni per l'entrata d'apparato",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "CriticalApparatus":"Apparato Critico",
+    "Sources": "Fonti",
+    "Analogues": "Passi Paralleli"
 }
