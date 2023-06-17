@@ -2,7 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'evt-critical-apparatus',
@@ -18,14 +18,14 @@ export class CriticalApparatusComponent implements OnInit {
 
   public currentPage = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.parsedContent),
-    map(x => x.map(y => y['content']).filter(y => y)));
+    map((x) => x.map((y) => y['content']).filter((y) => y)));
 
   public apparatusInCurrentPage = this.currentPage.pipe(
-    map(x => x.map(y => y.map(z => this.appClasses.includes(z['class']) ? z : null).filter(z => z))),
-    map((x) => x.filter(x => { if (x.length !== 0) { return x } })),
+    map((x) => x.map((y) => y.map((z) => this.appClasses.includes(z.class) ? z : null).filter((z) => z))),
+    filter((x) => x.length !== 0),
   );
 
-  public getEntries(data) {
+  public getEntries(data: any) {
     this.entries = data.flat();
   }
 
