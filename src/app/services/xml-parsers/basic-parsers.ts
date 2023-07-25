@@ -1,8 +1,8 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
-    Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Addition, Attributes, BibliographicEntry, BibliographicList, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
+    Paragraph, ParallelPassage, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -326,6 +326,66 @@ export class TermParser extends GenericElemParser implements Parser<XMLElement> 
             id: xml.getAttribute('xml:id'),
             ref: xml.getAttribute('ref'),
             rend: xml.getAttribute('rend'),
+        };
+    }
+}
+
+export class BiblParser extends GenericElemParser {
+    protected getTrimmedText = function(s) {
+        return s.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim();
+    }
+    protected getChildrenByName = function(xml : XMLElement, name : string) {
+        return Array.from(xml.querySelectorAll<XMLElement>(name)).map((x) => this.getTrimmedText(x));
+    }
+}
+
+export class ListBiblParser extends GenericElemParser {
+    protected biblParser = createParser(BibliographyParser, this.genericParse);
+}
+
+@xmlParser('bibl', BibliographyParser)
+export class BibliographyParser extends BiblParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): BibliographicEntry {
+        return {
+            type: BibliographicEntry,
+            id: getID(xml),
+            attributes: this.attributeParser.parse(xml),
+            title: this.getChildrenByName(xml,'title'),
+            author: this.getChildrenByName(xml,'author'),
+            editor: this.getChildrenByName(xml,'editor'),
+            date: this.getChildrenByName(xml,'date'),
+            publisher: this.getChildrenByName(xml,'publisher'),
+            pubPlace: this.getChildrenByName(xml,'pubBlace'),
+            citedRange: this.getChildrenByName(xml,'citedRange'),
+            content: [],
+            //content: parseChildren(xml, this.genericParse),
+        };
+    }
+}
+
+@xmlParser('listBibl', BibliographyListParser)
+export class BibliographyListParser extends ListBiblParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): BibliographicList {
+        return {
+            type: BibliographicList,
+            id: getID(xml),
+            attributes: this.attributeParser.parse(xml),
+            head: Array.from(xml.querySelectorAll<XMLElement>('head')).map((x) => x.textContent),
+            content: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
+        };
+    }
+}
+
+
+@xmlParser('ref', ParallelPassageParser)
+export class ParallelPassageParser extends ListBiblParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): ParallelPassage {
+        return {
+            type: ParallelPassage,
+            id: getID(xml),
+            attributes: this.attributeParser.parse(xml),
+            text: (xml.firstChild) ? xml.firstChild.nodeValue : '',
+            content: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
         };
     }
 }
