@@ -371,7 +371,8 @@ export class BibliographyListParser extends ListBiblParser implements Parser<XML
             id: getID(xml),
             attributes: this.attributeParser.parse(xml),
             head: Array.from(xml.querySelectorAll<XMLElement>('head')).map((x) => x.textContent),
-            content: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
+            content: parseChildren(xml, this.genericParse),
+            sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
         };
     }
 }
@@ -385,7 +386,8 @@ export class ParallelPassageParser extends ListBiblParser implements Parser<XMLE
             id: getID(xml),
             attributes: this.attributeParser.parse(xml),
             text: (xml.firstChild) ? xml.firstChild.nodeValue : '',
-            content: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
+            content: parseChildren(xml, this.genericParse),
+            sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
         };
     }
 }

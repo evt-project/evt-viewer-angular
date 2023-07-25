@@ -173,7 +173,7 @@ export class ApparatusEntry extends GenericElement {
 export class QuoteEntry extends GenericElement {
     id: string;
     text: string;
-    //content: BibliographicEntry[] | BibliographicList;
+    sources: BibliographicEntry[]|BibliographicList;
     ref: ParallelPassage[];
     originalEncoding: string;
     //rend: string;
@@ -182,7 +182,7 @@ export class QuoteEntry extends GenericElement {
 export class BibliographicList extends GenericElement {
     id: string;
     head: string[];
-    content: BibliographicEntry[];
+    sources: BibliographicEntry[];
 }
 
 export class BibliographicEntry extends GenericElement {
@@ -199,7 +199,7 @@ export class BibliographicEntry extends GenericElement {
 export class ParallelPassage extends GenericElement {
     id: string;
     text: string;
-    content: BibliographicEntry[];
+    sources: BibliographicEntry[];
 }
 
 export class Reading extends GenericElement {

@@ -1,7 +1,7 @@
 import { xmlParser } from '.';
 import { ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser, ParallelPassageParser } from './basic-parsers';
-import { createParser, getID, Parser } from './parser-models';
+import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
 
 @xmlParser('evt-quote-entry-parser', QuoteParser)
@@ -18,7 +18,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             id: getID(quoteEntry),
             attributes: this.attributeParser.parse(quoteEntry),
             text: this.getFirstChildText(quoteEntry),
-            content: this.getSources(quoteEntry),
+            content: parseChildren(quoteEntry, this.genericParse),
+            sources: this.getSources(quoteEntry),
             ref: this.getParallelPassages(quoteEntry),
             class: quoteEntry.tagName.toLowerCase(),
             originalEncoding: getOuterHTML(quoteEntry),
