@@ -1,0 +1,134 @@
+@import "../../../assets/scss/themes";
+
+.source-container {
+    border: 1px solid #8080804f;
+    padding: 0.3em;
+    margin: 0.5em 0.5em 1em 0.5em;
+    font-family: serif;
+    font-style: italic;
+    font-size: 100%;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    background-color:#2042512e;
+    border-radius:2px;
+}
+
+.source-detail-content {
+    display: block !important;
+    padding: 0 !important;
+    background-color: unset !important;
+}
+
+.source-quote-button {
+    float:right;
+    margin-right:0.5em;
+}
+
+.source-quote-symbol {
+    font-size: 1em;
+    color: #263238;
+    margin: 0;
+    padding: 0 0.3em 0 0;
+    display: inline;
+    font-family: 'evt-icons' !important;
+    speak: none;
+    font-style: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 0;
+    -webkit-font-smoothing: antialiased;
+    vertical-align: super;
+}
+
+.sources-cat {
+    font-variant: small-caps;
+    font-size: 95%;
+    position: relative;
+    font-style: normal;
+}
+
+.source-detail-btn {
+    background-color: transparent;
+    color: #000000;
+    line-height: 1;
+    padding: 0.25rem 0.375rem;
+    cursor: pointer;
+    border-radius: 0;
+    font-style:normal;
+}
+
+.app-detail-content,
+.app-detail-tabs {
+    background-color: transparent;
+    font-size: 1rem;
+}
+
+.app-detail-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.313rem;
+    background-color: #8080802e;
+}
+
+
+.app-detail-tabs {
+    font-size: 1rem;
+    margin: 0 0.313rem 0 0.313rem;
+    padding: 0.313rem 0 0 0;
+    .nav-link {
+        background-color: transparent;
+        color: #000000;
+        line-height: 1;
+        padding: 0.25rem 0.375rem;
+        cursor: pointer;
+        border-radius: 0;
+        &.active {
+            color: #000000;
+        }
+    }
+    .nav-pills,
+    .tab-content {
+        margin-right: -0.313rem;
+        margin-left: -0.313rem;
+    }
+    .nav-link.active,
+    .tab-content {
+        @include themify($themes) {
+            background-color: themed("appEntryBoxActiveTabBg");
+        }
+    }
+    .tab-content {
+        max-height: 12.5rem;
+        overflow: auto;
+        .info-lemma-wrapper {
+            @include themify($themes) {
+                border-bottom: 1px solid themed("baseBorder");
+            }
+            padding-bottom: 0.438rem;
+            margin-bottom: 0.625rem;
+        }
+        .info-rdg {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.063rem;
+        }
+        .info-label {
+            font-size: 0.813rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .more-info-label {
+            display: block;
+            font-size: 0.813rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        pre {
+            white-space: pre-wrap;
+            font-size: 75%;
+            margin-bottom: 0;
+            margin-top: -1rem;
+        }
+    }
+}

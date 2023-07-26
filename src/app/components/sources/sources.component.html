@@ -1,0 +1,62 @@
+<ng-container *ngFor="let source of entries"> 
+
+    <div class="source-container">
+        
+        <div class="card-body app-detail-content source-detail-content">
+            <span class="btn btn-sm transparent source-quote-button">☚</span>
+            <span class="source-quote-symbol">&#10077;</span>
+            {{source.text}}
+        </div>
+
+        <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0">
+            <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
+
+                <li ngbNavItem="refBibl" *ngIf="source.sources.length > 0 || source.ref.length > 0">
+                    <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
+                    <ng-template ngbNavContent>
+
+                        <h3 class="sources-cat" *ngIf="source.sources.length > 0">{{'QuotedSources' | translate}}</h3>
+                        <ul>
+                            <ng-container *ngFor="let elem of source.sources">
+                                <!-- checking if bibl is inside a listBibl-->
+                                <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
+                                    <ng-container *ngIf="elem.head"> 
+                                        {{elem.head}} 
+                                    </ng-container>
+                                    <ng-container *ngFor="let biblo of elem.sources"> 
+                                        <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
+                                    </ng-container>
+                                </ng-container>
+                                <!-- bibl alone -->
+                                <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicEntry'">
+                                    <li><evt-biblio-entry [data]="elem"></evt-biblio-entry></li>
+                                </ng-container>
+                            </ng-container>
+                        </ul>
+
+                        <h3 class="sources-cat" *ngIf="source.ref.length > 0">{{'References' | translate}}</h3>
+                        <ul>
+                            <ng-container *ngFor="let elem of source.ref">
+                                <ng-container *ngFor="let biblo of elem.sources"> 
+                                    <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
+                                </ng-container>
+                            </ng-container>
+                        </ul>
+
+                    </ng-template>
+                </li>
+
+                <li ngbNavItem="xml" *ngIf="source.originalEncoding">
+                    <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                    <ng-template ngbNavContent>
+                        <pre>{{ source.originalEncoding | xmlBeautify }}</pre>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
+        </div>
+
+    </div>
+
+</ng-container>
+
