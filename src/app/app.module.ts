@@ -123,6 +123,7 @@ import { HandleImgErrorDirective } from './directives/handle-img-error.directive
 import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
 import { SourcesComponent } from './components/sources/sources.component';
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
+import { BiblioEntryComponent } from './components/biblio/biblio.component';
 
 const routes: Routes = [
 ];
@@ -234,6 +235,7 @@ const DynamicComponents = [
     CriticalApparatusComponent,
     SourcesComponent,
     QuoteEntryComponent,
+    BiblioEntryComponent,
   ],
   imports: [
     AppRoutingModule,
