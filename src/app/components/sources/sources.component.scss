@@ -2,7 +2,7 @@
 
 .source-container {
     border: 1px solid #8080804f;
-    padding: 0.3em;
+    padding: 0em;
     margin: 0.5em 0.5em 1em 0.5em;
     font-family: serif;
     font-style: italic;
@@ -14,7 +14,7 @@
 
 .source-detail-content {
     display: block !important;
-    padding: 0 !important;
+    padding: 0.4em 0.2em 0.4em 0.5em !important;
     background-color: unset !important;
 }
 
@@ -59,7 +59,7 @@
 
 .app-detail-content,
 .app-detail-tabs {
-    background-color: transparent;
+    background-color: #f1f4f5;
     font-size: 1rem;
 }
 
@@ -73,7 +73,7 @@
 
 .app-detail-tabs {
     font-size: 1rem;
-    margin: 0 0.313rem 0 0.313rem;
+    margin: 0;
     padding: 0.313rem 0 0 0;
     .nav-link {
         background-color: transparent;
