@@ -15,33 +15,21 @@
                     <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                     <ng-template ngbNavContent>
 
-                        <h3 class="sources-cat" *ngIf="source.sources.length > 0">{{'QuotedSources' | translate}}</h3>
-                        <ul>
-                            <ng-container *ngFor="let elem of source.sources">
-                                <!-- checking if bibl is inside a listBibl-->
-                                <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
-                                    <ng-container *ngIf="elem.head"> 
-                                        {{elem.head}} 
-                                    </ng-container>
+                        <ng-container *ngIf="source.sources.length > 0">
+                            <h3 class="sources-cat">{{'QuotedSources' | translate}}</h3>
+                            <evt-biblio-list [data]="source"></evt-biblio-list>
+                        </ng-container>
+
+                        <ng-container *ngIf="source.ref.length > 0">
+                            <h3 class="sources-cat">{{'References' | translate}}</h3>
+                            <ul>
+                                <ng-container *ngFor="let elem of source.ref">
                                     <ng-container *ngFor="let biblo of elem.sources"> 
                                         <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
                                     </ng-container>
                                 </ng-container>
-                                <!-- bibl alone -->
-                                <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicEntry'">
-                                    <li><evt-biblio-entry [data]="elem"></evt-biblio-entry></li>
-                                </ng-container>
-                            </ng-container>
-                        </ul>
-
-                        <h3 class="sources-cat" *ngIf="source.ref.length > 0">{{'References' | translate}}</h3>
-                        <ul>
-                            <ng-container *ngFor="let elem of source.ref">
-                                <ng-container *ngFor="let biblo of elem.sources"> 
-                                    <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
-                                </ng-container>
-                            </ng-container>
-                        </ul>
+                            </ul>
+                        </ng-container>
 
                     </ng-template>
                 </li>

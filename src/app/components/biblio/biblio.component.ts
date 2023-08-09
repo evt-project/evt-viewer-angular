@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'evt-biblio-entry',
   templateUrl: './biblio.component.html',
   styleUrls: ['./biblio.component.scss'],
 })
-export class BiblioEntryComponent implements OnInit {
+export class BiblioEntryComponent {
 
   @Input() data;
 
@@ -13,10 +13,6 @@ export class BiblioEntryComponent implements OnInit {
   public showAttrNames = false;
   public showEmptyValues = false;
   public inline = true;
-
-  ngOnInit() {
-    console.log(this.data);
-  }
 
 }
 

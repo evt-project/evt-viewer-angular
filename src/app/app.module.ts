@@ -124,6 +124,7 @@ import { CriticalApparatusComponent } from './components/critical-apparatus/crit
 import { SourcesComponent } from './components/sources/sources.component';
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { BiblioEntryComponent } from './components/biblio/biblio.component';
+import { BiblioListComponent } from './components/biblioList/biblio-list.component';
 
 const routes: Routes = [
 ];
@@ -236,6 +237,7 @@ const DynamicComponents = [
     SourcesComponent,
     QuoteEntryComponent,
     BiblioEntryComponent,
+    BiblioListComponent,
   ],
   imports: [
     AppRoutingModule,
