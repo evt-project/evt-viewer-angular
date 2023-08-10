@@ -4,7 +4,7 @@ import {
     Addition, Attributes, BibliographicEntry, BibliographicList, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
-import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { getOuterHTML, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 
@@ -360,8 +360,8 @@ export class BibliographyParser extends BiblParser implements Parser<XMLElement>
             publisher: this.getChildrenByName(xml,'publisher'),
             pubPlace: this.getChildrenByName(xml,'pubBlace'),
             citedRange: this.getChildrenByName(xml,'citedRange'),
-            content: [],
-            //content: parseChildren(xml, this.genericParse),
+            content: parseChildren(xml, this.genericParse),
+            originalEncoding: getOuterHTML(xml),
         };
     }
 }
@@ -374,8 +374,8 @@ export class BibliographyListParser extends ListBiblParser implements Parser<XML
             id: getID(xml),
             attributes: this.attributeParser.parse(xml),
             head: Array.from(xml.querySelectorAll<XMLElement>('head')).map((x) => x.textContent),
-            content: parseChildren(xml, this.genericParse),
             sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
+            content: parseChildren(xml, this.genericParse),
         };
     }
 }

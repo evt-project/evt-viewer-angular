@@ -8,16 +8,25 @@
             {{source.text}}
         </div>
 
-        <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0">
+        <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 || source.ref.length > 0 || source.extSources.length > 0">
             <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
 
-                <li ngbNavItem="refBibl" *ngIf="source.sources.length > 0 || source.ref.length > 0">
+                <li ngbNavItem="refBibl">
                     <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                     <ng-template ngbNavContent>
 
                         <ng-container *ngIf="source.sources.length > 0">
                             <h3 class="sources-cat">{{'QuotedSources' | translate}}</h3>
                             <evt-biblio-list [data]="source"></evt-biblio-list>
+                        </ng-container>
+
+                        <ng-container *ngIf="source.extSources.length > 0">
+                            <h3 class="sources-cat">{{'References' | translate}}</h3>
+                            <ul>
+                                <ng-container *ngFor="let extBibl of source.extSources">
+                                    <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
+                                </ng-container>
+                            </ul>
                         </ng-container>
 
                         <ng-container *ngIf="source.ref.length > 0">

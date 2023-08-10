@@ -1,9 +1,10 @@
 import { xmlParser } from '.';
-import { ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
+import { BibliographicEntry, ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
+import { chainFirstChildTexts } from 'src/app/utils/xml-utils';
 
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
@@ -18,27 +19,14 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             type: QuoteEntry,
             id: getID(quoteEntry),
             attributes: this.attributeParser.parse(quoteEntry),
-            text: this.chainFirstChildTexts(quoteEntry),
+            text: chainFirstChildTexts(quoteEntry),
             content: parseChildren(quoteEntry, this.genericParse),
             sources: this.getSources(quoteEntry),
+            extSources: this.getExternalSources(quoteEntry),
             ref: this.getParallelPassages(quoteEntry),
             class: quoteEntry.tagName.toLowerCase(),
             originalEncoding: getOuterHTML(quoteEntry),
         };
-    }
-
-    /**
-     * Significant text can be split inside two or more text evt-element, especially if contains new line characters.
-     * This function returns a string with all the text element chained
-     * @param n XMLElement
-     * @returns string
-     */
-    private chainFirstChildTexts(n: XMLElement): string {
-        const evtTextElement = '#text';
-        let out = '';
-        n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
-
-        return out;
     }
 
     /**
@@ -71,6 +59,25 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
                     (classList.includes(x['tagName'])) && (x['attributes'].getNamedItem('type').nodeValue === parallelPassageType)
                 ) ? this.parallelPassageParser.parse(x) : null)
             .filter((x) => x);
+    }
+
+     /**
+     * Retrieve external bibliography element outside the analogue element
+     * This first solution is brutal: it searches all document for a bibl with the correct xml:id
+     * it would be faster if we knew the id or unique element to search in
+     * @param analogue XMLElement
+     * @returns array of Bibliography Element
+     */
+    private getExternalSources(analogue: XMLElement): BibliographicEntry[] {
+        const sourcesToFind = [analogue.getAttribute('target'), analogue.getAttribute('source')]
+                .filter((x) => x)
+                .map((x) => x.replace('#',''));
+
+        const sourcesFound = Array.from(analogue.ownerDocument.querySelectorAll<XMLElement>('bibl'))
+                .filter((x) => sourcesToFind.includes(x.getAttribute('xml:id')))
+                .map((x) => this.biblParser.parse(x));
+
+        return sourcesFound;
     }
 
 

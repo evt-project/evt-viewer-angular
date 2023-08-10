@@ -174,6 +174,7 @@ export class QuoteEntry extends GenericElement {
     id: string;
     text: string;
     sources: BibliographicEntry[]|BibliographicList;
+    extSources: BibliographicEntry[];
     ref: ParallelPassage[];
     originalEncoding: string;
     //rend: string;
@@ -196,6 +197,7 @@ export class BibliographicEntry extends GenericElement {
     publisher: string[];
     pubPlace: string[];
     citedRange: string[];
+    originalEncoding: string;
 }
 
 export class ParallelPassage extends GenericElement {
@@ -204,6 +206,7 @@ export class ParallelPassage extends GenericElement {
     attrSource: string;
     attrTarget: string;
     sources: BibliographicEntry[];
+    extSources: BibliographicEntry[];
     originalEncoding: string;
 }
 
