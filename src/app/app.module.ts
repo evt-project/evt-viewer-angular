@@ -121,6 +121,7 @@ import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
 import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
+import { AnaloguesComponent } from './components/analogues/analogues.component';
 import { SourcesComponent } from './components/sources/sources.component';
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { BiblioEntryComponent } from './components/biblio/biblio.component';
@@ -234,6 +235,7 @@ const DynamicComponents = [
     XmlBeautifyPipe,
     ...DynamicComponents,
     CriticalApparatusComponent,
+    AnaloguesComponent,
     SourcesComponent,
     QuoteEntryComponent,
     BiblioEntryComponent,

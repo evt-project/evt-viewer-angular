@@ -1,8 +1,9 @@
 import { xmlParser } from '.';
-import { ParallelPassage, XMLElement } from '../../models/evt-models';
+import { BibliographicEntry, ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
+import { chainFirstChildTexts } from 'src/app/utils/xml-utils';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
@@ -11,54 +12,54 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
-    public parse(quoteEntry: XMLElement): ParallelPassage {
+    public parse(analogueEntry: XMLElement): ParallelPassage {
         return {
             type: ParallelPassage,
-            id: getID(quoteEntry),
-            attributes: this.attributeParser.parse(quoteEntry),
-            text: this.chainFirstChildTexts(quoteEntry),
-            content: parseChildren(quoteEntry, this.genericParse),
-            attrTarget: quoteEntry.getAttribute('target'),
-            attrSource: quoteEntry.getAttribute('source'),
-            sources: this.getSources(quoteEntry),
-            class: quoteEntry.tagName.toLowerCase(),
-            originalEncoding: getOuterHTML(quoteEntry),
+            id: getID(analogueEntry),
+            attributes: this.attributeParser.parse(analogueEntry),
+            text: chainFirstChildTexts(analogueEntry),
+            content: parseChildren(analogueEntry, this.genericParse),
+            attrTarget: analogueEntry.getAttribute('target'),
+            attrSource: analogueEntry.getAttribute('source'),
+            sources: this.getSources(analogueEntry),
+            extSources: this.getExternalSources(analogueEntry),
+            class: analogueEntry.tagName.toLowerCase(),
+            originalEncoding: getOuterHTML(analogueEntry),
         };
     }
 
     /**
-    * Significant text can be split inside two or more text evt-element, especially if contains new line characters.
-    * This function returns a string with all the text element chained
-    * @param n XMLElement
-    * @returns string
-    */
-    private chainFirstChildTexts(n: XMLElement): string {
-        const evtTextElement = '#text';
-        let out = '';
-        n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
-
-        return out;
-    }
-
-    /**
-     * Retrieve and send to parsing all Bibliography elements inside this quote element
+     * Retrieve all Bibliography elements inside this analogue element
+     * if referred with the proper attribute.
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getSources(quote: XMLElement): any {
+    private getSources(analogue: XMLElement): any {
         const bibl = ['bibl'];
         const biblList = ['listBibl'];
-        //get "corresp" e "source" attr
 
-        return Array.from(quote.children)
+        return Array.from(analogue.children)
             .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : (
                 biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
             .filter((x) => x);
     }
 
-    //get SEC
+    /**
+     * Retrieve external bibliography element outside the analogue element
+     * This first solution is brutal: it searches all document for a bibl with the correct xml:id
+     * it would be faster if we knew the id or unique element to search in
+     * @param analogue XMLElement
+     * @returns array of Bibliography Element
+     */
+    private getExternalSources(analogue: XMLElement): BibliographicEntry[] {
+        const sourcesToFind = [analogue.getAttribute('target'), analogue.getAttribute('source')]
+            .filter((x) => x)
+            .map((x) => x.replace('#',''));
+        const sourcesFound = Array.from(analogue.ownerDocument.querySelectorAll<XMLElement>('bibl'))
+            .filter((x) => sourcesToFind.includes(x.getAttribute('xml:id')))
+            .map((x) => this.biblParser.parse(x));
 
-    //get REF
-    //attr 'target' with referral in external bibliography with corresp xml:id attrb
+        return sourcesFound;
+    }
 
 }
