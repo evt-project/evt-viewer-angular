@@ -38,15 +38,30 @@ export function removeSpaces(textContent: string) {
 }
 
 /**
-* Significant text can be split inside two or more text evt-element, especially if contains new line characters.
+* Significant text sometimes is split inside two or more text evt-element inside the main one, especially when it contains new line characters.
 * This function returns a string with all the text element chained
 * @param n XMLElement
 * @returns string
 */
-export function chainFirstChildTexts(n: XMLElement): string {
+export function chainFirstChildTexts(elem: XMLElement): string {
   const evtTextElement = '#text';
   let out = '';
-  n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
+  elem.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
 
-   return out;
+  return out;
+}
+
+/**
+* Retrieve external bibliography element outside the analogue element
+* This first solution is brutal: it searches all document for a bibl with the correct xml:id
+* it would be faster if we knew the id or unique element to search in
+* @param analogue XMLElement
+* @returns array of Bibliography Element
+*/
+export function getExternalSources(elem: XMLElement, attrSourceNames: string[], attrTargetName: string): XMLElement[] {
+  const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
+  const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));
+
+  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl'))
+    .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }
