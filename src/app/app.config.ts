@@ -103,6 +103,12 @@ export interface EditionConfig {
         biblAttributeToMatch: string,
         elementAttributesToMatch: string[]
     }>;
+    biblView: Partial<{
+		propToShow: string[];
+		showAttrNames: boolean;
+		showEmptyValues: boolean;
+		inline: boolean;
+	}>;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

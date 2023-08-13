@@ -109,5 +109,11 @@
 	"externalBibliography": {
 		"biblAttributeToMatch": "xml:id",
 		"elementAttributesToMatch": ["target","source"]
+	},
+	"biblView": {
+		"propToShow": ["author","title","date","editor","publisher","pubPlace","citedRange"],
+		"showAttrNames": false,
+		"showEmptyValues": false,
+		"inline": true
 	}
 }
