@@ -335,7 +335,7 @@ export class BiblParser extends GenericElemParser {
         return s.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim();
     }
     protected getChildrenByName = function(xml : XMLElement, name : string) {
-        return Array.from(xml.querySelectorAll<XMLElement>(name)).map((x) => this.getTrimmedText(x));
+        return Array.from(xml.querySelectorAll<XMLElement>(name)).map((x) => ' '+this.getTrimmedText(x));
     }
     protected getChildrenByNameOnFirstLevelOnly = function(xml : XMLElement, name : string) {
         return Array.from(xml.querySelectorAll<XMLElement>(':scope > '+name)).map((x) => this.getTrimmedText(x));
