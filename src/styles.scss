@@ -182,12 +182,16 @@ body {
     font-size: 0.9rem;
 }
 
-.ref[source], .ref[target], .seg[source] {
+.analogueEntry .genericElement {
     text-decoration: underline dotted from-font;
     cursor: pointer;
 }
 
-.ref[source]:before, .ref[target]:before, .seg[source]:before {
+.analogueEntry .genericElement:before {
     content:"🗎";
+}
+
+.analogueEntry .genericElement:hover {
+    background-color: rgba(13, 110, 253, 0.25);
 }
 
