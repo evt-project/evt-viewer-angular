@@ -176,9 +176,15 @@ export class EditorialConventionsService {
         Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
 
     if (externalLayouts) {
-      layouts = {
-        ...externalLayouts,
-      }
+      Object.keys(externalLayouts).forEach((editionLevel) => {
+        layouts = {
+          ...defaultKeys || {},
+          [editionLevel]: {
+            ...defaultKeys ? defaultKeys[editionLevel] : {},
+            ...externalLayouts[editionLevel],
+          },
+        }
+      });
     }
 
     return layouts;
@@ -186,7 +192,6 @@ export class EditorialConventionsService {
 
   private _getExternalConfigs(): EditorialConvention[] {
     const customs = AppConfig.evtSettings.editorialConventions;
-    console.log('here');
 
     return Object.keys(customs).map((key) => ({
       element: customs[key].markup?.element ?? key,
