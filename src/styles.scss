@@ -208,6 +208,11 @@ evt-biblio-list .msIdentifier {
     line-height: 1.4rem;
 }
 
+evt-quote-entry evt-source-detail > div {
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
 evt-analogue-entry evt-analogue-detail > div {
     box-shadow: none !important;
     margin: 0 !important;
