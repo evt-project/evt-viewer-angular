@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
+import { BibliographicEntry } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-biblio-entry',
@@ -8,7 +9,7 @@ import { AppConfig } from 'src/app/app.config';
 })
 export class BiblioEntryComponent implements OnInit {
 
-  @Input() data;
+  @Input() data: BibliographicEntry;
 
   public showList = AppConfig.evtSettings.edition.biblView.propToShow;
   public showAttrNames = AppConfig.evtSettings.edition.biblView.showAttrNames;

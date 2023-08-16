@@ -190,6 +190,8 @@ const DynamicComponents = [
   VerseComponent,
   VersesGroupComponent,
   WordComponent,
+  QuoteEntryComponent,
+  AnalogueEntryComponent,
 ];
 
 @NgModule({
@@ -236,16 +238,14 @@ const DynamicComponents = [
     VersionPanelComponent,
     WitnessPanelComponent,
     XmlBeautifyPipe,
-    ...DynamicComponents,
     CriticalApparatusComponent,
     AnaloguesComponent,
-    AnalogueEntryComponent,
     AnalogueDetailComponent,
     SourceDetailComponent,
     SourcesComponent,
-    QuoteEntryComponent,
     BiblioEntryComponent,
     BiblioListComponent,
+    ...DynamicComponents,
   ],
   imports: [
     AppRoutingModule,

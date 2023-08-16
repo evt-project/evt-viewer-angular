@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { BibliographicList } from '../../models/evt-models';
 
 @Component({
   selector: 'evt-biblio-list',
@@ -7,6 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class BiblioListComponent {
 
-  @Input() data;
+  @Input() data: BibliographicList;
 
 }
