@@ -14,8 +14,10 @@ export class BiblioEntryComponent implements OnInit {
   public showAttrNames = AppConfig.evtSettings.edition.biblView.showAttrNames;
   public showEmptyValues = AppConfig.evtSettings.edition.biblView.showEmptyValues;
   public inline = AppConfig.evtSettings.edition.biblView.inline;
+  public comaSeparated = AppConfig.evtSettings.edition.biblView.comaSeparated;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
 }
 
