@@ -1,0 +1,8 @@
+<span class="analogueEntry {{ data.class }}" 
+    (click)="toggleOpened$.next()" 
+    [ngClass]="{opened: opened$ | async, quoteHighlight: quoteHighlight$ | async}" 
+    [evtHtmlAttributes]="data?.attributes" 
+    [evtEditorialConventionLayout]="editorialConventionData" 
+    (click)="toggleAppEntryBox($event);"> {{data.text}}
+</span>
+<evt-analogue-detail *ngIf="opened$ | async" [analogue]="data"></evt-analogue-detail>
