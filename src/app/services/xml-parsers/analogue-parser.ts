@@ -2,9 +2,10 @@ import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
 import { GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser, GenericElemParser } from './basic-parsers';
+import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
+import { BibliographyListParser, BibliographyParser } from './bilbliography-parsers';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
@@ -19,8 +20,9 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     public parse(analogue: XMLElement): GenericElement|ParallelPassage {
 
         const sources = this.isAnaloguePassage(analogue);
-        if (!sources) {
-            // no sources not a parallel passage
+        const insideCitElement = (analogue.parentElement.tagName === 'cit');
+        if ((!sources) || (insideCitElement)) {
+            // no sources not a parallel passage, inside a cit element not a parallel passage
             const elementParser = createParser(GenericElemParser, parse);
 
             return elementParser.parse(analogue)

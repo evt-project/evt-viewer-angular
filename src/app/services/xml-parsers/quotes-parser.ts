@@ -1,11 +1,13 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { GenericElement, ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
+import { BibliographicEntry, QuoteEntry, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
-import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
+import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
 import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
+import { MsDescParser } from './msdesc-parser';
+import { BibliographyListParser, BibliographyParser, BibliographyStructParser } from './bilbliography-parsers';
 
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
@@ -14,54 +16,75 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
     parallelPassageParser = createParser(AnalogueParser, this.genericParse);
+    msDescParser = createParser(MsDescParser, this.genericParse);
+    biblStructParser = createParser(BibliographyStructParser, this.genericParse)
 
-    biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
-    elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    biblAttrToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
+    elemAttrsToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
-    public parse(quoteEntry: XMLElement): QuoteEntry {
+    xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
+
+    public parse(quote: XMLElement): QuoteEntry {
+        // we have 2 cases: <quote> inside a <cit>, <quote> alone
+        const isInsideCitElem = (quote.parentElement.tagName === 'cit');
+        const sources = this.getInsideSources(quote);
+
         return {
             type: QuoteEntry,
-            id: getID(quoteEntry),
-            attributes: this.attributeParser.parse(quoteEntry),
-            text: chainFirstChildTexts(quoteEntry),
-            content: parseChildren(quoteEntry, this.genericParse),
-            sources: this.getInsideSources(quoteEntry),
-            extSources: getExternalSources(quoteEntry, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
-            ref: this.getInsideParallelPassages(quoteEntry),
-            class: quoteEntry.tagName.toLowerCase(),
-            originalEncoding: getOuterHTML(quoteEntry),
+            id: getID(quote),
+            tagName: quote.tagName,
+            attributes: this.attributeParser.parse(quote),
+            text: chainFirstChildTexts(quote),
+            sources: sources,
+            extSources: getExternalSources(this.findExtRef(quote, isInsideCitElem), this.elemAttrsToMatch, this.biblAttrToMatch).map(
+                (x) => this.biblParser.parse(x)),
+            class: 'quoteEntry',
+            insideCit: isInsideCitElem,
+            content: parseChildren(quote, this.genericParse),
+            originalEncoding: (isInsideCitElem) ? getOuterHTML(quote.parentElement).replace(this.xpathRegex,'') : getOuterHTML(quote),
         };
     }
 
+
     /**
-     * Retrieve and send to parsing all Bibliography elements inside this quote element
+     * Retrieve attributes linked to external bibl/listBibl/cit elements
+     * @param quote XMLElement
+     * @param insideCit boolean
+     * @returns XMLElement
+     */
+    private findExtRef(quote: XMLElement, insideCit: boolean): XMLElement {
+        const target = (insideCit) ? quote.parentElement : quote;
+        const linkAttr = Array.from(target.querySelectorAll<XMLElement>('[' +this.elemAttrsToMatch.join('], [')+ ']')).map((x) => x);
+        if (linkAttr.length > 0) {
+            return linkAttr[0];
+        }
+
+        return target;
+    }
+
+    /**
+     * Retrieve and send to the proper parsing all bibliography elements inside the quote element
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getInsideSources(quote: XMLElement): any {
-        const bibl = ['bibl'];
-        const biblList = ['listBibl'];
+    private getInsideSources(quote: XMLElement): BibliographicEntry[] {
+        const elemParserAssoc = {
+            bibl: this.biblParser,
+            listBibl: this.listBiblParser,
+            msDesc: this.msDescParser,
+            biblStruct: this.biblStructParser,
+            ref: this.biblParser,
+        }
 
-        return Array.from(quote.children)
-            .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : (
-                biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
+        if (quote.parentElement.tagName === 'cit') {
+            // if quote is inside a cit element then the biblographic element is at its same level and not inside
+            return Array.from(quote.parentElement.children)
+            .map((x: XMLElement) => (elemParserAssoc[x['tagName']]) ? elemParserAssoc[x['tagName']].parse(x) : null)
             .filter((x) => x);
-    }
-
-
-    /**
-     * Retrieve all <ref> with a specific type attribute inside this quote element
-     * @param quote XMLElement
-     * @returns array of parallel passage elements
-     */
-    private getInsideParallelPassages(quote: XMLElement): ParallelPassage[]|GenericElement[] {
-        const classList = ['ref']; // tutti i ref con type = 'parallelPassage'
-        const parallelPassageType = 'parallelPassage';
+        }
 
         return Array.from(quote.children)
-            .map((x: XMLElement) => (
-                    (classList.includes(x['tagName'])) && (x['attributes'].getNamedItem('type').nodeValue === parallelPassageType)
-                ) ? this.parallelPassageParser.parse(x) : null)
+            .map((x: XMLElement) => (elemParserAssoc[x['tagName']]) ? elemParserAssoc[x['tagName']].parse(x) : null)
             .filter((x) => x);
     }
 
