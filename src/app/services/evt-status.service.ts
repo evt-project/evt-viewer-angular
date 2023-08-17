@@ -6,6 +6,7 @@ import { distinctUntilChanged, filter, first, map, mergeMap, shareReplay, switch
 import { AppConfig, EditionLevelType } from '../app.config';
 import { Page, ViewMode } from '../models/evt-models';
 import { EVTModelService } from './evt-model.service';
+import { deepSearch } from '../utils/dom-utils';
 
 export type URLParamsKeys = 'd' | 'p' | 'el' | 'ws' | 'vs';
 export type URLParams = { [T in URLParamsKeys]: string };
@@ -187,10 +188,8 @@ export class EVTStatusService {
             map(({ page }) => page.parsedContent),
             map((x) => x.map((y) => y['content']).filter((y) => y)));
 
-        return pageContent.pipe(
-          map((x) => x.map((y) => y.map((z) => classList.includes(z.class) ? z : null).filter((z) => z))),
-          filter((x) => x.length !== 0),
-        );
+        return pageContent.pipe(map((x) => deepSearch(x, 'class', classList)));
+
     }
 
 }

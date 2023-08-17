@@ -229,3 +229,29 @@ export function getCommonAncestor(node1, node2) {
 export function createNsResolver(doc: Document) {
   return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
 }
+
+export function updateCSS(rules: string[]) {
+  const thisCSS = document.styleSheets[0];
+  rules.forEach((rule) => {
+    thisCSS.insertRule(` ${rule} }`, 0);
+  });
+}
+
+export function deepSearch(obj, attrToMatch, valuesToMatch) {
+  const results = [];
+  function search(obj) {
+    for (const key in obj) {
+      const value = obj[key];
+      if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
+        results.push(obj);
+      }
+      if (typeof value === 'object' && value !== null) {
+        search(value);
+      }
+    }
+  }
+  search(obj);
+
+  return results;
+}
+
