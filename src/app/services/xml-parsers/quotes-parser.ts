@@ -33,19 +33,15 @@ export class ExaminationSegParser extends EmptyParser implements Parser<XMLEleme
         this.parallelPassageMarker.forEach((marker) => { if (xml.getAttribute('type') === marker) { analogueCheck = true } } )
 
         if (analogueCheck) {
-            console.log('send to analogues', this.analogueParser.parse(xml));
             // the element has the @attribute marker for analogues
             return this.analogueParser.parse(xml);
         }
 
         if ((attributesCheck) && (!isExcluded)) {
-            console.log('send to quote', this.quoteParser.parse(xml));
             // if the element has the @attribute pointing to an external bibl/cit
-            // then it's part of a quote
+            // so it's part of a quote
             return this.quoteParser.parse(xml);
         }
-
-        console.log('send to generic', this.elementParser.parse(xml));
 
         return this.elementParser.parse(xml);
     }

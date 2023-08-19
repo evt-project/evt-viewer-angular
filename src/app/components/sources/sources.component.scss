@@ -5,7 +5,6 @@
     padding: 0em;
     margin: 0.5em 0.5em 1em 0.5em;
     font-family: serif;
-    font-style: italic;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     background-color:#2042512e;
 }
@@ -25,6 +24,10 @@
     height: 2em;
     display: none;
     pointer-events: none;
+}
+
+.bibl-head {
+    margin-left: 2rem;
 }
 
 .source-quote-symbol {
@@ -69,6 +72,7 @@
 
 .app-detail-content {
     display: flex;
+    font-style: italic;
     justify-content: space-between;
     padding: 0.313rem;
     background-color: #8080802e;
@@ -105,6 +109,7 @@
         overflow: auto;
         padding-top: 0.5em;
         padding-left: 1em;
+        padding-bottom: 0.5em;
         .info-lemma-wrapper {
             @include themify($themes) {
                 border-bottom: 1px solid themed("baseBorder");

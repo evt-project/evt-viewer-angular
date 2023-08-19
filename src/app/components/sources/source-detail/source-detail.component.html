@@ -15,12 +15,12 @@
                 <ng-template ngbNavContent>
                     <!-- disambiguation between different structures -->
                     <ng-container *ngIf="source.sources.length > 0">
-                        <h3 class="sources-cat">{{'QuotedSources' | translate}}</h3>
+                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
                         <evt-biblio-list [data]="source"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="source.extSources.length > 0">
-                        <h3 class="sources-cat">{{'References' | translate}}</h3>
+                        <h3 class="sources-cat">{{'references' | translate}}</h3>
                         <ul class="biblio-list">
                             <ng-container *ngFor="let extBibl of source.extSources">
                                 <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
