@@ -116,5 +116,7 @@
 		"showEmptyValues": false,
 		"inline": true,
 		"comaSeparated": true
-	}
+	},
+	"parallelPassageMarkers": [ "parallelPassage", "source" ],
+	"sourcesExcludedFromListByParent": [ "desc" ]
 }

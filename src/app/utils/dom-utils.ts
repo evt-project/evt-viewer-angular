@@ -230,14 +230,14 @@ export function createNsResolver(doc: Document) {
   return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
 }
 
-export function updateCSS(rules: string[]) {
+export function updateCSS(rules: Array<[string, string]>) {
   const thisCSS = document.styleSheets[0];
   rules.forEach((rule) => {
-    thisCSS.insertRule(` ${rule} }`, 0);
+    thisCSS.insertRule(`${rule[0]} {${rule[1]}}`, 0);
   });
 }
 
-export function deepSearch(obj, attrToMatch, valuesToMatch) {
+export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[]) {
   const results = [];
   function search(obj) {
     for (const key in obj) {

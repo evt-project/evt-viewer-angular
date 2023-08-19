@@ -11,9 +11,7 @@ export class QuoteEntriesParserService {
     const quoteParser = ParserRegister.get('evt-quote-entry-parser');
 
     return [
-        Array.from(document.querySelectorAll<XMLElement>('quote'))
-          .map((quoteEntry) => quoteParser.parse(quoteEntry) as QuoteEntry),
-        Array.from(document.querySelectorAll<XMLElement>('cit'))
+        Array.from(document.querySelectorAll<XMLElement>('.quoteEntry'))
           .map((quoteEntry) => quoteParser.parse(quoteEntry) as QuoteEntry),
     ];
   }

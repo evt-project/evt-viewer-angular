@@ -62,12 +62,13 @@ export class AppConfig {
      * @param edition EditionConfig
      */
     updateStyleFromConfig(edition: EditionConfig) {
-        const configHightlightColorOver =  edition.readingColorLight;
-        const configHightlightColorOpened = edition.readingColorDark;
-        updateCSS([
-            `.analogueEntry .opened, .quoteEntry .opened { background-color: ${configHightlightColorOpened}`,
-            `.analogueEntry:hover, .quoteEntry:hover { background-color: ${configHightlightColorOver}`,
-        ]);
+        const rules = {
+            '.analogueEntry .opened': `background-color: ${edition.readingColorDark}`,
+            '.analogueEntry:hover': `background-color: ${edition.readingColorLight} `,
+            '.quoteEntry .opened': `background-color: ${edition.readingColorDark}`,
+            '.quoteEntry:hover': `background-color: ${edition.readingColorLight}`,
+        };
+        Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
     }
 
 }
@@ -128,6 +129,8 @@ export interface EditionConfig {
 		inline: boolean;
         comaSeparated: boolean;
 	}>;
+    parallelPassageMarkers: string[];
+    sourcesExcludedFromListByParent: string[];
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

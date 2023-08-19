@@ -78,6 +78,6 @@ export function getExternalSources(elem: XMLElement, attrSourceNames: string[], 
   const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
   const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));
 
-  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl'))
+  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl, cit'))
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }
