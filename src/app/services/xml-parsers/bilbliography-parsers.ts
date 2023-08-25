@@ -22,7 +22,8 @@ export class BiblParser extends GenericElemParser {
         if (search.length !== 0) {
             return search[0].textContent;
         }
-        return "";
+
+        return '';
     }
 }
 

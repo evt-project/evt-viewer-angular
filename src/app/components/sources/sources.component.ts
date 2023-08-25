@@ -17,7 +17,6 @@ export class SourcesComponent implements OnInit {
 
   public getEntries(data) {
     this.entries = data.flat();
-    console.log('quotes in this page',this.entries);
   }
 
   constructor(
