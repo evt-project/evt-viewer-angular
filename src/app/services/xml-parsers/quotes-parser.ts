@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { BibliographicEntry, GenericElement, QuoteEntry, XMLElement } from '../../models/evt-models';
+import { BibliographicEntry, GenericElement, QuoteEntry, XMLElement, SourceClass } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -12,9 +12,9 @@ import { BibliographyListParser, BibliographyParser, BibliographyStructParser } 
 /*
 * Identify proper parser for seg and ref elements on the basis of content and attributes
 */
-@xmlParser('ref', ExaminationSegParser)
-@xmlParser('seg', ExaminationSegParser)
-export class ExaminationSegParser extends EmptyParser implements Parser<XMLElement> {
+@xmlParser('ref', DisambiguationSegParser)
+@xmlParser('seg', DisambiguationSegParser)
+export class DisambiguationSegParser extends EmptyParser implements Parser<XMLElement> {
 
     elementParser = createParser(GenericElemParser, this.genericParse);
     quoteParser = createParser(QuoteParser, this.genericParse);
@@ -47,7 +47,7 @@ export class ExaminationSegParser extends EmptyParser implements Parser<XMLEleme
     }
 }
 @xmlParser('quote', QuoteParser)
-@xmlParser('cit', QuoteParser)
+//@xmlParser('cit', QuoteParser)
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
 
@@ -70,6 +70,10 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
         // <seg source/target="">
         // <ref source/target="">
         const isInCit = (quote.parentElement.tagName === 'cit');
+        const isCit = (quote.tagName === 'cit');
+        const isQuote = (quote.tagName === 'quote');
+        const isAnalogue = ((quote.getAttribute('type') === 'ParallelPassage')
+            || (quote.parentElement.getAttribute('type') === 'ParallelPassage'));
         const sources = this.getInsideSources(quote);
 
         return {
@@ -80,7 +84,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             text: chainFirstChildTexts(this.getQuoteElement(quote)),
             sources: sources,
             extSources: getExternalSources(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch).map((x) => this.biblParser.parse(x)),
-            class: ((!isInCit) || (quote.tagName === 'quote')) ? 'quoteEntry' : quote.tagName.toLowerCase(),
+            class: ( (!isAnalogue) && (!isCit) && ( (!isInCit) || ((isInCit) && (isQuote)) ) ) ? SourceClass : quote.tagName.toLowerCase(),
             insideCit: isInCit,
             content: parseChildren(quote, this.genericParse),
             originalEncoding: this.cleanXMLString(quote, isInCit),

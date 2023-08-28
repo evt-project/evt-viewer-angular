@@ -4,7 +4,7 @@ import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionLayoutData } from '../../../directives/editorial-convention-layout.directive';
 
-import { ParallelPassage } from '../../../models/evt-models';
+import { AnalogueClass, ParallelPassage } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
@@ -36,6 +36,8 @@ export class AnalogueEntryComponent {
       defaultsKey: '.analogues',
     };
   }
+
+  public analogueClass = AnalogueClass;
 
   public opened = false;
 

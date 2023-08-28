@@ -1,4 +1,4 @@
-<span class="quoteEntry {{ data.class }}" 
+<span class="{{ sourceClass }} {{ data.class }}" 
     (click)="toggleOpened$.next()" 
     [ngClass]="{ opened: opened$ | async }" 
     [attr.data-edition]="editionLevel" 

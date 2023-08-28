@@ -4,7 +4,7 @@ import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 
-import { QuoteEntry } from '../../models/evt-models';
+import { QuoteEntry, SourceClass } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
@@ -37,6 +37,8 @@ export class QuoteEntryComponent {
       defaultsKey: '.sources',
     };
   }
+
+  public sourceClass = SourceClass;
 
   public opened = false;
 
