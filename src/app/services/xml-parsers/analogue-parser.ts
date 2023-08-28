@@ -14,7 +14,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
-    parallelPassageMarker = AppConfig.evtSettings.edition.parallelPassageMarkers;
+    analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
@@ -54,7 +54,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
 
         const sources = this.getSources(analogue);
         const extSources = getExternalSources(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x));
-        const hasPPAttribute = this.parallelPassageMarker.includes(analogue.getAttribute('type'));
+        const hasPPAttribute = this.analogueMarker.includes(analogue.getAttribute('type'));
 
         if ((sources.length === 0 && extSources.length === 0) && (!hasPPAttribute)) {
             return false;
