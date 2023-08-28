@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { AnalogueClass, BibliographicEntry, GenericElement, Analogue, XMLElement } from '../../models/evt-models';
+import { Analogue, AnalogueClass, BibliographicEntry, GenericElement, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';

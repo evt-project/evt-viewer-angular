@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { BibliographicEntry, GenericElement, QuoteEntry, XMLElement, SourceClass } from '../../models/evt-models';
+import { BibliographicEntry, GenericElement, QuoteEntry, SourceClass, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
