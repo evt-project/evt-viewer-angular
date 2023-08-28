@@ -73,8 +73,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
         const isInCit = (quote.parentElement.tagName === 'cit');
         const isCit = (quote.tagName === 'cit');
         const isQuote = (quote.tagName === 'quote');
-        const isAnalogue = ((analogueMarker.includes(quote.getAttribute('type')))
-            || (analogueMarker.includes(quote.parentElement.getAttribute('type'))));
+        const isAnalogue = ((this.analogueMarker.includes(quote.getAttribute('type')))
+            || (this.analogueMarker.includes(quote.parentElement.getAttribute('type'))));
         const sources = this.getInsideSources(quote);
 
         return {

@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { AnalogueClass, BibliographicEntry, GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
+import { AnalogueClass, BibliographicEntry, GenericElement, Analogue, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -18,7 +18,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
-    public parse(analogue: XMLElement): GenericElement|ParallelPassage {
+    public parse(analogue: XMLElement): GenericElement|Analogue {
 
         const sources = this.isAnaloguePassage(analogue);
         const insideCitElement = (analogue.parentElement.tagName === 'cit');
@@ -30,7 +30,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
         }
 
         return {
-            type: ParallelPassage,
+            type: Analogue,
             id: getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
