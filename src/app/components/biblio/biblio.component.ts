@@ -16,6 +16,20 @@ export class BiblioEntryComponent implements OnInit {
   public showEmptyValues = AppConfig.evtSettings.edition.biblView.showEmptyValues;
   public inline = AppConfig.evtSettings.edition.biblView.inline;
   public comaSeparated = AppConfig.evtSettings.edition.biblView.comaSeparated;
+  public showMainElemTextContent = AppConfig.evtSettings.edition.biblView.showMainElemTextContent;
+
+  public showSpan = this.getSpanStyle();
+
+  public getSpanStyle() {
+    if (this.comaSeparated) {
+      return {
+        'margin-left': '-0.1rem',
+        'display': 'inline-block',
+      };
+    }
+
+    return { 'display': 'none' };
+  }
 
   ngOnInit() {
   }

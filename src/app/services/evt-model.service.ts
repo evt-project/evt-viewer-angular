@@ -155,7 +155,7 @@ export class EVTModelService {
   public readonly analogueEntries$ = this.editionSource$.pipe(
     map((source) => this.analogueParser.parseAnaloguesEntries(source)),
     shareReplay(1),
-  )
+  );
 
   // FACSIMILE
   public readonly surfaces$ = this.editionSource$.pipe(

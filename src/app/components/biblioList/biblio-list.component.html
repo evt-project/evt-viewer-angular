@@ -1,5 +1,5 @@
 
-    <ng-container *ngFor="let elem of data.sources">
+    <ng-container *ngFor="let elem of data">
 
         <ng-container *ngIf="elem.type && elem.type.name === 'MsDesc'">
             <!-- <evt-ms-desc [data]="elem"></evt-ms-desc> more detailed but a bit redundant-->
@@ -22,7 +22,7 @@
 
         <!-- checking if bibl is inside a listBibl-->
         <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
-            <ng-container *ngIf="elem.head"> 
+            <ng-container *ngIf="elem.head && elem.head.length > 0"> 
                 <span class="bibl-head">{{elem.head}}</span>
             </ng-container>
             <ul class="biblio-list">

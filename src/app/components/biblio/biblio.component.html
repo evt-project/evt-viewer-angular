@@ -1,15 +1,14 @@
-<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry' || data.type.name === 'Analogue')">
+<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry')">
 
     <ng-container *ngFor="let element of showList | keyvalue; let i = index">
         <ng-container *ngIf="showEmptyValues || (data[element.value] && data[element.value].length > 0)">
             <ng-container *ngIf="showAttrNames">{{element.value}}: </ng-container>
                 <ng-container *ngIf="data[element.value]">
                    {{data[element.value]}}
-                   <span *ngIf="((comaSeparated) && (data[element.value].length > 0))" style="margin-left: -0.1rem;">,</span> 
+                   <span *ngIf="data[element.value].length > 0" [ngStyle]="showSpan">,</span> 
                 </ng-container>
             <br *ngIf="!inline && data[element.value].length > 0">
         </ng-container>
     </ng-container>
-
-    <ng-container *ngIf="data.insideCit === true">{{data.text}} </ng-container>
+    <ng-container *ngIf="data.insideCit === true && showMainElemTextContent"><br>{{data.text}}</ng-container>
 </ng-container>

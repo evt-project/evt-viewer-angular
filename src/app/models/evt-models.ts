@@ -172,6 +172,7 @@ export class ApparatusEntry extends GenericElement {
 
 export const SourceClass = 'sourceEntry';
 export const AnalogueClass = 'analogueEntry';
+export const BibliographyClass = 'biblioEntry';
 
 export class QuoteEntry extends GenericElement {
     id: string;
