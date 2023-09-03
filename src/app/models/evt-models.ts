@@ -182,6 +182,7 @@ export class QuoteEntry extends GenericElement {
     extSources: BibliographicEntry[];
     originalEncoding: string;
     insideCit: boolean;
+    quotedText: string[];
     //rend: string;
 }
 
@@ -221,6 +222,7 @@ export class Analogue extends GenericElement {
     text: string;
     sources: BibliographicEntry[];
     extSources: BibliographicEntry[];
+    extLinkedElements: any;
     quotedText: string[];
     originalEncoding: string;
 }

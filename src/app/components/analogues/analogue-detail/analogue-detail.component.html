@@ -1,4 +1,5 @@
-<div class="source-container">
+<div class="source-container" 
+    *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0 || analogue.text.length > 0">
         
     <div class="card-body app-detail-content source-detail-content">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
@@ -39,13 +40,32 @@
                 <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <pre>{{ analogue.originalEncoding | xmlBeautify }}</pre>
-                    <pre *ngIf="analogue.extSources">
-                        <ng-container *ngFor="let extBiblXML of analogue.extSources">
-                            <ng-container *ngIf="extBiblXML.originalEncoding">
-                                {{ extBiblXML.originalEncoding | xmlBeautify }}
+                    <!-- children bibl element -->
+                    <ng-container *ngIf="analogue.sources && analogue.insideCit">
+                        <ng-container *ngFor="let sourceXML of analogue.sources">
+                            <ng-container *ngIf="sourceXML.type.name === 'BibliographicList'">
+                                <ng-container *ngFor="let intBib of sourceXML.sources">
+                                    <pre>{{ intBib.originalEncoding | xmlBeautify }}</pre>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="sourceXML.type.name !== 'BibliographicList'">
+                                <pre>{{ sourceXML.originalEncoding | xmlBeautify }}</pre>
                             </ng-container>
                         </ng-container>
-                    </pre>
+                    </ng-container>
+                    <!-- external bibl element -->
+                    <ng-container *ngIf="analogue.extSources">
+                        <ng-container *ngFor="let extBiblXML of analogue.extSources">
+                            <ng-container *ngIf="extBiblXML.type.name === 'BibliographicList'">
+                                <ng-container *ngFor="let bibl of extBiblXML.sources">
+                                    <pre>{{ bibl.originalEncoding | xmlBeautify }}</pre>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="extBiblXML.type.name !== 'BibliographicList'">
+                                <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
                 </ng-template>
             </li>
         </ul>

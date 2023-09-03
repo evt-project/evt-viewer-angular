@@ -35,7 +35,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
     }
 
     protected getQuoteElementText(element: XMLElement): string {
-        const target = (element.parentNode['tagName'] === 'cit') ? element.parentNode : element;
+        const target = (element.parentNode['tagName'] === 'cit' || element.parentNode['tagName'] === 'note') ? element.parentNode : element;
         const search = Array.from(target.querySelectorAll<XMLElement>('quote'));
         if (search.length !== 0) {
             return search[0].textContent;
@@ -68,11 +68,12 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
                     content: parseChildren(xml, this.genericParse),
                     text: xml.textContent,
                     quotedText: this.getQuoteElementText(xml),
-                    insideCit: (xml.parentNode['tagName'] === 'cit'),
+                    insideCit: (xml.parentNode['tagName'] === 'cit' || xml.parentNode['tagName'] === 'note'),
                     originalEncoding: getOuterHTML(xml),
                 };
             case 'cit':
             case 'listBibl':
+            case 'note':
                 return {
                     type: BibliographicList,
                     id: getID(xml),

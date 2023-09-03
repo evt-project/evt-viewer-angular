@@ -1,14 +1,15 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
-    Addition, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Addition, Analogue, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
+    Paragraph, PlacementType, Ptr, QuoteEntry, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { replaceMultispaces } from '../../utils/xml-utils';
+import { getExternalElements, replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { AppConfig } from 'src/app/app.config';
 import { AnalogueParser } from './analogue-parser';
+import { QuoteParser } from './quotes-parser';
 
 export class EmptyParser {
     genericParse: ParseFn;
@@ -157,7 +158,18 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
     elementParser = createParser(GenericElemParser, this.genericParse);
     analogueParser = createParser(AnalogueParser, this.genericParse);
-    parse(xml: XMLElement): Ptr | Note | GenericElement {
+    quoteParser = createParser(QuoteParser, this.genericParse);
+    sourceAttr = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch
+    ptrAttrs = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+
+    parse(xml: XMLElement): Ptr | Note | GenericElement | Analogue | QuoteEntry {
+
+        // if ptr refers to an analogue passage
+        if (this.isAnalogue(xml)) {
+            return this.analogueParser.parse(xml);
+        }
+
+        // note
         if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
             const noteId = xml.getAttribute('target').replace('#', '');
             const rootNode = xml.closest('TEI');
@@ -166,9 +178,9 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
             return noteEl ? this.noteParser.parse(noteEl) : this.elementParser.parse(xml);
         }
 
-        // if ptr refers to an analogue passage
-        if (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type'))) {
-            return this.analogueParser.parse(xml);
+        // is it a source entry?
+        if (this.isSource) {
+            return this.quoteParser.parse(xml);
         }
 
         return {
@@ -181,6 +193,9 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
             rend: xml.getAttribute('rend'),
         };
     }
+
+    private isAnalogue(xml: XMLElement) { return (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type'))) };
+    private isSource(xml: XMLElement) { return (getExternalElements(xml, this.ptrAttrs, this.sourceAttr, 'bibl, cit, note, seg')).length !== 0 }
 }
 
 @xmlParser('l', VerseParser)
