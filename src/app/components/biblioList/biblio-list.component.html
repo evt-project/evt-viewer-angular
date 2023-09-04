@@ -31,10 +31,18 @@
                 </ng-container>
             </ul>
         </ng-container>
+
         <!-- bibl alone -->
         <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicEntry'">
             <ul class="biblio-list">
                 <li><evt-biblio-entry [data]="elem"></evt-biblio-entry></li>
+            </ul>
+        </ng-container>
+
+        <!-- other elements such as ref and seg-->
+        <ng-container *ngIf="elem.type && elem.type.name === 'Object'">
+            <ul class="biblio-list">
+                <li><evt-content-viewer [content]="elem"></evt-content-viewer></li>
             </ul>
         </ng-container>
     

@@ -63,7 +63,9 @@
                                 </ng-container>
                             </ng-container>
                             <ng-container *ngIf="extBiblXML.type.name !== 'BibliographicList'">
-                                <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
+                                <ng-container *ngIf="extBiblXML.originalEncoding">
+                                    <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
+                                </ng-container>
                             </ng-container>
                         </ng-container>
                     </ng-container>
