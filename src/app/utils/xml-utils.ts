@@ -84,3 +84,14 @@ export function getExternalElements(elem: XMLElement, attrSourceNames: string[],
   return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>(elTypes))
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }
+
+export function isAnalogue(elem: XMLElement, markerAttrs: string[]): boolean {
+  return (markerAttrs.includes(elem.getAttribute('type')));
+}
+
+export function isSource(elem: XMLElement, attrs: string[]): boolean {
+  let validAttrs = false;
+  attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
+
+  return (validAttrs);
+}

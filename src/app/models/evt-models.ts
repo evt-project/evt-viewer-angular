@@ -180,6 +180,7 @@ export class QuoteEntry extends GenericElement {
     text: string;
     sources: BibliographicEntry[]|BibliographicList;
     extSources: BibliographicEntry[];
+    extElements: any;
     originalEncoding: string;
     insideCit: boolean;
     quotedText: string[];
