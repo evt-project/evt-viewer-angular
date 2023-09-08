@@ -4,7 +4,7 @@ import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, Generic
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
-import { chainFirstChildTexts, getExternalElements } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
 
 export class BasicParser {
@@ -37,7 +37,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             id: getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
-            text: chainFirstChildTexts(analogue),
+            text: normalizeSpaces(chainFirstChildTexts(analogue)),
             content: parseChildren(analogue, this.genericParse),
             sources: sources.sources,
             extSources: sources.extSources,

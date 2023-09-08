@@ -6,7 +6,7 @@ import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
-import { chainFirstChildTexts, isAnalogue, isSource } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, isAnalogue, isSource, normalizeSpaces } from 'src/app/utils/xml-utils';
 //import { MsDescParser } from './msdesc-parser';
 import { BibliographyParser } from './bilbliography-parsers';
 
@@ -80,7 +80,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             id: getID(quote),
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
-            text: chainFirstChildTexts(this.getQuoteElement(quote, isCit)),
+            text: normalizeSpaces(chainFirstChildTexts(this.getQuoteElement(quote, isCit))),
             sources: sources,
             extSources: ext.extSources,
             extElements: ext.extElements,

@@ -1,3 +1,4 @@
+import { normalizeSpaces } from 'src/app/utils/xml-utils';
 import { parse, xmlParser } from '.';
 import { BibliographicEntry, BibliographicList, BibliographicStructEntry, BibliographyClass, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
@@ -38,7 +39,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
         const target = (element.parentNode['tagName'] === 'cit' || element.parentNode['tagName'] === 'note') ? element.parentNode : element;
         const search = Array.from(target.querySelectorAll<XMLElement>('quote'));
         if (search.length !== 0) {
-            return search[0].textContent;
+            return normalizeSpaces(search[0].textContent);
         }
 
         return null;
