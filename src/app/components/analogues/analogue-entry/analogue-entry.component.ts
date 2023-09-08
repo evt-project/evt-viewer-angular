@@ -78,7 +78,7 @@ export class AnalogueEntryComponent implements OnInit {
       noteType: 'analogue',
       noteLayout: 'popover',
       exponent: v.path || '',
-      content: v.extLinkedElements || v.extSources || {},
+      content: v.extLinkedElements.concat(v.extSources, v.sources) || {},
       attributes: v.attributes || [],
     }
   }
