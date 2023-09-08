@@ -43,7 +43,7 @@ export function removeSpaces(textContent: string) {
  * @returns string
  */
 export function normalizeSpaces(textContent: string) {
-  return textContent.replace(/[\s]{2,}|\n|\t|\W/g, ' ');
+  return textContent.replace(/[\s]{2,}|\n|\t|\r/g, ' ').trimStart().trimEnd();
 }
 
 /**
