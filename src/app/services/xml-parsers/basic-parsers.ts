@@ -1,11 +1,11 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
-    Addition, Analogue, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
+    Addition, Analogue, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
     Paragraph, PlacementType, Ptr, QuoteEntry, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { getExternalElements, replaceMultispaces } from '../../utils/xml-utils';
+import { getExternalElements, getSpanToElements, replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { AppConfig } from 'src/app/app.config';
 import { AnalogueParser } from './analogue-parser';
@@ -349,6 +349,26 @@ export class TermParser extends GenericElemParser implements Parser<XMLElement> 
             id: xml.getAttribute('xml:id'),
             ref: xml.getAttribute('ref'),
             rend: xml.getAttribute('rend'),
+        };
+    }
+}
+
+@xmlParser('milestone', MilestoneParser)
+export class MilestoneParser extends GenericElemParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Milestone {
+
+        const elements = getSpanToElements(xml, xml.getAttribute('spanTo'));
+        // only supporting text and text-like elements?
+        const parsedElements = elements.elements.map((x) => super.parse(x));
+
+        return {
+            type: Milestone,
+            id: xml.getAttribute('xml:id'),
+            attributes: this.attributeParser.parse(xml),
+            unit: xml.getAttribute('unit'),
+            spanText: elements.text,
+            spanElements: parsedElements,
+            content: parseChildren(xml, this.genericParse),
         };
     }
 }

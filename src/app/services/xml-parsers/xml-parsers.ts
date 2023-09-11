@@ -2,7 +2,7 @@ import { Injectable, Type } from '@angular/core';
 import { AppParser, RdgParser } from './app-parser';
 import {
     AdditionParser, AttributeMapParser, AttributeParser, DamageParser, DeletionParser, GapParser,
-    GenericElemParser, LBParser, NoteParser, ParagraphParser, PtrParser, SuppliedParser,
+    GenericElemParser, LBParser, MilestoneParser, NoteParser, ParagraphParser, PtrParser, SuppliedParser,
     TermParser, TextParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
@@ -133,6 +133,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     ListTransposeParser,
     LocusGrpParser,
     LocusParser,
+    MilestoneParser,
     MsContentsParser,
     MsDescParser,
     MsFragParser,

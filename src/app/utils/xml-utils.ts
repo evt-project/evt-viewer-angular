@@ -55,7 +55,7 @@ export function normalizeSpaces(textContent: string) {
 export function chainFirstChildTexts(elem: XMLElement): string {
   if (elem === undefined) { return ''};
   const evtTextElements = ['#text'];
-  const evtTextComplexElements = ['choice', 'app', 'l', 'quote'];
+  const evtTextComplexElements = ['choice', 'app', 'l', 'quote, p'];
   const textProperty = 'nodeValue';
   let out = '';
   elem.childNodes.forEach((x) => (evtTextElements.includes(x.nodeName)) ? out += x[textProperty] : (
@@ -108,4 +108,53 @@ export function isSource(elem: XMLElement, attrs: string[]): boolean {
   attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
 
   return (validAttrs);
+}
+
+export function getCorrespElement(fromElement: XMLElement, toXMLID: string) {
+  const findID = toXMLID.replace('#','');
+  const found = fromElement.ownerDocument.querySelector(`[xml:id=${findID}]`);
+  found.appendChild(fromElement.cloneNode());
+}
+
+
+/**
+ * Retrieve textContent and elements refered with @spanTo and similar attributes
+ * @param fromElement XMLElement
+ * @param toXMLID string
+ * @returns object { text: string, elements: any }
+ */
+export function getSpanToElements(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
+  const findID = toXMLID.replace('#','');
+  let found = false;
+  // text after the milestone but still inside the parent element
+  let foundText = fromElement.nextSibling.textContent;
+  // the milestone is always inside another element?
+  // otherwise const foundElements = [fromElement.nextSibling];
+  let next = (fromElement.nextElementSibling !== null) ?
+    fromElement.nextElementSibling as XMLElement :
+    fromElement.parentElement.nextElementSibling as XMLElement;
+
+  // creating a fake element for partial text included from milestone on
+  const nextEdited = fromElement.parentElement.nextElementSibling.cloneNode(true);
+  nextEdited.textContent = foundText;
+  const foundElements = [nextEdited];
+
+  let maxExec = 1000;
+
+  while(!found && next !== null && maxExec !== 0) {
+    foundElements.push(next);
+    foundText = foundText + next.textContent;
+    if (next.getAttribute('xml:id') === findID) {
+      found = true;
+    } else {
+      maxExec--;
+      if (next.nextElementSibling === null) {
+        next = next.parentElement.nextElementSibling as XMLElement;
+      } else {
+        next = next.nextElementSibling as XMLElement;
+      }
+    }
+  }
+
+  return { 'text': foundText, 'elements': foundElements };
 }

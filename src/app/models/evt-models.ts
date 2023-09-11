@@ -1100,6 +1100,13 @@ export class Term extends GenericElement {
     rend?: string;
 }
 
+export class Milestone extends GenericElement {
+    id?: string;
+    unit?: string;
+    spanText: string;
+    spanElements: any;
+}
+
 export class Keywords extends GenericElement {
     scheme?: string;
     terms: Term[];
