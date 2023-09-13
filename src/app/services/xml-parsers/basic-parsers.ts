@@ -179,7 +179,7 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
         }
 
         // is it a source entry?
-        if (this.isSource) {
+        if (this.isSource(xml)) {
             return this.quoteParser.parse(xml);
         }
 
@@ -195,7 +195,7 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
     }
 
     private isAnalogue(xml: XMLElement) { return (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type'))) };
-    private isSource(xml: XMLElement) { return (getExternalElements(xml, this.ptrAttrs, this.sourceAttr, 'bibl, cit, note, seg')).length !== 0 }
+    private isSource(xml: XMLElement) { return (getExternalElements(xml, this.ptrAttrs, this.sourceAttr, '*')).length !== 0 }
 }
 
 @xmlParser('l', VerseParser)
@@ -358,7 +358,6 @@ export class MilestoneParser extends GenericElemParser implements Parser<XMLElem
     parse(xml: XMLElement): Milestone {
 
         const elements = getSpanToElements(xml, xml.getAttribute('spanTo'));
-        // only supporting text and text-like elements?
         const parsedElements = elements.elements.map((x) => super.parse(x));
 
         return {
