@@ -1107,6 +1107,23 @@ export class Milestone extends GenericElement {
     spanElements: any;
 }
 
+export class Anchor extends GenericElement {
+    id?: string;
+}
+
+export class Span extends GenericElement {
+    id?: string;
+    from: string;
+    to: string;
+    includedText: string;
+    includedElements: any;
+}
+
+export class SpanGrp extends GenericElement {
+    id?: string;
+    spans: Span[]
+}
+
 export class Keywords extends GenericElement {
     scheme?: string;
     terms: Term[];

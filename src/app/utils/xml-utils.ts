@@ -79,7 +79,7 @@ export function chainDeepTexts(elem: ChildNode): string {
 }
 
 /**
-* Retrieve external bibliography element outside the analogue element
+* Retrieve external elements searching between provided elements types and filtering on attributes base
 * It searches all document for a bibl with the correct xml:id.
 * It would be faster if we knew the id or unique element to search in
 * @param element XMLElement
@@ -110,20 +110,34 @@ export function isSource(elem: XMLElement, attrs: string[]): boolean {
   return (validAttrs);
 }
 
+/**
+ * Get an element of the same type with the given xml:id and update it with a copy of the source element
+ * @param fromElement XMLElement
+ * @param toXMLID string
+ */
 export function getCorrespElement(fromElement: XMLElement, toXMLID: string) {
   const findID = toXMLID.replace('#','');
-  const found = fromElement.ownerDocument.querySelector(`[xml:id=${findID}]`);
-  found.appendChild(fromElement.cloneNode());
+  const sameTypeElements = fromElement.ownerDocument.querySelectorAll<XMLElement>(fromElement.tagName);
+  let found = null;
+  sameTypeElements.forEach((x) => { if (x.getAttribute('xml:id') === findID) { found = x; return }});
+  if (found !== null) {
+    found.appendChild(fromElement.cloneNode());
+  }
 }
 
 
 /**
- * Retrieve textContent and elements refered with @spanTo and similar attributes
+ * Retrieve textContent and elements between the provided element and the one found with the xml:id provided
  * @param fromElement XMLElement
  * @param toXMLID string
  * @returns object { text: string, elements: any }
  */
 export function getSpanToElements(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
+
+  if ((fromElement === null) || (fromElement === undefined) || (toXMLID === null)) {
+    return { text: '', elements: [] };
+  }
+
   const findID = toXMLID.replace('#','');
   let found = false;
   // text after the milestone but still inside the parent element

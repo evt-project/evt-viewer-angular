@@ -1,8 +1,8 @@
 import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
-    Addition, Analogue, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, QuoteEntry, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Addition, Analogue, Anchor, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
+    Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { getExternalElements, getSpanToElements, replaceMultispaces } from '../../utils/xml-utils';
@@ -369,5 +369,65 @@ export class MilestoneParser extends GenericElemParser implements Parser<XMLElem
             spanElements: parsedElements,
             content: parseChildren(xml, this.genericParse),
         };
+    }
+}
+
+@xmlParser('anchor', AnchorParser)
+export class AnchorParser extends GenericElemParser implements Parser<XMLElement> {
+
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    //todo: check if a span is referring to this element's @xml:id?
+
+    parse(xml: XMLElement): Anchor {
+
+        return {
+            type: Anchor,
+            id: xml.getAttribute('xml:id'),
+            attributes: this.attributeParser.parse(xml),
+            content: parseChildren(xml, this.genericParse),
+        };
+    }
+}
+
+
+@xmlParser('spanGrp', SpanParser)
+@xmlParser('span', SpanParser)
+export class SpanParser extends GenericElemParser implements Parser<XMLElement> {
+
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    parse(xml: XMLElement): Span|SpanGrp {
+
+        if (xml.tagName === 'spanGrp') {
+
+            return <SpanGrp> {
+                type: SpanGrp,
+                id: xml.getAttribute('xml:id'),
+                attributes: this.attributeParser.parse(xml),
+                spans: Array.from(xml.querySelectorAll<XMLElement>('span')).map((x) => <Span>this.parse(x)),
+                content: parseChildren(xml, this.genericParse),
+            }
+
+        } else if (xml.tagName === 'span') {
+            let included = { text: '', elements: [] };
+            let parsedElements = [];
+            const startingElement = getExternalElements(xml, ['from'], 'xml:id', 'anchor');
+            if (startingElement.length > 0) {
+                included = getSpanToElements(startingElement[0], xml.getAttribute('to'));
+                parsedElements = included.elements.map((x) => super.parse(x));
+            }
+
+            return <Span> {
+                type: Span,
+                id: xml.getAttribute('xml:id'),
+                attributes: this.attributeParser.parse(xml),
+                from: xml.getAttribute('from'),
+                to: xml.getAttribute('to'),
+                includedText: included.text,
+                includedElements: parsedElements,
+                content: parseChildren(xml, this.genericParse),
+            };
+        }
+
     }
 }
