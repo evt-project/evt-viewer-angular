@@ -5,10 +5,17 @@
     [evtHtmlAttributes]="data?.attributes" 
     [evtEditorialConventionLayout]="editorialConventionData"
     (click)="toggleAppEntryBox($event);">
+
+    <!-- elements inside data.content are not displayed
+    <evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
+    [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
+    </evt-content-viewer>
+    -->
+
     <ng-container *ngIf="data?.text.length > 0"> 
         {{data.text}} 
     </ng-container>
-    <ng-container *ngIf="data?.text.length === 0"> 
+    <ng-container *ngIf="data?.text.length === 0 && data?.extSources.length !== 0"> 
         <evt-note [data]="dataForNote"></evt-note> 
     </ng-container>
 </span>

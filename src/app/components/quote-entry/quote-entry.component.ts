@@ -86,7 +86,7 @@ export class QuoteEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.data.text.length === 0) {
+    if ((this.data.text.length === 0) && (this.data.extSources.length !== 0)) {
       this.dataForNote = this.createNote(this.data);
     }
   }
