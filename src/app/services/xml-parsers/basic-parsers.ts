@@ -5,7 +5,7 @@ import {
     Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { getExternalElements, getSpanToElements, replaceMultispaces } from '../../utils/xml-utils';
+import { getExternalElements, getSpanToElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { AppConfig } from 'src/app/app.config';
 import { AnalogueParser } from './analogue-parser';
@@ -90,13 +90,29 @@ export class TextParser implements Parser<XMLElement> {
 
 @xmlParser('p', ParagraphParser)
 export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
+    analogueParser = createParser(AnalogueParser, this.genericParse);
+    quoteParser = createParser(QuoteParser, this.genericParse);
+    sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
+    source = null; analogue = null;
     parse(xml: XMLElement): Paragraph {
+
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            this.analogue = this.analogueParser.parse(xml);
+         }
+        if (isSource(xml, this.sourceAttr)) {
+            console.log('new p', xml);
+            this.source = this.quoteParser.parse(xml);
+        }
+
         const attributes = ParserRegister.get('evt-attribute-parser').parse(xml) as Attributes;
         const paragraphComponent: Paragraph = {
             type: Paragraph,
             content: parseChildren(xml, this.genericParse),
             attributes,
             n: getDefaultN(attributes.n),
+            source: this.source,
+            analogue: this.analogue,
         };
 
         return paragraphComponent;
@@ -125,6 +141,11 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
 @xmlParser('note', NoteParser)
 export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    analogueParser = createParser(AnalogueParser, this.genericParse);
+    quoteParser = createParser(QuoteParser, this.genericParse);
+    sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
+    source = null; analogue = null;
     parse(xml: XMLElement): Note {
         const noteLayout: NoteLayout = this.isFooterNote(xml) || this.isNamedEntityNote(xml)
             || ['person', 'place', 'app', 'msDesc'].some((v) => isNestedInElem(xml, v))
@@ -135,6 +156,14 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
             ? 'critical'
             : 'comment';
 
+
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            this.analogue = this.analogueParser.parse(xml);
+         }
+        if (isSource(xml, this.sourceAttr)) {
+            this.source = this.quoteParser.parse(xml);
+        }
+
         const attributes = this.attributeParser.parse(xml);
         const noteElement = {
             type: Note,
@@ -143,6 +172,8 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
             exponent: attributes.n,
             path: xpath(xml),
             content: parseChildren(xml, this.genericParse),
+            source: this.source,
+            analogue: this.analogue,
             attributes,
         };
 
@@ -162,9 +193,8 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
     sourceAttr = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch
     ptrAttrs = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
-    parse(xml: XMLElement): Ptr | Note | GenericElement | Analogue | QuoteEntry {
+    parse(xml: XMLElement): Ptr | QuoteEntry | Analogue {
 
-        // if ptr refers to an analogue passage
         if (this.isAnalogue(xml)) {
             return this.analogueParser.parse(xml);
         }
@@ -178,7 +208,6 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
             return noteEl ? this.noteParser.parse(noteEl) : this.elementParser.parse(xml);
         }
 
-        // is it a source entry?
         if (this.isSource(xml)) {
             return this.quoteParser.parse(xml);
         }
@@ -201,13 +230,28 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
 @xmlParser('l', VerseParser)
 export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    analogueParser = createParser(AnalogueParser, this.genericParse);
+    quoteParser = createParser(QuoteParser, this.genericParse);
+    sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
+    source = null; analogue = null;
     parse(xml: XMLElement): Verse {
+
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            this.analogue = this.analogueParser.parse(xml);
+         }
+        if (isSource(xml, this.sourceAttr)) {
+            this.source = this.quoteParser.parse(xml);
+        }
+
         const attributes = this.attributeParser.parse(xml);
         const lineComponent: Verse = {
             type: Verse,
             content: parseChildren(xml, this.genericParse),
             attributes,
             n: getDefaultN(attributes.n),
+            source: this.source,
+            analogue: this.analogue,
         };
 
         return lineComponent;
@@ -217,7 +261,20 @@ export class VerseParser extends EmptyParser implements Parser<XMLElement> {
 @xmlParser('lg', VersesGroupParser)
 export class VersesGroupParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
+    analogueParser = createParser(AnalogueParser, this.genericParse);
+    quoteParser = createParser(QuoteParser, this.genericParse);
+    sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
+    source = null; analogue = null;
     parse(xml: XMLElement): VersesGroup {
+
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            this.analogue = this.analogueParser.parse(xml);
+         }
+        if (isSource(xml, this.sourceAttr)) {
+            this.source = this.quoteParser.parse(xml);
+        }
+
         const attributes = this.attributeParser.parse(xml);
         const lgComponent: VersesGroup = {
             type: VersesGroup,
@@ -226,6 +283,8 @@ export class VersesGroupParser extends EmptyParser implements Parser<XMLElement>
             attributes,
             n: getDefaultN(attributes.n),
             groupType: getDefaultN(attributes.type),
+            source: this.source,
+            analogue: this.analogue,
         };
 
         return lgComponent;
