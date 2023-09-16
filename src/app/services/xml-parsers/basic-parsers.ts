@@ -101,7 +101,6 @@ export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
             this.analogue = this.analogueParser.parse(xml);
          }
         if (isSource(xml, this.sourceAttr)) {
-            console.log('new p', xml);
             this.source = this.quoteParser.parse(xml);
         }
 

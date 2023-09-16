@@ -1,25 +1,34 @@
 <div class="source-container" 
-    *ngIf="((analogue.sources.length > 0) || (analogue.extSources.length > 0) || (analogue.text.length > 0))">
+    *ngIf="((analogue.sources.length > 0) || (analogue.extSources.length > 0) 
+    || (analogue.text.length > 0) || (analogue.extLinkedElements.length > 0))">
         
-    <div class="card-body app-detail-content source-detail-content" *ngIf="analogue.text.length > 1">
+    <div class="card-body app-detail-content source-detail-content" *ngIf="analogue.content.length > 0">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
         <span class="source-quote-symbol">&#10077;</span>
-        <span title="analogue-text">{{analogue.text}}</span>
+        <span title="analogue-text">
+            <ng-container *ngFor="let element of analogue.contentToShow">
+                <evt-content-viewer  *ngIf="element.tagName !== 'ptr'" [content]="element"></evt-content-viewer>
+            </ng-container>
+        </span>
     </div>
 
-    <div class="card-footer app-detail-tabs" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
+    <div class="card-footer app-detail-tabs" *ngIf="analogue.sources.length > 0 
+        || analogue.extSources.length > 0 || analogue.quotedText.length > 0">
         <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="quotedText" *ngIf="analogue.quotedText.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
                     <ng-container *ngFor="let quoteTxt of analogue.quotedText">
-                        {{quoteTxt.quote}}
+                        <ng-container *ngIf="quoteTxt.quote.type">
+                            <evt-content-viewer [content]="quoteTxt.quote"></evt-content-viewer>
+                        </ng-container>
+                        <ng-container *ngIf="!(quoteTxt.quote.type)">{{quoteTxt.quote}}</ng-container>
                     </ng-container>
                 </ng-template>
             </li>
 
-            <li ngbNavItem="refBibl">
+            <li ngbNavItem="refBibl" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
 

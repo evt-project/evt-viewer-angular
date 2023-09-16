@@ -185,6 +185,7 @@ export class QuoteEntry extends GenericElement {
     insideCit: boolean;
     quotedText: string[];
     noteView: boolean;
+    contentToShow: Array<ParseResult<GenericElement>>
     //rend: string;
 }
 
@@ -225,7 +226,8 @@ export class Analogue extends GenericElement {
     sources: BibliographicEntry[];
     extSources: BibliographicEntry[];
     extLinkedElements: any;
-    quotedText: string[];
+    quotedText: [{ id: string, quote: string }];
+    contentToShow: Array<ParseResult<GenericElement>>
     originalEncoding: string;
 }
 

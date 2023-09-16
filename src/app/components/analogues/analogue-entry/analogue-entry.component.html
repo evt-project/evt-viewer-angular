@@ -5,11 +5,7 @@
     [attr.data-edition]="editionLevel" 
     [evtEditorialConventionLayout]="editorialConventionData"
     (click)="toggleAppEntryBox($event);"> 
-    <ng-container *ngIf="data?.text.length > 0">
-        {{data.text}}
-    </ng-container>
-    <ng-container *ngIf="data?.text.length === 0"> 
-        <evt-note [data]="dataForNote"></evt-note> 
-    </ng-container>
+    <ng-container *ngIf="data?.text.length > 0"> {{data.text}} </ng-container>
+    <ng-container *ngIf="data?.text.length === 0"> <evt-note [data]="dataForNote"></evt-note> </ng-container>
 </span>
 <evt-analogue-detail *ngIf="opened$ | async" [analogue]="data"></evt-analogue-detail>

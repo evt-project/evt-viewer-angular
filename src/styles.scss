@@ -226,3 +226,13 @@ evt-analogue-entry evt-analogue-detail > div {
     transition: 0.5s;
     filter: sepia(1);
 }
+
+.source-detail-content p {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+evt-analogue-detail .verse-num,
+evt-source-detail .verse-num {
+    display: none !important;
+}

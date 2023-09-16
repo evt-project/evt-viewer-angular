@@ -1,8 +1,8 @@
 import { AppConfig } from 'src/app/app.config';
-import { parse, xmlParser } from '.';
+import { ParserRegister, parse, xmlParser } from '.';
 import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
+import { AnchorParser, AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
@@ -15,36 +15,37 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
     milestoneParser = createParser(MilestoneParser, this.genericParse);
+    anchorParser = createParser(AnchorParser, this.genericParse);
 
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
+    'Analogue', 'MsDesc'];
 
     public parse(analogue: XMLElement): GenericElement|Analogue {
 
-        const sources = this.isAnaloguePassage(analogue);
-        const insideCitElement = (analogue.parentElement.tagName === 'cit');
-        if ((!sources) || (insideCitElement)) {
-            // no sources not a parallel passage, inside a cit element not a parallel passage
+        if (!(this.analogueMarker.includes(analogue.getAttribute('type'))) || (analogue.parentElement.tagName === 'cit')) {
+            // no source/target attribute or inside a cit element: not an analogue to display alone
             return this.elementParser.parse(analogue)
         }
 
-        const noteOnly = ['div','p','l','lg','note'];
-        if (noteOnly.includes(analogue.tagName)) {
-            return this.createNote(analogue);
-        }
+        const noteID = ['div','p','l','lg','note'];
+        const sources = this.buildAnalogueSources(analogue);
+        const content = parseChildren(analogue, this.genericParse);
 
         return {
             type: Analogue,
-            id: getID(analogue),
+            id: (noteID.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
             text: normalizeSpaces(chainFirstChildTexts(analogue)),
-            content: parseChildren(analogue, this.genericParse),
+            content: content,
+            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
             sources: sources.sources,
             extSources: sources.extSources,
-            extLinkedElements: this.getParallelElements(analogue),
-            quotedText: this.getQuotedTextFromSources(sources.sources.concat(sources.extSources)),
+            extLinkedElements: sources.extLinkedElements,
+            quotedText: this.getQuotedTextFromElements(sources.sources.concat(sources.extSources), sources.extLinkedElements),
             originalEncoding: getOuterHTML(analogue),
         };
     }
@@ -56,36 +57,54 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
      * @param analogue
      * @returns any
      */
-    private isAnaloguePassage(analogue: XMLElement): any {
+    private buildAnalogueSources(analogue: XMLElement): any {
+        const selectorsAllowed = 'bibl, bibStruct, listBibl, cit, quote, note, seg, div, l, lg, p, milestone, anchor';
+        const elsAllowedForSources = ['bibl','listBibl', 'biblStruct', 'ref', 'cit'];
+        const sources = this.getInsideSources(analogue);
+        const extElements = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, selectorsAllowed);
+        const extSources = extElements.map((x) => (elsAllowedForSources.includes(x.tagName)) ? this.biblParser.parse(x) : null).filter((x) => x);
+        const parallelPassages = this.selectAndParseParallelElements(extElements);
 
-        const sources = this.getSources(analogue);
-        const elementsAllowedForSources = 'bibl, cit, note, seg';
-        const extSources = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForSources)
-            .map((x) => this.biblParser.parse(x));
-        const hasPPAttribute = this.analogueMarker.includes(analogue.getAttribute('type'));
-
-        if ((sources.length === 0 && extSources.length === 0) && (!hasPPAttribute)) {
-            return false;
-        }
-
-        return { 'sources': sources, 'extSources': extSources };
+        return { 'sources': sources, 'extSources': extSources, 'extLinkedElements': parallelPassages };
     }
 
     /**
-     * Retrieve all Bibliography elements inside this analogue element
-     * if referred with the proper attribute.
+     * Retrieve all Bibliography elements *inside* this analogue element
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getSources(analogue: XMLElement): any {
-        const bibl = ['bibl','listBibl'];
+    private getInsideSources(analogue: XMLElement): BibliographicEntry[] {
+        const bibl = ['bibl','listBibl','biblStruct','ref'];
 
         return Array.from(analogue.children)
             .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : null)
             .filter((x) => x);
     }
 
-    private getQuotedTextFromSources(nodes: BibliographicEntry[]): string[] {
+    /**
+     * Gather and send to parse allowed linked parallel passages
+     */
+    private selectAndParseParallelElements(suspectPPs): any {
+        const elemParserAssoc = {
+            l: ParserRegister.get('l'),
+            lg: ParserRegister.get('lg'),
+            p: ParserRegister.get('p'),
+            div: this.elementParser,
+            seg: this.elementParser,
+            anchor: this.anchorParser,
+            milestone: this.milestoneParser,
+            quote: this.elementParser,
+            note: this.elementParser,
+        }
+        const add = [];
+        const ppElements = suspectPPs.map((x) => (elemParserAssoc[x['tagName']] !== undefined) ? elemParserAssoc[x['tagName']].parse(x) : null)
+            .filter((x) => x);
+        ppElements.map((x) => (x.type === Milestone) ? add.push(x.spanElements) : x );
+
+        return ppElements.concat(add.flat());
+    }
+
+    private getQuotedTextFromSources(nodes: BibliographicEntry[]): any {
         let quotesInSources = [];
 
         nodes.forEach((el: BibliographicEntry|BibliographicList) => {
@@ -101,43 +120,12 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         return quotesInSources;
     }
 
-    private getParallelElements(analogue: XMLElement): any {
-        const elemParserAssoc = {
-            l: this.elementParser,
-            p: this.elementParser,
-            div: this.elementParser,
-            seg: this.elementParser,
-            bibl: this.biblParser,
-            milestone: this.milestoneParser,
-        }
-        const add = [];
-        const elementsAllowedForExternal = 'l, p, div, seg, bibl, milestone';
-        const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForExternal);
-        const ppElements = extMatched.map((x) => elemParserAssoc[x['tagName']].parse(x));
+    private getQuotedTextFromElements(sources: BibliographicEntry[], elements: XMLElement[]): [{id: string, quote: string}] {
+        let quotesInSources = this.getQuotedTextFromSources(sources);
+        const notNiceInText = ['Note','BibliographicList','BibliographicEntry','BibliographicStructEntry','Analogue','MsDesc'];
+        elements.forEach((el: XMLElement) => { if (!notNiceInText.includes(el['type'])) { quotesInSources.push( { id: el.id, quote: el })} });
 
-        ppElements.map((x) => (x.type === Milestone) ? add.push(x.spanElements) : x );
-
-        return ppElements.concat(add.flat());
-    }
-
-    private createNote(analogue: XMLElement) {
-        // const sources = this.getInsideSources(quote, false);
-        // not parsing inside sources, they will be parsed anyway
-        const sources = this.isAnaloguePassage(analogue);
-
-        return <Analogue> {
-            type: Analogue,
-            id: 'EVT-ANG:'+getID(analogue),
-            class: AnalogueClass,
-            attributes: this.attributeParser.parse(analogue),
-            text: normalizeSpaces(chainFirstChildTexts(analogue)),
-            content: [],
-            sources: sources.sources,
-            extSources: sources.extSources,
-            extLinkedElements: this.getParallelElements(analogue),
-            quotedText: this.getQuotedTextFromSources(sources.sources.concat(sources.extSources)),
-            originalEncoding: getOuterHTML(analogue),
-        };
+        return quotesInSources;
     }
 
 }

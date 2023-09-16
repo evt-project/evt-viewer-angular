@@ -41,6 +41,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     exceptionParentElements = AppConfig.evtSettings.edition.sourcesExcludedFromListByParent;
     elementsAllowedForSources = 'bibl, cit, note, seg'; // bibliography
     elementsAllowedForLink = 'seg, ref, quote, cit, div'; // nested quote elements
+    notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry',
+    'BibliographicStructEntry', 'Analogue', 'MsDesc'];
 
     xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
 
@@ -115,6 +117,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         ));
         const sources = this.getInsideSources(quote, isInCit);
         const ext = this.getExternalElemsOnce(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch);
+        const content = parseChildren(quote, this.genericParse);
 
         return <QuoteEntry> {
             type: QuoteEntry,
@@ -129,7 +132,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             class: ( (!isAnalogueCheck) && (!isCit) && ( (!isInCit) || ((isInCit) && (isQuote)) ) ) ? SourceClass : quote.tagName.toLowerCase(),
             insideCit: isInCit,
             noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
-            content: parseChildren(quote, this.genericParse),
+            content: content,
+            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
             originalEncoding: this.cleanXMLString(quote, isInCit),
         };
     }
@@ -142,7 +146,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     private getQuotedTextInside(quote: XMLElement, isCit: boolean, isDiv: boolean): string {
         let outText = '';
         if ((isCit) || (isDiv)) {
-            const elements = Array.from(quote.querySelectorAll<XMLElement>('quote, p, l'));
+            const elements = Array.from(quote.querySelectorAll<XMLElement>('quote, p, l, lg'));
             elements.forEach((el) => outText += chainFirstChildTexts(el));
 
             return outText;
@@ -281,14 +285,17 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     private createNote(quote: XMLElement) {
         // const sources = this.getInsideSources(quote, false);
         // not parsing inside sources, they will be parsed anyway
+        const isCit = ((quote.tagName === 'cit') || (quote.tagName === 'note'));
+        const isDiv = (quote.tagName === 'div');
         const ext = this.getExternalElemsOnce(quote, this.intAttrsToMatch, this.extMatch);
+        const content = parseChildren(quote, this.genericParse);
 
         return <QuoteEntry> {
             type: QuoteEntry,
             id: 'EVT-SRC:'+getID(quote),
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
-            text: normalizeSpaces(chainFirstChildTexts(quote)),
+            text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),
             sources: [],
             extSources: ext.extElements.concat(ext.extSources),
             extElements: ext.extElements,
@@ -296,7 +303,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             class: SourceClass,
             insideCit: false,
             noteView: true,
-            content: [],
+            content: content,
+            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
             originalEncoding: this.cleanXMLString(quote, false),
         };
     }
