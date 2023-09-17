@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { ParserRegister, xmlParser } from '.';
-import { BibliographicEntry, BibliographicList, BibliographicStructEntry,
+import { Analogue, BibliographicEntry, BibliographicList, BibliographicStructEntry,
     GenericElement, Note, Paragraph, Ptr, QuoteEntry, SourceClass, Verse, VersesGroup,
     XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
@@ -46,7 +46,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
     xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
 
-    public parse(quote: XMLElement): QuoteEntry | Note | GenericElement {
+    public parse(quote: XMLElement): QuoteEntry | Note | GenericElement | Analogue {
 
         const isExcluded = (quote.parentElement) && (this.exceptionParentElements.includes(quote.parentElement.tagName));
 
@@ -115,7 +115,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         const isAnalogueCheck = ((isAnalogue(quote, this.analogueMarkers)) || (
             (quote.parentElement !== null) && (isAnalogue(quote.parentElement, this.analogueMarkers))
         ));
-        const sources = this.getInsideSources(quote, isInCit);
+        const inside = this.getInsideSources(quote, isInCit);
         const ext = this.getExternalElemsOnce(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch);
         const content = parseChildren(quote, this.genericParse);
 
@@ -125,10 +125,11 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
             text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),
-            sources: sources,
+            sources: inside.sources,
             extSources: ext.extSources,
             extElements: ext.extElements,
-            quotedText: this.getQuotedTextFromSources(sources.concat(ext.extSources)),
+            quotedText: this.getQuotedTextFromSources(inside.sources.concat(ext.extSources)),
+            analogues: ext.analogues.concat(inside.analogues),
             class: ( (!isAnalogueCheck) && (!isCit) && ( (!isInCit) || ((isInCit) && (isQuote)) ) ) ? SourceClass : quote.tagName.toLowerCase(),
             insideCit: isInCit,
             noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
@@ -191,23 +192,36 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getInsideSources(quote: XMLElement, isInCit: boolean): BibliographicEntry[] {
-        const elemParserAssoc = {
+    private getInsideSources(quote: XMLElement, isInCit: boolean): { sources:any, analogues:any } {
+        const prsRg = {
             bibl: this.biblParser,
             listBibl: this.biblParser,
-            //msDesc: this.msDescParser,
             biblStruct: this.biblParser,
+            msDesc: this.msDescParser,
+            cit: this.biblParser,
             ref: this.biblParser,
             note: this.biblParser,
         }
 
-        const analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
+        const anlgAttr = AppConfig.evtSettings.edition.analogueMarkers;
         const target = (isInCit) ? quote.parentElement.children : quote.children;
+        const out = { sources: [], analogues: [] }
 
-        return Array.from(target)
-            .map((x: XMLElement) => (elemParserAssoc[x['tagName']]) ? elemParserAssoc[x['tagName']].parse(x) : null)
-            .filter((x) => x)
-            .filter((x) => !analogueMarker.includes(x['type']))
+        Array.from(target).forEach((element: XMLElement) => {
+            if (prsRg[element['tagName']]) {
+                if (!anlgAttr.includes(element.getAttribute('type'))) {
+                    out.sources.push( prsRg[element['tagName']].parse(element) );
+                } else {
+                    console.log('analogue inside',element['tagName']);
+                    const analogueParsed = this.parse(element);
+                    if (analogueParsed['contentToShow']) {
+                        out.analogues.push( analogueParsed['contentToShow'] );
+                    }
+                }
+            }
+        });
+
+        return out;
     }
 
         /**
@@ -218,9 +232,10 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     * @returns array of Bibliography Element or a single Bibliography List element
     */
     private getExternalElemsOnce(quote: XMLElement, attrSrcNames: string[], attrTrgtName: string): any {
-        const out = { extElements: [], extSources: [] };
+        const out = { extElements: [], extSources: [], analogues: [] };
         const sourceIDs = attrSrcNames.map((x) => quote.getAttribute(x));
         const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));
+        const anlgAttr = AppConfig.evtSettings.edition.analogueMarkers;
         const elemParserAssoc = {
             // bibliographic elements
             bibl: { extSources: this.biblParser },
@@ -251,8 +266,15 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             partial.forEach((x: XMLElement) => {
                 if (elemParserAssoc[x['tagName']]) {
                     Object.keys(elemParserAssoc[x['tagName']]).forEach((destination) => {
-                        const relativeParser = elemParserAssoc[x['tagName']][destination];
-                        out[destination].push( relativeParser.parse(x) )
+                        if (anlgAttr.includes(x.getAttribute('type'))) {
+                            const analogueParsed = this.parse(x);
+                            if (analogueParsed['contentToShow']) {
+                                out['analogues'].push( analogueParsed['contentToShow'] )
+                            }
+                        } else {
+                            const relativeParser = elemParserAssoc[x['tagName']][destination];
+                            out[destination].push( relativeParser.parse(x) )
+                        }
                     })
                 };
             });
@@ -297,6 +319,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(quote),
             text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),
             sources: [],
+            analogues: ext.analogues,
             extSources: ext.extElements.concat(ext.extSources),
             extElements: ext.extElements,
             quotedText: this.getQuotedTextFromSources(ext.extElements.concat(ext.extSources)),

@@ -30,6 +30,15 @@
                 </ng-template>
             </li>
 
+            <li ngbNavItem="analoguesView" *ngIf="source.analogues.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'analogues' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let analogue of source.analogues">
+                        <evt-content-viewer *ngFor="let el of analogue" [content]="el"></evt-content-viewer>
+                    </ng-container>
+                </ng-template>
+            </li>
+
             <li ngbNavItem="externalElements" *ngIf="source.extElements.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>

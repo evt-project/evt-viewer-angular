@@ -181,6 +181,7 @@ export class QuoteEntry extends GenericElement {
     sources: BibliographicEntry[]|BibliographicList;
     extSources: BibliographicEntry[];
     extElements: any;
+    analogues: any;
     originalEncoding: string;
     insideCit: boolean;
     quotedText: string[];
