@@ -519,13 +519,13 @@ export class MsItemStruct extends GenericElement {
     titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric: Rubric;
     incipit: Incipit;
-    quote: Array<ParseResult<QuoteEntry>>; // TODO: Add specific type when quote is handled
+    quote: QuoteEntry;
     explicit: Explicit;
     finalRubric: FinalRubric;
     colophons: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
     decoNote: DecoNote;
-    listBibl: Array<ParseResult<BibliographicList>>; // TODO: Add specific type when listBibl is handled
-    bibl: Array<ParseResult<BibliographicEntry>>; // TODO: Add specific type when bibl is handled
+    listBibl: BibliographicList;
+    bibl: BibliographicEntry;
     filiation: Filiation[];
     noteEl: Note[];
     textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled

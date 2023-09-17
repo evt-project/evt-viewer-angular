@@ -1,5 +1,5 @@
 import { AppConfig } from 'src/app/app.config';
-import { ParserRegister, parse, xmlParser } from '.';
+import { parse, ParserRegister, xmlParser } from '.';
 import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AnchorParser, AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
@@ -96,17 +96,16 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             quote: this.elementParser,
             note: this.elementParser,
         }
-        const add = [];
+        const addendum = [];
         const ppElements = suspectPPs.map((x) => (elemParserAssoc[x['tagName']] !== undefined) ? elemParserAssoc[x['tagName']].parse(x) : null)
             .filter((x) => x);
-        ppElements.map((x) => (x.type === Milestone) ? add.push(x.spanElements) : x );
+        ppElements.map((x) => (x.type === Milestone) ? addendum.push(x.spanElements) : x );
 
-        return ppElements.concat(add.flat());
+        return ppElements.concat(addendum.flat());
     }
 
     private getQuotedTextFromSources(nodes: BibliographicEntry[]): any {
         let quotesInSources = [];
-
         nodes.forEach((el: BibliographicEntry|BibliographicList) => {
             if (el.type === BibliographicList) {
                 quotesInSources = quotesInSources.concat(this.getQuotedTextFromSources(el['sources']));

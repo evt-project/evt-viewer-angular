@@ -7,7 +7,12 @@
         <span class="source-quote-symbol">&#10077;</span>
         <span title="analogue-text">
             <ng-container *ngFor="let element of analogue.contentToShow">
-                <evt-content-viewer  *ngIf="element.tagName !== 'ptr'" [content]="element"></evt-content-viewer>
+                <evt-content-viewer *ngIf="element.tagName !== 'ptr'" 
+                    [content]="element" 
+                    [editionLevel]="editionLevel"
+                    [evtHtmlAttributes]="element?.attributes" 
+                    [attr.data-edition]="editionLevel">
+                </evt-content-viewer>
             </ng-container>
         </span>
     </div>
