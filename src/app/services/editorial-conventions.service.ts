@@ -177,15 +177,9 @@ export class EditorialConventionsService {
         Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
 
     if (externalLayouts) {
-      Object.keys(externalLayouts).forEach((editionLevel) => {
-        layouts = {
-          ...defaultKeys || {},
-          [editionLevel]: {
-            ...defaultKeys ? defaultKeys[editionLevel] : {},
-            ...externalLayouts[editionLevel],
-          },
-        }
-      });
+      layouts = {
+        ...externalLayouts || {},
+      }
     }
 
     return layouts;
