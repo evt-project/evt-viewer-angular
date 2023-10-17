@@ -108,6 +108,7 @@ export interface EditionConfig {
 		showAttrNames: boolean;
 		showEmptyValues: boolean;
 		inline: boolean;
+        comaSeparated: boolean;
 	}>;
 }
 

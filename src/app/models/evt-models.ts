@@ -172,13 +172,13 @@ export class ApparatusEntry extends GenericElement {
 
 export class QuoteEntry extends GenericElement {
     id: string;
+    tagName: string;
     text: string;
     sources: BibliographicEntry[]|BibliographicList;
     extSources: BibliographicEntry[];
-    ref: ParallelPassage[]|GenericElement[];
     originalEncoding: string;
+    insideCit: boolean;
     //rend: string;
-    //TODO: biblStruct
 }
 
 export class BibliographicList extends GenericElement {
@@ -197,6 +197,17 @@ export class BibliographicEntry extends GenericElement {
     publisher: string[];
     pubPlace: string[];
     citedRange: string[];
+    biblScope: string[];
+    text: string;
+    insideCit: boolean;
+    originalEncoding: string;
+}
+
+export class BibliographicStructEntry extends GenericElement {
+    id: string;
+    analytic: BibliographicEntry[];
+    monogrs: BibliographicEntry[];
+    series: BibliographicEntry[];
     originalEncoding: string;
 }
 

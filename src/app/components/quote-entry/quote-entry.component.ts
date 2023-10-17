@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { map, scan, startWith } from 'rxjs/operators';
 
+import { EditorialConventionDefaults } from 'src/app/services/editorial-conventions.service';
+import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
+
 import { QuoteEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTStatusService } from '../../services/evt-status.service';
@@ -30,6 +33,19 @@ export class QuoteEntryComponent {
   ]).pipe(
     map(([opened, currentId]) => currentId === this.data.id && !opened),
   );
+
+  get editorialConventionData(): EditorialConventionLayoutData {
+    return {
+      name: 'quotation',
+      attributes: this.data?.attributes || {},
+      editionLevel: this.editionLevel,
+      defaultsKey: this.defaultsKey,
+    };
+  }
+
+  get defaultsKey(): EditorialConventionDefaults {
+    return 'quotation';
+  }
 
   constructor(
     public evtStatusService: EVTStatusService,

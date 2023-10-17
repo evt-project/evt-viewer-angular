@@ -6,13 +6,16 @@ import { QuoteEntry, XMLElement } from '../../models/evt-models';
   providedIn: 'root',
 })
 export class QuoteEntriesParserService {
-  private quoteEntryTagName = 'quote';
 
   public parseQuoteEntries(document: XMLElement) {
     const quoteParser = ParserRegister.get('evt-quote-entry-parser');
 
-    return Array.from(document.querySelectorAll<XMLElement>(this.quoteEntryTagName))
-      .map((quoteEntry) => quoteParser.parse(quoteEntry) as QuoteEntry);
+    return [
+        Array.from(document.querySelectorAll<XMLElement>('quote'))
+          .map((quoteEntry) => quoteParser.parse(quoteEntry) as QuoteEntry),
+        Array.from(document.querySelectorAll<XMLElement>('cit'))
+          .map((quoteEntry) => quoteParser.parse(quoteEntry) as QuoteEntry),
+    ];
   }
 
 }
