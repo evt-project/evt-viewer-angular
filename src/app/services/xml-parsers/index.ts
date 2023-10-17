@@ -27,7 +27,7 @@ export class ParserRegister {
         if (nels.includes(tagName)) {
             return 'evt-named-entities-list-parser';
         }
-        const quote = ['quote', 'cit', 'note']; //ref and seg?
+        const quote = ['quote', 'cit', 'ref', 'seg', 'div'];
         if (quote.includes(tagName)) {
             return 'evt-quote-entry-parser';
         }

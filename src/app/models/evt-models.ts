@@ -184,6 +184,7 @@ export class QuoteEntry extends GenericElement {
     originalEncoding: string;
     insideCit: boolean;
     quotedText: string[];
+    noteView: boolean;
     //rend: string;
 }
 
@@ -252,10 +253,14 @@ export class Note extends GenericElement {
     noteLayout: NoteLayout;
     noteType: string;
     exponent: string;
+    source: QuoteEntry|null;
+    analogue: Analogue|null;
 }
 
 export class Paragraph extends GenericElement {
     n: string;
+    source: QuoteEntry|null;
+    analogue: Analogue|null;
 }
 
 export class Lb extends GenericElement {
@@ -342,11 +347,15 @@ export class Choice extends GenericElement {
 
 export class Verse extends GenericElement {
     n: string;
+    source: QuoteEntry|null;
+    analogue: Analogue|null;
 }
 
 export class VersesGroup extends GenericElement {
     n: string;
     groupType: string;
+    source: QuoteEntry|null;
+    analogue: Analogue|null;
 }
 
 export class Supplied extends GenericElement {
