@@ -38,6 +38,15 @@ export function removeSpaces(textContent: string) {
 }
 
 /**
+ * It removes excessive spaces, any tabulation, new lines and non-word characters
+ * @param textContent string
+ * @returns string
+ */
+export function normalizeSpaces(textContent: string) {
+  return textContent.replace(/[\s]{2,}|\n|\t|\r/g, ' ').trimStart().trimEnd();
+}
+
+/**
 * Significant text sometimes is split inside two or more text evt-element inside the main one, especially when it contains new line characters.
 * This function returns a string with all the text element chained
 * @param n XMLElement
@@ -55,6 +64,11 @@ export function chainFirstChildTexts(elem: XMLElement): string {
   return out;
 }
 
+/**
+ * Retrieve and chain textContent of all descendents
+ * @param elem ChildNode
+ * @returns out string
+ */
 export function chainDeepTexts(elem: ChildNode): string {
   const evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
   const textProperty = 'textContent';
@@ -83,4 +97,15 @@ export function getExternalElements(elem: XMLElement, attrSourceNames: string[],
 
   return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>(elTypes))
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
+}
+
+export function isAnalogue(elem: XMLElement, markerAttrs: string[]): boolean {
+  return (markerAttrs.includes(elem.getAttribute('type')));
+}
+
+export function isSource(elem: XMLElement, attrs: string[]): boolean {
+  let validAttrs = false;
+  attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
+
+  return (validAttrs);
 }

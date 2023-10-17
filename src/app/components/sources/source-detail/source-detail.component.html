@@ -2,7 +2,7 @@
 <div class="source-container"
     *ngIf="source.sources.length > 0 || source.extSources.length > 0 || source.text.length > 0">
         
-    <div class="card-body app-detail-content source-detail-content">
+    <div class="card-body app-detail-content source-detail-content" *ngIf="source.text.length > 1">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
         <span class="source-quote-symbol">&#10077;</span>
         {{source.text}}
