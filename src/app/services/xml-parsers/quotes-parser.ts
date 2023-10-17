@@ -1,20 +1,20 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { BibliographicEntry, GenericElement, QuoteEntry, XMLElement, SourceClass } from '../../models/evt-models';
+import { BibliographicEntry, GenericElement, QuoteEntry, SourceClass, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
 import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
 import { MsDescParser } from './msdesc-parser';
-import { BibliographyListParser, BibliographyParser, BibliographyStructParser } from './bilbliography-parsers';
+import { BibliographyParser } from './bilbliography-parsers';
 
 /*
 * Identify proper parser for seg and ref elements on the basis of content and attributes
 */
-@xmlParser('ref', DisambiguationSegParser)
-@xmlParser('seg', DisambiguationSegParser)
-export class DisambiguationSegParser extends EmptyParser implements Parser<XMLElement> {
+@xmlParser('ref', DisambiguationSourcesParser)
+@xmlParser('seg', DisambiguationSourcesParser)
+export class DisambiguationSourcesParser extends EmptyParser implements Parser<XMLElement> {
 
     elementParser = createParser(GenericElemParser, this.genericParse);
     quoteParser = createParser(QuoteParser, this.genericParse);
@@ -52,10 +52,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
 
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
-    listBiblParser = createParser(BibliographyListParser, this.genericParse);
     analogueParser = createParser(AnalogueParser, this.genericParse);
     msDescParser = createParser(MsDescParser, this.genericParse);
-    biblStructParser = createParser(BibliographyStructParser, this.genericParse)
 
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     extMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
@@ -143,22 +141,19 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
     private getInsideSources(quote: XMLElement): BibliographicEntry[] {
         const elemParserAssoc = {
             bibl: this.biblParser,
-            listBibl: this.listBiblParser,
+            listBibl: this.biblParser,
             msDesc: this.msDescParser,
-            biblStruct: this.biblStructParser,
+            biblStruct: this.biblParser,
             ref: this.biblParser,
         }
 
-        if (quote.parentElement.tagName === 'cit') {
-            // if quote is inside a cit element then the biblographic element is at its same level and not inside
-            return Array.from(quote.parentElement.children)
-            .map((x: XMLElement) => (elemParserAssoc[x['tagName']]) ? elemParserAssoc[x['tagName']].parse(x) : null)
-            .filter((x) => x);
-        }
+        const analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
+        const target = (quote.parentElement.tagName === 'cit') ? quote.parentElement.children : quote.children;
 
-        return Array.from(quote.children)
+        return Array.from(target)
             .map((x: XMLElement) => (elemParserAssoc[x['tagName']]) ? elemParserAssoc[x['tagName']].parse(x) : null)
-            .filter((x) => x);
+            .filter((x) => x)
+            .filter((x) => !analogueMarker.includes(x['type']))
     }
 
 }

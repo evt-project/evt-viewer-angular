@@ -16,7 +16,7 @@
                     <!-- disambiguation between different structures -->
                     <ng-container *ngIf="source.sources.length > 0">
                         <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
-                        <evt-biblio-list [data]="source"></evt-biblio-list>
+                        <evt-biblio-list [data]="source.sources"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="source.extSources.length > 0">

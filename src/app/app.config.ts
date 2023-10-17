@@ -63,11 +63,12 @@ export class AppConfig {
      */
     updateStyleFromConfig(edition: EditionConfig) {
         const rules = [];
-        rules[AnalogueClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
-        rules[SourceClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
-        rules[AnalogueClass+':hover'] = `background-color: ${edition.readingColorLight}, cursor:hover`;
-        rules[SourceClass+':hover'] = `background-color: ${edition.readingColorLight}, cursor:hover`;
+        rules['.'+AnalogueClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules['.'+SourceClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules['.'+AnalogueClass+':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
+        rules['.'+SourceClass+':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
         Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
+        console.log('style from config',rules);
     }
 
 }
@@ -127,6 +128,7 @@ export interface EditionConfig {
 		showEmptyValues: boolean;
 		inline: boolean;
         comaSeparated: boolean;
+        showMainElemTextContent: boolean;
 	}>;
     analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
