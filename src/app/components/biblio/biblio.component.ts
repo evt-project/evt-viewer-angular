@@ -1,18 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-biblio-entry',
   templateUrl: './biblio.component.html',
   styleUrls: ['./biblio.component.scss'],
 })
-export class BiblioEntryComponent {
+export class BiblioEntryComponent implements OnInit {
 
   @Input() data;
 
-  public showList = ['author','title','date','editor','publisher','pubPlace', 'citedRange'];
-  public showAttrNames = false;
-  public showEmptyValues = false;
-  public inline = true;
+  public showList = AppConfig.evtSettings.edition.biblView.propToShow;
+  public showAttrNames = AppConfig.evtSettings.edition.biblView.showAttrNames;
+  public showEmptyValues = AppConfig.evtSettings.edition.biblView.showEmptyValues;
+  public inline = AppConfig.evtSettings.edition.biblView.inline;
+
+  ngOnInit() {}
 
 }
 

@@ -182,3 +182,12 @@ body {
     font-size: 0.9rem;
 }
 
+.ref[source], .ref[target], .seg[source] {
+    text-decoration: underline dotted from-font;
+    cursor: pointer;
+}
+
+.ref[source]:before, .ref[target]:before, .seg[source]:before {
+    content:"🗎";
+}
+
