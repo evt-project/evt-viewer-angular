@@ -131,6 +131,8 @@ export class EVTStatusService {
 
     public currentNamedEntityId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
+    public currentQuotedId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
     constructor(
         private evtModelService: EVTModelService,
         private router: Router,
@@ -179,6 +181,18 @@ export class EVTStatusService {
             params,
         };
     }
+
+    getPageElementsByClassList(classList) {
+        const pageContent = this.currentStatus$.pipe(
+            map(({ page }) => page.parsedContent),
+            map((x) => x.map((y) => y['content']).filter((y) => y)));
+
+        return pageContent.pipe(
+          map((x) => x.map((y) => y.map((z) => classList.includes(z.class) ? z : null).filter((z) => z))),
+          filter((x) => x.length !== 0),
+        );
+    }
+
 }
 
 export interface AppStatus {
