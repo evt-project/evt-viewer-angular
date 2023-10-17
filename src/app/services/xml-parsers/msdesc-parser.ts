@@ -1,8 +1,8 @@
 import { isBoolString } from 'src/app/utils/js-utils';
 import { xmlParser } from '.';
 import {
-    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BibliographicEntry, Binding, BindingDesc, Collation, CollectionEl, Condition,
-    CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BibliographicEntry, Binding, BindingDesc, Collation, CollectionEl,
+    Condition, CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
     G, HandDesc, HandNote, Head, Height, History, Identifier, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues,
     MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, Note, ObjectDesc, OrigDate,
     Origin, OrigPlace, Paragraph, PhysDesc, Provenance, QuoteEntry, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,

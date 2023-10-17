@@ -8,7 +8,7 @@ describe('BiblioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BiblioEntryComponent ]
+      declarations: [ BiblioEntryComponent ],
     })
     .compileComponents();
   });
