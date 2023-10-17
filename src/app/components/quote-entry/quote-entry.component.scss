@@ -1,0 +1,18 @@
+@import "../../../assets/scss/colors";
+@import "../../../assets/scss/themes";
+@import "../../../assets/scss/mixins";
+
+.quote {
+  font-style: italic;
+  font-size: 104%;
+  padding:0;
+}
+
+.quote.opened {
+  color: #004ec3;
+}
+
+.quote:hover {
+  background-color:#2632383b;
+  cursor: pointer;
+}

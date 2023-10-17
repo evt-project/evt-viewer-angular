@@ -1,43 +1,83 @@
-@import "../../../../assets/scss/themes";
+@import "../../../assets/scss/themes";
 
-.app-detail-container {
-    top: -0.063rem;
-    z-index: 0;
+.source-container {
+    border: 1px solid #8080804f;
+    padding: 0em;
+    margin: 0.5em 0.5em 1em 0.5em;
+    font-family: serif;
+    font-style: italic;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    background-color:#2042512e;
+}
+
+.source-detail-content {
+    display: block !important;
+    background-color: unset !important;
+    padding-bottom: 0.6em !important;
+}
+
+.source-quote-button {
+    float:right;
+    margin-right: 0.3em;
+    font-size: 1.5em;
+    margin-top: -0.5em;
+    color: #00000073;
+    height: 2em;
+    display: none;
+    pointer-events: none;
+}
+
+.source-quote-symbol {
+    font-size: 1em;
+    color: #263238;
+    margin: 0;
+    padding: 0 0.3em 0 0;
+    display: inline;
+    font-family: 'evt-icons' !important;
+    speak: none;
+    font-style: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 0;
+    -webkit-font-smoothing: antialiased;
+    vertical-align: super;
+}
+
+.sources-cat {
+    font-variant: small-caps;
+    font-size: 95%;
+    position: relative;
+    font-style: normal;
+}
+
+.source-detail-btn {
+    background-color: transparent;
+    color: #000000;
+    line-height: 1;
+    padding: 0.25rem 0.375rem;
+    cursor: pointer;
     border-radius: 0;
-    margin-bottom:0.5em;
-    cursor: auto;
-    @include themify($themes) {
-        background-color: themed("appEntryBoxBackground");
-    }
+    font-style:normal;
 }
 
 .app-detail-content,
 .app-detail-tabs {
-    background-color: transparent;
-    font-size: 1.063rem;
-    font-family: Junicode, Times, serif;
+    background-color: #f1f4f5;
+    font-size: 1rem;
 }
 
 .app-detail-content {
     display: flex;
     justify-content: space-between;
     padding: 0.313rem;
-    background-color: #2042512e;
+    background-color: #8080802e;
 }
 
-.app-detail-readings {
-    display: block;
-}
-
-.app-detail-nested-readings {
-    display: block;
-    margin-left: 0.938rem;
-    font-size: 1rem;
-}
 
 .app-detail-tabs {
     font-size: 1rem;
-    margin: 0 0.313rem 0 0.313rem;
+    margin: 0;
     padding: 0.313rem 0 0 0;
     .nav-link {
         background-color: transparent;
@@ -52,8 +92,8 @@
     }
     .nav-pills,
     .tab-content {
-        margin-right: -0.313rem;
-        margin-left: -0.313rem;
+        margin-right: 0rem;
+        margin-left: 0rem;
     }
     .nav-link.active,
     .tab-content {
@@ -62,7 +102,6 @@
         }
     }
     .tab-content {
-        padding: 0.625rem 0.813rem;
         max-height: 12.5rem;
         overflow: auto;
         .info-lemma-wrapper {
