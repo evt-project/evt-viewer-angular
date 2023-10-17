@@ -15,7 +15,7 @@
     <ng-container *ngIf="data?.text.length > 0"> 
         {{data.text}} 
     </ng-container>
-    <ng-container *ngIf="data?.text.length === 0 && data?.extSources.length !== 0"> 
+    <ng-container *ngIf="((data?.text.length === 0) && ((data?.extElements.length !== 0) || (data?.extSources.length !== 0)))"> 
         <evt-note [data]="dataForNote"></evt-note> 
     </ng-container>
 </span>

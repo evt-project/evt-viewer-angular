@@ -3,14 +3,10 @@ import { parse, xmlParser } from '.';
 import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
-import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
+import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
-
-export class BasicParser {
-    genericParse: ParseFn;
-    constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
-}
+import { BasicParser } from './quotes-parser';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
@@ -31,6 +27,11 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         if ((!sources) || (insideCitElement)) {
             // no sources not a parallel passage, inside a cit element not a parallel passage
             return this.elementParser.parse(analogue)
+        }
+
+        const noteOnly = ['div','p','l','lg','note'];
+        if (noteOnly.includes(analogue.tagName)) {
+            return this.createNote(analogue);
         }
 
         return {
@@ -113,10 +114,30 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         const elementsAllowedForExternal = 'l, p, div, seg, bibl, milestone';
         const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForExternal);
         const ppElements = extMatched.map((x) => elemParserAssoc[x['tagName']].parse(x));
+
         ppElements.map((x) => (x.type === Milestone) ? add.push(x.spanElements) : x );
 
         return ppElements.concat(add.flat());
     }
 
+    private createNote(analogue: XMLElement) {
+        // const sources = this.getInsideSources(quote, false);
+        // not parsing inside sources, they will be parsed anyway
+        const sources = this.isAnaloguePassage(analogue);
+
+        return <Analogue> {
+            type: Analogue,
+            id: 'EVT-ANG:'+getID(analogue),
+            class: AnalogueClass,
+            attributes: this.attributeParser.parse(analogue),
+            text: normalizeSpaces(chainFirstChildTexts(analogue)),
+            content: [],
+            sources: sources.sources,
+            extSources: sources.extSources,
+            extLinkedElements: this.getParallelElements(analogue),
+            quotedText: this.getQuotedTextFromSources(sources.sources.concat(sources.extSources)),
+            originalEncoding: getOuterHTML(analogue),
+        };
+    }
 
 }
