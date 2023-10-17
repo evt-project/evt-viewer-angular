@@ -44,25 +44,21 @@ export function removeSpaces(textContent: string) {
 * @returns string
 */
 export function chainFirstChildTexts(elem: XMLElement): string {
-  //console.log('1',elem);
   const evtTextElements = ['#text'];
   const evtTextComplexElements = ['choice', 'app', 'l', 'quote'];
   const textProperty = 'nodeValue';
   let out = '';
   elem.childNodes.forEach((x) => (evtTextElements.includes(x.nodeName)) ? out += x[textProperty] : (
     evtTextComplexElements.includes(x.nodeName) ? out += chainDeepTexts(x) : '' ))
-  //console.log('1',out);
 
   return out;
 }
 
 export function chainDeepTexts(elem: ChildNode): string {
-  //console.log('2',elem, elem.childNodes);
   const evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
   const textProperty = 'textContent';
   let out = '';
   elem.childNodes.forEach((x) => (evtInnerTextElements.includes(x.nodeName)) ? ((x[textProperty] !== null) ? out += x[textProperty] : '') : '')
-  //console.log('1',out);
 
   return out;
 }
@@ -78,6 +74,6 @@ export function getExternalSources(elem: XMLElement, attrSourceNames: string[], 
   const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
   const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));
 
-  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl'))
+  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl, cit'))
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }

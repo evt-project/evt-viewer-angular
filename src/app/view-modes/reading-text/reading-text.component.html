@@ -15,7 +15,7 @@
             <div content>
                 <ul ngbNav #apparatuses="ngbNav" class="nav-tabs nav-fill">
                     <li [ngbNavItem]="'critical'">
-                        <a ngbNavLink>{{'CriticalApparatus' | translate}}</a>
+                        <a ngbNavLink>{{'criticalApparatus' | translate}}</a>
                         <ng-template ngbNavContent>
                             <evt-critical-apparatus
                                 [pageID]="currentPageID$ | async"
@@ -24,7 +24,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'sources'">
-                        <a ngbNavLink>{{ 'Sources' | translate }}</a>
+                        <a ngbNavLink>{{ 'sources' | translate }}</a>
                         <ng-template ngbNavContent>
                             <evt-sources
                                 [pageID]="currentPageID$ | async"
@@ -33,7 +33,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'analogues'">
-                        <a ngbNavLink>{{ 'Analogues' | translate }}</a>
+                        <a ngbNavLink>{{ 'analogues' | translate }}</a>
                         <ng-template ngbNavContent>
                             <evt-analogues
                                 [pageID]="currentPageID$ | async"
@@ -42,7 +42,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'notes'">
-                        <a ngbNavLink>{{ 'Notes' | translate }}</a>
+                        <a ngbNavLink>{{ 'notes' | translate }}</a>
                         <ng-template ngbNavContent>
 
                         </ng-template>

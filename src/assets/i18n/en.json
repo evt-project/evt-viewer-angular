@@ -173,12 +173,13 @@
     "omit": "omit.",
     "wit": "Wit:",
     "xml": "XML",
-    "CriticalApparatus":"Critical Aparatus",
-    "Sources": "Sources",
-    "Analogues": "Analogues",
-    "Notes":"Notes",
+    "criticalApparatus":"Critical Aparatus",
+    "sources": "Sources",
+    "analogues": "Analogues",
+    "notes":"Notes",
     "refBibl": "Bibliographic references",
-    "QuotedSources": "Quoted sources",
-    "References": "References",
-    "ParallelPassageIn": "Parallel passage in"
+    "quotedSources": "Quoted sources",
+    "quotedText": "Text",
+    "references": "References",
+    "parallelPassageIn": "Parallel passage in"
 }

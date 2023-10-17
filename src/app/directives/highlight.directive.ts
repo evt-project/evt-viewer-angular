@@ -6,6 +6,7 @@ import { HighlightData } from '../models/evt-models';
 })
 export class HighlightDirective {
   @Input('evtHighlight') set highlightData(hd: HighlightData) {
+    //console.log(hd);
     this.highlight(hd);
   }
 
@@ -15,6 +16,7 @@ export class HighlightDirective {
   }
 
   private highlight(highlightData: HighlightData) {
+    //console.log(highlightData);
     if (highlightData.highlight) {
       this.el.nativeElement.classList.add('highlight');
     } else {
