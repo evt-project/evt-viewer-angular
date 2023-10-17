@@ -6,9 +6,10 @@ import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
-import { chainFirstChildTexts, isAnalogue, isSource, normalizeSpaces } from 'src/app/utils/xml-utils';
+import { isAnalogue, isSource, normalizeSpaces } from 'src/app/utils/xml-utils';
 //import { MsDescParser } from './msdesc-parser';
 import { BibliographyParser } from './bilbliography-parsers';
+import { chainFirstChildTexts } from '../../utils/xml-utils';
 
 export class BasicParser {
     genericParse: ParseFn;
@@ -19,7 +20,8 @@ export class BasicParser {
 @xmlParser('ref', QuoteParser)
 @xmlParser('seg', QuoteParser)
 @xmlParser('quote', QuoteParser)
-//@xmlParser('cit', SourceParser)
+@xmlParser('div', QuoteParser)
+@xmlParser('cit', QuoteParser)
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
@@ -45,7 +47,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             case 'seg':
             case 'ref':
             case 'note':
-                const isExcluded = (this.exceptionParentElements.includes(quote.parentElement.tagName));
+            case 'div':
+                const isExcluded = (quote.parentElement) && (this.exceptionParentElements.includes(quote.parentElement.tagName));
                 if (isAnalogue(quote, this.analogueMarkers)) {
                     // the element has the @attribute marker for analogues
                     return this.analogueParser.parse(quote);
@@ -54,7 +57,12 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                     // if the element has the @attribute pointing to an external bibl/cit
                     return this.elementParser.parse(quote);
                 }
+            break;
+            case 'quote':
+            case 'cit':
+                //
         }
+
         // remains 6 cases:
         // <quote> inside a <cit>
         // <quote> alone,
@@ -62,17 +70,15 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         // <ref @source/@target="">
         // ptr <ref @source/@target="">
         // note <ref @source/@target="">
-        const isInCit = ((quote.parentElement.tagName === 'cit') || (quote.parentElement.tagName === 'note'));
+
+        const isInCit = ((quote.parentElement !== null) && ((quote.parentElement.tagName === 'cit') || (quote.parentElement.tagName === 'note')));
         const isCit = ((quote.tagName === 'cit') || (quote.tagName === 'note'));
+        const isDiv = (quote.tagName === 'div');
         const isQuote = (quote.tagName === 'quote');
-        const isAnalogueCheck = ((isAnalogue(quote, this.analogueMarkers)) || (isAnalogue(quote.parentElement, this.analogueMarkers)));
+        const isAnalogueCheck = ((isAnalogue(quote, this.analogueMarkers)) || (
+            (quote.parentElement !== null) && (isAnalogue(quote.parentElement, this.analogueMarkers))
+        ));
         const sources = this.getInsideSources(quote, isInCit);
-        /*
-        const extSources = getExternalElements(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch, this.elementsAllowedForSources)
-            .map((x) => this.biblParser.parse(x));
-        const extElements = getExternalElements(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch, this.elementsAllowedForLink)
-            .map((x) => this.parse(x));  // do not apply class?
-        */
         const ext = this.getExternalElemsOnce(this.findExtRef(quote, isInCit), this.intAttrsToMatch, this.extMatch);
 
         return {
@@ -80,7 +86,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             id: getID(quote),
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
-            text: normalizeSpaces(chainFirstChildTexts(this.getQuoteElement(quote, isCit))),
+            text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),
             sources: sources,
             extSources: ext.extSources,
             extElements: ext.extElements,
@@ -93,16 +99,20 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     }
 
     /**
-     * Returns first quote inside this quote entry
+     * Returns first-level text elements inside this quote entry
      * @param quote XMLElement
      * @returns XMLElement
      */
-    private getQuoteElement(quote: XMLElement, isCit: boolean): XMLElement {
-        if (isCit) {
-            return Array.from(quote.querySelectorAll<XMLElement>('quote'))[0];
+    private getQuotedTextInside(quote: XMLElement, isCit: boolean, isDiv: boolean): string {
+        let outText = '';
+        if ((isCit) || (isDiv)) {
+            const elements = Array.from(quote.querySelectorAll<XMLElement>('quote, p, l'));
+            elements.forEach((el) => outText += chainFirstChildTexts(el));
+
+            return outText;
         }
 
-        return quote;
+        return chainFirstChildTexts(quote);
     }
 
     /**

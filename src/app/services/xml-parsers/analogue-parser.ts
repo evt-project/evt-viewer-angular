@@ -1,8 +1,8 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, XMLElement } from '../../models/evt-models';
+import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { AttributeParser, GenericElemParser } from './basic-parsers';
+import { AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
@@ -18,6 +18,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     elementParser = createParser(GenericElemParser, parse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
+    milestoneParser = createParser(MilestoneParser, this.genericParse);
 
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
@@ -100,13 +101,21 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     }
 
     private getParallelElements(analogue: XMLElement): any {
-        const elementsAllowedForExternal = 'l, p, div, seg, bibl';
+        const elemParserAssoc = {
+            l: this.elementParser,
+            p: this.elementParser,
+            div: this.elementParser,
+            seg: this.elementParser,
+            bibl: this.biblParser,
+            milestone: this.milestoneParser,
+        }
+        const add = [];
+        const elementsAllowedForExternal = 'l, p, div, seg, bibl, milestone';
         const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForExternal);
-        let simplifiedElements = [];
+        const ppElements = extMatched.map((x) => elemParserAssoc[x['tagName']].parse(x));
+        ppElements.map((x) => (x.type === Milestone) ? add.push(x.spanElements) : x );
 
-        simplifiedElements = extMatched.map((x) => this.elementParser.parse(x));
-
-        return simplifiedElements;
+        return ppElements.concat(add.flat());
     }
 
 

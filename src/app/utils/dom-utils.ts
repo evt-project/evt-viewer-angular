@@ -251,7 +251,7 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[], limit
           search(value);
           counter = counter - 1;
         } else {
-          console.log('element is too deep, not searching further in', obj);
+          console.log('EVT WARN: element is too deep, not searching further in', obj);
         }
       }
     }

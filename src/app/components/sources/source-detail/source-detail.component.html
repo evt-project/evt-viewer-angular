@@ -8,7 +8,8 @@
         {{source.text}}
     </div>
     
-    <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 || source.extSources.length > 0">
+    <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 
+        || source.extSources.length > 0 || source.extElements.length > 0">
         <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="quotedText" *ngIf="source.quotedText.length > 0">
@@ -20,7 +21,17 @@
                 </ng-template>
             </li>
 
-            <li ngbNavItem="refBibl">
+            <li ngbNavItem="externalElements" *ngIf="source.extElements.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <h3 class="sources-cat">{{'corresps' | translate}}</h3>
+                    <ng-container *ngFor="let extElem of source.extElements">
+                        <evt-content-viewer *ngFor="let el of extElem.content" [content]="el"></evt-content-viewer>
+                    </ng-container>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="refBibl" *ngIf="source.sources.length > 0 || source.extSources.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
                     <!-- disambiguation between different structures -->
@@ -66,6 +77,14 @@
                                 <ng-container *ngIf="extBiblXML.originalEncoding">
                                     <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
                                 </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <!-- external generic elements -->
+                    <ng-container *ngIf="source.extElements">
+                        <ng-container *ngFor="let extEl of source.extElements">
+                            <ng-container *ngIf="extEl.originalEncoding">
+                                <pre>{{ extEl.originalEncoding | xmlBeautify }}</pre>
                             </ng-container>
                         </ng-container>
                     </ng-container>
