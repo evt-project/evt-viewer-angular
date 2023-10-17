@@ -31,6 +31,10 @@ export class ParserRegister {
         if (crit.includes(tagName)) {
             return 'evt-apparatus-entry-parser';
         }
+        const quote = ['quote']; //todo: config?
+        if (quote.includes(tagName)) {
+            return 'evt-quote-entry-parser';
+        }
 
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
             return 'evt-generic-elem-parser';
