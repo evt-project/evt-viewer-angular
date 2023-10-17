@@ -11,7 +11,7 @@ export class SourcesComponent implements OnInit {
   @Input() pageID : string;
 
   public entries;
-  private appClasses = ['quote'];
+  private appClasses = ['quoteEntry'];
 
   public quotesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
