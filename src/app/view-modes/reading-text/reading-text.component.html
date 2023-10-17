@@ -26,13 +26,27 @@
                     <li [ngbNavItem]="'sources'">
                         <a ngbNavLink>{{ 'Sources' | translate }}</a>
                         <ng-template ngbNavContent>
-                            <div>{{ 'Sources' | translate }}</div>
+                            <evt-sources
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)">
+                            </evt-sources>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'analogues'">
                         <a ngbNavLink>{{ 'Analogues' | translate }}</a>
                         <ng-template ngbNavContent>
-                            <div>{{ 'Analogues' | translate }}</div>
+                            <!--
+                            <evt-analogues
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)">
+                            </evt-analogues>
+                            -->
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="'notes'">
+                        <a ngbNavLink>{{ 'Notes' | translate }}</a>
+                        <ng-template ngbNavContent>
+
                         </ng-template>
                     </li>
                 </ul>  

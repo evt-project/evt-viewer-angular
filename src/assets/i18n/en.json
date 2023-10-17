@@ -175,5 +175,9 @@
     "xml": "XML",
     "CriticalApparatus":"Critical Aparatus",
     "Sources": "Sources",
-    "Analogues": "Analogues"
+    "Analogues": "Analogues",
+    "Notes":"Notes",
+    "refBibl": "Bibliographic references",
+    "QuotedSources": "Quoted sources",
+    "References": "References"
 }

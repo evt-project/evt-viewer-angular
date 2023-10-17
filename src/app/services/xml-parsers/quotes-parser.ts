@@ -17,7 +17,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             type: QuoteEntry,
             id: getID(quoteEntry),
             attributes: this.attributeParser.parse(quoteEntry),
-            text: this.getFirstChildText(quoteEntry),
+            text: this.chainFirstChildTexts(quoteEntry),
             content: parseChildren(quoteEntry, this.genericParse),
             sources: this.getSources(quoteEntry),
             ref: this.getParallelPassages(quoteEntry),
@@ -32,7 +32,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
      * @param n XMLElement
      * @returns string
      */
-    private getFirstChildText(n: XMLElement): string {
+    private chainFirstChildTexts(n: XMLElement): string {
         const evtTextElement = '#text';
         let out = '';
         n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
@@ -50,8 +50,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
         const biblList = ['listBibl'];
 
         return Array.from(quote.children)
-            .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) :
-                (biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null ))
+            .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : (
+                biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
             .filter((x) => x);
     }
 
@@ -66,8 +66,9 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
         const parallelPassageType = 'parallelPassage';
 
         return Array.from(quote.children)
-            .map((x: XMLElement) => ((classList.includes(x['tagName'])) && 
-                (x['attributes'].getNamedItem('type').nodeValue === parallelPassageType)) ? this.parallelPassageParser.parse(x) : null)
+            .map((x: XMLElement) => (
+                    (classList.includes(x['tagName'])) && (x['attributes'].getNamedItem('type').nodeValue === parallelPassageType)
+                ) ? this.parallelPassageParser.parse(x) : null)
             .filter((x) => x);
     }
 

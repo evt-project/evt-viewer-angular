@@ -174,5 +174,9 @@
     "xml": "XML",
     "CriticalApparatus":"Apparato Critico",
     "Sources": "Fonti",
-    "Analogues": "Passi Paralleli"
+    "Analogues": "Passi Paralleli",
+    "Notes":"Note Critiche",
+    "refBibl": "Riferimenti Bibliografici",
+    "QuotedSources": "Fonti citate",
+    "References": "Riferimenti"
 }

@@ -1,0 +1,7 @@
+<span class="quotedEntry {{ data.class }}" (click)="toggleOpened$.next()" 
+    [ngClass]="{
+        opened: opened$ | async,
+        quoteHighlight: quoteHighlight$ | async
+    }" [evtHighlight]="highlightData" [evtHtmlAttributes]="data?.attributes">
+    {{data.text}}
+</span>
