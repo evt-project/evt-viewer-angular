@@ -120,6 +120,7 @@ import { TextSourcesComponent } from './view-modes/text-sources/text-sources.com
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
+import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
 
 const routes: Routes = [
 ];
@@ -228,6 +229,7 @@ const DynamicComponents = [
     WitnessPanelComponent,
     XmlBeautifyPipe,
     ...DynamicComponents,
+    CriticalApparatusComponent,
   ],
   imports: [
     AppRoutingModule,

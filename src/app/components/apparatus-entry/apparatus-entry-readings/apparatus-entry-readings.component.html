@@ -10,7 +10,7 @@
     </ng-container>
 
     <ng-container *ngIf="data.lemma.content.length > 0">
-        <span *ngFor="let witID of data.lemma.witIDs"> {{ witID }}</span>
+        <span *ngFor="let witID of data.lemma.witIDs" class="appa-witn"> {{ witID }}</span>
     </ng-container>
     <span>] </span>
 </span>
@@ -20,6 +20,6 @@
     <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
     <!-- TODO: handle lacunastart and lacunaend -->
     <ng-container *ngFor="let witID of el.witIDs">
-        <span *ngFor="let wit of getWits$(witID) | async" class="font-italic"> {{ wit }} </span>
+        <span *ngFor="let wit of getWits$(witID) | async" class="font-italic appa-witn"> {{ wit }} </span>
     </ng-container>
 </span>
