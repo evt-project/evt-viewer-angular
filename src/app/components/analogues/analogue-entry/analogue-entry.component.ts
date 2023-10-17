@@ -1,27 +1,43 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { scan, startWith } from 'rxjs/operators';
 
-import { EditorialConventionDefaults } from 'src/app/services/editorial-conventions.service';
 import { EditorialConventionLayoutData } from '../../../directives/editorial-convention-layout.directive';
 
-import { ParallelPassage } from '../../../models/evt-models';
+import { AnalogueClass, ParallelPassage } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
-import { EditionlevelSusceptible, TextFlowSusceptible } from '../../components-mixins';
+import { EditionLevelType } from 'src/app/app.config';
 
-export interface AnalogueEntryComponent extends EditionlevelSusceptible, TextFlowSusceptible { }
-
+export interface AnalogueEntryComponent { }
+@register(ParallelPassage)
 @Component({
   selector: 'evt-analogue-entry',
   templateUrl: './analogue-entry.component.html',
   styleUrls: ['./analogue-entry.component.scss','../../sources/sources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-@register(ParallelPassage)
 export class AnalogueEntryComponent {
-
   @Input() data: ParallelPassage;
+
+  private edLevel: EditionLevelType;
+  @Input() set editionLevel(el: EditionLevelType) {
+    this.edLevel = el;
+    this.editionLevelChange.next(el);
+  }
+  get editionLevel() { return this.edLevel; }
+  editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
+
+  get editorialConventionData(): EditorialConventionLayoutData {
+    return {
+      name: '.analogues',
+      attributes: this.data?.attributes || {},
+      editionLevel: this.editionLevel,
+      defaultsKey: '.analogues',
+    };
+  }
+
+  public analogueClass = AnalogueClass;
 
   public opened = false;
 
@@ -31,22 +47,8 @@ export class AnalogueEntryComponent {
     startWith(false),
   );
 
-  get editorialConventionData(): EditorialConventionLayoutData {
-    return {
-      name: 'analoguePassage',
-      attributes: this.data?.attributes || {},
-      editionLevel: this.editionLevel,
-      defaultsKey: this.defaultsKey,
-    };
-  }
-
-  get defaultsKey(): EditorialConventionDefaults {
-    return 'analoguePassage';
-  }
-
   toggleAppEntryBox(e: MouseEvent) {
     e.stopPropagation();
-    console.log('ho aperto');
     this.opened = !this.opened;
   }
 
@@ -60,7 +62,6 @@ export class AnalogueEntryComponent {
 
   constructor(
     public evtStatusService: EVTStatusService,
-  ) {
-  }
+  ) {}
 
 }

@@ -23,7 +23,7 @@
         <!-- checking if bibl is inside a listBibl-->
         <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
             <ng-container *ngIf="elem.head"> 
-                <span title="bibl-head">{{elem.head}}</span>
+                <span class="bibl-head">{{elem.head}}</span>
             </ng-container>
             <ul class="biblio-list">
                 <ng-container *ngFor="let biblo of elem.sources"> 

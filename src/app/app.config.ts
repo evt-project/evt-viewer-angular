@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
-import { ViewMode, ViewModeId } from './models/evt-models';
+import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
 import { Attributes, EditorialConventionLayout } from './models/evt-models';
 import { updateCSS } from './utils/dom-utils';
 
@@ -62,12 +62,11 @@ export class AppConfig {
      * @param edition EditionConfig
      */
     updateStyleFromConfig(edition: EditionConfig) {
-        const rules = {
-            '.analogueEntry .opened': `background-color: ${edition.readingColorDark}`,
-            '.analogueEntry:hover': `background-color: ${edition.readingColorLight} `,
-            '.quoteEntry .opened': `background-color: ${edition.readingColorDark}`,
-            '.quoteEntry:hover': `background-color: ${edition.readingColorLight}`,
-        };
+        const rules = [];
+        rules[AnalogueClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules[SourceClass+' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules[AnalogueClass+':hover'] = `background-color: ${edition.readingColorLight}, cursor:hover`;
+        rules[SourceClass+':hover'] = `background-color: ${edition.readingColorLight}, cursor:hover`;
         Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
     }
 

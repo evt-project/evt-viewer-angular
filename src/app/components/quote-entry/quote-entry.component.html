@@ -1,7 +1,10 @@
-<span class="quoteEntry {{ data.class }}" (click)="toggleOpened$.next()" 
-    [ngClass]="{
-        opened: opened$ | async
-    }" [evtHtmlAttributes]="data?.attributes" [evtEditorialConventionLayout]="editorialConventionData">
+<span class="{{ sourceClass }} {{ data.class }}" 
+    (click)="toggleOpened$.next()" 
+    [ngClass]="{ opened: opened$ | async }" 
+    [attr.data-edition]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes" 
+    [evtEditorialConventionLayout]="editorialConventionData"
+    (click)="toggleAppEntryBox($event);">
     {{data.text}}
 </span>
 <evt-source-detail *ngIf="opened$ | async" [source]="data"></evt-source-detail>
