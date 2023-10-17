@@ -11,7 +11,7 @@ export class AnaloguesComponent implements OnInit {
   @Input() pageID : string;
 
   public analogues;
-  private appClasses = ['ref', 'seg'];
+  private appClasses = ['analogueEntry'];
 
   public analoguesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 

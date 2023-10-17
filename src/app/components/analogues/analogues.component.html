@@ -21,7 +21,7 @@
                         </ng-container>
 
                         <ng-container *ngIf="analogue.extSources.length > 0">
-                            <h3 class="sources-cat">{{'References' | translate}}</h3>
+                            <h3 class="sources-cat">{{'ParallelPassageIn' | translate}}</h3>
                             <ul>
                                 <ng-container *ngFor="let extBibl of analogue.extSources">
                                     <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
