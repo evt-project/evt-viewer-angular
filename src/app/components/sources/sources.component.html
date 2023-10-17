@@ -1,60 +1,6 @@
 <ng-container *ngFor="let source of entries"> 
 
-    <div class="source-container">
-        
-        <div class="card-body app-detail-content source-detail-content">
-            <span class="btn btn-sm transparent source-quote-button">☚</span>
-            <span class="source-quote-symbol">&#10077;</span>
-            {{source.text}}
-        </div>
-        
-        <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 || source.extSources.length > 0">
-            <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
-
-                <li ngbNavItem="refBibl">
-                    <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
-                    <ng-template ngbNavContent>
-                        <!-- disambiguation between different structures -->
-                        <ng-container *ngIf="source.sources.length > 0">
-                            <h3 class="sources-cat">{{'QuotedSources' | translate}}</h3>
-                            <evt-biblio-list [data]="source"></evt-biblio-list>
-                        </ng-container>
-
-                        <ng-container *ngIf="source.extSources.length > 0">
-                            <h3 class="sources-cat">{{'References' | translate}}</h3>
-                            <ul class="biblio-list">
-                                <ng-container *ngFor="let extBibl of source.extSources">
-                                    <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
-                                </ng-container>
-                            </ul>
-                        </ng-container>
-
-                    </ng-template>
-                </li>
-
-                <li ngbNavItem="xml" *ngIf="source.originalEncoding">
-                    <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
-                    <ng-template ngbNavContent>
-                        <pre>{{ source.originalEncoding | xmlBeautify }}</pre>
-                        <!-- sibling bibl element -->
-                        <pre *ngIf="source.sources && source.insideCit">
-                            <ng-container *ngFor="let sourceBiblXML of source.sources">
-                                {{ sourceBiblXML.originalEncoding | xmlBeautify }}
-                            </ng-container>
-                        </pre>
-                        <!-- external bibl element -->
-                        <pre *ngIf="source.extSources">
-                            <ng-container *ngFor="let extBiblXML of source.extSources">
-                                {{ extBiblXML.originalEncoding | xmlBeautify }}
-                            </ng-container>
-                        </pre>
-                    </ng-template>
-                </li>
-            </ul>
-            <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
-        </div>
-
-    </div>
+    <evt-source-detail [source]="source"></evt-source-detail>
 
 </ng-container>
 
