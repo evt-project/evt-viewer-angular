@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
 import { BibliographicEntry } from 'src/app/models/evt-models';
 
@@ -7,7 +7,7 @@ import { BibliographicEntry } from 'src/app/models/evt-models';
   templateUrl: './biblio.component.html',
   styleUrls: ['./biblio.component.scss'],
 })
-export class BiblioEntryComponent implements OnInit {
+export class BiblioEntryComponent {
 
   @Input() data: BibliographicEntry;
 
@@ -29,9 +29,6 @@ export class BiblioEntryComponent implements OnInit {
     }
 
     return { 'display': 'none' };
-  }
-
-  ngOnInit() {
   }
 
 }

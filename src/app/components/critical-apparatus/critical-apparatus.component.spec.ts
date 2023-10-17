@@ -8,7 +8,7 @@ describe('CriticalApparatusComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CriticalApparatusComponent ]
+      declarations: [ CriticalApparatusComponent ],
     })
     .compileComponents();
   });
