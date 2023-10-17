@@ -5,9 +5,9 @@ import { QuoteEntry, SourceClass, XMLElement } from '../../models/evt-models';
 @Injectable({
   providedIn: 'root',
 })
-export class QuoteEntriesParserService {
+export class SourceEntriesParserService {
 
-  public parseQuoteEntries(document: XMLElement) {
+  public parseSourceEntries(document: XMLElement) {
     const quoteParser = ParserRegister.get('evt-quote-entry-parser');
 
     return [

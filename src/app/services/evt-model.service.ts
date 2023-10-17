@@ -13,7 +13,7 @@ import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
-import { QuoteEntriesParserService } from './xml-parsers/quote-entries-parser.service';
+import { SourceEntriesParserService } from './xml-parsers/source-entries-parser.service';
 import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
 
 @Injectable({
@@ -146,8 +146,8 @@ export class EVTModelService {
   );
 
   //QUOTED SOURCES
-  public readonly quoteEntries$ = this.editionSource$.pipe(
-    map((source) => this.quoteParser.parseQuoteEntries(source)),
+  public readonly sourceEntries$ = this.editionSource$.pipe(
+    map((source) => this.sourceParser.parseSourceEntries(source)),
     shareReplay(1),
   );
 
@@ -207,7 +207,7 @@ export class EVTModelService {
     private characterDeclarationsParser: CharacterDeclarationsParserService,
     private linesVersesParser: LinesVersesParserService,
     private msDescParser: MsDescParserService,
-    private quoteParser: QuoteEntriesParserService,
+    private sourceParser: SourceEntriesParserService,
     private analogueParser: AnalogueEntriesParserService,
   ) {
   }
