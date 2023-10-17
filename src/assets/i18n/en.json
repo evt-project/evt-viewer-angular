@@ -172,5 +172,8 @@
     "moreInfoAboutApp": "More info about the apparatus entry",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "CriticalApparatus":"Critical Aparatus",
+    "Sources": "Sources",
+    "Analogues": "Analogues"
 }
