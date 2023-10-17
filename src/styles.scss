@@ -208,6 +208,11 @@ evt-biblio-list .msIdentifier {
     line-height: 1.4rem;
 }
 
+evt-analogue-entry evt-analogue-detail > div {
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
 .biblio-list li {
     margin-left: 1em;
 }
