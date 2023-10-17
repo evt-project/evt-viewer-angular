@@ -124,6 +124,7 @@ import { CriticalApparatusComponent } from './components/critical-apparatus/crit
 import { AnaloguesComponent } from './components/analogues/analogues.component';
 import { SourcesComponent } from './components/sources/sources.component';
 import { SourceDetailComponent } from './components/sources/source-detail/source-detail.component';
+import { SourceNoteComponent } from './components/sources/source-note/source-note.component';
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
 import { AnalogueDetailComponent } from './components/analogues/analogue-detail/analogue-detail.component';
@@ -242,6 +243,7 @@ const DynamicComponents = [
     AnaloguesComponent,
     AnalogueDetailComponent,
     SourceDetailComponent,
+    SourceNoteComponent,
     SourcesComponent,
     BiblioEntryComponent,
     BiblioListComponent,

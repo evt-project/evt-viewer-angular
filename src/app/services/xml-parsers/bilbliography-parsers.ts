@@ -3,12 +3,8 @@ import { parse, xmlParser } from '.';
 import { BibliographicEntry, BibliographicList, BibliographicStructEntry, BibliographyClass, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
-import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
-
-export class BasicParser {
-    genericParse: ParseFn;
-    constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
-}
+import { createParser, getID, parseChildren, Parser } from './parser-models';
+import { BasicParser } from './quotes-parser';
 
 @xmlParser('listBibl', BibliographyParser)
 @xmlParser('biblStruct', BibliographyParser)

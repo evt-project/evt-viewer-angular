@@ -211,3 +211,18 @@ evt-analogue-entry evt-analogue-detail > div {
 .biblio-list li {
     margin-left: 1em;
 }
+
+*[data-source]:hover {
+    border: 0.5px dotted #02368136;
+    transition: 0.5s;
+    border-start-end-radius: 5px;
+}
+
+*[data-source] {
+    border: 0.5px dotted transparent;
+}
+
+*[data-source]:hover > evt-source-note {
+    transition: 0.5s;
+    filter: sepia(1);
+}
