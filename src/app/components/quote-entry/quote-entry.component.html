@@ -5,3 +5,4 @@
     }" [evtHighlight]="highlightData" [evtHtmlAttributes]="data?.attributes" [evtEditorialConventionLayout]="editorialConventionData">
     {{data.text}}
 </span>
+<evt-source-detail *ngIf="opened$ | async" [source]="data"></evt-source-detail>

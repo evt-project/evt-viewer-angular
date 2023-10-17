@@ -186,7 +186,6 @@ export class EditorialConventionsService {
 
   private _getExternalConfigs(): EditorialConvention[] {
     const customs = AppConfig.evtSettings.editorialConventions;
-    console.log('here');
 
     return Object.keys(customs).map((key) => ({
       element: customs[key].markup?.element ?? key,

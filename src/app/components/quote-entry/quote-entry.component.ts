@@ -19,7 +19,10 @@ export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlighta
 })
 @register(QuoteEntry)
 export class QuoteEntryComponent {
+
   @Input() data: QuoteEntry;
+
+  public opened = false;
 
   toggleOpened$ = new Subject<boolean | void>();
   opened$ = this.toggleOpened$.pipe(
@@ -45,6 +48,20 @@ export class QuoteEntryComponent {
 
   get defaultsKey(): EditorialConventionDefaults {
     return 'quotation';
+  }
+
+  toggleAppEntryBox(e: MouseEvent) {
+    e.stopPropagation();
+    console.log('ho aperto');
+    this.opened = !this.opened;
+  }
+
+  closeAppEntryBox() {
+    this.opened = false;
+  }
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
   constructor(

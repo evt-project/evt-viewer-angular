@@ -123,9 +123,10 @@ import { HandleImgErrorDirective } from './directives/handle-img-error.directive
 import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
 import { AnaloguesComponent } from './components/analogues/analogues.component';
 import { SourcesComponent } from './components/sources/sources.component';
+import { SourceDetailComponent } from './components/sources/source-detail/source-detail.component';
+import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
 import { AnalogueDetailComponent } from './components/analogues/analogue-detail/analogue-detail.component';
-import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { BiblioEntryComponent } from './components/biblio/biblio.component';
 import { BiblioListComponent } from './components/biblioList/biblio-list.component';
 
@@ -240,6 +241,7 @@ const DynamicComponents = [
     AnaloguesComponent,
     AnalogueEntryComponent,
     AnalogueDetailComponent,
+    SourceDetailComponent,
     SourcesComponent,
     QuoteEntryComponent,
     BiblioEntryComponent,
