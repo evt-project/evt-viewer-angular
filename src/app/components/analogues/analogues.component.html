@@ -1,6 +1,10 @@
 <ng-container *ngFor="let analogue of analogues"> 
 
-    <evt-analogue-detail [analogue]="analogue"></evt-analogue-detail>
+    <evt-analogue-detail 
+        [analogue]="analogue"
+        [editionLevel]="editionLevel"
+        [evtHtmlAttributes]="analogue?.attributes">
+    </evt-analogue-detail>
 
 </ng-container>
 

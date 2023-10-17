@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { EditionLevelType } from 'src/app/app.config';
 import { AnalogueClass } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 
@@ -9,12 +11,25 @@ import { EVTStatusService } from 'src/app/services/evt-status.service';
 })
 export class AnaloguesComponent implements OnInit {
 
-  @Input() pageID : string;
+  private edLevel: EditionLevelType;
 
   public analogues;
   private appClasses = [AnalogueClass];
 
   public analoguesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
+
+  @Input() pageID : string;
+
+  @Input() set editionLevel(el: EditionLevelType) {
+    this.edLevel = el;
+    this.editionLevelChange.next(el);
+  }
+  get editionLevel() { return this.edLevel; }
+  editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
+  }
 
   public getEntries(data) {
     this.analogues = data.flat();

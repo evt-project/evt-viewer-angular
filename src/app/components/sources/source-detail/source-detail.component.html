@@ -2,10 +2,19 @@
 <div class="source-container"
     *ngIf="source.sources.length > 0 || source.extSources.length > 0 || source.text.length > 0">
         
-    <div class="card-body app-detail-content source-detail-content" *ngIf="source.text.length > 1">
+    <div class="card-body app-detail-content source-detail-content" *ngIf="source.content.length > 0">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
         <span class="source-quote-symbol">&#10077;</span>
-        {{source.text}}
+        <span class="source-text-container">
+            <ng-container *ngFor="let element of source.contentToShow || []">
+            <evt-content-viewer  *ngIf="element.tagName !== 'ptr'" 
+                [content]="element"
+                [editionLevel]="editionLevel"
+                [evtHtmlAttributes]="element?.attributes" 
+                [attr.data-edition]="editionLevel">
+            </evt-content-viewer>
+        </ng-container>
+        </span>
     </div>
     
     <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 
@@ -17,6 +26,15 @@
                 <ng-template ngbNavContent>
                     <ng-container *ngFor="let quoteTxt of source.quotedText">
                         {{quoteTxt.quote}}
+                    </ng-container>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="analoguesView" *ngIf="source.analogues.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'analogues' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let analogue of source.analogues">
+                        <evt-content-viewer *ngFor="let el of analogue" [content]="el"></evt-content-viewer>
                     </ng-container>
                 </ng-template>
             </li>
@@ -68,12 +86,12 @@
                     <!-- external bibl element -->
                     <ng-container *ngIf="source.extSources">
                         <ng-container *ngFor="let extBiblXML of source.extSources">
-                            <ng-container *ngIf="extBiblXML.type.name === 'BibliographicList'">
+                            <ng-container *ngIf="extBiblXML.type?.name === 'BibliographicList'">
                                 <ng-container *ngFor="let bibl of extBiblXML.sources">
                                     <pre>{{ bibl.originalEncoding | xmlBeautify }}</pre>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="extBiblXML.type.name !== 'BibliographicList'">
+                            <ng-container *ngIf="extBiblXML.type?.name !== 'BibliographicList'">
                                 <ng-container *ngIf="extBiblXML.originalEncoding">
                                     <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
                                 </ng-container>
