@@ -7,6 +7,8 @@ import {
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
+import { AppConfig } from 'src/app/app.config';
+import { AnalogueParser } from './analogue-parser';
 
 export class EmptyParser {
     genericParse: ParseFn;
@@ -154,6 +156,7 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
 export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
     noteParser = createParser(NoteParser, this.genericParse);
     elementParser = createParser(GenericElemParser, this.genericParse);
+    analogueParser = createParser(AnalogueParser, this.genericParse);
     parse(xml: XMLElement): Ptr | Note | GenericElement {
         if (xml.getAttribute('type') === 'noteAnchor' && xml.getAttribute('target')) {
             const noteId = xml.getAttribute('target').replace('#', '');
@@ -161,6 +164,11 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
             const noteEl = rootNode.querySelector<XMLElement>(`note[*|id="${noteId}"]`);
 
             return noteEl ? this.noteParser.parse(noteEl) : this.elementParser.parse(xml);
+        }
+
+        // if ptr refers to an analogue passage
+        if (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type'))) {
+            return this.analogueParser.parse(xml);
         }
 
         return {

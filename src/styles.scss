@@ -183,7 +183,7 @@ body {
 }
 
 evt-biblio-entry span:last-of-type {
-    display:none;
+    display:none !important;
 }
 
 evt-biblio-list .msIdentifier {

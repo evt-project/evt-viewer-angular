@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ParserRegister } from '.';
-import { QuoteEntry, XMLElement, SourceClass } from '../../models/evt-models';
+import { QuoteEntry, SourceClass, XMLElement } from '../../models/evt-models';
 
 @Injectable({
   providedIn: 'root',
