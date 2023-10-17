@@ -31,7 +31,7 @@ export class ParserRegister {
         if (crit.includes(tagName)) {
             return 'evt-apparatus-entry-parser';
         }
-        const quote = ['quote']; //todo: config?
+        const quote = ['quote'];
         if (quote.includes(tagName)) {
             return 'evt-quote-entry-parser';
         }
