@@ -215,7 +215,7 @@ export class BibliographicStructEntry extends GenericElement {
     originalEncoding: string;
 }
 
-export class ParallelPassage extends GenericElement {
+export class Analogue extends GenericElement {
     id: string;
     text: string;
     sources: BibliographicEntry[];

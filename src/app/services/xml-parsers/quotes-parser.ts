@@ -21,7 +21,7 @@ export class DisambiguationSegParser extends EmptyParser implements Parser<XMLEl
     analogueParser = createParser(AnalogueParser, this.genericParse);
 
     elemAttrsToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
-    parallelPassageMarker = AppConfig.evtSettings.edition.parallelPassageMarkers;
+    analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     exceptionParentElements = AppConfig.evtSettings.edition.sourcesExcludedFromListByParent;
 
     parse(xml: XMLElement): GenericElement {
@@ -29,7 +29,7 @@ export class DisambiguationSegParser extends EmptyParser implements Parser<XMLEl
         let analogueCheck = false;
         const isExcluded = (this.exceptionParentElements.includes(xml.parentElement.tagName));
         this.elemAttrsToMatch.forEach((attr) => { if (xml.getAttribute(attr) !== null) { attributesCheck = true } });
-        this.parallelPassageMarker.forEach((marker) => { if (xml.getAttribute('type') === marker) { analogueCheck = true } } )
+        this.analogueMarker.forEach((marker) => { if (xml.getAttribute('type') === marker) { analogueCheck = true } } )
 
         if (analogueCheck) {
             // the element has the @attribute marker for analogues
@@ -53,10 +53,11 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
-    parallelPassageParser = createParser(AnalogueParser, this.genericParse);
+    analogueParser = createParser(AnalogueParser, this.genericParse);
     msDescParser = createParser(MsDescParser, this.genericParse);
     biblStructParser = createParser(BibliographyStructParser, this.genericParse)
 
+    analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     extMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     intAttrsToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
@@ -71,8 +72,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
         const isInCit = (quote.parentElement.tagName === 'cit');
         const isCit = (quote.tagName === 'cit');
         const isQuote = (quote.tagName === 'quote');
-        const isAnalogue = ((quote.getAttribute('type') === 'ParallelPassage')
-            || (quote.parentElement.getAttribute('type') === 'ParallelPassage'));
+        const isAnalogue = ((this.analogueMarker.includes(quote.getAttribute('type')))
+            || (this.analogueMarker.includes(quote.parentElement.getAttribute('type'))));
         const sources = this.getInsideSources(quote);
 
         return {
