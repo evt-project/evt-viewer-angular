@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { SourceClass } from '../../models/evt-models';
 
 @Component({
   selector: 'evt-sources',
@@ -11,7 +12,7 @@ export class SourcesComponent implements OnInit {
   @Input() pageID : string;
 
   public entries;
-  private appClasses = ['quoteEntry'];
+  private appClasses = [SourceClass];
 
   public quotesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 

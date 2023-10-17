@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AnalogueClass } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class AnaloguesComponent implements OnInit {
   @Input() pageID : string;
 
   public analogues;
-  private appClasses = ['analogueEntry'];
+  private appClasses = [AnalogueClass];
 
   public analoguesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
