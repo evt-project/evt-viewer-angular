@@ -36,3 +36,17 @@ export function replaceNotWordChar(textContent: string) {
 export function removeSpaces(textContent: string) {
   return textContent.replace(/\s/g, '');
 }
+
+/**
+* Significant text can be split inside two or more text evt-element, especially if contains new line characters.
+* This function returns a string with all the text element chained
+* @param n XMLElement
+* @returns string
+*/
+export function chainFirstChildTexts(n: XMLElement): string {
+  const evtTextElement = '#text';
+  let out = '';
+  n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
+
+   return out;
+}
