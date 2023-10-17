@@ -116,8 +116,8 @@
 		"showEmptyValues": false,
 		"inline": true,
 		"comaSeparated": true,
-		"showMainElemTextContent": false
+		"showMainElemTextContent": true
 	},
-	"analogueMarkers": ["ParallelPassage", "parallelPassage"],
+	"analogueMarkers": ["ParallelPassage", "parallelPassage", "Parallel", "parallel"],
 	"sourcesExcludedFromListByParent": [ "desc" ]
 }

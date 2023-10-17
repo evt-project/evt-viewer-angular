@@ -4,7 +4,7 @@ import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, Generic
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
-import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, getExternalElements } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
 
 export class BasicParser {
@@ -15,6 +15,7 @@ export class BasicParser {
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
 
+    elementParser = createParser(GenericElemParser, parse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
 
@@ -28,9 +29,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         const insideCitElement = (analogue.parentElement.tagName === 'cit');
         if ((!sources) || (insideCitElement)) {
             // no sources not a parallel passage, inside a cit element not a parallel passage
-            const elementParser = createParser(GenericElemParser, parse);
-
-            return elementParser.parse(analogue)
+            return this.elementParser.parse(analogue)
         }
 
         return {
@@ -42,6 +41,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             content: parseChildren(analogue, this.genericParse),
             sources: sources.sources,
             extSources: sources.extSources,
+            extLinkedElements: this.getParallelElements(analogue),
             quotedText: this.getQuotedTextFromSources(sources.sources.concat(sources.extSources)),
             originalEncoding: getOuterHTML(analogue),
         };
@@ -57,7 +57,9 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     private isAnaloguePassage(analogue: XMLElement): any {
 
         const sources = this.getSources(analogue);
-        const extSources = getExternalSources(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x));
+        const elements = 'bibl, cit, note, seg';
+        const extSources = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elements)
+            .map((x) => this.biblParser.parse(x));
         const hasPPAttribute = this.analogueMarker.includes(analogue.getAttribute('type'));
 
         if ((sources.length === 0 && extSources.length === 0) && (!hasPPAttribute)) {
@@ -95,6 +97,16 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         });
 
         return quotesInSources;
+    }
+
+    private getParallelElements(analogue: XMLElement): any {
+        const elements = 'l, p, div, seg, bibl';
+        const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elements);
+        let simplifiedElements = [];
+
+        simplifiedElements = extMatched.map((x) => this.elementParser.parse(x));
+
+        return simplifiedElements;
     }
 
 

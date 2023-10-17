@@ -176,6 +176,8 @@
     "criticalApparatus":"Critical Aparatus",
     "sources": "Sources",
     "analogues": "Analogues",
+    "source": "Source",
+    "analogue": "Analogue",
     "notes":"Notes",
     "refBibl": "Bibliographic references",
     "quotedSources": "Quoted sources",

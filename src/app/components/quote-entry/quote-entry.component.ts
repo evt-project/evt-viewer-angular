@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 
-import { QuoteEntry, SourceClass } from '../../models/evt-models';
+import { Note, QuoteEntry, SourceClass } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
 
-export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlightable { } { }
+export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlightable {}
 @register(QuoteEntry)
 @Component({
   selector: 'evt-quote-entry',
@@ -18,10 +18,16 @@ export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlighta
   styleUrls: ['./quote-entry.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteEntryComponent {
-  @Input() data: QuoteEntry;
+export class QuoteEntryComponent implements OnInit {
+
+  public _data: QuoteEntry;
 
   private edLevel: EditionLevelType;
+
+  @Input() set data(dt: QuoteEntry) {
+    this._data = dt;
+  }
+
   @Input() set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
     this.editionLevelChange.next(el);
@@ -38,7 +44,11 @@ export class QuoteEntryComponent {
     };
   }
 
+  get data() { return this._data; }
+
   public sourceClass = SourceClass;
+
+  public dataForNote = {};
 
   public opened = false;
 
@@ -60,6 +70,25 @@ export class QuoteEntryComponent {
 
   stopPropagation(e: MouseEvent) {
     e.stopPropagation();
+  }
+
+   /** If quote has no text it's displayed as a note.*/
+  createNote(v): Note|{} {
+
+    return {
+      type: Note,
+      noteType: 'source',
+      noteLayout: 'popover',
+      exponent: v.path || '',
+      content: v.extSources,
+      attributes: v.attributes || [],
+    }
+  }
+
+  ngOnInit() {
+    if (this.data.text.length === 0) {
+      this.dataForNote = this.createNote(this.data);
+    }
   }
 
   constructor(
