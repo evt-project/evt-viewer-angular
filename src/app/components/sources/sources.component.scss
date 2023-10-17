@@ -74,7 +74,6 @@
     background-color: #8080802e;
 }
 
-
 .app-detail-tabs {
     font-size: 1rem;
     margin: 0;
@@ -104,6 +103,8 @@
     .tab-content {
         max-height: 12.5rem;
         overflow: auto;
+        padding-top: 0.5em;
+        padding-left: 1em;
         .info-lemma-wrapper {
             @include themify($themes) {
                 border-bottom: 1px solid themed("baseBorder");
