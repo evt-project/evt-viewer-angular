@@ -182,6 +182,7 @@ body {
     font-size: 0.9rem;
 }
 
+/*
 .analogueEntry .genericElement {
     text-decoration: underline dotted from-font;
     cursor: pointer;
@@ -194,4 +195,19 @@ body {
 .analogueEntry .genericElement:hover {
     background-color: rgba(13, 110, 253, 0.25);
 }
+*/
 
+evt-biblio-entry span:last-of-type {
+    display:none;
+}
+
+evt-biblio-list .msIdentifier {
+    margin-bottom: 2rem;
+    margin-left: 1em;
+    font-size: 90%;
+    line-height: 1.4rem;
+}
+
+.biblio-list li {
+    margin-left: 1em;
+}

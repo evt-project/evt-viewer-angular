@@ -111,9 +111,10 @@
 		"elementAttributesToMatch": ["target","source"]
 	},
 	"biblView": {
-		"propToShow": ["author","title","date","editor","publisher","pubPlace","citedRange"],
+		"propToShow": ["author","title","date","editor","publisher","pubPlace","citedRange","biblScope"],
 		"showAttrNames": false,
 		"showEmptyValues": false,
-		"inline": true
+		"inline": true,
+		"comaSeparated": true
 	}
 }
