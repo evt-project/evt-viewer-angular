@@ -1,10 +1,11 @@
+import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { BibliographicEntry, ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
+import { ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { getOuterHTML } from 'src/app/utils/dom-utils';
-import { chainFirstChildTexts } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
 
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
@@ -14,6 +15,9 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
     parallelPassageParser = createParser(AnalogueParser, this.genericParse);
 
+    biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
+    elementAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+
     public parse(quoteEntry: XMLElement): QuoteEntry {
         return {
             type: QuoteEntry,
@@ -21,8 +25,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(quoteEntry),
             text: chainFirstChildTexts(quoteEntry),
             content: parseChildren(quoteEntry, this.genericParse),
-            sources: this.getSources(quoteEntry),
-            extSources: this.getExternalSources(quoteEntry),
+            sources: this.getInsideSources(quoteEntry),
+            extSources: getExternalSources(quoteEntry, this.elementAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
             ref: this.getParallelPassages(quoteEntry),
             class: quoteEntry.tagName.toLowerCase(),
             originalEncoding: getOuterHTML(quoteEntry),
@@ -34,7 +38,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getSources(quote: XMLElement): any {
+    private getInsideSources(quote: XMLElement): any {
         const bibl = ['bibl'];
         const biblList = ['listBibl'];
 
@@ -60,25 +64,5 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
                 ) ? this.parallelPassageParser.parse(x) : null)
             .filter((x) => x);
     }
-
-     /**
-     * Retrieve external bibliography element outside the analogue element
-     * This first solution is brutal: it searches all document for a bibl with the correct xml:id
-     * it would be faster if we knew the id or unique element to search in
-     * @param analogue XMLElement
-     * @returns array of Bibliography Element
-     */
-    private getExternalSources(analogue: XMLElement): BibliographicEntry[] {
-        const sourcesToFind = [analogue.getAttribute('target'), analogue.getAttribute('source')]
-                .filter((x) => x)
-                .map((x) => x.replace('#',''));
-
-        const sourcesFound = Array.from(analogue.ownerDocument.querySelectorAll<XMLElement>('bibl'))
-                .filter((x) => sourcesToFind.includes(x.getAttribute('xml:id')))
-                .map((x) => this.biblParser.parse(x));
-
-        return sourcesFound;
-    }
-
 
 }

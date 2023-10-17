@@ -11,13 +11,13 @@ export class SourcesComponent implements OnInit {
   @Input() pageID : string;
 
   public entries;
-  private appClasses = ['quote'];  //todo: config?
+  private appClasses = ['quote'];
 
   public quotesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
   public getEntries(data) {
     this.entries = data.flat();
-    console.log(this.entries);
+    //console.log('quotes in this page',this.entries);
   }
 
   constructor(
