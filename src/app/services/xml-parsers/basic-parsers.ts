@@ -4,7 +4,7 @@ import {
     Addition, Attributes, BibliographicEntry, BibliographicList, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
     Paragraph, ParallelPassage, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
-import { isNestedInElem, xpath } from '../../utils/dom-utils';
+import { getOuterHTML, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 
@@ -337,6 +337,9 @@ export class BiblParser extends GenericElemParser {
     protected getChildrenByName = function(xml : XMLElement, name : string) {
         return Array.from(xml.querySelectorAll<XMLElement>(name)).map((x) => this.getTrimmedText(x));
     }
+    protected getChildrenByNameOnFirstLevelOnly = function(xml : XMLElement, name : string) {
+        return Array.from(xml.querySelectorAll<XMLElement>(':scope > '+name)).map((x) => this.getTrimmedText(x));
+    }
 }
 
 export class ListBiblParser extends GenericElemParser {
@@ -388,6 +391,7 @@ export class ParallelPassageParser extends ListBiblParser implements Parser<XMLE
             text: (xml.firstChild) ? xml.firstChild.nodeValue : '',
             content: parseChildren(xml, this.genericParse),
             sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
+            originalEncoding: getOuterHTML(xml),
         };
     }
 }

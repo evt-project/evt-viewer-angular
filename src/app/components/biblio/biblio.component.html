@@ -1,0 +1,9 @@
+<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry' || data.type.name === 'ParallelPassage')">
+    <ng-container *ngFor="let element of showList | keyvalue">
+        <ng-container *ngIf="showEmptyValues || data[element.value].length > 0"> 
+            <ng-container *ngIf="showAttrNames">{{element.value}}: </ng-container>
+            {{data[element.value]}} 
+            <br *ngIf="!inline && data[element.value].length > 0">
+        </ng-container>
+    </ng-container>
+</ng-container>

@@ -200,6 +200,7 @@ export class ParallelPassage extends GenericElement {
     id: string;
     text: string;
     sources: BibliographicEntry[];
+    originalEncoding: string;
 }
 
 export class Reading extends GenericElement {
