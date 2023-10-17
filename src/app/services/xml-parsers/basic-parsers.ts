@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Attributes, BibliographicEntry, BibliographicList, Damage, Deletion, Gap, GenericElement, Lb, Note, NoteLayout,
-    Paragraph, ParallelPassage, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Ptr, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { getOuterHTML, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { replaceMultispaces } from '../../utils/xml-utils';
@@ -360,8 +360,8 @@ export class BibliographyParser extends BiblParser implements Parser<XMLElement>
             publisher: this.getChildrenByName(xml,'publisher'),
             pubPlace: this.getChildrenByName(xml,'pubBlace'),
             citedRange: this.getChildrenByName(xml,'citedRange'),
-            content: [],
-            //content: parseChildren(xml, this.genericParse),
+            content: parseChildren(xml, this.genericParse),
+            originalEncoding: getOuterHTML(xml),
         };
     }
 }
@@ -374,24 +374,8 @@ export class BibliographyListParser extends ListBiblParser implements Parser<XML
             id: getID(xml),
             attributes: this.attributeParser.parse(xml),
             head: Array.from(xml.querySelectorAll<XMLElement>('head')).map((x) => x.textContent),
-            content: parseChildren(xml, this.genericParse),
             sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
-        };
-    }
-}
-
-
-@xmlParser('ref', ParallelPassageParser)
-export class ParallelPassageParser extends ListBiblParser implements Parser<XMLElement> {
-    parse(xml: XMLElement): ParallelPassage {
-        return {
-            type: ParallelPassage,
-            id: getID(xml),
-            attributes: this.attributeParser.parse(xml),
-            text: (xml.firstChild) ? xml.firstChild.nodeValue : '',
             content: parseChildren(xml, this.genericParse),
-            sources: Array.from(xml.querySelectorAll<XMLElement>('bibl')).map((x) => this.biblParser.parse(x)),
-            originalEncoding: getOuterHTML(xml),
         };
     }
 }

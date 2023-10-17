@@ -35,6 +35,10 @@ export class ParserRegister {
         if (quote.includes(tagName)) {
             return 'evt-quote-entry-parser';
         }
+        const ref = ['ref','seg'];
+        if (ref.includes(tagName)) {
+            return 'evt-analogue-entry-parser';
+        }
 
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
             return 'evt-generic-elem-parser';

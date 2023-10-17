@@ -14,6 +14,7 @@ import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-par
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 import { QuoteEntriesParserService } from './xml-parsers/quote-entries-parser.service';
+import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -144,10 +145,17 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  //QUOTED SOURCES
   public readonly quoteEntries$ = this.editionSource$.pipe(
     map((source) => this.quoteParser.parseQuoteEntries(source)),
     shareReplay(1),
   );
+
+  // PARALLEL PASSAGES
+  public readonly analogueEntries$ = this.editionSource$.pipe(
+    map((source) => this.analogueParser.parseAnaloguesEntries(source)),
+    shareReplay(1),
+  )
 
   // FACSIMILE
   public readonly surfaces$ = this.editionSource$.pipe(
@@ -200,6 +208,7 @@ export class EVTModelService {
     private linesVersesParser: LinesVersesParserService,
     private msDescParser: MsDescParserService,
     private quoteParser: QuoteEntriesParserService,
+    private analogueParser: AnalogueEntriesParserService,
   ) {
   }
 
