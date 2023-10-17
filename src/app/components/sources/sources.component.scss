@@ -10,9 +10,10 @@
 }
 
 .source-detail-content {
-    display: block !important;
+    display: inline-flex !important;
     background-color: unset !important;
     padding-bottom: 0.6em !important;
+    pointer-events: none;
 }
 
 .source-quote-button {

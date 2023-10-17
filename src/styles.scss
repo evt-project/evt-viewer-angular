@@ -212,17 +212,22 @@ evt-analogue-entry evt-analogue-detail > div {
     margin-left: 1em;
 }
 
-*[data-source]:hover {
-    border: 0.5px dotted #02368136;
-    transition: 0.5s;
-    border-start-end-radius: 5px;
+.source-detail-content p {
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
-*[data-source] {
-    border: 0.5px dotted transparent;
+evt-analogue-detail .verse-num,
+evt-source-detail .verse-num {
+    display: none !important;
 }
 
-*[data-source]:hover > evt-source-note {
-    transition: 0.5s;
-    filter: sepia(1);
+evt-analogue-entry evt-paragraph,
+evt-quote-entry evt-paragraph {
+    display: inline-block;
+}
+
+evt-analogue-entry evt-paragraph p,
+evt-quote-entry evt-paragraph p {
+    margin-bottom:0;
 }

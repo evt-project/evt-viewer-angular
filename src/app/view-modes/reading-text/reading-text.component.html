@@ -28,7 +28,9 @@
                         <ng-template ngbNavContent>
                             <evt-sources
                                 [pageID]="currentPageID$ | async"
-                                (pageChange)="changePage($event)">
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
                             </evt-sources>
                         </ng-template>
                     </li>
@@ -37,7 +39,9 @@
                         <ng-template ngbNavContent>
                             <evt-analogues
                                 [pageID]="currentPageID$ | async"
-                                (pageChange)="changePage($event)">
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
                             </evt-analogues>
                         </ng-template>
                     </li>
