@@ -237,8 +237,9 @@ export function updateCSS(rules: Array<[string, string]>) {
   });
 }
 
-export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[]) {
+export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[], limit: number = 4000) {
   const results = [];
+  let counter = limit;
   function search(obj) {
     for (const key in obj) {
       const value = obj[key];
@@ -246,7 +247,12 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[]) {
         results.push(obj);
       }
       if (typeof value === 'object' && value !== null) {
-        search(value);
+        if (counter > 0) {
+          search(value);
+          counter = counter - 1;
+        } else {
+          console.log('element is too deep, not searching further in', obj);
+        }
       }
     }
   }

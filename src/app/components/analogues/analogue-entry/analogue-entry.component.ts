@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionLayoutData } from '../../../directives/editorial-convention-layout.directive';
 
-import { Analogue, AnalogueClass } from '../../../models/evt-models';
+import { Analogue, AnalogueClass, Note } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
@@ -17,10 +17,16 @@ export interface AnalogueEntryComponent { }
   styleUrls: ['./analogue-entry.component.scss','../../sources/sources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnalogueEntryComponent {
-  @Input() data: Analogue;
+export class AnalogueEntryComponent implements OnInit {
+
+  public _data: Analogue;
 
   private edLevel: EditionLevelType;
+
+  @Input() set data(dt: Analogue) {
+    this._data = dt;
+  }
+
   @Input() set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
     this.editionLevelChange.next(el);
@@ -37,7 +43,11 @@ export class AnalogueEntryComponent {
     };
   }
 
+  get data() { return this._data; }
+
   public analogueClass = AnalogueClass;
+
+  public dataForNote = {};
 
   public opened = false;
 
@@ -58,6 +68,25 @@ export class AnalogueEntryComponent {
 
   stopPropagation(e: MouseEvent) {
     e.stopPropagation();
+  }
+
+  /** If the element has no text then it's displayed as a note.*/
+  createNote(v): Note|{} {
+
+    return {
+      type: Note,
+      noteType: 'analogue',
+      noteLayout: 'popover',
+      exponent: v.path || '',
+      content: v.extLinkedElements || v.extSources || {},
+      attributes: v.attributes || [],
+    }
+  }
+
+  ngOnInit() {
+    if (this.data.text.length === 0) {
+      this.dataForNote = this.createNote(this.data);
+    }
   }
 
   constructor(
