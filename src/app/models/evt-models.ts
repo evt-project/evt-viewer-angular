@@ -170,6 +170,38 @@ export class ApparatusEntry extends GenericElement {
     nestedAppsIDs: string[];
 }
 
+export class QuoteEntry extends GenericElement {
+    id: string;
+    text: string;
+    sources: BibliographicEntry[]|BibliographicList;
+    ref: ParallelPassage[];
+    originalEncoding: string;
+    //rend: string;
+}
+
+export class BibliographicList extends GenericElement {
+    id: string;
+    head: string[];
+    sources: BibliographicEntry[];
+}
+
+export class BibliographicEntry extends GenericElement {
+    id: string;
+    author: string[];
+    editor: string[];
+    title: string[];
+    date: string[];
+    publisher: string[];
+    pubPlace: string[];
+    citedRange: string[];
+}
+
+export class ParallelPassage extends GenericElement {
+    id: string;
+    text: string;
+    sources: BibliographicEntry[];
+}
+
 export class Reading extends GenericElement {
     id: string;
     witIDs: string[];
@@ -450,13 +482,13 @@ export class MsItemStruct extends GenericElement {
     titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric: Rubric;
     incipit: Incipit;
-    quote: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
+    quote: Array<ParseResult<QuoteEntry>>; // TODO: Add specific type when quote is handled
     explicit: Explicit;
     finalRubric: FinalRubric;
     colophons: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
     decoNote: DecoNote;
-    listBibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    listBibl: Array<ParseResult<BibliographicList>>; // TODO: Add specific type when listBibl is handled
+    bibl: Array<ParseResult<BibliographicEntry>>; // TODO: Add specific type when bibl is handled
     filiation: Filiation[];
     noteEl: Note[];
     textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled

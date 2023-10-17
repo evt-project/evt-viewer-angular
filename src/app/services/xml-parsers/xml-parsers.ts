@@ -38,6 +38,7 @@ import {
     NamedEntitiesListParser, NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser, RelationParser,
 } from './named-entity-parsers';
+import { QuoteParser } from './quotes-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
@@ -165,6 +166,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     PublicationStmtParser,
     PunctuationParser,
     PurposeParser,
+    QuoteParser,
     QuotationParser,
     RdgParser,
     RecordHistParser,
