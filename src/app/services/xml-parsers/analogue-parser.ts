@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
+import { BibliographicEntry, GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -14,6 +14,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
+    parallelPassageMarker = AppConfig.evtSettings.edition.parallelPassageMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
@@ -37,6 +38,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
             content: parseChildren(analogue, this.genericParse),
             sources: sources.sources,
             extSources: sources.extSources,
+            quotedText: this.getQuotedTextFromSources(sources.sources.concat(sources.extSources)),
             originalEncoding: getOuterHTML(analogue),
         };
     }
@@ -52,8 +54,9 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
 
         const sources = this.getSources(analogue);
         const extSources = getExternalSources(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x));
+        const hasPPAttribute = this.parallelPassageMarker.includes(analogue.getAttribute('type'));
 
-        if ((sources.length === 0 && extSources.length === 0) && (analogue.getAttribute('type') !== 'parallelPassage')) {
+        if ((sources.length === 0 && extSources.length === 0) && (!hasPPAttribute)) {
             return false;
         }
 
@@ -75,5 +78,13 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
                 biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
             .filter((x) => x);
     }
+
+    private getQuotedTextFromSources(nodes: BibliographicEntry[]): string[] {
+        const quotesInSources = [];
+        nodes.forEach((el: BibliographicEntry) => quotesInSources.push({ id: el.id, quote: el.quotedText }));
+
+        return quotesInSources;
+    }
+
 
 }

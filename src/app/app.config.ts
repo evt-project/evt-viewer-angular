@@ -6,6 +6,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { ViewMode, ViewModeId } from './models/evt-models';
 import { Attributes, EditorialConventionLayout } from './models/evt-models';
+import { updateCSS } from './utils/dom-utils';
 
 @Injectable()
 export class AppConfig {
@@ -31,6 +32,7 @@ export class AppConfig {
                 ]).pipe(
                     map(([ui, edition, editorialConventions]) => {
                         console.log(ui, edition, files);
+                        this.updateStyleFromConfig(edition);
                         // Handle default values => TODO: Decide how to handle defaults!!
                         if (ui.defaultLocalization) {
                             if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enable)) {
@@ -53,7 +55,24 @@ export class AppConfig {
             });
         });
     }
+
+    /**
+     * Update once general css with values from config,
+     * this way we don't need to inject a style property in each element
+     * @param edition EditionConfig
+     */
+    updateStyleFromConfig(edition: EditionConfig) {
+        const rules = {
+            '.analogueEntry .opened': `background-color: ${edition.readingColorDark}`,
+            '.analogueEntry:hover': `background-color: ${edition.readingColorLight} `,
+            '.quoteEntry .opened': `background-color: ${edition.readingColorDark}`,
+            '.quoteEntry:hover': `background-color: ${edition.readingColorLight}`,
+        };
+        Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
+    }
+
 }
+
 export interface EVTConfig {
     ui: UiConfig;
     edition: EditionConfig;
@@ -110,6 +129,8 @@ export interface EditionConfig {
 		inline: boolean;
         comaSeparated: boolean;
 	}>;
+    parallelPassageMarkers: string[];
+    sourcesExcludedFromListByParent: string[];
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

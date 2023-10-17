@@ -1,7 +1,7 @@
 import { xmlParser } from '.';
+import { GenericElemParser } from './basic-parsers';
 import { BibliographicEntry, BibliographicList, BibliographicStructEntry, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 
 export class BiblParser extends GenericElemParser {
@@ -16,6 +16,14 @@ export class BiblParser extends GenericElemParser {
     }
     protected getChildrenTextAndSpecificAttribute = function(xml: XMLElement, name: string, attribute: string) {
         return Array.from(xml.querySelectorAll<XMLElement>(name)).map((x) => x.getAttribute(attribute)+' '+this.getTrimmedText(x));
+    }
+    protected getQuoteElementText(element: XMLElement): string {
+        const search = Array.from(element.querySelectorAll<XMLElement>('quote'));
+        if (search.length !== 0) {
+            return search[0].textContent;
+        }
+
+        return '';
     }
 }
 
@@ -40,6 +48,7 @@ export class BibliographyParser extends BiblParser implements Parser<XMLElement>
             biblScope: this.getChildrenTextAndSpecificAttribute(xml, 'biblScope', 'unit'),
             content: parseChildren(xml, this.genericParse),
             text: xml.textContent,
+            quotedText: this.getQuoteElementText(xml),
             insideCit: (xml.parentNode['tagName'] === 'cit'),
             originalEncoding: getOuterHTML(xml),
         };

@@ -31,15 +31,16 @@ export class ParserRegister {
         if (crit.includes(tagName)) {
             return 'evt-apparatus-entry-parser';
         }
-        const quote = ['quote'];
+        const quote = ['quote', 'cit'];
         if (quote.includes(tagName)) {
             return 'evt-quote-entry-parser';
         }
-        const ref = ['ref', 'seg'];
-        if (ref.includes(tagName)) {
+        /*
+        const refs = ['ref', 'seg'];
+        if (refs.includes(tagName)) {
             return 'evt-analogue-entry-parser';
         }
-
+        */
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
             return 'evt-generic-elem-parser';
         }
