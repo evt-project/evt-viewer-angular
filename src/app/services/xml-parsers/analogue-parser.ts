@@ -1,8 +1,10 @@
+import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
 import { ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
+import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
@@ -11,54 +13,39 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
-    public parse(quoteEntry: XMLElement): ParallelPassage {
+    biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
+    elementAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+
+    public parse(analogue: XMLElement): ParallelPassage {
         return {
             type: ParallelPassage,
-            id: getID(quoteEntry),
-            attributes: this.attributeParser.parse(quoteEntry),
-            text: this.chainFirstChildTexts(quoteEntry),
-            content: parseChildren(quoteEntry, this.genericParse),
-            attrTarget: quoteEntry.getAttribute('target'),
-            attrSource: quoteEntry.getAttribute('source'),
-            sources: this.getSources(quoteEntry),
-            class: quoteEntry.tagName.toLowerCase(),
-            originalEncoding: getOuterHTML(quoteEntry),
+            id: getID(analogue),
+            attributes: this.attributeParser.parse(analogue),
+            text: chainFirstChildTexts(analogue),
+            content: parseChildren(analogue, this.genericParse),
+            attrTarget: analogue.getAttribute('target'),
+            attrSource: analogue.getAttribute('source'),
+            sources: this.getSources(analogue),
+            extSources: getExternalSources(analogue, this.elementAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
+            class: analogue.tagName.toLowerCase(),
+            originalEncoding: getOuterHTML(analogue),
         };
     }
 
     /**
-    * Significant text can be split inside two or more text evt-element, especially if contains new line characters.
-    * This function returns a string with all the text element chained
-    * @param n XMLElement
-    * @returns string
-    */
-    private chainFirstChildTexts(n: XMLElement): string {
-        const evtTextElement = '#text';
-        let out = '';
-        n.childNodes.forEach((x) => (x.nodeName === evtTextElement) ? out += x.nodeValue : '')
-
-        return out;
-    }
-
-    /**
-     * Retrieve and send to parsing all Bibliography elements inside this quote element
+     * Retrieve all Bibliography elements inside this analogue element
+     * if referred with the proper attribute.
      * @param quote XMLElement
      * @returns array of Bibliography Element or a single Bibliography List element
      */
-    private getSources(quote: XMLElement): any {
+    private getSources(analogue: XMLElement): any {
         const bibl = ['bibl'];
         const biblList = ['listBibl'];
-        //get "corresp" e "source" attr
 
-        return Array.from(quote.children)
+        return Array.from(analogue.children)
             .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : (
                 biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
             .filter((x) => x);
     }
-
-    //get SEC
-
-    //get REF
-    //attr 'target' with referral in external bibliography with corresp xml:id attrb
 
 }

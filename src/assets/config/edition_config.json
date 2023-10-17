@@ -105,5 +105,15 @@
 	"defaultTextFlow": "prose",
 	"verseNumberPrinter": 5,
 	"readingColorLight": "rgb(208, 220, 255)",
-	"readingColorDark": "rgb(101, 138, 255)"
+	"readingColorDark": "rgb(101, 138, 255)",
+	"externalBibliography": {
+		"biblAttributeToMatch": "xml:id",
+		"elementAttributesToMatch": ["target","source"]
+	},
+	"biblView": {
+		"propToShow": ["author","title","date","editor","publisher","pubPlace","citedRange"],
+		"showAttrNames": false,
+		"showEmptyValues": false,
+		"inline": true
+	}
 }

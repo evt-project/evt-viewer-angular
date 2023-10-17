@@ -99,6 +99,16 @@ export interface EditionConfig {
     verseNumberPrinter: number;
     readingColorLight: string;
     readingColorDark: string;
+    externalBibliography: Partial<{
+        biblAttributeToMatch: string,
+        elementAttributesToMatch: string[]
+    }>;
+    biblView: Partial<{
+		propToShow: string[];
+		showAttrNames: boolean;
+		showEmptyValues: boolean;
+		inline: boolean;
+	}>;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';
