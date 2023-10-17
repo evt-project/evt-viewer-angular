@@ -1,53 +1,6 @@
 <ng-container *ngFor="let analogue of analogues"> 
 
-    <div class="source-container">
-        
-        <div class="card-body app-detail-content source-detail-content">
-            <span class="btn btn-sm transparent source-quote-button">☚</span>
-            <span class="source-quote-symbol">&#10077;</span>
-            <span title="analogue-text">{{analogue.text}}</span>
-        </div>
-
-        <div class="card-footer app-detail-tabs" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
-            <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
-
-                <li ngbNavItem="refBibl">
-                    <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
-                    <ng-template ngbNavContent>
-
-                        <ng-container *ngIf="analogue.sources.length > 0">
-                            <h3 class="sources-cat">{{'QuotedSources' | translate}}</h3>
-                            <evt-biblio-list [data]="analogue"></evt-biblio-list>
-                        </ng-container>
-
-                        <ng-container *ngIf="analogue.extSources.length > 0">
-                            <h3 class="sources-cat">{{'ParallelPassageIn' | translate}}</h3>
-                            <ul>
-                                <ng-container *ngFor="let extBibl of analogue.extSources">
-                                    <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
-                                </ng-container>
-                            </ul>
-                        </ng-container>
-
-                    </ng-template>
-                </li>
-
-                <li ngbNavItem="xml" *ngIf="analogue.originalEncoding">
-                    <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
-                    <ng-template ngbNavContent>
-                        <pre>{{ analogue.originalEncoding | xmlBeautify }}</pre>
-                        <pre *ngIf="analogue.extSources">
-                            <ng-container *ngFor="let extBiblXML of analogue.extSources">
-                                {{ extBiblXML.originalEncoding | xmlBeautify }}
-                            </ng-container>
-                        </pre>
-                    </ng-template>
-                </li>
-            </ul>
-            <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
-        </div>
-
-    </div>
+    <evt-analogue-detail [analogue]="analogue"></evt-analogue-detail>
 
 </ng-container>
 

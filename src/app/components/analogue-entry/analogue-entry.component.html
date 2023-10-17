@@ -1,7 +1,0 @@
-<span class="analogueEntry {{ data.class }}" (click)="toggleOpened$.next()" 
-    [ngClass]="{
-        opened: opened$ | async,
-        quoteHighlight: quoteHighlight$ | async
-    }" [evtHighlight]="highlightData" [evtHtmlAttributes]="data?.attributes" [evtEditorialConventionLayout]="editorialConventionData">
-    {{data.text}}
-</span>

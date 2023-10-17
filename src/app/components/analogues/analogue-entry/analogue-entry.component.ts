@@ -3,23 +3,26 @@ import { combineLatest, Subject } from 'rxjs';
 import { map, scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionDefaults } from 'src/app/services/editorial-conventions.service';
-import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
+import { EditorialConventionLayoutData } from '../../../directives/editorial-convention-layout.directive';
 
-import { ParallelPassage } from '../../models/evt-models';
-import { register } from '../../services/component-register.service';
-import { EVTStatusService } from '../../services/evt-status.service';
-import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
+import { ParallelPassage } from '../../../models/evt-models';
+import { register } from '../../../services/component-register.service';
+import { EVTStatusService } from '../../../services/evt-status.service';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../../components-mixins';
 
 export interface AnalogueEntryComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-analogue-entry',
   templateUrl: './analogue-entry.component.html',
-  styleUrls: ['./analogue-entry.component.scss'],
+  styleUrls: ['./analogue-entry.component.scss','../../sources/sources.component.scss'],
 })
 @register(ParallelPassage)
 export class AnalogueEntryComponent {
+
   @Input() data: ParallelPassage;
+
+  public opened = false;
 
   toggleOpened$ = new Subject<boolean | void>();
   opened$ = this.toggleOpened$.pipe(
@@ -45,6 +48,20 @@ export class AnalogueEntryComponent {
 
   get defaultsKey(): EditorialConventionDefaults {
     return 'analoguePassage';
+  }
+
+  toggleAppEntryBox(e: MouseEvent) {
+    e.stopPropagation();
+    console.log('ho aperto');
+    this.opened = !this.opened;
+  }
+
+  closeAppEntryBox() {
+    this.opened = false;
+  }
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
   constructor(
