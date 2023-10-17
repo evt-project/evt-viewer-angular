@@ -41,7 +41,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
             return search[0].textContent;
         }
 
-        return '';
+        return null;
     }
 
     parse(xml: XMLElement): any {

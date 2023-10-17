@@ -88,7 +88,9 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             if (el.type === BibliographicList) {
                 quotesInSources = quotesInSources.concat(this.getQuotedTextFromSources(el['sources']));
             } else {
-                quotesInSources.push({ id: el.id, quote: el['quotedText'] })
+                if (el['quotedText'] !== null) {
+                    quotesInSources.push({ id: el.id, quote: el['quotedText'] });
+                }
             };
         });
 
