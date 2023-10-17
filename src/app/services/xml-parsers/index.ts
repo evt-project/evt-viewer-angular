@@ -27,11 +27,7 @@ export class ParserRegister {
         if (nels.includes(tagName)) {
             return 'evt-named-entities-list-parser';
         }
-        const noteDisambiguation = ['note'];
-        if (noteDisambiguation.includes(tagName)) {
-            return 'evt-sources-disambiguation';
-        }
-        const quote = ['quote', 'cit'];
+        const quote = ['quote', 'cit', 'note']; //ref and seg?
         if (quote.includes(tagName)) {
             return 'evt-quote-entry-parser';
         }

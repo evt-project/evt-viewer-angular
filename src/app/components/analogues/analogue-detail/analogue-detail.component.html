@@ -1,7 +1,7 @@
 <div class="source-container" 
-    *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0 || analogue.text.length > 0">
+    *ngIf="((analogue.sources.length > 0) || (analogue.extSources.length > 0) || (analogue.text.length > 0))">
         
-    <div class="card-body app-detail-content source-detail-content">
+    <div class="card-body app-detail-content source-detail-content" *ngIf="analogue.text.length > 1">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
         <span class="source-quote-symbol">&#10077;</span>
         <span title="analogue-text">{{analogue.text}}</span>
