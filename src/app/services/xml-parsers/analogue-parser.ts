@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { BibliographicEntry, GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
+import { AnalogueClass, BibliographicEntry, GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -32,7 +32,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
         return {
             type: ParallelPassage,
             id: getID(analogue),
-            class: 'analogueEntry',
+            class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
             text: chainFirstChildTexts(analogue),
             content: parseChildren(analogue, this.genericParse),

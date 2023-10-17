@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-footer app-detail-tabs" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
-        <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
+        <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="quotedText" *ngIf="analogue.quotedText.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
@@ -51,7 +51,7 @@
                 </ng-template>
             </li>
         </ul>
-        <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
+        <div [ngbNavOutlet]="analogueEntryTab" class="tab-content"></div>
     </div>
 
 </div>

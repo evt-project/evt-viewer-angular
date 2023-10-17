@@ -170,6 +170,9 @@ export class ApparatusEntry extends GenericElement {
     nestedAppsIDs: string[];
 }
 
+export const SourceClass = 'sourceEntry';
+export const AnalogueClass = 'analogueEntry';
+
 export class QuoteEntry extends GenericElement {
     id: string;
     tagName: string;
