@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { combineLatest, Subject } from 'rxjs';
-import { map, scan, startWith } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Subject } from 'rxjs';
+import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionDefaults } from 'src/app/services/editorial-conventions.service';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
@@ -8,16 +8,19 @@ import { EditorialConventionLayoutData } from '../../directives/editorial-conven
 import { QuoteEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTStatusService } from '../../services/evt-status.service';
-import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, TextFlowSusceptible } from '../components-mixins';
 
-export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
+export interface QuoteEntryComponent extends EditionlevelSusceptible, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-quote-entry',
   templateUrl: './quote-entry.component.html',
   styleUrls: ['./quote-entry.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 @register(QuoteEntry)
+
 export class QuoteEntryComponent {
 
   @Input() data: QuoteEntry;
@@ -28,13 +31,6 @@ export class QuoteEntryComponent {
   opened$ = this.toggleOpened$.pipe(
     scan((currentState: boolean, val: boolean | undefined) => val === undefined ? !currentState : val, false),
     startWith(false),
-  );
-
-  quoteHighlight$ = combineLatest([
-    this.opened$,
-    this.evtStatusService.currentQuotedId$,
-  ]).pipe(
-    map(([opened, currentId]) => currentId === this.data.id && !opened),
   );
 
   get editorialConventionData(): EditorialConventionLayoutData {
