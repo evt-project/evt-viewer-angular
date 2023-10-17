@@ -4,7 +4,7 @@ import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, Generic
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
-import { chainFirstChildTexts, getExternalElements } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
 
 export class BasicParser {
@@ -37,7 +37,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             id: getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
-            text: chainFirstChildTexts(analogue),
+            text: normalizeSpaces(chainFirstChildTexts(analogue)),
             content: parseChildren(analogue, this.genericParse),
             sources: sources.sources,
             extSources: sources.extSources,
@@ -57,8 +57,8 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     private isAnaloguePassage(analogue: XMLElement): any {
 
         const sources = this.getSources(analogue);
-        const elements = 'bibl, cit, note, seg';
-        const extSources = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elements)
+        const elementsAllowedForSources = 'bibl, cit, note, seg';
+        const extSources = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForSources)
             .map((x) => this.biblParser.parse(x));
         const hasPPAttribute = this.analogueMarker.includes(analogue.getAttribute('type'));
 
@@ -100,8 +100,8 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     }
 
     private getParallelElements(analogue: XMLElement): any {
-        const elements = 'l, p, div, seg, bibl';
-        const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elements);
+        const elementsAllowedForExternal = 'l, p, div, seg, bibl';
+        const extMatched = getExternalElements(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch, elementsAllowedForExternal);
         let simplifiedElements = [];
 
         simplifiedElements = extMatched.map((x) => this.elementParser.parse(x));
