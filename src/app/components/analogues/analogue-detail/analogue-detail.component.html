@@ -24,16 +24,12 @@
 
                     <ng-container *ngIf="analogue.sources.length > 0">
                         <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
-                        <evt-biblio-list [data]="analogue"></evt-biblio-list>
+                        <evt-biblio-list [data]="analogue.sources"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="analogue.extSources.length > 0">
                         <h3 class="sources-cat">{{'analogueIn' | translate}}</h3>
-                        <ul>
-                            <ng-container *ngFor="let extBibl of analogue.extSources">
-                                <li><evt-biblio-entry [data]="extBibl"></evt-biblio-entry></li>
-                            </ng-container>
-                        </ul>
+                        <evt-biblio-list [data]="analogue.extSources"></evt-biblio-list>
                     </ng-container>
 
                 </ng-template>
@@ -45,7 +41,9 @@
                     <pre>{{ analogue.originalEncoding | xmlBeautify }}</pre>
                     <pre *ngIf="analogue.extSources">
                         <ng-container *ngFor="let extBiblXML of analogue.extSources">
-                            {{ extBiblXML.originalEncoding | xmlBeautify }}
+                            <ng-container *ngIf="extBiblXML.originalEncoding">
+                                {{ extBiblXML.originalEncoding | xmlBeautify }}
+                            </ng-container>
                         </ng-container>
                     </pre>
                 </ng-template>

@@ -1,18 +1,22 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { AnalogueClass, BibliographicEntry, GenericElement, Analogue, XMLElement } from '../../models/evt-models';
+import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
-import { createParser, getID, parseChildren, Parser } from './parser-models';
+import { AttributeParser, GenericElemParser } from './basic-parsers';
+import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
-import { BibliographyListParser, BibliographyParser } from './bilbliography-parsers';
+import { BibliographyParser } from './bilbliography-parsers';
+
+export class BasicParser {
+    genericParse: ParseFn;
+    constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
+}
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
-export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
+export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
 
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
-    listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
@@ -70,18 +74,23 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
      * @returns array of Bibliography Element or a single Bibliography List element
      */
     private getSources(analogue: XMLElement): any {
-        const bibl = ['bibl'];
-        const biblList = ['listBibl'];
+        const bibl = ['bibl','listBibl'];
 
         return Array.from(analogue.children)
-            .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : (
-                biblList.includes(x['tagName']) ? this.listBiblParser.parse(x) : null))
+            .map((x: XMLElement) => bibl.includes(x['tagName']) ? this.biblParser.parse(x) : null)
             .filter((x) => x);
     }
 
     private getQuotedTextFromSources(nodes: BibliographicEntry[]): string[] {
-        const quotesInSources = [];
-        nodes.forEach((el: BibliographicEntry) => quotesInSources.push({ id: el.id, quote: el.quotedText }));
+        let quotesInSources = [];
+
+        nodes.forEach((el: BibliographicEntry|BibliographicList) => {
+            if (el.type === BibliographicList) {
+                quotesInSources = quotesInSources.concat(this.getQuotedTextFromSources(el['sources']));
+            } else {
+                quotesInSources.push({ id: el.id, quote: el['quotedText'] })
+            };
+        });
 
         return quotesInSources;
     }
