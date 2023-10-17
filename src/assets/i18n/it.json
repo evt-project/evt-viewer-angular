@@ -175,6 +175,8 @@
     "criticalApparatus":"Apparato Critico",
     "sources": "Fonti",
     "analogues": "Passi Paralleli",
+    "source": "Fonte",
+    "analogue": "Passo Parallelo",
     "notes":"Note Critiche",
     "refBibl": "Riferimenti Bibliografici",
     "quotedSources": "Fonti citate",

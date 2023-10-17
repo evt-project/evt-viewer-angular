@@ -203,6 +203,11 @@ evt-analogue-entry evt-analogue-detail > div {
     margin: 0 !important;
 }
 
+.popover-body evt-quote-entry,
+.popover-body evt-analogue-entry {
+    pointer-events:none
+}
+
 .biblio-list li {
     margin-left: 1em;
 }

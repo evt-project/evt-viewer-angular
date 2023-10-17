@@ -44,6 +44,7 @@ export function removeSpaces(textContent: string) {
 * @returns string
 */
 export function chainFirstChildTexts(elem: XMLElement): string {
+  if (elem === undefined) { return ''};
   const evtTextElements = ['#text'];
   const evtTextComplexElements = ['choice', 'app', 'l', 'quote'];
   const textProperty = 'nodeValue';
@@ -65,15 +66,21 @@ export function chainDeepTexts(elem: ChildNode): string {
 
 /**
 * Retrieve external bibliography element outside the analogue element
-* This first solution is brutal: it searches all document for a bibl with the correct xml:id
-* it would be faster if we knew the id or unique element to search in
-* @param analogue XMLElement
-* @returns array of Bibliography Element
+* It searches all document for a bibl with the correct xml:id.
+* It would be faster if we knew the id or unique element to search in
+* @param element XMLElement
+* @param attrSourceNames
+* @param attrTargetName
+* @returns array of XMLElement
 */
-export function getExternalSources(elem: XMLElement, attrSourceNames: string[], attrTargetName: string): XMLElement[] {
+export function getExternalElements(elem: XMLElement, attrSourceNames: string[], attrTargetName: string, elTypes: string): XMLElement[] {
   const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
   const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));
 
-  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>('bibl, cit'))
+  if (sourcesToFind.length === 0) {
+    return [];
+  }
+
+  return Array.from(elem.ownerDocument.querySelectorAll<XMLElement>(elTypes))
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }
