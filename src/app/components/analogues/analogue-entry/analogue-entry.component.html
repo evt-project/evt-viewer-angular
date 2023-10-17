@@ -1,6 +1,6 @@
 <span class="analogueEntry {{ data.class }}" 
     (click)="toggleOpened$.next()" 
-    [ngClass]="{opened: opened$ | async, quoteHighlight: quoteHighlight$ | async}" 
+    [ngClass]="{opened: opened$ | async}" 
     [evtHtmlAttributes]="data?.attributes" 
     [evtEditorialConventionLayout]="editorialConventionData" 
     (click)="toggleAppEntryBox($event);"> {{data.text}}

@@ -182,20 +182,9 @@ body {
     font-size: 0.9rem;
 }
 
-/*
-.analogueEntry .genericElement {
-    text-decoration: underline dotted from-font;
+.quoteEntry:hover, .analogueEntry:hover {
     cursor: pointer;
 }
-
-.analogueEntry .genericElement:before {
-    content:"🗎";
-}
-
-.analogueEntry .genericElement:hover {
-    background-color: rgba(13, 110, 253, 0.25);
-}
-*/
 
 evt-biblio-entry span:last-of-type {
     display:none;
