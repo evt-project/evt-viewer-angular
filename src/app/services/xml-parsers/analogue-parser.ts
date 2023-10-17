@@ -1,8 +1,8 @@
 import { AppConfig } from 'src/app/app.config';
-import { xmlParser } from '.';
-import { ParallelPassage, XMLElement } from '../../models/evt-models';
+import { parse, xmlParser } from '.';
+import { GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
-import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
+import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalSources } from 'src/app/utils/xml-utils';
 
@@ -14,22 +14,48 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
-    elementAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
-    public parse(analogue: XMLElement): ParallelPassage {
+    public parse(analogue: XMLElement): GenericElement|ParallelPassage {
+
+        const sources = this.isAnaloguePassage(analogue);
+        if (!sources) {
+            // no sources not a parallel passage
+            const elementParser = createParser(GenericElemParser, parse);
+
+            return elementParser.parse(analogue)
+        }
+
         return {
             type: ParallelPassage,
             id: getID(analogue),
+            class: 'analogueEntry',
             attributes: this.attributeParser.parse(analogue),
             text: chainFirstChildTexts(analogue),
             content: parseChildren(analogue, this.genericParse),
-            attrTarget: analogue.getAttribute('target'),
-            attrSource: analogue.getAttribute('source'),
-            sources: this.getSources(analogue),
-            extSources: getExternalSources(analogue, this.elementAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
-            class: analogue.tagName.toLowerCase(),
+            sources: sources.sources,
+            extSources: sources.extSources,
             originalEncoding: getOuterHTML(analogue),
         };
+    }
+
+    /**
+     * Since elements like ref and seg are not only used for parallel passages,
+     * this function checks if the provided element contains an external link to a bibl element
+     * and returns that elements or a false
+     * @param analogue
+     * @returns any
+     */
+    private isAnaloguePassage(analogue: XMLElement): any {
+
+        const sources = this.getSources(analogue);
+        const extSources = getExternalSources(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x));
+
+        if ((sources.length === 0 && extSources.length === 0) && (analogue.getAttribute('type') !== 'parallelPassage')) {
+            return false;
+        }
+
+        return { 'sources': sources, 'extSources': extSources };
     }
 
     /**

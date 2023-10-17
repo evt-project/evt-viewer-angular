@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
-import { ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
+import { GenericElement, ParallelPassage, QuoteEntry, XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { AttributeParser, BibliographyListParser, BibliographyParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -16,7 +16,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
     parallelPassageParser = createParser(AnalogueParser, this.genericParse);
 
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
-    elementAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
     public parse(quoteEntry: XMLElement): QuoteEntry {
         return {
@@ -26,8 +26,8 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
             text: chainFirstChildTexts(quoteEntry),
             content: parseChildren(quoteEntry, this.genericParse),
             sources: this.getInsideSources(quoteEntry),
-            extSources: getExternalSources(quoteEntry, this.elementAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
-            ref: this.getParallelPassages(quoteEntry),
+            extSources: getExternalSources(quoteEntry, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x)),
+            ref: this.getInsideParallelPassages(quoteEntry),
             class: quoteEntry.tagName.toLowerCase(),
             originalEncoding: getOuterHTML(quoteEntry),
         };
@@ -54,7 +54,7 @@ export class QuoteParser extends EmptyParser implements Parser<XMLElement> {
      * @param quote XMLElement
      * @returns array of parallel passage elements
      */
-    private getParallelPassages(quote: XMLElement): ParallelPassage[] {
+    private getInsideParallelPassages(quote: XMLElement): ParallelPassage[]|GenericElement[] {
         const classList = ['ref']; // tutti i ref con type = 'parallelPassage'
         const parallelPassageType = 'parallelPassage';
 
