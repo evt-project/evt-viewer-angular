@@ -199,6 +199,7 @@ export class BibliographicEntry extends GenericElement {
     citedRange: string[];
     biblScope: string[];
     text: string;
+    quotedText: string;
     insideCit: boolean;
     originalEncoding: string;
 }
@@ -216,6 +217,7 @@ export class ParallelPassage extends GenericElement {
     text: string;
     sources: BibliographicEntry[];
     extSources: BibliographicEntry[];
+    quotedText: string[];
     originalEncoding: string;
 }
 

@@ -17,7 +17,6 @@ export class AnaloguesComponent implements OnInit {
 
   public getEntries(data) {
     this.analogues = data.flat();
-    console.log('analogues in this page',this.analogues);
   }
 
   constructor(

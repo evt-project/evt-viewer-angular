@@ -172,12 +172,13 @@
     "omit": "omit.",
     "wit": "Wit:",
     "xml": "XML",
-    "CriticalApparatus":"Apparato Critico",
-    "Sources": "Fonti",
-    "Analogues": "Passi Paralleli",
-    "Notes":"Note Critiche",
+    "criticalApparatus":"Apparato Critico",
+    "sources": "Fonti",
+    "analogues": "Passi Paralleli",
+    "notes":"Note Critiche",
     "refBibl": "Riferimenti Bibliografici",
-    "QuotedSources": "Fonti citate",
-    "References": "Riferimenti",
-    "ParallelPassageIn": "Passo parallelo in"
+    "quotedSources": "Fonti citate",
+    "quotedText": "Testo",
+    "references": "Riferimenti",
+    "parallelPassageIn": "Passo parallelo in"
 }

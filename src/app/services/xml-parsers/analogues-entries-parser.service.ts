@@ -7,25 +7,16 @@ import { ParallelPassage, XMLElement } from '../../models/evt-models';
 })
 export class AnalogueEntriesParserService {
 
-  private refTagName = 'ref';
-  private segTagName = 'seg';
+  private tagName = '.analogueEntry';
+  private parserName = 'evt-analogue-entry-parser';
 
   public parseAnaloguesEntries(document: XMLElement) {
-    return this.parseRefEntries(document).concat(this.parseSegEntries(document));
-  }
 
-  public parseRefEntries(document: XMLElement) {
-    const refParser = ParserRegister.get(this.refTagName);
+    const analogueParser = ParserRegister.get(this.parserName);
 
-    return Array.from(document.querySelectorAll<XMLElement>(this.refTagName))
-      .map((refEntry) => refParser.parse(refEntry) as ParallelPassage);
-  }
-
-  public parseSegEntries(document: XMLElement) {
-    const segParser = ParserRegister.get(this.segTagName);
-
-    return Array.from(document.querySelectorAll<XMLElement>(this.segTagName))
-      .map((segEntry) => segParser.parse(segEntry) as ParallelPassage);
+    return Array.from(document.querySelectorAll<XMLElement>(this.tagName))
+      .map((analogue) => analogueParser.parse(analogue) as ParallelPassage);
   }
 
 }
+
