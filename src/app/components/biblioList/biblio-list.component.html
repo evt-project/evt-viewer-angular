@@ -1,0 +1,17 @@
+<ul>
+    <ng-container *ngFor="let elem of data.sources">
+        <!-- checking if bibl is inside a listBibl-->
+        <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
+            <ng-container *ngIf="elem.head"> 
+                <span title="bibl-head">{{elem.head}}</span>
+            </ng-container>
+            <ng-container *ngFor="let biblo of elem.sources"> 
+                <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
+            </ng-container>
+        </ng-container>
+        <!-- bibl alone -->
+        <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicEntry'">
+            <li><evt-biblio-entry [data]="elem"></evt-biblio-entry></li>
+        </ng-container>
+    </ng-container>
+</ul>
