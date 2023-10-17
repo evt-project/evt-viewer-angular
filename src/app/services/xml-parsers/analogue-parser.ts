@@ -1,6 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, xmlParser } from '.';
-import { AnalogueClass, BibliographicEntry, GenericElement, ParallelPassage, XMLElement } from '../../models/evt-models';
+import { AnalogueClass, BibliographicEntry, GenericElement, Analogue, XMLElement } from '../../models/evt-models';
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
@@ -14,11 +14,11 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
     biblParser = createParser(BibliographyParser, this.genericParse);
     listBiblParser = createParser(BibliographyListParser, this.genericParse);
 
-    parallelPassageMarker = AppConfig.evtSettings.edition.parallelPassageMarkers;
+    analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
 
-    public parse(analogue: XMLElement): GenericElement|ParallelPassage {
+    public parse(analogue: XMLElement): GenericElement|Analogue {
 
         const sources = this.isAnaloguePassage(analogue);
         const insideCitElement = (analogue.parentElement.tagName === 'cit');
@@ -30,7 +30,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
         }
 
         return {
-            type: ParallelPassage,
+            type: Analogue,
             id: getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
@@ -54,7 +54,7 @@ export class AnalogueParser extends EmptyParser implements Parser<XMLElement> {
 
         const sources = this.getSources(analogue);
         const extSources = getExternalSources(analogue, this.elemAttributesToMatch, this.biblAttributeToMatch).map((x) => this.biblParser.parse(x));
-        const hasPPAttribute = this.parallelPassageMarker.includes(analogue.getAttribute('type'));
+        const hasPPAttribute = this.analogueMarker.includes(analogue.getAttribute('type'));
 
         if ((sources.length === 0 && extSources.length === 0) && (!hasPPAttribute)) {
             return false;

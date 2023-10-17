@@ -4,13 +4,13 @@ import { scan, startWith } from 'rxjs/operators';
 
 import { EditorialConventionLayoutData } from '../../../directives/editorial-convention-layout.directive';
 
-import { AnalogueClass, ParallelPassage } from '../../../models/evt-models';
+import { Analogue, AnalogueClass } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
 
 export interface AnalogueEntryComponent { }
-@register(ParallelPassage)
+@register(Analogue)
 @Component({
   selector: 'evt-analogue-entry',
   templateUrl: './analogue-entry.component.html',
@@ -18,7 +18,7 @@ export interface AnalogueEntryComponent { }
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalogueEntryComponent {
-  @Input() data: ParallelPassage;
+  @Input() data: Analogue;
 
   private edLevel: EditionLevelType;
   @Input() set editionLevel(el: EditionLevelType) {

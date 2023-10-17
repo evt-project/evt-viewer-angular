@@ -1,4 +1,4 @@
-<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry' || data.type.name === 'ParallelPassage')">
+<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry' || data.type.name === 'Analogue')">
 
     <ng-container *ngFor="let element of showList | keyvalue; let i = index">
         <ng-container *ngIf="showEmptyValues || (data[element.value] && data[element.value].length > 0)">

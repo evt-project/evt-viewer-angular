@@ -128,7 +128,7 @@ export interface EditionConfig {
 		inline: boolean;
         comaSeparated: boolean;
 	}>;
-    parallelPassageMarkers: string[];
+    analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
 }
 
