@@ -55,7 +55,7 @@
                 <ng-template ngbNavContent>
                     <pre>{{ analogue.originalEncoding | xmlBeautify }}</pre>
                     <!-- children bibl element -->
-                    <ng-container *ngIf="analogue.sources && analogue.insideCit">
+                    <ng-container *ngIf="analogue.sources">
                         <ng-container *ngFor="let sourceXML of analogue.sources">
                             <ng-container *ngIf="sourceXML.type.name === 'BibliographicList'">
                                 <ng-container *ngFor="let intBib of sourceXML.sources">
