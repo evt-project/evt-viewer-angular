@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Analogue } from 'src/app/models/evt-models';
 import { BehaviorSubject } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { EditionLevelType } from 'src/app/app.config';
 
 @Component({
@@ -11,7 +12,7 @@ export class AnalogueDetailComponent {
 
   private edLevel: EditionLevelType;
 
-  @Input() analogue;
+  @Input() analogue: Analogue;
 
   @Input() set editionLevel(el: EditionLevelType) {
     this.edLevel = el;

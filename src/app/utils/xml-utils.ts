@@ -53,7 +53,7 @@ export function normalizeSpaces(textContent: string) {
 * @returns string
 */
 export function chainFirstChildTexts(elem: XMLElement): string {
-  if (elem === undefined) { return ''};
+  if (elem === undefined) { return ''; };
   const evtTextElements = {
     '#text': 'nodeValue',
     'p': 'textContent',
@@ -134,7 +134,7 @@ export function getCorrespElement(fromElement: XMLElement, toXMLID: string) {
  * @param toXMLID string
  * @returns object { text: string, elements: any }
  */
-export function getSpanToElements(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
+export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
 
   if ((fromElement === null) || (fromElement === undefined) || (toXMLID === null)) {
     return { text: '', elements: [] };

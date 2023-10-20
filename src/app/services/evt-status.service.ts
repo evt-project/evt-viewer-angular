@@ -187,7 +187,7 @@ export class EVTStatusService {
         const pageContent = this.currentStatus$.pipe(
             map(({ page }) => page.parsedContent));
 
-        return pageContent.pipe(map((x) => deepSearch(x, 'class', classList)));
+        return pageContent.pipe(map((subElement) => deepSearch(subElement, 'class', classList)));
 
     }
 

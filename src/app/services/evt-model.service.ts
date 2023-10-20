@@ -197,6 +197,7 @@ export class EVTModelService {
   );
 
   constructor(
+    private analogueParser: AnalogueEntriesParserService,
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
     private namedEntitiesParser: NamedEntitiesParserService,
@@ -208,7 +209,6 @@ export class EVTModelService {
     private linesVersesParser: LinesVersesParserService,
     private msDescParser: MsDescParserService,
     private sourceParser: SourceEntriesParserService,
-    private analogueParser: AnalogueEntriesParserService,
   ) {
   }
 

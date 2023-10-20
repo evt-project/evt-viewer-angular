@@ -212,7 +212,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                 if (!anlgAttr.includes(element.getAttribute('type'))) {
                     out.sources.push( prsRg[element['tagName']].parse(element) );
                 } else {
-                    console.log('analogue inside',element['tagName']);
                     const analogueParsed = this.parse(element);
                     if (analogueParsed['contentToShow']) {
                         out.analogues.push( analogueParsed['contentToShow'] );

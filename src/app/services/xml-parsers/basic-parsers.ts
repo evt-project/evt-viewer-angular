@@ -5,7 +5,7 @@ import {
     Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { getExternalElements, getSpanToElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
+import { getContentBetweenElementAndId, getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { AppConfig } from 'src/app/app.config';
 import { AnalogueParser } from './analogue-parser';
@@ -94,7 +94,9 @@ export class ParagraphParser extends EmptyParser implements Parser<XMLElement> {
     quoteParser = createParser(QuoteParser, this.genericParse);
     sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
     analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
-    source = null; analogue = null;
+    source = null;
+    analogue = null;
+
     parse(xml: XMLElement): Paragraph {
 
         if (isAnalogue(xml, this.analogueMarkers)) {
@@ -144,7 +146,9 @@ export class NoteParser extends EmptyParser implements Parser<XMLElement> {
     quoteParser = createParser(QuoteParser, this.genericParse);
     sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
     analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
-    source = null; analogue = null;
+    source = null;
+    analogue = null;
+
     parse(xml: XMLElement): Note {
         const noteLayout: NoteLayout = this.isFooterNote(xml) || this.isNamedEntityNote(xml)
             || ['person', 'place', 'app', 'msDesc'].some((v) => isNestedInElem(xml, v))
@@ -415,7 +419,7 @@ export class TermParser extends GenericElemParser implements Parser<XMLElement> 
 export class MilestoneParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Milestone {
 
-        const elements = getSpanToElements(xml, xml.getAttribute('spanTo'));
+        const elements = getContentBetweenElementAndId(xml, xml.getAttribute('spanTo'));
         const parsedElements = elements.elements.map((x) => super.parse(x));
 
         return {
@@ -471,7 +475,7 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
             let parsedElements = [];
             const startingElement = getExternalElements(xml, ['from'], 'xml:id', 'anchor');
             if (startingElement.length > 0) {
-                included = getSpanToElements(startingElement[0], xml.getAttribute('to'));
+                included = getContentBetweenElementAndId(startingElement[0], xml.getAttribute('to'));
                 parsedElements = included.elements.map((x) => super.parse(x));
             }
 
