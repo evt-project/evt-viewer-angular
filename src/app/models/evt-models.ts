@@ -178,7 +178,7 @@ export class QuoteEntry extends GenericElement {
     id: string;
     tagName: string;
     text: string;
-    sources: BibliographicEntry[]|BibliographicList;
+    sources: BibliographicEntry[] | BibliographicList;
     extSources: BibliographicEntry[];
     extElements: any;
     analogues: any;

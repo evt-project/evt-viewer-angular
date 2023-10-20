@@ -24,9 +24,13 @@ import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
+import { AnalogueDetailComponent } from './components/analogues/analogue-detail/analogue-detail.component';
 import { ApparatusEntryDetailComponent } from './components/apparatus-entry/apparatus-entry-detail/apparatus-entry-detail.component';
 import { ApparatusEntryReadingsComponent } from './components/apparatus-entry/apparatus-entry-readings/apparatus-entry-readings.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
+import { BiblioEntryComponent } from './components/biblio/biblio.component';
+import { BiblioListComponent } from './components/biblioList/biblio-list.component';
 import { CharComponent } from './components/char/char.component';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { ContentViewerComponent } from './components/content-viewer/content-viewer.component';
@@ -126,10 +130,6 @@ import { SourcesComponent } from './components/sources/sources.component';
 import { SourceDetailComponent } from './components/sources/source-detail/source-detail.component';
 import { SourceNoteComponent } from './components/sources/source-note/source-note.component';
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
-import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
-import { AnalogueDetailComponent } from './components/analogues/analogue-detail/analogue-detail.component';
-import { BiblioEntryComponent } from './components/biblio/biblio.component';
-import { BiblioListComponent } from './components/biblioList/biblio-list.component';
 
 const routes: Routes = [
 ];
@@ -141,6 +141,7 @@ export function initializeApp(appConfig: AppConfig) {
 const DynamicComponents = [
   AdditionalComponent,
   AdditionComponent,
+  AnalogueEntryComponent,
   ApparatusEntryComponent,
   ApparatusEntryDetailComponent,
   ApparatusEntryReadingsComponent,
@@ -192,13 +193,16 @@ const DynamicComponents = [
   VersesGroupComponent,
   WordComponent,
   QuoteEntryComponent,
-  AnalogueEntryComponent,
 ];
 
 @NgModule({
   declarations: [
     AnnotatorDirective,
+    AnaloguesComponent,
+    AnalogueDetailComponent,
     AppComponent,
+    BiblioEntryComponent,
+    BiblioListComponent,
     CollationComponent,
     ContentViewerComponent,
     EditionLevelSelectorComponent,
@@ -240,13 +244,9 @@ const DynamicComponents = [
     WitnessPanelComponent,
     XmlBeautifyPipe,
     CriticalApparatusComponent,
-    AnaloguesComponent,
-    AnalogueDetailComponent,
     SourceDetailComponent,
     SourceNoteComponent,
     SourcesComponent,
-    BiblioEntryComponent,
-    BiblioListComponent,
     ...DynamicComponents,
   ],
   imports: [

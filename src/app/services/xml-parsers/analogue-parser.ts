@@ -4,7 +4,7 @@ import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, Generic
 import { getOuterHTML } from '../../utils/dom-utils';
 import { AnchorParser, AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
-import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from 'src/app/utils/xml-utils';
+import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from '../../utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
 import { BasicParser } from './quotes-parser';
 
@@ -30,13 +30,13 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             return this.elementParser.parse(analogue)
         }
 
-        const noteID = ['div','p','l','lg','note'];
+        const notableElements = ['div','p','l','lg','note'];
         const sources = this.buildAnalogueSources(analogue);
         const content = parseChildren(analogue, this.genericParse);
 
         return {
             type: Analogue,
-            id: (noteID.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
+            id: (notableElements.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
             text: normalizeSpaces(chainFirstChildTexts(analogue)),
