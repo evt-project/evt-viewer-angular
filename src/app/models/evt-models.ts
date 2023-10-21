@@ -227,7 +227,7 @@ export class Analogue extends GenericElement {
     sources: BibliographicEntry[];
     extSources: BibliographicEntry[];
     extLinkedElements: any;
-    quotedText: [{ id: string, quote: string }];
+    quotedElements: [{ id: string, quote: string }];
     contentToShow: Array<ParseResult<GenericElement>>
     originalEncoding: string;
 }

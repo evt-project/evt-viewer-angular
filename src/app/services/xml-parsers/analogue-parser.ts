@@ -22,6 +22,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
     notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
     'Analogue', 'MsDesc'];
+    evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
 
     public parse(analogue: XMLElement): GenericElement|Analogue {
 
@@ -39,13 +40,13 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             id: (notableElements.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
-            text: normalizeSpaces(chainFirstChildTexts(analogue)),
+            text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements)),
             content: content,
             contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
             sources: sources.sources,
             extSources: sources.extSources,
             extLinkedElements: sources.extLinkedElements,
-            quotedText: this.getQuotedTextFromElements(sources.sources.concat(sources.extSources), sources.extLinkedElements),
+            quotedElements: this.getQuotedTextFromElements(sources.sources.concat(sources.extSources), sources.extLinkedElements),
             originalEncoding: getOuterHTML(analogue),
         };
     }

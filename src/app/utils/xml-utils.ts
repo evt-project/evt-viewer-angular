@@ -52,13 +52,12 @@ export function normalizeSpaces(textContent: string) {
 * @param n XMLElement
 * @returns string
 */
-export function chainFirstChildTexts(elem: XMLElement): string {
+export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: string[]): string {
   if (elem === undefined) { return ''; };
   const evtTextElements = {
     '#text': 'nodeValue',
     'p': 'textContent',
   };
-  const evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
   let out = '';
   elem.childNodes.forEach((x) => (evtTextElements[x.nodeName] !== undefined) ? out += x[ evtTextElements[x.nodeName] ] : (
     evtTextComplexElements.includes(x.nodeName) ? out += chainDeepTexts(x) : '' ))
