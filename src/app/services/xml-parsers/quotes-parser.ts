@@ -43,6 +43,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     elementsAllowedForLink = 'seg, ref, quote, cit, div'; // nested quote elements
     notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry',
     'BibliographicStructEntry', 'Analogue', 'MsDesc'];
+    evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
 
     xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
 
@@ -148,12 +149,12 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         let outText = '';
         if ((isCit) || (isDiv)) {
             const elements = Array.from(quote.querySelectorAll<XMLElement>('quote, p, l, lg'));
-            elements.forEach((el) => outText += chainFirstChildTexts(el));
+            elements.forEach((el) => outText += chainFirstChildTexts(el, this.evtTextComplexElements));
 
             return outText;
         }
 
-        return chainFirstChildTexts(quote);
+        return chainFirstChildTexts(quote, this.evtTextComplexElements);
     }
 
     /**
