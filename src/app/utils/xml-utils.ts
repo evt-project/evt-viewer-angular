@@ -139,7 +139,7 @@ export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: 
     return { text: '', elements: [] };
   }
 
-  const findID = toXMLID.replace('#','');
+  const cleanID = toXMLID.replace('#','');
   let found = false;
   // text after the milestone but still inside the parent element
   let foundText = fromElement.nextSibling.textContent;
@@ -159,7 +159,7 @@ export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: 
   while(!found && next !== null && maxExec !== 0) {
     foundElements.push(next);
     foundText = foundText + next.textContent;
-    if (next.getAttribute('xml:id') === findID) {
+    if (next.getAttribute('xml:id') === cleanID) {
       found = true;
     } else {
       maxExec--;
