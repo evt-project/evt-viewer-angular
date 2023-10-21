@@ -24,8 +24,9 @@ import { AppConfig } from './app.config';
 
 import { AdditionComponent } from './components/addition/addition.component';
 import { AdditionalComponent } from './components/additional/additional.component';
-import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
 import { AnalogueDetailComponent } from './components/analogues/analogue-detail/analogue-detail.component';
+import { AnalogueEntryComponent } from './components/analogues/analogue-entry/analogue-entry.component';
+import { AnaloguesComponent } from './components/analogues/analogues.component';
 import { ApparatusEntryDetailComponent } from './components/apparatus-entry/apparatus-entry-detail/apparatus-entry-detail.component';
 import { ApparatusEntryReadingsComponent } from './components/apparatus-entry/apparatus-entry-readings/apparatus-entry-readings.component';
 import { ApparatusEntryComponent } from './components/apparatus-entry/apparatus-entry.component';
@@ -125,7 +126,6 @@ import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
 import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
-import { AnaloguesComponent } from './components/analogues/analogues.component';
 import { SourcesComponent } from './components/sources/sources.component';
 import { SourceDetailComponent } from './components/sources/source-detail/source-detail.component';
 import { SourceNoteComponent } from './components/sources/source-note/source-note.component';

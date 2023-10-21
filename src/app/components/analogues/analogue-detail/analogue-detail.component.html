@@ -18,13 +18,13 @@
     </div>
 
     <div class="card-footer app-detail-tabs" *ngIf="analogue.sources.length > 0 
-        || analogue.extSources.length > 0 || analogue.quotedText.length > 0">
+        || analogue.extSources.length > 0 || analogue.quotedElements.length > 0">
         <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
 
-            <li ngbNavItem="quotedText" *ngIf="analogue.quotedText.length > 0">
+            <li ngbNavItem="quotedText" *ngIf="analogue.quotedElements.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <ng-container *ngFor="let quoteTxt of analogue.quotedText">
+                    <ng-container *ngFor="let quoteTxt of analogue.quotedElements">
                         <ng-container *ngIf="quoteTxt.quote.type">
                             <evt-content-viewer [content]="quoteTxt.quote"></evt-content-viewer>
                         </ng-container>
