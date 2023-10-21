@@ -89,6 +89,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                 break;
             case 'ref':
             case 'seg':
+            case 'cit':
                 // if they are not a source create a generic element
                 // otherwise parse here
                 if (notSource) {
@@ -96,7 +97,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                 }
                 break;
             case 'quote':
-            case 'cit':
                 // always parse here
                 break;
         }
