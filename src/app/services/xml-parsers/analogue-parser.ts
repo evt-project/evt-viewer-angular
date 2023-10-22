@@ -55,8 +55,6 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
      * Since elements like ref and seg are not only used for parallel passages,
      * this function checks if the provided element contains an external link to a bibl element
      * and returns that elements or a false
-     * @param analogue
-     * @returns any
      */
     private buildAnalogueSources(analogue: XMLElement): any {
         const selectorsAllowed = 'bibl, bibStruct, listBibl, cit, quote, note, seg, div, l, lg, p, milestone, anchor';

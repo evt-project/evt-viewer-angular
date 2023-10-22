@@ -142,8 +142,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
     /**
      * Returns first-level text elements inside this quote entry
-     * @param quote XMLElement
-     * @returns XMLElement
      */
     private getQuotedTextInside(quote: XMLElement, isCit: boolean, isDiv: boolean): string {
         let outText = '';
@@ -159,9 +157,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
     /**
      * Remove unwanted output from XML string
-     * @param quote XMLElement
-     * @param inCitElem boolean
-     * @returns String
      */
     private cleanXMLString(quote: XMLElement, inCitElem: boolean): string {
         if (inCitElem) {
@@ -174,9 +169,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
     /**
      * Retrieve attributes linked to external bibl/listBibl/cit elements
-     * @param quote XMLElement
-     * @param insideCit boolean
-     * @returns XMLElement
      */
     private findExtRef(quote: XMLElement, inCitElem: boolean): XMLElement {
         const target = (inCitElem) ? quote.parentElement : quote;
@@ -224,12 +216,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         return out;
     }
 
-        /**
+    /**
     * Retrieve and send to the proper parsing all elements outside the quote element and linked by their @xml:id
-    * @param quote XMLElement
-    * @param attrSrcNames string[]
-    * @oaram attrTrgtName string
-    * @returns array of Bibliography Element or a single Bibliography List element
     */
     private getExternalElemsOnce(quote: XMLElement, attrSrcNames: string[], attrTrgtName: string): any {
         const out = { extElements: [], extSources: [], analogues: [] };
