@@ -178,7 +178,7 @@ export class QuoteEntry extends GenericElement {
     id: string;
     tagName: string;
     text: string;
-    sources: BibliographicEntry[] | BibliographicList;
+    sources: BibliographicEntry[] | BibliographicList[];
     extSources: BibliographicEntry[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     extElements: any;
@@ -196,7 +196,6 @@ export class BibliographicList extends GenericElement {
     id: string;
     head: string[];
     sources: BibliographicEntry[];
-    //TODO: biblStruct
 }
 
 export class BibliographicEntry extends GenericElement {
@@ -259,14 +258,14 @@ export class Note extends GenericElement {
     noteLayout: NoteLayout;
     noteType: string;
     exponent: string;
-    source: QuoteEntry|null;
-    analogue: Analogue|null;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Paragraph extends GenericElement {
     n: string;
-    source: QuoteEntry|null;
-    analogue: Analogue|null;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Lb extends GenericElement {
@@ -353,15 +352,15 @@ export class Choice extends GenericElement {
 
 export class Verse extends GenericElement {
     n: string;
-    source: QuoteEntry|null;
-    analogue: Analogue|null;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class VersesGroup extends GenericElement {
     n: string;
     groupType: string;
-    source: QuoteEntry|null;
-    analogue: Analogue|null;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Supplied extends GenericElement {

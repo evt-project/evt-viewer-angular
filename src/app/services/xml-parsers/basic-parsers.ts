@@ -277,7 +277,8 @@ export class VersesGroupParser extends EmptyParser implements Parser<XMLElement>
     quoteParser = createParser(QuoteParser, this.genericParse);
     sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
     analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
-    source = null; analogue = null;
+    source = null;
+    analogue = null;
     parse(xml: XMLElement): VersesGroup {
 
         if (isAnalogue(xml, this.analogueMarkers)) {
