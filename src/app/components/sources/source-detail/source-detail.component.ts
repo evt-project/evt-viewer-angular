@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EditionLevelType } from 'src/app/app.config';
+import { QuoteEntry } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-source-detail',
@@ -11,7 +12,17 @@ export class SourceDetailComponent {
 
   private edLevel: EditionLevelType;
 
-  @Input() source;
+  public sourceEntry: QuoteEntry;
+
+  public headVisible: boolean;
+
+  public detailVisible: boolean;
+
+  @Input() set source(el: QuoteEntry) {
+    this.sourceEntry = el;
+    this.checkVisible(el);
+  }
+  get source() { return this.sourceEntry; }
 
   @Input() set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
@@ -22,6 +33,11 @@ export class SourceDetailComponent {
 
   stopPropagation(e: MouseEvent) {
     e.stopPropagation();
+  }
+
+  checkVisible(source: QuoteEntry) {
+    this.headVisible = (source.sources.length > 0 || source.extSources.length > 0 || source.text.length > 0);
+    this.detailVisible = (source.sources.length > 0  || source.extSources.length > 0 || source.extElements.length > 0);
   }
 
 }

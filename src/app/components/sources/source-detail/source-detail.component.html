@@ -1,6 +1,5 @@
 
-<div class="source-container"
-    *ngIf="source.sources.length > 0 || source.extSources.length > 0 || source.text.length > 0">
+<div class="source-container" *ngIf="headVisible">
         
     <div class="card-body app-detail-content source-detail-content" *ngIf="source.content.length > 0">
         <span class="btn btn-sm transparent source-quote-button">☚</span>
@@ -17,8 +16,7 @@
         </span>
     </div>
     
-    <div class="card-footer app-detail-tabs" *ngIf="source.sources.length > 0 
-        || source.extSources.length > 0 || source.extElements.length > 0">
+    <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
         <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="quotedText" *ngIf="source.quotedText.length > 0">

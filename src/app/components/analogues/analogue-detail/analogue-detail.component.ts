@@ -12,7 +12,17 @@ export class AnalogueDetailComponent {
 
   private edLevel: EditionLevelType;
 
-  @Input() analogue: Analogue;
+  public analogueEntry: Analogue;
+
+  public headVisible: boolean;
+
+  public detailVisible: boolean;
+
+  @Input() set analogue(el: Analogue) {
+    this.analogueEntry = el;
+    this.checkVisible(el);
+  }
+  get analogue() { return this.analogueEntry; }
 
   @Input() set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
@@ -23,6 +33,11 @@ export class AnalogueDetailComponent {
 
   stopPropagation(e: MouseEvent) {
     e.stopPropagation();
+  }
+
+  checkVisible(anl: Analogue) {
+    this.headVisible = ((anl.sources.length > 0) || (anl.extSources.length > 0) || (anl.text.length > 0) || (anl.extLinkedElements.length > 0));
+    this.detailVisible = (anl.sources.length > 0 || anl.extSources.length > 0 || anl.quotedElements.length > 0);
   }
 
 }
