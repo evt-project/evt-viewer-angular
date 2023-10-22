@@ -180,7 +180,9 @@ export class QuoteEntry extends GenericElement {
     text: string;
     sources: BibliographicEntry[] | BibliographicList;
     extSources: BibliographicEntry[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     extElements: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     analogues: any;
     originalEncoding: string;
     insideCit: boolean;
@@ -226,6 +228,7 @@ export class Analogue extends GenericElement {
     text: string;
     sources: BibliographicEntry[];
     extSources: BibliographicEntry[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     extLinkedElements: any;
     quotedElements: [{ id: string, quote: string }];
     contentToShow: Array<ParseResult<GenericElement>>
@@ -1116,6 +1119,7 @@ export class Milestone extends GenericElement {
     id?: string;
     unit?: string;
     spanText: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spanElements: any;
 }
 
@@ -1128,6 +1132,7 @@ export class Span extends GenericElement {
     from: string;
     to: string;
     includedText: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     includedElements: any;
 }
 
