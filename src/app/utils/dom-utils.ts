@@ -181,11 +181,6 @@ export function balanceXHTML(XHTMLstring: string): string {
 
 /**
  * Get all DOM elements contained between the node elements
- *
- * @param start starting node
- * @param end ending node
- *
- * @returns list of nodes contained between start node and end node
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
@@ -237,27 +232,33 @@ export function updateCSS(rules: Array<[string, string]>) {
   });
 }
 
-export function deepSearch(obj, attrToMatch: string, valuesToMatch: any[], limit: number = 4000) {
-  const results = [];
-  let counter = limit;
-  function search(obj) {
-    for (const key in obj) {
-      const value = obj[key];
-      if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
-        results.push(obj);
-      }
-      if (typeof value === 'object' && value !== null) {
-        if (counter > 0) {
-          search(value);
-          counter = counter - 1;
-        } else {
-          console.log('EVT WARN: element is too deep, not searching further in', obj);
-        }
-      }
-    }
-  }
-  search(obj);
+/**
+ * This function searches inside every property of an object for the provided attribute it
+ * it has one of the provided list of values. It falls back after a customizable number of iterations.
+ */
+export function deepSearch(obj, attrToMatch: string, valuesToMatch, limit: number = 4000) {
+  let results = [];
+  dive(obj, attrToMatch, valuesToMatch, limit, results);
 
   return results;
 }
 
+/**
+ * Complementary function for deep search, it pushes in results all found matches
+ */
+export function dive(obj, attrToMatch: string, valuesToMatch, counter: number, results) {
+  for (const key in obj) {
+    const value = obj[key];
+    if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
+      results.push(obj);
+    }
+    if (typeof value === 'object' && value !== null) {
+      if (counter > 0) {
+        dive(value, attrToMatch, valuesToMatch, counter, results);
+        counter = counter - 1;
+      } else {
+        console.log('EVT WARN: element is too deep, not searching further in', obj);
+      }
+    }
+  }
+}

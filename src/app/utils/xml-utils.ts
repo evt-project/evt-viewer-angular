@@ -39,8 +39,6 @@ export function removeSpaces(textContent: string) {
 
 /**
  * It removes excessive spaces, any tabulation, new lines and non-word characters
- * @param textContent string
- * @returns string
  */
 export function normalizeSpaces(textContent: string) {
   return textContent.replace(/[\s]{2,}|\n|\t|\r/g, ' ').trimStart().trimEnd();
@@ -49,8 +47,6 @@ export function normalizeSpaces(textContent: string) {
 /**
 * Significant text sometimes is split inside two or more text evt-element inside the main one, especially when it contains new line characters.
 * This function returns a string with all the text element chained
-* @param n XMLElement
-* @returns string
 */
 export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: string[]): string {
   if (elem === undefined) { return ''; };
@@ -83,10 +79,6 @@ export function chainDeepTexts(elem: ChildNode): string {
 * Retrieve external elements searching between provided elements types and filtering on attributes base
 * It searches all document for a bibl with the correct xml:id.
 * It would be faster if we knew the id or unique element to search in
-* @param element XMLElement
-* @param attrSourceNames
-* @param attrTargetName
-* @returns array of XMLElement
 */
 export function getExternalElements(elem: XMLElement, attrSourceNames: string[], attrTargetName: string, elTypes: string): XMLElement[] {
   const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
@@ -114,9 +106,6 @@ export function isSource(elem: XMLElement, attrs: string[]): boolean {
 
 /**
  * Retrieve textContent and elements between the provided element and the one found with the xml:id provided
- * @param fromElement XMLElement
- * @param toXMLID string
- * @returns object { text: string, elements: any }
  */
 export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
 
