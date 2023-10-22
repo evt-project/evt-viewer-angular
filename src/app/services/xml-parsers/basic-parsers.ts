@@ -56,6 +56,15 @@ export class GenericParser extends GenericElemParser {
     protected genericElemParser = createParser(GenericElemParser, this.genericParse);
 }
 
+export class DisambiguationParser extends GenericElemParser {
+    protected elementParser = createParser(GenericElemParser, this.genericParse);
+    protected attributeParser = createParser(AttributeParser, this.genericParse);
+    protected analogueParser = createParser(AnalogueParser, this.genericParse);
+    protected quoteParser = createParser(QuoteParser, this.genericParse);
+    protected sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
+    protected analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
+}
+
 @xmlParser('evt-attribute-parser', AttributeParser)
 export class AttributeParser extends EmptyParser implements Parser<XMLElement> {
     parse(data: HTMLElement): Attributes {
@@ -491,5 +500,65 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
             };
         }
 
+    }
+}
+
+@xmlParser('ref', RefParser)
+export class RefParser extends DisambiguationParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Analogue | QuoteEntry | GenericElement {
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            return this.analogueParser.parse(xml);
+        }
+        if (isSource(xml, this.sourceAttr)) {
+            return this.quoteParser.parse(xml);
+        }
+
+        return this.elementParser.parse(xml)
+    }
+}
+
+@xmlParser('seg', SegParser)
+export class SegParser extends DisambiguationParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Analogue | QuoteEntry | GenericElement {
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            return this.analogueParser.parse(xml);
+        }
+        if (isSource(xml, this.sourceAttr)) {
+            return this.quoteParser.parse(xml);
+        }
+
+        return this.elementParser.parse(xml)
+    }
+}
+
+@xmlParser('div', DivParser)
+export class DivParser extends DisambiguationParser implements Parser<XMLElement> {
+    parse(xml: XMLElement): Analogue | QuoteEntry | GenericElement {
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            return this.analogueParser.parse(xml);
+        }
+        if (isSource(xml, this.sourceAttr)) {
+            return this.quoteParser.parse(xml);
+        }
+
+        return this.elementParser.parse(xml)
+    }
+}
+
+@xmlParser('cit', CitParser)
+export class CitParser extends DisambiguationParser implements Parser<XMLElement> {
+    content = [];
+    parse(xml: XMLElement): Analogue | QuoteEntry | GenericElement {
+        if (isAnalogue(xml, this.analogueMarkers)) {
+            return this.analogueParser.parse(xml);
+        }
+        if (isSource(xml, this.sourceAttr)) {
+            return this.quoteParser.parse(xml);
+        }
+
+        const quote = xml.querySelector<XMLElement>('quote');
+        if (quote) {
+            return this.quoteParser.parse(quote);
+        }
     }
 }
