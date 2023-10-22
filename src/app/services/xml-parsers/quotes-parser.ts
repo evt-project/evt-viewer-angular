@@ -16,12 +16,12 @@ export class BasicParser {
     constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
 }
 
-@xmlParser('ref', QuoteParser)
-@xmlParser('seg', QuoteParser)
 @xmlParser('quote', QuoteParser)
-@xmlParser('cit', QuoteParser)
-@xmlParser('div', QuoteParser)
 //@xmlParser('note', QuoteParser) on redirect from their parser
+//@xmlParser('cit', QuoteParser)
+//@xmlParser('ref', QuoteParser)
+//@xmlParser('seg', QuoteParser)
+//@xmlParser('div', QuoteParser)
 //@xmlParser('p', QuoteParser) "
 //@xmlParser('l', QuoteParser) "
 //@xmlParser('lb', QuoteParser) "
@@ -41,7 +41,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     exceptionParentElements = AppConfig.evtSettings.edition.sourcesExcludedFromListByParent;
     elementsAllowedForSources = 'bibl, cit, note, seg'; // bibliography
     elementsAllowedForLink = 'seg, ref, quote, cit, div'; // nested quote elements
-    notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry',
+    notNiceInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry',
     'BibliographicStructEntry', 'Analogue', 'MsDesc'];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
 
@@ -82,7 +82,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                 return divElement;
             case 'ptr':
                 // if it's not a source send it to its parse
-                 // otherwise parse here
+                // otherwise parse here
                  if (notSource) {
                     return ParserRegister.get(quote.tagName).parse(quote) as Ptr;
                 }
@@ -135,7 +135,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             insideCit: isInCit,
             noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
             content: content,
-            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
+            contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
             originalEncoding: this.cleanXMLString(quote, isInCit),
         };
     }
@@ -291,7 +291,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     private getQuotedTextFromSources(nodes: BibliographicEntry[]): string[] {
         let quotesInSources = [];
 
-        nodes.forEach((el: BibliographicEntry|BibliographicList|BibliographicStructEntry) => {
+        nodes.forEach((el: BibliographicEntry | BibliographicList | BibliographicStructEntry) => {
             if (el.type === BibliographicList) {
                 quotesInSources = quotesInSources.concat(this.getQuotedTextFromSources(el['sources']));
             } else if (el.type === BibliographicEntry) {
@@ -327,7 +327,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             insideCit: false,
             noteView: true,
             content: content,
-            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
+            contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
             originalEncoding: this.cleanXMLString(quote, false),
         };
     }

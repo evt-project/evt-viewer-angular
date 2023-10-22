@@ -111,21 +111,6 @@ export function isSource(elem: XMLElement, attrs: string[]): boolean {
   return (validAttrs);
 }
 
-/**
- * Get an element of the same type with the given xml:id and update it with a copy of the source element
- * @param fromElement XMLElement
- * @param toXMLID string
- */
-export function getCorrespElement(fromElement: XMLElement, toXMLID: string) {
-  const findID = toXMLID.replace('#','');
-  const sameTypeElements = fromElement.ownerDocument.querySelectorAll<XMLElement>(fromElement.tagName);
-  let found = null;
-  sameTypeElements.forEach((x) => { if (x.getAttribute('xml:id') === findID) { found = x; return }});
-  if (found !== null) {
-    found.appendChild(fromElement.cloneNode());
-  }
-}
-
 
 /**
  * Retrieve textContent and elements between the provided element and the one found with the xml:id provided
