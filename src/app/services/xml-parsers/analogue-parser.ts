@@ -23,6 +23,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
     'Analogue', 'MsDesc'];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
+    evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
 
     public parse(analogue: XMLElement): GenericElement|Analogue {
 
@@ -40,7 +41,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             id: (notableElements.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
-            text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements)),
+            text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements, this.evtInnerTextElements)),
             content: content,
             contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
             sources: sources.sources,
@@ -56,7 +57,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
      * this function checks if the provided element contains an external link to a bibl element
      * and returns that elements or a false
      */
-    private buildAnalogueSources(analogue: XMLElement): any {
+    private buildAnalogueSources(analogue: XMLElement) {
         const selectorsAllowed = 'bibl, bibStruct, listBibl, cit, quote, note, seg, div, l, lg, p, milestone, anchor';
         const elsAllowedForSources = ['bibl','listBibl', 'biblStruct', 'ref', 'cit'];
         const sources = this.getInsideSources(analogue);
@@ -83,7 +84,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     /**
      * Gather and send to parse allowed linked parallel passages
      */
-    private selectAndParseParallelElements(suspectPPs): any {
+    private selectAndParseParallelElements(suspectPPs) {
         const elemParserAssoc = {
             l: ParserRegister.get('l'),
             lg: ParserRegister.get('lg'),

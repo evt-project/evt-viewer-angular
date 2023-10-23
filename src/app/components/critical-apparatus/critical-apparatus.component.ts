@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { EVTStatusService } from '../../services/evt-status.service';
+import { ApparatusEntry } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-critical-apparatus',
@@ -11,12 +12,12 @@ export class CriticalApparatusComponent implements OnInit {
 
   @Input() pageID : string;
 
-  public entries;
+  public entries: ApparatusEntry;
   private appClasses = ['app'];
 
   public apparatusInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
-  public getEntries(data: any) {
+  public getEntries(data) {
     this.entries = data.flat();
   }
 
@@ -25,7 +26,7 @@ export class CriticalApparatusComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.apparatusInCurrentPage.subscribe({ next: (data:any) => { this.getEntries(data) } });
+    this.apparatusInCurrentPage.subscribe({ next: (data) => { this.getEntries(data) } });
   }
 
   stopPropagation(e: MouseEvent) {

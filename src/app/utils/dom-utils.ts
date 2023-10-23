@@ -235,18 +235,10 @@ export function updateCSS(rules: Array<[string, string]>) {
 /**
  * This function searches inside every property of an object for the provided attribute it
  * it has one of the provided list of values. It falls back after a customizable number of iterations.
+ * The limit counter could be inserted in a config
  */
-export function deepSearch(obj, attrToMatch: string, valuesToMatch, limit: number = 4000) {
+export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000) {
   let results = [];
-  dive(obj, attrToMatch, valuesToMatch, limit, results);
-
-  return results;
-}
-
-/**
- * Complementary function for deep search, it pushes in results all found matches
- */
-export function dive(obj, attrToMatch: string, valuesToMatch, counter: number, results) {
   for (const key in obj) {
     const value = obj[key];
     if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
@@ -254,11 +246,13 @@ export function dive(obj, attrToMatch: string, valuesToMatch, counter: number, r
     }
     if (typeof value === 'object' && value !== null) {
       if (counter > 0) {
-        dive(value, attrToMatch, valuesToMatch, counter, results);
+        results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter));
         counter = counter - 1;
       } else {
         console.log('EVT WARN: element is too deep, not searching further in', obj);
       }
     }
   }
+
+  return results;
 }
