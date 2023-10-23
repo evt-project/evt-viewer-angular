@@ -186,7 +186,8 @@ export class EVTStatusService {
     getPageElementsByClassList(classList) {
         return this.currentStatus$.pipe(
             map(({ page }) => page.parsedContent),
-            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList)));
+            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList)),
+        );
     }
 
 }

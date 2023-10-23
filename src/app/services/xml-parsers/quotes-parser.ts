@@ -44,6 +44,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     notNiceInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry',
     'BibliographicStructEntry', 'Analogue', 'MsDesc'];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
+    evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
 
     xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
 
@@ -147,12 +148,12 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         let outText = '';
         if ((isCit) || (isDiv)) {
             const elements = Array.from(quote.querySelectorAll<XMLElement>('quote, p, l, lg'));
-            elements.forEach((el) => outText += chainFirstChildTexts(el, this.evtTextComplexElements));
+            elements.forEach((el) => outText += chainFirstChildTexts(el, this.evtTextComplexElements, this.evtInnerTextElements));
 
             return outText;
         }
 
-        return chainFirstChildTexts(quote, this.evtTextComplexElements);
+        return chainFirstChildTexts(quote, this.evtTextComplexElements, this.evtInnerTextElements);
     }
 
     /**
@@ -219,7 +220,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     /**
     * Retrieve and send to the proper parsing all elements outside the quote element and linked by their @xml:id
     */
-    private getExternalElemsOnce(quote: XMLElement, attrSrcNames: string[], attrTrgtName: string): any {
+    private getExternalElemsOnce(quote: XMLElement, attrSrcNames: string[], attrTrgtName: string) {
         const out = { extElements: [], extSources: [], analogues: [] };
         const sourceIDs = attrSrcNames.map((x) => quote.getAttribute(x));
         const sourcesToFind = sourceIDs.filter((x) => x).map((x) => x.replace('#',''));

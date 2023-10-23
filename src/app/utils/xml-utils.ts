@@ -46,17 +46,17 @@ export function normalizeSpaces(textContent: string) {
 
 /**
 * Significant text sometimes is split inside two or more text evt-element inside the main one, especially when it contains new line characters.
-* This function returns a string with all the text element chained
+* This function returns a string with all the text elements chained
 */
-export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: string[]): string {
+export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: string[], evtInnerTextElements: string[]): string {
   if (elem === undefined) { return ''; };
   const evtTextElements = {
     '#text': 'nodeValue',
     'p': 'textContent',
   };
   let out = '';
-  elem.childNodes.forEach((x) => (evtTextElements[x.nodeName] !== undefined) ? out += x[ evtTextElements[x.nodeName] ] : (
-    evtTextComplexElements.includes(x.nodeName) ? out += chainDeepTexts(x) : '' ))
+  elem.childNodes.forEach((node) => (evtTextElements[node.nodeName] !== undefined) ? out += node[ evtTextElements[node.nodeName] ] : (
+    evtTextComplexElements.includes(node.nodeName) ? out += chainDeepTexts(node, evtInnerTextElements) : '' ))
 
   return out;
 }
@@ -66,8 +66,7 @@ export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: s
  * @param elem ChildNode
  * @returns out string
  */
-export function chainDeepTexts(elem: ChildNode): string {
-  const evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
+export function chainDeepTexts(elem: ChildNode, evtInnerTextElements: string[]): string {
   const textProperty = 'textContent';
   let out = '';
   elem.childNodes.forEach((x) => (evtInnerTextElements.includes(x.nodeName)) ? ((x[textProperty] !== null) ? out += x[textProperty] : '') : '')
@@ -92,10 +91,16 @@ export function getExternalElements(elem: XMLElement, attrSourceNames: string[],
     .filter((x) => sourcesToFind.includes(x.getAttribute(attrTargetName)))
 }
 
+/**
+ * If an element's attribute 'type' has one of the provided values then it is considered an analogue
+ */
 export function isAnalogue(elem: XMLElement, markerAttrs: string[]): boolean {
   return (markerAttrs.includes(elem.getAttribute('type')));
 }
 
+/**
+ * If an element has one of the provided attributes then it is considered a source
+ */
 export function isSource(elem: XMLElement, attrs: string[]): boolean {
   let validAttrs = false;
   attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
