@@ -67,17 +67,20 @@
             <li ngbNavItem="xml" *ngIf="source.originalEncoding">
                 <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <pre>{{ source.originalEncoding | xmlBeautify }}</pre>
+                    <evt-original-encoding-viewer [originalEncoding]="source.originalEncoding">
+                    </evt-original-encoding-viewer>
                     <!-- children bibl element -->
                     <ng-container *ngIf="source.sources && source.insideCit">
                         <ng-container *ngFor="let sourceXML of source.sources">
                             <ng-container *ngIf="sourceXML.type.name === 'BibliographicList'">
                                 <ng-container *ngFor="let intBib of sourceXML.sources">
-                                    <pre>{{ intBib.originalEncoding | xmlBeautify }}</pre>
+                                    <evt-original-encoding-viewer [originalEncoding]="intBib.originalEncoding">
+                                    </evt-original-encoding-viewer>
                                 </ng-container>
                             </ng-container>
                             <ng-container *ngIf="sourceXML.type.name !== 'BibliographicList'">
-                                <pre>{{ sourceXML.originalEncoding | xmlBeautify }}</pre>
+                                <evt-original-encoding-viewer [originalEncoding]="sourceXML.originalEncoding">
+                                </evt-original-encoding-viewer>
                             </ng-container>
                         </ng-container>
                     </ng-container>
@@ -86,12 +89,14 @@
                         <ng-container *ngFor="let extBiblXML of source.extSources">
                             <ng-container *ngIf="extBiblXML.type?.name === 'BibliographicList'">
                                 <ng-container *ngFor="let bibl of extBiblXML.sources">
-                                    <pre>{{ bibl.originalEncoding | xmlBeautify }}</pre>
+                                    <evt-original-encoding-viewer [originalEncoding]="bibl.originalEncoding">
+                                    </evt-original-encoding-viewer>
                                 </ng-container>
                             </ng-container>
                             <ng-container *ngIf="extBiblXML.type?.name !== 'BibliographicList'">
                                 <ng-container *ngIf="extBiblXML.originalEncoding">
-                                    <pre>{{ extBiblXML.originalEncoding | xmlBeautify }}</pre>
+                                    <evt-original-encoding-viewer [originalEncoding]="extBiblXML.originalEncoding">
+                                    </evt-original-encoding-viewer>
                                 </ng-container>
                             </ng-container>
                         </ng-container>
@@ -100,7 +105,8 @@
                     <ng-container *ngIf="source.extElements">
                         <ng-container *ngFor="let extEl of source.extElements">
                             <ng-container *ngIf="extEl.originalEncoding">
-                                <pre>{{ extEl.originalEncoding | xmlBeautify }}</pre>
+                                <evt-original-encoding-viewer [originalEncoding]="extEl.originalEncoding">
+                                </evt-original-encoding-viewer>
                             </ng-container>
                         </ng-container>
                     </ng-container>

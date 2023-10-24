@@ -231,3 +231,21 @@ evt-analogue-entry evt-paragraph p,
 evt-quote-entry evt-paragraph p {
   margin-bottom: 0;
 }
+
+evt-source-detail evt-original-encoding-viewer pre,
+evt-analogue-detail evt-original-encoding-viewer pre {
+  margin-top:-2% !important;
+  padding:0 !important;
+  background-color:transparent !important;
+}
+
+evt-source-detail evt-original-encoding-viewer code,
+evt-analogue-detail evt-original-encoding-viewer code {
+  color: initial;
+  font-size:85%;
+}
+
+evt-source-detail evt-original-encoding-viewer code .token,
+evt-analogue-detail evt-original-encoding-viewer code .token {
+  color: #212529 !important;
+}

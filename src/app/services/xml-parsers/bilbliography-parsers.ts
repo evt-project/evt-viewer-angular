@@ -1,7 +1,6 @@
 import { normalizeSpaces } from 'src/app/utils/xml-utils';
 import { parse, xmlParser } from '.';
 import { BibliographicEntry, BibliographicList, BibliographicStructEntry, BibliographyClass, XMLElement } from '../../models/evt-models';
-import { getOuterHTML } from '../../utils/dom-utils';
 import { AttributeParser, GenericElemParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { BasicParser } from './quotes-parser';
@@ -66,7 +65,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
                     text: xml.textContent,
                     quotedText: this.getQuoteElementText(xml),
                     insideCit: (xml.parentNode['tagName'] === 'cit' || xml.parentNode['tagName'] === 'note'),
-                    originalEncoding: getOuterHTML(xml),
+                    originalEncoding: xml,
                 };
             case 'cit':
             case 'listBibl':
@@ -88,7 +87,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
                     monogrs: Array.from(xml.querySelectorAll<XMLElement>('monogr')).map((x) => this.parse(x)),
                     series: Array.from(xml.querySelectorAll<XMLElement>('series')).map((x) => this.parse(x)),
                     content: parseChildren(xml, this.genericParse),
-                    originalEncoding: getOuterHTML(xml),
+                    originalEncoding: xml,
                 };
             default:
                 return this.elementParser.parse(xml)
