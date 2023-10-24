@@ -5,7 +5,6 @@ import { Analogue, BibliographicEntry, BibliographicList, BibliographicStructEnt
     XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
-import { getOuterHTML } from 'src/app/utils/dom-utils';
 import { isAnalogue, isSource, normalizeSpaces } from 'src/app/utils/xml-utils';
 import { BibliographyParser } from './bilbliography-parsers';
 import { chainFirstChildTexts } from '../../utils/xml-utils';
@@ -137,7 +136,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
             content: content,
             contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
-            originalEncoding: this.cleanXMLString(quote, isInCit),
+            originalEncoding: this.getXML(quote, isInCit),
         };
     }
 
@@ -157,14 +156,14 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     }
 
     /**
-     * Remove unwanted output from XML string
+     * Choose proper XML node
      */
-    private cleanXMLString(quote: XMLElement, inCitElem: boolean): string {
+    private getXML(quote: XMLElement, inCitElem: boolean): XMLElement {
         if (inCitElem) {
-            return getOuterHTML(quote.parentElement).replace(this.xpathRegex,'');
+            return quote.parentElement;
         }
 
-        return getOuterHTML(quote).replace(this.xpathRegex,'');
+        return quote;
     }
 
 
@@ -317,7 +316,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             noteView: true,
             content: content,
             contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
-            originalEncoding: this.cleanXMLString(quote, false),
+            originalEncoding: this.getXML(quote, false),
         };
     }
 

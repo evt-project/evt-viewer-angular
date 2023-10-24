@@ -1,7 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, ParserRegister, xmlParser } from '.';
 import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
-import { getOuterHTML } from '../../utils/dom-utils';
 import { AnchorParser, AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from '../../utils/xml-utils';
@@ -48,7 +47,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             extSources: sources.extSources,
             extLinkedElements: sources.extLinkedElements,
             quotedElements: this.getQuotedTextFromElements(sources.sources.concat(sources.extSources), sources.extLinkedElements),
-            originalEncoding: getOuterHTML(analogue),
+            originalEncoding: analogue,
         };
     }
 

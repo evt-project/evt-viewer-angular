@@ -184,7 +184,7 @@ export class QuoteEntry extends GenericElement {
     extElements: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     analogues: any;
-    originalEncoding: string;
+    originalEncoding: OriginalEncodingNodeType;
     insideCit: boolean;
     quotedText: string[];
     noteView: boolean;
@@ -211,7 +211,7 @@ export class BibliographicEntry extends GenericElement {
     text: string;
     quotedText: string;
     insideCit: boolean;
-    originalEncoding: string;
+    originalEncoding: OriginalEncodingNodeType;
 }
 
 export class BibliographicStructEntry extends GenericElement {
@@ -219,7 +219,7 @@ export class BibliographicStructEntry extends GenericElement {
     analytic: BibliographicEntry[];
     monogrs: BibliographicEntry[];
     series: BibliographicEntry[];
-    originalEncoding: string;
+    originalEncoding: OriginalEncodingNodeType;
 }
 
 export class Analogue extends GenericElement {
@@ -231,7 +231,7 @@ export class Analogue extends GenericElement {
     extLinkedElements: any;
     quotedElements: [{ id: string, quote: string }];
     contentToShow: Array<ParseResult<GenericElement>>
-    originalEncoding: string;
+    originalEncoding: OriginalEncodingNodeType;
 }
 
 export class Reading extends GenericElement {

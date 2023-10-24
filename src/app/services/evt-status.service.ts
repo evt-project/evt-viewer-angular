@@ -184,9 +184,12 @@ export class EVTStatusService {
     }
 
     getPageElementsByClassList(classList) {
+        const notInterestingProps = ['originalEncoding','type'];
+        const maxEffort = 4000;
+
         return this.currentStatus$.pipe(
             map(({ page }) => page.parsedContent),
-            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList)),
+            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList, maxEffort, notInterestingProps)),
         );
     }
 

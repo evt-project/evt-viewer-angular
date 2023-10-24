@@ -235,21 +235,23 @@ export function updateCSS(rules: Array<[string, string]>) {
 /**
  * This function searches inside every property of an object for the provided attribute it
  * it has one of the provided list of values. It falls back after a customizable number of iterations.
- * The limit counter could be inserted in a config
+ * The limit counter could be inserted in a config, same as the ignoredProperties
  */
-export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000) {
+export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000, ignoredProperties = []) {
   let results = [];
   for (const key in obj) {
-    const value = obj[key];
-    if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
-      results.push(obj);
-    }
-    if (typeof value === 'object' && value !== null) {
-      if (counter > 0) {
-        results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter));
-        counter = counter - 1;
-      } else {
-        console.log('EVT WARN: element is too deep, not searching further in', obj);
+    if (!ignoredProperties.includes(key)) {
+      const value = obj[key];
+      if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
+        results.push(obj);
+      }
+      if (typeof value === 'object' && value !== null) {
+        if (counter > 0) {
+          results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter, ignoredProperties));
+          counter = counter - 1;
+        } else {
+          console.log('EVT WARN: element is too deep, not searching further in', obj);
+        }
       }
     }
   }
