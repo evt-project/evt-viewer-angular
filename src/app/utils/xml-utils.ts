@@ -121,7 +121,7 @@ export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: 
   const cleanID = toXMLID.replace('#','');
   let found = false;
   // text after the milestone but still inside the parent element
-  let foundText = fromElement.nextSibling.textContent;
+  let foundText = (fromElement.nextSibling !== null) ? fromElement.nextSibling.textContent : '';
   // the milestone is always inside another element?
   // otherwise const foundElements = [fromElement.nextSibling];
   let next = (fromElement.nextElementSibling !== null) ?
@@ -129,11 +129,14 @@ export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: 
     fromElement.parentElement.nextElementSibling as XMLElement;
 
   // creating a fake element for partial text included from milestone on
-  const nextEdited = fromElement.parentElement.nextElementSibling.cloneNode(true);
-  nextEdited.textContent = foundText;
-  const foundElements = [nextEdited];
+  let foundElements = [];
+  if (fromElement.parentElement.nextElementSibling !== null) {
+    const nextEdited = fromElement.parentElement.nextElementSibling.cloneNode(true);
+    nextEdited.textContent = foundText;
+    foundElements.push(nextEdited);
+  }
 
-  let maxExec = 1000;
+  let maxExec = 50;
 
   while(!found && next !== null && maxExec !== 0) {
     foundElements.push(next);
@@ -143,7 +146,12 @@ export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: 
     } else {
       maxExec--;
       if (next.nextElementSibling === null) {
-        next = next.parentElement.nextElementSibling as XMLElement;
+        if (next.parentElement !== null) {
+          next = next.parentElement.nextElementSibling as XMLElement;
+          maxExec--;
+        } else {
+          next = null;
+        }
       } else {
         next = next.nextElementSibling as XMLElement;
       }
