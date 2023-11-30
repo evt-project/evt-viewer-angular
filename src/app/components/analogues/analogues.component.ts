@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { EditionLevelType } from 'src/app/app.config';
 import { AnalogueClass } from 'src/app/models/evt-models';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
@@ -8,6 +8,7 @@ import { EVTStatusService } from 'src/app/services/evt-status.service';
   selector: 'evt-analogues',
   templateUrl: './analogues.component.html',
   styleUrls: ['./analogues.component.scss','../sources/sources.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnaloguesComponent implements OnInit {
 
@@ -40,7 +41,7 @@ export class AnaloguesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.analoguesInCurrentPage.subscribe({ next: (data) => { this.getEntries(data) } });
+    this.analoguesInCurrentPage.pipe(distinctUntilChanged()).subscribe({ next: (data) => { this.getEntries(data) } });
   }
 
 }

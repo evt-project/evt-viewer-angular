@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { SourceClass } from '../../models/evt-models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { EditionLevelType } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-sources',
   templateUrl: './sources.component.html',
   styleUrls: ['./sources.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourcesComponent implements OnInit {
 
@@ -40,7 +41,7 @@ export class SourcesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.quotesInCurrentPage.subscribe({ next: (data) => { this.getEntries(data) } });
+    this.quotesInCurrentPage.pipe(distinctUntilChanged()).subscribe({ next: (data) => { this.getEntries(data) } });
   }
 
 }

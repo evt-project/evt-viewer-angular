@@ -250,7 +250,8 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: num
           results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter, ignoredProperties));
           counter = counter - 1;
         } else {
-          console.log('EVT WARN: element is too deep, not searching further in', obj);
+          console.log('EVT WARN: element is too deep, not searching further in', obj, value);
+          counter = 4000;
         }
       }
     }
