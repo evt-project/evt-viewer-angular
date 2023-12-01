@@ -1,5 +1,5 @@
 <evt-panel [showSecondaryContent]="msDescOpen" [noPadding]="true"
-    [hideHeader]="!showHeader"
+    [hideHeader]="false"
     [hideFooter]="true">
     <div header-left>
         <!-- TODO: Add dropdowns for navigation -->
@@ -22,4 +22,3 @@
         </div>
     </div>
 </evt-panel>
-<evt-nav-bar-image [currentIndexPage]="updatePageNumber$ | async" *ngIf="indipendentNavBar" (changeIndexPage)="onChangedCurrentPage($event)" [ngClass]="{opened: true}" ></evt-nav-bar-image>
