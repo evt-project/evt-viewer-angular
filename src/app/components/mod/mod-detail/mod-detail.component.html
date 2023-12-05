@@ -1,0 +1,55 @@
+<div class="source-container" *ngIf="boxVisible">
+        
+    <div class="card-body app-detail-content source-detail-content" *ngIf="mod.content.length > 0">
+        <span class="btn btn-sm transparent source-quote-button">☚</span>
+        <span class="source-quote-symbol">&#10077;</span>
+        <span title="analogue-text">
+            <ng-container *ngFor="let element of mod.content">
+                <evt-content-viewer 
+                    [content]="element" 
+                    [editionLevel]="editionLevel"
+                    [evtHtmlAttributes]="element?.attributes" 
+                    [attr.data-edition]="editionLevel">
+                </evt-content-viewer>
+            </ng-container>
+        </span>
+    </div>
+
+    <div class="card-footer app-detail-tabs">
+        <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
+
+            <li ngbNavItem="nota" *ngIf="mod.note.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'criticalNote' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let element of mod.note">
+                        <evt-content-viewer 
+                            [content]="element" 
+                            [editionLevel]="editionLevel"
+                            [evtHtmlAttributes]="element?.attributes" 
+                            [attr.data-edition]="editionLevel">
+                        </evt-content-viewer>
+                    </ng-container>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="corrSeq" *ngIf="mod.content.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-mod-sequence [data]="[mod]" [orderedLayers]="ordLayers"></evt-mod-sequence>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="xml" *ngIf="mod.originalEncoding">
+                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-original-encoding-viewer [originalEncoding]="mod.originalEncoding">
+                    </evt-original-encoding-viewer>
+                </ng-template>
+            </li>
+
+        </ul>
+        <div [ngbNavOutlet]="modEntryTab" class="tab-content"></div>
+    </div>
+
+</div>
+

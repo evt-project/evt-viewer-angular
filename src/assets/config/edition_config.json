@@ -123,7 +123,12 @@
     "showEmptyValues": false,
     "inline": true,
     "commaSeparated": true,
-    "showMainElemTextContent": true
+    "showMainElemTextContent": true,
+    "changeSequenceView": {
+      "showVarSeqAttr": false,
+      "showSeqAttr": false,
+      "layerColors": []
+    }
   },
   "analogueMarkers": [
     "ParallelPassage",

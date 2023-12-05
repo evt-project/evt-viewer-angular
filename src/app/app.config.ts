@@ -132,6 +132,11 @@ export interface EditionConfig {
 	}>;
     analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
+    changeSequenceView: Partial<{
+        showVarSeqAttr: boolean;
+        showSeqAttr: boolean;
+        layerColors: string[];
+    }>;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

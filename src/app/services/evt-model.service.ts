@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
+import { ChangeLayerData, NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
 import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
@@ -15,6 +15,7 @@ import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.se
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 import { SourceEntriesParserService } from './xml-parsers/source-entries-parser.service';
 import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
+import { ModParserService } from './xml-parsers/mod-parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -122,6 +123,12 @@ export class EVTModelService {
     shareReplay(1),
   );
 
+  // CHANGES
+  public changeData$: Observable<ChangeLayerData> = this.editionSource$.pipe(
+    map((source) => this.modParser.buildChangeList(source)),
+    shareReplay(1),
+  );
+
   // APPARATUS ENTRIES
   public readonly appEntries$ = this.editionSource$.pipe(
     map((source) => this.apparatusParser.parseAppEntries(source)),
@@ -209,6 +216,7 @@ export class EVTModelService {
     private linesVersesParser: LinesVersesParserService,
     private msDescParser: MsDescParserService,
     private sourceParser: SourceEntriesParserService,
+    private modParser: ModParserService,
   ) {
   }
 

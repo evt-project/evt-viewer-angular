@@ -1,0 +1,24 @@
+
+<!-- lem/rdg @varSeq -->
+<!-- mod @change -->
+<!-- add/del/subst @seq -->
+
+<ng-container *ngFor="let orderedLayer of orderedLayers">
+    <ng-container *ngFor="let mod of sequence">
+
+        <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
+            {{orderedLayer}}: 
+            <ng-container *ngFor="let element of mod?.content">
+                <ng-container *ngIf="showSeqAttr"><span>{{((element.attributes?.seq !== undefined) ? element.attributes?.seq+' ' : '')}}</span></ng-container>
+                <evt-content-viewer 
+                    [content]="element" 
+                    [editionLevel]="'critical'"
+                    [evtHtmlAttributes]="element?.attributes" 
+                    [attr.data-edition]="'critical'">
+                </evt-content-viewer>
+            </ng-container>
+            <br/>
+        <ng-container>
+
+    </ng-container>
+</ng-container>

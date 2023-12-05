@@ -40,6 +40,7 @@ import {
 } from './named-entity-parsers';
 import { QuoteParser } from './quotes-parser';
 import { AnalogueParser } from './analogue-parser';
+import { ModParser } from './mod-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
@@ -135,6 +136,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     LocusGrpParser,
     LocusParser,
     MilestoneParser,
+    ModParser,
     MsContentsParser,
     MsDescParser,
     MsFragParser,

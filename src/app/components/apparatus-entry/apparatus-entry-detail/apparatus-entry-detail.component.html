@@ -28,6 +28,14 @@
                     </span>
                 </ng-template>
             </li>
+
+            <li ngbNavItem="corrSeq" *ngIf="data.changes.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-mod-sequence [data]="data.changes" [orderedLayers]="orderedLayers"></evt-mod-sequence>
+                </ng-template>
+            </li>
+
             <li ngbNavItem="info">
                 <a class="app-detail-btn" ngbNavLink>{{'info' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -72,6 +80,7 @@
                     </div>
                 </ng-template>
             </li>
+
             <li ngbNavItem="xml">
                 <a class="app-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>

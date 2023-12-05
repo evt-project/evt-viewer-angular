@@ -1,0 +1,14 @@
+@import '../../../assets/scss/colors';
+
+$modHoverBackground: get-color(highlightColor);
+
+.mod {
+    &:hover {
+        background: $modHoverBackground;
+    }
+}
+::ng-deep .mod {
+    &:hover .line-gap {
+        background: $modHoverBackground;
+    }
+}

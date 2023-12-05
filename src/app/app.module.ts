@@ -70,6 +70,9 @@ import { LbComponent } from './components/lb/lb.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
+import { ModComponent } from './components/mod/mod.component';
+import { ModDetailComponent } from './components/mod/mod-detail/mod-detail.component';
+import { ModSequenceComponent } from './components/mod/mod-sequence/mod-sequence.component';
 import { MsContentsComponent } from './components/ms-contents/ms-contents.component';
 import { MsDescComponent } from './components/ms-desc/ms-desc.component';
 import { MsDescSectionComponent } from './ui-components/ms-desc-section/ms-desc-section.component';
@@ -223,6 +226,9 @@ const DynamicComponents = [
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
+    ModComponent,
+    ModDetailComponent,
+    ModSequenceComponent,
     MsDescSectionComponent,
     MsDescSelectorComponent,
     NamedEntityOccurrenceComponent,

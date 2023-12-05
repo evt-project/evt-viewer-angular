@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ApparatusEntry, GenericElement, Reading } from '../../../models/evt-models';
+import { ApparatusEntry, ChangeLayerData, GenericElement, Reading } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
 import { EVTModelService } from '../../../services/evt-model.service';
+import { distinctUntilChanged } from 'rxjs';
+import { EVTStatusService } from 'src/app/services/evt-status.service';
 @Component({
   selector: 'evt-apparatus-entry-detail',
   templateUrl: './apparatus-entry-detail.component.html',
@@ -14,6 +16,8 @@ export class ApparatusEntryDetailComponent implements OnInit {
   @Input() data: ApparatusEntry;
   nestedApps: ApparatusEntry[] = [];
   rdgHasCounter = false;
+
+  public orderedLayers: string[];
 
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg?.significant);
@@ -35,8 +39,15 @@ export class ApparatusEntryDetailComponent implements OnInit {
       }),     {});
   }
 
+  getLayerData(changeData: ChangeLayerData) {
+    //console.log('app',changeData, this.data);
+    this.orderedLayers = changeData?.layerOrder;
+    ///this.selLayer = data?.selectedLayer;
+  }
+
   constructor(
     public evtModelService: EVTModelService,
+    public evtStatusService: EVTStatusService,
   ) {
   }
 
@@ -44,6 +55,7 @@ export class ApparatusEntryDetailComponent implements OnInit {
     if (this.data.nestedAppsIDs.length > 0) {
       this.recoverNestedApps(this.data);
     }
+    this.evtStatusService.currentChanges$.pipe(distinctUntilChanged()).subscribe(({ next: (data) => this.getLayerData(data) }));
   }
 
   recoverNestedApps(app: ApparatusEntry) {

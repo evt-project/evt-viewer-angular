@@ -1,0 +1,18 @@
+<span *ngIf="isVisible()" class="mod {{data.class}} pointer" title="mod"
+    (click)="toggleOpened$.next()" 
+    [ngClass]="{opened: opened$ | async}" 
+    [evtEditorialConventionLayout]="editorialConventionData"
+    triggers="mouseenter:mouseleave">
+    <evt-content-viewer *ngFor="let element of data.content" 
+        [content]="element"
+        [editionLevel]="editionLevel" 
+        [itemsToHighlight]="itemsToHighlight">
+    </evt-content-viewer>
+</span>
+<evt-mod-detail *ngIf="opened$ | async"
+    [editionLevel]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes"
+    [mod]="data"
+    [orderedLayers]="orderedLayers"
+    (click)="stopPropagation($event)">
+</evt-mod-detail>
