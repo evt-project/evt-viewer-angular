@@ -464,6 +464,8 @@ export class AnchorParser extends GenericElemParser implements Parser<XMLElement
 
 @xmlParser('spanGrp', SpanParser)
 @xmlParser('span', SpanParser)
+@xmlParser('addSpan', SpanParser)
+@xmlParser('delSpan', SpanParser)
 export class SpanParser extends GenericElemParser implements Parser<XMLElement> {
 
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -495,6 +497,25 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
                 attributes: this.attributeParser.parse(xml),
                 from: xml.getAttribute('from'),
                 to: xml.getAttribute('to'),
+                includedText: included.text,
+                includedElements: parsedElements,
+                content: parseChildren(xml, this.genericParse),
+            };
+
+        } else if ((xml.tagName === 'addSpan') || (xml.tagName === 'delSpan')) {
+            //console.log('span',xml);
+            let included = { text: '', elements: [] };
+            let parsedElements = [];
+            //const startingElement = getExternalElements(xml, ['xml:id'], 'xml:id', xml.tagName);
+            //included = getDelAddSpanIncludedElements(startingElement[0].parentElement, xml.getAttribute('spanTo'));
+            parsedElements = included.elements.map((x) => super.parse(x));
+
+            return <Span> {
+                type: Span,
+                id: xml.getAttribute('xml:id'),
+                attributes: this.attributeParser.parse(xml),
+                from: xml.getAttribute('xml:id'),
+                to: xml.getAttribute('spanTo'),
                 includedText: included.text,
                 includedElements: parsedElements,
                 content: parseChildren(xml, this.genericParse),

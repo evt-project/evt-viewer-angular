@@ -27,6 +27,13 @@ export class TextPanelComponent {
     return this._mc;
   }
 
+  public selLayer;
+  @Input() set selectedLayer(layer: string) {
+    this.selLayer = layer;
+    this.evtStatus.updateLayer$.next(layer);
+  }
+  get selectedLayer() { return this.selLayer; }
+
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() pageID: string;
