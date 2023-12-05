@@ -36,7 +36,7 @@ export interface EditionStructure {
     pages: Page[];
 }
 
-export type ViewModeId = 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions';
+export type ViewModeId = 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions' | 'documentalMixed';
 
 export interface ViewMode {
     id: ViewModeId;
@@ -54,6 +54,12 @@ export interface Page {
     parsedContent: Array<ParseResult<GenericElement>>;
     url: string;
     facsUrl: string;
+}
+
+export interface ChangeLayerData {
+    list: ListChange[],
+    layerOrder: string[],
+    selectedLayer: string,
 }
 
 export interface NamedEntities {
@@ -168,6 +174,7 @@ export class ApparatusEntry extends GenericElement {
     notes: Note[];
     originalEncoding: string;
     nestedAppsIDs: string[];
+    changes: Mod[];
 }
 
 export const SourceClass = 'sourceEntry';
@@ -1285,6 +1292,17 @@ export class ListChange extends GenericElement {
     id?: string;
     description?: Description;
     ordered?: boolean;
+}
+
+export class Mod extends GenericElement {
+    id?: string;
+    changeLayer: string;
+    varSeq: string;
+    hidden: boolean;
+    insideApp: boolean;
+    content: Array<ParseResult<GenericElement>>;
+    note: string[];
+    originalEncoding: OriginalEncodingNodeType
 }
 
 export class RevisionDesc extends GenericElement {

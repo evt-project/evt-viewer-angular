@@ -41,6 +41,7 @@ import { ContentViewerComponent } from './components/content-viewer/content-view
 import { CriticalApparatusComponent } from './components/critical-apparatus/critical-apparatus.component';
 import { DamageComponent } from './components/damage/damage.component';
 import { DeletionComponent } from './components/deletion/deletion.component';
+import { DocumentalMixedComponent } from './view-modes/documental-mixed/documental-mixed.component';
 import { EditionLevelSelectorComponent } from './components/edition-level-selector/edition-level-selector.component';
 import { EditionStmtComponent } from './components/edition-stmt/edition-stmt.component';
 import { EditorialConventionLayoutDirective } from './directives/editorial-convention-layout.directive';
@@ -206,6 +207,7 @@ const DynamicComponents = [
     CollationComponent,
     ContentViewerComponent,
     CriticalApparatusComponent,
+    DocumentalMixedComponent,
     EditionLevelSelectorComponent,
     EditorialConventionLayoutDirective,
     EntitiesSelectComponent,

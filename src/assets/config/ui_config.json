@@ -41,6 +41,13 @@
 			"id": "textVersions",
 			"label": "Text Versions",
 			"enable": true
+		},
+		{
+			"icon": "imgTxt",
+			"iconSet": "evt",
+			"id": "documentalMixed",
+			"label": "Documental Mixed",
+			"enable": true
 		}
 	],
 	"localization": true,

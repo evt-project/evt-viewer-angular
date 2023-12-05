@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CollationComponent } from './view-modes/collation/collation.component';
+import { DocumentalMixedComponent } from './view-modes/documental-mixed/documental-mixed.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
   { path: 'collation', component: CollationComponent },
   { path: 'textSources', component: TextSourcesComponent },
   { path: 'textVersions', component: TextVersionsComponent },
+  { path: 'documentalMixed', component: DocumentalMixedComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' })],
