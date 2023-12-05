@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EditionLevelType } from 'src/app/app.config';
 import { QuoteEntry } from 'src/app/models/evt-models';
@@ -7,6 +7,7 @@ import { QuoteEntry } from 'src/app/models/evt-models';
   selector: 'evt-source-detail',
   templateUrl: './source-detail.component.html',
   styleUrls: ['../../sources/sources.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceDetailComponent {
 

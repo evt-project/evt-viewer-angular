@@ -1,10 +1,11 @@
-import { Component, Input,  OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input,  OnInit } from '@angular/core';
 import { Note, Paragraph, Verse, VersesGroup } from 'src/app/models/evt-models';
 
 @Component({
   selector: 'evt-source-note',
   templateUrl: './source-note.component.html',
   styleUrls: ['../../sources/sources.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceNoteComponent implements OnInit {
 

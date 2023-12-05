@@ -1,12 +1,13 @@
 import { Analogue } from 'src/app/models/evt-models';
 import { BehaviorSubject } from 'rxjs';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { EditionLevelType } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-analogue-detail',
   templateUrl: './analogue-detail.component.html',
   styleUrls: ['./analogue-detail.component.scss','../../sources/sources.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnalogueDetailComponent {
 
