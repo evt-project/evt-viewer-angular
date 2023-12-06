@@ -185,5 +185,7 @@
   "analogueIn": "Passo parallelo in",
   "corresps": "Corrispondenze",
   "corrSeq": "Sequenza correzioni",
-  "criticalNote": "Nota critica"
+  "criticalNote": "Nota critica",
+  "show deletions": "Mostra cancellazioni",
+  "hide deletions": "Nascondi cancellazioni"
 }

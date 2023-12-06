@@ -4,13 +4,14 @@
         <span class="btn btn-sm transparent source-quote-button">☚</span>
         <span class="source-quote-symbol">&#10077;</span>
         <span title="analogue-text">
-            <ng-container *ngFor="let element of mod.content">
+            <ng-container *ngFor="let element of mod.content; index as i">
                 <evt-content-viewer 
                     [content]="element" 
                     [editionLevel]="editionLevel"
                     [evtHtmlAttributes]="element?.attributes" 
                     [attr.data-edition]="editionLevel">
-                </evt-content-viewer>
+                </evt-content-viewer> 
+                <ng-container *ngIf="((i !== 0) && (mod.content.length > i+1))"> &#x3c; </ng-container>
             </ng-container>
         </span>
     </div>
@@ -35,7 +36,10 @@
             <li ngbNavItem="corrSeq" *ngIf="mod.content.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <evt-mod-sequence [data]="[mod]" [orderedLayers]="ordLayers"></evt-mod-sequence>
+                    <evt-mod-sequence 
+                        [data]="[mod]" 
+                        [orderedLayers]="ordLayers"
+                        [selectedLayer]="selLayer"></evt-mod-sequence>
                 </ng-template>
             </li>
 

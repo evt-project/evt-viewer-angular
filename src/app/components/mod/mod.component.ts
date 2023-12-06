@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
-import { Mod } from 'src/app/models/evt-models';
+import { ChangeLayerData, Mod } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
 import { distinctUntilChanged, scan, startWith, Subject } from 'rxjs';
@@ -21,7 +21,7 @@ export class ModComponent implements OnInit {
 
   @Input() data: Mod;
 
-  public selLayer: string;
+  public selectedLayer: string;
   public orderedLayers: string[];
 
   public isVisible = this.layerVisible;
@@ -43,16 +43,16 @@ export class ModComponent implements OnInit {
     };
   }
 
-  getLayerData(data) {
+  getLayerData(data: ChangeLayerData) {
     this.orderedLayers = data?.layerOrder;
-    this.selLayer = data?.selectedLayer;
+    this.selectedLayer = data?.selectedLayer;
   }
 
   layerVisible() {
     //console.log(this.selLayer, this.data)
     if (this.editionLevel !== 'critical') {
       if (this.data.hidden) {
-        console.log('hidden');
+        // console.log('hidden');
         // changes not marked as lem are hidden if not in critical edition
         // todo: selectedLayer
         // todo: hide deleted text?

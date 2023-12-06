@@ -32,7 +32,11 @@
             <li ngbNavItem="corrSeq" *ngIf="data.changes.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <evt-mod-sequence [data]="data.changes" [orderedLayers]="orderedLayers"></evt-mod-sequence>
+                    <evt-mod-sequence 
+                        [data]="data.changes" 
+                        [orderedLayers]="orderedLayers"
+                        [selectedLayer]="selectedLayer">
+                    </evt-mod-sequence>
                 </ng-template>
             </li>
 

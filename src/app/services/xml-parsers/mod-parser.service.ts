@@ -29,7 +29,7 @@ export class ModParserService {
     return {
       list: parsedList,
       layerOrder: layerOrder,
-      selectedLayer: undefined,
+      selectedLayer: layerOrder[layerOrder.length-1],
     };
   }
 

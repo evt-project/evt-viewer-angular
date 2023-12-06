@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
-import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
+import { AppConfig, EditionLevel, EditionLevelType, HideDeletions, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -35,6 +35,10 @@ export class TextPanelComponent {
   get selectedLayer() { return this.selLayer; }
 
   @Input() hideEditionLevelSelector: boolean;
+
+  @Input() hideChangeLayerSelector: boolean;
+
+  @Input() enableHideDeletionsToggler: boolean;
 
   @Input() pageID: string;
   updatePageFromScroll$ = new BehaviorSubject<void>(undefined);
@@ -141,9 +145,21 @@ export class TextPanelComponent {
     return this._tf;
   }
 
+  private _dl: HideDeletions = 'show deletions';
+  public set deletions(dl: HideDeletions) {
+    this._dl = dl;
+  }
+  public get deletions() {
+    return this._dl;
+  }
+
   public get proseVersesTogglerIcon(): EvtIconInfo {
 
     return { icon: this.textFlow === 'prose' ? 'align-left' : 'align-justify', iconSet: 'fas' };
+  }
+
+  public get hideDeletionsTogglerIcon(): EvtIconInfo {
+    return { icon: (this.deletions === 'show deletions') ? 'eye' : 'eye-slash', iconSet: 'fas' };
   }
 
   public isMultiplePageFlow$ = this.currentStatus$.pipe(
@@ -180,6 +196,14 @@ export class TextPanelComponent {
 
   toggleProseVerses() {
     this.textFlow = this.textFlow === 'prose' ? 'verses' : 'prose';
+  }
+
+  toggleHideDeletions() {
+    this.deletions = (this.deletions === 'show deletions') ? 'hide deletions' : 'show deletions'
+  }
+
+  updateSelectedLayer(layer) {
+    this.selectedLayer = layer;
   }
 
   private _scrollToPage(pageId: string) {

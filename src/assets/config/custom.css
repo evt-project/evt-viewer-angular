@@ -1,0 +1,118 @@
+*[rend="strikethrough"] {
+    text-decoration: line-through;
+}
+
+*[rend="overwritten"] {
+    font-weight: bold;
+}
+
+*[rend="underline"] {
+    text-decoration: underline;
+}
+
+*[rend="italic"] {
+    font-style: italic;
+}
+
+*[rend="erasure"] {
+    background-color: rgb(70, 70, 70);
+}
+
+*[rend="cross"] {
+    text-decoration: line-through;
+}
+
+evt-addition[place="above"] {
+    vertical-align: text-bottom;
+}
+
+evt-addition[place="below"] {
+    vertical-align: text-top;
+}
+
+evt-addition[place="superscript"] {
+    vertical-align: text-bottom;
+}
+
+evt-verse {
+    display: block;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .head {
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.5em 0.1em 0.5em 0em;
+}
+
+/*
+evt-page :not(evt-apparatus-entry-detail) .head::before {
+    content: ' ';
+    display: inline-block;
+    padding-top: 3em;
+}
+*/
+
+evt-page :not(evt-apparatus-entry-detail) .closer {
+    display: block;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .signed {
+    display: inline-block;
+    /* font-style: italic; */
+}
+
+evt-page :not(evt-apparatus-entry-detail) .retrace {
+    font-weight: bolder;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .verse-num {
+    color:black !important;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
+    border:none !important;
+    background: none !important;
+}
+
+.metamark[rend="line"] {
+    display: block;
+    border: 1px solid black;
+    margin-top:-1em;
+    margin-right:70%;
+}
+
+evt-mod[change="#strato-0"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #C5FFF8;
+}
+
+evt-mod[change="#strato-1"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #96EFFF;
+}
+
+evt-mod[change="#strato-2"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #5FBDFF;
+}
+
+evt-mod[change="#strato-3"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #7B66FF;
+}
+
+evt-mod[change="#strato-4"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #5d44ff;
+}
+
+evt-mod[change="#strato-5"] {
+    text-decoration: underline;
+    text-decoration-thickness: 14%;
+    text-decoration-color: #472bff;
+}

@@ -10,7 +10,10 @@
         <evt-text-panel
             [pageID]="currentPageID$ | async" 
             [editionLevelID]="'critical'"
-            [selectedLayer]="'1'"
+            [selectedLayer]="'strato-5'"
+            [hideEditionLevelSelector]="true"
+            [hideChangeLayerSelector]="false"
+            [enableHideDeletionsToggler]="true"
             (pageChange)="changePage($event)" 
             (layerChange)="changeLayer($event)" 
         ></evt-text-panel>

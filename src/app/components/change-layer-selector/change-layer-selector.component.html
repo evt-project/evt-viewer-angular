@@ -1,0 +1,20 @@
+<ng-select
+    class="me-1"
+    [items]="changeLayers"
+    bindLabel="id"
+    bindValue="id"
+    [clearable]="false"
+    [searchable]="false"
+    [ngModel]="evtStatusService.updateLayer$ | async"
+    (click)="stopPropagation($event)"
+    (change)="selLayer = $event.id">
+    <ng-template ng-label-tmp let-item="item">
+        <evt-icon
+            [iconInfo]="icon"
+            label-left></evt-icon>
+        {{item.id | translate}}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+        {{item.id | translate}}
+    </ng-template>
+</ng-select>

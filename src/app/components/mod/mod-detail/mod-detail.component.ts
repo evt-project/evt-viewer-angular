@@ -14,13 +14,19 @@ export class ModDetailComponent {
   private edLevel: EditionLevelType;
   public modEntry: Mod;
   public boxVisible: boolean;
+
   public ordLayers: string[];
+  public selLayer: string;
 
   @Input() set orderedLayers(layers: string[]) {
-    console.log(layers);
     this.ordLayers = layers;
   }
   get orderedLayers() { return this.ordLayers; }
+
+  @Input() set selectedLayer(layer: string) {
+    this.selLayer = layer;
+  }
+  get selectedLayers() { return this.ordLayers; }
 
   @Input() set mod(el: Mod) {
     this.modEntry = el;
@@ -40,7 +46,6 @@ export class ModDetailComponent {
   }
 
   isBoxVisible() {
-    console.log('box visible',this.modEntry,!this.modEntry?.insideApp, this.orderedLayers);
     this.boxVisible = !(this.modEntry?.insideApp);
   }
 

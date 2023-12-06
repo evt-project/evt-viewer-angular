@@ -12,6 +12,7 @@ export class ModSequenceComponent {
   public sequence: Mod[];
 
   public ordLayers: string[];
+  public selLayer: string;
 
   public showSeqAttr = false;
   public showVarSeqAttr = false;
@@ -22,9 +23,13 @@ export class ModSequenceComponent {
   }
   get orderedLayers() { return this.ordLayers; }
 
+  @Input() set selectedLayer(layer: string) {
+    this.selLayer = layer;
+  }
+  get selectedLayer() { return this.selLayer; }
+
   @Input() set data(el: Mod[]) {
     this.sequence = Array.from(el);
-    console.log(this.sequence);
   }
 
   get data() { return this.sequence; }

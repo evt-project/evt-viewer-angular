@@ -186,5 +186,7 @@
     "analogueIn": "Analogue in",
     "corresps": "Correspondences",
     "corrSeq": "Correction sequence",
-    "criticalNote": "Critical note"
+    "criticalNote": "Critical note",
+    "show deletions": "Show deletions",
+    "hide deletions": "Hide deletions"
 }

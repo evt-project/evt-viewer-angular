@@ -8,6 +8,7 @@
             [active]="secondaryContent === 'INFO'"></evt-button>
         <evt-page-selector [pageID]="pageID" (selectionChange)="updatePage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
+        <evt-change-layer-selector [class.hidden]="hideChangeLayerSelector" [selLayer]="selLayer" (layerChange)="updateSelectedLayer($event)"></evt-change-layer-selector>
     </div>
     <div content evtAnnotator #mainContent>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
@@ -44,6 +45,12 @@
             [label]="textFlow | translate"
             additionalClasses="ms-1"
             (btnClick)="toggleProseVerses()">
+        </evt-button>
+        <evt-button *ngIf="enableHideDeletionsToggler"
+            [iconLeft]="hideDeletionsTogglerIcon"
+            [label]="deletions | translate "
+            additionalClasses="ms-1"
+            (btnClick)="toggleHideDeletions()">
         </evt-button>
     </div>
 </evt-panel>
