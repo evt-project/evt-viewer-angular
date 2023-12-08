@@ -1,0 +1,11 @@
+<span class="substitution">
+    <ng-container *ngFor="let el of data.content">
+        <evt-content-viewer *ngIf="data?.type === Deletion"
+            [content]="el" [editionLevel]="editionLevel" 
+            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
+        </evt-content-viewer>
+        <evt-content-viewer *ngIf="data?.type !== Deletion" [content]="el" [editionLevel]="editionLevel" 
+            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
+        </evt-content-viewer>
+    </ng-container>
+</span>

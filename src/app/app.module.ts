@@ -117,6 +117,7 @@ import { SourceNoteComponent } from './components/sources/source-note/source-not
 import { SourcesComponent } from './components/sources/sources.component';
 import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
 import { StartsWithPipe } from './pipes/starts-with.pipe';
+import { SubstitutionComponent } from './components/substitution/substitution.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TagsDeclComponent } from './components/tags-decl/tags-decl.component';
@@ -250,6 +251,7 @@ const DynamicComponents = [
     SourcesComponent,
     SourcesPanelComponent,
     StartsWithPipe,
+    SubstitutionComponent,
     TextPanelComponent,
     TextSourcesComponent,
     TextTextComponent,

@@ -395,6 +395,12 @@ export class Gap extends GenericElement {
     extent?: string;
 }
 
+export class Subst extends GenericElement {
+    id: string;
+    after: ParseResult<GenericElement>;
+}
+
+
 export type PlacementType = 'above' | 'below' | 'inline' | 'left' | 'right' | 'inspace' | 'end' | 'sup' | 'sub' | 'under';
 
 export class Addition extends GenericElement {
