@@ -128,7 +128,8 @@
       "showVarSeqAttr": false,
       "showSeqAttr": false,
       "layerColors": []
-    }
+    },
+    "defaultImageZoomLevel": 0.8
   },
   "analogueMarkers": [
     "ParallelPassage",

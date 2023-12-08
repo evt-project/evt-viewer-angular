@@ -137,6 +137,7 @@ export interface EditionConfig {
         showSeqAttr: boolean;
         layerColors: string[];
     }>;
+    defaultImageZoomLevel: number;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

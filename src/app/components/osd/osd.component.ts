@@ -1,3 +1,4 @@
+import { AppConfig } from 'src/app/app.config';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
@@ -138,7 +139,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
     const commonOptions = {
       visibilityRatio: 0.1,
       minZoomLevel: 0.5,
-      defaultZoomLevel: 1,
+      defaultZoomLevel: AppConfig.evtSettings.edition.defaultImageZoomLevel,
       sequenceMode: true,
       prefixUrl: 'assets/osd/images/',
       id: this.div.nativeElement.id,
