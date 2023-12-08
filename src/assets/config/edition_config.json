@@ -123,13 +123,7 @@
     "showEmptyValues": false,
     "inline": true,
     "commaSeparated": true,
-    "showMainElemTextContent": true,
-    "changeSequenceView": {
-      "showVarSeqAttr": false,
-      "showSeqAttr": false,
-      "layerColors": []
-    },
-    "defaultImageZoomLevel": 0.8
+    "showMainElemTextContent": true
   },
   "analogueMarkers": [
     "ParallelPassage",
@@ -137,5 +131,18 @@
     "Parallel",
     "parallel"
   ],
-  "sourcesExcludedFromListByParent": ["desc"]
+  "sourcesExcludedFromListByParent": ["desc"],
+  "changeSequenceView": {
+    "showVarSeqAttr": false,
+    "showSeqAttr": false,
+    "layerColors": {
+      "strato-0": "#C5FFF8",
+      "strato-1": "#71e5fa",
+      "strato-2": "#5FBDFF",
+      "strato-3": "#7B66FF",
+      "strato-4": "#3e22f3",
+      "strato-5": "#100077"
+    }
+  },
+  "defaultImageZoomLevel": 0.8
 }

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { distinctUntilChanged } from 'rxjs';
+import { AppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-change-layer-selector',
@@ -21,7 +22,7 @@ export class ChangeLayerSelectorComponent implements OnInit {
   get editionLevelID() { return this.selectedLayer; }
 
   icon: EvtIconInfo = {
-    icon: 'clock', // TODO: Choose better icon
+    icon: 'clock',
     additionalClasses: 'me-2',
   };
 
@@ -31,6 +32,15 @@ export class ChangeLayerSelectorComponent implements OnInit {
     data?.layerOrder.forEach((layer) => layerItems.push({ id: layer, value: layer }));
     this.changeLayers = layerItems;
     this.selectedLayer = data?.selectedLayer;
+  }
+
+  getLayerColor(layer) {
+    const layerColors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
+    if ((layer !== undefined) && (layerColors[layer.replace('#','')])) {
+      return layerColors[layer.replace('#','')];
+    }
+
+    return 'black';
   }
 
   stopPropagation(event: MouseEvent) {

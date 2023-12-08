@@ -80,39 +80,3 @@ evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
     margin-top:-1em;
     margin-right:70%;
 }
-
-evt-mod[change="#strato-0"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #C5FFF8;
-}
-
-evt-mod[change="#strato-1"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #96EFFF;
-}
-
-evt-mod[change="#strato-2"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #5FBDFF;
-}
-
-evt-mod[change="#strato-3"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #7B66FF;
-}
-
-evt-mod[change="#strato-4"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #5d44ff;
-}
-
-evt-mod[change="#strato-5"] {
-    text-decoration: underline;
-    text-decoration-thickness: 14%;
-    text-decoration-color: #472bff;
-}

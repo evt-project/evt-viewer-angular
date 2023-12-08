@@ -15,6 +15,6 @@
         {{item.id | translate}}
     </ng-template>
     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-        {{item.id | translate}}
+        {{item.id | translate}} <div class="layer-color-legenda" [style.background-color]="getLayerColor(item.id)"></div>
     </ng-template>
 </ng-select>

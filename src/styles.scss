@@ -258,6 +258,7 @@ evt-analogue-detail evt-original-encoding-viewer code .token {
   color: #212529 !important;
 }
 
-evt-mod-detail * {
-  text-decoration: none !important;
+:not(evt-apparatus-entry-detail) .mod-reading {
+  text-decoration: underline;
+  text-decoration-thickness: 14%;
 }
