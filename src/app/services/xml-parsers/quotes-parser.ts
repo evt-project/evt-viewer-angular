@@ -40,7 +40,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     exceptionParentElements = AppConfig.evtSettings.edition.sourcesExcludedFromListByParent;
     elementsAllowedForSources = 'bibl, cit, note, seg'; // bibliography
     elementsAllowedForLink = 'seg, ref, quote, cit, div'; // nested quote elements
-    notNiceInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry',
+    notDisplayedInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry',
     'BibliographicStructEntry', 'Analogue', 'MsDesc'];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
     evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
@@ -135,7 +135,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             insideCit: isInCit,
             noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
             content: content,
-            contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
+            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
             originalEncoding: this.getXML(quote, isInCit),
         };
     }
@@ -315,7 +315,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             insideCit: false,
             noteView: true,
             content: content,
-            contentToShow: content.filter((el) => !(this.notNiceInTextFlow.includes(el['type'].name))),
+            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
             originalEncoding: this.getXML(quote, false),
         };
     }
