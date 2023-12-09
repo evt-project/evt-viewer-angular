@@ -5,7 +5,7 @@ import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-m
 
 // List of handled editorial convention
 export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
-  'damage' | 'deletion' | 'sicCrux' | 'surplus' | '.sources' | '.analogues' ;
+  'damage' | 'deletion' | 'sicCrux' | 'surplus' | 'sources' | 'analogues';
 
 @Injectable({
   providedIn: 'root',
@@ -125,7 +125,7 @@ export class EditorialConventionsService {
         },
       },
     },
-    '.sources': {
+    'sources': {
       diplomatic: {
         style: {
           'font-style': 'italic',
@@ -145,7 +145,7 @@ export class EditorialConventionsService {
         },
       },
     },
-    '.analogues': {
+    'analogues': {
       diplomatic: {
         pre: '🗎',
         style: {
@@ -168,7 +168,7 @@ export class EditorialConventionsService {
   };
 
   getLayouts(name: string, attributes: AttributesMap, defaultsKey: EditorialConventionDefaults) {
-    const excludedFromAttributeControl = ['.sources', '.analogues'];
+    const excludedFromAttributeControl = ['sources', 'analogues'];
     const defaultKeys = this.defaultLayouts[defaultsKey];
     let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
 
