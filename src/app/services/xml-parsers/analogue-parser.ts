@@ -19,7 +19,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
-    notNiceInText = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
+    notDisplayedInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
     'Analogue', 'MsDesc'];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
     evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
@@ -42,7 +42,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(analogue),
             text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements, this.evtInnerTextElements)),
             content: content,
-            contentToShow: content.filter((x) => !(this.notNiceInText.includes(x['type'].name))),
+            contentToShow: content.filter((x) => !(this.notDisplayedInTextFlow.includes(x['type'].name))),
             sources: sources.sources,
             extSources: sources.extSources,
             extLinkedElements: sources.extLinkedElements,
@@ -120,8 +120,8 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
 
     private getQuotedTextFromElements(sources: BibliographicEntry[], elements: XMLElement[]): [{id: string, quote: string}] {
         let quotesInSources = this.getQuotedTextFromSources(sources);
-        const notNiceInText = ['Note','BibliographicList','BibliographicEntry','BibliographicStructEntry','Analogue','MsDesc'];
-        elements.forEach((el: XMLElement) => { if (!notNiceInText.includes(el['type'])) { quotesInSources.push( { id: el.id, quote: el })} });
+        const notDisplayedInText = ['Note','BibliographicList','BibliographicEntry','BibliographicStructEntry','Analogue','MsDesc'];
+        elements.forEach((el: XMLElement) => { if (!notDisplayedInText.includes(el['type'])) { quotesInSources.push( { id: el.id, quote: el })} });
 
         return quotesInSources;
     }
