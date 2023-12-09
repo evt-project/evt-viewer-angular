@@ -36,10 +36,10 @@ export class AnalogueEntryComponent implements OnInit {
 
   get editorialConventionData(): EditorialConventionLayoutData {
     return {
-      name: '.analogues',
+      name: 'analogues',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel,
-      defaultsKey: '.analogues',
+      defaultsKey: 'analogues',
     };
   }
 
