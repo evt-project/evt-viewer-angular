@@ -37,10 +37,10 @@ export class QuoteEntryComponent implements OnInit {
 
   get editorialConventionData(): EditorialConventionLayoutData {
     return {
-      name: '.sources',
+      name: 'sources',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel,
-      defaultsKey: '.sources',
+      defaultsKey: 'sources',
     };
   }
 
