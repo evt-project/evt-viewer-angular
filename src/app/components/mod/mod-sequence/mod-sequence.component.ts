@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AppConfig } from 'src/app/app.config';
 import { Mod } from 'src/app/models/evt-models';
 
 @Component({
@@ -14,9 +15,9 @@ export class ModSequenceComponent {
   public ordLayers: string[];
   public selLayer: string;
 
-  public showSeqAttr = false;
-  public showVarSeqAttr = false;
-  public colors = [];
+  public showSeqAttr = AppConfig.evtSettings.edition.changeSequenceView.showSeqAttr;
+  public showVarSeqAttr = AppConfig.evtSettings.edition.changeSequenceView.showVarSeqAttr;
+  public colors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
 
   @Input() set orderedLayers(layers: string[]) {
     this.ordLayers = layers;

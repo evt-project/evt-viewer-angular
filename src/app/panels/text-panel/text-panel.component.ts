@@ -36,7 +36,7 @@ export class TextPanelComponent {
 
   @Input() hideEditionLevelSelector: boolean;
 
-  @Input() hideChangeLayerSelector: boolean;
+  @Input() showChangeLayerSelector: boolean;
 
   @Input() enableHideDeletionsToggler: boolean;
 

@@ -6,6 +6,7 @@ import { register } from 'src/app/services/component-register.service';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
 import { distinctUntilChanged, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { AppConfig } from 'src/app/app.config';
 
 export interface ModComponent extends EditionlevelSusceptible, Highlightable { }
 
@@ -24,9 +25,11 @@ export class ModComponent implements OnInit {
   public selectedLayer: string;
   public orderedLayers: string[];
 
+  public opened = false;
+
   public isVisible = this.layerVisible;
 
-  public opened = false;
+  public changeLayerColor = this.getLayerColor;
 
   toggleOpened$ = new Subject<boolean | void>();
   opened$ = this.toggleOpened$.pipe(
@@ -46,6 +49,15 @@ export class ModComponent implements OnInit {
   getLayerData(data: ChangeLayerData) {
     this.orderedLayers = data?.layerOrder;
     this.selectedLayer = data?.selectedLayer;
+  }
+
+  getLayerColor() {
+    const layerColors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
+    if ((this.data?.changeLayer) && (layerColors[this.data.changeLayer.replace('#','')])) {
+      return layerColors[this.data.changeLayer.replace('#','')];
+    }
+
+    return 'black';
   }
 
   layerVisible() {

@@ -111,6 +111,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                      <del seq="1" rend="strikethrough"> quindi, come
                         <lb n="3"/>si sceglie la moglie
                      </del>, come si scelgono gli amici
+                  </mod>
                      <app>
                         <lem varSeq="2">
                            <mod change="#strato-3">
@@ -124,7 +125,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                            </mod>
                         </rdg>
                      </app>
-                  </mod> io ho scelto 
+                   io ho scelto 
                <lb n="4"/>da me i miei lettori; non troppi a dire il vero, ma nemmeno 
                <lb n="5"/>troppo pochi; siete oggi esattamente sei. Quelli siete cioè
                <lb n="6"/>che di quando in quando, per un'usanza che mi è cara
@@ -239,7 +240,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </signed>
             </closer>
          </div>
-         <pb n="7" facs="6.jpg"/>
+         <pb n="7" facs="7.jpg"/>
          <div xml:id="SEZ_Poesie_dell_adolescenza"> 
          <div xml:id="Poesie_dell_adolescenza">
             <div>
@@ -265,8 +266,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   </lg></mod></metamark>
             </div>
             
-            <pb n="8" facs="8.jpg"/>
-            <pb n="9" facs="8.jpg"/>
+            <!-- <pb n="8" facs="9.jpg"/> -->
+            <pb n="9" facs="9.jpg"/>
          <note place="top" resp="#US" type="publishing"><mod change="#strato-5"><add>Vedi fogli</add></mod></note>
             <div  n="1" xml:id="Ammonizione">
             <head>Ammonizione</head>
@@ -450,7 +451,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                <l n="3">e sospirando dissi un nome ai venti.</l>
             </lg>
          </div>
-         <pb n="11" facs="10.jpg"/>
+         <pb n="11" facs="11.jpg"/>
          <div xml:id="Sonetto_di_primavera">
             <head>Sonetto di primavera</head>
             <lb/>
@@ -565,7 +566,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                <l n="4">l'ombra nera calava.</l>
             </lg>
         
-         <pb n="13" facs="12.jpg"/>
+         <pb n="13" facs="13.jpg"/>
         
             <lg n="4">
                <l n="1">Ma spesso tu sedevi 
@@ -785,7 +786,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                <l n="4">della casa paterna.</l>
             </lg>
          </div>
-         <pb n="15" facs="14.jpg"/>
+         <pb n="15" facs="15.jpg"/>
             <div xml:id="Fra_chi_pensa_d_amarmi">
             <head>Fra chi pensa d'amarmi</head>
             <note place="margin-left" rend="underline" type="editorial"><mod change="#strato-2">Si può omettere?</mod></note>
@@ -960,7 +961,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                <l n="3">del giovane che ama, che perdona?</l>
             </lg>
          </div>
-            <pb n="17" facs="16.jpg"/>
+            <pb n="17" facs="17.jpg"/>
             <div xml:id="Così_passo_i_miei_giorni">
                <head>Così passo i miei giorni</head>
                <lg n="1">
@@ -1090,7 +1091,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                  
                  <anchor xml:id="pecetta_3"/>
             </div>
-            <pb n="19" facs="18.jpg"/>
+            <pb n="19" facs="19.jpg"/>
             <milestone n="4" unit="section" type="pecetta" spanTo="#pecetta_4"/>
             <div xml:base="Alla_Morte">
               
@@ -1154,7 +1155,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
                <anchor xml:id="pecetta_5"/>
             </div>
-            <pb n="21" facs="20.jpg"/>
+            <pb n="21" facs="21.jpg"/>
             <milestone n="6" unit="section" type="pecetta" spanTo="#pecetta_6"/>
             <div xml:id="Canzonette_pisane">
                <!-- inizio peccetta -->
@@ -1240,7 +1241,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
             </div>
          </div>
             <div xml:id="Poesie_giovanili">
-            <pb n="23" facs="22.jpg"/>
+            <pb n="23" facs="23.jpg"/>
             <div xml:id="Durante_una_lunga_malattia">
                <metamark function="substitution">
                   <note type="editorial" resp="#US"><mod change="#strato-3"><add place="above">La morte</add></mod></note></metamark>
@@ -1308,7 +1309,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
                      <anchor xml:id="p24_1"/>
             </div>
-            <pb n="25" facs="24.jpg"/>
+            <pb n="25" facs="25.jpg"/>
             <div xml:id="Il_Borgo">
                <head>Il Borgo</head>
                <milestone n="8" unit="section" type="pecetta" spanTo="#pecetta_8"/>
@@ -1423,7 +1424,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
                <anchor xml:id="ritaglio_2"/>
             </div>
-            <pb n="27" facs="26.jpg"/>
+            <pb n="27" facs="27.jpg"/>
             <div xml:id="Intermezzo_a_Bianca">
                <head>Intermezzo a Bianca</head>
                <lg n="1">
@@ -1544,7 +1545,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                <anchor xml:id="p28_1"/>
             </div>
         
-            <pb n="29" facs="28.jpg"/>
+            <pb n="29" facs="29.jpg"/>
             <div xml:id="La_Cappella">
                <head>La Cappella</head>
                <lg n="1">
@@ -1669,7 +1670,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
             </div>
             <div xml:id="La_Fonte">
-               <pb n="31" facs="30.jpg"/>
+               <pb n="31" facs="31.jpg"/>
                <head>La Fonte </head>
                <milestone n="10" unit="section" type="pecetta" spanTo="#pecetta_10"/>
                <lg n="1">
@@ -1869,7 +1870,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
             </div>
             <div xml:id="Ad_uno_che_parte">
-               <pb n="33" facs="32.jpg"/>
+               <pb n="33" facs="33.jpg"/>
                <metamark function="substitution"><mod change="#strato-2"><delSpan rend="cross" spanTo="#p33_1"/></mod>
                
                <note type="editorial" resp="#US">
@@ -2020,7 +2021,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                </lg>
             </div>
                <div xml:id="Dormiveglia">
-               <pb n="35" facs="34.jpg"/>
+               <pb n="35" facs="35.jpg"/>
                <head>Dormiveglia</head>
                <lg n="1">
                   <l n="1">Trillava un cardellino</l>
@@ -2105,7 +2106,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
             </div>
          </div>
          <div xml:id="Poesie_giovanili_fiorentine">
-            <pb n="37" facs="36.jpg"/>
+            <pb n="37" facs="37.jpg"/>
            
             <div xml:id="I_Risvegli">
                         
@@ -2233,7 +2234,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="2">solitudine del vïale,</l>
                   <l n="3">un vecchio, che ha fatto guanciale</l>
             <anchor xml:id="pecetta_14"/>
-                  <pb n="39" facs="38.jpg"/>
+                  <pb n="39" facs="39.jpg"/>
                   <l n="4">delle sue gruccie, che dorme</l>
                </lg>
                <lg n="6">
@@ -2374,7 +2375,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   </lg>
                </div>
             </div>
-            <pb n="41" facs="40.jpg"/>
+            <pb n="41" facs="41.jpg"/>
             <div xml:id="Salendo_un_viale">
                <head>Salendo un viale</head>
                <lg n="1">
@@ -2454,7 +2455,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="4"> trova il dolore che in te sola vedi. </l>
                </lg>
             </div>
-            <pb n="43" facs="42.jpg"/>
+            <pb n="43" facs="43.jpg"/>
             <div xml:id="La_spiaggia">
                <head>La spiaggia</head>
                <lg n="1">
@@ -2637,7 +2638,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                     <mod change="#strato-0"><subst><del rend="strikethrough">un nuovo pensiero</del><add place="above">con nuove in</add></subst></mod> attoniti occhi</l>
                   <note resp="#GC" type="critical">Lezione lasciata in sospeso, non integrabile nel contesto..</note>
                   <l n="4">voglie che fra i sudati </l>
-                  <pb n="45" facs="44.jpg"/>
+                  <pb n="45" facs="45.jpg"/>
                   <l n="5">giochi nacquero a un tratto ad essi in cuore. </l>
                   <l n="6">Ed io, rammento, o non <subst>
                         <del rend="erasure"><gap reason="illegible"/></del>
@@ -2792,7 +2793,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="5">son le tue cure in me domenicali</l>
                   <l n="6">malinconie. </l>
                   <l n="7">Lente lente ora sfollano le vie </l>
-                  <pb n="47" facs="46.jpg"/>
+                  <pb n="47" facs="47.jpg"/>
                   <l n="8"> nella sera di festa, e verdi e rossi </l>
                   <l n="9"> accendono fanali le osterie </l>
                   <l n="10"> di campagna. <mod change="#strato-2"><add place="inline">È una strana sera, mamma,</add></mod>
@@ -2871,7 +2872,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="3">Per ogni vita c'è una che ciba</l>
                   <l n="4">sé di quella, ond'io più</l>
                </lg>
-               <pb n="49" facs="48.jpg"/>
+               <pb n="49" facs="49.jpg"/>
                <lg n="8">
                   <l n="1">t'amo, bufera che stronchi e non menti.</l>
                   <l n="2">Godo se d'acqua e foglie empi le fosse;</l>
@@ -3015,7 +3016,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="3">Zuffe avranno gli uccelli, e nozze, e danza.</l>
                   <l n="4">Chi vincerà? Il più forte ed il più adorno.</l>
                </lg>
-               <pb n="51" facs="50.jpg"/>
+               <pb n="51" facs="51.jpg"/>
                <lg n="9">
                   <l n="1">Sarà grande... Ma più bella è la notte,</l>
                   <l n="2">senza sonno per me. <subst>
@@ -3160,7 +3161,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <l n="2">di marcia va ai suoi traffichi la gente:</l>
                   <l n="3">così andando, il più vile ed il più lasso</l>
                   <l n="4">tosto un eroe si sente.</l>
-                  <pb n="53" facs="52.jpg"/>
+                  <pb n="53" facs="53.jpg"/>
                </lg>
                <lg n="6">
                   <l n="1">Tale il bimbo si sente sol che l'oda,</l>

@@ -4,9 +4,11 @@
     [evtEditorialConventionLayout]="editorialConventionData"
     triggers="mouseenter:mouseleave">
     <evt-content-viewer *ngFor="let element of data.content" 
+        [ngClass]="{'mod-reading': (data.insideApp === false)}" 
         [content]="element"
         [editionLevel]="editionLevel" 
-        [itemsToHighlight]="itemsToHighlight">
+        [itemsToHighlight]="itemsToHighlight"
+        [style.text-decoration-color]="changeLayerColor()">
     </evt-content-viewer>
 </span>
 <evt-mod-detail *ngIf="opened$ | async"
