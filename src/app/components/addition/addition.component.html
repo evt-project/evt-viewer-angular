@@ -1,5 +1,6 @@
 <span class="add" [attr.data-edition]="editionLevel" [attr.data-place]="data.place" 
     [evtHighlight]="highlightData" [evtEditorialConventionLayout]="editorialConventionData">
     <evt-content-viewer *ngFor="let element of data.content" [content]="element" 
-        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>
+        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight" 
+        [withDeletions]="withDeletions"></evt-content-viewer>
 </span>
