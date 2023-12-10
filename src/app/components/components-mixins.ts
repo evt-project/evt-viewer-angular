@@ -21,3 +21,9 @@ export class EditionlevelSusceptible {
 export class TextFlowSusceptible {
   @Input() textFlow: TextFlow;
 }
+
+@Directive()
+// tslint:disable-next-line: directive-class-suffix
+export class ShowDeletionsSusceptible {
+  @Input() withDeletions: boolean;
+}

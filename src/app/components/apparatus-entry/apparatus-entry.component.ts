@@ -5,10 +5,10 @@ import { AppConfig } from 'src/app/app.config';
 import { ApparatusEntry } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
 import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatus-entry-detail.component';
 
-export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highlightable { }
+export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-apparatus-entry',

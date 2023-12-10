@@ -186,6 +186,6 @@
   "corresps": "Corrispondenze",
   "corrSeq": "Sequenza correzioni",
   "criticalNote": "Nota critica",
-  "show deletions": "Mostra cancellazioni",
-  "hide deletions": "Nascondi cancellazioni"
+  "showsDeletions": "Con cancellazioni",
+  "hidesDeletions": "Senza cancellazioni"
 }

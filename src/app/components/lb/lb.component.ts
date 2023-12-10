@@ -4,9 +4,9 @@ import { map } from 'rxjs/operators';
 import { Lb } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, TextFlowSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 
-export interface LbComponent extends EditionlevelSusceptible, TextFlowSusceptible { }
+export interface LbComponent extends EditionlevelSusceptible, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
 @register(Lb)
 @Component({

@@ -1,4 +1,4 @@
-<span class="del" [attr.data-edition]="editionLevel" [attr.data-rend]="data.rend" [evtHtmlAttributes]="data?.attributes"
+<span [class.hidden]="!(withDeletions)" class="del" [attr.data-edition]="editionLevel" [attr.data-rend]="data.rend" [evtHtmlAttributes]="data?.attributes"
     [evtHighlight]="highlightData" [evtEditorialConventionLayout]="editorialConventionData">
     <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel"
         [itemsToHighlight]="itemsToHighlight"></evt-content-viewer>

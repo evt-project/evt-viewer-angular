@@ -17,6 +17,7 @@
                     [attr.data-id]="page.id"
                     [data]="page"
                     [textFlow]="textFlow"
+                    [withDeletions]="showDeletions"
                     [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
             </ng-container>
             <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
@@ -24,6 +25,7 @@
                 [data]="currentStatus.currentPage"
                 [editionLevel]="currentStatus.editionLevel"
                 [textFlow]="textFlow"
+                [withDeletions]="showDeletions"
                 [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
         </ng-container>
     </div>
@@ -48,7 +50,7 @@
         </evt-button>
         <evt-button *ngIf="enableHideDeletionsToggler"
             [iconLeft]="hideDeletionsTogglerIcon"
-            [label]="deletions | translate "
+            [label]="deletionsText | translate "
             additionalClasses="ms-1"
             (btnClick)="toggleHideDeletions()">
         </evt-button>

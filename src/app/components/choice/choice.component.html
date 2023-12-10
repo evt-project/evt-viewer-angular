@@ -2,10 +2,10 @@
     [ngbPopover]="popContent" [autoClose]="'outside'" popoverClass="choice-popover {{data.editorialInterventionType}}" 
     container="body" [placement]="['bottom']" triggers="mouseenter:mouseleave">
     <evt-content-viewer *ngFor="let element of content" [content]="element"
-        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow"></evt-content-viewer>
+        [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow" [withDeletions]="withDeletions"></evt-content-viewer>
 </span>
 
 <ng-template #popContent>
     <evt-content-viewer *ngFor="let element of alternativeContent" [content]="element"
-        [editionLevel]="alternativeEditionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow"></evt-content-viewer>
+        [editionLevel]="alternativeEditionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow" [withDeletions]="withDeletions"></evt-content-viewer>
 </ng-template>

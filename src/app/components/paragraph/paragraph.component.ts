@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 
 import { Paragraph } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 
-export interface ParagraphComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
+export interface ParagraphComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-paragraph',

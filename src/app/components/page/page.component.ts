@@ -14,6 +14,7 @@ export class PageComponent {
   @Input() itemsToHighlight: EntitiesSelectItem[];
   @Input() editionLevel: EditionLevel;
   @Input() textFlow: boolean;
+  @Input() withDeletions: boolean;
 
   private d: Page;
   @Input() set data(v: Page) {

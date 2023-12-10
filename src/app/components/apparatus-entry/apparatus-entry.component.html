@@ -2,7 +2,7 @@
    Check if the app entry is inside an app detail (nested app). In the app detail it's not necessary to render the entire app but only the lemma.
 -->
 <span *ngIf="!isInsideAppDetail" class="app-entry" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
-   <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" (click)="toggleAppEntryBox($event);"></evt-reading>
+   <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [withDeletions]="withDeletions" (click)="toggleAppEntryBox($event);"></evt-reading>
    <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
    <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
 </span>

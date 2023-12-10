@@ -11,4 +11,5 @@ import { Highlightable } from '../components-mixins';
 @register(Reading)
 export class ReadingComponent extends Highlightable {
   @Input() data: Reading;
+  @Input() withDeletions: boolean;
 }

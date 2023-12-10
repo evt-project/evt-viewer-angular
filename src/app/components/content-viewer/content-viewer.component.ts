@@ -48,6 +48,14 @@ export class ContentViewerComponent implements OnDestroy {
   get textFlow() { return this.txtFlow; }
   textFlowChange = new BehaviorSubject<TextFlow>(undefined);
 
+  private withDels: boolean;
+  @Input() set withDeletions(d: boolean) {
+    this.withDels = d;
+    this.withDeletionsChange.next(d);
+  }
+  get withDeletions() { return this.withDels; }
+  withDeletionsChange = new BehaviorSubject<boolean>(true);
+
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
@@ -69,8 +77,9 @@ export class ContentViewerComponent implements OnDestroy {
     this.itemsToHighlightChange,
     this.editionLevelChange,
     this.textFlowChange,
+    this.withDeletionsChange,
   ]).pipe(
-    map(([data, itemsToHighlight, editionLevel, textFlow]) => {
+    map(([data, itemsToHighlight, editionLevel, textFlow, withDeletions]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
@@ -78,6 +87,7 @@ export class ContentViewerComponent implements OnDestroy {
           itemsToHighlight,
           editionLevel,
           textFlow,
+          withDeletions,
         };
       }
 
@@ -85,6 +95,7 @@ export class ContentViewerComponent implements OnDestroy {
         data,
         editionLevel,
         textFlow,
+        withDeletions,
       };
     }),
     shareReplay(1),

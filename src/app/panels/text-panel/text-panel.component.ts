@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
-import { AppConfig, EditionLevel, EditionLevelType, HideDeletions, TextFlow } from '../../app.config';
+import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -94,6 +94,9 @@ export class TextPanelComponent {
     if (e && !this.textFlow) {
       this.textFlow = this.defaultTextFlow;
     }
+    if (e && this.showDeletions === undefined) {
+      this.showDeletions = true;
+    }
   }
   public get editionLevelID() {
     return this._edLevel;
@@ -145,13 +148,15 @@ export class TextPanelComponent {
     return this._tf;
   }
 
-  private _dl: HideDeletions = 'show deletions';
-  public set deletions(dl: HideDeletions) {
+  private _dl: boolean;
+  public set showDeletions(dl: boolean) {
     this._dl = dl;
   }
-  public get deletions() {
+  public get showDeletions() {
     return this._dl;
   }
+
+  public deletionsText = 'showsDeletions';
 
   public get proseVersesTogglerIcon(): EvtIconInfo {
 
@@ -159,7 +164,7 @@ export class TextPanelComponent {
   }
 
   public get hideDeletionsTogglerIcon(): EvtIconInfo {
-    return { icon: (this.deletions === 'show deletions') ? 'eye' : 'eye-slash', iconSet: 'fas' };
+    return { icon: (this.showDeletions) ? 'eye' : 'eye-slash', iconSet: 'fas' };
   }
 
   public isMultiplePageFlow$ = this.currentStatus$.pipe(
@@ -199,7 +204,8 @@ export class TextPanelComponent {
   }
 
   toggleHideDeletions() {
-    this.deletions = (this.deletions === 'show deletions') ? 'hide deletions' : 'show deletions'
+    this.showDeletions = !this.showDeletions;
+    this.deletionsText = (this.showDeletions) ? 'showsDeletions' : 'hidesDeletions'
   }
 
   updateSelectedLayer(layer) {

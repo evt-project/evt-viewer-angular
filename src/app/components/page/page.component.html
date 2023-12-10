@@ -1,6 +1,6 @@
 <evt-content-viewer
     *ngFor="let element of (pageDataChange | async)?.parsedContent || []"
-    [content]="element" [editionLevel]="editionLevel?.id" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow">
+    [content]="element" [editionLevel]="editionLevel?.id" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow" [withDeletions]="withDeletions">
 </evt-content-viewer>
 <ngx-spinner
     *ngIf="busy | async"
