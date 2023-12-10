@@ -11,6 +11,7 @@ import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 })
 export class EditionLevelSelectorComponent {
   public editionLevels = (AppConfig.evtSettings.edition.availableEditionLevels || []).filter((el) => el.enable);
+  public selectableEditionLevels = this.editionLevels.filter((el) => !el.hidden);
 
   // tslint:disable-next-line: variable-name
   private _edLevelID: EditionLevelType;

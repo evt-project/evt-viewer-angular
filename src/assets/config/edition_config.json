@@ -6,22 +6,26 @@
     {
       "id": "diplomatic",
       "label": "diplomatic",
-      "enable": true
+      "enable": true,
+      "hidden": false
     },
     {
       "id": "interpretative",
       "label": "interpretative",
-      "enable": true
+      "enable": true,
+      "hidden": false
     },
     {
       "id": "critical",
       "label": "critical",
-      "enable": true
+      "enable": true,
+      "hidden": false
     },
     {
       "id": "changesView",
       "label": "changes",
-      "enable": true
+      "enable": true,
+      "hidden": true
     }
   ],
   "namedEntitiesLists": {

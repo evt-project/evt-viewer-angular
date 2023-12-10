@@ -171,6 +171,7 @@ export interface EditionLevel {
     label: string;
     title?: string;
     enable?: boolean;
+    hidden?: boolean;
 }
 
 export interface EditorialConventionsConfig {
