@@ -3,6 +3,6 @@
 	<span class="verses-group-num">{{data.n}}</span>
 	<evt-source-note *ngIf="data.source !== null || data.analogue !== null" [data]="data"></evt-source-note>
 	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
-		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
+		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [withDeletions]="withDeletions">
 	</evt-content-viewer>
 </span>

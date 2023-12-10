@@ -4,9 +4,9 @@ import { map } from 'rxjs/operators';
 import { VersesGroup } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
 
-export interface VersesGroupComponent extends EditionlevelSusceptible, Highlightable { }
+export interface VersesGroupComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-verses-group',
