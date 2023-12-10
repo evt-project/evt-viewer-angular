@@ -31,6 +31,12 @@ export class EditorialConventionsService {
           'background-color': '#bdecb6',
         },
       },
+      changes: {
+        style: {
+          'vertical-align': 'super',
+          'font-size': '.7rem',
+        },
+      },
     },
     additionBelow: {
       interpretative: {
@@ -42,6 +48,12 @@ export class EditorialConventionsService {
           'vertical-align': 'bottom',
           'font-size': '.7rem',
           'background-color': '#bdecb6',
+        },
+      },
+      changes: {
+        style: {
+          'vertical-align': 'bottom',
+          'font-size': '.7rem',
         },
       },
     },
@@ -69,6 +81,11 @@ export class EditorialConventionsService {
           'background-color': '#bdecb6',
         },
       },
+      changes: {
+        style: {
+          'margin-left': '-1rem',
+        },
+      },
     },
     additionRight: {
       interpretative: {
@@ -89,6 +106,11 @@ export class EditorialConventionsService {
           'background-color': 'rgba(193, 193, 193, 0.7)',
         },
       },
+      changes: {
+        style: {
+          'background-color': 'rgba(193, 193, 193, 0.7)',
+        },
+      },
     },
     deletion: {
       diplomatic: {
@@ -101,6 +123,11 @@ export class EditorialConventionsService {
         pre: '[[',
         post: ']]',
       },
+      changes: {
+        style: {
+          'text-decoration': 'line-through',
+        },
+      },
     },
     sicCrux: {
       diplomatic: {
@@ -112,6 +139,10 @@ export class EditorialConventionsService {
         post: '&dagger;',
       },
       critical: {
+        pre: '&dagger;',
+        post: '&dagger;',
+      },
+      changes: {
         pre: '&dagger;',
         post: '&dagger;',
       },
@@ -144,6 +175,12 @@ export class EditorialConventionsService {
           'font-size': '104%',
         },
       },
+      changes: {
+        style: {
+          'font-style': 'italic',
+          'font-size': '104%',
+        },
+      },
     },
     'analogues': {
       diplomatic: {
@@ -159,6 +196,12 @@ export class EditorialConventionsService {
         },
       },
       critical: {
+        pre: '🗎',
+        style: {
+          'text-decoration': 'underline dotted from-font',
+        },
+      },
+      changes: {
         pre: '🗎',
         style: {
           'text-decoration': 'underline dotted from-font',

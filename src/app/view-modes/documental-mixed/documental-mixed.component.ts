@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map, shareReplay, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
 import { Page, XMLImagesValues } from '../../models/evt-models';
 import { ViewerSource } from '../../models/evt-polymorphic-models';
@@ -12,7 +12,7 @@ import { EVTStatusService } from '../../services/evt-status.service';
   templateUrl: './documental-mixed.component.html',
   styleUrls: ['./documental-mixed.component.scss'],
 })
-export class DocumentalMixedComponent {
+export class DocumentalMixedComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {
     gridType: GridType.Fit,
     displayGrid: DisplayGrid.None,
@@ -54,11 +54,6 @@ export class DocumentalMixedComponent {
     map(({ page }) => page.id),
   );
 
-  public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
-    map(({ editionLevels }) => editionLevels[0]),
-    shareReplay(1),
-  );
-
   constructor(
     private evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
@@ -72,5 +67,14 @@ export class DocumentalMixedComponent {
   changeLayer(selectedLayer: string) {
     this.evtStatusService.updateLayer$.next(selectedLayer);
   }
+
+  ngOnInit(): void {
+    this.evtStatusService.updateEditionLevels$.next(['changes']);
+  }
+
+  ngOnDestroy(): void {
+    this.evtStatusService.updateEditionLevels$.next(['critical']);
+  }
+
 
 }

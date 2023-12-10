@@ -588,17 +588,11 @@ export class CitParser extends DisambiguationParser implements Parser<XMLElement
 @xmlParser('subst', SubstParser)
 export class SubstParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): GenericElement {
-
         let parsing = {
             ...super.parse(xml),
             after: [],
         }
-
-        // del elements must be always placed before other elements?
-        //const del = parsing.content.filter((el) => (el['type']) && (el['type'] === Deletion));
-        parsing.content = parsing.content.filter((el) => (el['type']) && (el['type'] !== Deletion));
-        parsing.after = parsing.content;
-        //del.forEach((delEl) => parsing.content.unshift(delEl));
+        parsing.after = parsing.content.filter((el) => (el['type']) && (el['type'] !== Deletion));
 
         return parsing;
     }

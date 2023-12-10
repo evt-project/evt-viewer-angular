@@ -22,6 +22,10 @@
     text-decoration: line-through;
 }
 
+evt-deletion {
+    text-decoration: line-through;
+}
+
 evt-addition[place="above"] {
     vertical-align: text-bottom;
 }

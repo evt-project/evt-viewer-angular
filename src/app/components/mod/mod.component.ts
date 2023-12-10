@@ -62,7 +62,7 @@ export class ModComponent implements OnInit {
 
   layerVisible() {
     //console.log(this.selLayer, this.data)
-    if (this.editionLevel !== 'critical') {
+    if (this.editionLevel !== 'changes') {
       if (this.data.hidden) {
         // console.log('hidden');
         // changes not marked as lem are hidden if not in critical edition

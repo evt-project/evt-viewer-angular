@@ -17,6 +17,11 @@
       "id": "critical",
       "label": "critical",
       "enable": true
+    },
+    {
+      "id": "changes",
+      "label": "changes",
+      "enable": true
     }
   ],
   "namedEntitiesLists": {

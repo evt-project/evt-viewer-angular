@@ -209,7 +209,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <lb n="17"/>de, e tali che potrebbero, senza questa confessione, riuscire
                   <lb n="18"/>stupefacenti, non è ora che le ho aportate; ho dovuto anzi
                   <lb n="19"/>compiere un lavoro non breve e non facile per ritrovare
-                  <lb n="20"/>nella mia mente i versi originali. Due anni 
+                  <lb n="20"/>nella mia mente i versi originali. Due anni <del>ci</del> ho
                   <!--questo caso mi interessa per l'estrazione delle varianti: qui sono 3 GT-->
                      <app>
                         <lem varSeq="2">
