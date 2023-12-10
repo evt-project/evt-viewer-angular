@@ -30,6 +30,7 @@ export class AdditionComponent {
     switch (this.data.place) {
       case 'above':
       case 'sup':
+      case 'superscript':
         return 'additionAbove';
       case 'below':
       case 'under':

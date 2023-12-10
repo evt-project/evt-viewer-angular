@@ -34,7 +34,7 @@ export class EditorialConventionsService {
       changes: {
         style: {
           'vertical-align': 'super',
-          'font-size': '.7rem',
+          'font-size': '1rem',
         },
       },
     },
@@ -53,7 +53,7 @@ export class EditorialConventionsService {
       changes: {
         style: {
           'vertical-align': 'bottom',
-          'font-size': '.7rem',
+          'font-size': '1rem',
         },
       },
     },
@@ -170,12 +170,6 @@ export class EditorialConventionsService {
         },
       },
       critical: {
-        style: {
-          'font-style': 'italic',
-          'font-size': '104%',
-        },
-      },
-      changes: {
         style: {
           'font-style': 'italic',
           'font-size': '104%',

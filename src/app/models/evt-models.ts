@@ -401,7 +401,7 @@ export class Subst extends GenericElement {
 }
 
 
-export type PlacementType = 'above' | 'below' | 'inline' | 'left' | 'right' | 'inspace' | 'end' | 'sup' | 'sub' | 'under';
+export type PlacementType = 'above' | 'below' | 'inline' | 'left' | 'right' | 'inspace' | 'end' | 'sup' | 'superscript' | 'sub' | 'under';
 
 export class Addition extends GenericElement {
     place: PlacementType;
