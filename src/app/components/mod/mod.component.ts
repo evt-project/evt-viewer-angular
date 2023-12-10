@@ -83,14 +83,11 @@ export class ModComponent {
       return true;
     }
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.getLayerData(data) }));
-    console.log('visible?',this.selectedLayer, this.editionLevel, this.data)
+    //console.log('visible?',this.selectedLayer, this.editionLevel, this.data)
     if (this.selectedLayer !== undefined) {
-      console.log('checking...', this.data.isRdg, this.data.changeLayer);
+      //console.log('checking...', this.data.isRdg, this.data.changeLayer);
       if (this.getLayerIndex(this.selectedLayer) > this.getLayerIndex(this.data.changeLayer)) {
-        console.log('hidden', this.data.changeLayer, this.data);
-        // changes not marked as lem are hidden if not in critical edition
-        // todo: selectedLayer
-        // todo: hide deleted text?
+        //console.log('hidden', this.data.changeLayer, this.data);
         return false;
       }
     }
