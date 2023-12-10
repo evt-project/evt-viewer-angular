@@ -1,11 +1,15 @@
 <span class="substitution">
     <ng-container *ngFor="let el of data.content">
-        <evt-content-viewer *ngIf="data?.type === Deletion"
+        <evt-content-viewer *ngIf="((withDeletions) && (el?.type === DeletionType))"
             [content]="el" [editionLevel]="editionLevel" 
-            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
+            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow"
+            [withDeletions]="withDeletions">
         </evt-content-viewer>
-        <evt-content-viewer *ngIf="data?.type !== Deletion" [content]="el" [editionLevel]="editionLevel" 
-            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
+    </ng-container>
+    <ng-container *ngFor="let el of data.content">
+        <evt-content-viewer *ngIf="data?.type !== DeletionType" [content]="el" [editionLevel]="editionLevel" 
+            [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow"
+            [withDeletions]="withDeletions">
         </evt-content-viewer>
     </ng-container>
 </span>

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Deletion, Subst } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 
-export interface SubstitutionComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
+export interface SubstitutionComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-substitution',
@@ -15,6 +15,6 @@ export interface SubstitutionComponent extends EditionlevelSusceptible, Highligh
 export class SubstitutionComponent {
   @Input() data: Subst;
 
-public Deletion = Deletion;
+public DeletionType = Deletion;
 
 }
