@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
 import { ChangeLayerData, Mod } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { distinctUntilChanged, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { AppConfig } from 'src/app/app.config';
 
-export interface ModComponent extends EditionlevelSusceptible, Highlightable { }
+export interface ModComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-mod',
@@ -62,7 +62,7 @@ export class ModComponent implements OnInit {
 
   layerVisible() {
     //console.log(this.selLayer, this.data)
-    if (this.editionLevel !== 'changes') {
+    if (this.editionLevel !== 'changesView') {
       if (this.data.hidden) {
         // console.log('hidden');
         // changes not marked as lem are hidden if not in critical edition

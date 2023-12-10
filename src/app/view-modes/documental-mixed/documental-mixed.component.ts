@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
@@ -11,6 +11,7 @@ import { EVTStatusService } from '../../services/evt-status.service';
   selector: 'evt-documental-mixed',
   templateUrl: './documental-mixed.component.html',
   styleUrls: ['./documental-mixed.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocumentalMixedComponent implements OnInit, OnDestroy {
   public layoutOptions: GridsterConfig = {
@@ -20,8 +21,8 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
     maxCols: 2,
     maxRows: 1,
     draggable: {
-      enabled: true,
-      ignoreContent: true,
+      enabled: false,
+      //ignoreContent: true,
       dragHandleClass: 'panel-header',
     },
     resizable: {
@@ -60,6 +61,11 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  getLastLayer() {
+    //todo: return last layer dynamically
+    return 'strato-5';
+  }
+
   changePage(selectedPage: Page) {
     this.evtStatusService.updatePage$.next(selectedPage);
   }
@@ -69,7 +75,7 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.evtStatusService.updateEditionLevels$.next(['changes']);
+    this.evtStatusService.updateEditionLevels$.next(['changesView']);
   }
 
   ngOnDestroy(): void {

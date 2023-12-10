@@ -31,7 +31,7 @@ export class EditorialConventionsService {
           'background-color': '#bdecb6',
         },
       },
-      changes: {
+      changesView: {
         style: {
           'vertical-align': 'super',
           'font-size': '1rem',
@@ -50,7 +50,7 @@ export class EditorialConventionsService {
           'background-color': '#bdecb6',
         },
       },
-      changes: {
+      changesView: {
         style: {
           'vertical-align': 'bottom',
           'font-size': '1rem',
@@ -81,7 +81,7 @@ export class EditorialConventionsService {
           'background-color': '#bdecb6',
         },
       },
-      changes: {
+      changesView: {
         style: {
           'margin-left': '-1rem',
         },
@@ -106,7 +106,7 @@ export class EditorialConventionsService {
           'background-color': 'rgba(193, 193, 193, 0.7)',
         },
       },
-      changes: {
+      changesView: {
         style: {
           'background-color': 'rgba(193, 193, 193, 0.7)',
         },
@@ -123,7 +123,7 @@ export class EditorialConventionsService {
         pre: '[[',
         post: ']]',
       },
-      changes: {
+      changesView: {
         style: {
           'text-decoration': 'line-through',
         },
@@ -142,7 +142,7 @@ export class EditorialConventionsService {
         pre: '&dagger;',
         post: '&dagger;',
       },
-      changes: {
+      changesView: {
         pre: '&dagger;',
         post: '&dagger;',
       },
@@ -195,7 +195,7 @@ export class EditorialConventionsService {
           'text-decoration': 'underline dotted from-font',
         },
       },
-      changes: {
+      changesView: {
         pre: '🗎',
         style: {
           'text-decoration': 'underline dotted from-font',

@@ -14,9 +14,9 @@
                 <ng-container *ngIf="showSeqAttr && element.attributes?.seq"><span class="mod-seq">{{element.attributes.seq}} </span></ng-container>
                 <evt-content-viewer 
                     [content]="element" 
-                    [editionLevel]="'changes'"
+                    [editionLevel]="'changesView'"
                     [evtHtmlAttributes]="element?.attributes" 
-                    [attr.data-edition]="'changes'">
+                    [attr.data-edition]="'changesView'">
                 </evt-content-viewer>
             </ng-container>
             <br/>

@@ -9,8 +9,8 @@
     <gridster-item [item]="textPanelItem">
         <evt-text-panel
             [pageID]="currentPageID$ | async" 
-            [editionLevelID]="'changes'"
-            [selectedLayer]="'strato-5'"
+            [editionLevelID]="'changesView'"
+            [selectedLayer]="getLastLayer()"
             [hideEditionLevelSelector]="true"
             [showChangeLayerSelector]="true"
             [enableHideDeletionsToggler]="true"

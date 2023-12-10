@@ -17,7 +17,7 @@ export class ChoiceComponent {
   @Input() data: Choice;
 
   get content() {
-    if (this.editionLevel === 'diplomatic') {
+    if ((this.editionLevel === 'diplomatic') || (this.editionLevel === 'changesView')) {
       return this.data.originalContent;
     }
 
@@ -25,7 +25,7 @@ export class ChoiceComponent {
   }
 
   get alternativeContent() {
-    if (this.editionLevel === 'diplomatic') {
+    if ((this.editionLevel === 'diplomatic') || (this.editionLevel === 'changesView')) {
       return this.data.normalizedContent;
     }
 

@@ -187,6 +187,6 @@
     "corresps": "Correspondences",
     "corrSeq": "Correction sequence",
     "criticalNote": "Critical note",
-    "showsDeletions": "Shows deletions",
-    "hidesDeletions": "Hides deletions"
+    "showsDeletions": "Show deletions",
+    "hidesDeletions": "Hide deletions"
 }

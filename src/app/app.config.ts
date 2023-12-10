@@ -165,7 +165,7 @@ export interface NamedEntitiesListsConfig {
     defaultLabel: string;
     enable: boolean;
 }
-export type EditionLevelType = 'diplomatic' | 'interpretative' | 'critical' | 'changes';
+export type EditionLevelType = 'diplomatic' | 'interpretative' | 'critical' | 'changesView';
 export interface EditionLevel {
     id: EditionLevelType;
     label: string;
@@ -188,4 +188,3 @@ export interface CustomEditorialConvention {
 }
 
 export type TextFlow = 'prose' | 'verses';
-export type HideDeletions = 'show deletions' | 'hide deletions';

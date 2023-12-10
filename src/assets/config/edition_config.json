@@ -19,7 +19,7 @@
       "enable": true
     },
     {
-      "id": "changes",
+      "id": "changesView",
       "label": "changes",
       "enable": true
     }
