@@ -16,6 +16,7 @@ export interface AdditionComponent extends EditionlevelSusceptible, Highlightabl
 })
 export class AdditionComponent {
   @Input() data: Addition;
+  @Input() selectedLayer;
 
   get editorialConventionData(): EditorialConventionLayoutData {
     return {

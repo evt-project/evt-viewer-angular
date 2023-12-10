@@ -1304,7 +1304,7 @@ export class Mod extends GenericElement {
     id?: string;
     changeLayer: string;
     varSeq: string;
-    hidden: boolean;
+    isRdg: boolean;
     insideApp: boolean;
     content: Array<ParseResult<GenericElement>>;
     note: string[];

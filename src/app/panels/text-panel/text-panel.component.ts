@@ -174,6 +174,15 @@ export class TextPanelComponent {
 
   private updatingPageFromScroll = false;
 
+  public selectedLayer$ = this.evtStatus.currentChanges$.pipe(
+    distinctUntilChanged(),
+    map(({ selectedLayer }) => {
+      this.selectedLayer = selectedLayer;
+
+      return selectedLayer;
+    }),
+  );
+
   constructor(
     public evtModelService: EVTModelService,
     public evtStatus: EVTStatusService,

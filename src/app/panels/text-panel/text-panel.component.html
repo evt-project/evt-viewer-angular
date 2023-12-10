@@ -18,6 +18,7 @@
                     [data]="page"
                     [textFlow]="textFlow"
                     [withDeletions]="showDeletions"
+                    [selectedLayer]="selectedLayer"
                     [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
             </ng-container>
             <evt-page *ngIf="(isMultiplePageFlow$ | async) === false"
@@ -26,6 +27,7 @@
                 [editionLevel]="currentStatus.editionLevel"
                 [textFlow]="textFlow"
                 [withDeletions]="showDeletions"
+                [selectedLayer]="selectedLayer"
                 [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
         </ng-container>
     </div>

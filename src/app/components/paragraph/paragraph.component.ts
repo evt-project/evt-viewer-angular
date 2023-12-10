@@ -15,4 +15,5 @@ export interface ParagraphComponent extends EditionlevelSusceptible, Highlightab
 @register(Paragraph)
 export class ParagraphComponent {
   @Input() data: Paragraph;
+  @Input() selectedLayer: string;
 }

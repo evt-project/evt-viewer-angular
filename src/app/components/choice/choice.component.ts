@@ -15,6 +15,7 @@ export interface ChoiceComponent extends EditionlevelSusceptible, Highlightable,
 @register(Choice)
 export class ChoiceComponent {
   @Input() data: Choice;
+  @Input() selectedLayer: string;
 
   get content() {
     if ((this.editionLevel === 'diplomatic') || (this.editionLevel === 'changesView')) {

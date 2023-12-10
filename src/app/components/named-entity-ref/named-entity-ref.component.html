@@ -3,7 +3,7 @@
         entityHighlight: entityHighlight$ | async,
         noDetails: noDetails$ | async
     }" [evtHighlight]="highlightData" [evtHtmlAttributes]="data?.attributes">
-    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow" [withDeletions]="withDeletions"></evt-content-viewer>
+    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer"></evt-content-viewer>
 </span>
 <ng-container *ngIf="availableEntities$ | async">
     <div *ngIf="opened$ | async" class="namedEntityRefDetail {{ data.entityType }}">

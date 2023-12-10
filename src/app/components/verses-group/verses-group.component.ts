@@ -16,6 +16,7 @@ export interface VersesGroupComponent extends EditionlevelSusceptible, Highlight
 @register(VersesGroup)
 export class VersesGroupComponent {
   @Input() data: VersesGroup;
+  @Input() selectedLayer: string;
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(

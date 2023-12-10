@@ -14,11 +14,12 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highli
   selector: 'evt-apparatus-entry',
   templateUrl: './apparatus-entry.component.html',
   styleUrls: ['./apparatus-entry.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 @register(ApparatusEntry)
 export class ApparatusEntryComponent {
   @Input() data: ApparatusEntry;
+  @Input() selectedLayer: string;
 
   public opened = false;
   public isInsideAppDetail: boolean;

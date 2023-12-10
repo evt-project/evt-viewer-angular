@@ -13,4 +13,5 @@ export interface GenericElementComponent extends EditionlevelSusceptible, Highli
 @register(GenericElement)
 export class GenericElementComponent {
   @Input() data: GenericElement;
+  @Input() selectedLayer: string;
 }

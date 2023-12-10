@@ -15,6 +15,7 @@ export class PageComponent {
   @Input() editionLevel: EditionLevel;
   @Input() textFlow: boolean;
   @Input() withDeletions: boolean;
+  @Input() selectedLayer: string;
 
   private d: Page;
   @Input() set data(v: Page) {

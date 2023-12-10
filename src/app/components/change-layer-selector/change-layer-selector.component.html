@@ -5,8 +5,7 @@
     bindValue="id"
     [clearable]="false"
     [searchable]="false"
-    [ngModel]="evtStatusService.updateLayer$ | async"
-    (click)="stopPropagation($event)"
+    [ngModel]="selectedLayer$ | async"
     (change)="selLayer = $event.id">
     <ng-template ng-label-tmp let-item="item">
         <evt-icon

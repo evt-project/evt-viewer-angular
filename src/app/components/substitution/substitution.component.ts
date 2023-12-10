@@ -14,6 +14,7 @@ export interface SubstitutionComponent extends EditionlevelSusceptible, Highligh
 @register(Subst)
 export class SubstitutionComponent {
   @Input() data: Subst;
+  @Input() selectedLayer: string;
 
 public DeletionType = Deletion;
 

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Reading } from '../../models/evt-models';
+import { Mod, Reading } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { Highlightable } from '../components-mixins';
-import { EditionLevelType } from 'src/app/app.config';
+import { AppConfig, EditionLevelType } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-reading',
@@ -14,4 +14,17 @@ export class ReadingComponent extends Highlightable {
   @Input() data: Reading;
   @Input() editionLevel: EditionLevelType;
   @Input() withDeletions: boolean;
+  @Input() selectedLayer: string;
+
+  public ModType = Mod;
+
+  getLayerColor(changeLayer) {
+    const layerColors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
+    if ((changeLayer) && (layerColors[changeLayer.replace('#','')])) {
+      return layerColors[changeLayer.replace('#','')];
+    }
+
+    return 'black';
+  }
+
 }

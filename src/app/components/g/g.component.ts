@@ -17,6 +17,7 @@ export interface GComponent extends EditionlevelSusceptible, Highlightable, Text
 @register(G)
 export class GComponent {
   @Input() data: G;
+  @Input() selectedLayer: string;
 
   specialChars$ = this.evtModelService.specialChars$.pipe(
     map((specialChars) => specialChars.find((char) => char.id === this.data.charId)),

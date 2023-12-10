@@ -18,6 +18,7 @@ export interface VerseComponent extends EditionlevelSusceptible, Highlightable, 
 @register(Verse)
 export class VerseComponent {
   @Input() data: Verse;
+  @Input() selectedLayer: string;
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(

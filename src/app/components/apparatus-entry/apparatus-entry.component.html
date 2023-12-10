@@ -5,10 +5,10 @@
 
    <!-- it renders readings in changesView only -->
    <ng-container *ngIf="editionLevel === 'changesView'">
-      <evt-reading *ngFor="let reading of data?.readings" class="app-entry-rdg" [data]="reading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" (click)="toggleAppEntryBox($event);"></evt-reading>
+      <evt-reading *ngFor="let reading of data?.readings" class="app-entry-rdg" [data]="reading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
    </ng-container>
 
-   <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" (click)="toggleAppEntryBox($event);"></evt-reading>
+   <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
    <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
    <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
 </span>

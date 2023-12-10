@@ -18,6 +18,7 @@ export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highli
 @register(NamedEntityRef)
 export class NamedEntityRefComponent {
   @Input() data: NamedEntityRef;
+  @Input() selectedLayer: string;
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
     map((ne) => ne.all.entities.length > 0),
   );
