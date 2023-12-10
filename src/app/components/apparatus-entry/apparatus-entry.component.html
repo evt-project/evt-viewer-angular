@@ -5,7 +5,7 @@
 
    <!-- it renders readings in changesView only -->
    <ng-container *ngIf="editionLevel === 'changesView'">
-      <evt-reading *ngFor="let reading of data?.readings" class="app-entry-rdg" [data]="reading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions"></evt-reading>
+      <evt-reading *ngFor="let reading of data?.readings" class="app-entry-rdg" [data]="reading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" (click)="toggleAppEntryBox($event);"></evt-reading>
    </ng-container>
 
    <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" (click)="toggleAppEntryBox($event);"></evt-reading>
