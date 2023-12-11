@@ -86,7 +86,7 @@ export class ModComponent {
     //console.log('visible?',this.selectedLayer, this.editionLevel, this.data)
     if (this.selectedLayer !== undefined) {
       //console.log('checking...', this.data.isRdg, this.data.changeLayer);
-      if (this.getLayerIndex(this.selectedLayer) > this.getLayerIndex(this.data.changeLayer)) {
+      if (this.getLayerIndex(this.selectedLayer) >= this.getLayerIndex(this.data.changeLayer)) {
         //console.log('hidden', this.data.changeLayer, this.data);
         return false;
       }
