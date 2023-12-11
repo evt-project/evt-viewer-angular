@@ -53,7 +53,7 @@ export class ModComponent {
     return {
       name: 'mod',
       attributes: this.data?.attributes || {},
-      editionLevel: this.editionLevel,
+      editionLevel: this.editionLevel || 'diplomatic',
       defaultsKey: 'mod',
     };
   }
@@ -84,7 +84,7 @@ export class ModComponent {
     }
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.getLayerData(data) }));
     //console.log('visible?',this.selectedLayer, this.editionLevel, this.data)
-    if (this.selectedLayer !== undefined) {
+    if ((this.selectedLayer !== undefined) && (this.data.changeLayer !== undefined)) {
       //console.log('checking...', this.data.isRdg, this.data.changeLayer);
       if (this.getLayerIndex(this.selectedLayer) >= this.getLayerIndex(this.data.changeLayer)) {
         //console.log('hidden', this.data.changeLayer, this.data);

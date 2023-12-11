@@ -22,7 +22,7 @@
     <div class="content" *ngIf="data.content.length > 0">
         <ng-container *ngIf="data?.noteType === 'analogue'">{{ 'analogue' | translate }}: </ng-container>
         <ng-container *ngIf="data?.noteType === 'source'">{{ 'source' | translate }}: </ng-container>
-        <evt-content-viewer *ngFor="let element of data.content" [content]="element">
+        <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer">
         </evt-content-viewer>
     </div>
 </ng-template>

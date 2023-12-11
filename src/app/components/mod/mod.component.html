@@ -1,4 +1,4 @@
-<span [hidden]="(isVisible())" class="mod {{data.class}} pointer" title="mod"
+<span [hidden]="isVisible()" class="mod {{data.class}} pointer" title="mod"
     (click)="toggleOpened$.next()" 
     [ngClass]="{opened: opened$ | async}" 
     [evtEditorialConventionLayout]="editorialConventionData">
