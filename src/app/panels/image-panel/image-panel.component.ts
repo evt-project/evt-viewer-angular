@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
-import { Page, ViewerDataType } from '../../models/evt-models';
+import { distinctUntilChanged, filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
+import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 
 @Component({
@@ -10,6 +10,8 @@ import { EVTModelService } from '../../services/evt-model.service';
   styleUrls: ['./image-panel.component.scss'],
 })
 export class ImagePanelComponent {
+
+
   @Input() viewerData: ViewerDataType;
 
   @Input() pageID: string;
@@ -26,6 +28,22 @@ export class ImagePanelComponent {
     withLatestFrom(this.evtModelService.pages$),
     map(([pageId, pages]) => pages.findIndex((page) => page.id === pageId)),
   );
+
+  currentSurfaces$ = this.currentPageId$.pipe(
+    tap((pageid)=>{
+      console.log(' surfaces ', pageid);
+    }),
+
+    withLatestFrom(this.evtModelService.surfaces$),
+    map(([pageId, surfaces]) => {
+      console.log('elenco surfaces' , surfaces);
+      return surfaces.find((surface) => surface.corresp === pageId);
+    }),
+    tap((s)=>{
+      console.log(' surfaces ', s);
+    }),
+  );
+
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
       filter((n) => n !== undefined),
@@ -48,6 +66,10 @@ export class ImagePanelComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+  }
+
+  syncTextImage() {
+throw new Error('Method not implemented.');
   }
 
   updatePage(viewerPage: number) {

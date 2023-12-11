@@ -3,9 +3,9 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, O
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { ViewerDataType } from '../../models/evt-models';
+import { Surface, ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 
@@ -76,6 +76,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
+  @Input() surface: Surface;
   // tslint:disable-next-line: variable-name
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
@@ -113,9 +114,11 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   viewer: Partial<OsdViewerAPI>;
   viewerId: string;
+  overlay: any;
   annotationsHandle: OsdAnnotationAPI;
 
   private subscriptions: Subscription[] = [];
+  
 
   tileSources: Observable<OsdTileSource[]>;
 
@@ -129,14 +132,18 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
     );
   }
 
+  lineSelected = new BehaviorSubject<{id: string; ul: {x: number; y:number;}, lr:{x: number; y:number;} }[]>([]);
+  mouseMoved$ = new Subject<{x: number; y:number;}>();
+
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
 
     this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
 
+    
     const commonOptions = {
-      visibilityRatio: 0.1,
+      visibilityRatio: 0.66,
       minZoomLevel: 0.5,
       defaultZoomLevel: 1,
       sequenceMode: true,
@@ -148,6 +155,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         clickToZoom: false,
         dblClickToZoom: true,
       },
+      aspectRatio: 0.66,
       placeholderFillStyle: 'assets/images/empty-image.jpg',
     };
 
@@ -165,6 +173,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             ...this.options,
           });
         }
+
+        console.log(this.surface);
+        // console.log("Qui ci arriva: ",this.viewer);
         this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);
@@ -176,6 +187,118 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             context.clearRect(0, 0, canvasEl.width, canvasEl.height);
           }
         });
+          this.viewer.addHandler('open', ()=> {
+            // console.log("opened",this.viewer,this.viewer?.container);
+          const tracker = new OpenSeadragon.MouseTracker({
+              element: (this.viewer as any).container,
+              moveHandler: (event) => {
+                  const webPoint = event.position;
+                  const viewportPoint = this.viewer.viewport.pointFromPixel(webPoint);
+                  const imagePoint = this.viewer.viewport.viewportToImageCoordinates(viewportPoint);
+                  this.mouseMoved$.next({ x: imagePoint.x, y: imagePoint.y } );
+                 
+              }
+          });  
+          tracker.setTracking(true);
+        });
+
+        this.mouseMoved$.pipe(
+          //debounceTime(50),
+          distinctUntilChanged(),
+        ).subscribe((imagePoint)=>{
+          // const zoom = this.viewer.viewport.getZoom(true);
+          //console.log(imagePoint);
+
+          const linesOver = this.surface.zones.lines.filter((line)=>{
+            //debugger;
+            const ulPoint =line.coords[0];
+            const lrPoint = line.coords[2];
+            
+
+            return imagePoint.x > ulPoint.x &&
+              imagePoint.x < lrPoint.x &&
+              imagePoint.y > ulPoint.y &&
+              imagePoint.y < lrPoint.y;
+          });
+
+          this.lineSelected.next(linesOver.map(lo =>({
+            id: lo.id,
+            ul:{x: lo.coords[0].x, y: lo.coords[0].y},
+            lr:{x: lo.coords[2].x, y: lo.coords[2].y},
+          })));
+
+         
+        });
+
+        const originalImageHeight = 1800;
+        const originalImageWidth = 1200;
+        const aspectRatio = 1.5;
+
+        const thicknessx = 2/originalImageWidth;
+        const thicknessy = 2/originalImageHeight;
+        this.lineSelected.pipe(
+          distinctUntilChanged((a,b)=> JSON.stringify(a.map(ae=>ae.id)) === JSON.stringify(b.map(be=>be.id))),
+        ).subscribe(()=>{
+          console.log('new lines');
+           (this.viewer as any).forceRedraw();
+        });
+
+        this.overlay = (this.viewer as any).canvasOverlay({
+          onRedraw: ()=> {
+            
+              
+              //console.log('lines selected', this.lineSelected.value.length);
+              for(const lineSelected of this.lineSelected.value){
+                
+                const context2d = this.overlay.context2d();
+                //const lrx = 1031, lry = 610, ulx = 257, uly = 558;
+                const lrx = lineSelected.lr.x, lry = lineSelected.lr.y, ulx = lineSelected.ul.x, uly = lineSelected.ul.y;
+                // <zone corresp="#VB_lb_104v_08" lrx="1108" lry="560" rend="visible" rendition="Line" ulx="273" uly="510"
+
+                context2d.fillStyle = 'blue';
+                //context2d.globalAlpha = 0.2;
+                context2d.fillRect(
+                  ulx/originalImageWidth - thicknessx ,
+                  (uly/originalImageHeight)*aspectRatio - thicknessy,
+                  (lrx-ulx)/originalImageWidth + (thicknessx * 2),
+                  ((lry-uly)/originalImageHeight)*aspectRatio+ (thicknessy * 2),
+                );
+
+
+                context2d.fillStyle = 'red';
+                context2d.globalAlpha = 0.2;
+                context2d.fillRect(
+                  ulx/originalImageWidth,
+                  (uly/originalImageHeight)*aspectRatio,
+                  (lrx-ulx)/originalImageWidth ,
+                  ((lry-uly)/originalImageHeight)*aspectRatio,
+                );
+
+                // context2d.fillStyle = 'blue';
+                // context2d.strokeStyle = 'red';
+                // //var fillRect = false;
+                // context2d.rect(
+                //   ulx/originalImageWidth,
+                //  (uly/originalImageHeight)*aspectRatio,
+                //   (lrx-ulx)/originalImageWidth ,
+                //    ((lry-uly)/originalImageHeight)*aspectRatio,
+                //    );
+                // //if (fillRect) {
+                //   context2d.fill();
+                // // }
+                // context2d.stroke();
+
+
+                // // if (this.viewer && this.viewer.viewport) {
+                // //   const rect = this.viewer.viewport.imageToViewportRectangle(ulx, uly, (lrx-ulx), (lry-uly));
+                //   console.log('ppppppppp');
+                // //   overlay.context2d().fillRect(rect.x, rect.y, rect.width,rect.height);   
+                // // }
+              }
+           
+          },
+          clearBeforeRedraw: true,
+      });
       }));
   }
 
