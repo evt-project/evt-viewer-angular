@@ -4,6 +4,7 @@
 .navbar {
     height: $base-header-height;
     padding: 0 5px;
+    border-bottom: 1px solid #dee2e6;
 
     @include themify($themes) {
         color: themed('baseColorLight');

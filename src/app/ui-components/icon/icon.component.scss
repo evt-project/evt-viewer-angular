@@ -78,6 +78,14 @@
     content: "\e91c";
 }
 
+.evt-icon-documix:before {
+    content: "\e845";
+    font-size: 0.8em;
+    display: inline-block;
+    vertical-align: super;
+    line-height: 1.3em;
+}
+
 .evt-icon-txt:before {
     content: "\e92e";
 }

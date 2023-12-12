@@ -43,7 +43,7 @@
 			"enable": true
 		},
 		{
-			"icon": "imgTxt",
+			"icon": "documix",
 			"iconSet": "evt",
 			"id": "documentalMixed",
 			"label": "Documental Mixed",
