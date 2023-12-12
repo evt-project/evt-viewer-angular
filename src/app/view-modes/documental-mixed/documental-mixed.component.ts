@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { AppConfig } from '../../app.config';
+import { distinctUntilChanged, map, shareReplay, withLatestFrom } from 'rxjs/operators';
+import { AppConfig, EditionLevel } from '../../app.config';
 import { Page, XMLImagesValues } from '../../models/evt-models';
 import { ViewerSource } from '../../models/evt-polymorphic-models';
 import { EVTModelService } from '../../services/evt-model.service';
@@ -51,6 +51,11 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
     }),
   );
 
+  public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
+    map(({ editionLevels }) => editionLevels[0]),
+    shareReplay(1),
+  );
+
   public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
     map(({ page }) => page.id),
   );
@@ -61,10 +66,10 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  getLastLayer() {
-    //todo: return last layer dynamically
-    return 'strato-5';
-  }
+  public lastLayer$ = this.evtStatusService.currentChanges$.pipe(
+    distinctUntilChanged(),
+    map(({ layerOrder }) => layerOrder[layerOrder.length-1]),
+  );
 
   changePage(selectedPage: Page) {
     this.evtStatusService.updatePage$.next(selectedPage);
@@ -74,12 +79,16 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
     this.evtStatusService.updateLayer$.next(selectedLayer);
   }
 
+  changeEditionLevel(editionLevel: EditionLevel) {
+    this.evtStatusService.updateEditionLevels$.next([editionLevel?.id]);
+  }
+
   ngOnInit(): void {
     this.evtStatusService.updateEditionLevels$.next(['changesView']);
   }
 
   ngOnDestroy(): void {
-    this.evtStatusService.updateEditionLevels$.next(['critical']);
+    this.evtStatusService.updateEditionLevels$.next(['diplomatic']);
   }
 
 

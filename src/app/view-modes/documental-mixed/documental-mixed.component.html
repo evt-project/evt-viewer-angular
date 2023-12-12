@@ -10,10 +10,11 @@
         <evt-text-panel
             [pageID]="currentPageID$ | async" 
             [editionLevelID]="'changesView'"
-            [selectedLayer]="getLastLayer()"
+            [selectedLayer]="lastLayer$ | async"
             [hideEditionLevelSelector]="true"
             [showChangeLayerSelector]="true"
             [enableHideDeletionsToggler]="true"
+            (editionLevelChange)="changeEditionLevel($event)"
             (pageChange)="changePage($event)" 
             (layerChange)="changeLayer($event)" 
         ></evt-text-panel>
