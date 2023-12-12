@@ -17,8 +17,8 @@ export class ApparatusEntryDetailComponent implements OnInit {
   nestedApps: ApparatusEntry[] = [];
   rdgHasCounter = false;
 
+  @Input() selectedLayer: string;
   public orderedLayers: string[];
-  public selectedLayer: string;
 
   get significantRdg(): Reading[] {
     return this.data.readings.filter((rdg) => rdg?.significant);
@@ -42,7 +42,7 @@ export class ApparatusEntryDetailComponent implements OnInit {
 
   getLayerData(changeData: ChangeLayerData) {
     this.orderedLayers = changeData?.layerOrder;
-    this.selectedLayer = changeData?.selectedLayer;
+    //this.selectedLayer = changeData?.selectedLayer;
   }
 
   constructor(

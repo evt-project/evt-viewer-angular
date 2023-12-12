@@ -80,7 +80,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             originalEncoding: getOuterHTML(appEntry),
             class: appEntry.tagName.toLowerCase(),
             nestedAppsIDs: this.getNestedAppsIDs(appEntry),
-            changes: (lemma !== undefined) ? this.parseChanges( foundReadings ) : [],
+            changes: (lemma !== undefined) ? this.parseChanges( foundReadings, lemma ) : [],
         };
     }
 
@@ -109,11 +109,24 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             .map((rdg: XMLElement) => this.rdgParser.parse(rdg));
     }
 
-    private parseChanges(readings: Reading[]): Mod[] {
+    /**
+     * This function retrieves lem's first (and hopefully unique) mod element '@change'.
+     * This info is useful to mod-component in order to decide when to switch
+     * between lemma and reading.
+     */
+    private parseChanges(readings: Reading[], lemma: Reading): Mod[] {
         const changes = [];
+        let lemmaLayer: string;
+        Array.from(lemma.content).map((el) => {
+            if (el['type'] && el['type'] === Mod) {
+                if (el['changeLayer']) {
+                    lemmaLayer = el['changeLayer'];
+                }
+            }
+        } )
         Array.from(readings).map((reading) => reading.content.map(( el ) => {
             if (el['type'] && el['type'] === Mod) {
-                el['insideApp'] = true;
+                el['insideApp'] = [true, lemmaLayer];
                 changes.push(el);
             }
         }));

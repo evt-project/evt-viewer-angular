@@ -23,7 +23,7 @@ export class ModParser extends EmptyParser implements Parser<XMLElement> {
             changeLayer: modEl.getAttribute('change'),
             varSeq: defVarSeq,
             isRdg: (modEl.parentElement.tagName === 'rdg'),
-            insideApp: ((modEl.parentElement.tagName === 'rdg') || (modEl.parentElement.tagName === 'lem')),
+            insideApp: [((modEl.parentElement.tagName === 'rdg') || (modEl.parentElement.tagName === 'lem')), ''],
             content: parseChildren(modEl, this.genericParse),
             note: Array.from(modEl.querySelectorAll<XMLElement>('note')).map((x) => x.textContent),
             originalEncoding: modEl,

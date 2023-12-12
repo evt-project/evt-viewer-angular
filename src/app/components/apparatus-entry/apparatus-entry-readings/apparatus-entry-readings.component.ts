@@ -18,6 +18,7 @@ export class ApparatusEntryReadingsComponent {
   @Input() rdgHasCounter: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() template: TemplateRef<any>;
+  @Input() selectedLayer: string;
 
   groups$ = this.evtModelService.groups$;
 

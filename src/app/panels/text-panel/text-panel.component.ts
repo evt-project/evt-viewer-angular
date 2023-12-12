@@ -34,6 +34,8 @@ export class TextPanelComponent {
   }
   get selectedLayer() { return this.selLayer; }
 
+  public orderedLayers: string[];
+
   @Input() hideEditionLevelSelector: boolean;
 
   @Input() showChangeLayerSelector: boolean;

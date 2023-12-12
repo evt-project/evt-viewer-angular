@@ -46,7 +46,7 @@ export class ModDetailComponent {
   }
 
   isBoxVisible() {
-    this.boxVisible = !(this.modEntry?.insideApp);
+    this.boxVisible = !(this.modEntry?.insideApp[0]);
   }
 
 

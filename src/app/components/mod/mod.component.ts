@@ -39,7 +39,7 @@ export class ModComponent {
 
   public opened = false;
 
-  public isVisible = this.layerVisible;
+  public isHidden = this.layerHidden;
 
   public changeLayerColor = this.getLayerColor;
 
@@ -78,21 +78,24 @@ export class ModComponent {
     return this.orderedLayers.indexOf(layer);
   }
 
-  layerVisible() {
+  layerHidden() {
     if (this.editionLevel !== 'changesView') {
-      return true;
+      return false;
     }
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.getLayerData(data) }));
-    //console.log('visible?',this.selectedLayer, this.editionLevel, this.data)
     if ((this.selectedLayer !== undefined) && (this.data.changeLayer !== undefined)) {
-      //console.log('checking...', this.data.isRdg, this.data.changeLayer);
-      if (this.getLayerIndex(this.selectedLayer) >= this.getLayerIndex(this.data.changeLayer)) {
-        //console.log('hidden', this.data.changeLayer, this.data);
-        return false;
+      if (this.data.insideApp[0] && this.data.isRdg) {
+        const lemLayer = this.data.insideApp[1];
+        if ((lemLayer !== '') && (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer))) {
+          return true;
+        }
+      }
+      if (this.getLayerIndex(this.selectedLayer) < this.getLayerIndex(this.data.changeLayer)) {
+        return true;
       }
     }
 
-    return true;
+    return false;
   }
 
   stopPropagation(e: MouseEvent) {

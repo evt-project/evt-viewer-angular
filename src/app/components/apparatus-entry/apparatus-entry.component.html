@@ -10,5 +10,5 @@
 
    <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
    <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
-   <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
+   <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" [selectedLayer]="selectedLayer" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
 </span>

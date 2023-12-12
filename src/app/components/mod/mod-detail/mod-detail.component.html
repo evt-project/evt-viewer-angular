@@ -5,7 +5,7 @@
         <span class="mod-symbol">🕐</span>
         <span title="analogue-text">
             <ng-container *ngFor="let element of mod.content; index as i">
-                <ng-container *ngIf="((i !== 0) && (mod.content.length > i+1))"> &#x3c; </ng-container>
+                <ng-container *ngIf="((i !== 0) && (mod.content.length > i+1))"> ❱ </ng-container>
                 <evt-content-viewer 
                     [content]="element" 
                     [editionLevel]="editionLevel"
