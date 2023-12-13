@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
 import { BibliographicEntry } from 'src/app/models/evt-models';
 
@@ -6,6 +6,7 @@ import { BibliographicEntry } from 'src/app/models/evt-models';
   selector: 'evt-biblio-entry',
   templateUrl: './biblio.component.html',
   styleUrls: ['./biblio.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BiblioEntryComponent {
 

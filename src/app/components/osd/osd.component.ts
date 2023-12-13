@@ -1,5 +1,5 @@
 import { AppConfig } from 'src/app/app.config';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -72,6 +72,7 @@ To:
   selector: 'evt-osd',
   templateUrl: './osd.component.html',
   styleUrls: ['./osd.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OsdComponent implements AfterViewInit, OnDestroy {
 
@@ -149,6 +150,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         clickToZoom: false,
         dblClickToZoom: true,
       },
+      immediateRender: true,
+      preload: true,
       placeholderFillStyle: 'assets/images/empty-image.jpg',
     };
 
