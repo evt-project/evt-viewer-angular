@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { Surface, ViewerDataType } from '../../models/evt-models';
+import { Page, Surface, ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 
@@ -77,6 +77,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
   @Input() surface: Surface;
+  @Input() pageElement: Page;
   // tslint:disable-next-line: variable-name
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
@@ -124,6 +125,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
+    
   ) {
     this.subscriptions.push(
       this.pageChange.pipe(
@@ -132,12 +134,25 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  lineSelected = new BehaviorSubject<{id: string; ul: {x: number; y:number;}, lr:{x: number; y:number;} }[]>([]);
+  lineSelected = new BehaviorSubject<{id: string; corresp: string; ul: {x: number; y:number;}, lr:{x: number; y:number;} }[]>([]);
   mouseMoved$ = new Subject<{x: number; y:number;}>();
 
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
+
+    //this.highlightLineText('VB_lb_104v_07');
+    
+    // this.evtModelService.getPage('1').subscribe((page)=>{
+    //     console.log('page', page);
+        
+    // });
+
+    // this.evtModelService.lines$.subscribe(
+    //   (lines)=>{
+    //     console.log('LINES: ', lines);
+    //   }
+    // );
 
     this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
 
@@ -223,6 +238,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
           this.lineSelected.next(linesOver.map(lo =>({
             id: lo.id,
+            corresp: lo.corresp,
             ul:{x: lo.coords[0].x, y: lo.coords[0].y},
             lr:{x: lo.coords[2].x, y: lo.coords[2].y},
           })));
@@ -238,8 +254,15 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         const thicknessy = 2/originalImageHeight;
         this.lineSelected.pipe(
           distinctUntilChanged((a,b)=> JSON.stringify(a.map(ae=>ae.id)) === JSON.stringify(b.map(be=>be.id))),
-        ).subscribe(()=>{
-          console.log('new lines');
+        ).subscribe((zones)=>{
+          
+          console.log('new lines', zones[0]);
+          this.clearHighlightLineText();
+          if (zones.length > 0){
+            this.highlightLineText(
+              zones[0].corresp
+              );
+            }
            (this.viewer as any).forceRedraw();
         });
 
@@ -255,24 +278,27 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
                 const lrx = lineSelected.lr.x, lry = lineSelected.lr.y, ulx = lineSelected.ul.x, uly = lineSelected.ul.y;
                 // <zone corresp="#VB_lb_104v_08" lrx="1108" lry="560" rend="visible" rendition="Line" ulx="273" uly="510"
 
-                context2d.fillStyle = 'blue';
-                //context2d.globalAlpha = 0.2;
+                context2d.fillStyle = '#d36019';
+                context2d.globalAlpha = 0.2;
+                context2d.strokeStyle = 'black';
                 context2d.fillRect(
                   ulx/originalImageWidth - thicknessx ,
                   (uly/originalImageHeight)*aspectRatio - thicknessy,
                   (lrx-ulx)/originalImageWidth + (thicknessx * 2),
                   ((lry-uly)/originalImageHeight)*aspectRatio+ (thicknessy * 2),
                 );
+                context2d.stroke();
 
-
-                context2d.fillStyle = 'red';
+                context2d.fillStyle = '#d36019';
                 context2d.globalAlpha = 0.2;
+                context2d.strokeStyle = 'black';
                 context2d.fillRect(
                   ulx/originalImageWidth,
                   (uly/originalImageHeight)*aspectRatio,
                   (lrx-ulx)/originalImageWidth ,
                   ((lry-uly)/originalImageHeight)*aspectRatio,
-                );
+                  );
+                context2d.stroke();
 
                 // context2d.fillStyle = 'blue';
                 // context2d.strokeStyle = 'red';
@@ -300,6 +326,146 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
           clearBeforeRedraw: true,
       });
       }));
+  }
+
+  private clearHighlightLineText(){
+    for(const pe of this.pageElement.parsedContent){
+      if ((pe as any).content && (pe as any).content.length > 0){
+        for(const content of (pe as any).content){
+          (content as any).class = ''; //content.class?.replace('highlightverse', '');
+           this.clearHighlightInside(content);
+        }
+        //
+      } else{
+        this.clearHighlightInside(pe);
+        //(pe as any).content.class='';//?.replace('highlightverse', '');
+      }
+      
+      (pe as any).class='';//?.replace('highlightverse', '');
+    }
+    
+  }
+
+  private clearHighlightInside(content: any){
+    let isWord = false;
+    if (content.text === ' treow'){
+      debugger;
+      console.log('clear sub content', content.text, content)
+      isWord = true;
+    }
+    if (content.content ){
+      
+      for(const insideContent of content.content){
+        if (isWord){
+          console.log( '--> ', insideContent);
+        }
+        if (insideContent.content){
+        this.clearHighlightInside(insideContent)
+        }
+        insideContent.class = '';
+      }
+    }
+    
+    content.class = '';
+  }
+
+  private highlightLineText(lbId: string){
+    if (!lbId || lbId === ''){
+      return;
+    }
+    console.log('find lbid', lbId);
+    // console.log('original content', this.pageElement.originalContent);
+    // this.pageElement.originalContent[0].textContent = 'PIPPO PLUTO E PAPERINO';
+
+  //  console.log('parsed content', this.pageElement.parsedContent);
+    // (this.pageElement.parsedContent[1] as any).content[6].text = 'PIPPO PLUTO E PAPERINO';
+    // (this.pageElement.parsedContent[1] as any).content[6].class = 'highlightverse';
+    // console.log('type', (this.pageElement.parsedContent[3] as any).content[4].type.name);
+    // console.log('corresp id', (this.pageElement.parsedContent[3] as any).content[4].id);
+    
+    const parsedContentFromIdx = this.pageElement.parsedContent
+      .findIndex((pc: any) => pc.content?.some((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId));
+
+      //PER PAOLO, creare funzione cerca Lb con id ma ritornare l'indice del primo livello
+      console.log('parsedContentFromIdx' , parsedContentFromIdx);
+      
+      if (parsedContentFromIdx < 0){ return;}
+    let contentElementFromIdx = (this.pageElement.parsedContent[parsedContentFromIdx] as any)
+      .content?.findIndex(((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId)) ??0;
+console.log('contentElementFromIdx' , contentElementFromIdx);
+    //let startingParsedContentFromIdx = parsedContentFromIdx;
+// debugger;
+    for(let pcIdx = parsedContentFromIdx; pcIdx < this.pageElement.parsedContent.length; pcIdx++){
+      const pc: any = this.pageElement.parsedContent[pcIdx];
+      
+      if (!pc.content || pc.content.length === 0) {
+        pc.class = ' highlightverse';
+        continue;
+      }
+      let foundLb = false;
+      // if (pc.type === 'word'){
+      //   console.log('WORD', pc);
+      // }
+      console.log('TYPE', pc);
+      
+      for(let contentIdx = contentElementFromIdx; contentIdx < pc.content.length; contentIdx++){
+        const content = pc.content[contentIdx];
+        // content.text = 'a';
+        
+        if (content.id !== lbId && this.highlightContent(content)){
+          foundLb = true;
+          contentElementFromIdx = -1;
+          break;
+        }
+
+        if (!content.type){
+          content.class =' highlightverse';
+          console.log('NOT TYPE', content);
+          continue;
+        }
+        if (content.type.name === 'Lb' && content.id !== lbId){
+          foundLb = true;
+          contentElementFromIdx = -1;
+          break;
+        }
+        content.class = ' highlightverse';
+      }
+      if (pcIdx !== parsedContentFromIdx 
+        && !foundLb
+        ){
+        pc.class = ' highlightverse';
+      }
+      if (contentElementFromIdx < 0){
+        break;
+      }
+      contentElementFromIdx = 0;
+    }
+
+
+    //console.log('parsed indexes', parsedContentFromIdx, contentElementFromIdx);
+  }
+
+  private highlightContent(content: any) : boolean{
+    // console.log('typeinside', content.type.name);
+    // if (content.type.name === 'Word'){
+    //   console.log('WORD ', content);
+    // }
+    if (content.type.name === 'Lb'){
+      console.log('FOUND LB', content);
+      return true;
+    }
+    if (content.content !== undefined){
+      //  console.log('WORD Has content', content);
+      for(const insideContent of content.content){
+        
+        if (insideContent.type.name === 'Lb'){
+          return true;
+        }
+        insideContent.class = ' highlightverse';
+        this.highlightContent(insideContent);
+      }
+    }
+    return false;
   }
 
   ngOnDestroy(): void {

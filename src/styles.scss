@@ -183,5 +183,11 @@ body {
 }
 
 .highlightverse{
-    background-color: red;
+    cursor: pointer;
+    background-color: rgba(230,206,160,0.8); /*d5b17d e4c89b*/
+	/*opacity: 0.8;
+	filter:alpha(opacity=80);  For IE8 and earlier */
+	// border: 1px solid #b99562;
+    color: #000000;
+    padding: 3px 0px;
 }

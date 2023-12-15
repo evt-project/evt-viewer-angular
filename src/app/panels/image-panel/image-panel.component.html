@@ -16,6 +16,7 @@
             [surface]="currentSurfaces$ | async"
             [viewerData]="viewerData" [options]="{showNavigationControl: false}"
             [page]="pageNumber$ | async"
+            [pageElement]="currentPage$ | async"
             (pageChange)="updatePage($event)">
         </evt-osd>
         <p *ngIf="!viewerData">Found no source file</p>
