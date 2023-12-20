@@ -1,7 +1,6 @@
 import { AppConfig } from 'src/app/app.config';
 import { xmlParser } from '.';
 import { ApparatusEntry, Mod, Note, Reading, XMLElement } from '../../models/evt-models';
-import { getOuterHTML } from '../../utils/dom-utils';
 import { removeSpaces } from '../../utils/xml-utils';
 import { AttributeParser, EmptyParser, NoteParser } from './basic-parsers';
 import { createParser, getID, Parser } from './parser-models';
@@ -77,7 +76,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             lemma: lemma,
             readings: readings,
             notes: this.parseAppNotes(appEntry),
-            originalEncoding: getOuterHTML(appEntry),
+            originalEncoding: appEntry,
             class: appEntry.tagName.toLowerCase(),
             nestedAppsIDs: this.getNestedAppsIDs(appEntry),
             changes: (lemma !== undefined) ? this.parseChanges( foundReadings, lemma ) : [],

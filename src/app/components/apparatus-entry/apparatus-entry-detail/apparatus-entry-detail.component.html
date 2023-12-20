@@ -88,7 +88,7 @@
             <li ngbNavItem="xml">
                 <a class="app-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <pre>{{ data.originalEncoding | xmlBeautify }}</pre>
+                    <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding"></evt-original-encoding-viewer>
                 </ng-template>
             </li>
         </ul>

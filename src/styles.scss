@@ -237,28 +237,27 @@ evt-quote-entry evt-paragraph p {
   margin-bottom: 0;
 }
 
+evt-apparatus-entry-detail evt-original-encoding-viewer pre,
 evt-mod-detail evt-original-encoding-viewer pre,
 evt-source-detail evt-original-encoding-viewer pre,
 evt-analogue-detail evt-original-encoding-viewer pre {
-  margin-top:-2% !important;
+  margin-top:-1% !important;
   padding:0 !important;
   background-color:transparent !important;
 }
 
+evt-apparatus-entry-detail evt-original-encoding-viewer code,
 evt-mod-detail evt-original-encoding-viewer code,
 evt-source-detail evt-original-encoding-viewer code,
 evt-analogue-detail evt-original-encoding-viewer code {
-  color: initial;
   font-size:85%;
-}
-
-evt-mod-detail evt-original-encoding-viewer code .token,
-evt-source-detail evt-original-encoding-viewer code .token,
-evt-analogue-detail evt-original-encoding-viewer code .token {
-  color: #212529 !important;
 }
 
 :not(evt-apparatus-entry-detail) .mod-reading {
   text-decoration: underline;
   text-decoration-thickness: 14%;
+}
+
+.card {
+  border-radius: 0;
 }

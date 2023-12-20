@@ -172,7 +172,7 @@ export class ApparatusEntry extends GenericElement {
     lemma: Reading;
     readings: Reading[];
     notes: Note[];
-    originalEncoding: string;
+    originalEncoding: OriginalEncodingNodeType;
     nestedAppsIDs: string[];
     changes: Mod[];
 }
