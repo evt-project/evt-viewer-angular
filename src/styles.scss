@@ -265,3 +265,7 @@ evt-analogue-detail evt-original-encoding-viewer code {
 evt-mod-detail .tab-content {
   display: block ruby;
 }
+
+.tab-content > .active {
+  display: inline-block;
+}
