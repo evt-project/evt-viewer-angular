@@ -1,8 +1,9 @@
-<span [hidden]="isHidden()" class="mod {{data.class}} pointer" title="mod"
+<span class="mod {{data.class}} pointer" title="mod"
     (click)="toggleOpened$.next()" 
     [ngClass]="{opened: opened$ | async}" 
     [evtEditorialConventionLayout]="editorialConventionData">
     <evt-content-viewer *ngFor="let element of data.content" 
+        [hidden]="isHidden(element)" 
         [ngClass]="{'mod-reading': (data.insideApp[0] === false)}" 
         [content]="element"
         [editionLevel]="editionLevel" 

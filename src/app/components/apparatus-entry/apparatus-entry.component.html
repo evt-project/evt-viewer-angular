@@ -1,7 +1,7 @@
 <!--
    Check if the app entry is inside an app detail (nested app). In the app detail it's not necessary to render the entire app but only the lemma.
 -->
-<span *ngIf="!isInsideAppDetail" class="app-entry" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
+<span *ngIf="!isInsideAppDetail" class="app-entry pointer" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
 
    <!-- it renders readings in changesView only -->
    <ng-container *ngIf="editionLevel === 'changesView'">

@@ -78,18 +78,24 @@ export class ModComponent {
     return this.orderedLayers.indexOf(layer);
   }
 
-  layerHidden() {
+  layerHidden(subEl) {
     if (this.editionLevel !== 'changesView') {
       return false;
     }
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.getLayerData(data) }));
     if ((this.selectedLayer !== undefined) && (this.data.changeLayer !== undefined)) {
+      // we are always showing deletions regardless of mod change layer
+      if (subEl.class === 'del') {
+        return false;
+      }
+      // lem and readings requires to be switched over according to mod change layer
       if (this.data.insideApp[0] && this.data.isRdg) {
         const lemLayer = this.data.insideApp[1];
         if ((lemLayer !== '') && (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer))) {
           return true;
         }
       }
+      // generic content managament
       if (this.getLayerIndex(this.selectedLayer) < this.getLayerIndex(this.data.changeLayer)) {
         return true;
       }

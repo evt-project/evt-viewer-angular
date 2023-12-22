@@ -21,7 +21,7 @@
 .app-detail-content {
     display: flex;
     justify-content: space-between;
-    padding: 0.2rem;
+    padding: 0.2em 0 0 0;
     background-color: #2042512e;
 }
 
@@ -67,7 +67,7 @@
         }
     }
     .tab-content {
-        padding: 0.1rem 0.813rem;
+        padding: 0.4rem 0.813rem;
         max-height: 12.5rem;
         overflow: auto;
         .info-lemma-wrapper {
