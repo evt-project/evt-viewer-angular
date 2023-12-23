@@ -120,6 +120,8 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             if (el['type'] && el['type'] === Mod) {
                 if (el['changeLayer']) {
                     lemmaLayer = el['changeLayer'];
+                } else {
+                    lemmaLayer = null;
                 }
             }
         } )

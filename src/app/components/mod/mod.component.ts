@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
-import { ChangeLayerData, Mod } from 'src/app/models/evt-models';
+import { ChangeLayerData, Mod, Note } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { distinctUntilChanged, map, scan, startWith, Subject } from 'rxjs';
@@ -22,6 +22,10 @@ export interface ModComponent extends EditionlevelSusceptible, Highlightable, Te
 export class ModComponent {
 
   @Input() data: Mod;
+
+  public showLayerMarkers = AppConfig.evtSettings.edition.showChangeLayerMarkerInText;
+
+  public elementsToExcludeInTextFlow = [Note];
 
   public orderedLayers: string[];
 
@@ -85,13 +89,13 @@ export class ModComponent {
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.getLayerData(data) }));
     if ((this.selectedLayer !== undefined) && (this.data.changeLayer !== undefined)) {
       // we are always showing deletions regardless of mod change layer
-      if (subEl.class === 'del') {
+      if (!this.data.insideApp[0] && subEl.class === 'del') {
         return false;
       }
       // lem and readings requires to be switched over according to mod change layer
       if (this.data.insideApp[0] && this.data.isRdg) {
-        const lemLayer = this.data.insideApp[1];
-        if ((lemLayer !== '') && (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer))) {
+        const lemLayer = (this.data.insideApp[1] !== '' && this.data.insideApp[1] !== null) ? this.data.insideApp[1] : this.orderedLayers[0];
+        if (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer)) {
           return true;
         }
       }

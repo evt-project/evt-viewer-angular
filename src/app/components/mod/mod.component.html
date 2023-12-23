@@ -2,17 +2,29 @@
     (click)="toggleOpened$.next()" 
     [ngClass]="{opened: opened$ | async}" 
     [evtEditorialConventionLayout]="editorialConventionData">
-    <evt-content-viewer *ngFor="let element of data.content" 
-        [hidden]="isHidden(element)" 
-        [ngClass]="{'mod-reading': (data.insideApp[0] === false)}" 
-        [content]="element"
-        [editionLevel]="editionLevel" 
-        [itemsToHighlight]="itemsToHighlight"
-        [textFlow]="textFlow"
-        [selectedLayer]="selectedLayer"
-        [withDeletions]="withDeletions"
-        [style.text-decoration-color]="changeLayerColor()">
-    </evt-content-viewer>
+
+    <ng-container *ngIf="editionLevel === 'changesView' && showLayerMarkers">
+        <span class="layerMarker" 
+            [hidden]="isHidden(data)" 
+            [style.background-color]="changeLayerColor()">
+             {{getLayerIndex(data?.changeLayer) || '0'}} 
+        </span>
+    </ng-container>
+
+    <ng-container *ngFor="let element of data.content; index as i">
+        <evt-content-viewer *ngIf="!elementsToExcludeInTextFlow.includes(element?.type)"
+            [hidden]="isHidden(element)" 
+            [ngClass]="{'mod-reading': (data.insideApp[0] === false)}" 
+            [content]="element"
+            [editionLevel]="editionLevel" 
+            [itemsToHighlight]="itemsToHighlight"
+            [textFlow]="textFlow"
+            [selectedLayer]="selectedLayer"
+            [withDeletions]="withDeletions"
+            [style.text-decoration-color]="changeLayerColor()">
+        </evt-content-viewer>
+    </ng-container>
+
 </span>
 <evt-mod-detail *ngIf="opened$ | async"
     [editionLevel]="editionLevel" 

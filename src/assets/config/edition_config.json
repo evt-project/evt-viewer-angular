@@ -141,13 +141,14 @@
     "parallel"
   ],
   "sourcesExcludedFromListByParent": ["desc"],
+  "showChangeLayerMarkerInText": true,
   "changeSequenceView": {
     "showVarSeqAttr": false,
     "showSeqAttr": false,
     "layerColors": {
-      "strato-0": "#C5FFF8",
+      "strato-0": "#609cf4",
       "strato-1": "#71e5fa",
-      "strato-2": "#5FBDFF",
+      "strato-2": "#0d6efd",
       "strato-3": "#7B66FF",
       "strato-4": "#3e22f3",
       "strato-5": "#100077"

@@ -64,3 +64,8 @@ evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
     margin-top:-1em;
     margin-right:70%;
 }
+
+evt-reading evt-note,
+evt-addition evt-note {
+  display: none;
+}

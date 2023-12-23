@@ -269,3 +269,19 @@ evt-mod-detail .tab-content {
 .tab-content > .active {
   display: inline-block;
 }
+
+.layerMarker {
+  display: inline-block;
+  border-radius: 25%;
+  padding: 0 0.2em 0 0.2em;
+  line-height: 1.2em;
+  font-size: 95%;
+  font-weight: 600;
+  font-family: serif;
+  border: 1px solid #80808033;
+  color: white;
+}
+
+.substMarker {
+  font-weight: 600;
+}
