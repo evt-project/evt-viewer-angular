@@ -396,7 +396,6 @@ export class Gap extends GenericElement {
 }
 
 export class Subst extends GenericElement {
-    id: string;
     after: ParseResult<GenericElement>;
 }
 
