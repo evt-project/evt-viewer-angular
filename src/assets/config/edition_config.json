@@ -153,5 +153,6 @@
       "strato-5": "#100077"
     }
   },
-  "defaultImageZoomLevel": 0.8
+  "defaultImageZoomLevel": 0.8,
+  "showSubstitutionMarker": true
 }

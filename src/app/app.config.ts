@@ -138,6 +138,7 @@ export interface EditionConfig {
         layerColors: string[];
     }>;
     defaultImageZoomLevel: number;
+    showSubstitutionMarker: boolean;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';

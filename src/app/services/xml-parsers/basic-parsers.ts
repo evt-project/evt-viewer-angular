@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Analogue, Anchor, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Subst, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { isNestedInElem, xpath } from '../../utils/dom-utils';
 import { getContentBetweenElementAndId, getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
@@ -587,9 +587,10 @@ export class CitParser extends DisambiguationParser implements Parser<XMLElement
 
 @xmlParser('subst', SubstParser)
 export class SubstParser extends GenericElemParser implements Parser<XMLElement> {
-    parse(xml: XMLElement): GenericElement {
+    parse(xml: XMLElement): Subst {
         let parsing = {
             ...super.parse(xml),
+            type: Subst,
             after: [],
         }
         parsing.after = parsing.content.filter((el) => (el['type']) && (el['type'] !== Deletion));
