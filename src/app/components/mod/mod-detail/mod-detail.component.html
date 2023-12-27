@@ -17,17 +17,10 @@
     <div class="card-footer app-detail-tabs">
         <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
 
-            <li ngbNavItem="nota" *ngIf="mod.note.length > 0">
+            <li ngbNavItem="criticalNote" *ngIf="mod.notes?.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'criticalNote' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <ng-container *ngFor="let element of mod.note">
-                        <evt-content-viewer 
-                            [content]="element" 
-                            [editionLevel]="editionLevel"
-                            [evtHtmlAttributes]="element?.attributes" 
-                            [attr.data-edition]="editionLevel">
-                        </evt-content-viewer>
-                    </ng-container>
+                    <evt-note  *ngFor="let element of mod?.notes" [data]="element"></evt-note>
                 </ng-template>
             </li>
 

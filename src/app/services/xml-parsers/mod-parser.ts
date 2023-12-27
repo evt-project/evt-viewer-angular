@@ -1,7 +1,7 @@
 import { parse, xmlParser } from '.';
-import { AttributeParser, EmptyParser, GenericElemParser } from './basic-parsers';
+import { AttributeParser, EmptyParser, GenericElemParser, queryAndParseElements } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
-import { Mod, XMLElement } from 'src/app/models/evt-models';
+import { Mod, Note, XMLElement } from 'src/app/models/evt-models';
 
 @xmlParser('mod', ModParser)
 @xmlParser('evt-mod-parser', ModParser)
@@ -26,7 +26,7 @@ export class ModParser extends EmptyParser implements Parser<XMLElement> {
             isRdg: (modEl.parentElement.tagName === 'rdg'),
             insideApp: [isInsideAppElement, null],
             content: parseChildren(modEl, this.genericParse),
-            note: Array.from(modEl.querySelectorAll<XMLElement>('note')).map((x) => x.textContent),
+            notes: queryAndParseElements<Note>(modEl, 'note').map((el) => ({ ...el, noteLayout: 'plain-text' })),
             originalEncoding: modEl,
         };
     }

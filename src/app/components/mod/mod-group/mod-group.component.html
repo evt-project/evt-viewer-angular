@@ -23,6 +23,13 @@
     <div class="card-footer app-detail-tabs">
         <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
 
+            <li ngbNavItem="criticalNote" *ngIf="containerElement.notes?.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'criticalNote' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-note *ngFor="let element of containerElement.notes" [data]="element"></evt-note>
+                </ng-template>
+            </li>
+
             <li ngbNavItem="corrSeq" *ngIf="mods.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
                 <ng-template ngbNavContent>
