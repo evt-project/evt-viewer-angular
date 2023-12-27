@@ -5,15 +5,15 @@
 
     <ng-container *ngIf="editionLevel === 'changesView' && showLayerMarkers">
         <span class="layerMarker" 
-            [hidden]="isHidden(data)" 
+            [hidden]="(isHidden(data) && !(alwaysShow))" 
             [style.background-color]="changeLayerColor()">
-             {{getLayerIndex(data?.changeLayer) || '0'}} 
+            {{getLayerIndex(data?.changeLayer) || 0}} 
         </span>
     </ng-container>
 
     <ng-container *ngFor="let element of data.content; index as i">
         <evt-content-viewer *ngIf="!elementsToExcludeInTextFlow.includes(element?.type)"
-            [hidden]="isHidden(element)" 
+            [hidden]="(isHidden(element) && !(alwaysShow))" 
             [ngClass]="{'mod-reading': (data.insideApp[0] === false)}" 
             [content]="element"
             [editionLevel]="editionLevel" 

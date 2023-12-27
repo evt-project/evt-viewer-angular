@@ -72,6 +72,7 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ManuscriptThumbnailsViewerComponent } from './components/manuscript-thumbnails-viewer/manuscript-thumbnails-viewer.component';
 import { ModComponent } from './components/mod/mod.component';
 import { ModDetailComponent } from './components/mod/mod-detail/mod-detail.component';
+import { ModGroupComponent } from './components/mod/mod-group/mod-group.component';
 import { ModSequenceComponent } from './components/mod/mod-sequence/mod-sequence.component';
 import { MsContentsComponent } from './components/ms-contents/ms-contents.component';
 import { MsDescComponent } from './components/ms-desc/ms-desc.component';
@@ -231,6 +232,7 @@ const DynamicComponents = [
     ManuscriptThumbnailsViewerComponent,
     ModComponent,
     ModDetailComponent,
+    ModGroupComponent,
     ModSequenceComponent,
     MsDescSectionComponent,
     MsDescSelectorComponent,

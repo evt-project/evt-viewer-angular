@@ -1,0 +1,50 @@
+<div class="source-container" [ngClass]="{opened: opened$ | async}">
+        
+    <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="mods.length > 0">
+        <span class="mod-symbol">🕐</span>
+        <span class="mod-text">
+            <ng-container *ngFor="let orderedLayer of orderedLayers$ | async">
+                <ng-container *ngFor="let mod of mods; index as i">
+                    <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
+                        <span class="changeSeparator"> ← </span>
+                        [{{getLayerIndex(orderedLayer)}}] 
+                        <evt-mod [data]="mod"
+                            [alwaysShown]="true"
+                            [editionLevel]="'changesView'"
+                            [evtHtmlAttributes]="mod?.attributes"
+                            [attr.data-edition]="'changesView'">
+                        </evt-mod> 
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </span>
+    </div>
+
+    <div class="card-footer app-detail-tabs">
+        <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
+
+            <li ngbNavItem="corrSeq" *ngIf="mods.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-mod-sequence 
+                        [data]="mods" 
+                        [orderedLayers]="orderedLayers"
+                        [selectedLayer]="selLayer">
+                    </evt-mod-sequence>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="xml" *ngIf="containerElement.originalEncoding">
+                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-original-encoding-viewer [originalEncoding]="containerElement.originalEncoding">
+                    </evt-original-encoding-viewer>
+                </ng-template>
+            </li>
+
+        </ul>
+        <div [ngbNavOutlet]="modEntryTab" class="tab-content"></div>
+    </div>
+
+</div>
+

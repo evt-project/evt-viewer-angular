@@ -3,12 +3,17 @@
 -->
 <span *ngIf="!isInsideAppDetail" class="app-entry pointer" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
 
-   <!-- it renders readings in changesView only -->
    <ng-container *ngIf="editionLevel === 'changesView'">
+      <!-- in changesView all readings are displayed in the textflow and the box is replaced with the specific mod-group elements -->
       <evt-reading *ngFor="let reading of data?.readings" class="app-entry-rdg" [data]="reading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+      <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+      <evt-mod-group *ngIf="data?.lemma && opened" [modGroup]="data?.changes" [editionLevel]="editionLevel" [evtHighlight]="highlightData$ | async" [selectedLayer]="selectedLayer" [containerElement]="data" (click)="stopPropagation($event)"></evt-mod-group>
    </ng-container>
 
-   <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
-   <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
-   <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" [selectedLayer]="selectedLayer" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
+   <ng-container *ngIf="editionLevel !== 'changesView'">
+      <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+      <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
+      <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" [selectedLayer]="selectedLayer" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
+   </ng-container>
+
 </span>

@@ -23,6 +23,15 @@ export class ModComponent {
 
   @Input() data: Mod;
 
+  @Input() editionLevel;
+
+  public alwaysShow: boolean;
+
+  @Input() set alwaysShown(yes: boolean) {
+    this.alwaysShow = yes;
+  }
+  get alwaysShown() { return this.alwaysShow; }
+
   public showLayerMarkers = AppConfig.evtSettings.edition.showChangeLayerMarkerInText;
 
   public elementsToExcludeInTextFlow = [Note];
@@ -82,7 +91,7 @@ export class ModComponent {
     return this.orderedLayers.indexOf(layer);
   }
 
-  layerHidden(subEl) {
+  layerHidden(subEl): boolean {
     if (this.editionLevel !== 'changesView') {
       return false;
     }
@@ -94,7 +103,10 @@ export class ModComponent {
       }
       // lem and readings requires to be switched over according to mod change layer
       if (this.data.insideApp[0] && this.data.isRdg) {
-        const lemLayer = (this.data.insideApp[1] !== '' && this.data.insideApp[1] !== null) ? this.data.insideApp[1] : this.orderedLayers[0];
+        const lemLayer = (this.data.insideApp && this.data.insideApp[1]) ? this.data.insideApp[1] : null;
+        if (lemLayer === '' || lemLayer === null) {
+          return false;
+        }
         if (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer)) {
           return true;
         }

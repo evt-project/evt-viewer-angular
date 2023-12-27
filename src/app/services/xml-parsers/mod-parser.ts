@@ -15,6 +15,7 @@ export class ModParser extends EmptyParser implements Parser<XMLElement> {
         const varSeq = modEl.getAttribute('varSeq');
         const parentVarSeq = modEl.parentElement.getAttribute('varSeq');
         const defVarSeq = (varSeq !== null) ? varSeq : parentVarSeq;
+        const isInsideAppElement = (modEl.parentElement.tagName === 'rdg') || (modEl.parentElement.tagName === 'lem');
 
         return <Mod> {
             id: getID(modEl),
@@ -23,7 +24,7 @@ export class ModParser extends EmptyParser implements Parser<XMLElement> {
             changeLayer: modEl.getAttribute('change'),
             varSeq: defVarSeq,
             isRdg: (modEl.parentElement.tagName === 'rdg'),
-            insideApp: [((modEl.parentElement.tagName === 'rdg') || (modEl.parentElement.tagName === 'lem')), ''],
+            insideApp: [isInsideAppElement, null],
             content: parseChildren(modEl, this.genericParse),
             note: Array.from(modEl.querySelectorAll<XMLElement>('note')).map((x) => x.textContent),
             originalEncoding: modEl,

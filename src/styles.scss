@@ -239,6 +239,7 @@ evt-quote-entry evt-paragraph p {
 
 evt-apparatus-entry-detail evt-original-encoding-viewer pre,
 evt-mod-detail evt-original-encoding-viewer pre,
+evt-mod-group  evt-original-encoding-viewer pre,
 evt-source-detail evt-original-encoding-viewer pre,
 evt-analogue-detail evt-original-encoding-viewer pre {
   margin-top:-1% !important;
@@ -248,6 +249,7 @@ evt-analogue-detail evt-original-encoding-viewer pre {
 
 evt-apparatus-entry-detail evt-original-encoding-viewer code,
 evt-mod-detail evt-original-encoding-viewer code,
+evt-mod-group evt-original-encoding-viewer code,
 evt-source-detail evt-original-encoding-viewer code,
 evt-analogue-detail evt-original-encoding-viewer code {
   font-size:85%;
@@ -282,6 +284,28 @@ evt-mod-detail .tab-content {
   color: white;
 }
 
+.mod-text .layerMarker {
+  display: none !important;
+}
+
 .substMarker {
   font-weight: 600;
+}
+
+.changeSeparator {
+  font-family: fantasy;
+  font-weight: 600;
+  margin: 0 0.3em 0 0.3em;
+}
+
+.changeSeparator:first-of-type {
+  display: none;
+}
+
+evt-mod-group .substMarker {
+  display: none !important;
+}
+
+.mod-text {
+  font-style: normal;
 }

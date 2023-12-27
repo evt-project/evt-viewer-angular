@@ -95,26 +95,26 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 				<head>Ai miei sei lettori</head>
 				<metamark rend="line" place="below"/>
 				<lb n="1"/>Vi devo qualche parola di gratitudine,
-               <lb n="2"/>miei cari lettori. - Ad uno ad uno
+               	<lb n="2"/>miei cari lettori. - Ad uno ad uno
                   io vi ho scelti; 
-                  <mod change="#strato-0">
-					<del seq="1" rend="strikethrough"> quindi, come
-                        <lb n="3"/>si sceglie la moglie
-                     </del>, come si scelgono gli amici
-                  </mod>
-				<app>
-					<lem varSeq="2">
-						<mod change="#strato-3">
-							<del rend="strikethrough">e come si sceglie la moglie,</del>
-						</mod>
-					</lem>
-					<rdg varSeq="1">
-						<mod change="#strato-0">
-							<add seq="2" place="bottom">e</add>
-							<add seq="2" place="above">come si sceglie la moglie,</add>
-						</mod>
-					</rdg>
-				</app>
+                  	<mod change="#strato-0">
+						<del seq="1" rend="strikethrough"> quindi, come
+                        	<lb n="3"/>si sceglie la moglie
+                     	</del>, come si scelgono gli amici
+                  	</mod>
+					<app>
+						<lem varSeq="2">
+							<mod change="#strato-3">
+								<del rend="strikethrough">e come si sceglie la moglieb,</del>
+							</mod>
+						</lem>
+						<rdg varSeq="1">
+							<mod change="#strato-0">
+								<add seq="2" place="bottom">e</add>
+								<add seq="2" place="above">come si sceglie la mogliec,</add>
+							</mod>
+						</rdg>
+					</app>
                    io ho scelto 
                <lb n="4"/>da me i miei lettori; non troppi a dire il vero, ma nemmeno 
                <lb n="5"/>troppo pochi; siete oggi esattamente sei. Quelli siete cioè
@@ -3983,9 +3983,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<metamark function="order">
 									<mod change="#strato-3">1</mod>
 								</metamark> Ascoltare, guardare: è questo 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -3997,14 +3995,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">un</mod>
 									</rdg>
-								</app> cibo</l>
+								</app> cibo
+							</l>
 							<l n="2">
 								<metamark function="order">
 									<mod change="#strato-3">4</mod>
 								</metamark> che più gustato, 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -4054,8 +4051,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="20">Che millenni di strazi, uomo, per una</l>
 							<l n="21">delle piccole cose che tu afferri,</l>
 							<l n="22">usi, e non guardi, e il cuore 
-                     
-                     <app>
+                     			<app>
 									<lem>non ti trema</lem>
 									<rdg type="altVariant">
 										<mod change="#strato-3">
@@ -4063,10 +4059,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 											</add>
 										</mod>
 									</rdg>
-								</app>.</l>
+								</app>.
+							</l>
 							<l n="23">Trema a me se ci penso. 
-                     
-                     <app>
+                     			<app>
 									<lem>Vedi: è poco</lem>
 									<rdg type="altVariant">
 										<mod change="#strato-3">
@@ -4077,15 +4073,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 							<note resp="#GT">Qui Saba inserisce le due varianti alternative ("non ti tremi" e "Or credi, è poco") per cercare di far risuonare l'unica rima irrelata "trema" con una parola anche a interno verso: lo trasforma in "tremi" che ha assonanza con la variante alternativa "credi".</note>
 							<l n="24">quanto nel mondezzaio oggi 
-                     
-                     
-                   <mod change="#strato-2">
+                   				<mod change="#strato-2">
 									<add place="above">ti</add>
 								</mod> scaglia;</l>
 							<l n="25">pure 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<del rend="strikethrough">gemma</del>
 										<add place="above">cosa</add>
@@ -4093,7 +4085,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">gemma</mod>
 									</rdg>
-								</app> non c'è che per te valga</l>
+								</app> non c'è che per te valga
+							</l>
 							<l n="26">
                      quanto valso sarebbe un dì quel poco.
                      </l>
@@ -4110,13 +4103,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">Buccina d'un eroe nel plenilunio!</l>
 							<l n="3">Strane voglie, col lume della luna</l>
 							<l n="4">nate, morte nel sonno 
-                     
-                   <mod change="#strato-0">
+                   				<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">avanti</del>
 										<add place="above">innanzi</add>
 									</subst>
-								</mod> giorno.</l>
+								</mod> giorno.
+							</l>
 						</lg>
 						<lg n="8">
 							<l n="1">Certo domani sarà un grande giorno. </l>
@@ -4152,9 +4145,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						<lg n="11">
 							<l n="1">Geme il bimbo nel sonno, e più se rotto</l>
 							<l n="2">gli è il sonno 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<del rend="strikethrough">a tratti</del>
@@ -4198,9 +4189,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="5">tempo era quello, tempo che non oso</l>
 							<l n="6">ricordare. Ben altra</l>
 							<l n="7">era mia 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -4219,18 +4208,15 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="10">sarebbe, ed inatteso, come giorno</l>
 							<l n="11">d'esultanza a chi in lunga pena sta,</l>
 							<l n="12">non quella vita dentro 
-                     
-                     
-                    <mod change="#strato-2">
+                    			<mod change="#strato-2">
 									<add place="above">a</add>
-								</mod> quelle grandi</l>
+								</mod> quelle grandi
+							</l>
 							<l n="13">case, quei sogni, quella verità;</l>
 							<pb n="52" facs="52.jpg"/>
 							<l n="14">nel mio cuore una sola verità</l>
 							<l n="15">c'era, 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -4258,9 +4244,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app> un solo sorriso.</l>
 							<l n="17">Del 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst rend="strikethrough">
@@ -4275,9 +4259,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app> non amavo altro che un viso</l>
 							<l n="18">pallido, un occhio nero.</l>
 							<l n="19">Ora
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="inline">,</add>
@@ -4306,9 +4288,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<lg n="2">
 								<l n="1">Tosto apersi il volume. Una fraterna</l>
 								<l n="2">voce, quella di G
-                     
-                     
-                     <app>
+                     				<app>
 										<lem varSeq="2">
 											<mod change="#strato-1">ö</mod>
 										</lem>
@@ -4381,9 +4361,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<l n="2">desideri, le paci irrequïete.</l>
 								<l n="3">Lunghe storie leggevo di vïaggi,</l>
 								<l n="4">ora i versi di 
-                     
-                     
-                     <app>
+                     				<app>
 										<lem varSeq="2">
 											<mod change="#strato-1">ö</mod>
 										</lem>
@@ -4409,9 +4387,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">godono della primavera in fiore;</l>
 							<l n="3">tutta in fiore nel buon tepido sole,</l>
 							<l n="4">e 
-                     
-                     
-                     <app>
+                     			<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>

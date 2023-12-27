@@ -2,9 +2,8 @@
         
     <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="mod.content.length > 0">
         <span class="mod-symbol">🕐</span>
-        <span title="analogue-text">
+        <span class="mod-text">
             <ng-container *ngFor="let element of mod.content; index as i">
-                <ng-container *ngIf="((i !== 0) && (mod.content.length > i+1))"> ❱ </ng-container>
                 <evt-content-viewer 
                     [content]="element" 
                     [editionLevel]="editionLevel"
