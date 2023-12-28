@@ -169,8 +169,10 @@ export class TextPanelComponent {
     return { icon: (this.showDeletions) ? 'eye' : 'eye-slash', iconSet: 'fas' };
   }
 
+  public isMultiplePageActive: boolean = AppConfig.evtSettings.edition.multiPageEngineForCriticalEdition;
+
   public isMultiplePageFlow$ = this.currentStatus$.pipe(
-    map((x) => x.editionLevel.id === 'critical' && x.currentViewMode.id !== 'imageText'),
+    map((x) => x.editionLevel.id === 'critical' && x.currentViewMode.id !== 'imageText' && this.isMultiplePageActive),
     shareReplay(1),
   );
 

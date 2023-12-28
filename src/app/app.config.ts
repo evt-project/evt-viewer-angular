@@ -140,6 +140,7 @@ export interface EditionConfig {
     }>;
     defaultImageZoomLevel: number;
     showSubstitutionMarker: boolean;
+    multiPageEngineForCriticalEdition: boolean;
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';
