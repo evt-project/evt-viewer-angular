@@ -19,6 +19,7 @@ export class RdgParser extends EmptyParser implements Parser<XMLElement> {
             content: this.parseAppReadingContent(rdg),
             significant: this.isReadingSignificant(rdg),
             class: rdg.tagName.toLowerCase(),
+            varSeq: parseInt(rdg.getAttribute('varSeq')),
         };
     }
 
@@ -66,7 +67,7 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
 
         const lemma = this.parseLemma(appEntry);
         const readings = this.parseReadings(appEntry);
-        const foundReadings = (lemma !== undefined) ? readings.concat(lemma) : readings;
+        const allReadings = (lemma !== undefined) ? readings.concat(lemma) : readings;
 
         return {
             type: ApparatusEntry,
@@ -79,7 +80,8 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
             originalEncoding: appEntry,
             class: appEntry.tagName.toLowerCase(),
             nestedAppsIDs: this.getNestedAppsIDs(appEntry),
-            changes: (lemma !== undefined) ? this.parseChanges( foundReadings, lemma ) : [],
+            changes: (lemma !== undefined) ? this.orderChanges(allReadings, lemma) : [],
+            orderedReadings: Array.from(allReadings).sort((r1, r2) => r1.varSeq - r2.varSeq),
         };
     }
 
@@ -109,11 +111,12 @@ export class AppParser extends EmptyParser implements Parser<XMLElement> {
     }
 
     /**
-     * This function retrieves lem's first (and hopefully unique) mod element '@change'.
+     * This function order readings for varSeq attributes and retrieves lem's first
+     * (and hopefully unique) mod element '@change'.
      * This info is useful to mod-component in order to decide when to switch
      * between lemma and reading.
      */
-    private parseChanges(readings: Reading[], lemma: Reading): Mod[] {
+    private orderChanges(readings: Reading[], lemma: Reading): Mod[] {
         const changes = [];
         let lemmaLayer: string;
         Array.from(lemma.content).map((el) => {

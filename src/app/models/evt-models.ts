@@ -175,6 +175,7 @@ export class ApparatusEntry extends GenericElement {
     originalEncoding: OriginalEncodingNodeType;
     nestedAppsIDs: string[];
     changes: Mod[];
+    orderedReadings: Reading[];
 }
 
 export const SourceClass = 'sourceEntry';
@@ -245,6 +246,7 @@ export class Reading extends GenericElement {
     id: string;
     witIDs: string[];
     significant: boolean;
+    varSeq?: number;
 }
 
 export interface GridItem {
