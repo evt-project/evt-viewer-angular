@@ -4,8 +4,8 @@ import {
     Addition, Analogue, Anchor, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
     Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
-import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { getContentBetweenElementAndId, getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
+import { getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
+import { getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
 import { createParser, getClass, getDefaultN, getID, parseChildren, ParseFn, Parser } from './parser-models';
 import { AppConfig } from 'src/app/app.config';
 import { AnalogueParser } from './analogue-parser';
@@ -429,15 +429,17 @@ export class TermParser extends GenericElemParser implements Parser<XMLElement> 
 export class MilestoneParser extends GenericElemParser implements Parser<XMLElement> {
     parse(xml: XMLElement): Milestone {
 
-        const elements = getContentBetweenElementAndId(xml, xml.getAttribute('spanTo'));
-        const parsedElements = elements.elements.map((x) => super.parse(x));
+        const endElement = (xml.getAttribute('spanTo')) ? getExternalElements(xml, ['spanTo'], 'xml:id', 'anchor') : [];
+        const includedElements = (endElement.length !== 0) ? getElementsBetweenTreeNode(xml, endElement[0]) : [];
+        const parsedElements = (includedElements.length !== 0) ?
+            includedElements.map((x: XMLElement) => (x.nodeType !== 3 && x.nodeType !== 8) ? super.parse(x) : x) : [];
 
         return {
             type: Milestone,
             id: xml.getAttribute('xml:id'),
             attributes: this.attributeParser.parse(xml),
             unit: xml.getAttribute('unit'),
-            spanText: elements.text,
+            spanText: '',
             spanElements: parsedElements,
             content: parseChildren(xml, this.genericParse),
         };
@@ -481,13 +483,10 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
             }
 
         } else if (xml.tagName === 'span') {
-            let included = { text: '', elements: [] };
-            let parsedElements = [];
-            const startingElement = getExternalElements(xml, ['from'], 'xml:id', 'anchor');
-            if (startingElement.length > 0) {
-                included = getContentBetweenElementAndId(startingElement[0], xml.getAttribute('to'));
-                parsedElements = included.elements.map((x) => super.parse(x));
-            }
+            const endElement = (xml.getAttribute('spanTo')) ? getExternalElements(xml, ['from'], 'xml:id', 'anchor') : [];
+            const includedElements = (endElement.length !== 0) ? getElementsBetweenTreeNode(xml, endElement[0]) : [];
+            const parsedElements = (includedElements.length !== 0) ?
+                includedElements.map((x: XMLElement) => (x.nodeType !== 3 && x.nodeType !== 8) ? super.parse(x) : x) : [];
 
             return <Span> {
                 type: Span,
@@ -495,7 +494,7 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
                 attributes: this.attributeParser.parse(xml),
                 from: xml.getAttribute('from'),
                 to: xml.getAttribute('to'),
-                includedText: included.text,
+                includedText: '',
                 includedElements: parsedElements,
                 content: parseChildren(xml, this.genericParse),
             };
