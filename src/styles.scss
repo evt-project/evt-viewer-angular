@@ -264,10 +264,6 @@ evt-analogue-detail evt-original-encoding-viewer code {
   border-radius: 0;
 }
 
-evt-mod-detail .tab-content {
-  display: block ruby;
-}
-
 .layerMarker {
   display: inline-block;
   border-radius: 25%;
@@ -304,4 +300,9 @@ evt-mod-group .substMarker {
 
 .mod-text {
   font-style: normal;
+}
+
+evt-mod-group .tab-content > .active,
+evt-mod-detail .tab-content > .active {
+  display: inline-block;
 }

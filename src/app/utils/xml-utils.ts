@@ -76,8 +76,6 @@ export function chainDeepTexts(elem: ChildNode, evtInnerTextElements: string[]):
 
 /**
 * Retrieve external elements searching between provided elements types and filtering on attributes base
-* It searches all document for a bibl with the correct xml:id.
-* It would be faster if we knew the id or unique element to search in
 */
 export function getExternalElements(elem: XMLElement, attrSourceNames: string[], attrTargetName: string, elTypes: string): XMLElement[] {
   const sourceIDs = attrSourceNames.map((x) => elem.getAttribute(x));
@@ -106,57 +104,4 @@ export function isSource(elem: XMLElement, attrs: string[]): boolean {
   attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
 
   return (validAttrs);
-}
-
-
-/**
- * Retrieve textContent and elements between the provided element and the one found with the xml:id provided
- */
-export function getContentBetweenElementAndId(fromElement: XMLElement, toXMLID: string): { text: string, elements: any } {
-
-  if ((fromElement === null) || (fromElement === undefined) || (toXMLID === null)) {
-    return { text: '', elements: [] };
-  }
-
-  const cleanID = toXMLID.replace('#','');
-  let found = false;
-  // text after the milestone but still inside the parent element
-  let foundText = (fromElement.nextSibling !== null) ? fromElement.nextSibling.textContent : '';
-  // the milestone is always inside another element?
-  // otherwise const foundElements = [fromElement.nextSibling];
-  let next = (fromElement.nextElementSibling !== null) ?
-    fromElement.nextElementSibling as XMLElement :
-    fromElement.parentElement.nextElementSibling as XMLElement;
-
-  // creating a fake element for partial text included from milestone on
-  let foundElements = [];
-  if (fromElement.parentElement.nextElementSibling !== null) {
-    const nextEdited = fromElement.parentElement.nextElementSibling.cloneNode(true);
-    nextEdited.textContent = foundText;
-    foundElements.push(nextEdited);
-  }
-
-  let maxExec = 50;
-
-  while(!found && next !== null && maxExec !== 0) {
-    foundElements.push(next);
-    foundText = foundText + next.textContent;
-    if (next.getAttribute('xml:id') === cleanID) {
-      found = true;
-    } else {
-      maxExec--;
-      if (next.nextElementSibling === null) {
-        if (next.parentElement !== null) {
-          next = next.parentElement.nextElementSibling as XMLElement;
-          maxExec--;
-        } else {
-          next = null;
-        }
-      } else {
-        next = next.nextElementSibling as XMLElement;
-      }
-    }
-  }
-
-  return { 'text': foundText, 'elements': foundElements };
 }

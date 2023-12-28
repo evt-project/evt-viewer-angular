@@ -1,7 +1,7 @@
 <span class="subst">
     <!-- deletions first -->
     <ng-container *ngFor="let el of data.content">
-        <evt-content-viewer *ngIf="((withDeletions) && (el?.class === 'del'))"
+        <evt-content-viewer *ngIf="((withDeletions) && (el?.class === 'del' || el?.class === 'surplus'))"
             [content]="el" [editionLevel]="editionLevel" 
             [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow"
             [withDeletions]="withDeletions" [selectedLayer]="selectedLayer">

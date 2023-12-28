@@ -26,7 +26,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 			</publicationStmt>
 			<sourceDesc>
 				<listWit>
-					<witness xml:id="MS_C19">Manoscritto del Canzoniere 1919. <msDesc>
+					<witness xml:id="MS_C19">Manoscritto del Canzoniere 1919. 
+						<msDesc>
 							<msIdentifier>
 								<settlement>Trieste</settlement>
 								<repository>Biblioteca Civica Attilio Hortis</repository>
@@ -41,22 +42,15 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 		<profileDesc>
 			<creation corresp="#MS_C19" resp="#SV">
 				<listChange ordered="true">
-					<change xml:id="strato-0">Stesura base del testo, in inchiostro blu piombo; presenza
-                  di varianti immediate</change>
-					<change xml:id="strato-1">Primo strato di varianti apportato con penna ad inchiostro
-                  blu chiaro</change>
-					<change xml:id="strato-2">Secondo strato di varianti e correzioni apportate in matita
-                  grigia</change>
-					<change xml:id="strato-3">Terzo strato di varianti e correzioni annotate a matita
-                  copiativa</change>
-					<change xml:id="strato-4">Quarto strato di varianti e correzioni annotate in penna
-                  blu oltremare</change>
-					<change xml:id="strato-5">Quinto strato scrittorio con correzioni e varianti in
-                  matita viola</change>
+					<change xml:id="strato-0">Stesura base del testo, in inchiostro blu piombo; presenza di varianti immediate</change>
+					<change xml:id="strato-1">Primo strato di varianti apportato con penna ad inchiostro blu chiaro</change>
+					<change xml:id="strato-2">Secondo strato di varianti e correzioni apportate in matita grigia</change>
+					<change xml:id="strato-3">Terzo strato di varianti e correzioni annotate a matita copiativa</change>
+					<change xml:id="strato-4">Quarto strato di varianti e correzioni annotate in penna blu oltremare</change>
+					<change xml:id="strato-5">Quinto strato scrittorio con correzioni e varianti in matita viola</change>
 				</listChange>
 				<listChange ordered="false">
-					<change xml:id="strato-r">Strato scrittorio con indicazioni tipografiche in penna
-                  rossa</change>
+					<change xml:id="strato-r">Strato scrittorio con indicazioni tipografiche in penna rossa</change>
 				</listChange>
 			</creation>
 			<creation corresp="#pecette">
@@ -94,223 +88,208 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 				<pb n="4" facs="4.jpg"/>
 				<head>Ai miei sei lettori</head>
 				<metamark rend="line" place="below"/>
-				<lb n="1"/>Vi devo qualche parola di gratitudine,
-               	<lb n="2"/>miei cari lettori. - Ad uno ad uno
-                  io vi ho scelti; 
-                  	<mod change="#strato-0">
-						<del seq="1" rend="strikethrough"> quindi, come
-                        	<lb n="3"/>si sceglie la moglie
-                     	</del>, come si scelgono gli amici
-                  	</mod>
+					<lb n="1"/>Vi devo qualche parola di gratitudine, 
+					<lb n="2"/>miei cari lettori. - Ad uno ad uno io vi ho scelti; 
+					<mod change="#strato-0">
+						<del rend="strikethrough" seq="1"> quindi, come<lb n="3"/>si sceglie la moglie</del>, come si scelgono gli 
+			amici <app>
+							<lem varSeq="2">
+								<mod change="#strato-3">
+									<del rend="strikethrough">e come si sceglie la moglie,</del>
+								</mod>
+							</lem>
+							<rdg varSeq="1">
+								<mod change="#strato-0">
+									<add place="bottom" seq="2">e</add>
+									<add place="above" seq="2">come si sceglie la moglie,</add>
+								</mod>
+							</rdg>
+						</app>
+					</mod> io ho scelto
+          <lb n="4"/>da me i miei lettori; non troppi a dire il vero, ma nemmeno
+          <lb n="5"/>troppo pochi; siete oggi esattamente sei. Quelli siete cioè
+          <lb n="6"/>che di quando in quando, per un'usanza che mi è cara
+          <lb n="7"/>da vent'anni, ricevete qualche mia poesia manoscritta.
+          <lb n="8"/>E se non tutti siete ugualmente atti ad intendere
+          <lb n="9"/>ed apprezzare per istinto la difficile arte del verso, siete
+          <lb n="10"/>
 					<app>
 						<lem varSeq="2">
 							<mod change="#strato-3">
-								<del rend="strikethrough">e come si sceglie la moglieb,</del>
+								<del rend="strikethrough">però tutti fra</del>
+								<add place="above">però fra</add>
+							</mod>
+						</lem>
+						<rdg varSeq="1">però 
+							<mod change="#strato-0">
+								<add place="above">tutti fra</add>
+							</mod>
+						</rdg>
+					</app> le anime migliori che io abbia conosciute, alle quali
+          <lb n="11"/>più di una volta ho avvicinata la mia, come chi ha freddo 
+		  <!-- te | si legge sul margine della pagina su cui è attaccata quella numerata 4 cfr #problema_stratoq -->
+					<lb n="12"/>avvicina al fuoco le dita intirizzite. Spesso - troppo
+          <lb n="13"/>spesso forse - ho sentit<mod change="#strato-0">
+						<subst>
+							<add place="superscript">o</add>
+							<del rend="overwritten">a</del>
+						</subst>
+					</mod> la vita come una landa tutta
+          <lb n="14"/>ghiacciata; oh allora, poter chiacchierare con uno
+          di voi,
+          <lb n="15"/>seduti tra il volgo dei consumatori ad uno dei miei <mod change="#strato-0">
+						<del instant="true" rend="strikethrough">a-</del>
+					</mod>
+					<lb n="16"/>adorati caffeucci, o pensarvi, o mandarvi dei versi, è
+          <lb n="17"/>stata per me la salvezza.
+		  <lb n="18"/>E vi devo anche qualche parola di chia-
+          <lb n="19"/>rimento. Non tutte le poesie di questa raccolta vi
+          <lb n="20"/>riusciranno ugualmente nuove; alcune (la terza
+          <lb n="21"/>parte circa) sono già state stampate nei precedenti
+          <lb n="22"/>volumi &quot;Poesie&quot; e &quot;Coi miei occhi&quot;. Ma, per quanto
+          <lb n="23"/>riguarda il primo (Poesie) esse vi apparvero non
+          <lb n="24"/>sol<mod change="#strato-0">
+						<subst>
+							<add place="superscript">o</add>
+							<del rend="overwritten">a</del>
+						</subst>
+					</mod>
+					<!--GT a me qui sembra "sole", che ha più senso, ma forse direi è illegibile--> in una disposizione
+            cronologicamente falsa, così
+          <lb n="25"/>da togliere ogni <hi rend="underline">linea</hi> al lavoro, ma molte (tutte per
+          <lb n="26"/>esempio <mod change="#strato-0">
+						<del instant="true" rend="strikethrough">le</del>
+					</mod>
+            quelle dell'adolescenza, e le giovanili e
+          <lb n="27"/>le fiorentine; così necessarie <mod change="#strato-0">
+						<subst seq="2">
+							<add place="above">a comprendere</add>
+							<del>a<add place="inline" seq="1">d</add>
+								<del rend="strikethrough" seq="1">far</del> intendere</del>
+						</subst>
+					</mod> la
+          <lb n="28"/>genesi e i graduali sviluppi, gli svincolamenti ed i
+          <lb n="29"/>ritorni alle origini della mia arte) vi furono ommesse;
+          <lb n="30"/>altre poi (che è peggio ancora) siffattamente alterate
+
+          <pb facs="6.jpg" n="6"/>
+					<lb n="1"/>
+					<subst>
+						<del>
+							<gap rend="erasure"/>
+						</del>
+						<add place="inspace">dalla loro forma primitiva, da essere diventate</add>
+					</subst>
+					<lb n="2"/>tutta un'altra cosa, e non una cosa migliore. Come abbia
+          <lb n="3"/>potuto commettere questo imperdonabile delitto contro <mod change="#strato-0">
+						<subst seq="1">
+							<del rend="strikethrough">quella cosa <lb n="4"/>delicata, delicata e vitale che è lo stile</del>
+							<add place="above">me stesso<del rend="strikethrough" seq="2">,
+          <lb n="4"/> anzi contro la parte migliore di me stesso</del>
+							</add>
+						</subst>
+					</mod> non <mod change="#strato-0">
+						<del rend="cross">lo</del>
+					</mod> so precisa-
+          <lb n="5"/>mente: fu
+            <mod change="#strato-3">
+						<del rend="cross">per</del>
+					</mod> un eclissi totale della mia coscienza? O
+          <lb n="6"/>ero forse troppo giovane <mod change="#strato-0">
+						<metamark function="insertion" place="inline" rend="cross"/>
+						<add place="above">ancora</add>
+					</mod> per compiacermi, come me ne com-
+          <lb n="7"/>piaccio <mod change="#strato-0">
+						<subst>
+							<add place="above">adesso</add>
+							<del rend="strikethrough">ora</del>
+						</subst>
+					</mod>, dell'inoppugnabile derivazione Petrarchesca e
+          <lb n="8"/>Leopardiana <mod change="#strato-0">
+						<subst>
+							<add place="above">di quei</add>
+							<del rend="strikethrough">dei miei</del>
+						</subst>
+					</mod> primi sonetti e canzoni (non ho capito
+          <lb n="9"/>
+					<persName>
+						<forename>Dante</forename>
+					</persName> che verso i venti<mod change="#strato-0">
+						<subst>
+							<add place="superscript">tre</add>
+							<del>quattro</del>
+						</subst> venti<add place="superscript">quattro</add>
+						<del rend="overwritten">cinque</del>
+					</mod> anni); quasi che
+          <lb n="10"/>l'aver ritrovato da <mod change="#strato-0">
+						<subst>
+							<add place="above">solo</add>
+							<del rend="strikethrough">me</del>
+						</subst>
+					</mod>, nella mia stanzetta a Trieste e
+          <lb n="11"/>nell'ambiente di &quot;Fra chi sa d'amarmi&quot;, dove nessu-
+          <lb n="12"/>no aveva parlato a me di buoni e di cattivi autori, il
+          <lb n="13"/>filo d'oro della tradizione italiana, non <mod change="#strato-0">
+						<subst>
+							<add place="above">sia</add>
+							<del rend="strikethrough">fosse</del>
+						</subst>
+					</mod> il <mod change="#strato-0">
+						<del rend="strikethrough">mio</del>
+					</mod> mag-
+          <lb n="14"/>gior titolo di nobiltà, la migliore testimonianza che
+          <lb n="15"/>
+					<mod change="#strato-0">
+						<subst>
+							<add place="above">uno possa avere</add>
+							<del rend="strikethrough">io mi abbia</del>
+						</subst>
+					</mod> di non essere un comu<choice>
+						<sic>
+							<del rend="overwritten">e</del>
+						</sic>
+						<corr resp="#US">
+							<add place="superscript">ne</add>
+						</corr>
+					</choice> illuso verseggiatore! Voglio
+          <lb n="16"/>insomma si sappia che, dove ci sono modificazioni profon-
+          <lb n="17"/>de, e tali che potrebbero, senza questa confessione, riuscire
+          <lb n="18"/>stupefacenti, non è ora che le ho aportate; ho dovuto anzi
+          <lb n="19"/>compiere un lavoro non breve e non facile per ritrovare
+          <lb n="20"/>nella mia mente i versi originali. Due anni
+          <!--questo caso mi interessa per l'estrazione delle varianti: qui sono 3 GT-->
+					<app>
+						<lem varSeq="2">
+							<mod change="#strato-3">
+								<subst>
+									<del rend="strikethrough">speso</del>
+									<add place="below">messo</add>
+								</subst>
 							</mod>
 						</lem>
 						<rdg varSeq="1">
 							<mod change="#strato-0">
-								<add seq="2" place="bottom">e</add>
-								<add seq="2" place="above">come si sceglie la mogliec,</add>
+								<subst>
+									<del rend="strikethrough">perso</del>
+									<add place="above">speso</add>
+								</subst>
 							</mod>
 						</rdg>
 					</app>
-                   io ho scelto 
-               <lb n="4"/>da me i miei lettori; non troppi a dire il vero, ma nemmeno 
-               <lb n="5"/>troppo pochi; siete oggi esattamente sei. Quelli siete cioè
-               <lb n="6"/>che di quando in quando, per un'usanza che mi è cara
-               <lb n="7"/>da vent'anni, ricevete qualche mia poesia manoscritta.
-               <lb n="8"/>E se non tutti siete ugualmente atti ad intendere
-               <lb n="9"/>ed apprezzare per istinto la difficile arte del verso, siete 
-               <lb n="10"/>
-				<app>
-					<lem varSeq="2">
-						<mod change="#strato-3">
-							<del rend="strikethrough">però tutti fra</del>
-							<add place="above">però
-                           fra</add>
-						</mod>
-					</lem>
-					<rdg varSeq="1">però 
-                        <mod change="#strato-0">
-							<add place="above">tutti
-                           fra</add>
-						</mod>
-					</rdg>
-				</app> le anime migliori che io abbia conosciute, alle quali
-               <lb n="11"/>più di una volta ho avvicinata la mia, come chi ha freddo <!-- te | si legge sul margine della pagina su cui è attaccata quella numerata 4 cfr #problema_stratoq -->
-				<lb n="12"/>avvicina al fuoco le dita intirizzite. Spesso - troppo
-               <lb n="13"/>spesso forse - ho sentit<mod change="#strato-0">
-					<subst>
-						<add place="superscript">o</add>
-						<del rend="overwritten">a</del>
-					</subst>
-				</mod> la vita come una landa tutta 
-               <lb n="14"/>ghiacciata; oh allora, poter chiacchierare con uno di voi,
-               <lb n="15"/>seduti tra il volgo dei consumatori ad uno dei miei <mod change="#strato-0">
-					<del instant="true" rend="strikethrough">a-</del>
-				</mod>
-				<lb n="16"/>adorati caffeucci, o pensarvi, o mandarvi dei versi, è
-               <lb n="17"/>stata per me la salvezza.
-            
-               <lb n="18"/>
-            E vi devo anche qualche parola di chia-
-               <lb n="19"/>rimento. Non tutte le poesie di questa raccolta vi
-               <lb n="20"/>riusciranno ugualmente nuove; alcune (la terza
-               <lb n="21"/>parte circa) sono già state stampate nei precedenti
-               <lb n="22"/>volumi &quot;Poesie&quot; e &quot;Coi miei occhi&quot;. Ma, per quanto
-               <lb n="23"/>riguarda il primo (Poesie) esse vi apparvero non 
-               <lb n="24"/>sol<mod change="#strato-0">
-					<subst>
-						<add place="superscript">o</add>
-						<del rend="overwritten">a</del>
-					</subst>
-				</mod>
-				<!--GT a me qui sembra "sole", che ha più senso, ma forse direi è illegibile-->
-                  in una disposizione cronologicamente falsa, così
-               <lb n="25"/>da togliere ogni <hi rend="underline">linea</hi> al lavoro, ma molte (tutte per
-               <lb n="26"/>esempio <mod change="#strato-0">
-					<del instant="true" rend="strikethrough">le</del>
-				</mod>
-                  quelle dell'adolescenza, e le giovanili e
-               <lb n="27"/>le fiorentine; così necessarie 
-                  <mod change="#strato-0">
-					<subst seq="2">
-						<add place="above">a
-                        comprendere</add>
-						<del>a<add seq="1" place="inline">d</add>
-							<del seq="1" rend="strikethrough">far</del> intendere</del>
-					</subst>
-				</mod> la
-               <lb n="28"/>genesi e i graduali sviluppi, gli svincolamenti ed i
-               <lb n="29"/>ritorni alle origini della mia arte) vi furono ommesse;
-               <lb n="30"/>altre poi (che è peggio ancora) siffattamente alterate 
-                  
-               <pb n="6" facs="6.jpg"/>
-				<lb n="1"/>
-				<subst>
-					<del>
-						<gap rend="erasure"/>
-					</del>
-					<add place="inspace">dalla loro forma primitiva, da essere diventate</add>
-				</subst>
-				<lb n="2"/>tutta un'altra cosa, e non una cosa migliore. Come abbia 
-               <lb n="3"/>potuto commettere questo imperdonabile delitto contro <mod change="#strato-0">
-					<subst seq="1">
-						<del rend="strikethrough">quella cosa 
-               <lb n="4"/>delicata, delicata e vitale che è lo
-                        stile</del>
-						<add place="above">me stesso<del seq="2" rend="strikethrough">,
-                        <lb n="4"/> anzi contro
-                        la parte migliore di me stesso</del>
-						</add>
-					</subst>
-				</mod> non <mod change="#strato-0">
-					<del rend="cross">lo</del>
-				</mod> so precisa- 
-               <lb n="5"/>mente: fu <mod change="#strato-3">
-					<del rend="cross">per</del>
-				</mod> un eclissi totale della mia coscienza? O 
-               <lb n="6"/>ero forse troppo giovane <mod change="#strato-0">
-					<metamark rend="cross" function="insertion" place="inline"/>
-					<add place="above">ancora</add>
-				</mod> per compiacermi, come me ne com- 
-               <lb n="7"/>piaccio <mod change="#strato-0">
-					<subst>
-						<add place="above">adesso</add>
-						<del rend="strikethrough">ora</del>
-					</subst>
-				</mod>, dell'inoppugnabile derivazione Petrarchesca e 
-               <lb n="8"/>Leopardiana <mod change="#strato-0">
-					<subst>
-						<add place="above">di quei</add>
-						<del rend="strikethrough">dei
-                        miei</del>
-					</subst>
-				</mod> primi sonetti e canzoni (non ho capito
-               <lb n="9"/>
-				<persName>
-					<forename>Dante</forename>
-				</persName> che verso i venti<mod change="#strato-0">
-					<subst>
-						<add place="superscript">tre</add>
-						<del>quattro</del>
-					</subst> venti<add place="superscript">quattro</add>
-					<del rend="overwritten">cinque</del>
-				</mod> anni); quasi che
-                  <lb n="10"/>l'aver ritrovato da <mod change="#strato-0">
-					<subst>
-						<add place="above">solo</add>
-						<del rend="strikethrough">me</del>
-					</subst>
-				</mod>, nella mia stanzetta a Trieste e
-                  <lb n="11"/>nell'ambiente di &quot;Fra chi sa d'amarmi&quot;, dove nessu-
-                  <lb n="12"/>no aveva parlato a me di buoni e di cattivi autori, il
-                  <lb n="13"/>filo d'oro della tradizione italiana, non <mod change="#strato-0">
-					<subst>
-						<add place="above">sia</add>
-						<del rend="strikethrough">fosse</del>
-					</subst>
-				</mod>
-                  il <mod change="#strato-0">
-					<del rend="strikethrough">mio</del>
-				</mod> mag- 
-                  <lb n="14"/>gior titolo di nobiltà, la migliore testimonianza che
-                  <lb n="15"/>
-				<mod change="#strato-0">
-					<subst>
-						<add place="above">uno possa
-                        avere</add>
-						<del rend="strikethrough">io mi
-                           abbia</del>
-					</subst>
-				</mod> di non essere un comu<choice>
-					<sic>
-						<del rend="overwritten">e</del>
-					</sic>
-					<corr resp="#US">
-						<add place="superscript">ne</add>
-					</corr>
-				</choice> illuso verseggiatore! Voglio
-                  <lb n="16"/>insomma si sappia che, dove ci sono modificazioni profon-
-                  <lb n="17"/>de, e tali che potrebbero, senza questa confessione, riuscire
-                  <lb n="18"/>stupefacenti, non è ora che le ho aportate; ho dovuto anzi
-                  <lb n="19"/>compiere un lavoro non breve e non facile per ritrovare
-                  <lb n="20"/>nella mia mente i versi originali. Due anni <del>ci</del> ho
-                  <!--questo caso mi interessa per l'estrazione delle varianti: qui sono 3 GT-->
-				<app>
-					<lem varSeq="2">
-						<mod change="#strato-3">
-							<subst>
-								<del rend="strikethrough">speso</del>
-								<add place="below">messo</add>
-							</subst>
-						</mod>
-					</lem>
-					<rdg varSeq="1">
-						<mod change="#strato-0">
-							<subst>
-								<del rend="strikethrough">perso</del>
-								<add place="above">speso</add>
-							</subst>
-						</mod>
-					</rdg>
-				</app>
-				<lb n="21"/>a compiere questo lavoro, <add place="superscript">b</add>enché
-                  difficilmente io dimentichi <lb n="22"/>i versi che una volta ho scritti. Ma ....
-                  <quote>&quot;sono passate tante <lb n="23"/>cose da quel tempo in
-                     qua&quot;</quote>
-				<lb/>
-				<lb/>
-				<lb n="24"/>
+					<lb n="21"/>a compiere questo lavoro, <add place="superscript">b</add>enché difficilmente io dimentichi
+          <lb n="22"/>i versi che una volta ho scritti. Ma .... <quote>&quot;sono passate tante
+          <lb n="23"/>cose da quel tempo in qua&quot;</quote>
+					<lb/>
+					<lb/>
 				<closer>
 					<dateline>
 						<placeName>Trieste</placeName>; <date when="1919">1919</date>
 					</dateline>
+					<!-- RRDT dice Davide meglio "align_center" rispetto a "align(centre)", idem per altri align qualcosa -->
 					<signed>
-						<hi rend="align(centre)">Il vostro riconoscente</hi>
+						<hi rend="align_center">Il vostro riconoscente</hi>
 						<lb n="25"/>
-						<hi rend="align(centre)">
+						<hi rend="align_center">
 							<persName>
 								<addName>Saba</addName>
 							</persName>
@@ -319,35 +298,32 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 				</closer>
 			</div>
 			<pb n="7" facs="7.jpg"/>
-			<div xml:id="SEZ_Poesie_dell_adolescenza">
-				<div xml:id="Poesie_dell_adolescenza">
-					<div>
-						<head type="main">Poesie dell'adolescenza <app>
-								<lem varSeq="2">
-									<mod change="#strato-5">
-										<del rend="strikethrough"/>
-									</mod>
-								</lem>
-								<rdg varSeq="1">
-									<mod change="#strato-0">e giovanili</mod>
-								</rdg>
-							</app>
-						</head>
-						<metamark place="below" rend="line"/>
-						<head type="sub">(1900 * 190
-                  <app>
-								<lem varSeq="2">
-									<mod change="#strato-5">
-										<subst>
-											<del rend="overwritten">7</del>
-											<add place="superscript">3</add>
-										</subst>
-									</mod>
-								</lem>
-								<rdg varSeq="1">
-									<mod change="#strato-0">7</mod>
-								</rdg>
-							</app>)</head>
+			<div n="Poesie dell'adolescenza" xml:id="SEZ_Poesie_dell_adolescenza">
+				<div>
+					<head type="main">Poesie dell'adolescenza <app>
+							<lem varSeq="2">
+								<mod change="#strato-5">
+									<del rend="strikethrough"/>
+								</mod>
+							</lem>
+							<rdg varSeq="1"><mod change="#strato-0">e giovanili</mod></rdg>
+						</app>
+					</head>
+					<metamark place="below" rend="line"/>
+					<head type="sub">(1900 * 190 <app>
+							<lem varSeq="2">
+								<mod change="#strato-5">
+									<subst>
+										<del rend="overwritten">7</del>
+										<add place="inline">3</add>
+										<!-- RRDT -->
+									</subst>
+								</mod>
+							</lem>
+							<rdg varSeq="1"><mod change="#strato-0">7</mod></rdg>
+						</app>)</head>
+					<!-- RRDT <metamark> da solo non va bene come contenitore, bisogna aggiungere un <ab> o un <p> -->
+					<ab rend="align_right">
 						<metamark function="largeDeletion" rend="cross">
 							<mod change="#strato-3">
 								<delSpan spanTo="#p7_l4"/>
@@ -360,15 +336,23 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</lg>
 							</mod>
 						</metamark>
-					</div>
-					<!-- <pb n="8" facs="9.jpg"/> -->
-					<pb n="9" facs="9.jpg"/>
+					</ab>
+				</div>
+				<!-- <pb n="8" facs="9.jpg"/> -->
+				<div n="Poesie dell'adolescenza" xml:id="Poesie_dell_adolescenza">
+					<pb facs="9.jpg" n="9"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_right">9</fw>
+					<metamark rend="line_full_width"/>
+					<!-- RRDT questa non dovrebbe essere una <note> IMO, oppure dobbiamo evitare di visualizzare le note dell'autore
+               con la modalità solita = balloon con o senza esponente e nota come pop-up -->
 					<note place="top" resp="#US" type="publishing">
 						<mod change="#strato-5">
 							<add>Vedi fogli</add>
 						</mod>
 					</note>
-					<div n="1" xml:id="Ammonizione">
+					<div n="Ammonizione" xml:id="Ammonizione">
 						<head>Ammonizione</head>
 						<lb/>
 						<lg n="1">
@@ -391,12 +375,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">m'</mod>
 									</rdg>
-								</app>ammonisci
-                  così :</l>
+								</app>ammonisci così: </l>
 						</lg>
 						<lg n="3">
 							<l n="1">«Tu pure
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-4">
 											<subst>
@@ -406,7 +389,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</lem>
 									<rdg varSeq="1">
-										<mod change="#strato-0">- dici - o</mod>
+										<mod change="#strato-0">- dici - o </mod>
 									</rdg>
 								</app> giovane,</l>
 							<l n="2">cui suonan liete l'ore;</l>
@@ -422,15 +405,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<mod change="#strato-0">e</mod>
 									</rdg>
 								</app> il dolce, il primo ardore</l>
-							<l n="4">fa
-                  
-                        <mod change="#strato-0">
+							<l n="4">fa 
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">nno a</del>
 										<add place="above"> ad</add>
 									</subst>
-								</mod>
-                     un sogno fedel;</l>
+								</mod> un sogno fedel;
+							</l>
 						</lg>
 						<lg n="4">
 							<l n="1">scolorerai, chiudendo</l>
@@ -439,11 +421,16 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">gli amici e il patrio ciel<choice>
 									<sic/>
 									<corr>»</corr>
-								</choice>.</l>
+								</choice>.
+							</l>
 						</lg>
 					</div>
-					<pb n="10" facs="10.jpg"/>
-					<div xml:id="La_casa_della_mia_nutrice" n="2">
+					<pb facs="10.jpg" n="10"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_left">10</fw>
+					<metamark rend="line_full_width"/>
+					<div n="2" type="poem" xml:id="La_casa_della_mia_nutrice">
 						<head>La casa della mia nutrice</head>
 						<lb/>
 						<lg n="1">
@@ -468,7 +455,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="4">
 							<l n="1">Viver mi sembra 
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-5">
 											<subst>
@@ -478,15 +465,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</lem>
 									<rdg varSeq="1">
-										<mod change="#strato-0">in quell'</mod>
+										<mod change="#strato-0"> in quell' </mod>
 									</rdg>
 								</app>età serena;</l>
 							<l n="2">quando, sazio di giochi, uscir dal tetto</l>
 							<l n="3">guardavo il fumo azzurro della cena.</l>
 						</lg>
 						<note resp="#US" type="publishing">
-							<mod change="#strato-r">&#8592; Vedi
-               foglietto unito</mod>
+							<mod change="#strato-r">&#8592; Vedi foglietto unito</mod>
 						</note>
 					</div>
 					<!-- GT???: non abbiamo indicazioni sulla penna rossa-->
@@ -494,23 +480,23 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
             La prima: in mezzo alla pagina; la seconda: a lato sotto (o sopra) un pezzo di nastro adesivo
             che tiene unito il foglietto alla pagina -->
 					<!-- il codice rappresenta la freccia verso sx -->
-					<milestone n="1" unit="section" type="pecetta" spanTo="#pecetta_1"/>
+					<milestone n="1" spanTo="#pecetta_1" type="pecetta" unit="section"/>
 					<note place="margin-left" resp="#US" type="publishing">
 						<mod change="#strato-r">
-							<add>Dopo la "Casa
-               della mia nutrice"</add>
+							<add>Dopo la "Casa della mia nutrice"</add>
 						</mod>
 					</note>
 					<!-- GT???:  a me sembra che il titolo sia in un'altra penna, forse strato-1, forse c'è anche una rasura-->
-					<div xml:id="In_riva_al_mare" n="3">
+					<div n="In riva al mare" type="poem" xml:id="In_riva_al_mare">
 						<head>
 							<app>
 								<lem>In riva al mare</lem>
 								<rdg wit="#P_C21">Canzonetta</rdg>
 							</app>
 						</head>
-						<note resp="#GT #E" type="critical">La lirica si trova su un ritaglio incollato a p. 10 del ms. lungo il margine sx attraverso un pezzo di nastro adesivo.
-               Nell'edizione del Canzoniere 1921, al contrario, la poesia apre la sezione con il titolo Canzonetta e precede La casa della mia nutrice.</note>
+						<note resp="#GT #E" type="critical">La lirica si trova su un ritaglio incollato a p. 10 del ms. lungo il
+              margine sx attraverso un pezzo di nastro adesivo. Nell'edizione del Canzoniere 1921, al contrario, la
+              poesia apre la sezione con il titolo Canzonetta e precede La casa della mia nutrice.</note>
 						<!-- <metamark> -->
 						<!-- foglietto ricavato dal medesimo q. inchiostro base #strato-0 -->
 						<lb/>
@@ -542,8 +528,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
-												<del rend="strikethrough">presso a
-                           scender</del>
+												<del rend="strikethrough">presso a scender</del>
 												<add place="above">sceso a mezzo</add>
 											</subst>
 										</mod>
@@ -559,21 +544,20 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">
 								<mod change="#strato-0">
 									<subst>
-										<del rend="overwritten" instant="true">E</del>
+										<del instant="true" rend="overwritten">E</del>
 										<add place="superscript">D</add>
 									</subst>
 								</mod>
 								<mod change="#strato-0" instant="true">
 									<add place="inline">i</add>
-								</mod> tra i
-                  monti in ciel lo spicchio</l>
+								</mod> tra i monti in ciel lo spicchio</l>
 							<l n="2">della bianca luna nacque;</l>
 							<l n="3">si vedeva in un sull'acque</l>
 							<l n="4">il suo argento tremolar.</l>
 						</lg>
 					</div>
 					<anchor xml:id="pecetta_1"/>
-					<div xml:id="Da_un_colle">
+					<div n="Da un colle" type="poem" xml:id="Da_un_colle">
 						<head>Da un colle</head>
 						<lb/>
 						<lg n="1">
@@ -596,14 +580,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="3">
 							<l n="1">Delle squille 
-                  
-                  <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">saliva</del>
 										<add place="above">giungeva</add>
 									</subst>
-								</mod>
-                    a me il richiamo;</l>
+								</mod> a me il richiamo;</l>
 							<l n="2">e quando all'orizzonte il sol levato,</l>
 							<l n="3">fece della casina i vetri ardenti;</l>
 						</lg>
@@ -613,8 +595,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">e sospirando dissi un nome ai venti.</l>
 						</lg>
 					</div>
-					<pb n="11" facs="11.jpg"/>
-					<div xml:id="Sonetto_di_primavera">
+					<pb facs="11.jpg" n="11"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_right">11</fw>
+					<metamark rend="line_full_width"/>
+					<div n="Sonetto di primavera" type="poem" xml:id="Sonetto_di_primavera">
 						<head>Sonetto di primavera</head>
 						<lb/>
 						<lg n="1">
@@ -640,7 +626,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">spesso col pianto vo addolcendo il duolo.</l>
 						</lg>
 					</div>
-					<div xml:id="Glauco">
+					<div n="Glauco" type="poem" xml:id="Glauco">
 						<head>Glauco</head>
 						<lb/>
 						<lg n="1">
@@ -669,8 +655,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">a me il mio tempo, allegro e immaginoso!»</l>
 						</lg>
 					</div>
-					<pb n="12" facs="12.jpg"/>
-					<div xml:id="Tra_la_folla">
+					<pb facs="12.jpg" n="12"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_left">12</fw>
+					<metamark rend="line_full_width"/>
+					<div n="Tra la folla" type="poem" xml:id="Tra_la_folla">
 						<head>Tra la folla</head>
 						<lb/>
 						<lg n="1">
@@ -681,7 +671,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="2">
 							<l n="1">Lacer
-                        <choice>
+								<choice>
 									<sic>
 										<del rend="overwritten">a</del>
 									</sic>
@@ -706,14 +696,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">pur care a me, le mie povere rime.</l>
 						</lg>
 					</div>
-					<div xml:id="Ad_un_amico_pianista_studente_al_Conservatorio_di_Liegi" rend="center">
+					<div rend="center" type="poem" xml:id="Ad_un_amico_pianista_studente_al_Conservatorio_di_Liegi">
 						<!-- tutta la lirica, titolo compreso, è allineata al centro -->
-						<head>Ad un amico pianista, studente al Conservatorio 
-               <lb/>di Liegi</head>
+						<head>Ad un amico pianista, studente al Conservatorio <lb/>di Liegi</head>
 						<lb/>
 						<lg n="1">
 							<l n="1">Aldo, ricordi il 
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<retrace>b</retrace>
@@ -723,7 +712,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">bel</mod>
 									</rdg>
-								</app> tempo gentile,</l>
+								</app>tempo gentile,</l>
 							<l n="2">l'amicizia fraterna,</l>
 							<l n="3">che ci univa, pel gioco, nel cortile</l>
 							<l n="4">della casa paterna.</l>
@@ -740,10 +729,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">e della sera con le fredde brume</l>
 							<l n="4">l'ombra nera calava.</l>
 						</lg>
-						<pb n="13" facs="13.jpg"/>
+						<pb facs="13.jpg" n="13"/>
+						<!-- RRDT -->
+						<fw rend="center">Poesie dell'adolescenza</fw>
+						<fw rend="align_right">13</fw>
+						<metamark rend="line_full_width"/>
 						<lg n="4">
 							<l n="1">Ma spesso tu sedevi 
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-5">
 											<subst>
@@ -753,7 +746,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</lem>
 									<rdg varSeq="1" wit="#P_C21">
-										<mod change="#strato-0">pensieroso</mod>
+										<mod change="#strato-0"> pensieroso </mod>
 									</rdg>
 								</app>
 							</l>
@@ -769,7 +762,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app> studio sonoro;</l>
 							<l n="3">ed io in un canto udivo
-                  <app>
+								<app>
 									<lem varSeq="3">
 										<mod change="#strato-5">
 											<subst>
@@ -805,7 +798,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 												<add place="below">il tuo dolce</add>
 											</subst>
 										</mod> lavoro.
-                     </rdg>
+									</rdg>
 									<rdg varSeq="1">
 										<mod change="#strato-0">di tue dita lavoro.</mod>
 									</rdg>
@@ -857,7 +850,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="8">
 							<l n="1">ch'era tua madre!... Aldo, 
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -872,7 +865,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>
 							</l>
 							<l n="2">quella 
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -885,7 +878,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<mod change="#strato-0">dolce</mod>
 									</rdg>
 								</app> signora
-                  <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -904,10 +897,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
-												<del rend="strikethrough">e nel sonno, o con gli
-                           occhi della mente</del>
-												<add place="above">d’April, nei sogni di prima
-                              mattina</add>
+												<del rend="strikethrough">e nel sonno, o con gli occhi della mente</del>
+												<add place="above">d’April, nei sogni di prima mattina</add>
 											</subst>
 										</mod>
 									</lem>
@@ -922,9 +913,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<mod change="#strato-2">
 											<subst>
 												<del rend="strikethrough">la rivedi talora?</del>
-												<add place="above">t’ammonisce ella<add place="below" rend="encircled">ella</add>
-													<note resp="#GT" type="publishing">Qui Saba riscrive e cerchia "ella" per maggiore chiarezza.</note>
-                              ancora?</add>
+												<add place="above">t’ammonisce ella
+													<add place="below" rend="encircled">ella</add>
+													<note resp="#GT">Qui Saba riscrive e cerchia "ella" per maggiore chiarezza.</note>
+													ancora?
+												</add>
 											</subst>
 										</mod>
 									</lem>
@@ -944,7 +937,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">quanta dolcezza, quanta ingenua fede</l>
 							<l n="2">l'ha in brev'ora lasciata;</l>
 							<l n="3">come 
-                  <app>
+								<app>
 									<lem varSeq="3">
 										<mod change="#strato-2">
 											<subst>
@@ -965,9 +958,9 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">talvolta con stupor</mod>
 									</rdg>
-								</app> si vede</l>
-							<l n="4">nube in cielo rosata
-                  <app>
+								</app>si vede</l>
+							<l n="4">nube in cielo rosata 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -982,7 +975,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>
 							</l>
 						</lg>
-						<pb n="14" facs="14.jpg"/>
+						<pb facs="14.jpg" n="14"/>
+						<!-- RRDT -->
+						<fw rend="center">Poesie dell'adolescenza</fw>
+						<fw rend="align_left">14</fw>
+						<metamark rend="line_full_width"/>
 						<note place="margin-left" resp="#US" type="editorial">
 							<mod change="#strato-2">va bene</mod>
 						</note>
@@ -1019,17 +1016,15 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
-												<del rend="strikethrough">da che nasce a quando
-                           muore</del>
-												<add place="above">fin che al tutto non sia
-                              spento</add>
+												<del rend="strikethrough">da che nasce a quando muore</del>
+												<add place="above">fin che al tutto non sia spento</add>
 											</subst>
 										</mod>
 									</lem>
 									<rdg varSeq="1">
-										<mod change="#strato-0">da che nasce a quando muore</mod>
+										<mod change="#strato-0"> da che nasce a quando muore </mod>
 									</rdg>
-								</app> il giorno</l>
+								</app>il giorno</l>
 							<l n="4">l'istrumento abbandoni.</l>
 						</lg>
 						<lg n="14">
@@ -1039,8 +1034,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">tornar cinto d'alloro a chi t'aspetta.</l>
 						</lg>
 						<lg n="15">
-							<l n="1">O
-                  <app>
+							<l n="1">O 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="superscript">h</add>
@@ -1069,8 +1064,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">della casa paterna.</l>
 						</lg>
 					</div>
-					<pb n="15" facs="15.jpg"/>
-					<div xml:id="Fra_chi_pensa_d_amarmi">
+					<pb facs="15.jpg" n="15"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_right">15</fw>
+					<metamark rend="line_full_width"/>
+					<div n="Fra chi pensa d'amarmi" type="poem" xml:id="Fra_chi_pensa_d_amarmi">
 						<head>Fra chi pensa d'amarmi</head>
 						<note place="margin-left" rend="underline" type="editorial">
 							<mod change="#strato-2">Si può omettere?</mod>
@@ -1082,8 +1081,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<l n="1">Fra chi pensa d'amarmi, e in cor m'è ostile</l>
 									<l n="2">io consumo la bella età minore;</l>
 									<l n="3">e celo, vergognando, ogni non vile</l>
-									<l n="4">pensiero che m'accend
-                        <mod change="#strato-0">
+									<l n="4">pensiero che m'accend 
+										<mod change="#strato-0">
 											<subst>
 												<del rend="overwritten">e</del>
 												<add place="superscript">a</add>
@@ -1136,7 +1135,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</mod>
 						</metamark>
 					</div>
-					<div xml:id="Nella_sera_della_Domenica_di_Pasqua">
+					<div n="Nella sera della domenica di Pasqua" type="poem" xml:id="Nella_sera_della_Domenica_di_Pasqua">
 						<head>Nella sera della <mod change="#strato-0">
 								<subst>
 									<del instant="true" rend="overwritten">d</del>
@@ -1166,8 +1165,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">la notte, e lungi muore una canzone.</l>
 						</lg>
 					</div>
-					<pb n="16" facs="16.jpg"/>
-					<div xml:id="Sul_canto_d_un_violino">
+					<pb facs="16.jpg" n="16"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_left">16</fw>
+					<metamark rend="line_full_width"/>
+					<div n="Sul canto d'un violino" type="poem" xml:id="Sul_canto_d_un_violino">
 						<head>Sul canto d'un violino</head>
 						<lb/>
 						<lg n="1">
@@ -1192,7 +1195,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">Or più</mod>
 									</rdg>
-								</app> non piangi sul dolore umano,</l>
+								</app>non piangi sul dolore umano,</l>
 							<l n="2">scherzi al lume di luna in fra le frondi,</l>
 							<l n="3">
 								<app>
@@ -1251,7 +1254,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">del lunare a fior d'acque tremolio.</l>
 						</lg>
 					</div>
-					<div xml:id="Nella_notte_di_Natale">
+					<div n="Nella notte di Natale" type="poem" xml:id="Nella_notte_di_Natale">
 						<head>Nella notte di Natale</head>
 						<lb/>
 						<lg n="1">
@@ -1273,22 +1276,26 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="4">
 							<l n="1">È forse il 
-                 <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<add place="above">sogno</add>
 										<del rend="strikethrough">mito</del>
 									</subst>
-								</mod> di Gesù che brilla</l>
+								</mod>di Gesù che brilla</l>
 							<l n="2">nell'animo 
-                  <mod change="#strato-0">
+								<mod change="#strato-0">
 									<del rend="strikethrough">paziente ed</del>
 									<add place="above">dolente, ma</add>
 								</mod> immortale,</l>
 							<l n="3">del giovane che ama, che perdona?</l>
 						</lg>
 					</div>
-					<pb n="17" facs="17.jpg"/>
-					<div xml:id="Così_passo_i_miei_giorni">
+					<pb facs="17.jpg" n="17"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_right">17</fw>
+					<metamark rend="line_full_width"/>
+					<div n="Così passo i miei giorni" type="poem" xml:id="Così_passo_i_miei_giorni">
 						<head>Così passo i miei giorni</head>
 						<lg n="1">
 							<l n="1">Così passo i miei giorni, i mesi, e gli anni;</l>
@@ -1309,14 +1316,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</del>
 								</mod>
 								<!-- se capiamo cosa c'è scritto sotto, togliere gap e diventa una variante immediata? -->
-                  e l'onte e i danni.</l>
+							e l'onte e i danni.</l>
 						</lg>
 						<lg n="3">
 							<l n="1">Onde poi ritornando all'ozïosa</l>
 							<l n="2">pace dei sogni miei lunghi e fatali,</l>
 							<l n="3">trovo ancora più dolci i colli <subst>
 									<del>
-										<gap rend="erasure" quantity="6" unit="char"/>
+										<gap quantity="6" rend="erasure" unit="char"/>
 									</del>
 									<add place="inspace">aprichi</add>
 								</subst>,</l>
@@ -1325,8 +1332,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="6">il mio cuore si addome e si riposa.</l>
 						</lg>
 					</div>
-					<milestone n="2" unit="section" type="pecetta" spanTo="#pecetta_2"/>
-					<div xml:id="Autunno">
+					<milestone n="2" spanTo="#pecetta_2" type="pecetta" unit="section"/>
+					<div n="Autunno" type="poem" xml:id="Autunno">
 						<head>Autunno</head>
 						<lg n="1">
 							<l n="1">Quanta malinconia di foglie morte</l>
@@ -1342,9 +1349,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						<!-- timbro biblioteca-->
 					</div>
 					<anchor xml:id="pecetta_2"/>
-					<pb n="18" facs="18.jpg"/>
-					<milestone n="3" unit="section" type="pecetta" spanTo="#pecetta_3"/>
-					<div xml:id="Canzoncine">
+					<pb facs="18.jpg" n="18"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_left">18</fw>
+					<metamark rend="line_full_width"/>
+					<milestone n="3" spanTo="#pecetta_3" type="pecetta" unit="section"/>
+					<div n="Canzoncine" type="poem" xml:id="Canzoncine">
 						<head>Canzoncine</head>
 						<div>
 							<head>
@@ -1352,8 +1363,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<add>I</add>
 								</mod>
 							</head>
-							<metamark rend="parentesi_graffa" place="margin-right" spanTo="#p18_1"/>
-							<note type="editorial" resp="#US">
+							<metamark place="margin-right" rend="parentesi_graffa" spanTo="#p18_1"/>
+							<note resp="#US" type="editorial">
 								<mod change="#strato-2">
 									<add place="margin-right">Omettere?</add>
 								</mod>
@@ -1421,9 +1432,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<l n="10">perchè invano ho lottato ed ho sofferto;</l>
 								<l n="11">solo in quel colle fiorito deserto,</l>
 								<l n="12">sentirai 
-                     
-                     
-                     <app>
+									<app>
 										<lem varSeq="2">
 											<mod change="#strato-2">
 												<subst>
@@ -1433,7 +1442,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 											</mod>
 										</lem>
 										<rdg varSeq="1">
-											<mod change="#strato-0">di mia</mod>
+											<mod change="#strato-0"> di mia </mod>
 										</rdg>
 									</app>vita</l>
 								<l n="13">
@@ -1448,8 +1457,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</div>
 						<anchor xml:id="pecetta_3"/>
 					</div>
-					<pb n="19" facs="19.jpg"/>
-					<milestone n="4" unit="section" type="pecetta" spanTo="#pecetta_4"/>
+					<pb facs="19.jpg" n="19"/>
+					<!-- RRDT -->
+					<fw rend="center">Poesie dell'adolescenza</fw>
+					<fw rend="align_right">19</fw>
+					<metamark rend="line_full_width"/>
+					<milestone n="4" spanTo="#pecetta_4" type="pecetta" unit="section"/>
 					<div xml:base="Alla_Morte">
 						<note resp="#US" type="editorial">
 							<mod change="#strato-2">
@@ -1489,10 +1502,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 					</div>
 				</div>
-				<div xml:id="Poesie_giovanili_pisane">
-					<pb n="20" facs="20.jpg"/>
-					<milestone n="5" unit="section" type="pecetta" spanTo="#pecetta_5"/>
-					<div xml:id="La_Pace">
+				<div n="Poesie giovanili pisane" xml:id="Poesie_giovanili_pisane">
+					<pb facs="20.jpg" n="20"/>
+					<milestone n="5" spanTo="#pecetta_5" type="pecetta" unit="section"/>
+					<div n="La pace" type="poem" xml:id="La_Pace">
 						<head>La Pace</head>
 						<lg n="1">
 							<l n="1">O Pace, che ciascuno ama, che spera</l>
@@ -1507,7 +1520,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="overwritten">la tua</del>
 									</subst>
 									<subst>
-										<del rend="strikethrough" instant="true">tracc</del>
+										<del instant="true" rend="strikethrough">tracc</del>
 										<add instant="true" place="inline">conforto</add>
 									</subst>
 								</mod>
@@ -1530,9 +1543,9 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="pecetta_5"/>
 					</div>
-					<pb n="21" facs="21.jpg"/>
-					<milestone n="6" unit="section" type="pecetta" spanTo="#pecetta_6"/>
-					<div xml:id="Canzonette_pisane">
+					<pb facs="21.jpg" n="21"/>
+					<milestone n="6" spanTo="#pecetta_6" type="pecetta" unit="section"/>
+					<div n="Canzonette pisane" type="poem" xml:id="Canzonette_pisane">
 						<!-- inizio peccetta -->
 						<head>Canzonette pisane</head>
 						<lg n="1">
@@ -1542,7 +1555,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">so che era un lungo giorno sonnolento,</l>
 							<l n="4">che in un pallid<mod change="#strato-0">
 									<subst>
-										<del rend="overwritten" instant="true">is</del>
+										<del instant="true" rend="overwritten">is</del>
 										<add instant="true">o</add>
 									</subst>
 								</mod> ciel languiva il sole.</l>
@@ -1585,9 +1598,9 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="pecetta_6"/>
 					</div>
-					<pb n="22" facs="22.jpg"/>
-					<div xml:id="La_sera">
-						<milestone n="7" unit="section" type="pecetta" spanTo="#pecetta_7"/>
+					<pb facs="22.jpg" n="22"/>
+					<div n="La sera" type="poem" xml:id="La_sera">
+						<milestone n="7" spanTo="#pecetta_7" type="pecetta" unit="section"/>
 						<head>La sera</head>
 						<lg n="1">
 							<l n="1">Poi che biancheggia in ciel, sulla pianura,</l>
@@ -1621,11 +1634,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						<ab xml:lang="de">und lehnte das Haupt auf die Hand</ab>
 					</div>
 				</div>
-				<div xml:id="Poesie_giovanili">
-					<pb n="23" facs="23.jpg"/>
-					<div xml:id="Durante_una_lunga_malattia">
+				<div n="Poesie giovanili" xml:id="Poesie_giovanili">
+					<pb facs="23.jpg" n="23"/>
+					<div n="Durante una lunga malattia" type="poem" xml:id="Durante_una_lunga_malattia">
 						<metamark function="substitution">
-							<note type="editorial" resp="#US">
+							<note resp="#US" type="editorial">
 								<mod change="#strato-3">
 									<add place="above">La morte</add>
 								</mod>
@@ -1650,8 +1663,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="p23_1"/>
 					</div>
-					<pb n="24" facs="24.jpg"/>
-					<div xml:id="L_Efebo">
+					<pb facs="24.jpg" n="24"/>
+					<div n="L'Efebo" type="poem" xml:id="L_Efebo">
 						<metamark function="deletion">
 							<mod change="#strato-3">
 								<delSpan rend="cross" spanTo="#p24_1"/>
@@ -1671,7 +1684,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="8">chiome, cui scompigliava il vento estivo.</l>
 							<l n="9">Parea che : «d'esser vivo</l>
 							<l n="10">godi» ammonisse l'agile persona,</l>
-							<l n="11">sotto ilsole al tramonto. <mod change="#strato-0">
+							<l n="11">sotto ilsole al tramonto. 
+								<mod change="#strato-0">
 									<subst>
 										<add place="above">Balenava</add>
 										<del rend="strikethrough">Azzurreggiava</del>
@@ -1689,7 +1703,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="18">appariva d'un mito l'ineffabile</l>
 							<l n="19">grazia; onde a lungo e mesto</l>
 							<l n="20">stetti a mirarlo, nel cadente giorno.</l>
-							<l n="21">Nuotava <app>
+							<l n="21">Nuotava 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<del rend="strikethrough">in</del>
@@ -1700,13 +1715,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<mod change="#strato-0">in</mod>
 									</rdg>
 								</app>alto, 
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
 												<del rend="strikethrough">per poi far</del>
-												<add place="above">indi
-                           facea</add>
+												<add place="above">indi facea</add>
 											</subst>
 										</mod>
 									</lem>
@@ -1724,10 +1738,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="p24_1"/>
 					</div>
-					<pb n="25" facs="25.jpg"/>
-					<div xml:id="Il_Borgo">
+					<pb facs="25.jpg" n="25"/>
+					<div n="Il borgo" type="poem" xml:id="Il_Borgo">
 						<head>Il Borgo</head>
-						<milestone n="8" unit="section" type="pecetta" spanTo="#pecetta_8"/>
+						<milestone n="8" spanTo="#pecetta_8" type="pecetta" unit="section"/>
 						<lg n="1">
 							<l n="1">Nelle oscure giornate di mia vita</l>
 							<l n="2">amo in te ritrovarmi, o industre Borgo;</l>
@@ -1738,22 +1752,19 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">
 								<mod change="#strato-4">
 									<subst>
-										<del rend="strikethrough">Un povero villaggio
-                           eri.</del>
-										<add place="above">Quasi aperta
-                           campagna eri</add>
+										<del rend="strikethrough">Un povero villaggio eri.</del>
+										<add place="above">Quasi aperta campagna eri</add>
 									</subst>
-								</mod>
-                        
-                        Son cinque</l>
+								</mod> Son cinque</l>
 							<l n="2">anni passati, e delle tue capanne</l>
 							<l n="3">una ti resta; d'ogni parte case</l>
 							<l n="4" rend="right-align">
 								<mod change="#strato-4">
 									<del instant="true" rend="strikethrough">s'</del>
 								</mod>
-								<note resp="#GT" type="critical">Qui Saba si corregge durante la trascrizione, allineando correttamente il mezzo verso finale della seconda strofa all'ultimo della strofa precedente.</note> s'alzano, e
-                  ville.</l>
+								<note resp="#GT" type="critical">Qui Saba si corregge durante la trascrizione,
+                  allineando correttamente il mezzo verso finale della seconda strofa all'ultimo della strofa
+                  precedente.</note> s'alzano, e ville.</l>
 						</lg>
 						<lg n="3">
 							<l n="1">S'anche azzurro è il tuo cielo, e chiare in esso</l>
@@ -1772,15 +1783,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4" rend="right-align">d'un raggio indora.</l>
 						</lg>
 						<lg n="5">
-							<l n="1">Tutto è 
-                     
-                     
-                     <app>
+							<l n="1">Tutto è <app>
 									<lem varSeq="2">
 										<mod change="#strato-4">
 											<subst>
-												<del rend="strikethorugh">diverso intorno a
-                              me</del>
+												<del rend="strikethorugh">diverso intorno a me</del>
 												<add place="above">mutato oggi per noi</add>
 											</subst>
 										</mod>
@@ -1791,8 +1798,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>; di giallo</l>
 							<l n="2">tinta v'è la caserma ancor, l'attigua </l>
 							<l n="3">chiesa, ove il bronzo a strani r<subst>
-									<del rend="overwritten" instant="true">a</del>
-									<add rend="superscript" instant="true">i</add>
+									<del instant="true" rend="overwritten">a</del>
+									<add instant="true" rend="superscript">i</add>
 								</subst>ti ancora</l>
 							<l n="4" rend="right-align">chiama i fedeli.</l>
 						</lg>
@@ -1800,14 +1807,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">Morrà, con essi al dio di nostra madre</l>
 							<l n="2">l'ultima prece: quelle gialle mura</l>
 							<anchor xml:id="pecetta_8"/>
-							<pb n="26" facs="26.jpg"/>
-							<milestone n="9" unit="section" type="pecetta" spanTo="#pecetta_9"/>
+							<pb facs="26.jpg" n="26"/>
+							<milestone n="9" spanTo="#pecetta_9" type="pecetta" unit="section"/>
 							<l n="3">i ribelli una qualche alba di maggio</l>
 							<l n="4" rend="right-align">abbat<mod change="#strato-4">
 									<add place="inline">t</add>
 								</mod>er<mod change="#strato-4">
-									<del seq="1" rend="strikethrough">r</del>
-									<add seq="2" place="above">r</add>
+									<del rend="strikethrough" seq="1">r</del>
+									<add place="above" seq="2">r</add>
 								</mod>anno</l>
 						</lg>
 						<lg n="7">
@@ -1830,10 +1837,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</mod> labile anch'esso... e già sulle rovine</l>
 							<l n="2">incalzano i vincenti... e tutto muore.</l>
 							<l n="3">Come vedranno il nostro tempo, o figli,</l>
-							<l n="4" rend="right-align">i figli vostri.
-                     
-                     
-                     <app>
+							<l n="4" rend="right-align">i figli vostri. 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -1861,7 +1866,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4" rend="right-align">cercan gli amanti.</l>
 							<anchor xml:id="pecetta_9"/>
 						</lg>
-						<milestone n="2" unit="section" type="ritaglio" spanTo="#ritaglio_2"/>
+						<milestone n="2" spanTo="#ritaglio_2" type="ritaglio" unit="section"/>
 						<lg n="11">
 							<l n="1">E vorrei che dal mio povero verso</l>
 							<l n="2">(o Amore, per te solo io spero il Bene),</l>
@@ -1876,8 +1881,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="ritaglio_2"/>
 					</div>
-					<pb n="27" facs="27.jpg"/>
-					<div xml:id="Intermezzo_a_Bianca">
+					<pb facs="27.jpg" n="27"/>
+					<div n="Intermezzo a Bianca" type="poem" xml:id="Intermezzo_a_Bianca">
 						<head>Intermezzo a Bianca</head>
 						<lg n="1">
 							<l n="1">Giunta alla dubbia soglia della vita,</l>
@@ -1924,7 +1929,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</lem>
 									<rdg varSeq="1">
-										<mod change="#strato-0">fa un gioco</mod>
+										<mod change="#strato-0">fa un gioco </mod>
 									</rdg>
 								</app>così, quasi il sonoro</l>
 							<l n="4" rend="right-align">legno provasse;</l>
@@ -1943,12 +1948,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="overwritten">a</del>
 										<add place="supersacript">o</add>
 									</subst>
-								</mod>
-                       va,</l>
+								</mod> va,</l>
 							<l n="3">che non son più campagna e non ancora</l>
 							<l n="4">grande città.</l>
 						</lg>
-						<pb n="28" facs="28.jpg"/>
+						<pb facs="28.jpg" n="28"/>
 						<lg n="7">
 							<l n="1">Bianca, è per te che tra la folla anch'io</l>
 							<l n="2">scendo, ed ivi m'aggiro ove ti spero;</l>
@@ -1956,15 +1960,16 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">prema, e le ignude mani</l>
 							<l n="5">
 								<mod change="#strato-2">
-									<metamark spanTo="#p28_1" rend="parentesi_graffa"/>
-								</mod>bacio, delizia sola,</l>
+									<metamark rend="parentesi_graffa" spanTo="#p28_1"/>
+								</mod>bacio, delizia sola,
+							</l>
 							<l n="6">
 								<subst>
 									<del>
-										<gap rend="erasure" quantity="6" unit="char"/>
+										<gap quantity="6" rend="erasure" unit="char"/>
 									</del>
-									<add place="inspace">che
-                        <app>
+									<add place="inspace">che 
+										<app>
 											<lem varSeq="2">
 												<mod change="#strato-3">
 													<subst>
@@ -1974,7 +1979,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 												</mod>
 											</lem>
 											<rdg varSeq="1">
-												<mod change="#strato-0">mi teme</mod>
+												<mod change="#strato-0">mi teme </mod>
 											</rdg>
 										</app>, e s'invola</add>
 								</subst>
@@ -1982,7 +1987,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="7">
 								<subst>
 									<del>
-										<gap rend="erasure" quantity="6" unit="char"/>
+										<gap quantity="6" rend="erasure" unit="char"/>
 									</del>
 									<add place="inspace">la tua grazia ribelle.</add>
 								</subst>
@@ -1992,9 +1997,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="8">
 							<l n="1">Nasca da mi
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2004,12 +2007,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</lem>
 									<rdg varSeq="1">
-										<mod change="#strato-0">e</mod>
+										<mod change="#strato-0">e </mod>
 									</rdg>
-								</app> indicibil
-                     
-                     
-                     <app>
+								</app> indicibil 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2057,8 +2058,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="p28_1"/>
 					</div>
-					<pb n="29" facs="29.jpg"/>
-					<div xml:id="La_Cappella">
+					<pb facs="29.jpg" n="29"/>
+					<div n="La cappella" type="poem" xml:id="La_Cappella">
 						<head>La Cappella</head>
 						<lg n="1">
 							<l n="1">Ora è chiusa, da tanto! Sui gradini,</l>
@@ -2084,7 +2085,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<add place="superscript">te</add>
 									</subst>
 								</mod>
-                     te si ritrova, o sul natio</l>
+								te si ritrova, o sul natio
+							</l>
 							<l n="2">colle rovina, ond'è l'ascesa ingombra,</l>
 							<l n="3">quelli è un'anima assai simile all'ombra</l>
 							<l n="4">d'una tua croce, allor che di pensosa</l>
@@ -2112,7 +2114,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">è perchè ben ricordo che in un rosso</l>
 							<l n="4">vespero il muricciolo</l>
 							<l n="5">tuo scavalcavo, tra le croci e l'erbe</l>
-							<pb n="30" facs="30.jpg"/>
+							<pb facs="30.jpg" n="30"/>
 							<l n="6">scorto avendo dei piccoli compagni</l>
 							<l n="7">il non piccolo stuolo.</l>
 							<l n="8">E questo ancor: giungendo dalla via,</l>
@@ -2132,9 +2134,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">d'una vita, che già più d'una sera</l>
 							<l n="3">s'ebbe, più d'un'aurora,</l>
 							<l n="4">chiesetta dei miei giochi e del mio canto 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -2199,8 +2199,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<mod change="#strato-2">
 											<subst>
 												<del rend="strikethrough">nuova vita a sorridermi verrà.</del>
-												<add place="below">un marmoreo edificio
-                                 sorgerà.</add>
+												<add place="below">un marmoreo edificio sorgerà.</add>
 											</subst>
 										</mod>
 									</lem>
@@ -2228,10 +2227,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="28">si soffrirà come soffrimmo ieri.</l>
 						</lg>
 					</div>
-					<div xml:id="La_Fonte">
-						<pb n="31" facs="31.jpg"/>
-						<head>La Fonte </head>
-						<milestone n="10" unit="section" type="pecetta" spanTo="#pecetta_10"/>
+					<div n="La fonte" type="poem" xml:id="La_Fonte">
+						<pb facs="31.jpg" n="31"/>
+						<head>La Fonte</head>
+						<milestone n="10" spanTo="#pecetta_10" type="pecetta" unit="section"/>
 						<lg n="1">
 							<l n="1">
 								<app>
@@ -2251,9 +2250,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app>pensata dalle solitudini</l>
 							<l n="2">d'un paese che quasi era 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2265,7 +2262,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">gli</mod>
 									</rdg>
-								</app> esiglio</l>
+								</app>esiglio</l>
 							<l n="3">
 								<app>
 									<lem varSeq="2">
@@ -2308,14 +2305,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">suo</mod>
 									</rdg>
-								</app> una lacrima, quando
-                     <app>
+								</app>una lacrima, quando
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
 												<del rend="strikethrough">di lontano</del>
-												<add place="inline">, o Fonte
-                        amata,</add>
+												<add place="inline">, o Fonte amata,</add>
 											</subst>
 										</mod>
 									</lem>
@@ -2328,7 +2324,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<app>
 									<lem change="3">
 										<mod change="#strato-3">
-											<del seq="2" rend="strikethrough">
+											<del rend="strikethrough" seq="2">
 												<add seq="1" place="margin-left">mi</add>
 											</del>
 										</mod>
@@ -2345,9 +2341,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="2">
 							<l n="1">Era 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2371,12 +2365,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">una</del>
 										<add place="above">la</add>
 									</subst>
-								</mod>
-                      fonte</l>
+								</mod> fonte
+							</l>
 							<l n="9">lontanissima: in 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -2391,9 +2383,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>una strana ebbrezza</l>
 							<l n="10">portò il ricordo, un brivido sottile</l>
 							<l n="11">nella 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2405,11 +2395,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">sua</mod>
 									</rdg>
-								</app> debolezza.</l>
+								</app>debolezza.</l>
 							<anchor xml:id="pecetta_10"/>
 						</lg>
 						<lg n="3">
-							<milestone n="11" unit="section" type="pecetta" spanTo="#pecetta_11"/>
+							<milestone n="11" spanTo="#pecetta_11" type="pecetta" unit="section"/>
 							<l n="1">
 								<app>
 									<lem varSeq="2">
@@ -2423,7 +2413,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">Si</mod>
 									</rdg>
-								</app> rivid<app>
+								</app>rivid<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2435,15 +2425,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">i</mod>
 									</rdg>
-								</app> fanciullo, ebbro di mare</l>
+								</app>fanciullo, ebbro di mare</l>
 							<l n="2">e di sole, però che ritornava</l>
 							<l n="3">dalla spiaggia, ove bello era indugiare</l>
 							<l n="4">col corpo nell'azzurre</l>
 							<l n="5">onde, o adagiato della sabbia fina</l>
 							<l n="6">sull'
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2455,7 +2443,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">amato</mod>
 									</rdg>
-								</app> tepore.</l>
+								</app>tepore.</l>
 							<l n="7">
 								<app>
 									<lem varSeq="2">
@@ -2469,7 +2457,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">Poi come</mod>
 									</rdg>
-								</app> dolce al cuore</l>
+								</app>dolce al cuore</l>
 							<l n="8">il ritorno, così, sotto le stelle,</l>
 							<l n="9">alla casa vicina,</l>
 							<l n="10">che già dalla marina</l>
@@ -2482,8 +2470,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">la sua</del>
 										<add place="above">un po' la</add>
 									</subst>
-								</mod>
-                        sete.</l>
+								</mod> sete.
+							</l>
 							<l n="16">Ma una sera (or <app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
@@ -2504,8 +2492,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 							<l n="20">che di giovani ritte sulle soglie</l>
 							<anchor xml:id="pecetta_11"/>
-							<pb n="32" facs="32.jpg"/>
-							<milestone n="12" unit="section" type="pecetta" spanTo="#pecetta_12"/>
+							<pb facs="32.jpg" n="32"/>
+							<milestone n="12" spanTo="#pecetta_12" type="pecetta" unit="section"/>
 							<l n="21">delle case, o ciancianti ove le foglie</l>
 							<l n="22">larghe d'un fico ombreggiano i lor colmi</l>
 							<l n="23">secchi, le loro colme anfore in testa</l>
@@ -2526,9 +2514,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app>, e più non bevve; il rosso</l>
 							<l n="27">sangue 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<del rend="strikethrough">tutto</del>
@@ -2559,8 +2545,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">se un</del>
 										<add place="above">sul</add>
 									</subst>
-								</mod>
-                       lungo errore</l>
+								</mod> lungo errore</l>
 							<l n="8">
 								<mod change="#strato-0">
 									<del rend="strikethrough">lo ravvolge,</del>
@@ -2578,13 +2563,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="18">t'interrogherà.</l>
 						</lg>
 					</div>
-					<div xml:id="Ad_uno_che_parte">
-						<pb n="33" facs="33.jpg"/>
+					<div n="Ad uno che parte" type="poem" xml:id="Ad_uno_che_parte">
+						<pb facs="33.jpg" n="33"/>
 						<metamark function="substitution">
 							<mod change="#strato-2">
 								<delSpan rend="cross" spanTo="#p33_1"/>
 							</mod>
-							<note type="editorial" resp="#US">
+							<note resp="#US" type="editorial">
 								<mod change="#strato-2">
 									<subst seq="3">
 										<del rend="strikethrough">
@@ -2638,8 +2623,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">gelide</del>
 										<add place="above">limpide</add>
 									</subst>
-								</mod>
-                       bevi acque dei monti;</l>
+								</mod> bevi acque dei monti;</l>
 							<l n="3">ed attingi la vita alle sue fonti</l>
 							<l n="4">più gelide e più pure.</l>
 						</lg>
@@ -2649,8 +2633,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">corpo</del>
 										<add place="above">capo</add>
 									</subst>
-								</mod>
-                    su dure</l>
+								</mod> su dure
+							</l>
 							<l n="2">pietre con gioia, con le ciglia chiuse;</l>
 							<l n="3">con la pace che un giorno si diffuse</l>
 							<l n="4">sulla mia giovinezza.</l>
@@ -2659,8 +2643,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">Poi se la vana asprezza</l>
 							<l n="2">ti offenderà degli uomoni rapaci,</l>
 							<l n="3">sii più forte di lor: Medita e taci.</l>
-							<l n="4">Pensa che <hi rend="underline">noi</hi>
-                  t'amiamo;</l>
+							<l n="4">Pensa che <hi rend="underline">noi</hi> t'amiamo;</l>
 						</lg>
 						<lg n="9">
 							<l n="1">pensa che t'attendiamo</l>
@@ -2670,8 +2653,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<anchor xml:id="p33_1"/>
 					</div>
-					<div xml:id="Canzonetta_spalatina">
-						<pb n="34" facs="34.jpg"/>
+					<div n="Canzonetta spalatina" type="poem" xml:id="Canzonetta_spalatina">
+						<pb facs="34.jpg" n="34"/>
 						<!-- ??? non capisco la penna della trasposizione-->
 						<metamark function="transposition" place="margin-left">
 							<mod change="#strato-3">2º</mod>
@@ -2754,8 +2737,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app>di trombe <mod change="#strato-3">
 									<add place="above">un</add>
-								</mod>
-                  clangor.</l>
+								</mod> clangor.</l>
 						</lg>
 						<lg n="3">
 							<l n="1">Che là una vela ad Utica</l>
@@ -2764,8 +2746,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">gran stragi il pescator.</l>
 						</lg>
 					</div>
-					<div xml:id="Dormiveglia">
-						<pb n="35" facs="35.jpg"/>
+					<div n="Dormiveglia" type="poem" xml:id="Dormiveglia">
+						<pb facs="35.jpg" n="35"/>
 						<head>Dormiveglia</head>
 						<lg n="1">
 							<l n="1">Trillava un cardellino</l>
@@ -2791,16 +2773,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="21">il Sonno che fuggiva.</l>
 						</lg>
 					</div>
-					<div xml:id="Barcarola">
-						<pb n="36" facs="36.jpg"/>
-						<head> Barcarola</head>
+					<div n="Barcarola" type="poem" xml:id="Barcarola">
+						<pb facs="36.jpg" n="36"/>
+						<head>Barcarola</head>
 						<lg n="1">
 							<l n="1">Sogno. <space/> Sul mare d'oro</l>
 							<l n="2">a lungo andai verso il sole cadente.</l>
 							<l n="3">Ora 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2831,7 +2811,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">Sorger</mod>
 									</rdg>
-								</app> d'un isola le amate sponde</l>
+								</app>d'un isola le amate sponde</l>
 							<l n="4">veggo da qui.</l>
 						</lg>
 						<lg n="3">
@@ -2849,12 +2829,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">freddi</del>
 										<add place="above">venti</add>
 									</subst>
-								</mod>
-                       ritornerà;</l>
+								</mod> ritornerà;</l>
 						</lg>
 						<lg n="5">
 							<l n="1">noi la vela dal
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -2876,13 +2855,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 					</div>
 				</div>
-				<div xml:id="Poesie_giovanili_fiorentine">
-					<pb n="37" facs="37.jpg"/>
-					<div xml:id="I_Risvegli">
+				<div n="Poesie giovanili fiorentine" xml:id="Poesie_giovanili_fiorentine">
+					<pb facs="37.jpg" n="37"/>
+					<div n="I risvegli" type="poem" xml:id="I_Risvegli">
 						<head>I Risvegli</head>
-						<div n="1">
+						<div n="I">
 							<head>I</head>
-							<milestone n="13" unit="section" type="pecetta" spanTo="#pecetta_13"/>
+							<milestone n="13" spanTo="#pecetta_13" type="pecetta" unit="section"/>
 							<lg n="1">
 								<l n="1">Sull' alba alla città grigia s'affretta </l>
 								<l n="2">il somarello, e trotta pazïente.</l>
@@ -2902,8 +2881,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 											<del rend="overwritten">Ma</del>
 											<add place="superscript">Poi</add>
 										</subst>
-									</mod> gli oblii lamentando e la
-                     sfuggente</l>
+									</mod> gli oblii lamentando e la sfuggente</l>
 								<l n="3">gioia del sonno destasi la gente</l>
 								<l n="4">nostra; e so che dai più sei maledetta,</l>
 							</lg>
@@ -2918,7 +2896,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<l n="3">tutto, con tutti i suoi fulgori, il giorno.</l>
 							</lg>
 						</div>
-						<div n="2">
+						<div n="II">
 							<head>II</head>
 							<lg n="1">
 								<l n="1">Dorme il fanciullo, segue in sogno anco<add place="margin-right">ra</add>
@@ -2952,10 +2930,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</lg>
 							<anchor xml:id="pecetta_13"/>
 						</div>
-						<div n="3">
-							<pb n="38" facs="38.jpg"/>
+						<div n="III">
+							<pb facs="38.jpg" n="38"/>
 							<head>III</head>
-							<milestone n="14" unit="section" type="pecetta" spanTo="#pecetta_14"/>
+							<milestone n="14" spanTo="#pecetta_14" type="pecetta" unit="section"/>
 							<lg n="1">
 								<l n="1"> Non le cicale ancora, ma di fronda</l>
 								<l n="2"> in fronda tutti trillano gli uccelli.</l>
@@ -2980,7 +2958,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</lg>
 						</div>
 					</div>
-					<div xml:id="Meriggio">
+					<div n="Meriggio" type="poem" xml:id="Meriggio">
 						<head>Meriggio</head>
 						<lg n="1">
 							<l n="1">
@@ -3019,7 +2997,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">solitudine del vïale,</l>
 							<l n="3">un vecchio, che ha fatto guanciale</l>
 							<anchor xml:id="pecetta_14"/>
-							<pb n="39" facs="39.jpg"/>
+							<pb facs="39.jpg" n="39"/>
 							<l n="4">delle sue gruccie, che dorme</l>
 						</lg>
 						<lg n="6">
@@ -3044,7 +3022,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<metamark place="margin-right" rend="cross"/>
 					</div>
-					<div xml:id="Notturnino">
+					<div n="Notturnino" type="poem" xml:id="Notturnino">
 						<head>Notturnino</head>
 						<lg n="1">
 							<l n="1">È la luna velata, </l>
@@ -3071,7 +3049,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 						</lg>
 					</div>
-					<div xml:id="Il_chiu">
+					<div n="Il chiù" type="poem" xml:id="Il_chiu">
 						<head>Il chiù</head>
 						<lg n="1">
 							<l n="1">Primieramente udii nella solenne</l>
@@ -3092,8 +3070,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">Lina, mi risovvenne.</l>
 						</lg>
 					</div>
-					<div xml:id="Pomeriggio_d_estate">
-						<pb n="40" facs="40.jpg"/>
+					<div n="Pomeriggio d'estate" type="poem" xml:id="Pomeriggio_d_estate">
+						<pb facs="40.jpg" n="40"/>
 						<head>Pomeriggio d'estate</head>
 						<lg n="1">
 							<l n="1">Fischi, cori d' uccelli, di cicale </l>
@@ -3103,10 +3081,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="2">
 							<l n="1">Perché non esco? La nube che sale </l>
-							<l n="2">guata là una vecchina, ai suoi dì soli
-                     
-                     
-                     <app>
+							<l n="2">guata là una vecchina, ai suoi dì soli <app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<del rend="strikethrough">,</del>
@@ -3119,17 +3094,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 							<l n="3">Ed io grandine, pioggia, ardor di soli </l>
 							<l n="4">amo
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="inline">:</add>
 										</mod>
 									</lem>
 									<rdg varSeq="1"/>
-								</app> la vita col
-                  bene e col male. </l>
+								</app> la vita col bene e col male. </l>
 						</lg>
 						<lg n="3">
 							<l n="1">Segue, e sull'uscio timido s'arresta </l>
@@ -3149,10 +3121,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</choice>dorerai la pesta<choice>
 									<sic/>
 									<corr>»</corr>
-								</choice>. </l>
+								</choice>. 
+							</l>
 						</lg>
 					</div>
-					<div xml:id="Silenzio">
+					<div n="Silenzio" type="poem" xml:id="Silenzio">
 						<head>Silenzio</head>
 						<div n="1">
 							<lg n="1">
@@ -3192,8 +3165,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</lg>
 						</div>
 					</div>
-					<pb n="41" facs="41.jpg"/>
-					<div xml:id="Salendo_un_viale">
+					<pb facs="41.jpg" n="41"/>
+					<div n="Salendo un viale" type="poem" xml:id="Salendo_un_viale">
 						<head>Salendo un viale</head>
 						<lg n="1">
 							<l n="1">Un torbido fiume, con ponti,</l>
@@ -3231,7 +3204,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">- nuove e antiche - città.</l>
 						</lg>
 					</div>
-					<div xml:id="Lina">
+					<div n="Lina" type="poem" xml:id="Lina">
 						<head>Lina</head>
 						<lg n="1">
 							<l n="1">Lina, è un anno - lo sai? - che t'ho veduta. </l>
@@ -3257,13 +3230,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">A te tutto t'arride, e tu non farmi </l>
 							<l n="4">male. Ne sparsi di lacrime, amare </l>
 						</lg>
-						<pb n="42" facs="42.jpg"/>
+						<pb facs="42.jpg" n="42"/>
 						<lg n="4">
 							<l n="1">tanto! Risero i buoni occhi piangenti, </l>
 							<l n="2">affissandosi 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="superscript">ai</add>
@@ -3272,7 +3243,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">nei</mod>
 									</rdg>
-								</app>miei, poi su t'alzasti: </l>
+								</app>
+								miei, poi su t'alzasti: </l>
 							<l n="3">ed io non ti seguii. Rimasi. «Basti </l>
 							<l n="4">così» dissi a me stesso; e udivo lenti </l>
 						</lg>
@@ -3289,8 +3261,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4"> trova il dolore che in te sola vedi. </l>
 						</lg>
 					</div>
-					<pb n="43" facs="43.jpg"/>
-					<div xml:id="La_spiaggia">
+					<pb facs="43.jpg" n="43"/>
+					<div n="La spiaggia" type="poem" xml:id="La_spiaggia">
 						<head>La spiaggia</head>
 						<lg n="1">
 							<l n="1">E ancor ti lasciai, spiaggia; ed i toschi </l>
@@ -3371,9 +3343,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">
 								<!--rasura sotto "di città morte" -->di città morte, quello di una sera </l>
 							<l n="2"> calda, in cui gode un pò<metamark place="margin-right" rend="line">
-									<gap reason="illegible"/>
-									<note type="critical" resp="#GT">Qui <bibl corresp="#GC">Castellani</bibl> legge un punto interrogativo o esclamativo. Potrebbe essere anche la correzione in apostrofo.</note>
-								</metamark> sulle rotaie </l>
+								<gap reason="illegible"/>
+								<note type="critical" resp="#GT">Qui<bibl corresp="#GC">Castellani</bibl>legge un punto interrogativo o esclamativo. Potrebbe essere anche la correzione in apostrofo.</note>
+								</metamark>
+								sulle rotaie 
+							</l>
 						</lg>
 						<lg n="16">
 							<l n="1">billicarsi il monello; in volto gaie </l>
@@ -3388,14 +3362,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">sforza ognora ad errar per l'ampia terra. </l>
 						</lg>
 					</div>
-					<pb n="44" facs="44.jpg"/>
-					<div xml:id="A_mamma">
+					<pb facs="44.jpg" n="44"/>
+					<div n="A mamma" type="poem" xml:id="A_mamma">
 						<head>A mamma</head>
 						<lg n="1">
 							<l n="1"> Mamma, c'è un tedïo oggi, una 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -3414,9 +3386,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">dell'uomo che il suo mondo ha nel suo cuore.</l>
 							<l n="5">Mamma, ritornerà oggi all'amore</l>
 							<l n="6">tuo chi un dì 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -3455,9 +3425,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">finestra, nella mia casa, deserta </l>
 							<l n="4">di me, deserta dell'unico Bene. </l>
 							<l n="5">Guardi le donne, gli operai (quel 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -3472,9 +3440,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>ene, </l>
 							<l n="6"> mamma, non scordi), gli operai che i panni </l>
 							<l n="7"> d'ogni giorno, - 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -3490,9 +3456,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="8">oggi a gara lasciati hanno per quelli </l>
 							<l n="9">delle feste: la tua chiusa tristezza </l>
 							<l n="10">non s'accresce di quanto 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -3508,8 +3472,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<note resp="#GT">Al margine destro Saba riscrive la variante per intero, con la stessa penna con cui l'ha corretta: "intendo e vedo".</note>
 							<l n="11">Altra fede ti regge, che non credo </l>
 							<l n="12">più, che ebbi cara 
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="overwritten">nella</del>
 										<add place="superscript">dalla</add>
@@ -3523,8 +3486,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="4">
 							<l n="1">mamma, 
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="overwritten">nella</del>
 										<add place="superscript">dalla</add>
@@ -3534,14 +3496,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<add place="inspace">püerïzia</add>
 									</subst>
 								</mod> remota 
-                     
-                     
-                     </l>
-							<l n="2">Ecco fanciulli con nudi i ginocchi </l>
+							</l>
+							<l n="2">Ecco fanciulli con nudi i ginocchi</l>
 							<l n="3">forti, 
-                     
-                     
-                    <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">un nuovo pensiero</del>
 										<add place="above">con nuove in</add>
@@ -3549,7 +3507,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</mod> attoniti occhi</l>
 							<note resp="#GC" type="critical">Lezione lasciata in sospeso, non integrabile nel contesto..</note>
 							<l n="4">voglie che fra i sudati </l>
-							<pb n="45" facs="45.jpg"/>
+							<pb facs="45.jpg" n="45"/>
 							<l n="5">giochi nacquero a un tratto ad essi in cuore. </l>
 							<l n="6">Ed io, rammento, o non <subst>
 									<del rend="erasure">
@@ -3559,7 +3517,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</subst>
 							</l>
 							<l n="7">
-                     d<mod change="#strato-0">
+                     			<mod change="#strato-0">
 									<subst>
 										<del rend="overwritten">e</del>
 										<add place="superscript">a</add>
@@ -3569,15 +3527,18 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<gap reason="illegible"/>
 									</del>
 									<add place="inspace">io non amato</add>
-								</subst>, </l>
+								</subst>, 
+							</l>
 							<l n="8">pensavo il Dio che mi ti aveva dato, </l>
 							<l n="9">il Dio di cui parlavi, mamma, tu. </l>
-							<l n="10">Escono a stormi, <mod change="#strato-0">
+							<l n="10">Escono a stormi, 
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">vociano</del>
 										<add place="above">rissano</add>
 									</subst>
-								</mod>, <subst>
+								</mod>, 
+								<subst>
 									<del rend="erasure">
 										<gap reason="illegible"/>
 									</del>
@@ -3608,7 +3569,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										</mod>
 									</corr>
 									<sic>i</sic>
-								</choice>. </l>
+								</choice>. 
+							</l>
 							<l n="16">Altri, addietro rimasto, alla fontana </l>
 							<l n="17">giunge alquanto la bocca di fanciulla; </l>
 							<l n="18">poi di spruzzi all'intorno si trastulla, </l>
@@ -3645,9 +3607,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</del>
 									<add place="inspace">Per l'aperta finestra,</add>
 								</subst>a 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<del rend="strikethrough">un cor che</del>
@@ -3674,7 +3634,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="7">vanno a quel tempo, benché lieta e varia </l>
 							<l n="8">sia la mia vita, con la solitaria </l>
 							<l n="9">forza, e una gioia nel travaglio piena; </l>
-							<pb n="46" facs="46.jpg"/>
+							<pb facs="46.jpg" n="46"/>
 							<l n="10">e quanto al volgo appar quasi una pena </l>
 							<l n="11">d'estasi il cor mi riempie. </l>
 							<l n="12">Non vidi i passi tuoi farsi più stanchi, </l>
@@ -3699,9 +3659,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</choice>, la più saggia eri tenuta </l>
 							<l n="3">da me, da me che la tua bocca muta </l>
 							<l n="4">feci 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="above">poi</add>
@@ -3724,12 +3682,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<sic>i</sic>
 								</choice>, </l>
 							<l n="6">eri colei che non conosce errore; </l>
-							<l n="7">l'umile tua parola nel <mod change="#strato-0">
+							<l n="7">l'umile tua parola nel
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">mio</del>
 										<add place="above">suo</add>
 									</subst>
-								</mod> cuore </l>
+								</mod> cuore 
+							</l>
 							<l n="8">scolpivasi così ch'ebbe indicibile </l>
 							<l n="9">angoscia quando, per la prima volta, </l>
 							<l n="10">nè men d'ogni altra, la tua mente folta </l>
@@ -3737,9 +3697,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						</lg>
 						<lg n="8">
 							<l n="1">Mamma, il tempo fu 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<subst>
 											<del rend="strikethrough">questo</del>
@@ -3762,8 +3720,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="11">v'abbatteva la mia piccola mano. </l>
 							<l n="12">Era incerto fra il riso e il pianto il ciglio</l>
 							<l n="13">tuo su quel sonno; ora è lontano il 
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">ben</del>
 										<add place="superscript">figlio</add>
@@ -3778,19 +3735,17 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">l'ansia, e l'ansia che impera </l>
 							<l n="3">nel tuo cuore, c'è, forse, anche nel mio; </l>
 							<l n="4">c'è 
-                     
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">, pur latente,</del>
 										<add place="above">nel mio sangue</add>
 									</subst>
 								</mod>
-                      il male che ti strugge;  </l>
+								il male che ti strugge; </l>
 							<l n="5">son le tue cure in me domenicali</l>
 							<l n="6">malinconie. </l>
 							<l n="7">Lente lente ora sfollano le vie </l>
-							<pb n="47" facs="47.jpg"/>
+							<pb facs="47.jpg" n="47"/>
 							<l n="8"> nella sera di festa, e verdi e rossi </l>
 							<l n="9"> accendono fanali le osterie </l>
 							<l n="10"> di campagna. <mod change="#strato-2">
@@ -3799,7 +3754,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 							<l n="11bis">
 								<mod change="#strato-2">
-									<del rend="strikethrough"> È una strana sera, mamma, </del>
+									<del rend="strikethrough"> È una strana sera, mamma,</del>
 								</mod>
 							</l>
 							<l n="11">una che certo affanna </l>
@@ -3819,21 +3774,19 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="4">c'è un sangue solo per la vita bella. </l>
 						</lg>
 					</div>
-					<pb n="48" facs="48.jpg"/>
-					<div xml:id="Sereno">
+					<pb facs="48.jpg" n="48"/>
+					<div n="Sereno" type="poem" xml:id="Sereno">
 						<head>Sereno</head>
 						<lg n="1">
 							<l n="1">Non ha il cielo una nube, e certo il mare</l>
-							<l n="2">oggi è uno specchio. <subst>
+							<l n="2">oggi è uno specchio.<subst>
 									<del rend="erasure">
 										<gap reason="illegible"/>
 									</del>
 									<add place="inspace">È il grande</add>
-								</subst> azzurro, è quello</l>
+								</subst>azzurro, è quello</l>
 							<l n="3">che 
-                     
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">ancor ieri</del>
 										<add place="above">già</add>
@@ -3861,15 +3814,13 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">non vedrebbe con più gioia negli occhi,</l>
 							<l n="3">frante le altere teste e i bei ginocchi</l>
 							<l n="4">tra un 
-                     
-                     
-                     <mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">fragor</del>
 										<add place="above">clamor</add>
 									</subst>
-								</mod>
-                   di rivolta?</l>
+								</mod> di rivolta?
+							</l>
 						</lg>
 						<lg n="5">
 							<l n="1">E mi piace il sereno; nella gaia</l>
@@ -3889,7 +3840,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">Per ogni vita c'è una che ciba</l>
 							<l n="4">sé di quella, ond'io più</l>
 						</lg>
-						<pb n="49" facs="49.jpg"/>
+						<pb facs="49.jpg" n="49"/>
 						<lg n="8">
 							<l n="1">t'amo, bufera che stronchi e non menti.</l>
 							<l n="2">Godo se d'acqua e foglie empi le fosse;</l>
@@ -3930,9 +3881,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">stelle. Io seggo alla finestra e guardo,</l>
 							<l n="3">guardo e ascolto, però che in questo è tutta</l>
 							<l n="4">la mia 
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -3962,8 +3911,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<del rend="strikethrough">di tra un</del>
 										<add place="above">ode</add>
 									</subst>
-								</mod>
-                        vocio di femmine e di bimbi,<mod change="#strato-2">
+								</mod> vocio di femmine e di bimbi,
+								<mod change="#strato-2">
 									<metamark rend="cross"/>
 								</mod>
 								<note type="critical">Una croce in corrispondenxa del verso 4.</note>
@@ -3983,7 +3932,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<metamark function="order">
 									<mod change="#strato-3">1</mod>
 								</metamark> Ascoltare, guardare: è questo 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
@@ -4001,14 +3950,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<metamark function="order">
 									<mod change="#strato-3">4</mod>
 								</metamark> che più gustato, 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-3">
 											<subst>
 												<del rend="strikethrough">a me</del>
 												<add place="above">più,</add>
 											</subst>
-										</mod> sempre più piace</lem>
+										</mod>sempre più piace</lem>
 									<rdg varSeq="1">
 										<mod change="#strato-0">a me sempre più piace</mod>
 									</rdg>
@@ -4017,7 +3966,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 											<add place="margin-left">più sempre a me piace</add>
 										</mod>
 									</rdg>
-								</app> sempre più piace;</l>
+								</app>sempre più piace;</l>
 							<note resp="#US">
 								<metamark rend="cross"/>p. p. p.<note resp="#GC">Qui Saba sigla la variante a testo per cui ha proposto l'alternativa.</note>
 							</note>
@@ -4033,7 +3982,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<metamark function="order">
 									<mod change="#strato-3">5</mod>
 								</metamark> Se limpida è la sera e dolce, nasce</l>
-							<pb n="50" facs="50.jpg"/>
+							<pb facs="50.jpg" n="50"/>
 							<l n="6">nella mia mente qualche verità</l>
 							<l n="7">dolce a ridirsi; questa che darà</l>
 							<l n="8">gioia a chi ascolta, gioia da ogni cosa.</l>
@@ -4051,7 +4000,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="20">Che millenni di strazi, uomo, per una</l>
 							<l n="21">delle piccole cose che tu afferri,</l>
 							<l n="22">usi, e non guardi, e il cuore 
-                     			<app>
+								<app>
 									<lem>non ti trema</lem>
 									<rdg type="altVariant">
 										<mod change="#strato-3">
@@ -4062,7 +4011,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</app>.
 							</l>
 							<l n="23">Trema a me se ci penso. 
-                     			<app>
+								<app>
 									<lem>Vedi: è poco</lem>
 									<rdg type="altVariant">
 										<mod change="#strato-3">
@@ -4073,11 +4022,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</l>
 							<note resp="#GT">Qui Saba inserisce le due varianti alternative ("non ti tremi" e "Or credi, è poco") per cercare di far risuonare l'unica rima irrelata "trema" con una parola anche a interno verso: lo trasforma in "tremi" che ha assonanza con la variante alternativa "credi".</note>
 							<l n="24">quanto nel mondezzaio oggi 
-                   				<mod change="#strato-2">
+								<mod change="#strato-2">
 									<add place="above">ti</add>
-								</mod> scaglia;</l>
+								</mod>scaglia;</l>
 							<l n="25">pure 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<del rend="strikethrough">gemma</del>
 										<add place="above">cosa</add>
@@ -4087,9 +4036,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app> non c'è che per te valga
 							</l>
-							<l n="26">
-                     quanto valso sarebbe un dì quel poco.
-                     </l>
+							<l n="26"> quanto valso sarebbe un dì quel poco. 
+							</l>
 						</lg>
 						<lg n="6">
 							<l n="1">Notte d'Ap<retrace>r</retrace>ile, chiara come il giorno,</l>
@@ -4103,12 +4051,12 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="2">Buccina d'un eroe nel plenilunio!</l>
 							<l n="3">Strane voglie, col lume della luna</l>
 							<l n="4">nate, morte nel sonno 
-                   				<mod change="#strato-0">
+								<mod change="#strato-0">
 									<subst>
 										<del rend="strikethrough">avanti</del>
 										<add place="above">innanzi</add>
 									</subst>
-								</mod> giorno.
+								</mod>giorno.
 							</l>
 						</lg>
 						<lg n="8">
@@ -4117,7 +4065,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="3">Zuffe avranno gli uccelli, e nozze, e danza.</l>
 							<l n="4">Chi vincerà? Il più forte ed il più adorno.</l>
 						</lg>
-						<pb n="51" facs="51.jpg"/>
+						<pb facs="51.jpg" n="51"/>
 						<lg n="9">
 							<l n="1">Sarà grande... Ma più bella è la notte,</l>
 							<l n="2">senza sonno per me. <subst>
@@ -4145,7 +4093,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 						<lg n="11">
 							<l n="1">Geme il bimbo nel sonno, e più se rotto</l>
 							<l n="2">gli è il sonno 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<del rend="strikethrough">a tratti</del>
@@ -4189,7 +4137,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="5">tempo era quello, tempo che non oso</l>
 							<l n="6">ricordare. Ben altra</l>
 							<l n="7">era mia 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -4208,15 +4156,15 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="10">sarebbe, ed inatteso, come giorno</l>
 							<l n="11">d'esultanza a chi in lunga pena sta,</l>
 							<l n="12">non quella vita dentro 
-                    			<mod change="#strato-2">
+								<mod change="#strato-2">
 									<add place="above">a</add>
-								</mod> quelle grandi
+								</mod>quelle grandi
 							</l>
 							<l n="13">case, quei sogni, quella verità;</l>
-							<pb n="52" facs="52.jpg"/>
+							<pb facs="52.jpg" n="52"/>
 							<l n="14">nel mio cuore una sola verità</l>
 							<l n="15">c'era, 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -4228,7 +4176,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">fra le mie ciglia un</mod>
 									</rdg>
-								</app> solo pianto,</l>
+								</app>solo pianto,</l>
 							<l n="16">
 								<app>
 									<lem varSeq="2">
@@ -4242,9 +4190,9 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1">
 										<mod change="#strato-0">sulle mie labbra</mod>
 									</rdg>
-								</app> un solo sorriso.</l>
+								</app>un solo sorriso.</l>
 							<l n="17">Del 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst rend="strikethrough">
@@ -4258,8 +4206,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									</rdg>
 								</app> non amavo altro che un viso</l>
 							<l n="18">pallido, un occhio nero.</l>
-							<l n="19">Ora
-                     			<app>
+							<l n="19">Ora 
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="inline">,</add>
@@ -4276,7 +4224,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="5">cantò. Altri risposero, qua e là.</l>
 						</lg>
 					</div>
-					<div xml:id="Dopo_una_passeggiata">
+					<div n="Dopo una passeggiata" type="poem" xml:id="Dopo_una_passeggiata">
 						<head>Dopo una passeggiata</head>
 						<div>
 							<lg n="1">
@@ -4287,8 +4235,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</lg>
 							<lg n="2">
 								<l n="1">Tosto apersi il volume. Una fraterna</l>
-								<l n="2">voce, quella di G
-                     				<app>
+								<l n="2">voce, quella di G 
+									<app>
 										<lem varSeq="2">
 											<mod change="#strato-1">ö</mod>
 										</lem>
@@ -4317,7 +4265,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								<l n="2">di marcia va ai suoi traffichi la gente:</l>
 								<l n="3">così andando, il più vile ed il più lasso</l>
 								<l n="4">tosto un eroe si sente.</l>
-								<pb n="53" facs="53.jpg"/>
+								<pb facs="53.jpg" n="53"/>
 							</lg>
 							<lg n="6">
 								<l n="1">Tale il bimbo si sente sol che l'oda,</l>
@@ -4344,7 +4292,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<rdg varSeq="1">
 											<mod change="#strato-0">Tutti</mod>
 										</rdg>
-									</app> in me questa sera</l>
+									</app>in me questa sera</l>
 							</lg>
 							<lg n="8">
 								<l n="1">
@@ -4357,11 +4305,11 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 										<rdg varSeq="1">
 											<mod change="#strato-0">sento tutti</mod>
 										</rdg>
-									</app> d'un bimbo in me i selvaggi</l>
+									</app>d'un bimbo in me i selvaggi</l>
 								<l n="2">desideri, le paci irrequïete.</l>
 								<l n="3">Lunghe storie leggevo di vïaggi,</l>
 								<l n="4">ora i versi di 
-                     				<app>
+									<app>
 										<lem varSeq="2">
 											<mod change="#strato-1">ö</mod>
 										</lem>
@@ -4380,14 +4328,14 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							</lg>
 						</div>
 					</div>
-					<div xml:id="A_Lina">
+					<div n="A Lina" type="poem" xml:id="A_Lina">
 						<head>A Lina</head>
 						<lg n="1">
 							<l n="1">Lina, le nostre due anime sole</l>
 							<l n="2">godono della primavera in fiore;</l>
 							<l n="3">tutta in fiore nel buon tepido sole,</l>
 							<l n="4">e 
-                     			<app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-1">
 											<subst>
@@ -4412,9 +4360,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 							<l n="1">È il ritorno. Ma quello che io sento,</l>
 							<l n="2">Lina, non dissi, non dirò più mai.</l>
 							<l n="3">Canta
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<add place="above">n</add>
@@ -4423,9 +4369,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 									<rdg varSeq="1"/>
 								</app> per te fra i lunghi alberi il vento,</l>
 							<l n="4">e su fasci di cord
-                     
-                     
-                     <app>
+								<app>
 									<lem varSeq="2">
 										<mod change="#strato-2">
 											<subst>
@@ -4453,7 +4397,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 								</mod>
 							</l>
 						</lg>
-						<pb n="54" facs="54.jpg"/>
+						<pb facs="54.jpg" n="54"/>
 						<lg n="5">
 							<l n="1">
 								<app>
@@ -4462,7 +4406,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
 											<subst>
 												<del rend="strikethrough">Quanti</del>
 												<add place="above">con gli</add>
-											</subst> amici <subst>
+											</subst>amici<subst>
 												<del rend="strikethrough">là</del>
 												<add place="above">che</add>
 											</subst>
