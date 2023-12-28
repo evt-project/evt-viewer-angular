@@ -6,7 +6,8 @@
    <ng-container *ngIf="editionLevel === 'changesView'">
       <!-- in changesView all readings are displayed in the textflow ordered by @varSeq, if present, and the onclick box is replaced with the specific mod-group elements -->
       <ng-container *ngFor="let orderedReading of data?.orderedReadings">
-         <evt-reading class="app-entry-rdg" [data]="orderedReading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+         <evt-reading class="app-entry-rdg" [data]="orderedReading" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);">
+         </evt-reading>&nbsp;
       </ng-container>
 
       <evt-mod-group *ngIf="data?.lemma && opened" [modGroup]="data?.changes" [editionLevel]="editionLevel" [evtHighlight]="highlightData$ | async" [selectedLayer]="selectedLayer" [containerElement]="data" (click)="stopPropagation($event)"></evt-mod-group>
