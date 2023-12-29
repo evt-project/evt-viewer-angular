@@ -119,13 +119,12 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   annotationsHandle: OsdAnnotationAPI;
 
   private subscriptions: Subscription[] = [];
-  
 
   tileSources: Observable<OsdTileSource[]>;
 
   constructor(
     private http: HttpClient,
-    
+
   ) {
     this.subscriptions.push(
       this.pageChange.pipe(
@@ -140,23 +139,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
-
-    //this.highlightLineText('VB_lb_104v_07');
-    
-    // this.evtModelService.getPage('1').subscribe((page)=>{
-    //     console.log('page', page);
-        
-    // });
-
-    // this.evtModelService.lines$.subscribe(
-    //   (lines)=>{
-    //     console.log('LINES: ', lines);
-    //   }
-    // );
-
     this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
 
-    
     const commonOptions = {
       visibilityRatio: 0.66,
       minZoomLevel: 0.5,
@@ -211,9 +195,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
                   const viewportPoint = this.viewer.viewport.pointFromPixel(webPoint);
                   const imagePoint = this.viewer.viewport.viewportToImageCoordinates(viewportPoint);
                   this.mouseMoved$.next({ x: imagePoint.x, y: imagePoint.y } );
-                 
-              }
-          });  
+
+              },
+          });
           tracker.setTracking(true);
         });
 
@@ -228,7 +212,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             //debugger;
             const ulPoint =line.coords[0];
             const lrPoint = line.coords[2];
-            
 
             return imagePoint.x > ulPoint.x &&
               imagePoint.x < lrPoint.x &&
@@ -236,14 +219,12 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
               imagePoint.y < lrPoint.y;
           });
 
-          this.lineSelected.next(linesOver.map(lo =>({
+          this.lineSelected.next(linesOver.map((lo) =>({
             id: lo.id,
             corresp: lo.corresp,
-            ul:{x: lo.coords[0].x, y: lo.coords[0].y},
-            lr:{x: lo.coords[2].x, y: lo.coords[2].y},
+            ul: { x: lo.coords[0].x, y: lo.coords[0].y },
+            lr: { x: lo.coords[2].x, y: lo.coords[2].y },
           })));
-
-         
         });
 
         const originalImageHeight = 1800;
@@ -253,14 +234,13 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         const thicknessx = 2/originalImageWidth;
         const thicknessy = 2/originalImageHeight;
         this.lineSelected.pipe(
-          distinctUntilChanged((a,b)=> JSON.stringify(a.map(ae=>ae.id)) === JSON.stringify(b.map(be=>be.id))),
+          distinctUntilChanged((a,b)=> JSON.stringify(a.map((ae)=>ae.id)) === JSON.stringify(b.map((be)=>be.id))),
         ).subscribe((zones)=>{
-          
           console.log('new lines', zones[0]);
           this.clearHighlightLineText();
           if (zones.length > 0){
             this.highlightLineText(
-              zones[0].corresp
+                zones[0].corresp,
               );
             }
            (this.viewer as any).forceRedraw();
@@ -268,11 +248,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
         this.overlay = (this.viewer as any).canvasOverlay({
           onRedraw: ()=> {
-            
-              
               //console.log('lines selected', this.lineSelected.value.length);
               for(const lineSelected of this.lineSelected.value){
-                
                 const context2d = this.overlay.context2d();
                 //const lrx = 1031, lry = 610, ulx = 257, uly = 558;
                 const lrx = lineSelected.lr.x, lry = lineSelected.lr.y, ulx = lineSelected.ul.x, uly = lineSelected.ul.y;
@@ -321,7 +298,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
                 // //   overlay.context2d().fillRect(rect.x, rect.y, rect.width,rect.height);   
                 // // }
               }
-           
           },
           clearBeforeRedraw: true,
       });
@@ -340,21 +316,19 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         this.clearHighlightInside(pe);
         //(pe as any).content.class='';//?.replace('highlightverse', '');
       }
-      
+
       (pe as any).class='';//?.replace('highlightverse', '');
     }
-    
   }
 
   private clearHighlightInside(content: any){
     let isWord = false;
     if (content.text === ' treow'){
-      debugger;
+      // debugger;
       console.log('clear sub content', content.text, content)
       isWord = true;
     }
     if (content.content ){
-      
       for(const insideContent of content.content){
         if (isWord){
           console.log( '--> ', insideContent);
@@ -365,7 +339,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         insideContent.class = '';
       }
     }
-    
+
     content.class = '';
   }
 
@@ -374,98 +348,225 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       return;
     }
     console.log('find lbid', lbId);
-    // console.log('original content', this.pageElement.originalContent);
-    // this.pageElement.originalContent[0].textContent = 'PIPPO PLUTO E PAPERINO';
+    // const parsedContentFromIdx = this.pageElement.parsedContent
+    //   .findIndex((pc: any) => pc.content?.some((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId));
 
-  //  console.log('parsed content', this.pageElement.parsedContent);
-    // (this.pageElement.parsedContent[1] as any).content[6].text = 'PIPPO PLUTO E PAPERINO';
-    // (this.pageElement.parsedContent[1] as any).content[6].class = 'highlightverse';
-    // console.log('type', (this.pageElement.parsedContent[3] as any).content[4].type.name);
-    // console.log('corresp id', (this.pageElement.parsedContent[3] as any).content[4].id);
-    
-    const parsedContentFromIdx = this.pageElement.parsedContent
-      .findIndex((pc: any) => pc.content?.some((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId));
+    const parsedContentFromIdx = this.findLbId(this.pageElement.parsedContent,lbId);
 
       //PER PAOLO, creare funzione cerca Lb con id ma ritornare l'indice del primo livello
-      console.log('parsedContentFromIdx' , parsedContentFromIdx);
-      
-      if (parsedContentFromIdx < 0){ return;}
-    let contentElementFromIdx = (this.pageElement.parsedContent[parsedContentFromIdx] as any)
-      .content?.findIndex(((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId)) ??0;
-console.log('contentElementFromIdx' , contentElementFromIdx);
+      //Fatta la funzione che ritorna l'indice di primo livello del content che a sua volta
+      //contiene un Lb in un suo content child di qualunque livello
+      //Ora bisogna capire come utilizzare questo indice per evidenziare tutti gli elementi
+      //compresi tra l'Lb con indice secondario e il successivo Lb
+    console.log('parsedContentFromIdx' , parsedContentFromIdx);
+    //let contentElementFromIdx: number;
+    if (parsedContentFromIdx < 0){ return;}
+    // const parsedContentOfIdx: any = this.pageElement.parsedContent[parsedContentFromIdx];
+    // contentElementFromIdx = this.findLbId(parsedContentOfIdx,lbId);
+    // if (contentElementFromIdx < 0 && parsedContentOfIdx.content ){
+    //   contentElementFromIdx = this.findLbId(parsedContentOfIdx.content,lbId)
+    // }
+   // contentElementFromIdx = 0;
+   // contentElementFromIdx = this.findLbId((this.pageElement.parsedContent[parsedContentFromIdx] as any).content,lbId);
+
+    // contentElementFromIdx = (this.pageElement.parsedContent[parsedContentFromIdx] as any)
+    //   .content?.findIndex(((pcC) => pcC.type.name === 'Lb' && pcC.id === lbId)) ??0;
+
+   // console.log('contentElementFromIdx' , contentElementFromIdx);
+
     //let startingParsedContentFromIdx = parsedContentFromIdx;
-// debugger;
+    // debugger;
+    // let startFoundLb = false;
+
+
+    //const pcStart: any = this.pageElement.parsedContent[parsedContentFromIdx];
+    
+
+
+    let result = {hasFoundStartLb: false, hasFoundEndLb: false };
     for(let pcIdx = parsedContentFromIdx; pcIdx < this.pageElement.parsedContent.length; pcIdx++){
       const pc: any = this.pageElement.parsedContent[pcIdx];
-      
+      result = this.highlightContent2(0,pc, lbId, result.hasFoundStartLb, result.hasFoundEndLb);
+      if (result.hasFoundStartLb && result.hasFoundEndLb){
+        break;
+      }
+    }
+    // this.highlightContent(pcStart, lbId, false);
+/*
+    for(let pcIdx = parsedContentFromIdx; pcIdx < this.pageElement.parsedContent.length; pcIdx++){
+      const pc: any = this.pageElement.parsedContent[pcIdx];
+
       if (!pc.content || pc.content.length === 0) {
         pc.class = ' highlightverse';
         continue;
       }
-      let foundLb = false;
+     let foundLb = false;
       // if (pc.type === 'word'){
       //   console.log('WORD', pc);
       // }
       console.log('TYPE', pc);
-      
-      for(let contentIdx = contentElementFromIdx; contentIdx < pc.content.length; contentIdx++){
+
+      for(let contentIdx = 0; contentIdx < pc.content.length; contentIdx++){
         const content = pc.content[contentIdx];
         // content.text = 'a';
+        foundLb = this.highlightContent(content, lbId, true);
+        if (foundLb){
+          // foundLb = true;
+          // startFoundLb = true;
+          // contentElementFromIdx = -1;
+          break;
+        }
         
-        if (content.id !== lbId && this.highlightContent(content)){
-          foundLb = true;
-          contentElementFromIdx = -1;
-          break;
-        }
 
-        if (!content.type){
-          content.class =' highlightverse';
-          console.log('NOT TYPE', content);
-          continue;
-        }
-        if (content.type.name === 'Lb' && content.id !== lbId){
-          foundLb = true;
-          contentElementFromIdx = -1;
-          break;
-        }
-        content.class = ' highlightverse';
+        // if (!content.type){
+        //   content.class =' highlightverse';
+        //   console.log('NOT TYPE', content);
+        //   continue;
+        // }
+        // if (content.type.name === 'Lb' && content.id !== lbId){
+        //   foundLb = true;
+        //   contentElementFromIdx = -1;
+        //   break;
+        // }
+        // content.class = ' highlightverse';
       }
-      if (pcIdx !== parsedContentFromIdx 
-        && !foundLb
-        ){
-        pc.class = ' highlightverse';
-      }
-      if (contentElementFromIdx < 0){
-        break;
-      }
-      contentElementFromIdx = 0;
+      // if (pcIdx !== parsedContentFromIdx && !foundLb){
+      //   pc.class = ' highlightverse';
+      // }
+      // if (contentElementFromIdx < 0){
+      //   break;
+      // }
+      // contentElementFromIdx = 0;
     }
-
+*/
 
     //console.log('parsed indexes', parsedContentFromIdx, contentElementFromIdx);
   }
 
-  private highlightContent(content: any) : boolean{
+  //private foundStartLbId: boolean = false;
+
+  
+
+  
+  private highlightContent2(profondita: number, startingContent: any, lbId: string,
+        hasFoundStartLb: boolean, 
+        hasFoundEndLb: boolean ): 
+      {hasFoundStartLb: boolean, hasFoundEndLb: boolean } {
+//Devo trovare lbId di partenza e ritorno quando lo trovo
+    if (!hasFoundStartLb){
+      if (startingContent.type.name === 'Lb' &&  startingContent.id === lbId ){
+        return { hasFoundStartLb: true, hasFoundEndLb: false };
+      }
+
+      if (startingContent.content !== undefined){
+        for(const insideContent of startingContent.content){
+          const result = this.highlightContent2(profondita+1, insideContent, lbId, 
+            hasFoundStartLb,
+            hasFoundEndLb);
+
+            
+          hasFoundStartLb = result.hasFoundStartLb;
+          hasFoundEndLb = result.hasFoundEndLb;
+          
+         if (hasFoundStartLb && hasFoundEndLb){ 
+          break;
+         }
+         if (hasFoundStartLb && insideContent.content === undefined){
+          insideContent.class = ' highlightverse';
+          console.log('Evidenziando not found start lb', insideContent.text);
+         }
+          // if ((devoEvidenziare || this.foundStartLbId) && insideContent.id !== lbId ){
+          //   insideContent.class = ' highlightverse';
+          // }
+        }
+
+        return {hasFoundStartLb, hasFoundEndLb};
+      }
+
+    }
+
+   
+    //Devo trovare lbId di fine e ritorno quando lo trovo
+    if (hasFoundStartLb) {
+      if (startingContent.content !== undefined){
+        for(const insideContent of startingContent.content){
+          // if (insideContent.type.name === 'Lb'){
+          //   return {hasFoundStartLb: true, hasFoundEndLb: true}; 
+          // }
+          const result = this.highlightContent2(profondita+1, insideContent, lbId, hasFoundStartLb,hasFoundEndLb );
+          if (result.hasFoundEndLb){
+            return  {hasFoundStartLb: true, hasFoundEndLb: true}; 
+          }
+          insideContent.class = ' highlightverse';
+          return  {hasFoundStartLb: true, hasFoundEndLb: true}; 
+        }
+      } else if (startingContent.type.name === 'Lb'){
+        
+        return {hasFoundStartLb: true, hasFoundEndLb: true}; 
+      }  else  {
+        console.log('Evidenziando found lb', startingContent.text);
+        startingContent.class = ' highlightverse';
+        return {hasFoundStartLb: true, hasFoundEndLb: false};
+      }
+    }
+    return {hasFoundStartLb: false, hasFoundEndLb: false};
+  }
+  
+
+/*
+  //Questo ritorna se ha trovato il starting Found LbId
+  private highlightContent(startingContent: any, startLbId: string, hasAlreadyFoundStartLbId: boolean) : boolean{
     // console.log('typeinside', content.type.name);
     // if (content.type.name === 'Word'){
     //   console.log('WORD ', content);
     // }
-    if (content.type.name === 'Lb'){
-      console.log('FOUND LB', content);
+    //Non ha ancora trovato l'elemento di partenza, deve trovare il primo elemento
+    if (startingContent.type.name === 'Lb' && startingContent.id === startLbId && !hasAlreadyFoundStartLbId){
+      console.log('FOUND LB', startingContent);
+
       return true;
     }
-    if (content.content !== undefined){
+    //Ho già trovato il primo elemento devo trovare il successivo
+    if (startingContent.type.name === 'Lb' && startingContent.id !== startLbId && hasAlreadyFoundStartLbId){
+      return false;
+    }
+    if (startingContent.content !== undefined){
       //  console.log('WORD Has content', content);
-      for(const insideContent of content.content){
-        
-        if (insideContent.type.name === 'Lb'){
+      for(const insideContent of startingContent.content){
+        if (insideContent.type.name === 'Lb' && startLbId === insideContent.id){
           return true;
         }
-        insideContent.class = ' highlightverse';
-        this.highlightContent(insideContent);
+        if (hasAlreadyFoundStartLbId){
+          insideContent.class = ' highlightverse';
+        }
+        
+        hasAlreadyFoundStartLbId = this.highlightContent(insideContent, startLbId, hasAlreadyFoundStartLbId);
       }
     }
+
     return false;
+  }*/
+
+  private findLbId(pc:any, lbId: string):number{
+
+    // const parsedContentFromIdx = this.pageElement.parsedContent
+    //   .findIndex((pc: any) => pc.content?.some((pc_c) => pc_c.type.name === 'Lb' && pc_c.id === lbId));
+    const lbFoundId: number = pc.findIndex((pc1) => pc1.content?.some((pc2) => pc2.type.name === 'Lb' && pc2.id === lbId));
+    if (lbFoundId > -1) {
+      return lbFoundId;
+    }
+    // debugger;
+    console.log('Non ho trovato LB quindi cerco dentro i content del content che sto esaminando');
+    for(let i = 0; i < pc.length; i++){
+      if (pc[i].content !== undefined){
+        if (this.findLbId(pc[i].content,lbId) > -1) {
+          // debugger;
+          console.log('ho trovato i', i);
+
+          return i;
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
