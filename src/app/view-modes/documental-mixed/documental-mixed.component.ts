@@ -68,7 +68,8 @@ export class DocumentalMixedComponent implements OnInit, OnDestroy {
 
   public lastLayer$ = this.evtStatusService.currentChanges$.pipe(
     distinctUntilChanged(),
-    map(({ layerOrder }) => layerOrder[layerOrder.length-1]),
+    map(({ layerOrder }) => (AppConfig.evtSettings.edition.startingFromDefinitiveLayer) ?
+      layerOrder[layerOrder.length-1] : ((layerOrder.length > 0) ? layerOrder[0] : null)),
   );
 
   changePage(selectedPage: Page) {

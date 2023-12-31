@@ -138,6 +138,7 @@ export interface EditionConfig {
         showSeqAttr: boolean;
         layerColors: string[];
     }>;
+    startingFromDefinitiveLayer: boolean;
     defaultImageZoomLevel: number;
     showSubstitutionMarker: boolean;
     multiPageEngineForCriticalEdition: boolean;

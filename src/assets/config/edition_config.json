@@ -142,6 +142,7 @@
   ],
   "sourcesExcludedFromListByParent": ["desc"],
   "showChangeLayerMarkerInText": true,
+  "startingFromDefinitiveLayer": true,
   "changeSequenceView": {
     "showVarSeqAttr": false,
     "showSeqAttr": false,
