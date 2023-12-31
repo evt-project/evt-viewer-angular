@@ -255,9 +255,13 @@ evt-analogue-detail evt-original-encoding-viewer code {
   font-size:85%;
 }
 
-:not(evt-apparatus-entry-detail) .mod-reading {
+.mod {
   text-decoration: underline;
   text-decoration-thickness: 14%;
+}
+
+.mod-text .mod {
+  text-decoration: none !important;
 }
 
 .card {
@@ -284,13 +288,26 @@ evt-analogue-detail evt-original-encoding-viewer code {
   font-weight: 600;
 }
 
-.changeSeparator {
+.changeSeparator, .changeGroupSeparator {
+  display: none;
   font-family: fantasy;
   font-weight: 600;
-  margin: 0 0.3em 0 0.3em;
+  margin: 0 0.1em 0 0.1em;
 }
 
-.changeSeparator:first-of-type {
+.app-entry-rdg .changeGroupSeparator {
+  display: inline-block;
+}
+
+.app-detail-content .changeSeparator {
+  display: inline-block;
+}
+
+.app-detail-content .changeSeparator:first-of-type {
+  display: none;
+}
+
+.first-mod .changeGroupSeparator, .app-detail-content .changeGroupSeparator {
   display: none;
 }
 

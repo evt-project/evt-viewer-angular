@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Mod } from 'src/app/models/evt-models';
+import { Mod, Reading } from 'src/app/models/evt-models';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../../components-mixins';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { EditionLevelType } from 'src/app/app.config';
@@ -43,6 +43,10 @@ export class ModGroupComponent {
     } ),
   );
 
+  @Input() withDeletions: boolean;
+
+  @Input() orderedReadings: Reading[]
+
   @Input() set selectedLayer(layer: string) {
     this.selLayer = layer;
   }
@@ -70,6 +74,10 @@ export class ModGroupComponent {
     layer = layer.replace('#','');
 
     return this.orderedLayers.indexOf(layer);
+  }
+
+  toggleModGroupEntryBox() {
+    this.opened = !this.opened;
   }
 
   constructor(

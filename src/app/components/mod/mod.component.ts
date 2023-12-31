@@ -25,6 +25,8 @@ export class ModComponent {
 
   @Input() editionLevel;
 
+  @Input() withDeletions;
+
   public alwaysShow: boolean;
 
   @Input() set alwaysShown(yes: boolean) {
@@ -82,7 +84,7 @@ export class ModComponent {
       return layerColors[this.data.changeLayer.replace('#','')];
     }
 
-    return 'black';
+    return null;
   }
 
   getLayerIndex(layer): number {

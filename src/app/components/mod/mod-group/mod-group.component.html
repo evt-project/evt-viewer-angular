@@ -1,5 +1,9 @@
-<div class="source-container" [ngClass]="{opened: opened$ | async}">
-        
+<ng-container *ngFor="let orderedReading of orderedReadings; let i = index">
+    <evt-reading class="app-entry-rdg" [ngClass]="{'first-mod': (i === 0)}" [data]="orderedReading" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleModGroupEntryBox()">
+    </evt-reading>
+</ng-container>
+
+<div class="source-container" *ngIf="opened">
     <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="mods.length > 0">
         <span class="mod-symbol">🕐</span>
         <span class="mod-text">
@@ -8,12 +12,14 @@
                     <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
                         <span class="changeSeparator"> ← </span>
                         [{{getLayerIndex(orderedLayer)}}] 
-                        <evt-mod [data]="mod"
+                        <evt-mod 
+                            [data]="mod"
                             [alwaysShown]="true"
+                            [withDeletions]="true"
                             [editionLevel]="'changesView'"
                             [evtHtmlAttributes]="mod?.attributes"
                             [attr.data-edition]="'changesView'">
-                        </evt-mod> 
+                        </evt-mod>
                     </ng-container>
                 </ng-container>
             </ng-container>

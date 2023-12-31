@@ -1,6 +1,9 @@
+<span class="changeGroupSeparator" [hidden]="(isHidden(data) && !(alwaysShow))" > → </span>
+
 <span class="mod {{data.class}} pointer" title="mod"
     (click)="toggleOpened$.next()" 
-    [ngClass]="{opened: opened$ | async}" 
+    [ngClass]="{opened: opened$ | async}"
+    [style.text-decoration-color]="changeLayerColor()"
     [evtEditorialConventionLayout]="editorialConventionData">
 
     <ng-container *ngIf="editionLevel === 'changesView' && showLayerMarkers">
@@ -20,8 +23,7 @@
             [itemsToHighlight]="itemsToHighlight"
             [textFlow]="textFlow"
             [selectedLayer]="selectedLayer"
-            [withDeletions]="withDeletions"
-            [style.text-decoration-color]="changeLayerColor()">
+            [withDeletions]="withDeletions">
         </evt-content-viewer>
     </ng-container>
 

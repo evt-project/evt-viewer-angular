@@ -69,3 +69,7 @@ evt-reading evt-note,
 evt-addition evt-note {
   display: none;
 }
+
+.fw {
+    display: block;
+}
