@@ -73,3 +73,7 @@ evt-addition evt-note {
 .fw {
     display: block;
 }
+
+[type="pageNum"][place="top_right"] {
+    float:right;
+}

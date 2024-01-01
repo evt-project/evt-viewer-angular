@@ -1,6 +1,6 @@
 import { Mod } from 'src/app/models/evt-models';
 import { BehaviorSubject } from 'rxjs';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { EditionLevelType } from 'src/app/app.config';
 
 @Component({
@@ -17,6 +17,8 @@ export class ModDetailComponent {
 
   public ordLayers: string[];
   public selLayer: string;
+
+  @Output() hide: EventEmitter<void> = new EventEmitter();
 
   @Input() set orderedLayers(layers: string[]) {
     this.ordLayers = layers;
@@ -47,6 +49,10 @@ export class ModDetailComponent {
 
   isBoxVisible() {
     this.boxVisible = !(this.modEntry?.insideApp[0]);
+  }
+
+  emitHide() {
+    this.hide.emit();
   }
 
 

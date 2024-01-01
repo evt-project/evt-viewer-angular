@@ -34,5 +34,6 @@
     [mod]="data"
     [orderedLayers]="orderedLayers"
     [selectedLayer]="selectedLayer"
+    (hide)="toggleOpened$.next()"
     (click)="stopPropagation($event)">
 </evt-mod-detail>
