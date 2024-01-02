@@ -153,7 +153,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
               </lem>
               <rdg varSeq="1">
                 <mod change="#strato-0">
-                  <add place="bottom" seq="2">e</add>
+                  <add place="below" seq="2">e</add>
                   <add place="above" seq="2">come si sceglie la moglie,</add>
                 </mod>
               </rdg>
@@ -356,6 +356,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
           <!-- -->
           
           <!-- RRDT versione originale: si affida unicamente a @resp per essere distinta dalle altre, un po' poco -->
+          <!-- BTW place="top" non sembra corretto -->
           <note place="top" resp="#US" type="publishing"><mod change="#strato-5"><add>Vedi fogli</add></mod></note>
           
           <!-- RRDT versione modificata, che però richiede un <ab> in questo punto della gerarchia -->
@@ -967,7 +968,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                             <l n="3">senza baci a morirvi e senza alloro.</l>
                           </lg>
                         </del>
-                        <add place="bottom"><lg n="4">
+                        <add place="bottom"><lg n="4"><!-- CHECK place="bottom" -->
                             <l n="1">Per cui soletto io me ne vo, piangendo</l>
                             <l n="2">ciò che non torna, ov'è più solo il lito,</l>
                             <l n="3">senza un bacio d'amante e senz'alloro.</l>
@@ -1033,7 +1034,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                     <mod change="#strato-5">
                       <subst>
                         <del rend="strikethrough">Quando</del>
-                        <add place="above-right">Or più</add>
+                        <add place="above-right">Or più</add><!-- CHECK place="above-right" -->
                       </subst>
                     </mod>
                   </lem>
@@ -1592,7 +1593,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
               <l n="17">Tutto è <app>
                   <lem varSeq="2">
                     <mod change="#strato-4"><subst>
-                        <del rend="strikethorugh">diverso intorno a me</del>
+                        <del rend="strikethrough">diverso intorno a me</del>
                         <add place="above">mutato oggi per noi</add>
                       </subst></mod>
                   </lem>
@@ -1958,7 +1959,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                 <app>
                   <lem varSeq="2">
                     <mod change="#strato-2"><subst>
-                        <del rend="strikethorugh">Così</del>
+                        <del rend="strikethrough">Così</del>
                         <add place="margin-left">Canzon,</add>
                       </subst></mod>
                   </lem>
@@ -2074,7 +2075,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
               <l n="16">nella <app>
                   <lem varSeq="2">
                     <mod change="#strato-3"><subst>
-                        <del rend="strikethorugh">sua</del>
+                        <del rend="strikethrough">sua</del>
                         <add place="below">mia</add>
                       </subst></mod>
                   </lem>
@@ -3123,7 +3124,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                   <add place="inspace">Non io ai lor giochi mi svagava</add>
                 </subst><mod change="#strato-0"><subst>
                     <add place="superscript">. E</add>
-                    <del rend="overscript">: o</del>
+                    <del rend="overwritten">: o</del>
                   </subst></mod>
                 <!--non marco come variante perché questa è una correzione legata alla rasura precedente--> assai</l>
               <l n="56">tu ne soffrivi. Fu viltà o disdegno,</l>
