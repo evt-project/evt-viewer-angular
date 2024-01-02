@@ -204,8 +204,9 @@ export class EVTStatusService {
         };
     }
 
+    /** to avoid loops this function must not be fed with nodes */
     getPageElementsByClassList(classList) {
-        const notInterestingProps = ['originalEncoding','type'];
+        const notInterestingProps = ['originalEncoding','type','spanElements'];
         const maxEffort = 4000;
 
         return this.currentStatus$.pipe(
