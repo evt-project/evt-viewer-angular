@@ -3,6 +3,7 @@
 <span class="mod {{data.class}} pointer" title="mod"
     (click)="toggleOpened$.next()" 
     [ngClass]="{opened: opened$ | async}"
+    [ngClass]="{'mod-highlighted': (editionLevel === 'changesView') }"
     [style.text-decoration-color]="changeLayerColor()"
     [evtEditorialConventionLayout]="editorialConventionData">
 

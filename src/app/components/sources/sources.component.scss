@@ -7,6 +7,7 @@
     font-family: serif;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     background-color:#2042512e;
+    min-width: 35em;
 }
 
 .source-detail-content {
@@ -14,6 +15,7 @@
     background-color: unset !important;
     padding-bottom: 0.6em !important;
     pointer-events: none;
+    font-weight: initial;
 }
 
 .source-quote-button {
@@ -63,6 +65,13 @@
     cursor: pointer;
     border-radius: 0;
     font-style:normal;
+    font-weight:initial;
+    font-family: system-ui;
+    font-size: 92%;
+}
+
+.tab-content {
+    margin-top: -0.1em;
 }
 
 .app-detail-content,

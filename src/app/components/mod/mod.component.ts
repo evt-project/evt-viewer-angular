@@ -103,18 +103,6 @@ export class ModComponent {
       if (!this.data.insideApp[0] && subEl.class === 'del') {
         return false;
       }
-      // lem and readings requires to be switched over according to mod change layer
-      /*
-      if (this.data.insideApp[0] && this.data.isRdg) {
-        const lemLayer = (this.data.insideApp && this.data.insideApp[1]) ? this.data.insideApp[1] : null;
-        if (lemLayer === '' || lemLayer === null) {
-          return false;
-        }
-        if (this.getLayerIndex(lemLayer) <= this.getLayerIndex(this.selectedLayer)) {
-          return true;
-        }
-      }
-      */
       // generic content managament
       if (this.getLayerIndex(this.selectedLayer) < this.getLayerIndex(this.data.changeLayer)) {
         return true;
