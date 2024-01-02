@@ -245,7 +245,7 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: num
       if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
         results.push(obj);
       }
-      if (typeof value === 'object' && value !== null && !(value instanceof DOMTokenList)) {
+      if (typeof value === 'object' && value !== null && !(value instanceof DOMTokenList || value instanceof NodeList)) {
         if (counter > 0) {
           results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter, ignoredProperties));
           counter = counter - 1;
