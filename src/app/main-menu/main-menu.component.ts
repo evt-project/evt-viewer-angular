@@ -88,7 +88,7 @@ export class MainMenuComponent {
           additionalClasses: 'icon',
         },
         label: 'downloadXML',
-        enabled$: of(true),
+        enabled$: of(AppConfig.evtSettings.edition.downloadableXMLSource),
         callback: () => this.downloadXML(),
       },
     ];

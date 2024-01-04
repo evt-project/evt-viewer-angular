@@ -101,6 +101,7 @@ export interface EditionConfig {
     badge: string;
     editionHome: string;
     showLists: boolean;
+    downloadableXMLSource: boolean;
     availableEditionLevels: EditionLevel[];
     namedEntitiesLists: Partial<{
         persons: NamedEntitiesListsConfig;
