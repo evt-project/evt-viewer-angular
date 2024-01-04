@@ -29,7 +29,7 @@ export class MainHeaderComponent {
   get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
   get logoUrl() {
-    return AppConfig?.evtSettings?.files?.logoUrl ?? '/assets/images/logo_white.png';
+    return AppConfig?.evtSettings?.files?.logoUrl ?? 'assets/images/logo_white.png';
   }
 
   constructor(
