@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { ViewerDataType } from '../../models/evt-models';
+import { Page, Surface, ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 
@@ -76,6 +76,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
+  @Input() surface: Surface;
+  @Input() pageElement: Page;
   // tslint:disable-next-line: variable-name
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
@@ -113,6 +115,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   viewer: Partial<OsdViewerAPI>;
   viewerId: string;
+  overlay: any;
   annotationsHandle: OsdAnnotationAPI;
 
   private subscriptions: Subscription[] = [];
@@ -137,7 +140,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
     const commonOptions = {
       visibilityRatio: 0.1,
-      minZoomLevel: 0.5,
+      minZoomLevel: 0.3,
+      maxZoomLevel: 1,
       defaultZoomLevel: 1,
       sequenceMode: true,
       prefixUrl: 'assets/osd/images/',
