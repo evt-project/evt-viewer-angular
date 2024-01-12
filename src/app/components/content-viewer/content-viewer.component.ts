@@ -130,7 +130,55 @@ export class ContentViewerComponent implements OnDestroy {
     };
   }
 
+  @HostListener('click',['$event']) mouseClick($event: any) {
+   
+    if (!this.v.content){
+  
+      if (this.v.type.name === 'AdditionComponent'){
+            return;
+          }
+          if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+            return;
+          }
+          if ((this.v as any).text === '' || (this.v as any).text === ' ' || 
+              (this.v as any).type.name === 'Verse' ||
+              (this.v as any).type.name === 'Paragraph'
+              ){
+            return;
+          }
+
+          const lbId = (this.v as any).lbId;
+          const corresp =  (this.v as any).correspId;
+          
+          const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+          const findElement = elementsSelected
+              .find((e)=>e.corresp === corresp && e.id === lbId);
+
+
+          if (findElement){
+            this.evtHighlineService.lineBeginningSelected$.next(
+              elementsSelected.filter((e)=>e.corresp !== corresp && e.id !== lbId) 
+            );
+
+
+          } else {
+            
+            this.evtHighlineService.lineBeginningSelected$.next([
+              ...elementsSelected,
+              {
+                id: lbId, corresp: corresp, selected: true,
+              }]);
+          }
+
+          console.log('mouse clicked', lbId, corresp,this.evtHighlineService.lineBeginningSelected$.getValue().length );
+          
+    }
+    $event.preventDefault();
+  }
   @HostListener('mouseover',['$event']) mouseOver($event: any) {
+    if (this.v.type.name === 'AdditionComponent'){
+      return;
+    }
     if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
       return;
     }
@@ -142,17 +190,20 @@ export class ContentViewerComponent implements OnDestroy {
     }
 
     $event.preventDefault();
-    console.log('content father', this.v);
-    this.evtHighlineService.lineBeginningSelected$.next([{
-      id: (this.v as any).lbId, corresp: (this.v as any).correspId,
-    }]);
+    const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+    
+    this.evtHighlineService.lineBeginningSelected$.next([
+      {
+      id: (this.v as any).lbId, corresp: (this.v as any).correspId, selected: undefined
+    }, ...elementsSelected]);
   }
 
-    @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
+  @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
 
     //console.log('mouse enter', this.content);
     $event.preventDefault();
-    this.evtHighlineService.lineBeginningSelected$.next([]);
+    const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+    this.evtHighlineService.lineBeginningSelected$.next(elementsSelected);
   }
 
 //   private getFirstLbId(pc: any): {id: string, corresp: string} {

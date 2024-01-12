@@ -190,4 +190,8 @@ body {
 	// border: 1px solid #b99562;
     color: #000000;
     padding: 3px 0px;
+    &.selected{
+        background-color: rgba(18, 228, 141, 0.8);
+    }
 }
+

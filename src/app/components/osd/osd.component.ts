@@ -41,6 +41,7 @@ interface OsdViewerAPI {
   goToPage: (page: number) => void;
   viewport;
   gestureSettingsMouse;
+  container;
   raiseEvent: (evtName: string) => void;
 }
 /*
@@ -78,7 +79,24 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
 
   @Input() surface: Surface;
-  @Input() pageElement: Page;
+  private _pageElement: Page;
+  @Input() set pageElement(pe: Page){
+    this._pageElement = pe;
+    if (pe){
+      setTimeout(()=>{
+      this._pageElement.parsedContent.forEach((pc)=>{
+        // debugger;
+        this.assignLbId(pc)
+      })
+      }, 500);
+        
+    }  
+  }
+
+  get pageElement(): Page{
+    return this._pageElement;
+  }
+
   // tslint:disable-next-line: variable-name
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
@@ -136,12 +154,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       ).subscribe((x) => this.viewer?.goToPage(x - 1)),
     );
 
-    setTimeout(()=>{
-    this.pageElement.parsedContent.forEach((pc)=>{
-      debugger;
-      this.assignLbId(pc)
-    })
-    }, 500);
+    
 
   }
 
@@ -165,8 +178,9 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   }
 
-  private lineSelected: Array<{ id: string; corresp: string; ul: { x: number; y: number; }, lr: { x: number; y: number; } }> = [];
+  private lineSelected: Array<{ id: string; corresp: string; ul: { x: number; y: number; }, lr: { x: number; y: number; }, selected: boolean | undefined }> = [];
   mouseMoved$ = new Subject<{ x: number; y: number; }>();
+  mouseClicked$ = new Subject<{ x: number; y: number; }>();
 
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
@@ -201,7 +215,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         } else {
           this.viewer = OpenSeadragon({
             ...commonOptions,
-            ...this.options,
+           ...this.options,
           });
         }
 
@@ -218,17 +232,36 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             context.clearRect(0, 0, canvasEl.width, canvasEl.height);
           }
         });
+        // // Aggiungi un gestore per l'evento 'click' al viewer
+        this.viewer.addHandler('canvas-click', (evt: any) => {
+            // Ottenere le coordinate del click
+            // let viewportPoint = evt.viewportPoint;
+
+            // // Le coordinate del click nella vista del mondo
+            // let worldPoint = this.viewer.viewport.viewportToImageCoordinates(viewportPoint);
+
+            // Puoi fare qualcosa con le coordinate del click qui
+            console.log('Click del mouse alle coordinate:', evt);
+            const webPoint = evt.position;
+              const viewportPoint = this.viewer.viewport.pointFromPixel(webPoint);
+              const imagePoint = this.viewer.viewport.viewportToImageCoordinates(viewportPoint);
+              this.mouseClicked$.next({ x: imagePoint.x, y: imagePoint.y });
+            // Esegui ulteriori azioni in base al click del mouse...
+        });
         this.viewer.addHandler('open', () => {
           const tracker = new OpenSeadragon.MouseTracker({
-            element: (this.viewer as any).container,
+            element: this.viewer.container,
             moveHandler: (event) => {
+              
               const webPoint = event.position;
               const viewportPoint = this.viewer.viewport.pointFromPixel(webPoint);
               const imagePoint = this.viewer.viewport.viewportToImageCoordinates(viewportPoint);
               this.mouseMoved$.next({ x: imagePoint.x, y: imagePoint.y });
             },
+           
           });
           tracker.setTracking(true);
+         
         });
 
         // this.sync = this.linesHighlightService.syncTextImage$.getValue();
@@ -239,31 +272,64 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
             filter(([_mm, isSync])=> isSync),
             distinctUntilChanged(),
           ).subscribe(([imagePoint]) => {
-          const linesOver = this.surface.zones.lines.filter((line) => {
+            const linesOver = this.surface.zones.lines.filter((line) => {
 
-            const ulPoint = line.coords[0];
-            const lrPoint = line.coords[2];
+              const ulPoint = line.coords[0];
+              const lrPoint = line.coords[2];
 
-            return imagePoint.x > ulPoint.x &&
-              imagePoint.x < lrPoint.x &&
-              imagePoint.y > ulPoint.y &&
-              imagePoint.y < lrPoint.y;
+              return imagePoint.x > ulPoint.x &&
+                imagePoint.x < lrPoint.x &&
+                imagePoint.y > ulPoint.y &&
+                imagePoint.y < lrPoint.y;
+            });
+
+            const elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+
+            const linesOverMapped =  linesOver.map((lo) => ({
+              id: lo.id,
+              corresp: lo.corresp,
+              selected: undefined,
+            }));
+            this.linesHighlightService.lineBeginningSelected$.next([
+              ...elementsSelected, ...linesOverMapped
+            ]);
+
           });
 
-          this.linesHighlightService.lineBeginningSelected$.next(linesOver.map((lo) => ({
-            id: lo.id,
-            corresp: lo.corresp,
+          this.mouseClicked$.pipe(
+            combineLatestWith(this.linesHighlightService.syncTextImage$.asObservable()),
+            filter(([_mm, isSync])=> isSync),
+            distinctUntilChanged(),
+          ).subscribe(([imagePoint]) => {
+            const linesOver = this.surface.zones.lines.filter((line) => {
 
-          })));
+              const ulPoint = line.coords[0];
+              const lrPoint = line.coords[2];
 
-          // this.lineSelected.next(linesOver.map((lo) => ({
-          //   id: lo.id,
-          //   corresp: lo.corresp,
-          //   ul: { x: lo.coords[0].x, y: lo.coords[0].y },
-          //   lr: { x: lo.coords[2].x, y: lo.coords[2].y },
-          // })));
-        });
+              return imagePoint.x > ulPoint.x &&
+                imagePoint.x < lrPoint.x &&
+                imagePoint.y > ulPoint.y &&
+                imagePoint.y < lrPoint.y;
+            });
 
+            let elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+
+            linesOver.forEach(lo=>{
+              if (elementsSelected.some(es => es.id === lo.id && es.corresp === lo.corresp)){
+                elementsSelected = elementsSelected.filter(es => es.id !== lo.id && es.corresp !== lo.corresp)
+              } else{
+                elementsSelected.push({
+              id: lo.id,
+              corresp: lo.corresp,
+              selected: true,
+            });
+              }
+            });
+            
+           
+            this.linesHighlightService.lineBeginningSelected$.next(elementsSelected);
+
+          });
 
         const originalImageWidth = +this.surface.graphics[0].width.replace('px','');
         const originalImageHeight = +this.surface.graphics[0].height.replace('px','');
@@ -271,22 +337,24 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
         const thicknessx = 2 / originalImageWidth;
         const thicknessy = 2 / originalImageHeight;
-        // this.linesHighlightService.lineBeginningSelected$.subscribe((res)=>{
-        //   console.log('new lines', res);
-        // });
+        
 
         this.linesHighlightService.zonesHighlights$.pipe(
           distinctUntilChanged((a, b) => JSON.stringify(a.map((ae) => ae.id)) === JSON.stringify(b.map((be) => be.id))),
           withLatestFrom(this.linesHighlightService.syncTextImage$),
           filter(([_zones, sync])=> sync),
         ).subscribe(([zones]) => {
-          console.log('new lines zones', zones[0]);
+          
           this.lineSelected = zones;
-          this.clearHighlightLineText();
+          //this.clearHighlightLineText();
           if (zones.length > 0) {
-            this.highlightLineText(
-              zones[0].corresp,
-            );
+
+              this.highlightLineText(
+                            zones.map((z)=> ({id:z.corresp, selected: z.selected})),
+                           
+                          );
+       
+           
           }
           (this.viewer as any).forceRedraw();
         });
@@ -297,7 +365,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
               const context2d = this.overlay.context2d();
               const lrx = lineSelected.lr.x, lry = lineSelected.lr.y, ulx = lineSelected.ul.x, uly = lineSelected.ul.y;
 
-              context2d.fillStyle = '#d36019';
+              
+              context2d.fillStyle = lineSelected.selected ? '#aaaa19' : '#d36019';
               context2d.globalAlpha = 0.2;
               context2d.strokeStyle = 'black';
               context2d.fillRect(
@@ -308,7 +377,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
               );
               context2d.stroke();
 
-              context2d.fillStyle = '#d36019';
+              context2d.fillStyle = lineSelected.selected ? '#aaaa19' : '#d36019';
               context2d.globalAlpha = 0.2;
               context2d.strokeStyle = 'black';
               context2d.fillRect(
@@ -326,149 +395,44 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       }));
   }
 
-  private clearHighlightLineText() {
-    for (const pe of this.pageElement.parsedContent) {
-      if ((pe as any).content && (pe as any).content.length > 0) {
-        for (const content of (pe as any).content) {
-          (content as any).class = '';
-          this.clearHighlightInside(content);
-        }
-        //
-      } else {
-        this.clearHighlightInside(pe);
-      }
 
-      (pe as any).class = '';
-    }
-  }
 
-  private clearHighlightInside(content: any) {
-
-    if (content.content) {
-      for (const insideContent of content.content) {
-        if (insideContent.content) {
-          this.clearHighlightInside(insideContent)
-        }
-        insideContent.class = '';
-      }
-    }
-
-    content.class = '';
-  }
-
-  private highlightLineText(lbId: string) {
-    if (!lbId || lbId === '') {
+  private highlightLineText(lbIds: Array<{id: string, selected: boolean}>) {
+    if (!lbIds || lbIds.length === 0) {
       return;
     }
 
-    const parsedContentFromIdx = this.findLbId(this.pageElement.parsedContent, lbId);
+    for (const pc of this.pageElement.parsedContent) {
+     
+      this.recursiveHighlight(pc, lbIds);
+      
+    }
+   
+  }
 
-    // console.log('parsedContentFromIdx', parsedContentFromIdx);
-    if (parsedContentFromIdx < 0) { return; }
+  private recursiveHighlight( pc: any, lbIds: Array<{id: string, selected: boolean}>): void{
+    if ( pc.type.name !== 'Verse' && pc.type.name !== 'Paragraph'  && pc.type.name !== 'Word' ){
+      const f = lbIds.find( (lbId) => pc.correspId === lbId.id);
+      if (f){
+        if (f.selected){
+pc.class= ' highlightverse selected';
+        } else{
+          pc.class= ' highlightverse';
+        }
 
-    let result = { hasFoundStartLb: false, hasFoundEndLb: false };
-    for (let pcIdx = parsedContentFromIdx; pcIdx < this.pageElement.parsedContent.length; pcIdx++) {
-      const pc: any = this.pageElement.parsedContent[pcIdx];
-      result = this.highlightContent(0, pc, lbId, result.hasFoundStartLb, result.hasFoundEndLb);
-      if (result.hasFoundStartLb && result.hasFoundEndLb) {
-        break;
+      } else{
+ pc.class =  '';
+      }
+     
+    }
+
+    if (pc.content){
+      for (const insidePc of pc.content) {
+      this.recursiveHighlight(insidePc, lbIds);
       }
     }
   }
 
-  private highlightContent(deep: number, startingContent: any, lbId: string,
-    hasFoundStartLb: boolean,
-    hasFoundEndLb: boolean): { hasFoundStartLb: boolean, hasFoundEndLb: boolean } {
-
-    if (!hasFoundStartLb) {
-
-      if (startingContent.type.name === 'Lb' && startingContent.id === lbId) {
-        return { hasFoundStartLb: true, hasFoundEndLb: false };
-      }
-      let deepFound = -1;
-      if (startingContent.content !== undefined) {
-        for (const insideContent of startingContent.content) {
-          const result = this.highlightContent(deep + 1, insideContent, lbId,
-            hasFoundStartLb,
-            hasFoundEndLb);
-
-          if (result.hasFoundStartLb && deepFound === -1) {
-            deepFound = deep;
-          }
-
-          hasFoundStartLb = result.hasFoundStartLb;
-          hasFoundEndLb = result.hasFoundEndLb;
-
-          if (hasFoundStartLb && hasFoundEndLb) {
-            break;
-          }
-          if (hasFoundStartLb && deepFound > -1 && deepFound > deep) {
-            insideContent.class = ' highlightverse';
-            continue;
-          }
-        }
-        if (hasFoundStartLb && hasFoundEndLb) {
-          return { hasFoundStartLb, hasFoundEndLb };
-        }
-      }
-
-      return { hasFoundStartLb, hasFoundEndLb };
-    }
-
-    if (hasFoundStartLb) {
-      if (startingContent.type.name === 'Lb' && startingContent.id !== lbId) {
-        return { hasFoundStartLb: true, hasFoundEndLb: true };
-      }
-      if (startingContent.content !== undefined) {
-
-        for (const insideContent of startingContent.content) {
-
-          const result = this.highlightContent(deep + 1, insideContent, lbId, hasFoundStartLb, hasFoundEndLb);
-          if (result.hasFoundEndLb) {
-
-
-            return { hasFoundStartLb: true, hasFoundEndLb: true };
-          }
-          insideContent.class = ' highlightverse';
-
-        }
-        if (!hasFoundEndLb){
-        startingContent.class = ' highlightverse';
-        }
-
-        return { hasFoundStartLb, hasFoundEndLb };
-
-      } else if (startingContent.type.name === 'Lb') {
-
-        return { hasFoundStartLb: true, hasFoundEndLb: true };
-      }
-
-      startingContent.class = ' highlightverse';
-
-      return { hasFoundStartLb: true, hasFoundEndLb: false };
-
-    }
-
-    return { hasFoundStartLb: false, hasFoundEndLb: false };
-  }
-
-  private findLbId(pc: any, lbId: string): number {
-
-    const lbFoundId: number = pc.findIndex((pc1) => pc1.content?.some((pc2) => pc2.type.name === 'Lb' && pc2.id === lbId));
-    if (lbFoundId > -1) {
-      return lbFoundId;
-    }
-    // debugger;
-    for (let i = 0; i < pc.length; i++) {
-      if (pc[i].content !== undefined) {
-        if (this.findLbId(pc[i].content, lbId) > -1) {
-          // debugger;
-
-          return i;
-        }
-      }
-    }
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());

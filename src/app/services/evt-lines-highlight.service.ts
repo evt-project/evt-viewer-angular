@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject,  map, withLatestFrom } from 'rxjs';
+import { BehaviorSubject,    map, withLatestFrom } from 'rxjs';
 import { EVTModelService } from './evt-model.service';
 import { EVTStatusService } from './evt-status.service';
 
@@ -11,12 +11,18 @@ export class EvtLinesHighlightService {
 
   public syncTextImage$ = new BehaviorSubject<boolean>(false);
 
-  lineBeginningSelected$ = new BehaviorSubject<Array<{ id: string; corresp: string; }>>([]);
+  lineBeginningSelected$ = new BehaviorSubject<Array<{ id: string; corresp: string; selected: boolean | undefined }>>([]);
+
+  // lineBeginningClicked$ = this.lineBeginningSelected$.pipe(
+  //  map((lines) => {
+  //   return lines.filter(s=>s.selected);
+  //  })
+  // );
 
   currentSurfaces$ = this.evtStatusService.currentPage$.pipe(
     withLatestFrom(this.evtModelService.surfaces$),
     map(([cp, surfaces]) => {
-      console.log('elenco surfaces' , surfaces);
+      //console.log('elenco surfaces' , surfaces);
 
       return surfaces.find((surface) => surface.corresp === cp.id);
     }),
@@ -39,6 +45,7 @@ export class EvtLinesHighlightService {
             corresp: lo.corresp,
             ul: { x: lo.coords[0].x, y: lo.coords[0].y },
             lr: { x: lo.coords[2].x, y: lo.coords[2].y },
+            selected: lbS.find(l=>l.id === lo.id && l.corresp === lo.corresp).selected
           }));
     }),
   );
