@@ -7,12 +7,13 @@
         <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>
         
     </div>
-    <div header-right>
-          <evt-button [iconRight]="{icon: 'link', iconSet:'fas'}" (btnClick)="syncTextImage()"></evt-button>
+    <div header-right *ngIf="showSyncButton">
+          <evt-button [active]="isSyncButtonActive === 'active'" [iconRight]="{icon: 'link', iconSet:'fas'}" (btnClick)="syncTextImage()"></evt-button>
     </div>
     <div content class="full-height">
         <evt-osd
             *ngIf="viewerData"
+           
             [surface]="currentSurfaces$ | async"
             [viewerData]="viewerData" [options]="{showNavigationControl: false}"
             [page]="pageNumber$ | async"

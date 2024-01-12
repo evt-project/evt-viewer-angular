@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, HostListener, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { GenericElement } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
+import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
 
 @Component({
   selector: 'evt-content-viewer',
@@ -15,6 +16,9 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
 })
 export class ContentViewerComponent implements OnDestroy {
   private v: GenericElement;
+
+  @Input() catturaMouse = false;
+
   @Input() set content(v: GenericElement) {
     this.v = v;
     this.contentChange.next(v);
@@ -51,6 +55,7 @@ export class ContentViewerComponent implements OnDestroy {
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
+    private evtHighlineService: EvtLinesHighlightService,
   ) {
   }
 
@@ -124,6 +129,54 @@ export class ContentViewerComponent implements OnDestroy {
       highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
   }
+
+  @HostListener('mouseover',['$event']) mouseOver($event: any) {
+    if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+      return;
+    }
+    if ((this.v as any).text === '' || (this.v as any).text === ' ' || 
+        (this.v as any).type.name === 'Verse' ||
+         (this.v as any).type.name === 'Paragraph'
+        ){
+      return;
+    }
+
+    $event.preventDefault();
+    console.log('content father', this.v);
+    this.evtHighlineService.lineBeginningSelected$.next([{
+      id: (this.v as any).lbId, corresp: (this.v as any).correspId,
+    }]);
+  }
+
+    @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
+
+    //console.log('mouse enter', this.content);
+    $event.preventDefault();
+    this.evtHighlineService.lineBeginningSelected$.next([]);
+  }
+
+//   private getFirstLbId(pc: any): {id: string, corresp: string} {
+//     if (pc.type?.name === 'Lb'){
+//       return {id: pc.facs.replace('#', ''), corresp:pc.id.replace('#', '') } ;
+//     }
+//     if (pc.content === undefined){
+//       return undefined;
+//     }
+// let result = undefined;
+//     for (let pcIdx = 0; pcIdx < pc.content.length; pcIdx++) {
+//       const insideContent = pc.content[pcIdx];
+//       if (result === undefined) {
+//         result = this.getFirstLbId(insideContent);
+//         if (result){
+//         break;
+//         }
+//       }
+//     }
+
+
+//     return result;
+//   }
+
 
   ngOnDestroy() {
     if (this.componentRef) {
