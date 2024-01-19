@@ -131,6 +131,8 @@ export class EVTStatusService {
 
     public currentNamedEntityId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
+    public syncImageNavBar$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
     constructor(
         private evtModelService: EVTModelService,
         private router: Router,

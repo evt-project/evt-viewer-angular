@@ -77,26 +77,10 @@ To:
 export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
-
-  private unsubscribeAll$ = new Subject<void>();
+    private unsubscribeAll$ = new Subject<void>();
 
   @Input() surface: Surface;
-  // private _pageElement: Page;
-  @Input() set pageElement(pe: Page){
-    // this._pageElement = pe;
-    if (pe){
-    //   setTimeout(()=>{
-    //   this._pageElement.parsedContent.forEach((pc)=>{
-    //     this.assignLbId(pc)
-    //   })
-    //   }, 500);
-    }
-  }
-
-  // get pageElement(): Page{
-  //   return this._pageElement;
-  // }
-
+  @Input() pageElement: Page;
   // tslint:disable-next-line: variable-name
   private _options;
   @Input() set options(v) { // TODO: add interface to better type this object
@@ -144,7 +128,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @Input() sync: boolean;
 
   private lineSelected: Array<{
-    id: string; corresp: string; ul: { x: number; y: number; }, lr: { x: number; y: number; }, selected: boolean | undefined 
+    id: string; corresp: string; ul: { x: number; y: number; }, lr: { x: number; y: number; }, selected: boolean | undefined
   }> = [];
   mouseMoved$ = new Subject<{ x: number; y: number; }>();
   mouseClicked$ = new Subject<{ x: number; y: number; }>();
@@ -166,7 +150,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
     const commonOptions = {
       visibilityRatio: 0.66,
-      minZoomLevel: 0.5,
+      minZoomLevel: 0.3,
+      maxZoomLevel: 1,
       defaultZoomLevel: 1,
       sequenceMode: true,
       prefixUrl: 'assets/osd/images/',
@@ -195,7 +180,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
            ...this.options,
           });
         }
-
         this.viewer.goToPage(this.page);
         this.viewer.addHandler('page', ({ page }) => {
           this.pageChange.next(page + 1);

@@ -34,11 +34,14 @@ export class AppComponent implements OnDestroy {
     private evtStatusService: EVTStatusService,
 
   ) {
+
     this.evtStatusService.currentViewMode$.pipe().subscribe((view) => {
       if (view!==undefined && view.id === 'imageImage') {
         this.navbarOpened$.next(false);
+        this.hasNavBar = false;
       } else {
         this.navbarOpened$.next(true);
+        this.hasNavBar = true;
       }
     });
     this.router.events.subscribe((event) => {

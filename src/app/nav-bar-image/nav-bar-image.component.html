@@ -1,9 +1,4 @@
 <div class="nav-bar w-100">
-    <!-- <evt-button *ngIf="thumbnailsButton" [iconRight]="{icon: 'th'}" additionalClasses="me-1" [active]="thumbnailsPanelOpened$ | async"
-        (btnClick)="toggleThumbnailsPanel()" [title]="'thumbnails' | translate"></evt-button>
-    <evt-button *ngIf="viscollButton" [iconRight]="{icon: 'rainbow', rotate:270}" additionalClasses="me-1" [active]="viscollPanelOpened$ | async"
-        (btnClick)="toggleViscollPanel()" [title]="'viscoll' | translate"></evt-button> -->
-
     <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ms-2 me-2"
         [value]="currentPageIndex$ | async" [options]="pageSliderOptions" (userChangeEnd)="onUpdatePage($event?.value ??0)"></ngx-slider>
     <div class="navigation-btns-container">
@@ -16,18 +11,8 @@
         <evt-button [iconLeft]="{icon: 'step-forward'}" [title]="'lastPage' | translate"
             [disabled]="nextNavigationDisabled$ | async" (btnClick)="onGoLastPage()"></evt-button>
     </div>
+    <!-- <div *ngIf="panelNumber===0">
+        <evt-button [title]="'syncImage' | translate" [active]="isSyncImageButtonActive === 'active'"
+        [iconRight]="{icon: 'rotate', iconSet:'fas'}" (btnClick)="syncImageImage()"></evt-button>
+    </div>     -->
 </div>
-
-
-<!--Miniatures -->
-<!-- <ng-container *ngIf="thViewerSettings$ | async as thViewerSettings">
-    <div *ngIf="thumbnailsPanelOpened$ | async" class="thumbnails-panel" #thumbnailsContainer>
-        <evt-manuscript-thumbnails [pages]="evtModelService.pages$ | async" [col]="thViewerSettings?.col" [row]="thViewerSettings?.row"
-            (clickedItem)="toggleThumbnailsPanel()"></evt-manuscript-thumbnails> 
-    </div>
-</ng-container> -->
-
-<!--Viscoll -->
-<!-- <div *ngIf="viscollPanelOpened$ | async" class="viscoll-panel">
-    Viscoll coming soon...
-</div> -->

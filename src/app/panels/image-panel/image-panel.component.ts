@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -13,6 +13,7 @@ import { AppConfig } from 'src/app/app.config';
 })
 export class ImagePanelComponent implements OnDestroy{
 
+  @Input() panelNumber:number;
 
   @Input() viewerData: ViewerDataType;
 
@@ -110,6 +111,4 @@ private _showSyncButton = true;
         },
       );
   }
-
-
 }

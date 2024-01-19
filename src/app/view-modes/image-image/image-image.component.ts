@@ -14,12 +14,11 @@ import { EVTStatusService } from '../../services/evt-status.service';
 })
 export class ImageImageComponent {
 
-  numImages = [0,1];
-
   public layoutOptions: GridsterConfig = {
     gridType: GridType.Fit,
     displayGrid: DisplayGrid.None,
     margin: 0,
+    minCols: 2,
     maxCols: 4,
     maxRows: 1,
     draggable: {
@@ -31,7 +30,7 @@ export class ImageImageComponent {
       enabled: false,
     },
   };
-  public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
+  public imagePanelItem: GridsterItem[] = [{ cols: 1, rows: 1, y: 0, x: 0 },{ cols: 1, rows: 1, y: 0, x: 1 }];
   public imageViewer$ = this.evtModelService.surfaces$.pipe(
     withLatestFrom(this.evtModelService.pages$),
     map(([surface, pages]) => {
@@ -52,15 +51,6 @@ export class ImageImageComponent {
     }),
   );
 
-  // public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
-  //   map(({ page }) => page.id),
-  //   tap((id) => {
-  //     console.log('pageid',id);
-  //   }),
-  // );
-
-  // public currentPageID2$ = new BehaviorSubject<string | undefined>(undefined);
-
   public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels[0]),
     shareReplay(1),
@@ -72,18 +62,18 @@ export class ImageImageComponent {
   ) {
   }
 
-  changePage(_selectedPage: Page) {
-    // this.evtStatusService.updatePage$.next(selectedPage);
+  changePage(selectedPage: Page) {
+    this.evtStatusService.updatePage$.next(selectedPage);
   }
 
   addImage() {
-    if (this.numImages.length + 1 <= this.layoutOptions.maxCols) {
-      this.numImages.push(this.numImages.length);
+    if (this.imagePanelItem.length + 1 <= this.layoutOptions.maxCols) {
+      this.imagePanelItem.push({ cols: 1, rows: 1, y: 0, x: this.imagePanelItem.length });
     }
   }
 
   removeImage() {
-    this.numImages.pop();
+    this.imagePanelItem.pop();
   }
 
 }
