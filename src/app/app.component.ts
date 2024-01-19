@@ -35,7 +35,6 @@ export class AppComponent implements OnDestroy {
 
   ) {
     this.evtStatusService.currentViewMode$.pipe().subscribe((view) => {
-      console.log('View', view );
       if (view!==undefined && view.id === 'imageImage') {
         this.navbarOpened$.next(false);
       } else {

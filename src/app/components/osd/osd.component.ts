@@ -77,25 +77,25 @@ To:
 export class OsdComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
-  
+
   private unsubscribeAll$ = new Subject<void>();
 
   @Input() surface: Surface;
-  private _pageElement: Page;
+  // private _pageElement: Page;
   @Input() set pageElement(pe: Page){
-    this._pageElement = pe;
+    // this._pageElement = pe;
     if (pe){
-      setTimeout(()=>{
-      this._pageElement.parsedContent.forEach((pc)=>{
-        this.assignLbId(pc)
-      })
-      }, 500);
+    //   setTimeout(()=>{
+    //   this._pageElement.parsedContent.forEach((pc)=>{
+    //     this.assignLbId(pc)
+    //   })
+    //   }, 500);
     }
   }
 
-  get pageElement(): Page{
-    return this._pageElement;
-  }
+  // get pageElement(): Page{
+  //   return this._pageElement;
+  // }
 
   // tslint:disable-next-line: variable-name
   private _options;
@@ -158,27 +158,6 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       ).subscribe((x) => this.viewer?.goToPage(x - 1)),
     );
   }
-
-  private tempLbId = '';
-  private tempCorrespId = '';
-
-  private assignLbId(startingContent: any): void{
-    if (startingContent.type.name === 'Lb'){
-      this.tempLbId = startingContent.facs.replace('#', '');
-      this.tempCorrespId = startingContent.id.replace('#', '');
-
-      return;
-    }
-    startingContent.lbId = this.tempLbId;
-    startingContent.correspId = this.tempCorrespId;
-    if (startingContent.content !== undefined) {
-      for (const insideContent of startingContent.content) {
-        this.assignLbId(insideContent);
-      }
-    }
-
-  }
-
 
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
@@ -325,11 +304,11 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         ).subscribe(([zones]) => {
           this.lineSelected = zones;
           if (zones.length > 0) {
-              this.highlightLineText(
+              this.linesHighlightService.highlightLineText(
                             zones.map((z)=> ({ id: z.corresp, selected: z.selected })),
                           );
           } else {
-            this.clearHighlightText();
+            this.linesHighlightService.clearHighlightText();
           }
           (this.viewer as any).forceRedraw();
         });
@@ -369,46 +348,11 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       }));
   }
 
-private clearHighlightText() {
-  for (const pc of this.pageElement.parsedContent) {
-    this.recursiveHighlight(pc, [{ id: 'empty', selected: false }]);
-  }
-}
 
-  private highlightLineText(lbIds: Array<{id: string, selected: boolean}>) {
-    if (!lbIds || lbIds.length === 0) {
-      return;
-    }
-
-    for (const pc of this.pageElement.parsedContent) {
-      this.recursiveHighlight(pc, lbIds);
-    }
-  }
-
-  private recursiveHighlight( pc: any, lbIds: Array<{id: string, selected: boolean}>): void{
-    if ( pc.type.name !== 'Verse' && pc.type.name !== 'Paragraph'  && pc.type.name !== 'Word' ){
-      const f = lbIds.find( (lbId) => pc.correspId === lbId.id);
-      if (f){
-        if (f.selected){
-          pc.class= ' highlightverse selected';
-        } else{
-          pc.class= ' highlightverse';
-        }
-      } else{
-        pc.class =  '';
-      }
-    }
-
-    if (pc.content){
-      for (const insidePc of pc.content) {
-      this.recursiveHighlight(insidePc, lbIds);
-      }
-    }
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
-    this.clearHighlightText();
+    this.linesHighlightService.clearHighlightText();
     this.unsubscribeAll$.next();
     this.unsubscribeAll$.complete();
 

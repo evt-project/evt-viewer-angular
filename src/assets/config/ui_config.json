@@ -75,5 +75,6 @@
 	"initNavBarOpened": true,
 	"thumbnailsButton": true,
 	"viscollButton": true,
-	"theme": "modern"
+	"theme": "modern",
+	"syncZonesHighlightButton": true
 }

@@ -4,6 +4,7 @@ import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/o
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
+import { AppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-image-panel',
@@ -30,7 +31,7 @@ private _showSyncButton = true;
       this.isSyncButtonActive = '';
       this.linesHighlightService.syncTextImage$.next(false);
     }
-    this._showSyncButton = value;
+    this._showSyncButton = value && AppConfig.evtSettings.ui.syncZonesHighlightButton;
   }
 
   isSyncButtonActive: '' | 'active' = '';
@@ -47,11 +48,7 @@ private _showSyncButton = true;
 
   currentSurfaces$ = this.currentPageId$.pipe(
     withLatestFrom(this.evtModelService.surfaces$),
-    map(([pageId, surfaces]) => {
-      console.log('elenco surfaces' , surfaces);
-
-      return surfaces.find((surface) => surface.corresp === pageId);
-    }),
+    map(([pageId, surfaces]) =>  surfaces.find((surface) => surface.corresp === pageId)),
   );
 
   @Output() pageChange: Observable<Page> = merge(
