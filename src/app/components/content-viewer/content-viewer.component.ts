@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, HostListener, Input, OnDestroy, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { GenericElement } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
+import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
 
 @Component({
   selector: 'evt-content-viewer',
@@ -15,6 +16,9 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
 })
 export class ContentViewerComponent implements OnDestroy {
   private v: GenericElement;
+
+  @Input() catturaMouse = false;
+
   @Input() set content(v: GenericElement) {
     this.v = v;
     this.contentChange.next(v);
@@ -51,6 +55,7 @@ export class ContentViewerComponent implements OnDestroy {
   constructor(
     private componentRegister: ComponentRegisterService,
     private entitiesSelectService: EntitiesSelectService,
+    private evtHighlineService: EvtLinesHighlightService,
   ) {
   }
 
@@ -123,6 +128,78 @@ export class ContentViewerComponent implements OnDestroy {
       highlight: ith?.some((i) => this.entitiesSelectService.matchClassAndAttributes(i.value, data?.attributes ?? {}, data?.class)) ?? false,
       highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
+  }
+
+  @HostListener('click',['$event']) mouseClick($event: any) {
+
+    if (!this.v.content){
+
+      if (this.v.type.name === 'AdditionComponent'){
+          return;
+      }
+      if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+        return;
+      }
+      if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
+          (this.v as any).type.name === 'Verse' ||
+          (this.v as any).type.name === 'Paragraph'
+          ){
+        return;
+      }
+
+      const lbId = (this.v as any).lbId;
+      const corresp =  (this.v as any).correspId;
+
+      const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+      const findElement = elementsSelected
+          .find((e)=>e.corresp === corresp && e.id === lbId);
+
+
+      if (findElement){
+        this.evtHighlineService.lineBeginningSelected$.next(
+          elementsSelected.filter((e)=>e.corresp !== corresp && e.id !== lbId),
+        );
+
+
+      } else {
+
+        this.evtHighlineService.lineBeginningSelected$.next([
+          ...elementsSelected,
+          {
+            id: lbId, corresp: corresp, selected: true,
+          }]);
+      }
+    }
+    $event.preventDefault();
+  }
+  @HostListener('mouseover',['$event']) mouseOver($event: any) {
+    if (this.v.type.name === 'AdditionComponent'){
+      return;
+    }
+    if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+      return;
+    }
+    if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
+        (this.v as any).type.name === 'Verse' ||
+         (this.v as any).type.name === 'Paragraph'
+        ){
+      return;
+    }
+
+    $event.preventDefault();
+    const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+
+    this.evtHighlineService.lineBeginningSelected$.next([
+      {
+      id: (this.v as any).lbId, corresp: (this.v as any).correspId, selected: undefined,
+    }, ...elementsSelected]);
+  }
+
+  @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
+
+    $event.preventDefault();
+    const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+    this.evtHighlineService.lineBeginningSelected$.next(elementsSelected);
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-<span class="choice" [attr.data-intervention-type]="data.editorialInterventionType" [evtHtmlAttributes]="data?.attributes"
+<span class="choice" [class]="data.class" [attr.data-intervention-type]="data.editorialInterventionType" [evtHtmlAttributes]="data?.attributes"
     [ngbPopover]="popContent" [autoClose]="'outside'" popoverClass="choice-popover {{data.editorialInterventionType}}" 
     container="body" [placement]="['bottom']" triggers="mouseenter:mouseleave">
     <evt-content-viewer *ngFor="let element of content" [content]="element"

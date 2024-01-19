@@ -1,19 +1,42 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, withLatestFrom } from 'rxjs/operators';
-import { Page, ViewerDataType } from '../../models/evt-models';
+import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
+import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
+import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
+import { AppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'evt-image-panel',
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent {
+export class ImagePanelComponent implements OnDestroy{
+
+  @Input() panelNumber:number;
+
   @Input() viewerData: ViewerDataType;
 
   @Input() pageID: string;
 
+  @Input() showHeader = true;
+  @Input() indipendentNavBar = false;
+  // @Input() sync = false;
+private _showSyncButton = true;
+  @Input()
+  public get showSyncButton() {
+    return this._showSyncButton;
+  }
+  public set showSyncButton(value) {
+    if (!value){
+      this.isSyncButtonActive = '';
+      this.linesHighlightService.syncTextImage$.next(false);
+    }
+    this._showSyncButton = value && AppConfig.evtSettings.ui.syncZonesHighlightButton;
+  }
+
+  isSyncButtonActive: '' | 'active' = '';
+  // public syncTextImage$ = new BehaviorSubject<boolean>(false);
   public currentPage$ = new BehaviorSubject<Page>(undefined);
   public currentPageId$ = this.currentPage$.pipe(
     map((p) => p?.id),
@@ -23,6 +46,12 @@ export class ImagePanelComponent {
     withLatestFrom(this.evtModelService.pages$),
     map(([pageId, pages]) => pages.findIndex((page) => page.id === pageId)),
   );
+
+  currentSurfaces$ = this.currentPageId$.pipe(
+    withLatestFrom(this.evtModelService.surfaces$),
+    map(([pageId, surfaces]) =>  surfaces.find((surface) => surface.corresp === pageId)),
+  );
+
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
       filter((n) => n !== undefined),
@@ -44,7 +73,20 @@ export class ImagePanelComponent {
 
   constructor(
     private evtModelService: EVTModelService,
+     private linesHighlightService: EvtLinesHighlightService,
   ) {
+  }
+  ngOnDestroy(): void {
+    this.linesHighlightService.lineBeginningSelected$.next([]);
+    this.linesHighlightService.syncTextImage$.next(false);
+  }
+
+  syncTextImage() {
+    this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
+    if (this.isSyncButtonActive === ''){
+      this.linesHighlightService.lineBeginningSelected$.next([]);
+    }
+    this.linesHighlightService.syncTextImage$.next(this.isSyncButtonActive === 'active');
   }
 
   updatePage(viewerPage: number) {
@@ -57,5 +99,16 @@ export class ImagePanelComponent {
 
   setMsDescID(msDescId: string) {
     this.currentMsDescId$.next(msDescId);
+  }
+
+  onChangedCurrentPage(page:number) {
+    this.evtModelService.pages$.pipe(
+      map((pages) => page < 0 ? pages[pages.length - 1] : pages[page]),
+      first(),
+    ).subscribe(
+      (currentPage:Page ) => {
+          this.currentPage$.next(currentPage);
+        },
+      );
   }
 }

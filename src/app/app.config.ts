@@ -75,6 +75,7 @@ export interface UiConfig {
     thumbnailsButton: boolean;
     viscollButton: boolean;
     theme: 'neutral' | 'modern' | 'classic';
+    syncZonesHighlightButton: boolean;
 }
 
 export interface EditionConfig {

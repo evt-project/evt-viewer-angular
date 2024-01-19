@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import {  combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
@@ -181,6 +181,8 @@ export class EVTModelService {
     map((source) => this.msDescParser.parseMsDesc(source)),
     shareReplay(1),
 );
+
+
 
   constructor(
     private editionDataService: EditionDataService,
