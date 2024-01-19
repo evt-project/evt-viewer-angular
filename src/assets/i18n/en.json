@@ -172,5 +172,7 @@
     "moreInfoAboutApp": "More info about the apparatus entry",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "addImage": "Add image",
+    "removeImage": "Remove image"
 }

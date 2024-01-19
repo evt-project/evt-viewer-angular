@@ -13,7 +13,7 @@
             *ngFor="let viewMode of viewModes; trackBy: trackViewModes;" 
             [title]="viewMode.label" [active]="viewMode.id === (currentViewMode$ | async)?.id" [inverted]="true"
             (btnClick)="selectViewMode(viewMode)"
-            [iconLeft]="{icon: viewMode.icon, iconSet: 'evt', additionalClasses: 'viewMode-selector'}">
+            [iconLeft]="{icon: viewMode.icon, iconSet: viewMode.iconSet, additionalClasses: 'viewMode-selector'}">
         </evt-button>
         <evt-button (btnClick)="toggleMainMenu($event)" [inverted]="true" [toggler]="true"
             additionalClasses="btn-no-border" [active]="mainMenuOpened"

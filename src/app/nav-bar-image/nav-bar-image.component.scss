@@ -1,0 +1,115 @@
+@import "../../assets/scss/themes";
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+:host {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.nav-bar {
+    height: $base-navbar-height;
+    width: 100%;
+    padding: 0 20px;
+    vertical-align: middle;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include themify($themes) {
+        color: themed("baseColorLight");
+        background-color: themed("baseColorDark");
+    }
+}
+
+::ng-deep .nav-bar .ngx-slider {
+    @include calc('max-width', '100% - 151px - 130px');
+
+    &[disabled] {
+        opacity: .65;
+    }
+
+    .ngx-slider-bar-wrapper {
+        padding-top: 8px;
+    }
+
+    .ngx-slider-bar {
+        height: 8px;
+        margin-top: 2px;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        border-radius: 2px;
+        @include themify($themes) {
+            background: rgba(themed('baseColorLight'), .5);
+        }
+
+        &.ngx-slider-selection {
+            @include themify($themes) {
+                background: themed('baseColorLight');
+            }
+        }
+    }
+
+    .ngx-slider-pointer {
+        top: -8px;
+        width: 22px;
+        height: 13px;
+        background-color: #eceff1;
+        border: 1px solid;
+        @include set("box-shadow", "0 0 4px rgba(0, 0, 0, 0.5)");
+        outline: 0;
+        @include themify($themes) {
+            border: 1px solid themed('baseColorDark');
+        }
+
+        &::after {
+            display: none;
+        }
+
+        &:hover {
+            background: #fff;
+        }
+    }
+
+    .ngx-slider-bubble {
+        font-size: 0.75rem;
+        bottom: 13px;
+        border: 1px solid;
+        border-radius: 4px;
+        opacity: 0.8 !important;
+        padding: 0 3px;
+        cursor: default;
+        @include themify($themes) {
+            background: themed("baseColorLight");
+            color: themed("baseColorDark");
+        }
+    }
+    .ngx-slider-model-value {
+        opacity: 1 !important;
+    }
+}
+
+.thumbnails-panel,
+.viscoll-panel {
+    left: 0;
+    bottom: $base-navbar-height;
+    top: $base-header-height;
+    @include calc('height', '100% - #{$base-navbar-height} - #{$base-header-height} - 2');
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #FFF;
+    border-left: none;
+    border-right: none;
+    z-index: 9;
+    @include themify($themes) {
+        background: themed("secondaryColorDark");
+        color: themed("secondaryColorLight");
+    }
+}
+
+::ng-deep .navigation-btns-container .btn {
+    min-width: 30px;
+    font-size: 1em;
+}

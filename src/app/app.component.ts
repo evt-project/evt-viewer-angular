@@ -8,6 +8,7 @@ import { AppConfig } from './app.config';
 import { ThemesService } from './services/themes.service';
 import { ShortcutsService } from './shortcuts/shortcuts.service';
 import { EvtIconInfo } from './ui-components/icon/icon.component';
+import { EVTStatusService } from './services/evt-status.service';
 
 @Component({
   selector: 'evt-root',
@@ -30,7 +31,20 @@ export class AppComponent implements OnDestroy {
     private shortcutsService: ShortcutsService,
     private themes: ThemesService,
     private titleService: Title,
+    private evtStatusService: EVTStatusService,
+
   ) {
+
+    this.evtStatusService.currentViewMode$.pipe().subscribe((view) => {
+      console.log('View', view );
+      if (view!==undefined && view.id === 'imageImage') {
+        this.navbarOpened$.next(false);
+        this.hasNavBar = false;
+      } else {
+        this.navbarOpened$.next(true);
+        this.hasNavBar = true;
+      }
+    });
     this.router.events.subscribe((event) => {
       switch (true) {
         case event instanceof NavigationStart:

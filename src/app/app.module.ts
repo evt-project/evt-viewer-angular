@@ -94,6 +94,7 @@ import { EvtInfoComponent } from './evt-info/evt-info.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavBarImageComponent } from './nav-bar-image/nav-bar-image.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
 import { PinboardPanelComponent } from './panels/pinboard-panel/pinboard-panel.component';
 import { SourcesPanelComponent } from './panels/sources-panel/sources-panel.component';
@@ -120,6 +121,9 @@ import { TextSourcesComponent } from './view-modes/text-sources/text-sources.com
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
+import { ImageOnlyComponent } from './view-modes/image-only/image-only.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
+
 
 const routes: Routes = [
 ];
@@ -201,6 +205,8 @@ const DynamicComponents = [
     HumanizePipe,
     ImagePanelComponent,
     ImageTextComponent,
+    ImageOnlyComponent,
+    ImageImageComponent,
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
@@ -208,6 +214,7 @@ const DynamicComponents = [
     MsDescSelectorComponent,
     NamedEntityOccurrenceComponent,
     NavBarComponent,
+    NavBarImageComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
