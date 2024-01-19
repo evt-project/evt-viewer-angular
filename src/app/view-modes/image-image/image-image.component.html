@@ -6,6 +6,7 @@
             [showHeader]="true"
             [panelNumber]="i"
             (pageChange)="changePage($event)"
+            [showSyncButton]="false"
         ></evt-image-panel>
         <evt-button *ngIf="last && imagePanelItem.length < 4" class="btn" [class.btn-float-right]="true"
             [additionalClasses]="'btn-floating rounded-circle'"

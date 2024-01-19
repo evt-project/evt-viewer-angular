@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -85,7 +85,7 @@ private _showSyncButton = true;
     this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
     if (this.isSyncButtonActive === ''){
       this.linesHighlightService.lineBeginningSelected$.next([]);
-    };
+    }
     this.linesHighlightService.syncTextImage$.next(this.isSyncButtonActive === 'active');
   }
 
