@@ -3,6 +3,7 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { delay, filter, first, map, scan, startWith, withLatestFrom } from 'rxjs/operators';
 // import { AppConfig } from '../app.config';
 import { EVTModelService } from '../services/evt-model.service';
+import { EVTStatusService } from '../services/evt-status.service';
 // import { EVTStatusService } from '../services/evt-status.service';
 
 @Component({
@@ -19,6 +20,24 @@ export class NavBarImageComponent {
 
     }
   };
+
+  @Input() panelNumber:number;
+
+  private _showSyncImageButton = true;
+  @Input()
+  public get showSyncImageButton() {
+    return this._showSyncImageButton;
+  }
+  public set showSyncButton(value) {
+    if (!value){
+      this.isSyncImageButtonActive = '';
+      // this.linesHighlightService.syncTextImage$.next(false);
+    }
+    this._showSyncImageButton = value;
+  }
+
+
+  isSyncImageButtonActive: '' | 'active' = '';
 
   @Output() changeIndexPage = new EventEmitter<number>();
   updateThContainerInfo$ = new Subject<HTMLElement | void>();
@@ -104,10 +123,9 @@ export class NavBarImageComponent {
   }
 
   constructor(
-    // public evtStatusService: EVTStatusService,
+    public evtStatusService: EVTStatusService,
     public evtModelService: EVTModelService,
-  ) {
-  }
+  ) {}
 
   toggleThumbnailsPanel() {
     this.toggleThumbnailsPanel$.next();
@@ -126,12 +144,17 @@ export class NavBarImageComponent {
 
   onGoLastPage():void {
     this.evtModelService.pages$.pipe(
-        first(),
+      first(),
       ).subscribe(
         (pages) => {
           this.currentPageIndex$.next(pages.length-1);
           this.changeIndexPage.emit(this.currentPageIndex$.value);
-        }
+        },
       )
-    }
+  }
+
+  syncImageImage() {
+    this.isSyncImageButtonActive = this.isSyncImageButtonActive === 'active' ? '' : 'active';
+    this.evtStatusService.syncImageNavBar$.next(this.isSyncImageButtonActive === 'active');
+  }
 }

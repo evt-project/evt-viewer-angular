@@ -7,9 +7,7 @@
         <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>
         
     </div>
-    <!-- <div header-right>
-          <evt-button [iconRight]="{icon: 'link', iconSet:'fas'}" (btnClick)="syncTextImage()"></evt-button>
-    </div> -->
+
     <div content class="full-height">
         <evt-osd
             *ngIf="viewerData"
@@ -28,4 +26,4 @@
         </div>
     </div>
 </evt-panel>
-<evt-nav-bar-image [currentIndexPage]="updatePageNumber$ | async" *ngIf="indipendentNavBar" (changeIndexPage)="onChangedCurrentPage($event)" [ngClass]="{opened: true}" ></evt-nav-bar-image>
+<evt-nav-bar-image [panelNumber]="panelNumber" [currentIndexPage]="updatePageNumber$ | async" *ngIf="indipendentNavBar" (changeIndexPage)="onChangedCurrentPage($event)" [ngClass]="{opened: true}" ></evt-nav-bar-image>

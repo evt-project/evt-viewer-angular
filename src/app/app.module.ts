@@ -122,6 +122,8 @@ import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
 import { ImageOnlyComponent } from './view-modes/image-only/image-only.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
+
 
 const routes: Routes = [
 ];
@@ -204,7 +206,7 @@ const DynamicComponents = [
     ImagePanelComponent,
     ImageTextComponent,
     ImageOnlyComponent,
-
+    ImageImageComponent,
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,

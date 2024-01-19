@@ -7,11 +7,12 @@ import { ReadingTextComponent } from './view-modes/reading-text/reading-text.com
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
 
 const appRoutes: Routes = [
   { path: 'imageText', component: ImageTextComponent },
   { path: 'imageOnly', component: ImageOnlyComponent },
-
+  { path: 'imageImage', component: ImageImageComponent },
   { path: 'readingText', component: ReadingTextComponent },
   { path: 'textText', component: TextTextComponent },
   { path: 'collation', component: CollationComponent },

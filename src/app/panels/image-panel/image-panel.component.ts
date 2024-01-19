@@ -11,6 +11,7 @@ import { EVTModelService } from '../../services/evt-model.service';
 })
 export class ImagePanelComponent {
 
+  @Input() panelNumber:number;
 
   @Input() viewerData: ViewerDataType;
 
@@ -35,13 +36,7 @@ export class ImagePanelComponent {
     }),
 
     withLatestFrom(this.evtModelService.surfaces$),
-    map(([pageId, surfaces]) => {
-      console.log('elenco surfaces' , surfaces);
-      return surfaces.find((surface) => surface.corresp === pageId);
-    }),
-    tap((s)=>{
-      console.log(' surfaces ', s);
-    }),
+    map(([pageId, surfaces]) => { surfaces.find((surface) => surface.corresp === pageId) }),
   );
 
   @Output() pageChange: Observable<Page> = merge(
@@ -66,10 +61,6 @@ export class ImagePanelComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
-  }
-
-  syncTextImage() {
-throw new Error('Method not implemented.');
   }
 
   updatePage(viewerPage: number) {
