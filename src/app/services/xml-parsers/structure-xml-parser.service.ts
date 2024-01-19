@@ -90,11 +90,16 @@ export class StructureXmlParserService {
 
     return `${AppConfig.evtSettings.files.imagesFolderUrl}/${image}.jpg`;
   }
+  // lbId = '';
+  // quando trovi un lbId allora lbId = 'qualcosa'
+
 
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
     return pageContent
       .map((node) => {
+        
         const origEl = getEditionOrigNode(node, doc);
+
         if (origEl.nodeName === this.frontTagName || isNestedInElem(origEl, this.frontTagName)) {
           if (this.hasOriginalContent(origEl)) {
             return Array.from(origEl.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
@@ -106,6 +111,8 @@ export class StructureXmlParserService {
 
           return [] as Array<ParseResult<GenericElement>>;
         }
+
+        
 
         if (origEl.tagName === 'text' && origEl.querySelectorAll && origEl.querySelectorAll(this.frontTagName).length > 0) {
           return this.parsePageContent(doc, Array.from(origEl.children) as HTMLElement[]);

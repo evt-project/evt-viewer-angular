@@ -1,6 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -10,7 +10,7 @@ import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.se
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent {
+export class ImagePanelComponent implements OnDestroy{
 
 
   @Input() viewerData: ViewerDataType;
@@ -32,7 +32,7 @@ private _showSyncButton = true;
     }
     this._showSyncButton = value;
   }
-  
+
   isSyncButtonActive: '' | 'active' = '';
   // public syncTextImage$ = new BehaviorSubject<boolean>(false);
   public currentPage$ = new BehaviorSubject<Page>(undefined);
@@ -46,18 +46,11 @@ private _showSyncButton = true;
   );
 
   currentSurfaces$ = this.currentPageId$.pipe(
-    tap((pageid)=>{
-      console.log(' surfaces ', pageid);
-    }),
-
     withLatestFrom(this.evtModelService.surfaces$),
     map(([pageId, surfaces]) => {
       console.log('elenco surfaces' , surfaces);
 
       return surfaces.find((surface) => surface.corresp === pageId);
-    }),
-    tap((s)=>{
-      console.log(' surfaces ', s);
     }),
   );
 
@@ -85,19 +78,17 @@ private _showSyncButton = true;
      private linesHighlightService: EvtLinesHighlightService,
   ) {
   }
+  ngOnDestroy(): void {
+    this.linesHighlightService.lineBeginningSelected$.next([]);
+    this.linesHighlightService.syncTextImage$.next(false);
+  }
 
   syncTextImage() {
-    
     this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
-
+    if (this.isSyncButtonActive === ''){
+      this.linesHighlightService.lineBeginningSelected$.next([]);
+    };
     this.linesHighlightService.syncTextImage$.next(this.isSyncButtonActive === 'active');
-    // this.syncTextImage$.next(this.sync);
-    // if (this.sync) {
-    //   this.isSyncButtonActive = 'active';
-    // } else {
-    //   this.isSyncButtonActive = '';
-    // }
-    // console.log(this.linesHighlightService.syncTextImage$.getValue());
   }
 
   updatePage(viewerPage: number) {
@@ -122,4 +113,6 @@ private _showSyncButton = true;
         },
       );
   }
+
+
 }

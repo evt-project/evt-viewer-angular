@@ -27,6 +27,7 @@ export class GenericElement {
     class?: string;
     attributes: Attributes;
     content: Array<ParseResult<GenericElement>>;
+
 }
 
 export type XMLElement = HTMLElement;

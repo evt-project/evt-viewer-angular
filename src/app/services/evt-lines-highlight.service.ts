@@ -3,49 +3,40 @@ import { BehaviorSubject,    map, withLatestFrom } from 'rxjs';
 import { EVTModelService } from './evt-model.service';
 import { EVTStatusService } from './evt-status.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class EvtLinesHighlightService {
+  // private parsedContent: any;
   constructor(private evtModelService: EVTModelService, private evtStatusService: EVTStatusService  ){
+    // this.evtStatusService.currentPage$.subscribe((page)=>{
+    //   //clearhighlight
+    //   //next di synctextimage vuoto
+    //   // this.parsedContent = page.parsedContent;
+    //   //asseghnazione lbiD e corresp
+    // })
 
+    //sottoscrivere lineBeginningSelected$ e fare l'highlight
   }
-
+  
   public syncTextImage$ = new BehaviorSubject<boolean>(false);
 
   lineBeginningSelected$ = new BehaviorSubject<Array<{ id: string; corresp: string; selected: boolean | undefined }>>([]);
 
-  // lineBeginningClicked$ = this.lineBeginningSelected$.pipe(
-  //  map((lines) => {
-  //   return lines.filter(s=>s.selected);
-  //  })
-  // );
-
   currentSurfaces$ = this.evtStatusService.currentPage$.pipe(
     withLatestFrom(this.evtModelService.surfaces$),
-    map(([cp, surfaces]) => {
-      //console.log('elenco surfaces' , surfaces);
-
-      return surfaces.find((surface) => surface.corresp === cp.id);
-    }),
+    map(([cp, surfaces]) => surfaces.find((surface) => surface.corresp === cp.id)),
   );
 
   zonesHighlights$ = this.lineBeginningSelected$.pipe(
-    // tap((_)=> {
-    //   console.log('zonessss');
-    // }),
-    // distinctUntilChanged((a, b) => JSON.stringify(a.map((ae) => ae.id)) === JSON.stringify(b.map((be) => be.id))),
     withLatestFrom(this.currentSurfaces$),
     map(([lbS, surface]) =>{
-      // cp.id
-      // console.log('FOUNDING LINES ', lbS, surface.zones.lines);
       const linesOver = surface.zones.lines.filter((line) => lbS.some((l) => l.id === line.id));
-      //console.log('linesOver ', linesOver.length);
 
       return  linesOver.map((lo) => ({
             id: lo.id,
             corresp: lo.corresp,
             ul: { x: lo.coords[0].x, y: lo.coords[0].y },
             lr: { x: lo.coords[2].x, y: lo.coords[2].y },
-            selected: lbS.find(l=>l.id === lo.id && l.corresp === lo.corresp).selected
+            selected: lbS.find((l)=>l.id === lo.id && l.corresp === lo.corresp).selected,
           }));
     }),
   );

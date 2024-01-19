@@ -131,47 +131,44 @@ export class ContentViewerComponent implements OnDestroy {
   }
 
   @HostListener('click',['$event']) mouseClick($event: any) {
-   
+
     if (!this.v.content){
-  
+
       if (this.v.type.name === 'AdditionComponent'){
-            return;
-          }
-          if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
-            return;
-          }
-          if ((this.v as any).text === '' || (this.v as any).text === ' ' || 
-              (this.v as any).type.name === 'Verse' ||
-              (this.v as any).type.name === 'Paragraph'
-              ){
-            return;
-          }
+          return;
+      }
+      if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+        return;
+      }
+      if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
+          (this.v as any).type.name === 'Verse' ||
+          (this.v as any).type.name === 'Paragraph'
+          ){
+        return;
+      }
 
-          const lbId = (this.v as any).lbId;
-          const corresp =  (this.v as any).correspId;
-          
-          const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
-          const findElement = elementsSelected
-              .find((e)=>e.corresp === corresp && e.id === lbId);
+      const lbId = (this.v as any).lbId;
+      const corresp =  (this.v as any).correspId;
 
-
-          if (findElement){
-            this.evtHighlineService.lineBeginningSelected$.next(
-              elementsSelected.filter((e)=>e.corresp !== corresp && e.id !== lbId) 
-            );
+      const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+      const findElement = elementsSelected
+          .find((e)=>e.corresp === corresp && e.id === lbId);
 
 
-          } else {
-            
-            this.evtHighlineService.lineBeginningSelected$.next([
-              ...elementsSelected,
-              {
-                id: lbId, corresp: corresp, selected: true,
-              }]);
-          }
+      if (findElement){
+        this.evtHighlineService.lineBeginningSelected$.next(
+          elementsSelected.filter((e)=>e.corresp !== corresp && e.id !== lbId),
+        );
 
-          console.log('mouse clicked', lbId, corresp,this.evtHighlineService.lineBeginningSelected$.getValue().length );
-          
+
+      } else {
+
+        this.evtHighlineService.lineBeginningSelected$.next([
+          ...elementsSelected,
+          {
+            id: lbId, corresp: corresp, selected: true,
+          }]);
+      }
     }
     $event.preventDefault();
   }
@@ -182,7 +179,7 @@ export class ContentViewerComponent implements OnDestroy {
     if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
       return;
     }
-    if ((this.v as any).text === '' || (this.v as any).text === ' ' || 
+    if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
         (this.v as any).type.name === 'Verse' ||
          (this.v as any).type.name === 'Paragraph'
         ){
@@ -191,43 +188,19 @@ export class ContentViewerComponent implements OnDestroy {
 
     $event.preventDefault();
     const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
-    
+
     this.evtHighlineService.lineBeginningSelected$.next([
       {
-      id: (this.v as any).lbId, corresp: (this.v as any).correspId, selected: undefined
+      id: (this.v as any).lbId, corresp: (this.v as any).correspId, selected: undefined,
     }, ...elementsSelected]);
   }
 
   @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
 
-    //console.log('mouse enter', this.content);
     $event.preventDefault();
     const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
     this.evtHighlineService.lineBeginningSelected$.next(elementsSelected);
   }
-
-//   private getFirstLbId(pc: any): {id: string, corresp: string} {
-//     if (pc.type?.name === 'Lb'){
-//       return {id: pc.facs.replace('#', ''), corresp:pc.id.replace('#', '') } ;
-//     }
-//     if (pc.content === undefined){
-//       return undefined;
-//     }
-// let result = undefined;
-//     for (let pcIdx = 0; pcIdx < pc.content.length; pcIdx++) {
-//       const insideContent = pc.content[pcIdx];
-//       if (result === undefined) {
-//         result = this.getFirstLbId(insideContent);
-//         if (result){
-//         break;
-//         }
-//       }
-//     }
-
-
-//     return result;
-//   }
-
 
   ngOnDestroy() {
     if (this.componentRef) {
