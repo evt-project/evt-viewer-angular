@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Mod, Reading } from 'src/app/models/evt-models';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../../components-mixins';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { EditionLevelType } from 'src/app/app.config';
+import { AppConfig, EditionLevelType } from 'src/app/app.config';
 import { BehaviorSubject, distinctUntilChanged, map, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 
@@ -18,15 +18,17 @@ export interface ModGroupComponent extends EditionlevelSusceptible, Highlightabl
 
 export class ModGroupComponent {
 
+  public changeSeparatorVisible = AppConfig.evtSettings.edition.showSeparatorBetweenChanges;
+
   public edLevel: EditionLevelType;
   public mods: Mod[];
 
   public orderedLayers: string[];
+  public reversedLayers: string[];
+
   public selLayer: string;
 
   public opened = false;
-
-  public reverseLayersOrder = true;
 
   toggleOpened$ = new Subject<boolean | void>();
   opened$ = this.toggleOpened$.pipe(
@@ -34,12 +36,13 @@ export class ModGroupComponent {
     startWith(false),
   );
 
-  public orderedLayers$ = this.evtStatusService.currentChanges$.pipe(
+  public reversedLayers$ = this.evtStatusService.currentChanges$.pipe(
     distinctUntilChanged(),
     map(({ layerOrder }) => {
       this.orderedLayers = layerOrder;
+      this.reversedLayers = layerOrder.slice().reverse();
 
-      return layerOrder;
+      return layerOrder.slice().reverse();
     } ),
   );
 

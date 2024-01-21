@@ -7,7 +7,7 @@
             [withDeletions]="withDeletions" [selectedLayer]="selectedLayer">
         </evt-content-viewer>
     </ng-container>
-    <span *ngIf="substMarker && withDeletions" class="substMarker"> → </span>
+    <span *ngIf="substMarker && withDeletions" class="substMarker"> > </span>
     <ng-container *ngFor="let el of data.content">
         <evt-content-viewer *ngIf="el?.class !== 'del'" [content]="el" [editionLevel]="editionLevel" 
             [itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow"

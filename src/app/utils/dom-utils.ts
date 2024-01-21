@@ -236,8 +236,10 @@ export function updateCSS(rules: Array<[string, string]>) {
  * This function searches inside every property of an object for the provided attribute it
  * it has one of the provided list of values. It falls back after a customizable number of iterations.
  * The limit counter could be inserted in a config, same as the ignoredProperties
+ * The types defined in loopAttributes are elements to be ignored because their methods of "dom navigation" generate loops
  */
 export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000, ignoredProperties = []) {
+  const loopAttributes = [DOMTokenList, NodeList, NamedNodeMap, HTMLCollection, HTMLElement]
   let results = [];
   for (const key in obj) {
     if (!ignoredProperties.includes(key)) {
@@ -245,7 +247,16 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: num
       if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
         results.push(obj);
       }
-      if (typeof value === 'object' && value !== null && !(value instanceof DOMTokenList || value instanceof NodeList)) {
+
+      let excludedForType = false;
+      for (let i=0; i < loopAttributes.length; i++) {
+        if (value instanceof loopAttributes[i]) {
+          excludedForType = true;
+          break;
+        }
+      }
+
+      if ((typeof value === 'object') && (value !== null) && (!excludedForType)) {
         if (counter > 0) {
           results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter, ignoredProperties));
           counter = counter - 1;

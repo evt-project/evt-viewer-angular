@@ -134,6 +134,7 @@ export interface EditionConfig {
     analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
     showChangeLayerMarkerInText: boolean;
+    showSeparatorBetweenChanges: boolean;
     changeSequenceView: Partial<{
         showVarSeqAttr: boolean;
         showSeqAttr: boolean;

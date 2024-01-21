@@ -284,12 +284,13 @@ evt-analogue-detail evt-original-encoding-viewer code {
 }
 
 .substMarker {
+  font-family: cursive;
   font-weight: 600;
 }
 
 .changeSeparator, .changeGroupSeparator {
   display: none;
-  font-family: fantasy;
+  font-family: cursive;
   font-weight: 600;
   margin: 0 0.1em 0 0.1em;
 }

@@ -34,6 +34,8 @@ export class ModComponent {
   }
   get alwaysShown() { return this.alwaysShow; }
 
+  public changeSeparatorVisible = AppConfig.evtSettings.edition.showSeparatorBetweenChanges;
+
   public showLayerMarkers = AppConfig.evtSettings.edition.showChangeLayerMarkerInText;
 
   public elementsToExcludeInTextFlow = [Note];

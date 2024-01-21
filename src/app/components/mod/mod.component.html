@@ -1,4 +1,4 @@
-<span class="changeGroupSeparator" [hidden]="(isHidden(data) && !(alwaysShow))" > → </span>
+<span class="changeGroupSeparator" [hidden]="((!changeSeparatorVisible) || (isHidden(data) && !(alwaysShow)))" > > </span>
 
 <span class="mod {{data.class}} pointer" title="mod"
     (click)="toggleOpened$.next()" 

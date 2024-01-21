@@ -142,8 +142,10 @@
     "parallel"
   ],
   "sourcesExcludedFromListByParent": ["desc"],
-  "showChangeLayerMarkerInText": true,
+  "showSubstitutionMarker": true,
+  "showSeparatorBetweenChanges": true,
   "startingFromDefinitiveLayer": true,
+  "showChangeLayerMarkerInText": true,
   "changeSequenceView": {
     "showVarSeqAttr": false,
     "showSeqAttr": false,
@@ -157,6 +159,5 @@
     }
   },
   "defaultImageZoomLevel": 0.8,
-  "showSubstitutionMarker": true,
   "multiPageEngineForCriticalEdition": false
 }

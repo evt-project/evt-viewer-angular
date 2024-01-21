@@ -7,10 +7,10 @@
     <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="mods.length > 0">
         <span class="mod-symbol" (click)="toggleModGroupEntryBox()" style="pointer-events: all; cursor:pointer;">🕐</span>
         <span class="mod-text">
-            <ng-container *ngFor="let orderedLayer of orderedLayers$ | async">
+            <ng-container *ngFor="let orderedLayer of reversedLayers$ | async">
                 <ng-container *ngFor="let mod of mods; index as i">
                     <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
-                        <span class="changeSeparator"> ← </span>
+                        <span class="changeSeparator" *ngIf="changeSeparatorVisible"> < </span>
                         [{{getLayerIndex(orderedLayer)}}] 
                         <evt-mod 
                             [data]="mod"
