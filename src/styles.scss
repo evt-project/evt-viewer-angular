@@ -292,7 +292,9 @@ evt-analogue-detail evt-original-encoding-viewer code {
   display: none;
   font-family: cursive;
   font-weight: 600;
-  margin: 0 0.1em 0 0.1em;
+  margin: 0 0.2em 0 0.1em;
+  line-height: 1rem;
+  font-size: 1.3rem;
 }
 
 .app-entry-rdg .changeGroupSeparator {
@@ -309,6 +311,10 @@ evt-analogue-detail evt-original-encoding-viewer code {
 
 .first-mod .changeGroupSeparator, .app-detail-content .changeGroupSeparator {
   display: none;
+}
+
+.first-mod {
+  margin-right: 0.2rem;
 }
 
 evt-mod-group .substMarker {

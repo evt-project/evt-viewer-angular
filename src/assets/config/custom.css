@@ -22,6 +22,12 @@
     text-decoration: line-through;
 }
 
+*[rend="line_full_width"] {
+    margin-bottom: 0.1rem;
+    border-bottom: 1px solid black;
+    display: block;
+}
+
 *[place="superscript"] {
     vertical-align: text-bottom;
 }
@@ -76,4 +82,5 @@ evt-addition evt-note {
 
 [type="pageNum"][place="top_right"] {
     float:right;
+    margin-top: -1.5rem;
 }
