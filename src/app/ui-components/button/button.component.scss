@@ -76,4 +76,22 @@
             width: 40px;
         }
     }
+    &.btn-annotator {
+        @include themify($themes) {
+            color: themed("toolsColor");
+            background-color: themed("toolsBackgroundDarker");
+            border-color: themed("toolsBackgroundDarker");
+            width: 80px;
+            margin-left: 10px;
+        }
+    }
+    &.btn-annotator-light {
+        @include themify($themes) {
+            color: themed("toolsColor");
+            background-color: themed("annotatorColor");
+            border-color: themed("annotatorColor");
+            width: 80px;
+            margin-left: 10px;
+        }
+    }
 }

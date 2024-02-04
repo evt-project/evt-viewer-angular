@@ -99,7 +99,17 @@ export interface EditionConfig {
     verseNumberPrinter: number;
     readingColorLight: string;
     readingColorDark: string;
+    annotatorColors: AnnotatorColors;
+    annotationTextType: AnnotationTextType;
 }
+
+export interface AnnotatorColors {
+    note: string;
+    highlights: string[];
+}
+
+export type AnnotationTextType = 'annotate' | 'highlight';
+
 
 export type EditionImagesSources = 'manifest' | 'graphics';
 

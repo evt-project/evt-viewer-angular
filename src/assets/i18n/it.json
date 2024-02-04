@@ -171,5 +171,12 @@
     "moreInfoAboutApp": "Maggiori informazioni per l'entrata d'apparato",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "annotate": "Annotazione",
+    "highlight": "Evidenziazione",
+    "annotatorNote":"Nota",
+    "noteTitle": "Titlo",
+    "noteBody": "Iserisci la nota",
+    "noteCancel": "Cancella",
+    "noteSave": "Salva"
 }

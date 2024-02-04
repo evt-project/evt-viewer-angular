@@ -81,6 +81,7 @@ import { SicComponent } from './components/sic/sic.component';
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TagsDeclComponent } from './components/tags-decl/tags-decl.component';
+import { TextAnnotatorComponent } from './components/annotator/text-annotator/text-annotator.component';
 import { TextComponent } from './components/text/text.component';
 import { TitleStmtComponent } from './components/title-stmt/title-stmt.component';
 import { VerseComponent } from './components/verse/verse.component';
@@ -220,6 +221,11 @@ const DynamicComponents = [
     ShortcutsComponent,
     SourcesPanelComponent,
     StartsWithPipe,
+    SuppliedComponent,
+    SurplusComponent,
+    TagsDeclComponent,
+    TextAnnotatorComponent,
+    TextComponent,
     TextPanelComponent,
     TextSourcesComponent,
     TextTextComponent,
