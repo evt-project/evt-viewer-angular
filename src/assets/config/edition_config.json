@@ -1,5 +1,5 @@
 {
-  "editionTitle": "My Digital Edition",
+  "editionTitle": "Progetto Saba1919",
   "badge": "alpha",
   "editionHome": "evt.labcd.unipi.it/",
   "availableEditionLevels": [
@@ -28,7 +28,7 @@
       "hidden": true
     }
   ],
-  "downloadableXMLSource": true,
+  "downloadableXMLSource": false,
   "namedEntitiesLists": {
     "persons": {
       "defaultLabel": "Persons",
@@ -107,9 +107,9 @@
     }
   ],
   "notSignificantVariants": ["type=orthographic"],
-  "defaultEdition": "diplomatic",
-  "defaultViewMode": "collation",
-  "proseVersesToggler": true,
+  "defaultEdition": "changesView",
+  "defaultViewMode": "documentalMixed",
+  "proseVersesToggler": false,
   "defaultTextFlow": "prose",
   "verseNumberPrinter": 5,
   "readingColorLight": "rgb(208, 220, 255)",
