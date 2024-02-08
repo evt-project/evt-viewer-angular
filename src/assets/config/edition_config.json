@@ -144,7 +144,7 @@
   "sourcesExcludedFromListByParent": ["desc"],
   "showSubstitutionMarker": true,
   "showSeparatorBetweenChanges": true,
-  "startingFromDefinitiveLayer": true,
+  "startingFromDefinitiveLayer": false,
   "showChangeLayerMarkerInText": true,
   "changeSequenceView": {
     "showVarSeqAttr": false,

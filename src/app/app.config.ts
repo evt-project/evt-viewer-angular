@@ -93,7 +93,7 @@ export interface UiConfig {
     initNavBarOpened: boolean;
     thumbnailsButton: boolean;
     viscollButton: boolean;
-    theme: 'neutral' | 'modern' | 'classic';
+    theme: 'neutral' | 'modern' | 'classic' | 'metro';
 }
 
 export interface EditionConfig {

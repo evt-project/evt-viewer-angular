@@ -93,8 +93,8 @@
         background-color: themed('panelBackgroundColor');
         .header,
         .footer {
-            color: themed('baseColorLight');
-            background-color: themed('baseColorDark');
+            color: themed('subNavSecondaryColorLight');
+            background-color: themed('subNavSecondaryColorDark');
         }
         .content {
             border: $mainContainer-border-width solid themed('baseColorDark');

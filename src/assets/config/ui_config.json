@@ -12,35 +12,35 @@
 			"iconSet": "evt",
 			"id": "imageText",
 			"label": "Image Text",
-			"enable": true
+			"enable": false
 		},
 		{
 			"icon": "txtTxt",
 			"iconSet": "evt",
 			"id": "textText",
 			"label": "Text Text",
-			"enable": true
+			"enable": false
 		},
 		{
 			"icon": "collation",
 			"iconSet": "evt",
 			"id": "collation",
 			"label": "Collation",
-			"enable": true
+			"enable": false
 		},
 		{
 			"icon": "srcTxt",
 			"iconSet": "evt",
 			"id": "textSources",
 			"label": "Text Sources",
-			"enable": true
+			"enable": false
 		},
 		{
 			"icon": "versions",
 			"iconSet": "evt",
 			"id": "textVersions",
 			"label": "Text Versions",
-			"enable": true
+			"enable": false
 		},
 		{
 			"icon": "documix",
@@ -68,5 +68,5 @@
 	"initNavBarOpened": true,
 	"thumbnailsButton": true,
 	"viscollButton": true,
-	"theme": "modern"
+	"theme": "metro"
 }

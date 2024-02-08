@@ -1,3 +1,5 @@
+@import "../../../assets/scss/themes";
+
 .global-tools {
     position: absolute;
     bottom: 10px;
@@ -30,6 +32,10 @@
         .nav-tabs {
             color: #ECEFF1;
             background-color: #263238;
+
+            @include themify($themes) {
+                background-color: themed("toolsBackgroundNav") !important;
+              }
         }
 
     }

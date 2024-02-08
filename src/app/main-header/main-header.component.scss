@@ -44,7 +44,9 @@
         font-size: 2rem;
     }
     &.active {
-        color: #ffcc00 !important; // TEMP
+        @include themify($themes) {
+            color: themed('toolsColorActive') !important; // TEMP
+        }
     }
 }
 

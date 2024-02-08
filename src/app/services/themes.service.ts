@@ -22,6 +22,10 @@ export class ThemesService {
                 value: 'classic',
                 label: 'themeClassic',
             },
+            {
+                value: 'metro',
+                label: 'themeMetro',
+            },
         ];
         this.selectTheme(this.themes.find((t) => t.value === AppConfig.evtSettings.ui.theme) ?? this.themes[0]);
     }
