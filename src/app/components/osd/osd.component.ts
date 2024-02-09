@@ -157,7 +157,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
       prefixUrl: 'assets/osd/images/',
       id: this.div.nativeElement.id,
       navigatorBackground: '#606060',
-      showNavigator: false,
+      showNavigator: true,
       gestureSettingsMouse: {
         clickToZoom: false,
         dblClickToZoom: true,

@@ -15,7 +15,7 @@
         <evt-osd
             *ngIf="viewerData"
             [surface]="currentSurfaces$ | async"
-            [viewerData]="viewerData" [options]="{showNavigationControl: false}"
+            [viewerData]="viewerData" [options]="{showNavigationControl: true}"
             [page]="pageNumber$ | async"
             [pageElement]="currentPage$ | async"
             (pageChange)="updatePage($event)">

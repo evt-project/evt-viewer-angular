@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject,    filter,    map, withLatestFrom } from 'rxjs';
 import { EVTModelService } from './evt-model.service';
 import { EVTStatusService } from './evt-status.service';
+import { Lb, Paragraph, Verse, Word } from '../models/evt-models';
 
 @Injectable({ providedIn: 'root' })
 export class EvtLinesHighlightService {
@@ -20,7 +21,7 @@ export class EvtLinesHighlightService {
       }
     })
     this.lineBeginningSelected$.pipe(
-      filter(()=> this.syncTextImage$.value)
+      filter(()=> this.syncTextImage$.value),
     ).subscribe((lines) => {
       if (lines.length > 0) {
         this.highlightLineText(
@@ -60,7 +61,7 @@ export class EvtLinesHighlightService {
   private tempCorrespId = '';
 
   private assignLbId(startingContent: any): void{
-    if (startingContent.type.name === 'Lb'){
+    if (startingContent.type.name === Lb.name){
       this.tempLbId = startingContent.facs.replace('#', '');
       this.tempCorrespId = startingContent.id.replace('#', '');
 
@@ -96,7 +97,7 @@ export class EvtLinesHighlightService {
   }
 
   private recursiveHighlight( pc: any, lbIds: Array<{id: string, selected: boolean}>): void{
-    if ( pc.type.name !== 'Verse' && pc.type.name !== 'Paragraph'  && pc.type.name !== 'Word' ){
+    if ( pc.type.name !== Verse.name && pc.type.name !== Paragraph.name  && pc.type.name !== Word.name ){
       const f = lbIds.find( (lbId) => pc.correspId === lbId.id);
       if (f){
         if (f.selected){

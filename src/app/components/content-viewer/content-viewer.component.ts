@@ -4,11 +4,12 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { EditionLevelType, TextFlow } from '../../app.config';
-import { GenericElement } from '../../models/evt-models';
+import { GenericElement, Paragraph, Verse } from '../../models/evt-models';
 import { ComponentRegisterService } from '../../services/component-register.service';
 import { EntitiesSelectService } from '../../services/entities-select.service';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
 import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
+import { AdditionComponent } from '../addition/addition.component';
 
 @Component({
   selector: 'evt-content-viewer',
@@ -134,15 +135,15 @@ export class ContentViewerComponent implements OnDestroy {
 
     if (!this.v.content){
 
-      if (this.v.type.name === 'AdditionComponent'){
+      if (this.v.type.name === AdditionComponent.name){
           return;
       }
       if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
         return;
       }
       if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
-          (this.v as any).type.name === 'Verse' ||
-          (this.v as any).type.name === 'Paragraph'
+          (this.v as any).type.name === Verse.name ||
+          (this.v as any).type.name === Paragraph.name
           ){
         return;
       }
@@ -173,15 +174,15 @@ export class ContentViewerComponent implements OnDestroy {
     $event.preventDefault();
   }
   @HostListener('mouseover',['$event']) mouseOver($event: any) {
-    if (this.v.type.name === 'AdditionComponent'){
+    if (this.v.type.name === AdditionComponent.name){
       return;
     }
     if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
       return;
     }
     if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
-        (this.v as any).type.name === 'Verse' ||
-         (this.v as any).type.name === 'Paragraph'
+        (this.v as any).type.name === Verse.name ||
+         (this.v as any).type.name === Paragraph.name
         ){
       return;
     }
