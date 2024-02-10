@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, Output } from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -11,7 +11,7 @@ import { AppConfig } from 'src/app/app.config';
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent implements OnDestroy{
+export class ImagePanelComponent implements OnDestroy, OnInit, AfterViewInit{
 
   @Input() panelNumber:number;
 
@@ -23,6 +23,8 @@ export class ImagePanelComponent implements OnDestroy{
   @Input() indipendentNavBar = false;
   // @Input() sync = false;
 private _showSyncButton = true;
+
+private unsubscribeAll$ = new Subject<void>();
   @Input()
   public get showSyncButton() {
     return this._showSyncButton;
@@ -75,12 +77,50 @@ private _showSyncButton = true;
     private evtModelService: EVTModelService,
      private linesHighlightService: EvtLinesHighlightService,
   ) {
+
+
+
   }
   ngOnDestroy(): void {
     this.linesHighlightService.lineBeginningSelected$.next([]);
     this.linesHighlightService.syncTextImage$.next(false);
+
+    this.unsubscribeAll$.next();
+    this.unsubscribeAll$.complete();
   }
 
+  ngAfterViewInit(): void{
+
+    if (this.indipendentNavBar){
+      this.evtModelService.pages$.pipe(
+         // delay(50),
+          first(),
+      ).subscribe((pages)=>{
+        const idx = this.panelNumber > pages.length ? 0: this.panelNumber;
+        const cp = pages[idx];
+        this.currentPage$.next(cp);
+        this.updatePageNumber$.next(idx);
+        this.pageID = cp.id;
+        // setTimeout(()=>{
+        //   this.updatePageNumber$.next(idx);
+        // },100)
+      });
+
+      this.pageChange.pipe(
+          takeUntil(this.unsubscribeAll$),
+      ).subscribe(( (currentPage) => {
+
+        if (this.indipendentNavBar && currentPage) {
+
+          this.pageID = currentPage.id;
+        }
+      }));
+    }
+  }
+  ngOnInit(): void{
+
+
+  }
   syncTextImage() {
     this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
     if (this.isSyncButtonActive === ''){
@@ -102,12 +142,14 @@ private _showSyncButton = true;
   }
 
   onChangedCurrentPage(page:number) {
+
     this.evtModelService.pages$.pipe(
       map((pages) => page < 0 ? pages[pages.length - 1] : pages[page]),
       first(),
     ).subscribe(
       (currentPage:Page ) => {
           this.currentPage$.next(currentPage);
+
         },
       );
   }

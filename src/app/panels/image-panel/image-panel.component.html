@@ -29,4 +29,5 @@
         </div>
     </div>
 </evt-panel>
-<evt-nav-bar-image [panelNumber]="panelNumber" [currentIndexPage]="updatePageNumber$ | async" *ngIf="indipendentNavBar" (changeIndexPage)="onChangedCurrentPage($event)" [ngClass]="{opened: true}" ></evt-nav-bar-image>
+<evt-nav-bar-image [panelNumber]="panelNumber" [currentIndexPage]="updatePageNumber$ | async" *ngIf="indipendentNavBar"
+                   (changeIndexPage)="onChangedCurrentPage($event)" [ngClass]="{opened: true}" ></evt-nav-bar-image>

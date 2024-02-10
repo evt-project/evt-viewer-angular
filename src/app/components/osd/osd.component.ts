@@ -9,6 +9,7 @@ import { Page, Surface, ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
 import { uuid } from '../../utils/js-utils';
 import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
+import {EVTModelService} from "../../services/evt-model.service";
 
 // eslint-disable-next-line no-var
 declare var OpenSeadragon;
@@ -79,7 +80,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   @ViewChild('osd', { read: ElementRef, static: true }) div: ElementRef;
     private unsubscribeAll$ = new Subject<void>();
 
-  @Input() surface: Surface;
+  @Input() surface: Surface | undefined;
   @Input() pageElement: Page;
   // tslint:disable-next-line: variable-name
   private _options;
@@ -135,6 +136,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private http: HttpClient, private linesHighlightService: EvtLinesHighlightService,
+    private evtModelService: EVTModelService,
   ) {
     this.subscriptions.push(
       this.pageChange.pipe(
@@ -146,6 +148,7 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
+
     this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
 
     const commonOptions = {
@@ -163,18 +166,54 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
         dblClickToZoom: true,
       },
       aspectRatio: 0.66,
-      placeholderFillStyle: 'assets/images/empty-image.jpg',
+      placeholderFillStyle:'assets/images/empty-image.jpg',
     };
 
-    this.subscriptions.push(combineLatest([this.optionsChange, this.tileSources])
-      .subscribe(([_, tileSources]) => {
+    this.subscriptions.push(combineLatest([this.optionsChange, this.tileSources, this.evtModelService.pages$])
+      .subscribe(([_, tileSources, pages]) => {
+
+        if (this.viewer){
+          (this.viewer as any).destroy();
+          this.viewer = undefined;
+        }
+        console.log('init');
+
         if (!!tileSources) {
-          this.viewer = OpenSeadragon({
-            ...commonOptions,
-            ...this.options,
-            tileSources,
-          });
+          //TODO: controllare questo, solo per test
+          if (tileSources.length === 0){
+
+           const tiles = pages.map(p=> {
+              return {
+                type: 'image',
+                url: p.facsUrl,
+               //  protocol: 'http',
+               //  height: '',
+               // '@id': p.id,
+               //  '@context': p.id,
+               //  width: '',
+               //  profile: [],
+
+
+              } as OsdTileSource;
+            });
+
+           console.log('tiles:', tiles);
+              this.viewer = OpenSeadragon({
+                ...commonOptions,
+                ...this.options,
+                tileSources: tiles,
+              });
+
+
+          } else{
+            this.viewer = OpenSeadragon({
+              ...commonOptions,
+              ...this.options,
+              tileSources,
+            });
+          }
         } else {
+
           this.viewer = OpenSeadragon({
             ...commonOptions,
            ...this.options,
@@ -210,69 +249,75 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
           tracker.setTracking(true);
         });
 
-        this.mouseMoved$.pipe(
-          combineLatestWith(this.linesHighlightService.syncTextImage$.asObservable()),
-          filter(([_mm, isSync])=> isSync),
-          distinctUntilChanged(),
-          takeUntil(this.unsubscribeAll$),
-        ).subscribe(([imagePoint]) => {
-          const linesOver = this.surface.zones.lines.filter((line) => {
+        if (this.surface?.zones?.lines?.length > 0){
+          this.mouseMoved$.pipe(
+              combineLatestWith(this.linesHighlightService.syncTextImage$.asObservable()),
+              filter(([_mm, isSync])=> isSync),
+              distinctUntilChanged(),
+              takeUntil(this.unsubscribeAll$),
+          ).subscribe(([imagePoint]) => {
+            const linesOver = this.surface.zones.lines.filter((line) => {
 
-            const ulPoint = line.coords[0];
-            const lrPoint = line.coords[2];
+              const ulPoint = line.coords[0];
+              const lrPoint = line.coords[2];
 
-            return imagePoint.x > ulPoint.x &&
-              imagePoint.x < lrPoint.x &&
-              imagePoint.y > ulPoint.y &&
-              imagePoint.y < lrPoint.y;
+              return imagePoint.x > ulPoint.x &&
+                  imagePoint.x < lrPoint.x &&
+                  imagePoint.y > ulPoint.y &&
+                  imagePoint.y < lrPoint.y;
+            });
+
+            const elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+
+            const linesOverMapped =  linesOver.map((lo) => ({
+              id: lo.id,
+              corresp: lo.corresp,
+              selected: undefined,
+            }));
+            this.linesHighlightService.lineBeginningSelected$.next([
+              ...elementsSelected, ...linesOverMapped,
+            ]);
+
           });
 
-          const elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
+          this.mouseClicked$.pipe(
+              combineLatestWith(this.linesHighlightService.syncTextImage$.asObservable()),
+              filter(([_mm, isSync])=> isSync),
+              distinctUntilChanged(),
+              takeUntil(this.unsubscribeAll$),
+          ).subscribe(([imagePoint]) => {
 
-          const linesOverMapped =  linesOver.map((lo) => ({
-            id: lo.id,
-            corresp: lo.corresp,
-            selected: undefined,
-          }));
-          this.linesHighlightService.lineBeginningSelected$.next([
-            ...elementsSelected, ...linesOverMapped,
-          ]);
+            const linesOver = this.surface.zones.lines.filter((line) => {
 
-        });
+              const ulPoint = line.coords[0];
+              const lrPoint = line.coords[2];
 
-        this.mouseClicked$.pipe(
-          combineLatestWith(this.linesHighlightService.syncTextImage$.asObservable()),
-          filter(([_mm, isSync])=> isSync),
-          distinctUntilChanged(),
-          takeUntil(this.unsubscribeAll$),
-        ).subscribe(([imagePoint]) => {
-          const linesOver = this.surface.zones.lines.filter((line) => {
+              return imagePoint.x > ulPoint.x &&
+                  imagePoint.x < lrPoint.x &&
+                  imagePoint.y > ulPoint.y &&
+                  imagePoint.y < lrPoint.y;
+            });
 
-            const ulPoint = line.coords[0];
-            const lrPoint = line.coords[2];
+            let elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
 
-            return imagePoint.x > ulPoint.x &&
-              imagePoint.x < lrPoint.x &&
-              imagePoint.y > ulPoint.y &&
-              imagePoint.y < lrPoint.y;
+            linesOver.forEach((lo)=>{
+              if (elementsSelected.some((es) => es.id === lo.id && es.corresp === lo.corresp)){
+                elementsSelected = elementsSelected.filter((es) => es.id !== lo.id && es.corresp !== lo.corresp)
+              } else{
+                elementsSelected.push({
+                  id: lo.id,
+                  corresp: lo.corresp,
+                  selected: true,
+                });
+              }
+            });
+            this.linesHighlightService.lineBeginningSelected$.next(elementsSelected);
           });
+        }
 
-          let elementsSelected = this.linesHighlightService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
-
-          linesOver.forEach((lo)=>{
-            if (elementsSelected.some((es) => es.id === lo.id && es.corresp === lo.corresp)){
-              elementsSelected = elementsSelected.filter((es) => es.id !== lo.id && es.corresp !== lo.corresp)
-            } else{
-              elementsSelected.push({
-                id: lo.id,
-                corresp: lo.corresp,
-                selected: true,
-              });
-            }
-          });
-          this.linesHighlightService.lineBeginningSelected$.next(elementsSelected);
-        });
-
+        if (!this.surface){
+          return;
+        }
         const originalImageWidth = +this.surface.graphics[0].width.replace('px','');
         const originalImageHeight = +this.surface.graphics[0].height.replace('px','');
         const aspectRatio = originalImageHeight / originalImageWidth; //1.5;

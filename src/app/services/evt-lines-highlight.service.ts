@@ -62,8 +62,8 @@ export class EvtLinesHighlightService {
 
   private assignLbId(startingContent: any): void{
     if (startingContent.type.name === Lb.name){
-      this.tempLbId = startingContent.facs.replace('#', '');
-      this.tempCorrespId = startingContent.id.replace('#', '');
+      this.tempLbId = startingContent.facs?.replace('#', '');
+      this.tempCorrespId = startingContent.id?.replace('#', '');
 
       return;
     }
