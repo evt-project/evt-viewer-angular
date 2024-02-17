@@ -136,7 +136,7 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
         </div>
 
         <div type="preface">
-          <div id="preface_1">
+          <div xml:id="preface_1">
             <pb facs="05.jpg" n="5"/>
             <fw type="pageNum" place="top_right">4</fw>
             <head>Ai miei sei lettori</head>
@@ -458,6 +458,9 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                 <l n="13">quando, sazio di giochi, uscir dal tetto</l>
                 <l n="14">guardavo il fumo azzurro della cena.</l>
               </lg>
+
+            <lb/>
+
               <note resp="#US" type="publishing"><mod change="#strato-r">&#8592; Vedi foglietto unito</mod></note>
             </div>
             <!-- GT???: non abbiamo indicazioni sulla penna rossa-->
@@ -472,58 +475,10 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
             <note place="margin-left" resp="#US" type="publishing">
               <mod change="#strato-r"><add>Dopo la "Casa della mia nutrice"</add></mod>
             </note>
+          
+          <lb/>
+          
             <!-- GT???:  a me sembra che il titolo sia in un'altra penna, forse strato-1, forse c'è anche una rasura-->
-
-            <div n="In riva al mare" type="poem" xml:id="In_riva_al_mare">
-              <head>
-                <app>
-                  <lem>In riva al mare</lem>
-                  <rdg wit="#P_C21">Canzonetta</rdg>
-                </app></head>
-              <note resp="#GT #E" type="critical">La lirica si trova su un ritaglio incollato a p. 10 del ms. lungo il
-                margine sx attraverso un pezzo di nastro adesivo. Nell'edizione del Canzoniere 1921, al contrario, la
-                poesia apre la sezione con il titolo Canzonetta e precede La casa della mia nutrice.</note>
-              <!-- <metamark> -->
-              <!-- foglietto ricavato dal medesimo q. inchiostro base #strato-0 -->
-              <lb/>
-              <lg n="1">
-                <l n="1">Ero solo in riva al mare,</l>
-                <l n="2">solo in riva<choice>
-                    <corr resp="#US"><mod change="#strato-0"><del instant="true" rend="strikethrough">l</del></mod></corr>
-                    <sic>l</sic>
-                  </choice> al mar natio;</l>
-                <l n="3">là pensando a te, amor mio,</l>
-                <l n="4"><subst>
-                    <del><gap rend="erasure"/></del>
-                    <add place="inspace">prese</add>
-                  </subst> il cuore <mod change="#strato-0"><add place="above">a</add></mod> palpitar.</l>
-              </lg>
-              <lg n="2">
-                <l n="5">Era il vespro, era nel mare</l>
-                <l n="6">
-                  <app>
-                    <lem varSeq="2">
-                      <mod change="#strato-2"><subst>
-                          <del rend="strikethrough">presso a scender</del>
-                          <add place="above">sceso a mezzo</add>
-                        </subst></mod>
-                    </lem>
-                    <rdg varSeq="1"><mod change="#strato-0">presso a scender</mod></rdg>
-                  </app> l'astro d'oro;</l>
-                <l n="7">d'onda in onda un rivol d'oro</l>
-                <l n="8">si vedeva folgorar.</l>
-              </lg>
-              <lg n="3">
-                <l n="9"><mod change="#strato-0"><subst>
-                      <del instant="true" rend="overwritten">E</del>
-                      <add place="superscript">D</add>
-                    </subst></mod><mod change="#strato-0" instant="true"><add place="inline">i</add></mod> tra i monti in
-                  ciel lo spicchio</l>
-                <l n="10">della bianca luna nacque;</l>
-                <l n="11">si vedeva in un sull'acque</l>
-                <l n="12">il suo argento tremolar.</l>
-              </lg>
-            </div>
 
             <anchor xml:id="pecetta_1"/>
 
@@ -559,6 +514,60 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
                 <l n="14">e sospirando dissi un nome ai venti.</l>
               </lg>
             </div>
+          
+          <pb facs="10bis.jpg" n="10bis"/>
+          
+          <div n="In riva al mare" type="poem" xml:id="In_riva_al_mare">
+            <head>
+              <app>
+                <lem>In riva al mare</lem>
+                <rdg wit="#P_C21">Canzonetta</rdg>
+              </app></head>
+            <note resp="#GT #E" type="critical">La lirica si trova su un ritaglio incollato a p. 10 del ms. lungo il
+              margine sx attraverso un pezzo di nastro adesivo. Nell'edizione del Canzoniere 1921, al contrario, la
+              poesia apre la sezione con il titolo <title>Canzonetta</title> e precede <title>La casa della mia nutrice</title>.</note>
+            <!-- <metamark> -->
+            <!-- foglietto ricavato dal medesimo q. inchiostro base #strato-0 -->
+            <lb/>
+            <lg n="1">
+              <l n="1">Ero solo in riva al mare,</l>
+              <l n="2">solo in riva<choice>
+                <corr resp="#US"><mod change="#strato-0"><del instant="true" rend="strikethrough">l</del></mod></corr>
+                <sic>l</sic>
+              </choice> al mar natio;</l>
+              <l n="3">là pensando a te, amor mio,</l>
+              <l n="4"><subst>
+                <del><gap rend="erasure"/></del>
+                <add place="inspace">prese</add>
+              </subst> il cuore <mod change="#strato-0"><add place="above">a</add></mod> palpitar.</l>
+            </lg>
+            <lg n="2">
+              <l n="5">Era il vespro, era nel mare</l>
+              <l n="6">
+                <app>
+                  <lem varSeq="2">
+                    <mod change="#strato-2"><subst>
+                      <del rend="strikethrough">presso a scender</del>
+                      <add place="above">sceso a mezzo</add>
+                    </subst></mod>
+                  </lem>
+                  <rdg varSeq="1"><mod change="#strato-0">presso a scender</mod></rdg>
+                </app> l'astro d'oro;</l>
+              <l n="7">d'onda in onda un rivol d'oro</l>
+              <l n="8">si vedeva folgorar.</l>
+            </lg>
+            <lg n="3">
+              <l n="9"><mod change="#strato-0"><subst>
+                <del instant="true" rend="overwritten">E</del>
+                <add place="superscript">D</add>
+              </subst></mod><mod change="#strato-0" instant="true"><add place="inline">i</add></mod> tra i monti in
+                ciel lo spicchio</l>
+              <l n="10">della bianca luna nacque;</l>
+              <l n="11">si vedeva in un sull'acque</l>
+              <l n="12">il suo argento tremolar.</l>
+            </lg>
+          </div>
+          
           </div>
           <div type="page">
             <pb facs="11.jpg" n="11"/>
