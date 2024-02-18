@@ -5,7 +5,6 @@
     [evtHtmlAttributes]="data?.attributes" 
     [evtEditorialConventionLayout]="editorialConventionData"
     (click)="toggleAppEntryBox($event);">
-
     <ng-container *ngIf="data?.contentToShow.length > 0"> 
         <ng-container *ngFor="let element of data.contentToShow || []">
             <evt-content-viewer [content]="element" [editionLevel]="editionLevel"></evt-content-viewer>

@@ -185,9 +185,9 @@ export class QuoteEntry extends GenericElement {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     analogues: any;
     originalEncoding: OriginalEncodingNodeType;
-    insideCit: boolean;
+    isInsideCit: boolean;
     quotedText: string[];
-    noteView: boolean;
+    isNoteView: boolean;
     contentToShow: Array<ParseResult<GenericElement>>
     //rend: string;
 }
@@ -210,7 +210,7 @@ export class BibliographicEntry extends GenericElement {
     biblScope: string[];
     text: string;
     quotedText: string;
-    insideCit: boolean;
+    isInsideCit: boolean;
     originalEncoding: OriginalEncodingNodeType;
 }
 

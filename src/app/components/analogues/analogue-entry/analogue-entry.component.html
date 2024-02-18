@@ -12,10 +12,12 @@
         </ng-container> 
     </ng-container>
 
-    <ng-container *ngIf="data?.contentToShow.length === 0"> <evt-note [data]="dataForNote"></evt-note> </ng-container>
+    <ng-container *ngIf="data?.contentToShow.length === 0"> 
+        <evt-note [data]="dataForNote"></evt-note> 
+    </ng-container>
 </span>
-<evt-analogue-detail 
+<evt-analogue-detail *ngIf="opened$ | async" 
+    [analogue]="data"
     [editionLevel]="editionLevel" 
-    [evtHtmlAttributes]="data?.attributes"
-    *ngIf="opened$ | async" [analogue]="data">
+    [evtHtmlAttributes]="data?.attributes">
 </evt-analogue-detail>

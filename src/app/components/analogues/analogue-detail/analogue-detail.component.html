@@ -1,7 +1,6 @@
-<div class="source-container" *ngIf="headVisible">
-        
+<div class="source-container" *ngIf="headVisible"> 
     <div class="card-body app-detail-content source-detail-content" *ngIf="analogue.content.length > 0">
-        <span class="btn btn-sm transparent source-quote-button">☚</span>
+        <span class="btn btn-sm transparent source-quote-button"></span>
         <span class="source-quote-symbol">&#10077;</span>
         <span title="analogue-text">
             <ng-container *ngFor="let element of analogue.contentToShow">
@@ -14,10 +13,8 @@
             </ng-container>
         </span>
     </div>
-
     <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
         <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
-
             <li ngbNavItem="quotedText" *ngIf="analogue.quotedElements.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -29,7 +26,6 @@
                     </ng-container>
                 </ng-template>
             </li>
-
             <li ngbNavItem="refBibl" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -46,7 +42,6 @@
 
                 </ng-template>
             </li>
-
             <li ngbNavItem="xml" *ngIf="analogue.originalEncoding">
                 <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -89,6 +84,5 @@
         </ul>
         <div [ngbNavOutlet]="analogueEntryTab" class="tab-content"></div>
     </div>
-
 </div>
 

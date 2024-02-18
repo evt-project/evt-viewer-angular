@@ -10,7 +10,6 @@ import { BasicParser } from './quotes-parser';
 @xmlParser('bibl', BibliographyParser)
 @xmlParser('evt-bibliographic-entry-parser', BibliographyParser)
 export class BibliographyParser extends BasicParser implements Parser<XMLElement> {
-
     protected attributeParser = createParser(AttributeParser, this.genericParse);
     protected elementParser = createParser(GenericElemParser, parse);
 
@@ -32,9 +31,9 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
 
     protected getQuoteElementText(element: XMLElement): string {
         const target = (element.parentNode['tagName'] === 'cit' || element.parentNode['tagName'] === 'note') ? element.parentNode : element;
-        const search = Array.from(target.querySelectorAll<XMLElement>('quote'));
-        if (search.length !== 0) {
-            return normalizeSpaces(search[0].textContent);
+        const quotes = Array.from(target.querySelectorAll<XMLElement>('quote'));
+        if (quotes.length !== 0) {
+            return normalizeSpaces(quotes[0].textContent);
         }
 
         return null;
@@ -64,7 +63,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
                     content: parseChildren(xml, this.genericParse),
                     text: xml.textContent,
                     quotedText: this.getQuoteElementText(xml),
-                    insideCit: (xml.parentNode['tagName'] === 'cit' || xml.parentNode['tagName'] === 'note'),
+                    isInsideCit: (xml.parentNode['tagName'] === 'cit' || xml.parentNode['tagName'] === 'note'),
                     originalEncoding: xml,
                 };
             case 'cit':

@@ -49,16 +49,20 @@ export function normalizeSpaces(textContent: string) {
 * This function returns a string with all the text elements chained
 */
 export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: string[], evtInnerTextElements: string[]): string {
-  if (elem === undefined) { return ''; };
+  if (elem === undefined) {
+
+    return '';
+  };
+
   const evtTextElements = {
     '#text': 'nodeValue',
     'p': 'textContent',
   };
-  let out = '';
-  elem.childNodes.forEach((node) => (evtTextElements[node.nodeName] !== undefined) ? out += node[ evtTextElements[node.nodeName] ] : (
-    evtTextComplexElements.includes(node.nodeName) ? out += chainDeepTexts(node, evtInnerTextElements) : '' ))
+  let result = '';
+  elem.childNodes.forEach((node) => (evtTextElements[node.nodeName] !== undefined) ? result += node[ evtTextElements[node.nodeName] ] : (
+    evtTextComplexElements.includes(node.nodeName) ? result += chainDeepTexts(node, evtInnerTextElements) : '' ))
 
-  return out;
+  return result;
 }
 
 /**
@@ -68,14 +72,15 @@ export function chainFirstChildTexts(elem: XMLElement, evtTextComplexElements: s
  */
 export function chainDeepTexts(elem: ChildNode, evtInnerTextElements: string[]): string {
   const textProperty = 'textContent';
-  let out = '';
-  elem.childNodes.forEach((x) => (evtInnerTextElements.includes(x.nodeName)) ? ((x[textProperty] !== null) ? out += x[textProperty] : '') : '')
 
-  return out;
+  let result = '';
+  elem.childNodes.forEach((x) => (evtInnerTextElements.includes(x.nodeName)) ? ((x[textProperty] !== null) ? result += x[textProperty] : '') : '')
+
+  return result;
 }
 
 /**
-* Retrieve external elements searching between provided elements types and filtering on attributes base
+* Retrieve elements in all the document searching between provided elements types and filtering on attributes base
 * It searches all document for a bibl with the correct xml:id.
 * It would be faster if we knew the id or unique element to search in
 */
@@ -102,8 +107,12 @@ export function isAnalogue(elem: XMLElement, markerAttrs: string[]): boolean {
  * If an element has one of the provided attributes then it is considered a source
  */
 export function isSource(elem: XMLElement, attrs: string[]): boolean {
-  let validAttrs = false;
-  attrs.forEach((attr) => { if (elem.getAttribute(attr) !== null) { validAttrs = true } });
+  let isSelectedAttributes = false;
+  attrs.forEach((attr) => {
+    if (elem.getAttribute(attr) !== null)
+      { isSelectedAttributes = true }
+    },
+  );
 
-  return (validAttrs);
+  return (isSelectedAttributes);
 }

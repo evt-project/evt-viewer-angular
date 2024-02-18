@@ -19,10 +19,11 @@ export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlighta
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteEntryComponent implements OnInit {
-
   public _data: QuoteEntry;
-
   private edLevel: EditionLevelType;
+  public sourceClass = SourceClass;
+  public dataForNote = {};
+  public opened = false;
 
   @Input() set data(dt: QuoteEntry) {
     this._data = dt;
@@ -32,6 +33,7 @@ export class QuoteEntryComponent implements OnInit {
     this.edLevel = el;
     this.editionLevelChange.next(el);
   }
+
   get editionLevel() { return this.edLevel; }
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
@@ -45,12 +47,6 @@ export class QuoteEntryComponent implements OnInit {
   }
 
   get data() { return this._data; }
-
-  public sourceClass = SourceClass;
-
-  public dataForNote = {};
-
-  public opened = false;
 
   toggleOpened$ = new Subject<boolean | void>();
 
@@ -68,13 +64,8 @@ export class QuoteEntryComponent implements OnInit {
     this.opened = false;
   }
 
-  stopPropagation(e: MouseEvent) {
-    e.stopPropagation();
-  }
-
    /** If quote has no text it's displayed as a note.*/
   createNote(v): Note|{} {
-
     return {
       type: Note,
       noteType: 'source',
@@ -85,14 +76,18 @@ export class QuoteEntryComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    if ((this.data.noteView) || ((this.data.text.length === 0) && ((this.data.extElements.length !== 0) || (this.data.extSources.length !== 0)))) {
-      this.dataForNote = this.createNote(this.data);
-    }
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
   constructor(
     public evtStatusService: EVTStatusService,
   ) {}
+
+  ngOnInit() {
+    if ((this.data.isNoteView) || ((this.data.text.length === 0) && ((this.data.extElements.length !== 0) || (this.data.extSources.length !== 0)))) {
+      this.dataForNote = this.createNote(this.data);
+    }
+  }
 
 }

@@ -184,12 +184,12 @@ export class EVTStatusService {
     }
 
     getPageElementsByClassList(classList) {
-        const notInterestingProps = ['originalEncoding','type'];
+        const attributesNotIncludedInSearch = ['originalEncoding','type'];
         const maxEffort = 4000;
 
         return this.currentStatus$.pipe(
             map(({ page }) => page.parsedContent),
-            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList, maxEffort, notInterestingProps)),
+            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList, maxEffort, attributesNotIncludedInSearch)),
         );
     }
 

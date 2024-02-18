@@ -1,8 +1,7 @@
 
 <div class="source-container" *ngIf="headVisible">
-        
     <div class="card-body app-detail-content source-detail-content" *ngIf="source.content.length > 0">
-        <span class="btn btn-sm transparent source-quote-button">☚</span>
+        <span class="btn btn-sm transparent source-quote-button"></span>
         <span class="source-quote-symbol">&#10077;</span>
         <span class="source-text-container">
             <ng-container *ngFor="let element of source.contentToShow || []">
@@ -15,10 +14,8 @@
         </ng-container>
         </span>
     </div>
-    
     <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
         <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
-
             <li ngbNavItem="quotedText" *ngIf="source.quotedText.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -27,7 +24,6 @@
                     </ng-container>
                 </ng-template>
             </li>
-
             <li ngbNavItem="analoguesView" *ngIf="source.analogues.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'analogues' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -36,7 +32,6 @@
                     </ng-container>
                 </ng-template>
             </li>
-
             <li ngbNavItem="externalElements" *ngIf="source.extElements.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -46,7 +41,6 @@
                     </ng-container>
                 </ng-template>
             </li>
-
             <li ngbNavItem="refBibl" *ngIf="source.sources.length > 0 || source.extSources.length > 0">
                 <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
@@ -63,14 +57,13 @@
 
                 </ng-template>
             </li>
-
             <li ngbNavItem="xml" *ngIf="source.originalEncoding">
                 <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-original-encoding-viewer [originalEncoding]="source.originalEncoding">
                     </evt-original-encoding-viewer>
                     <!-- children bibl element -->
-                    <ng-container *ngIf="source.sources && source.insideCit">
+                    <ng-container *ngIf="source.sources && source.isInsideCit">
                         <ng-container *ngFor="let sourceXML of source.sources">
                             <ng-container *ngIf="sourceXML.type.name === 'BibliographicList'">
                                 <ng-container *ngFor="let intBib of sourceXML.sources">
@@ -115,5 +108,4 @@
         </ul>
         <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
     </div>
-
 </div>

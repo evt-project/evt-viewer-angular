@@ -6,7 +6,6 @@ import { QuoteEntry, SourceClass, XMLElement } from '../../models/evt-models';
   providedIn: 'root',
 })
 export class SourceEntriesParserService {
-
   public parseSourceEntries(document: XMLElement) {
     const quoteParser = ParserRegister.get('evt-quote-entry-parser');
 
@@ -15,5 +14,4 @@ export class SourceEntriesParserService {
           .map((srcEntry) => quoteParser.parse(srcEntry) as QuoteEntry),
     ];
   }
-
 }

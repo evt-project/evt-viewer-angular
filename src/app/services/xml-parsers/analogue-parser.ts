@@ -64,7 +64,11 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         const extSources = extElements.map((x) => (elsAllowedForSources.includes(x.tagName)) ? this.biblParser.parse(x) : null).filter((x) => x);
         const parallelPassages = this.selectAndParseParallelElements(extElements);
 
-        return { 'sources': sources, 'extSources': extSources, 'extLinkedElements': parallelPassages };
+        return {
+            'sources': sources,
+            'extSources': extSources,
+            'extLinkedElements': parallelPassages,
+        };
     }
 
     /**

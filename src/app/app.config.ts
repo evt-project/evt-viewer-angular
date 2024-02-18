@@ -68,7 +68,6 @@ export class AppConfig {
         rules['.' + AnalogueClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
         rules['.' + SourceClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
         Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
-        console.log('style from config',rules);
     }
 
 }

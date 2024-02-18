@@ -9,16 +9,18 @@ import { ApparatusEntry } from 'src/app/models/evt-models';
   styleUrls: ['./critical-apparatus.component.scss'],
 })
 export class CriticalApparatusComponent implements OnInit {
+  public entries: ApparatusEntry;
+  private appClasses = ['app'];
+  public apparatusInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
   @Input() pageID : string;
 
-  public entries: ApparatusEntry;
-  private appClasses = ['app'];
-
-  public apparatusInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
-
   public getEntries(data) {
     this.entries = data.flat();
+  }
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
   constructor(
@@ -27,10 +29,6 @@ export class CriticalApparatusComponent implements OnInit {
 
   ngOnInit() {
     this.apparatusInCurrentPage.subscribe({ next: (data) => { this.getEntries(data) } });
-  }
-
-  stopPropagation(e: MouseEvent) {
-    e.stopPropagation();
   }
 
 }

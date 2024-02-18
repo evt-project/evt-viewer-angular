@@ -96,7 +96,9 @@
       "enable": true
     }
   ],
-  "notSignificantVariants": ["type=orthographic"],
+  "notSignificantVariants": [
+    "type=orthographic"
+  ],
   "defaultEdition": "diplomatic",
   "defaultViewMode": "collation",
   "proseVersesToggler": true,
@@ -106,7 +108,10 @@
   "readingColorDark": "rgb(101, 138, 255)",
   "externalBibliography": {
     "biblAttributeToMatch": "xml:id",
-    "elementAttributesToMatch": ["target", "source"]
+    "elementAttributesToMatch": [
+      "target",
+      "source"
+    ]
   },
   "biblView": {
     "propsToShow": [
@@ -131,5 +136,7 @@
     "Parallel",
     "parallel"
   ],
-  "sourcesExcludedFromListByParent": ["desc"]
+  "sourcesExcludedFromListByParent": [
+    "desc"
+  ]
 }

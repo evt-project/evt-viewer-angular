@@ -9,7 +9,7 @@ import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
 
-export interface AnalogueEntryComponent { }
+export interface AnalogueEntryComponent {}
 @register(Analogue)
 @Component({
   selector: 'evt-analogue-entry',
@@ -20,7 +20,6 @@ export interface AnalogueEntryComponent { }
 export class AnalogueEntryComponent implements OnInit {
 
   public _data: Analogue;
-
   private edLevel: EditionLevelType;
 
   @Input() set data(dt: Analogue) {
@@ -46,9 +45,7 @@ export class AnalogueEntryComponent implements OnInit {
   get data() { return this._data; }
 
   public analogueClass = AnalogueClass;
-
   public dataForNote = {};
-
   public opened = false;
 
   toggleOpened$ = new Subject<boolean | void>();
@@ -66,13 +63,8 @@ export class AnalogueEntryComponent implements OnInit {
     this.opened = false;
   }
 
-  stopPropagation(e: MouseEvent) {
-    e.stopPropagation();
-  }
-
   /** If the element has no text then it's displayed as a note.*/
   createNote(v): Note|{} {
-
     return {
       type: Note,
       noteType: 'analogue',
@@ -83,14 +75,18 @@ export class AnalogueEntryComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    if (this.data.text.length === 0) {
-      this.dataForNote = this.createNote(this.data);
-    }
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
   constructor(
     public evtStatusService: EVTStatusService,
   ) {}
+
+  ngOnInit() {
+    if (this.data.text.length === 0) {
+      this.dataForNote = this.createNote(this.data);
+    }
+  }
 
 }

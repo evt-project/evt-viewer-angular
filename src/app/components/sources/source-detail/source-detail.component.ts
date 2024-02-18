@@ -20,7 +20,7 @@ export class SourceDetailComponent {
 
   @Input() set source(el: QuoteEntry) {
     this.sourceEntry = el;
-    this.checkVisible(el);
+    this.checkVisibility(el);
   }
   get source() { return this.sourceEntry; }
 
@@ -31,13 +31,13 @@ export class SourceDetailComponent {
   get editionLevel() { return this.edLevel; }
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
-  stopPropagation(e: MouseEvent) {
-    e.stopPropagation();
-  }
-
-  checkVisible(source: QuoteEntry) {
+  checkVisibility(source: QuoteEntry) {
     this.headVisible = (source.sources.length > 0 || source.extSources.length > 0 || source.text.length > 0);
     this.detailVisible = (source.sources.length > 0  || source.extSources.length > 0 || source.extElements.length > 0);
+  }
+
+  stopPropagation(e: MouseEvent) {
+    e.stopPropagation();
   }
 
 }

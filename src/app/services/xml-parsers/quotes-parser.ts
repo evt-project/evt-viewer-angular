@@ -27,13 +27,11 @@ export class BasicParser {
 //@xmlParser('ptr', QuoteParser) "
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends BasicParser implements Parser<XMLElement> {
-
     elementParser = createParser(GenericElemParser, this.genericParse);
     attributeParser = ParserRegister.get('evt-attribute-parser');
     msDescParser = ParserRegister.get('msDesc');
     biblParser = createParser(BibliographyParser, this.genericParse);
     analogueParser = createParser(AnalogueParser, this.genericParse);
-
     analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
     extMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     intAttrsToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
@@ -48,7 +46,6 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     xpathRegex = /\sxpath=[\"\'].*[\"\']/g;
 
     public parse(quote: XMLElement): QuoteEntry | Note | GenericElement | Analogue {
-
         const isExcluded = (quote.parentElement) && (this.exceptionParentElements.includes(quote.parentElement.tagName));
 
         if (isAnalogue(quote, this.analogueMarkers)) {
@@ -77,7 +74,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
                 if (notSource) {
                     return divElement;
                 }
-                divElement.content.push( this.createNote(quote) );
+                divElement.content.push(this.createNote(quote));
 
                 return divElement;
             case 'ptr':
@@ -132,8 +129,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             quotedText: this.getQuotedTextFromSources(inside.sources.concat(ext.extSources)),
             analogues: ext.analogues.concat(inside.analogues),
             class: ( (!isAnalogueCheck) && (!isCit) && ( (!isInCit) || ((isInCit) && (isQuote)) ) ) ? SourceClass : quote.tagName.toLowerCase(),
-            insideCit: isInCit,
-            noteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
+            isInsideCit: isInCit,
+            isNoteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
             content: content,
             contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
             originalEncoding: this.getXML(quote, isInCit),
@@ -158,8 +155,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     /**
      * Choose proper XML node
      */
-    private getXML(quote: XMLElement, inCitElem: boolean): XMLElement {
-        if (inCitElem) {
+    private getXML(quote: XMLElement, isInCitElem: boolean): XMLElement {
+        if (isInCitElem) {
             return quote.parentElement;
         }
 
@@ -170,8 +167,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     /**
      * Retrieve attributes linked to external bibl/listBibl/cit elements
      */
-    private findExtRef(quote: XMLElement, inCitElem: boolean): XMLElement {
-        const target = (inCitElem) ? quote.parentElement : quote;
+    private findExtRef(quote: XMLElement, isInCitElem: boolean): XMLElement {
+        const target = (isInCitElem) ? quote.parentElement : quote;
         const linkAttr = Array.from(target.querySelectorAll<XMLElement>('[' +this.intAttrsToMatch.join('], [')+ ']')).map((x) => x);
         if (linkAttr.length > 0) {
             return linkAttr[0];
@@ -302,7 +299,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
         return <QuoteEntry> {
             type: QuoteEntry,
-            id: 'EVT-SRC:'+getID(quote),
+            id: 'EVT-SRC:' + getID(quote),
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
             text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),
@@ -312,8 +309,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             extElements: ext.extElements,
             quotedText: this.getQuotedTextFromSources(ext.extElements.concat(ext.extSources)),
             class: SourceClass,
-            insideCit: false,
-            noteView: true,
+            isInsideCit: false,
+            isNoteView: true,
             content: content,
             contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
             originalEncoding: this.getXML(quote, false),

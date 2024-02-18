@@ -11,12 +11,9 @@ import { EVTStatusService } from 'src/app/services/evt-status.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnaloguesComponent implements OnInit {
-
   private edLevel: EditionLevelType;
-
   public analogues;
   private appClasses = [AnalogueClass];
-
   public analoguesInCurrentPage = this.evtStatusService.getPageElementsByClassList(this.appClasses)
 
   @Input() pageID : string;

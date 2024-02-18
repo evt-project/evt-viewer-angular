@@ -233,8 +233,8 @@ export function updateCSS(rules: Array<[string, string]>) {
 }
 
 /**
- * This function searches inside every property of an object for the provided attribute it
- * it has one of the provided list of values. It falls back after a customizable number of iterations.
+ * This function searches inside every property of an object for the provided attribute
+ * it has one of the provided list of values. It stops after a customizable number of iterations to avoid waste of resources.
  * The limit counter could be inserted in a config, same as the ignoredProperties
  */
 export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000, ignoredProperties = []) {

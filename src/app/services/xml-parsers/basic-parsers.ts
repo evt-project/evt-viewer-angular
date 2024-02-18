@@ -235,8 +235,15 @@ export class PtrParser extends GenericElemParser implements Parser<XMLElement> {
         };
     }
 
-    private isAnalogue(xml: XMLElement) { return (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type'))) };
-    private isSource(xml: XMLElement) { return (getExternalElements(xml, this.ptrAttrs, this.sourceAttr, '*')).length !== 0 }
+    private isAnalogue(xml: XMLElement) {
+
+        return (AppConfig.evtSettings.edition.analogueMarkers.includes(xml.getAttribute('type')))
+    };
+
+    private isSource(xml: XMLElement) {
+
+        return ((getExternalElements(xml, this.ptrAttrs, this.sourceAttr, '*')).length !== 0)
+    }
 }
 
 @xmlParser('l', VerseParser)
@@ -246,7 +253,8 @@ export class VerseParser extends EmptyParser implements Parser<XMLElement> {
     quoteParser = createParser(QuoteParser, this.genericParse);
     sourceAttr = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
     analogueMarkers = AppConfig.evtSettings.edition.analogueMarkers;
-    source = null; analogue = null;
+    source = null;
+    analogue = null;
     parse(xml: XMLElement): Verse {
 
         if (isAnalogue(xml, this.analogueMarkers)) {
@@ -448,10 +456,8 @@ export class MilestoneParser extends GenericElemParser implements Parser<XMLElem
 
 @xmlParser('anchor', AnchorParser)
 export class AnchorParser extends GenericElemParser implements Parser<XMLElement> {
-
     attributeParser = createParser(AttributeParser, this.genericParse);
     //todo: check if a span is referring to this element's @xml:id?
-
     parse(xml: XMLElement): Anchor {
 
         return {
@@ -467,11 +473,9 @@ export class AnchorParser extends GenericElemParser implements Parser<XMLElement
 @xmlParser('spanGrp', SpanParser)
 @xmlParser('span', SpanParser)
 export class SpanParser extends GenericElemParser implements Parser<XMLElement> {
-
     attributeParser = createParser(AttributeParser, this.genericParse);
 
     parse(xml: XMLElement): Span|SpanGrp {
-
         if (xml.tagName === 'spanGrp') {
 
             return <SpanGrp> {
@@ -482,7 +486,8 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
                 content: parseChildren(xml, this.genericParse),
             }
 
-        } else if (xml.tagName === 'span') {
+        }
+        if (xml.tagName === 'span') {
             const endElement = (xml.getAttribute('spanTo')) ? getExternalElements(xml, ['from'], 'xml:id', 'anchor') : [];
             const includedElements = (endElement.length !== 0) ? getElementsBetweenTreeNode(xml, endElement[0]) : [];
             const parsedElements = (includedElements.length !== 0) ?
@@ -499,7 +504,6 @@ export class SpanParser extends GenericElemParser implements Parser<XMLElement> 
                 content: parseChildren(xml, this.genericParse),
             };
         }
-
     }
 }
 

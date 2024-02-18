@@ -6,12 +6,10 @@ import { Analogue, AnalogueClass, XMLElement } from '../../models/evt-models';
   providedIn: 'root',
 })
 export class AnalogueEntriesParserService {
-
   private className = `.${AnalogueClass}`;
   private parserName = 'evt-analogue-entry-parser';
 
   public parseAnaloguesEntries(document: XMLElement) {
-
     const analogueParser = ParserRegister.get(this.parserName);
 
     return Array.from(document.querySelectorAll<XMLElement>(this.className))
@@ -19,4 +17,3 @@ export class AnalogueEntriesParserService {
   }
 
 }
-
