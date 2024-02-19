@@ -3,7 +3,7 @@
 .source-container {
     border: 1px solid rgba(128, 128, 128, 0.149);
     padding: 0;
-    margin: 0.5em 0.5em 1em 0.5em;
+    margin: 0.5rem 0.5rem 1rem 0.5rem;
     font-family: serif;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     background-color:rgba(32, 66, 81, 0.18);
@@ -18,7 +18,7 @@
 
 .source-quote-button {
     float: right;
-    margin-right: 0.3em;
+    margin-right: 0.3rem;
     font-size: 1.5em;
     margin-top: -0.5em;
     color: #00000073;
@@ -35,7 +35,7 @@
     font-size: 1em;
     color: #263238;
     margin: 0;
-    padding: 0 0.3em 0 0;
+    padding: 0 0.3rem 0 0;
     display: inline;
     font-family: 'evt-icons' !important;
     font-style: normal;
@@ -107,9 +107,9 @@
     .tab-content {
         max-height: 12.5rem;
         overflow: auto;
-        padding-top: 0.5em;
-        padding-left: 1em;
-        padding-bottom: 0.5em;
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+        padding-bottom: 0.5rem;
         .info-lemma-wrapper {
             @include themify($themes) {
                 border-bottom: 1px solid themed("baseBorder");
