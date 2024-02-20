@@ -15,16 +15,11 @@ export class BasicParser {
     constructor(parseFn: ParseFn) { this.genericParse = parseFn; }
 }
 
+/**
+ * It manages note, cit, ref, seg, div, p, l, lb, ptr elements
+ * sent on redirect from other parsers if detected as 'sources'
+*/
 @xmlParser('quote', QuoteParser)
-//@xmlParser('note', QuoteParser) on redirect from their parser
-//@xmlParser('cit', QuoteParser)
-//@xmlParser('ref', QuoteParser)
-//@xmlParser('seg', QuoteParser)
-//@xmlParser('div', QuoteParser)
-//@xmlParser('p', QuoteParser) "
-//@xmlParser('l', QuoteParser) "
-//@xmlParser('lb', QuoteParser) "
-//@xmlParser('ptr', QuoteParser) "
 @xmlParser('evt-quote-entry-parser', QuoteParser)
 export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     elementParser = createParser(GenericElemParser, this.genericParse);
@@ -60,8 +55,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             case 'lg':
             case 'l':
             case 'note':
-                // if they are not a source send them to their parse
-                // otherwise create a note
+                // if they are not a source send them to their parse otherwise create a note
                 if (notSource) {
                     return ParserRegister.get(quote.tagName).parse(quote) as Paragraph|VersesGroup|Verse|Note;
                 }
@@ -78,8 +72,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
                 return divElement;
             case 'ptr':
-                // if it's not a source send it to its parse
-                // otherwise parse here
+                // if it's not a source send it to its parse, otherwise it will be parsed here later
                  if (notSource) {
                     return ParserRegister.get(quote.tagName).parse(quote) as Ptr;
                 }
@@ -87,8 +80,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             case 'ref':
             case 'seg':
             case 'cit':
-                // if they are not a source create a generic element
-                // otherwise parse here
+                // if they are not a source create a generic element, otherwise it will be parsed here later
                 if (notSource) {
                     return ParserRegister.get('evt-generic-elem-parser').parse(quote) as GenericElement;
                 }
@@ -165,7 +157,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
 
     /**
-     * Retrieve attributes linked to external bibl/listBibl/cit elements
+     * Retrieve attributes linked to external bibl, listBibl, cit elements
      */
     private findExtRef(quote: XMLElement, isInCitElem: boolean): XMLElement {
         const target = (isInCitElem) ? quote.parentElement : quote;
@@ -180,8 +172,9 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     /**
      * Retrieve and send to the proper parsing all bibliography elements inside the quote element
      * @param quote XMLElement
-     * @returns array of Bibliography Element or a single Bibliography List element
+     * @returns array of XML Elements
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private getInsideSources(quote: XMLElement, isInCit: boolean): { sources:any, analogues:any } {
         const prsRg = {
             bibl: this.biblParser,
@@ -289,7 +282,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
         return quotesInSources;
     }
 
-    private createNote(quote: XMLElement) {
+    private createNote(quote: XMLElement): QuoteEntry {
         // const sources = this.getInsideSources(quote, false);
         // not parsing inside sources, they will be parsed anyway
         const isCit = ((quote.tagName === 'cit') || (quote.tagName === 'note'));
@@ -299,7 +292,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
 
         return <QuoteEntry> {
             type: QuoteEntry,
-            id: 'EVT-SRC:' + getID(quote),
+            id: 'EVT-SOURCE:' + getID(quote),
             tagName: quote.tagName,
             attributes: this.attributeParser.parse(quote),
             text: normalizeSpaces(this.getQuotedTextInside(quote, isCit, isDiv)),

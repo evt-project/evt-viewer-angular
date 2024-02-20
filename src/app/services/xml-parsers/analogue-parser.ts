@@ -9,7 +9,6 @@ import { BasicParser } from './quotes-parser';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
-
     elementParser = createParser(GenericElemParser, parse);
     attributeParser = createParser(AttributeParser, this.genericParse);
     biblParser = createParser(BibliographyParser, this.genericParse);
@@ -37,7 +36,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
 
         return {
             type: Analogue,
-            id: (notableElements.includes(analogue.tagName)) ? 'EVT-ANG:'+getID(analogue) : getID(analogue),
+            id: (notableElements.includes(analogue.tagName)) ? 'EVT-ANALOGUE:' + getID(analogue) : getID(analogue),
             class: AnalogueClass,
             attributes: this.attributeParser.parse(analogue),
             text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements, this.evtInnerTextElements)),
@@ -107,6 +106,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
         return ppElements.concat(addendum.flat());
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private getQuotedTextFromSources(nodes: BibliographicEntry[]): any {
         let quotesInSources = [];
         nodes.forEach((el: BibliographicEntry|BibliographicList) => {

@@ -10,8 +10,8 @@ export class SourceEntriesParserService {
     const quoteParser = ParserRegister.get('evt-quote-entry-parser');
 
     return [
-        Array.from(document.querySelectorAll<XMLElement>(`.${SourceClass}`))
-          .map((srcEntry) => quoteParser.parse(srcEntry) as QuoteEntry),
+      Array.from(document.querySelectorAll<XMLElement>(`.${SourceClass}`))
+        .map((srcEntry) => quoteParser.parse(srcEntry) as QuoteEntry),
     ];
   }
 }

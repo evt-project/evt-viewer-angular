@@ -39,6 +39,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
         return null;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parse(xml: XMLElement): any {
 
         switch (xml.tagName) {
@@ -89,6 +90,7 @@ export class BibliographyParser extends BasicParser implements Parser<XMLElement
                     originalEncoding: xml,
                 };
             default:
+                // it should never reach here but we don't want risking to not parse an element anyway...
                 return this.elementParser.parse(xml)
         }
     }
