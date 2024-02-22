@@ -124,6 +124,7 @@ import { TextVersionsComponent } from './view-modes/text-versions/text-versions.
 import { HandleImgErrorDirective } from './directives/handle-img-error.directive';
 import { ImageOnlyComponent } from './view-modes/image-only/image-only.component';
 import { ImageImageComponent } from './view-modes/image-image/image-image.component';
+import { ImageGrpPanelComponent } from "./panels/imagegrp-panel/imagegrp-panel.component";
 
 
 const routes: Routes = [
@@ -206,6 +207,7 @@ const DynamicComponents = [
     HtmlAttributesDirective,
     HumanizePipe,
     ImagePanelComponent,
+    ImageGrpPanelComponent,
     ImageTextComponent,
     ImageOnlyComponent,
     ImageImageComponent,

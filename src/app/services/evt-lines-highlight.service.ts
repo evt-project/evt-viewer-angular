@@ -14,7 +14,7 @@ export class EvtLinesHighlightService {
       this.parsedContent = page.parsedContent;
       if (page){
         setTimeout(()=>{
-        page.parsedContent.forEach((pc)=>{
+        page.parsedContent?.forEach((pc)=>{
           this.assignLbId(pc)
         })
         }, 500);
@@ -45,7 +45,7 @@ export class EvtLinesHighlightService {
   zonesHighlights$ = this.lineBeginningSelected$.pipe(
     withLatestFrom(this.currentSurfaces$),
     map(([lbS, surface]) =>{
-      const linesOver = surface.zones.lines.filter((line) => lbS.some((l) => l.id === line.id));
+      const linesOver = surface?.zones?.lines.filter((line) => lbS.some((l) => l.id === line.id)) ?? [];
 
       return  linesOver.map((lo) => ({
             id: lo.id,

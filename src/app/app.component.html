@@ -6,6 +6,6 @@
   <span class="navbar-toggler" [ngClass]="{opened: navbarOpened$ | async}" (click)="toggleToolbar()" [title]="'toggleToolbar' | translate">
     <evt-icon [iconInfo]="navbarTogglerIcon$ | async"></evt-icon>
   </span>
-  <evt-nav-bar [ngClass]="{opened: navbarOpened$ | async}"></evt-nav-bar>
+  <evt-nav-bar [ngClass]="{opened: navbarOpened$ | async}" *ngIf="hasNavBar"></evt-nav-bar>
 </ng-container>
 <ngx-spinner #mainSpinner type="ball-spin-clockwise" bdColor="rgba(51,51,51,0.8)"></ngx-spinner>

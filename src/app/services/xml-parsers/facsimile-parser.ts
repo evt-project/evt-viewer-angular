@@ -1,5 +1,15 @@
 import { xmlParser } from '.';
-import { Graphic, Point, Surface, XMLElement, Zone, ZoneHotSpot, ZoneLine, ZoneRendition } from '../../models/evt-models';
+import {
+    Graphic,
+    Point,
+    Surface,
+    SurfaceGrp,
+    XMLElement,
+    Zone,
+    ZoneHotSpot,
+    ZoneLine,
+    ZoneRendition
+} from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 
@@ -88,6 +98,26 @@ export class SurfaceParser extends EmptyParser implements Parser<XMLElement> {
                 lines: zones.filter((z) => z.rendition === 'Line') as ZoneLine[],
                 hotspots: zones.filter((z) => z.rendition === 'HotSpot') as ZoneHotSpot[],
             },
+            attributes: this.attributeParser.parse(xml),
+            content: parseChildren(xml, this.genericParse),
+        };
+    }
+}
+
+@xmlParser('surfaceGrp', SurfaceGrpParser)
+export class SurfaceGrpParser extends EmptyParser implements Parser<XMLElement> {
+
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    surfaceParser = createParser(SurfaceParser, this.genericParse);
+    public parse(xml: XMLElement): SurfaceGrp {
+        console.log('surgface grp');
+
+        const surfaces = Array.from(xml.querySelectorAll<XMLElement>('surface')).map((s) => this.surfaceParser.parse(s));
+
+        return {
+            type: SurfaceGrp,
+          surfaces: surfaces,
             attributes: this.attributeParser.parse(xml),
             content: parseChildren(xml, this.genericParse),
         };

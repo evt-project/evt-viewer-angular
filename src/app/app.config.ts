@@ -110,7 +110,10 @@ export interface FileConfig {
         [T in EditionImagesSources]: EditionImagesConfig;
     };
     logoUrl?: string;
-    imagesFolderUrl?: string;
+    imagesFolderUrls?: {
+        single: string;
+        double: string;
+    };
     configurationUrls?: {
         edition: string;
         ui: string;

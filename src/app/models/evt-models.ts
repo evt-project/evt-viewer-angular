@@ -219,6 +219,12 @@ export class Surface extends GenericElement {
         hotspots: ZoneHotSpot[];
     };
 }
+
+export class SurfaceGrp extends GenericElement {
+
+    surfaces: Surface[];
+}
+
 export type ZoneRendition = 'Line' | 'HotSpot'; // EVT rule to distinguish lines for ITL from HotSpots
 export interface Point {
     x: number;

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, O
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription, of  } from 'rxjs';
 import { combineLatestWith, distinctUntilChanged, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { Page, Surface, ViewerDataType } from '../../models/evt-models';
 import { OsdTileSource, ViewerDataInput, ViewerSource } from '../../models/evt-polymorphic-models';
@@ -97,8 +97,13 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
   public _viewerSource: ViewerDataInput; // tslint:disable-line: variable-name
   @Input() set viewerData(v: ViewerDataType) {
     this._viewerDataType = v.type;
-    this._viewerSource = ViewerSource.getSource(v, v.type);
-    this.sourceChange.next(this._viewerSource);
+    try {
+
+      this._viewerSource = ViewerSource.getSource(v, v.type);
+      this.sourceChange.next(this._viewerSource);
+    }catch{
+
+    }
   }
   sourceChange = new BehaviorSubject<ViewerDataInput>([]);
 
@@ -149,8 +154,11 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
     this.viewerId = uuid('openseadragon');
     this.div.nativeElement.id = this.viewerId;
 
+    try{
     this.tileSources = ViewerSource.getTileSource(this.sourceChange, this._viewerDataType, this.http);
-
+    } catch{
+      this.tileSources=of([]);
+    }
     const commonOptions = {
       visibilityRatio: 0.66,
       minZoomLevel: 0.3,
@@ -331,8 +339,8 @@ export class OsdComponent implements AfterViewInit, OnDestroy {
           filter(([_zones, sync])=> sync),
           takeUntil(this.unsubscribeAll$),
         ).subscribe(([zones]) => {
-          this.lineSelected = zones;
-          if (zones.length > 0) {
+          this.lineSelected = zones ?? [];
+          if (zones?.length > 0) {
               this.linesHighlightService.highlightLineText(
                             zones.map((z)=> ({ id: z.corresp, selected: z.selected })),
                           );

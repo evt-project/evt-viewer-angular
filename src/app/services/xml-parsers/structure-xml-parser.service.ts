@@ -88,7 +88,7 @@ export class StructureXmlParserService {
     // TODO: handle multiple version of page
     const image = id.split('.')[0];
 
-    return `${AppConfig.evtSettings.files.imagesFolderUrl}/${image}.jpg`;
+    return `${AppConfig.evtSettings.files.imagesFolderUrls.single}/${image}.jpg`;
   }
   // lbId = '';
   // quando trovi un lbId allora lbId = 'qualcosa'

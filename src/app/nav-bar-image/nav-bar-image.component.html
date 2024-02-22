@@ -1,5 +1,5 @@
 <div class="nav-bar w-100">
-    <ngx-slider *ngIf="pageSliderOptions$ | async as pageSliderOptions" class="ms-2 me-2"
+    <ngx-slider *ngIf="(pageSliderOptions$  | async ) as pageSliderOptions" class="ms-2 me-2"
         [value]="currentPageIndex$ | async" [options]="pageSliderOptions" (userChangeEnd)="onUpdatePage($event?.value ??0)"></ngx-slider>
     <div class="navigation-btns-container">
         <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="me-1" [title]="'firstPage' | translate"

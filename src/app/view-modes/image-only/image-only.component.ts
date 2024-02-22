@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map, shareReplay, withLatestFrom } from 'rxjs/operators';
+import { map,  withLatestFrom } from 'rxjs/operators';
 import { AppConfig } from '../../app.config';
-import { Page, XMLImagesValues } from '../../models/evt-models';
-import { ViewerSource } from '../../models/evt-polymorphic-models';
+import { Page,  XMLImagesValues } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 
@@ -29,34 +28,85 @@ export class ImageOnlyComponent {
     },
   };
   public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
-  public imageViewer$ = this.evtModelService.surfaces$.pipe(
-    withLatestFrom(this.evtModelService.pages$),
-    map(([surface, pages]) => {
+  // public pageDouble = this.evtModelService.surfacesGrp$.pipe(
+  //   map((sGrps)=>{
+  //     return sGrps.map((_sGrp, index)=>{
+  //       const pNew: Page = {
+  //         url:'',
+  //         id: index.toString(),
+  //         facs:'',
+  //         facsUrl:'',
+  //         label: index.toString(),
+  //         originalContent:[],
+  //         parsedContent:[],
+  //       };
+  //       return pNew;
+  //     })
+  //
+  //   }),
+  // );
+
+  public imageViewer$ = this.evtModelService.surfacesGrp$.pipe(
+    withLatestFrom(this.evtModelService.surfacesGrpPages$),
+    map(([surfacesGrp, _pageDouble]) => {
       const editionImages = AppConfig.evtSettings.files.editionImagesSource;
       console.log(editionImages);
-      for (const key of Object.keys(editionImages)) {
-        if (editionImages[key].enable) {
-          return ViewerSource.getDataType(key, surface);
-        }
-      }
+      // for (const key of Object.keys(editionImages)) {
+      //   if (editionImages[key].enable) {
+      //     const surface: Surface={
+      //       zones:[],
+      //       id:
+      //     };
+      //     const surfaces: Surface[]=[surface]
+      //     return ViewerSource.getDataType(key, surfaces);
+      //   }
+      // }
 
-      return {
+      // return {
+      //   type: 'default',
+      //   value: {
+      //     xmlImages: pageDouble.map((page) => ({ url: page.facsUrl })) as XMLImagesValues[],
+      //   },
+      // };
+      const result: XMLImagesValues[] = surfacesGrp.map(sGrp=>{
+
+        const fileName = sGrp.surfaces.reduce((pv, cv)=>{
+          if (pv.length === 0){
+            return pv+cv.corresp.replace('#', '');
+          }
+          return pv+'-'+cv.corresp.replace('#', '');
+
+        }, '');
+
+        const imagesFolderUrl = AppConfig.evtSettings.files.imagesFolderUrls.double;
+        const url = `${imagesFolderUrl}${fileName}.jpg`;
+        const r: XMLImagesValues ={
+          url: url,
+          width: 910,
+          height: 720,
+        };
+        return r;
+      });
+      return  {
         type: 'default',
-        value: {
-          xmlImages: pages.map((page) => ({ url: page.facsUrl })) as XMLImagesValues[],
-        },
-      };
+         value: {
+          xmlImages:result,
+         },
+       };
     }),
   );
 
-  public currentPageID$ = this.evtStatusService.currentStatus$.pipe(
-    map(({ page }) => page.id),
+  public currentPageID$ = this.evtModelService.surfacesGrpPages$.pipe(
+      map((surfacesGrpPages) => {
+        const sGrp = surfacesGrpPages[0];
+        return sGrp.id;
+      }),
   );
 
-  public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
-    map(({ editionLevels }) => editionLevels[0]),
-    shareReplay(1),
-  );
+  
+  
+  
+  
 
   constructor(
     private evtStatusService: EVTStatusService,

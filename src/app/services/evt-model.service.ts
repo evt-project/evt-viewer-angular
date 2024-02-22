@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  combineLatest, Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { combineLatestWith, map, shareReplay, switchMap } from 'rxjs/operators';
 import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
@@ -144,6 +144,54 @@ export class EVTModelService {
   );
 
   // FACSIMILE
+  public readonly surfacesGrp$ = this.editionSource$.pipe(
+      map((source) => this.facsimileParser.parseSurfacesGrp(source)),
+      shareReplay(1),
+  );
+
+  public readonly surfacesGrpPages$ = this.surfacesGrp$.pipe(
+      combineLatestWith(this.pages$),
+    map(([sGrps, pages])=>{
+      return sGrps.map((sGrp)=> {
+
+        const titleName = sGrp.surfaces.reduce((pv, cv) => {
+          const fp: Page = pages.find(p=>p.id === cv.corresp);
+          if (pv.length === 0) {
+
+            if (fp){
+              return pv + fp.label;
+            }
+            return pv + cv.corresp.replace('#', '');
+          }
+          if (fp){
+            return pv + ' ' + fp.label;
+          }
+          return pv + ' ' + cv.corresp.replace('#', '');
+
+        }, '');
+
+        const id = sGrp.surfaces.reduce((pv, cv) => {
+          if (pv.length === 0) {
+            return pv + cv.corresp.replace('#', '');
+          }
+          return pv + '-' + cv.corresp.replace('#', '');
+
+        }, '');
+        const p : Page={
+          url:'',
+          parsedContent:undefined,
+          originalContent: undefined,
+          label: titleName,
+          id: id,
+          facsUrl: '',
+          facs:''
+        };
+        return p;
+      });
+
+    }),
+  );
+
   public readonly surfaces$ = this.editionSource$.pipe(
     map((source) => this.facsimileParser.parseSurfaces(source)),
     shareReplay(1),

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { delay, filter, first, map, scan, startWith, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject,  switchMap } from 'rxjs';
+import { delay, distinctUntilChanged, filter, first, map, scan, startWith, withLatestFrom } from 'rxjs/operators';
 // import { AppConfig } from '../app.config';
 import { EVTModelService } from '../services/evt-model.service';
 import { EVTStatusService } from '../services/evt-status.service';
@@ -11,12 +11,13 @@ import { EVTStatusService } from '../services/evt-status.service';
   styleUrls: ['./nav-bar-image.component.scss'],
 })
 export class NavBarImageComponent {
-
+    private showSinglePage$ = new BehaviorSubject<boolean>(true);
+  @Input() set showSinglePage(value: boolean){
+      this.showSinglePage$.next(value);
+  }
   @Input() set currentIndexPage(value:number | null){
     if (value){
-      this.currentPageIndex$.next(value);
-      console.log('Nuovo index', value);
-
+        this.currentPageIndex$.next(value);
     }
   };
 
@@ -27,16 +28,12 @@ export class NavBarImageComponent {
   public get showSyncImageButton() {
     return this._showSyncImageButton;
   }
-  public set showSyncButton(value) {
-    if (!value){
-      this.isSyncImageButtonActive = '';
-      // this.linesHighlightService.syncTextImage$.next(false);
-    }
-    this._showSyncImageButton = value;
-  }
 
 
-  isSyncImageButtonActive: '' | 'active' = '';
+
+
+
+  // isSyncImageButtonActive: '' | 'active' = '';
 
   @Output() changeIndexPage = new EventEmitter<number>();
   updateThContainerInfo$ = new Subject<HTMLElement | void>();
@@ -98,15 +95,23 @@ export class NavBarImageComponent {
     map(([navDisabled, currentIndex]) => navDisabled || currentIndex === 0),
   );
 
+    pagesAvailable$ = this.showSinglePage$.pipe(
+//tap(ss => { console.log('is single page', ss)}),
+        distinctUntilChanged(),
+       switchMap(single => single ? this.evtModelService.pages$ : this.evtModelService.surfacesGrpPages$)
+    ) ;
+
   nextNavigationDisabled$ = combineLatest([
     this.navigationDisabled$,
     this.currentPageIndex$,
   ]).pipe(
-    withLatestFrom(this.evtModelService.pages$),
+    withLatestFrom(this.pagesAvailable$),
     map(([[navDisabled, currentIndex], pages]) => navDisabled || currentIndex === pages.length - 1),
   );
 
-  pageSliderOptions$ = combineLatest([this.navigationDisabled$, this.evtModelService.pages$])
+
+
+  pageSliderOptions$ = combineLatest([this.navigationDisabled$, this.pagesAvailable$])
     .pipe(
       map(([navigationDisabled, pages]) => ({
         floor: 0,
@@ -117,6 +122,17 @@ export class NavBarImageComponent {
       })),
     );
 
+  // pageGrpSliderOptions$ = combineLatest([this.navigationDisabled$, this.evtModelService.surfacesGrpPages$])
+  //     .pipe(
+  //         map(([navigationDisabled, pages]) => ({
+  //           floor: 0,
+  //           ceil: pages.length - 1,
+  //           showSelectionBar: true,
+  //           translate: (value: number): string => pages[value]?.label ?? '',
+  //           disabled: navigationDisabled,
+  //         })),
+  //     );
+
   @HostListener('window:resize') resize() {
     this.updateThContainerInfo$.next();
   }
@@ -126,34 +142,36 @@ export class NavBarImageComponent {
     public evtModelService: EVTModelService,
   ) {}
 
-  toggleThumbnailsPanel() {
-    this.toggleThumbnailsPanel$.next();
-    this.toggleViscollPanel$.next(false);
-  }
-
-  toggleViscollPanel() {
-    this.toggleViscollPanel$.next();
-    this.toggleThumbnailsPanel$.next(false);
-  }
+  // toggleThumbnailsPanel() {
+  //   this.toggleThumbnailsPanel$.next();
+  //   this.toggleViscollPanel$.next(false);
+  // }
+  //
+  // toggleViscollPanel() {
+  //   this.toggleViscollPanel$.next();
+  //   this.toggleThumbnailsPanel$.next(false);
+  // }
 
   onUpdatePage(page:number) :void {
-    this.currentPageIndex$.next(page);
-    this.changeIndexPage.emit(this.currentPageIndex$.value);
+    //this.currentPageIndex$.next(page);
+    //this.changeIndexPage.emit(this.currentPageIndex$.value);
+      this.changeIndexPage.emit(page);
   }
 
   onGoLastPage():void {
-    this.evtModelService.pages$.pipe(
+      this.pagesAvailable$.pipe(
         first(),
       ).subscribe(
         (pages) => {
-          this.currentPageIndex$.next(pages.length-1);
-          this.changeIndexPage.emit(this.currentPageIndex$.value);
+          // this.currentPageIndex$.next(pages.length-1);
+          // this.changeIndexPage.emit(this.currentPageIndex$.value);
+            this.changeIndexPage.emit(pages.length-1);
         }
       )
   }
 
-  syncImageImage() {
-    this.isSyncImageButtonActive = this.isSyncImageButtonActive === 'active' ? '' : 'active';
-    this.evtStatusService.syncImageNavBar$.next(this.isSyncImageButtonActive === 'active');
-  }
+  // syncImageImage() {
+  //   this.isSyncImageButtonActive = this.isSyncImageButtonActive === 'active' ? '' : 'active';
+  //   this.evtStatusService.syncImageNavBar$.next(this.isSyncImageButtonActive === 'active');
+  // }
 }
