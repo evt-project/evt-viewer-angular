@@ -1,8 +1,8 @@
 import { Injectable, Type } from '@angular/core';
 import { AppParser, RdgParser } from './app-parser';
 import {
-    AdditionParser, AttributeMapParser, AttributeParser, DamageParser, DeletionParser, GapParser,
-    GenericElemParser, LBParser, NoteParser, ParagraphParser, PtrParser, SuppliedParser,
+    AdditionParser, AnchorParser, AttributeMapParser, AttributeParser, DamageParser, DeletionParser, GapParser,
+    GenericElemParser, LBParser, MilestoneParser, NoteParser, ParagraphParser, PtrParser, SpanParser, SuppliedParser,
     TermParser, TextParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
@@ -38,6 +38,8 @@ import {
     NamedEntitiesListParser, NamedEntityRefParser, OrganizationParser,
     PersonGroupParser, PersonParser, PlaceParser, RelationParser,
 } from './named-entity-parsers';
+import { QuoteParser } from './quotes-parser';
+import { AnalogueParser } from './analogue-parser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
@@ -58,6 +60,8 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     AdditionParser,
     AdditionsParser,
     AdminInfoParser,
+    AnalogueParser,
+    AnchorParser,
     AltIdentifierParser,
     AppParser,
     AttributeMapParser,
@@ -130,6 +134,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     ListTransposeParser,
     LocusGrpParser,
     LocusParser,
+    MilestoneParser,
     MsContentsParser,
     MsDescParser,
     MsFragParser,
@@ -165,6 +170,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     PublicationStmtParser,
     PunctuationParser,
     PurposeParser,
+    QuoteParser,
     QuotationParser,
     RdgParser,
     RecordHistParser,
@@ -188,6 +194,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     SicParser,
     SourceDescParser,
     SourceParser,
+    SpanParser,
     StdValsParser,
     StyleDefDeclParser,
     SummaryParser,

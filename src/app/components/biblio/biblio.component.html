@@ -1,0 +1,12 @@
+<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry')">
+    <ng-container *ngFor="let element of showList | keyvalue; let i = index">
+        <ng-container *ngIf="showEmptyValues || (data[element.value] && data[element.value].length > 0)">
+            <ng-container *ngIf="showAttrNames">{{element.value}}: </ng-container>
+                <ng-container *ngIf="data[element.value]">
+                   {{ data[element.value] }} <span *ngIf="data[element.value].length > 0" [class.hidden]="(!isCommaSeparated)">,</span> 
+                </ng-container>
+            <br *ngIf="!inline && data[element.value].length > 0">
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="data.isInsideCit === true && showMainElemTextContent">{{ data.text }}</ng-container>
+</ng-container>

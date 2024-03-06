@@ -16,7 +16,7 @@ export class ApparatusEntryDetailComponent implements OnInit {
   rdgHasCounter = false;
 
   get significantRdg(): Reading[] {
-    return this.data.readings.filter((rdg) => rdg.significant);
+    return this.data.readings.filter((rdg) => rdg?.significant);
   }
 
   get notSignificantRdg(): Reading[] {

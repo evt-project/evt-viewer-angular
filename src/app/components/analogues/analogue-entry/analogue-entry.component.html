@@ -1,0 +1,23 @@
+<span class="{{ analogueClass }} {{ data.class }}" 
+    (click)="toggleOpened$.next()" 
+    [ngClass]="{opened: opened$ | async}" 
+    [evtHtmlAttributes]="data?.attributes" 
+    [attr.data-edition]="editionLevel" 
+    [evtEditorialConventionLayout]="editorialConventionData"
+    (click)="toggleAppEntryBox($event);"> 
+
+    <ng-container *ngIf="data?.contentToShow.length > 0"> 
+        <ng-container *ngFor="let element of data.contentToShow">
+            <evt-content-viewer [content]="element" [editionLevel]="editionLevel"></evt-content-viewer>
+        </ng-container> 
+    </ng-container>
+
+    <ng-container *ngIf="data?.contentToShow.length === 0"> 
+        <evt-note [data]="dataForNote"></evt-note> 
+    </ng-container>
+</span>
+<evt-analogue-detail *ngIf="opened$ | async" 
+    [analogue]="data"
+    [editionLevel]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes">
+</evt-analogue-detail>

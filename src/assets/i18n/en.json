@@ -172,5 +172,17 @@
     "moreInfoAboutApp": "More info about the apparatus entry",
     "omit": "omit.",
     "wit": "Wit:",
-    "xml": "XML"
+    "xml": "XML",
+    "criticalApparatus":"Critical Apparatus",
+    "sources": "Sources",
+    "analogues": "Analogues",
+    "source": "Source",
+    "analogue": "Analogue",
+    "notes":"Notes",
+    "refBibl": "Bibliographic references",
+    "quotedSources": "Quoted sources",
+    "quotedText": "Text",
+    "references": "References",
+    "analogueIn": "Analogue in",
+    "corresps": "Correspondences"
 }

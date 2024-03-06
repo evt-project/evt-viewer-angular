@@ -1,0 +1,21 @@
+<span class="{{ sourceClass }} {{ data.class }}" 
+    (click)="toggleOpened$.next()" 
+    [ngClass]="{ opened: opened$ | async }" 
+    [attr.data-edition]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes" 
+    [evtEditorialConventionLayout]="editorialConventionData"
+    (click)="toggleAppEntryBox($event);">
+    <ng-container *ngIf="data?.contentToShow.length > 0"> 
+        <ng-container *ngFor="let element of data.contentToShow || []">
+            <evt-content-viewer [content]="element" [editionLevel]="editionLevel"></evt-content-viewer>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="((data?.text.length === 0) && ((data?.extElements.length !== 0) || (data?.extSources.length !== 0)))"> 
+        <evt-note [data]="dataForNote"></evt-note> 
+    </ng-container>
+</span>
+<evt-source-detail *ngIf="opened$ | async" 
+    [editionLevel]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes"
+    [source]="data">
+</evt-source-detail>
