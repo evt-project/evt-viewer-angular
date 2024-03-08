@@ -1,6 +1,9 @@
 <span class="lb" 
     [evtHtmlAttributes]="data?.attributes"
     [attr.id]="data.id" [attr.data-rend]="data.rend || ''" [attr.data-facs]="data.facs || ''">
-    <br *ngIf="displayBlock$ | async"/>
-    <span class="lineN" *ngIf="data.n && (displayBlock$ | async)">{{data.n}}</span>
+    <ng-container *ngIf="data">
+        <br *ngIf="displayBlock$ | async"/>
+        <span class="lineN" *ngIf="data.n && (displayBlock$ | async)">{{data.n}}</span>
+    </ng-container>
+    <ng-container *ngIf="displayInline$ | async">&nbsp;</ng-container>
 </span>
