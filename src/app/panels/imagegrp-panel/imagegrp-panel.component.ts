@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {BehaviorSubject, combineLatest, merge, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, first, map, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, first, map, takeUntil,  withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -46,66 +46,62 @@ private unsubscribeAll$ = new Subject<void>();
   );
   updatePageNumber$ = new Subject<number>();
   pageNumber$ = this.currentPageId$.pipe(
-    withLatestFrom(this.evtModelService.surfacesGrpPages$),
+    withLatestFrom(this.evtModelService.imageDoublePages$),
     map(([pageId, pages]) => pages.findIndex((page) => page.id === pageId)),
   );
 
-  currentSurfacesGrpPage$ = this.currentPageId$.pipe(
-      tap((pageId)=>{
-        console.log('current page id', pageId)
-      }),
-    withLatestFrom( this.evtModelService.surfacesGrpPages$),
+  currentImageOnlyPage$ = this.currentPageId$.pipe(
+      // tap((pageId)=>{
+      //   console.log('current page id', pageId)
+      // }),
+    withLatestFrom( this.evtModelService.imageDoublePages$),
 
 
-    map(([pageId, surfacesGrp]) =>  surfacesGrp.find((surfaceGrp) => surfaceGrp.id === pageId)),
+    map(([pageId, imageOnlyPages]) =>  {
+      const p = imageOnlyPages.find((imageOnlyPage) => imageOnlyPage.id === pageId);
+      return p ? p : imageOnlyPages[0];
+    }),
   );
-  selectedPage$ = this.currentSurfacesGrpPage$.pipe(
-      filter(sGrp => sGrp !== undefined),
-      map(sGrp=>{
-        // const titleName = sGrp.surfaces.reduce((pv, cv)=>{
-        //   if (pv.length === 0){
-        //     return pv+cv.corresp.replace('#', '');
-        //   }
-        //   return pv+' '+cv.corresp.replace('#', '');
-        //
-        // }, '');
-        // return titleName;
-        return sGrp.id;
+  selectedPage$ = this.currentImageOnlyPage$.pipe(
+      filter(imageOnlyPage => imageOnlyPage !== undefined),
+      map(imageOnlyPage=>{
+
+        return imageOnlyPage.id;
       }),
   );
 
-  pages$ = this.evtModelService.surfacesGrpPages$;
+  pages$ = this.evtModelService.imageDoublePages$;
 
-  currentSurfacesGrp$ = this.evtModelService.surfacesGrp$.pipe(
-      withLatestFrom(this.currentSurfacesGrpPage$),
-      map(([surfacesGrp, currentPage])=>{
-        if (!currentPage) {
-          return surfacesGrp[0];
-        }
+  // currentSurfacesGrp$ = this.evtModelService.surfacesGrp$.pipe(
+  //     withLatestFrom(this.currentImageOnlyPage$),
+  //     map(([imageOnlyPages, currentPage])=>{
+  //       if (!currentPage) {
+  //         return imageOnlyPages[0];
+  //       }
+  //
+  //       return imageOnlyPages.find(sGrp => {
+  //         const id = sGrp.surfaces.reduce((pv, cv) => {
+  //           if (pv.length === 0) {
+  //             return pv + cv.corresp.replace('#', '');
+  //           }
+  //           return pv + '-' + cv.corresp.replace('#', '');
+  //
+  //         }, '');
+  //         return id === currentPage.id;
+  //       });
+  //     })
+  // )
 
-        return surfacesGrp.find(sGrp => {
-          const id = sGrp.surfaces.reduce((pv, cv) => {
-            if (pv.length === 0) {
-              return pv + cv.corresp.replace('#', '');
-            }
-            return pv + '-' + cv.corresp.replace('#', '');
-
-          }, '');
-          return id === currentPage.id;
-        });
-      })
-  )
-
-  currentSurfaces$ = this.currentSurfacesGrp$.pipe(
-      filter(sg => sg !== undefined),
-    map(sg=> sg.surfaces[0])
-  );
+  // currentSurfaces$ = this.currentSurfacesGrp$.pipe(
+  //     filter(sg => sg !== undefined),
+  //   map(sg=> sg.surfaces[0])
+  // );
 
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
 
       filter((n) => n !== undefined),
-      withLatestFrom(this.evtModelService.surfacesGrpPages$),
+      withLatestFrom(this.evtModelService.imageDoublePages$),
       map(([n, pages]) => pages[n]),
     ),
     this.currentPage$.pipe(
@@ -140,12 +136,12 @@ private unsubscribeAll$ = new Subject<void>();
   ngAfterViewInit(): void{
 
     if (this.indipendentNavBar){
-      this.evtModelService.surfacesGrpPages$.pipe(
+      this.evtModelService.imageDoublePages$.pipe(
          // delay(50),
           first(),
-      ).subscribe((pages)=>{
-        const idx = this.panelNumber > pages.length ? 0: this.panelNumber;
-        const cp = pages[idx];
+      ).subscribe((imageOnlyPages)=>{
+        const idx = this.panelNumber > imageOnlyPages.length ? 0: this.panelNumber;
+        const cp = imageOnlyPages[idx];
         this.currentPage$.next(cp);
         this.updatePageNumber$.next(idx);
         this.pageID = cp?.id ?? '';
@@ -164,12 +160,12 @@ private unsubscribeAll$ = new Subject<void>();
         }
       }));
     } else{
-      this.evtModelService.surfacesGrpPages$.pipe(
+      this.evtModelService.imageDoublePages$.pipe(
           first(),
 
-      ).subscribe((pages)=>{
+      ).subscribe((imageOnlyPages)=>{
 
-        const cp = pages[0];
+        const cp = imageOnlyPages[0];
         this.currentPage$.next(cp);
         this.updatePageNumber$.next(0);
         this.pageID = cp.id;
@@ -191,20 +187,20 @@ private unsubscribeAll$ = new Subject<void>();
 
   updatePage(viewerPage: number) {
     this.updatePageNumber$.next(viewerPage > 0 ? viewerPage - 1 : 0);
-    this.evtModelService.surfacesGrpPages$.pipe(
+    this.evtModelService.imageDoublePages$.pipe(
         first(),
-    ).subscribe(pages=>{
-      const page = pages[viewerPage-1];
+    ).subscribe(imageOnlyPages=>{
+      const page = imageOnlyPages[viewerPage-1];
       this.currentPage$.next(page)
     })
   }
   onPageChange(pageId: string){
 
     this.pageID = pageId;
-    this.evtModelService.surfacesGrpPages$.pipe(
+    this.evtModelService.imageDoublePages$.pipe(
         first(),
-    ).subscribe(pages=>{
-      const page = pages.find(p => p.id === pageId)
+    ).subscribe(imageOnlyPages=>{
+      const page = imageOnlyPages.find(p => p.id === pageId)
       this.currentPage$.next(page)
     })
 
@@ -219,8 +215,8 @@ private unsubscribeAll$ = new Subject<void>();
 
   onChangedCurrentPage(page:number) {
 
-    this.evtModelService.surfacesGrpPages$.pipe(
-      map((pages) => page < 0 ? pages[pages.length - 1] : pages[page]),
+    this.evtModelService.imageDoublePages$.pipe(
+      map((imageOnlyPages) => page < 0 ? imageOnlyPages[imageOnlyPages.length - 1] : imageOnlyPages[page]),
       first(),
     ).subscribe(
       (currentPage:Page ) => {

@@ -27,7 +27,6 @@ export class GenericElement {
     class?: string;
     attributes: Attributes;
     content: Array<ParseResult<GenericElement>>;
-
 }
 
 export type XMLElement = HTMLElement;
@@ -218,6 +217,13 @@ export class Surface extends GenericElement {
         lines: ZoneLine[];
         hotspots: ZoneHotSpot[];
     };
+}
+
+export class Facsimile extends GenericElement{
+    corresp: string | undefined;
+    surfaces: Surface[];
+    surfaceGrps: SurfaceGrp[];
+    graphics: Graphic[];
 }
 
 export class SurfaceGrp extends GenericElement {

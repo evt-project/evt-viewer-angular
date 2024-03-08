@@ -1,5 +1,6 @@
 import { xmlParser } from '.';
 import {
+    Facsimile,
     Graphic,
     Point,
     Surface,
@@ -13,6 +14,55 @@ import {
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 
+
+@xmlParser('facsimile', FacsimileParser)
+export class FacsimileParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    graphicParser = createParser(GraphicParser, this.genericParse);
+    surfaceGrpParser = createParser(SurfaceGrpParser, this.genericParse);
+    surfaceParser = createParser(SurfaceParser,this.genericParse);
+    public parse(xml: XMLElement): Facsimile {
+
+        // const zones = Array.from(xml.querySelectorAll<XMLElement>('zone')).map((z) => this.zoneParser.parse(z));
+        //const attributes = this.attributeParser.parse(xml);
+        //console.log('attributes', attributes);
+        if (xml.getAttribute('rend') === 'double') {
+            return {
+                type: Facsimile,
+                //id: getID(xml),
+                corresp: xml.getAttribute('corresp')?.replace('#', ''),
+                graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
+                surfaceGrps: undefined, // Array.from(xml.querySelectorAll<XMLElement>('surfaceGrp')).map((g) => this.surfaceGrpParser.parse(g)),
+                surfaces: undefined,//Array.from(xml.querySelectorAll<XMLElement>('surface')).map((g) => this.surfaceParser.parse(g)),
+                attributes: this.attributeParser.parse(xml),
+                content: parseChildren(xml, this.genericParse),
+            };
+        } else {
+            return {
+                type: Facsimile,
+                //id: getID(xml),
+                corresp: xml.getAttribute('corresp')?.replace('#', ''),
+                graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
+                surfaceGrps: Array.from(xml.querySelectorAll<XMLElement>('surfaceGrp')).map((g) => this.surfaceGrpParser.parse(g)),
+                surfaces: Array.from(xml.querySelectorAll<XMLElement>('surface')).map((g) => this.surfaceParser.parse(g)),
+                attributes: this.attributeParser.parse(xml),
+                content: parseChildren(xml, this.genericParse),
+            };
+        }
+        // return {
+        //     type: Facsimile,
+        //     id: getID(xml),
+        //     corresp: xml.getAttribute('corresp')?.replace('#', ''),
+        //     graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
+        //     zones: {
+        //         lines: zones.filter((z) => z.rendition === 'Line') as ZoneLine[],
+        //         hotspots: zones.filter((z) => z.rendition === 'HotSpot') as ZoneHotSpot[],
+        //     },
+        //     attributes: this.attributeParser.parse(xml),
+        //     content: parseChildren(xml, this.genericParse),
+        // };
+    }
+}
 @xmlParser('zone', ZoneParser)
 export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
@@ -117,7 +167,7 @@ export class SurfaceGrpParser extends EmptyParser implements Parser<XMLElement> 
 
         return {
             type: SurfaceGrp,
-          surfaces: surfaces,
+            surfaces: surfaces,
             attributes: this.attributeParser.parse(xml),
             content: parseChildren(xml, this.genericParse),
         };

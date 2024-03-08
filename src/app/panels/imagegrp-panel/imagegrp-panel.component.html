@@ -34,10 +34,10 @@
     </div>
 
     <div content class="full-height">
-<!--        <pre>{{viewerData | json}}</pre>-->
+<!--        <pre>{{viewerData | json}}</pre> [surface]="currentSurfaces$ | async"-->
         <evt-osd
             *ngIf="viewerData"
-            [surface]="currentSurfaces$ | async"
+
             [viewerData]="viewerData"
             [options]="{showNavigationControl: true}"
             [page]="pageNumber$ | async"

@@ -18,6 +18,8 @@ export class NavBarImageComponent {
   @Input() set currentIndexPage(value:number | null){
     if (value){
         this.currentPageIndex$.next(value);
+    } else {
+        this.currentPageIndex$.next(0);
     }
   };
 
@@ -98,7 +100,7 @@ export class NavBarImageComponent {
     pagesAvailable$ = this.showSinglePage$.pipe(
 //tap(ss => { console.log('is single page', ss)}),
         distinctUntilChanged(),
-       switchMap(single => single ? this.evtModelService.pages$ : this.evtModelService.surfacesGrpPages$)
+       switchMap((single) => single ? this.evtModelService.pages$ : this.evtModelService.imageDoublePages$),
     ) ;
 
   nextNavigationDisabled$ = combineLatest([
@@ -118,7 +120,7 @@ export class NavBarImageComponent {
         ceil: pages.length - 1,
         showSelectionBar: true,
         translate: (value: number): string => pages[value]?.label ?? '',
-        disabled: navigationDisabled,
+        disabled: navigationDisabled ?? false,
       })),
     );
 
