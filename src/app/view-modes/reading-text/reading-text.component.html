@@ -15,21 +15,40 @@
             <div content>
                 <ul ngbNav #apparatuses="ngbNav" class="nav-tabs nav-fill">
                     <li [ngbNavItem]="'critical'">
-                        <a ngbNavLink>{{'CriticalApparatus' | translate}}</a>
+                        <a ngbNavLink>{{'criticalApparatus' | translate}}</a>
                         <ng-template ngbNavContent>
-                            <div>{{'CriticalApparatus' | translate}}</div>
+                            <evt-critical-apparatus
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)">
+                            </evt-critical-apparatus>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'sources'">
-                        <a ngbNavLink>{{ 'Sources' | translate }}</a>
+                        <a ngbNavLink>{{ 'sources' | translate }}</a>
                         <ng-template ngbNavContent>
-                            <div>{{ 'Sources' | translate }}</div>
+                            <evt-sources
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
+                            </evt-sources>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'analogues'">
-                        <a ngbNavLink>{{ 'Analogues' | translate }}</a>
+                        <a ngbNavLink>{{ 'analogues' | translate }}</a>
                         <ng-template ngbNavContent>
-                            <div>{{ 'Analogues' | translate }}</div>
+                            <evt-analogues
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
+                            </evt-analogues>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="'notes'">
+                        <a ngbNavLink>{{ 'notes' | translate }}</a>
+                        <ng-template ngbNavContent>
+
                         </ng-template>
                     </li>
                 </ul>  

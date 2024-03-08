@@ -4,6 +4,7 @@
     top: -0.063rem;
     z-index: 0;
     border-radius: 0;
+    margin-bottom: 0.5em;
     cursor: auto;
     @include themify($themes) {
         background-color: themed("appEntryBoxBackground");
@@ -14,12 +15,14 @@
 .app-detail-tabs {
     background-color: transparent;
     font-size: 1.063rem;
+    font-family: Junicode, Times, serif;
 }
 
 .app-detail-content {
     display: flex;
     justify-content: space-between;
     padding: 0.313rem;
+    background-color: rgba(32, 66, 81, 0.18);
 }
 
 .app-detail-readings {

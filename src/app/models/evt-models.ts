@@ -170,6 +170,70 @@ export class ApparatusEntry extends GenericElement {
     nestedAppsIDs: string[];
 }
 
+export const SourceClass = 'sourceEntry';
+export const AnalogueClass = 'analogueEntry';
+export const BibliographyClass = 'biblioEntry';
+
+export class QuoteEntry extends GenericElement {
+    id: string;
+    tagName: string;
+    text: string;
+    sources: BibliographicEntry[] | BibliographicList[];
+    extSources: BibliographicEntry[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    extElements: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    analogues: any;
+    originalEncoding: OriginalEncodingNodeType;
+    isInsideCit: boolean;
+    quotedText: string[];
+    isNoteView: boolean;
+    contentToShow: Array<ParseResult<GenericElement>>
+    //rend: string;
+}
+
+export class BibliographicList extends GenericElement {
+    id: string;
+    head: string[];
+    sources: BibliographicEntry[];
+}
+
+export class BibliographicEntry extends GenericElement {
+    id: string;
+    author: string[];
+    editor: string[];
+    title: string[];
+    date: string[];
+    publisher: string[];
+    pubPlace: string[];
+    citedRange: string[];
+    biblScope: string[];
+    text: string;
+    quotedText: string;
+    isInsideCit: boolean;
+    originalEncoding: OriginalEncodingNodeType;
+}
+
+export class BibliographicStructEntry extends GenericElement {
+    id: string;
+    analytic: BibliographicEntry[];
+    monogrs: BibliographicEntry[];
+    series: BibliographicEntry[];
+    originalEncoding: OriginalEncodingNodeType;
+}
+
+export class Analogue extends GenericElement {
+    id: string;
+    text: string;
+    sources: BibliographicEntry[];
+    extSources: BibliographicEntry[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    extLinkedElements: any;
+    quotedElements: [{ id: string, quote: string }];
+    contentToShow: Array<ParseResult<GenericElement>>
+    originalEncoding: OriginalEncodingNodeType;
+}
+
 export class Reading extends GenericElement {
     id: string;
     witIDs: string[];
@@ -194,10 +258,14 @@ export class Note extends GenericElement {
     noteLayout: NoteLayout;
     noteType: string;
     exponent: string;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Paragraph extends GenericElement {
     n: string;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Lb extends GenericElement {
@@ -297,11 +365,15 @@ export class Choice extends GenericElement {
 
 export class Verse extends GenericElement {
     n: string;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class VersesGroup extends GenericElement {
     n: string;
     groupType: string;
+    source: QuoteEntry;
+    analogue: Analogue;
 }
 
 export class Supplied extends GenericElement {
@@ -468,13 +540,13 @@ export class MsItemStruct extends GenericElement {
     titles: Array<ParseResult<GenericElement>>; // TODO: Add specific type when title is handled
     rubric: Rubric;
     incipit: Incipit;
-    quote: Array<ParseResult<GenericElement>>; // TODO: Add specific type when quote is handled
+    quote: QuoteEntry;
     explicit: Explicit;
     finalRubric: FinalRubric;
     colophons: Array<ParseResult<GenericElement>>; // TODO: Add specific type when colophon is handled
     decoNote: DecoNote;
-    listBibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when listBibl is handled
-    bibl: Array<ParseResult<GenericElement>>; // TODO: Add specific type when bibl is handled
+    listBibl: BibliographicList;
+    bibl: BibliographicEntry;
     filiation: Filiation[];
     noteEl: Note[];
     textLangs: Array<ParseResult<GenericElement>>; // TODO: Add specific type when textLang is handled
@@ -1058,6 +1130,32 @@ export class Term extends GenericElement {
     id?: string;
     ref?: string;
     rend?: string;
+}
+
+export class Milestone extends GenericElement {
+    id?: string;
+    unit?: string;
+    spanText: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    spanElements: any;
+}
+
+export class Anchor extends GenericElement {
+    id?: string;
+}
+
+export class Span extends GenericElement {
+    id?: string;
+    from: string;
+    to: string;
+    includedText: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    includedElements: any;
+}
+
+export class SpanGrp extends GenericElement {
+    id?: string;
+    spans: Span[]
 }
 
 export class Keywords extends GenericElement {

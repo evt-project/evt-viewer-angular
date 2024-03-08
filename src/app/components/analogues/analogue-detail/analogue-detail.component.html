@@ -1,0 +1,88 @@
+<div class="source-container" *ngIf="headVisible"> 
+    <div class="card-body app-detail-content source-detail-content" *ngIf="analogue.content.length > 0">
+        <span class="btn btn-sm transparent source-quote-button"></span>
+        <span class="source-quote-symbol">&#10077;</span>
+        <span title="analogue-text">
+            <ng-container *ngFor="let element of analogue.contentToShow">
+                <evt-content-viewer *ngIf="element.tagName !== 'ptr'" 
+                    [content]="element" 
+                    [editionLevel]="editionLevel"
+                    [evtHtmlAttributes]="element?.attributes" 
+                    [attr.data-edition]="editionLevel">
+                </evt-content-viewer>
+            </ng-container>
+        </span>
+    </div>
+    <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
+        <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
+            <li ngbNavItem="quotedText" *ngIf="analogue.quotedElements.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let quoteTxt of analogue.quotedElements">
+                        <ng-container *ngIf="quoteTxt.quote.type">
+                            <evt-content-viewer [content]="quoteTxt.quote"></evt-content-viewer>
+                        </ng-container>
+                        <ng-container *ngIf="!(quoteTxt.quote.type)">{{quoteTxt.quote}}</ng-container>
+                    </ng-container>
+                </ng-template>
+            </li>
+            <li ngbNavItem="refBibl" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
+                <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
+                <ng-template ngbNavContent>
+
+                    <ng-container *ngIf="analogue.sources.length > 0">
+                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
+                        <evt-biblio-list [data]="analogue.sources"></evt-biblio-list>
+                    </ng-container>
+
+                    <ng-container *ngIf="analogue.extSources.length > 0">
+                        <h3 class="sources-cat">{{'analogueIn' | translate}}</h3>
+                        <evt-biblio-list [data]="analogue.extSources"></evt-biblio-list>
+                    </ng-container>
+
+                </ng-template>
+            </li>
+            <li ngbNavItem="xml" *ngIf="analogue.originalEncoding">
+                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <evt-original-encoding-viewer [originalEncoding]="analogue.originalEncoding">
+                    </evt-original-encoding-viewer>
+                    <!-- children bibl element -->
+                    <ng-container *ngIf="analogue.sources">
+                        <ng-container *ngFor="let sourceXML of analogue.sources">
+                            <ng-container *ngIf="sourceXML.type.name === 'BibliographicList'">
+                                <ng-container *ngFor="let intBib of sourceXML.sources">
+                                    <evt-original-encoding-viewer [originalEncoding]="intBib.originalEncoding">
+                                    </evt-original-encoding-viewer>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="sourceXML.type.name !== 'BibliographicList'">
+                                <evt-original-encoding-viewer [originalEncoding]="sourceXML.originalEncoding">
+                                </evt-original-encoding-viewer>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <!-- external bibl element -->
+                    <ng-container *ngIf="analogue.extSources">
+                        <ng-container *ngFor="let extBiblXML of analogue.extSources">
+                            <ng-container *ngIf="extBiblXML.type.name === 'BibliographicList'">
+                                <ng-container *ngFor="let bibl of extBiblXML.sources">
+                                    <evt-original-encoding-viewer [originalEncoding]="bibl.originalEncoding">
+                                    </evt-original-encoding-viewer>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="extBiblXML.type.name !== 'BibliographicList'">
+                                <ng-container *ngIf="extBiblXML.originalEncoding">
+                                    <evt-original-encoding-viewer [originalEncoding]="extBiblXML.originalEncoding">
+                                    </evt-original-encoding-viewer>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="analogueEntryTab" class="tab-content"></div>
+    </div>
+</div>
+

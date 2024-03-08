@@ -74,4 +74,24 @@
             }
         }
     }
+
+    &[data-note-type='analogue'] {
+        .note-icon {
+            background: get-color(analogueNotes);
+
+            .arrow {
+                border-top-color: get-color(criticalNotes);
+            }
+        }
+    }
+
+    &[data-note-type='source'] {
+        .note-icon {
+            background: get-color(sourceNotes);
+
+            .arrow {
+                border-top-color: get-color(criticalNotes);
+            }
+        }
+    }
 }

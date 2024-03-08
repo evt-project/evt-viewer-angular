@@ -27,7 +27,7 @@ export class ApparatusEntryReadingsComponent {
   }
 
   get significantRdg(): Reading[] {
-    return this.data.readings.filter((rdg) => rdg.significant);
+    return this.data.readings.filter((rdg) => rdg?.significant);
   }
 
   getWits$(witID: string): Observable<string[]> {

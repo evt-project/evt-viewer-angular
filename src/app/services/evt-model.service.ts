@@ -21,6 +21,8 @@ import { NamedEntitiesParserService } from './xml-parsers/named-entities-parser.
 import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-parser.service';
 import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.service';
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
+import { SourceEntriesParserService } from './xml-parsers/source-entries-parser.service';
+import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
 import { AppConfig } from '../app.config';
 
 @Injectable({
@@ -149,6 +151,18 @@ export class EVTModelService {
     switchMap((witList) => this.significantReadingsNumber$.pipe(
         map((signRdgsNum) => this.apparatusParser.getAppVariance(signRdgsNum, witList)),
       )),
+    shareReplay(1),
+  );
+
+  //QUOTED SOURCES
+  public readonly sourceEntries$ = this.editionSource$.pipe(
+    map((source) => this.sourceParser.parseSourceEntries(source)),
+    shareReplay(1),
+  );
+
+  // PARALLEL PASSAGES
+  public readonly analogueEntries$ = this.editionSource$.pipe(
+    map((source) => this.analogueParser.parseAnaloguesEntries(source)),
     shareReplay(1),
   );
 
@@ -333,10 +347,10 @@ return undefined;
   public readonly msDesc$ = this.editionSource$.pipe(
     map((source) => this.msDescParser.parseMsDesc(source)),
     shareReplay(1),
-);
-
+  );
 
   constructor(
+    private analogueParser: AnalogueEntriesParserService,
     private editionDataService: EditionDataService,
     private editionStructureParser: StructureXmlParserService,
     private namedEntitiesParser: NamedEntitiesParserService,
@@ -347,6 +361,7 @@ return undefined;
     private characterDeclarationsParser: CharacterDeclarationsParserService,
     private linesVersesParser: LinesVersesParserService,
     private msDescParser: MsDescParserService,
+    private sourceParser: SourceEntriesParserService,
   ) {
   }
 

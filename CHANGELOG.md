@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 -
 
-## [1.0.0-alpha] - 2022-12-07
+## [1.0.0-alpha] - 2024-02-20
 
 ### Dependency Updates
 - Updated to Angular 13
@@ -87,6 +87,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Named entities visualisation
 - Named entities extraction
 - OpenSeadragon component with support for manifest file
+- Analogues and sources extraction and configuration
+- Analogues and sources visualization
 
 ### Changed
 - Routing params keys

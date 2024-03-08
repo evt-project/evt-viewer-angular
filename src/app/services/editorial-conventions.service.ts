@@ -5,7 +5,7 @@ import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-m
 
 // List of handled editorial convention
 export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
-  'damage' | 'deletion' | 'sicCrux' | 'surplus';
+  'damage' | 'deletion' | 'sicCrux' | 'surplus' | 'sources' | 'analogues';
 
 @Injectable({
   providedIn: 'root',
@@ -125,14 +125,55 @@ export class EditorialConventionsService {
         },
       },
     },
+    'sources': {
+      diplomatic: {
+        style: {
+          'font-style': 'italic',
+          'font-size': '104%',
+        },
+      },
+      interpretative: {
+        style: {
+          'font-style': 'italic',
+          'font-size': '104%',
+        },
+      },
+      critical: {
+        style: {
+          'font-style': 'italic',
+          'font-size': '104%',
+        },
+      },
+    },
+    'analogues': {
+      diplomatic: {
+        pre: '🗎',
+        style: {
+          'text-decoration': 'underline dotted from-font',
+        },
+      },
+      interpretative: {
+        pre: '🗎',
+        style: {
+          'text-decoration': 'underline dotted from-font',
+        },
+      },
+      critical: {
+        pre: '🗎',
+        style: {
+          'text-decoration': 'underline dotted from-font',
+        },
+      },
+    },
   };
 
   getLayouts(name: string, attributes: AttributesMap, defaultsKey: EditorialConventionDefaults) {
+    const excludedFromAttributeControl = ['sources', 'analogues'];
     const defaultKeys = this.defaultLayouts[defaultsKey];
     let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
 
     const externalLayouts = this._getExternalConfigs().find((c) => c.element === name &&
-      (!attributes || Object.keys(attributes).concat(
+      (excludedFromAttributeControl.includes(name) || !attributes || Object.keys(attributes).concat(
         Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
 
     if (externalLayouts) {

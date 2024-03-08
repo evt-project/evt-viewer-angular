@@ -173,6 +173,18 @@
     "omit": "omit.",
     "wit": "Wit:",
     "xml": "XML",
+    "criticalApparatus":"Critical Apparatus",
+    "sources": "Sources",
+    "analogues": "Analogues",
+    "source": "Source",
+    "analogue": "Analogue",
+    "notes":"Notes",
+    "refBibl": "Bibliographic references",
+    "quotedSources": "Quoted sources",
+    "quotedText": "Text",
+    "references": "References",
+    "analogueIn": "Analogue in",
+    "corresps": "Correspondences",
     "addImage": "Add image",
     "removeImage": "Remove image"
 }
