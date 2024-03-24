@@ -28,6 +28,10 @@
     display: block;
 }
 
+*[rend="align_right"] {
+    float: right;
+}
+
 *[place="superscript"] {
     vertical-align: text-bottom;
 }
@@ -84,7 +88,7 @@ evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
 }
 
 .metamark[rend="line"] {
-    display: block;
+    display: inline-flex;
     border-bottom: 1px solid black;
     margin-top:-1em;
     margin-right:70%;
