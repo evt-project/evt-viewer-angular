@@ -18,7 +18,7 @@ export class ApparatusEntriesParserService {
   public getSignificantReadings(apps: ApparatusEntry[]) {
     const signRdgs = {};
     apps.forEach((app) => {
-      signRdgs[app.id] = app.readings.concat(app.lemma).filter((rdg: Reading) => rdg.significant);
+      signRdgs[app.id] = app.readings.concat(app.lemma).filter((rdg: Reading) => rdg?.significant);
     });
 
     return signRdgs;

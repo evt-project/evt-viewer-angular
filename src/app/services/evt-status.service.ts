@@ -6,6 +6,7 @@ import { distinctUntilChanged, filter, first, map, mergeMap, shareReplay, switch
 import { AppConfig, EditionLevelType } from '../app.config';
 import { Page, ViewMode } from '../models/evt-models';
 import { EVTModelService } from './evt-model.service';
+import { deepSearch } from '../utils/dom-utils';
 
 export type URLParamsKeys = 'd' | 'p' | 'el' | 'ws' | 'vs';
 export type URLParams = { [T in URLParamsKeys]: string };
@@ -131,6 +132,10 @@ export class EVTStatusService {
 
     public currentNamedEntityId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
+    public currentQuotedId$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
+    public syncImageNavBar$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
     constructor(
         private evtModelService: EVTModelService,
         private router: Router,
@@ -179,6 +184,17 @@ export class EVTStatusService {
             params,
         };
     }
+
+    getPageElementsByClassList(classList) {
+        const attributesNotIncludedInSearch = ['originalEncoding','type'];
+        const maxEffort = 4000;
+
+        return this.currentStatus$.pipe(
+            map(({ page }) => page.parsedContent),
+            map((pageSubElements) => deepSearch(pageSubElements, 'class', classList, maxEffort, attributesNotIncludedInSearch)),
+        );
+    }
+
 }
 
 export interface AppStatus {

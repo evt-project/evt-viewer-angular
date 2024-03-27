@@ -1,6 +1,20 @@
 {
 	"availableViewModes": [
 		{
+			"icon": "images",
+			"iconSet": "fas",
+			"id": "imageImage",
+			"label": "Images",
+			"enable": true
+		},
+		{
+			"icon": "image",
+			"iconSet": "fas",
+			"id": "imageOnly",
+			"label": "Image only",
+			"enable": true
+		},
+		{
 			"icon": "txt",
 			"iconSet": "evt",
 			"id": "readingText",
@@ -61,5 +75,6 @@
 	"initNavBarOpened": true,
 	"thumbnailsButton": true,
 	"viscollButton": true,
-	"theme": "modern"
+	"theme": "modern",
+	"syncZonesHighlightButton": true
 }

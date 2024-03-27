@@ -2,13 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CollationComponent } from './view-modes/collation/collation.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
+import { ImageOnlyComponent } from './view-modes/image-only/image-only.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
 
 const appRoutes: Routes = [
   { path: 'imageText', component: ImageTextComponent },
+  { path: 'imageOnly', component: ImageOnlyComponent },
+  { path: 'imageImage', component: ImageImageComponent },
   { path: 'readingText', component: ReadingTextComponent },
   { path: 'textText', component: TextTextComponent },
   { path: 'collation', component: CollationComponent },

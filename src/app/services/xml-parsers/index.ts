@@ -27,11 +27,14 @@ export class ParserRegister {
         if (nels.includes(tagName)) {
             return 'evt-named-entities-list-parser';
         }
+        const quote = ['quote'];
+        if (quote.includes(tagName)) {
+            return 'evt-quote-entry-parser';
+        }
         const crit = ['app'];
         if (crit.includes(tagName)) {
             return 'evt-apparatus-entry-parser';
         }
-
         if (!Object.keys(ParserRegister.PARSER_MAP).includes(tagName)) {
             return 'evt-generic-elem-parser';
         }

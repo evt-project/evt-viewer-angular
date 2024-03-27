@@ -181,11 +181,6 @@ export function balanceXHTML(XHTMLstring: string): string {
 
 /**
  * Get all DOM elements contained between the node elements
- *
- * @param start starting node
- * @param end ending node
- *
- * @returns list of nodes contained between start node and end node
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
@@ -228,4 +223,39 @@ export function getCommonAncestor(node1, node2) {
 
 export function createNsResolver(doc: Document) {
   return (prefix: string) => prefix === 'ns' ? doc.documentElement.namespaceURI : undefined;
+}
+
+export function updateCSS(rules: Array<[string, string]>) {
+  const thisCSS = document.styleSheets[0];
+  rules.forEach((rule) => {
+    thisCSS.insertRule(`${rule[0]} {${rule[1]}}`, 0);
+  });
+}
+
+/**
+ * This function searches inside every property of an object for the provided attribute
+ * it has one of the provided list of values. It stops after a customizable number of iterations to avoid waste of resources.
+ * The limit counter could be inserted in a config, same as the ignoredProperties
+ */
+export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000, ignoredProperties = []) {
+  let results = [];
+  for (const key in obj) {
+    if (!ignoredProperties.includes(key)) {
+      const value = obj[key];
+      if ((key === attrToMatch) && (valuesToMatch.includes(obj[attrToMatch]))) {
+        results.push(obj);
+      }
+      if (typeof value === 'object' && value !== null) {
+        if (counter > 0) {
+          results = results.concat(deepSearch(value, attrToMatch, valuesToMatch, counter, ignoredProperties));
+          counter = counter - 1;
+        } else {
+          console.log('EVT WARN: element is too deep, not searching further in', obj, value);
+          counter = 4000;
+        }
+      }
+    }
+  }
+
+  return results;
 }

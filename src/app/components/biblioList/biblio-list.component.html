@@ -1,0 +1,43 @@
+
+    <ng-container *ngFor="let elem of data">
+        <ng-container *ngIf="elem.type && elem.type.name === 'MsDesc'">
+            <!-- <evt-ms-desc [data]="elem"></evt-ms-desc> more detailed but a bit redundant-->
+            <evt-ms-identifier *ngIf="elem.msIdentifier" [data]="elem.msIdentifier"></evt-ms-identifier>
+        </ng-container>
+        <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicStructEntry'">
+            <ul class="biblio-list">
+                <ng-container *ngFor="let analythicElem of elem.analytic"> 
+                    <evt-biblio-entry [data]="analythicElem"></evt-biblio-entry>
+                </ng-container>
+                <ng-container *ngFor="let monogr of elem.monogrs"> 
+                    <li><evt-biblio-entry [data]="monogr"></evt-biblio-entry></li>
+                </ng-container>
+                <ng-container *ngFor="let serie of elem.series"> 
+                    <evt-biblio-entry [data]="serie"></evt-biblio-entry>
+                </ng-container>
+            </ul>
+        </ng-container>
+        <!-- checking if bibl is inside a listBibl-->
+        <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicList'">
+            <ng-container *ngIf="elem.head && elem.head.length > 0"> 
+                <span class="bibl-head">{{elem.head}}</span>
+            </ng-container>
+            <ul class="biblio-list">
+                <ng-container *ngFor="let biblo of elem.sources"> 
+                    <li><evt-biblio-entry [data]="biblo"></evt-biblio-entry></li>
+                </ng-container>
+            </ul>
+        </ng-container>
+        <!-- bibl alone -->
+        <ng-container *ngIf="elem.type && elem.type.name === 'BibliographicEntry'">
+            <ul class="biblio-list">
+                <li><evt-biblio-entry [data]="elem"></evt-biblio-entry></li>
+            </ul>
+        </ng-container>
+        <!-- other elements such as ref and seg-->
+        <ng-container *ngIf="elem.type && elem.type.name === 'Object'">
+            <ul class="biblio-list">
+                <li><evt-content-viewer [content]="elem"></evt-content-viewer></li>
+            </ul>
+        </ng-container>
+    </ng-container>

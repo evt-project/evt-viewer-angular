@@ -1,9 +1,10 @@
+<span [class]="data.class">
 <ng-container *ngIf="data.content.length > 0">
     <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel"
         [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow"></evt-content-viewer>
 </ng-container>
 
-<ng-container *ngIf="data.content.length === 0">
+<ng-container *ngIf="data.content.length === 0" [class]="data.class">
     <ng-container [ngSwitch]="editionLevel">
         <ng-container *ngSwitchCase="'diplomatic'">
             <evt-content-viewer *ngFor="let element of diplomaticMapping$ | async" [content]="element"
@@ -15,3 +16,4 @@
         </ng-container>
     </ng-container>
 </ng-container>
+</span>

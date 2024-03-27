@@ -34,6 +34,7 @@ export class ImageTextComponent {
   public imageViewer$ = this.evtModelService.surfaces$.pipe(
     withLatestFrom(this.evtModelService.pages$),
     map(([surface, pages]) => {
+
       const editionImages = AppConfig.evtSettings.files.editionImagesSource;
       for (const key of Object.keys(editionImages)) {
         if (editionImages[key].enable) {

@@ -10,7 +10,10 @@
 			"enable": false
 		}
 	},
-	"imagesFolderUrl": "assets/data/images/single",
+	"imagesFolderUrls":{
+		"single": "assets/data/images/single/",
+		"double": "assets/data/images/double/"
+	},
 	"configurationUrls": {
 		"edition": "assets/config/edition_config.json",
 		"ui": "assets/config/ui_config.json",

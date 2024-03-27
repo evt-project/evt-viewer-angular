@@ -1,0 +1,20 @@
+<div class="nav-bar w-100">
+    <ngx-slider *ngIf="(pageSliderOptions$  | async ) as pageSliderOptions" class="ms-2 me-2"
+        [value]="currentPageIndex$ | async" [options]="pageSliderOptions"
+                (userChangeEnd)="onUpdatePage($event?.value ??0)"></ngx-slider>
+    <div class="navigation-btns-container">
+
+        <evt-button [iconRight]="{icon: 'step-backward'}" additionalClasses="me-1" [title]="'firstPage' | translate"
+            [disabled]="prevNavigationDisabled$ | async" (btnClick)="onUpdatePage(0)"></evt-button>
+        <evt-button [iconRight]="{icon: 'caret-left'}" additionalClasses="me-1" [title]="'previousPage' | translate"
+            [disabled]="prevNavigationDisabled$ | async" (btnClick)="onUpdatePage(currentPageIndex$.value-1)"></evt-button>
+        <evt-button [iconLeft]="{icon: 'caret-right'}" additionalClasses="me-1" [title]="'nextPage' | translate"
+            [disabled]="nextNavigationDisabled$ | async" (btnClick)="onUpdatePage(currentPageIndex$.value+1)"></evt-button>
+        <evt-button [iconLeft]="{icon: 'step-forward'}" [title]="'lastPage' | translate"
+            [disabled]="nextNavigationDisabled$ | async" (btnClick)="onGoLastPage()"></evt-button>
+    </div>
+    <!-- <div *ngIf="panelNumber===0">
+        <evt-button [title]="'syncImage' | translate" [active]="isSyncImageButtonActive === 'active'"
+        [iconRight]="{icon: 'rotate', iconSet:'fas'}" (btnClick)="syncImageImage()"></evt-button>
+    </div>     -->
+</div>

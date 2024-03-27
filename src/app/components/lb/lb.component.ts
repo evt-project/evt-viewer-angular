@@ -40,6 +40,12 @@ export class LbComponent {
     );
   }
 
+  get displayInline$() {
+    return this.displayBlock$.pipe(
+      map((displayBlock) => !displayBlock),
+    );
+  }
+
   constructor(
     private evtModelService: EVTModelService,
   ) {

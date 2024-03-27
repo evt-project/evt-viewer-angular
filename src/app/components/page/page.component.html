@@ -1,4 +1,6 @@
 <evt-content-viewer
+    [catturaMouse]="true"
+    
     *ngFor="let element of (pageDataChange | async)?.parsedContent || []"
     [content]="element" [editionLevel]="editionLevel?.id" [itemsToHighlight]="itemsToHighlight" [textFlow]="textFlow">
 </evt-content-viewer>

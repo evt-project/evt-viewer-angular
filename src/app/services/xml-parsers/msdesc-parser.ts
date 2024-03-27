@@ -1,16 +1,17 @@
 import { isBoolString } from 'src/app/utils/js-utils';
 import { xmlParser } from '.';
 import {
-    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, Binding, BindingDesc, Collation, CollectionEl, Condition,
-    CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
+    AccMat, Acquisition, Additional, Additions, AdminInfo, AltIdentifier, BibliographicEntry, Binding, BindingDesc, Collation, CollectionEl,
+    Condition, CustEvent, CustodialHist, DecoDesc, DecoNote, Depth, Dim, Dimensions, Explicit, Filiation, FinalRubric, Foliation,
     G, HandDesc, HandNote, Head, Height, History, Identifier, Incipit, Institution, Layout, LayoutDesc, Locus, LocusGrp, MaterialValues,
     MsContents, MsDesc, MsFrag, MsIdentifier, MsItem, MsItemStruct, MsName, MsPart, MusicNotation, Note, ObjectDesc, OrigDate,
-    Origin, OrigPlace, Paragraph, PhysDesc, Provenance, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
+    Origin, OrigPlace, Paragraph, PhysDesc, Provenance, QuoteEntry, RecordHist, Repository, Rubric, ScriptDesc, Seal, SealDesc, Source, Summary,
     Support, SupportDesc, Surrogates, Text, TypeDesc, TypeNote, Width, XMLElement,
 } from '../../models/evt-models';
 import { GenericElemParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
 import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
+import { BibliographicList } from '../../models/evt-models';
 
 class GAttrParser extends GenericElemParser {
     protected gParser = createParser(GParser, this.genericParse);
@@ -694,10 +695,10 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
             authors: unhandledElement(xml, 'author', this.genericParse),
             titles: unhandledElement(xml, 'title', this.genericParse),
             textLangs: unhandledElement(xml, 'textLang', this.genericParse),
-            bibl: unhandledElement(xml, 'bibl', this.genericParse),
+            bibl: queryAndParseElement<BibliographicEntry>(xml, 'bibl'),
             respStmt: unhandledElement(xml, 'respStmt', this.genericParse),
-            quote: unhandledElement(xml, 'quote', this.genericParse),
-            listBibl: unhandledElement(xml, 'listBibl', this.genericParse),
+            quote: queryAndParseElement<QuoteEntry>(xml, 'quote'),
+            listBibl: queryAndParseElement<BibliographicList>(xml, 'listBibl'),
             colophons: unhandledElement(xml, 'colophon', this.genericParse),
             rubric: queryAndParseElement<Rubric>(xml, 'rubric'),
             incipit: queryAndParseElement<Incipit>(xml, 'incipit'),

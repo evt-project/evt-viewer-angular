@@ -1,0 +1,13 @@
+<span class="space" 
+    [attr.data-edition]="editionLevel" 
+    [evtHtmlAttributes]="data?.attributes"
+    [evtHighlight]="highlightData" >
+
+    <ng-container *ngIf="data.attributes.unit === 'chars'">
+      <span *ngFor="let s of numSpaces">&nbsp;</span>
+    </ng-container>
+    <ng-content *ngIf="data.attributes.unit === 'letter'"></ng-content>
+    <evt-content-viewer *ngFor="let element of data.content" [content]="element" [editionLevel]="editionLevel"
+        [itemsToHighlight]="itemsToHighlight">
+    </evt-content-viewer>
+</span>

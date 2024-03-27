@@ -4,8 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
-import { ViewMode, ViewModeId } from './models/evt-models';
+import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
 import { Attributes, EditorialConventionLayout } from './models/evt-models';
+import { updateCSS } from './utils/dom-utils';
 
 @Injectable()
 export class AppConfig {
@@ -31,6 +32,7 @@ export class AppConfig {
                 ]).pipe(
                     map(([ui, edition, editorialConventions]) => {
                         console.log(ui, edition, files);
+                        this.updateStyleFromConfig(edition);
                         // Handle default values => TODO: Decide how to handle defaults!!
                         if (ui.defaultLocalization) {
                             if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enable)) {
@@ -53,7 +55,23 @@ export class AppConfig {
             });
         });
     }
+
+    /**
+     * Update once general css with values from config,
+     * this way we don't need to inject a style property in each element
+     * @param edition EditionConfig
+     */
+    updateStyleFromConfig(edition: EditionConfig) {
+        const rules = [];
+        rules['.' + AnalogueClass + ' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules['.' + SourceClass + ' .opened'] = `background-color: ${edition.readingColorDark}`;
+        rules['.' + AnalogueClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
+        rules['.' + SourceClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer`;
+        Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
+    }
+
 }
+
 export interface EVTConfig {
     ui: UiConfig;
     edition: EditionConfig;
@@ -75,6 +93,7 @@ export interface UiConfig {
     thumbnailsButton: boolean;
     viscollButton: boolean;
     theme: 'neutral' | 'modern' | 'classic';
+    syncZonesHighlightButton: boolean;
 }
 
 export interface EditionConfig {
@@ -99,6 +118,20 @@ export interface EditionConfig {
     verseNumberPrinter: number;
     readingColorLight: string;
     readingColorDark: string;
+    externalBibliography: Partial<{
+        biblAttributeToMatch: string;
+        elementAttributesToMatch: string[];
+    }>;
+    biblView: Partial<{
+		propsToShow: string[];
+		showAttrNames: boolean;
+		showEmptyValues: boolean;
+		inline: boolean;
+        commaSeparated: boolean;
+        showMainElemTextContent: boolean;
+	}>;
+    analogueMarkers: string[];
+    sourcesExcludedFromListByParent: string[];
 }
 
 export type EditionImagesSources = 'manifest' | 'graphics';
@@ -109,7 +142,10 @@ export interface FileConfig {
         [T in EditionImagesSources]: EditionImagesConfig;
     };
     logoUrl?: string;
-    imagesFolderUrl?: string;
+    imagesFolderUrls?: {
+        single: string;
+        double: string;
+    };
     configurationUrls?: {
         edition: string;
         ui: string;
