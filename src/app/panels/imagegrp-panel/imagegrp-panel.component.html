@@ -1,0 +1,61 @@
+<evt-panel [showSecondaryContent]="msDescOpen" [noPadding]="true"
+    [hideHeader]="!showHeader"
+    [hideFooter]="false">
+    <div header-left class="d-flex flex-row">
+        <!-- TODO: Add dropdowns for navigation -->
+<!--        <p class="text-white">pageId: {{pageID}} </p>-->
+<!--        <p class="text-white">selected page: {{selectedPage$ | async}} </p>-->
+<!--        <p class="text-white">current page: {{(currentPageId$ | async)}} </p>-->
+        <ng-select
+                style="min-width: 200px"
+                class="me-1"
+                [items]="pages$ | async"
+                bindLabel="label"
+                bindValue="id"
+                [clearable]="false"
+                [searchable]="true"
+                [ngModel]="selectedPage$ | async"
+                (change)="onPageChange($event.id)">
+            <ng-template
+                    ng-label-tmp
+                    let-item="item">
+                <evt-icon
+                        [iconInfo]="{icon: 'file-alt', additionalClasses: 'me-2'}"
+                        label-left></evt-icon>
+                {{ item.label | translate: {value: (pages$ | async).indexOf(item) + 1} }}
+            </ng-template>
+        </ng-select>
+<!--        <evt-page-selector [pageID]="pageID" (selectionChange)="currentPage$.next($event)"></evt-page-selector>-->
+<!--        <evt-ms-desc-selector #msDesc (selectionChange)="setMsDescID($event)" (msDescOpen)="setMsDescOpen($event)"></evt-ms-desc-selector>-->
+
+    </div>
+    <div header-right *ngIf="showSyncButton">
+<!--          <evt-button [active]="isSyncButtonActive === 'active'" [iconRight]="{icon: 'link', iconSet:'fas'}" (btnClick)="syncTextImage()"></evt-button>-->
+    </div>
+
+    <div content class="full-height">
+<!--        <pre>{{viewerData | json}}</pre> [surface]="currentSurfaces$ | async"-->
+        <evt-osd
+            *ngIf="viewerData"
+
+            [viewerData]="viewerData"
+            [options]="{showNavigationControl: true}"
+            [page]="pageNumber$ | async"
+            [pageElement]="currentPage$ | async"
+
+            (pageChange)="updatePage($event)">
+        </evt-osd>
+<!--        <p *ngIf="!viewerData">Found no source file</p>-->
+    </div>
+
+<!--    <div secondary-content>-->
+<!--        <div *ngIf="msDescOpen">-->
+<!--            <evt-ms-desc [data]="currentMsDesc$ | async"></evt-ms-desc>    -->
+<!--        </div>-->
+<!--    </div>-->
+</evt-panel>
+<evt-nav-bar-image [panelNumber]="panelNumber" 
+                   [currentIndexPage]="updatePageNumber$$ | async" 
+                   [showSinglePage]="false"
+                   (changeIndexPage)="onChangedCurrentPage($event)" 
+                   [ngClass]="{opened: true}" ></evt-nav-bar-image>

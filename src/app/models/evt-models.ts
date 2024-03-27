@@ -36,7 +36,7 @@ export interface EditionStructure {
     pages: Page[];
 }
 
-export type ViewModeId = 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions';
+export type ViewModeId = 'imageOnly' | 'imageImage' | 'readingText' | 'imageText' | 'textText' | 'collation' | 'textSources' | 'textVersions';
 
 export interface ViewMode {
     id: ViewModeId;
@@ -286,6 +286,19 @@ export class Surface extends GenericElement {
         hotspots: ZoneHotSpot[];
     };
 }
+
+export class Facsimile extends GenericElement{
+    corresp: string | undefined;
+    surfaces: Surface[];
+    surfaceGrps: SurfaceGrp[];
+    graphics: Graphic[];
+}
+
+export class SurfaceGrp extends GenericElement {
+
+    surfaces: Surface[];
+}
+
 export type ZoneRendition = 'Line' | 'HotSpot'; // EVT rule to distinguish lines for ITL from HotSpots
 export interface Point {
     x: number;
@@ -392,6 +405,11 @@ export type PlacementType = 'above' | 'below' | 'inline' | 'left' | 'right' | 'i
 
 export class Addition extends GenericElement {
     place: PlacementType;
+}
+
+export class Space extends GenericElement {
+    quantity?: number;
+    unit?: 'chars' | 'letter' ;
 }
 
 export type SicType = 'crux'; // sic types supported in specific ways

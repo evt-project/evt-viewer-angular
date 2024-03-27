@@ -253,3 +253,13 @@ evt-source-detail evt-original-encoding-viewer code .token,
 evt-analogue-detail evt-original-encoding-viewer code .token {
   color: #212529 !important;
 }
+
+.highlightverse{
+  cursor: pointer;
+  background-color: rgba(230,206,160,0.8);
+  color: #000000;
+  padding: 3px 0px;
+  &.selected{
+    background-color: rgb(248, 230, 191);
+  }
+}

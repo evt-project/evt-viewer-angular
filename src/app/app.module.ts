@@ -63,6 +63,9 @@ import { HtmlAttributesDirective } from './directives/html-attributes.directive'
 import { HumanizePipe } from './pipes/humanize.pipe';
 import { IdbService } from './services/idb.service';
 import { IdentifierComponent } from './components/identifier/identifier.component';
+import { ImageImageComponent } from './view-modes/image-image/image-image.component';
+import { ImageGrpPanelComponent } from './panels/imagegrp-panel/imagegrp-panel.component';
+import { ImageOnlyComponent } from './view-modes/image-only/image-only.component';
 import { ImagePanelComponent } from './panels/image-panel/image-panel.component';
 import { ImageTextComponent } from './view-modes/image-text/image-text.component';
 import { LbComponent } from './components/lb/lb.component';
@@ -108,6 +111,7 @@ import { SamplingDeclComponent } from './components/sampling-decl/sampling-decl.
 import { SeriesStmtComponent } from './components/series-stmt/series-stmt.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { SicComponent } from './components/sic/sic.component';
+import { SpaceComponent } from './components/space/space.component';
 import { SourceDetailComponent } from './components/sources/source-detail/source-detail.component';
 import { SourceNoteComponent } from './components/sources/source-note/source-note.component';
 import { SourcesComponent } from './components/sources/sources.component';
@@ -125,9 +129,10 @@ import { ThemesService } from './services/themes.service';
 import { TitleStmtComponent } from './components/title-stmt/title-stmt.component';
 import { VerseComponent } from './components/verse/verse.component';
 import { VersesGroupComponent } from './components/verses-group/verses-group.component';
+import { WordComponent } from './components/word/word.component';
+import { NavBarImageComponent } from './nav-bar-image/nav-bar-image.component';
 import { VersionPanelComponent } from './panels/version-panel/version-panel.component';
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
-import { WordComponent } from './components/word/word.component';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { XMLParsers } from './services/xml-parsers/xml-parsers';
 
@@ -185,6 +190,7 @@ const DynamicComponents = [
   SamplingDeclComponent,
   SeriesStmtComponent,
   SicComponent,
+  SpaceComponent,
   SuppliedComponent,
   SurplusComponent,
   TagsDeclComponent,
@@ -217,7 +223,10 @@ const DynamicComponents = [
     HtmlAttributesDirective,
     HumanizePipe,
     ImagePanelComponent,
+    ImageGrpPanelComponent,
     ImageTextComponent,
+    ImageOnlyComponent,
+    ImageImageComponent,
     MainHeaderComponent,
     MainMenuComponent,
     ManuscriptThumbnailsViewerComponent,
@@ -225,6 +234,7 @@ const DynamicComponents = [
     MsDescSelectorComponent,
     NamedEntityOccurrenceComponent,
     NavBarComponent,
+    NavBarImageComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,

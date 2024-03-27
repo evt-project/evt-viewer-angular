@@ -1,0 +1,11 @@
+<gridster [options]="layoutOptions">
+    <gridster-item [item]="imagePanelItem">
+        <evt-imagegrp-panel
+            [showSyncButton]="false"
+            [viewerData]="imageViewer$ | async"
+            [pageID]="currentPageID$ | async"
+            (pageChange)="changePage($event)"
+            [indipendentNavBar]="true"
+        ></evt-imagegrp-panel>
+    </gridster-item>
+</gridster>

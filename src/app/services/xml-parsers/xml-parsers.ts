@@ -8,7 +8,7 @@ import {
 import { CharParser, GlyphParser, GParser } from './character-declarations-parser';
 import { ChoiceParser } from './choice-parser';
 import { SicParser, SurplusParser } from './editorial-parsers';
-import { GraphicParser, SurfaceParser, ZoneParser } from './facsimile-parser';
+import { FacsimileParser, GraphicParser, SurfaceGrpParser, SurfaceParser, ZoneParser } from './facsimile-parser';
 import {
     AbstractParser, CalendarDescParser, CalendarParser, CatRefParser, ChangeParser, ChannelParser, ClassCodeParser, ConstitutionParser,
     CorrectionParser, CorrespActionParser, CorrespContextParser, CorrespDescParser, CreationParser, CRefPatternParser,
@@ -201,7 +201,9 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     SuppliedParser,
     SupportDescParser,
     SupportParser,
+    FacsimileParser,
     SurfaceParser,
+    SurfaceGrpParser,
     SurplusParser,
     SurrogatesParser,
     TagsDeclParser,

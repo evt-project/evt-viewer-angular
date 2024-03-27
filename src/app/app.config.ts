@@ -93,6 +93,7 @@ export interface UiConfig {
     thumbnailsButton: boolean;
     viscollButton: boolean;
     theme: 'neutral' | 'modern' | 'classic';
+    syncZonesHighlightButton: boolean;
 }
 
 export interface EditionConfig {
@@ -141,7 +142,10 @@ export interface FileConfig {
         [T in EditionImagesSources]: EditionImagesConfig;
     };
     logoUrl?: string;
-    imagesFolderUrl?: string;
+    imagesFolderUrls?: {
+        single: string;
+        double: string;
+    };
     configurationUrls?: {
         edition: string;
         ui: string;

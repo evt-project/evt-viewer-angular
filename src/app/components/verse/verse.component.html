@@ -1,8 +1,8 @@
-<span class="verse l" [evtHtmlAttributes]="data.attributes" 
-	[class.display-block]="displayBlock$ | async">
+<span class="verse l " [evtHtmlAttributes]="data.attributes"
+	[class.display-block]="displayBlock$ | async" [class]="data.class" >
 	<span class="verse-num" [class.hidden]="(displayBlock$ | async) && showNumber">{{data.n}}</span>
 	<evt-source-note *ngIf="data.source !== null || data.analogue !== null" [data]="data"></evt-source-note>
-	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel" 
+	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel"
 		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow">
 	</evt-content-viewer>
 </span>

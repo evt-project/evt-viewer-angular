@@ -1,23 +1,77 @@
 import { xmlParser } from '.';
-import { Graphic, Point, Surface, XMLElement, Zone, ZoneHotSpot, ZoneLine, ZoneRendition } from '../../models/evt-models';
+import {
+    Facsimile,
+    Graphic,
+    Point,
+    Surface,
+    SurfaceGrp,
+    XMLElement,
+    Zone,
+    ZoneHotSpot,
+    ZoneLine,
+    ZoneRendition,
+} from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 
+
+@xmlParser('facsimile', FacsimileParser)
+export class FacsimileParser extends EmptyParser implements Parser<XMLElement> {
+    attributeParser = createParser(AttributeParser, this.genericParse);
+    graphicParser = createParser(GraphicParser, this.genericParse);
+    surfaceGrpParser = createParser(SurfaceGrpParser, this.genericParse);
+    surfaceParser = createParser(SurfaceParser,this.genericParse);
+    public parse(xml: XMLElement): Facsimile {
+
+        // const zones = Array.from(xml.querySelectorAll<XMLElement>('zone')).map((z) => this.zoneParser.parse(z));
+        //const attributes = this.attributeParser.parse(xml);
+        //console.log('attributes', attributes);
+        if (xml.getAttribute('rend') === 'double') {
+            return {
+                type: Facsimile,
+                //id: getID(xml),
+                corresp: xml.getAttribute('corresp')?.replace('#', ''),
+                graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
+                surfaceGrps: undefined, // Array.from(xml.querySelectorAll<XMLElement>('surfaceGrp')).map((g) => this.surfaceGrpParser.parse(g)),
+                surfaces: undefined,//Array.from(xml.querySelectorAll<XMLElement>('surface')).map((g) => this.surfaceParser.parse(g)),
+                attributes: this.attributeParser.parse(xml),
+                content: parseChildren(xml, this.genericParse),
+            };
+        }
+
+        return {
+            type: Facsimile,
+            //id: getID(xml),
+            corresp: xml.getAttribute('corresp')?.replace('#', ''),
+            graphics: Array.from(xml.querySelectorAll<XMLElement>('graphic')).map((g) => this.graphicParser.parse(g)),
+            surfaceGrps: Array.from(xml.querySelectorAll<XMLElement>('surfaceGrp')).map((g) => this.surfaceGrpParser.parse(g)),
+            surfaces: Array.from(xml.querySelectorAll<XMLElement>('surface')).map((g) => this.surfaceParser.parse(g)),
+            attributes: this.attributeParser.parse(xml),
+            content: parseChildren(xml, this.genericParse),
+        };
+
+    }
+}
 @xmlParser('zone', ZoneParser)
 export class ZoneParser extends EmptyParser implements Parser<XMLElement> {
     attributeParser = createParser(AttributeParser, this.genericParse);
     public parse(xml: XMLElement): Zone {
         let coords: Point[];
         const attributes = this.attributeParser.parse(xml);
+
         if (xml.getAttribute('points')) {
-            coords = attributes.points.split(' ')
+            coords = attributes.points.trim().split(' ')
+                .filter((sp)=> sp.length > 0)
                 .map((stringPoint) => {
                     const points = stringPoint.split(',');
-
-                    return {
-                        x: parseInt(points[0], 10),
-                        y: parseInt(points[1], 10),
-                    };
+                    const px = parseInt(points[0], 10);
+                    const py = parseInt(points[1], 10)
+                    if (!isNaN(px) && !isNaN(py)){
+                        return {
+                            x: px,
+                            y: py,
+                        };
+                    }
                 });
         } else {
             const ul: Point = {
@@ -88,6 +142,26 @@ export class SurfaceParser extends EmptyParser implements Parser<XMLElement> {
                 lines: zones.filter((z) => z.rendition === 'Line') as ZoneLine[],
                 hotspots: zones.filter((z) => z.rendition === 'HotSpot') as ZoneHotSpot[],
             },
+            attributes: this.attributeParser.parse(xml),
+            content: parseChildren(xml, this.genericParse),
+        };
+    }
+}
+
+@xmlParser('surfaceGrp', SurfaceGrpParser)
+export class SurfaceGrpParser extends EmptyParser implements Parser<XMLElement> {
+
+    attributeParser = createParser(AttributeParser, this.genericParse);
+
+    surfaceParser = createParser(SurfaceParser, this.genericParse);
+    public parse(xml: XMLElement): SurfaceGrp {
+        console.log('surgface grp');
+
+        const surfaces = Array.from(xml.querySelectorAll<XMLElement>('surface')).map((s) => this.surfaceParser.parse(s));
+
+        return {
+            type: SurfaceGrp,
+            surfaces: surfaces,
             attributes: this.attributeParser.parse(xml),
             content: parseChildren(xml, this.genericParse),
         };

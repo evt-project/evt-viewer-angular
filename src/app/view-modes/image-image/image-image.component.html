@@ -1,0 +1,22 @@
+<gridster [options]="layoutOptions">
+    <gridster-item [item]="ipi" *ngFor="let ipi of imagePanelItem; index as i; let last=last;">
+        <evt-image-panel
+            [indipendentNavBar]="true" 
+            [viewerData]="imageViewer$ | async"
+            [showHeader]="true"
+            [panelNumber]="i"
+            (pageChange)="changePage($event)"
+            [showSyncButton]="false"
+        ></evt-image-panel>
+        <evt-button *ngIf="last && imagePanelItem.length < 4" class="btn" [class.btn-float-right]="true"
+            [additionalClasses]="'btn-floating rounded-circle'"
+            [label]="" [iconLeft]="{iconSet:'fas', icon:'plus'}" [title]="'addImage' | translate"
+            (btnClick)="addImage()">
+        </evt-button>  
+        <evt-button *ngIf="last && imagePanelItem.length > 2" class="btn-remove" [class.btn-float-top-right]="true"
+            [additionalClasses]="'btn-floating rounded-circle'"
+            [label]="" [iconLeft]="{iconSet:'fas', icon:'close'}" [title]="'removeImage' | translate"
+            (btnClick)="removeImage()">
+        </evt-button>  
+    </gridster-item>
+</gridster>

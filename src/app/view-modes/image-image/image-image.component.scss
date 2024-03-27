@@ -1,0 +1,43 @@
+.ng-select {
+    min-width: 150px;
+}
+
+.btn-float-right {
+    position: absolute;
+    right: -.3rem;
+    transform: translate(0,-50%);
+    top: 50%;
+    z-index: 99999;
+    opacity: .5;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.btn-float-top-right{
+    position: absolute;
+    right: 10px;
+    // transform: translate(0,-50%);
+    top: 10px;
+    z-index: 99999;
+    opacity: .5;
+    &:hover {
+        opacity: 1;
+    }
+    width: 35px;
+    height: 34px;
+    
+}
+
+.btn-remove{
+    width: 35px;
+    height: 34px;
+    padding: 0;
+
+    &>button{
+        padding: 0;
+        background-color: lightgrey !important;
+        border: 1px solid white;
+    }
+
+}

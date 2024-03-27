@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { NamedEntities, NamedEntityOccurrence, OriginalEncodingNodeType, Page, ZoneHotSpot, ZoneLine } from '../models/evt-models';
+import { combineLatestWith, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  Facsimile,
+  NamedEntities,
+  NamedEntityOccurrence,
+  OriginalEncodingNodeType,
+  Page, XMLImagesValues,
+  ZoneHotSpot,
+  ZoneLine,
+} from '../models/evt-models';
 import { Map } from '../utils/js-utils';
 import { EditionDataService } from './edition-data.service';
 import { ApparatusEntriesParserService } from './xml-parsers/apparatus-entries-parser.service';
@@ -15,6 +23,7 @@ import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.se
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 import { SourceEntriesParserService } from './xml-parsers/source-entries-parser.service';
 import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
+import { AppConfig } from '../app.config';
 
 @Injectable({
   providedIn: 'root',
@@ -158,6 +167,151 @@ export class EVTModelService {
   );
 
   // FACSIMILE
+  public readonly facsimile$ : Observable<Facsimile[]> = this.editionSource$.pipe(
+      map((source) => this.facsimileParser.parseFacsimile(source)),
+      shareReplay(1),
+  );
+
+  public readonly facsimileImageDouble$: Observable<Facsimile | undefined> = this.facsimile$.pipe(
+      map((facSimiles)=>{
+        const fcRendDouble = facSimiles.find((fs) => fs.attributes['rend'] === 'double');
+        if (fcRendDouble) {return fcRendDouble;}
+
+        const fcWithSurfacesGrp = facSimiles.find((fs)=> fs.surfaceGrps?.length > 0);
+        if (fcWithSurfacesGrp) {return fcWithSurfacesGrp;}
+
+        return undefined;
+      }),
+  );
+
+  public readonly imageDoublePages$: Observable<Page[]> = this.facsimileImageDouble$.pipe(
+      combineLatestWith(this.pages$),
+      map(([ facsSimile, pages])=>{
+        if (facsSimile?.graphics?.length > 0){
+          // Qui abbiamo i graphics
+          return facsSimile.graphics.map((_g, index)=>{
+            const p : Page={
+              url: '',
+              parsedContent: undefined,
+              originalContent: undefined,
+              label: _g.attributes['n'],
+              id: index.toString(),
+              facsUrl: '',
+              facs: '',
+            };
+
+            return p;
+          });
+        }
+
+        return facsSimile?.surfaceGrps.map((sGrp)=> {
+          const titleName = sGrp.surfaces.reduce((pv, cv) => {
+            const fp: Page = pages.find((p)=>p.id === cv.corresp);
+            if (pv.length === 0) {
+
+              if (fp){
+                return pv + fp.label;
+              }
+
+              return pv + cv.corresp.replace('#', '');
+            }
+            if (fp){
+              return pv + ' ' + fp.label;
+            }
+
+            return pv + ' ' + cv.corresp.replace('#', '');
+
+            }, '');
+          const id = sGrp.surfaces.reduce((pv, cv) => {
+            if (pv.length === 0) {
+                return pv + cv.corresp.replace('#', '');
+            }
+
+            return pv + '-' + cv.corresp.replace('#', '');
+          }, '');
+
+          const p : Page={
+              url: '',
+              parsedContent: undefined,
+              originalContent: undefined,
+              label: titleName,
+              id: id,
+              facsUrl: '',
+              facs: '',
+          };
+
+          return p;
+        });
+
+
+    }),
+  );
+
+  public readonly imageDouble$: Observable<{ type: string, value:{ xmlImages:XMLImagesValues[]}} | undefined > =
+      this.facsimileImageDouble$.pipe(
+        map((fs)=> {
+            if (fs?.graphics?.length > 0){
+              //const editionImages = AppConfig.evtSettings.files.editionImagesSource;
+              const result: XMLImagesValues[] = fs.graphics.map((g) => {
+
+                const fileName = g.url;
+
+                const imagesFolderUrl = AppConfig.evtSettings.files.imagesFolderUrls.double;
+                const url = `${imagesFolderUrl}${fileName}`;
+                const r: XMLImagesValues = {
+                  url: url,
+                  width: g.width?parseInt(g.width) : 910,
+                  height: g.height?parseInt(g.height) : 720,
+                };
+
+                return r;
+          });
+
+            return {
+            type: 'default',
+            value: {
+              xmlImages: result,
+            },
+          };
+        } else if (fs?.surfaceGrps?.length > 0) {
+          const editionImages = AppConfig.evtSettings.files.editionImagesSource;
+          console.log(editionImages);
+
+          const result: XMLImagesValues[] = fs.surfaceGrps.map((sGrp) => {
+
+            const fileName = sGrp.surfaces.reduce((pv, cv) => {
+              if (pv.length === 0) {
+                return pv + cv.corresp.replace('#', '');
+              }
+
+return pv + '-' + cv.corresp.replace('#', '');
+
+            }, '');
+
+            const imagesFolderUrl = AppConfig.evtSettings.files.imagesFolderUrls.double;
+            const url = `${imagesFolderUrl}${fileName}.jpg`;
+            const r: XMLImagesValues = {
+              url: url,
+              width: 910,
+              height: 720,
+            };
+
+return r;
+          });
+
+return {
+            type: 'default',
+            value: {
+              xmlImages: result,
+            },
+          };
+        }
+
+return undefined;
+
+      }),
+  );
+
   public readonly surfaces$ = this.editionSource$.pipe(
     map((source) => this.facsimileParser.parseSurfaces(source)),
     shareReplay(1),

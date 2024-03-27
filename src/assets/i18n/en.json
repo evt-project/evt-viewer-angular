@@ -184,5 +184,7 @@
     "quotedText": "Text",
     "references": "References",
     "analogueIn": "Analogue in",
-    "corresps": "Correspondences"
+    "corresps": "Correspondences",
+    "addImage": "Add image",
+    "removeImage": "Remove image"
 }

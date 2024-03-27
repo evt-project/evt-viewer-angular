@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Analogue, Anchor, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Ptr, QuoteEntry, Space,  Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';
@@ -145,6 +145,21 @@ export class LBParser extends EmptyParser implements Parser<XMLElement> {
             content: [],
             attributes,
         };
+    }
+}
+
+@xmlParser('space', SpaceParser)
+export class SpaceParser extends EmptyParser implements Parser<XMLElement> {
+
+    parse(xml: XMLElement): Space {
+        const attributes = ParserRegister.get('evt-attribute-parser').parse(xml) as Attributes;
+        const spaceComponent: Space = {
+            type: Space,
+            content: parseChildren(xml, this.genericParse),
+            attributes,
+        };
+
+        return spaceComponent;
     }
 }
 

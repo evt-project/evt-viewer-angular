@@ -183,5 +183,7 @@
   "quotedText": "Testo",
   "references": "Riferimenti",
   "analogueIn": "Passo parallelo in",
-  "corresps": "Corrispondenze"
+  "corresps": "Corrispondenze",
+  "addImage": "Aggiungi immagine",
+  "removeImage": "Rimuovi immagine"
 }

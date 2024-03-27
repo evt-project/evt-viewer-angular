@@ -88,13 +88,19 @@ export class StructureXmlParserService {
     // TODO: handle multiple version of page
     const image = id.split('.')[0];
 
-    return `${AppConfig.evtSettings.files.imagesFolderUrl}/${image}.jpg`;
+    //Nel file_config imagesFolderUrls deve terminare già con uno /
+    return `${AppConfig.evtSettings.files.imagesFolderUrls.single}${image}.jpg`;
   }
+  // lbId = '';
+  // quando trovi un lbId allora lbId = 'qualcosa'
+
 
   parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
     return pageContent
       .map((node) => {
+
         const origEl = getEditionOrigNode(node, doc);
+
         if (origEl.nodeName === this.frontTagName || isNestedInElem(origEl, this.frontTagName)) {
           if (this.hasOriginalContent(origEl)) {
             return Array.from(origEl.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
