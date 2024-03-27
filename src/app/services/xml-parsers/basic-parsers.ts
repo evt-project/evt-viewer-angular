@@ -2,7 +2,7 @@ import { AttributesMap } from 'ng-dynamic-component';
 import { ParserRegister, xmlParser } from '.';
 import {
     Addition, Analogue, Anchor, Attributes, Damage, Deletion, Gap, GenericElement, Lb, Milestone, Note, NoteLayout,
-    Paragraph, PlacementType, Ptr, Space, QuoteEntry, Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
+    Paragraph, PlacementType, Ptr, QuoteEntry, Space,  Span, SpanGrp, Supplied, Term, Text, Verse, VersesGroup, Word, XMLElement,
 } from '../../models/evt-models';
 import { getElementsBetweenTreeNode, isNestedInElem, xpath } from '../../utils/dom-utils';
 import { getExternalElements, isAnalogue, isSource, replaceMultispaces } from '../../utils/xml-utils';

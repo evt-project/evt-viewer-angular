@@ -31,12 +31,6 @@ export class NavBarImageComponent {
     return this._showSyncImageButton;
   }
 
-
-
-
-
-  // isSyncImageButtonActive: '' | 'active' = '';
-
   @Output() changeIndexPage = new EventEmitter<number>();
   updateThContainerInfo$ = new Subject<HTMLElement | void>();
   thContainerInfo$ = this.updateThContainerInfo$.pipe(
@@ -98,9 +92,8 @@ export class NavBarImageComponent {
   );
 
     pagesAvailable$ = this.showSinglePage$.pipe(
-//tap(ss => { console.log('is single page', ss)}),
         distinctUntilChanged(),
-       switchMap((single) => single ? this.evtModelService.pages$ : this.evtModelService.imageDoublePages$),
+        switchMap((single) => single ? this.evtModelService.pages$ : this.evtModelService.imageDoublePages$),
     ) ;
 
   nextNavigationDisabled$ = combineLatest([
@@ -108,32 +101,19 @@ export class NavBarImageComponent {
     this.currentPageIndex$,
   ]).pipe(
     withLatestFrom(this.pagesAvailable$),
-    map(([[navDisabled, currentIndex], pages]) => navDisabled || currentIndex === pages.length - 1),
+    map(([[navDisabled, currentIndex], pages]) => navDisabled || currentIndex === pages?.length - 1),
   );
-
-
 
   pageSliderOptions$ = combineLatest([this.navigationDisabled$, this.pagesAvailable$])
     .pipe(
       map(([navigationDisabled, pages]) => ({
         floor: 0,
-        ceil: pages.length - 1,
+        ceil: pages?.length - 1,
         showSelectionBar: true,
-        translate: (value: number): string => pages[value]?.label ?? '',
+        translate: (value: number): string => pages ? pages[value]?.label ?? '' : '',
         disabled: navigationDisabled ?? false,
       })),
     );
-
-  // pageGrpSliderOptions$ = combineLatest([this.navigationDisabled$, this.evtModelService.surfacesGrpPages$])
-  //     .pipe(
-  //         map(([navigationDisabled, pages]) => ({
-  //           floor: 0,
-  //           ceil: pages.length - 1,
-  //           showSelectionBar: true,
-  //           translate: (value: number): string => pages[value]?.label ?? '',
-  //           disabled: navigationDisabled,
-  //         })),
-  //     );
 
   @HostListener('window:resize') resize() {
     this.updateThContainerInfo$.next();
@@ -144,19 +124,7 @@ export class NavBarImageComponent {
     public evtModelService: EVTModelService,
   ) {}
 
-  // toggleThumbnailsPanel() {
-  //   this.toggleThumbnailsPanel$.next();
-  //   this.toggleViscollPanel$.next(false);
-  // }
-  //
-  // toggleViscollPanel() {
-  //   this.toggleViscollPanel$.next();
-  //   this.toggleThumbnailsPanel$.next(false);
-  // }
-
   onUpdatePage(page:number) :void {
-    //this.currentPageIndex$.next(page);
-    //this.changeIndexPage.emit(this.currentPageIndex$.value);
       this.changeIndexPage.emit(page);
   }
 
@@ -165,15 +133,8 @@ export class NavBarImageComponent {
         first(),
       ).subscribe(
         (pages) => {
-          // this.currentPageIndex$.next(pages.length-1);
-          // this.changeIndexPage.emit(this.currentPageIndex$.value);
             this.changeIndexPage.emit(pages.length-1);
-        }
+        },
       )
   }
-
-  // syncImageImage() {
-  //   this.isSyncImageButtonActive = this.isSyncImageButtonActive === 'active' ? '' : 'active';
-  //   this.evtStatusService.syncImageNavBar$.next(this.isSyncImageButtonActive === 'active');
-  // }
 }

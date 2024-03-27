@@ -27,50 +27,25 @@ export class ImageOnlyComponent {
     },
   };
   public imagePanelItem: GridsterItem = { cols: 1, rows: 1, y: 0, x: 0 };
-  // public pageDouble = this.evtModelService.surfacesGrp$.pipe(
-  //   map((sGrps)=>{
-  //     return sGrps.map((_sGrp, index)=>{
-  //       const pNew: Page = {
-  //         url:'',
-  //         id: index.toString(),
-  //         facs:'',
-  //         facsUrl:'',
-  //         label: index.toString(),
-  //         originalContent:[],
-  //         parsedContent:[],
-  //       };
-  //       return pNew;
-  //     })
-  //
-  //   }),
-  // );
+  public imageViewer$ = this.evtModelService.imageDouble$;
+  public currentPageID$ = this.evtModelService.imageDoublePages$.pipe(
+    map((surfacesGrpPages) => {
+        if (surfacesGrpPages && surfacesGrpPages.length > 0){
+          const sGrp = surfacesGrpPages[0];
 
-    public imageViewer$ = this.evtModelService.imageDouble$;
+          return sGrp.id;
+        }
 
-
-    public currentPageID$ = this.evtModelService.imageDoublePages$.pipe(
-        map((surfacesGrpPages) => {
-            if (surfacesGrpPages && surfacesGrpPages.length > 0){
-            const sGrp = surfacesGrpPages[0];
-            return sGrp.id;
-            } else {
-                return '';
-            }
-        }),
-    );
-
+        return '';
+    }),
+  );
 
   constructor(
     private evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
-  ) {
-  }
+  ) {}
 
   changePage(selectedPage: Page) {
     this.evtStatusService.updatePage$.next(selectedPage);
   }
-
-  // changeEditionLevel(editionLevel: EditionLevel) {
-  //   this.evtStatusService.updateEditionLevels$.next([editionLevel?.id]);
-  // }
 }

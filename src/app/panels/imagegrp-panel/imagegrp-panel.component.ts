@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, takeUntil,  withLatestFrom } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, map, startWith, takeUntil,  withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -11,7 +11,7 @@ import { AppConfig } from 'src/app/app.config';
   templateUrl: './imagegrp-panel.component.html',
   styleUrls: ['./imagegrp-panel.component.scss'],
 })
-export class ImageGrpPanelComponent implements OnDestroy, OnInit, AfterViewInit{
+export class ImageGrpPanelComponent implements OnDestroy, AfterViewInit{
 
   @Input() panelNumber:number;
 
@@ -22,9 +22,10 @@ export class ImageGrpPanelComponent implements OnDestroy, OnInit, AfterViewInit{
   @Input() showHeader = true;
   @Input() indipendentNavBar = false;
   // @Input() sync = false;
-private _showSyncButton = true;
+  private _showSyncButton = true;
 
-private unsubscribeAll$ = new Subject<void>();
+  private unsubscribeAll$ = new Subject<void>();
+
   @Input()
   public get showSyncButton() {
     return this._showSyncButton;
@@ -45,6 +46,12 @@ private unsubscribeAll$ = new Subject<void>();
     map((p) => p?.id),
   );
   updatePageNumber$ = new Subject<number>();
+  updatePageNumber$$ = this.updatePageNumber$.asObservable().pipe(
+    startWith(0),
+    filter((pageNumber) => pageNumber !== null && pageNumber !== undefined),
+    distinctUntilChanged(),
+    debounceTime(40),
+  );
   pageNumber$ = this.currentPageId$.pipe(
     withLatestFrom(this.evtModelService.imageDoublePages$),
     map(([pageId, pages]) => pages.findIndex((page) => page.id === pageId)),
@@ -58,44 +65,17 @@ private unsubscribeAll$ = new Subject<void>();
 
 
     map(([pageId, imageOnlyPages]) =>  {
-      const p = imageOnlyPages.find((imageOnlyPage) => imageOnlyPage.id === pageId);
-      return p ? p : imageOnlyPages[0];
+      const p = imageOnlyPages?.find((imageOnlyPage) => imageOnlyPage.id === pageId);
+
+      return p ? p : imageOnlyPages ? imageOnlyPages[0] : undefined;
     }),
   );
   selectedPage$ = this.currentImageOnlyPage$.pipe(
-      filter(imageOnlyPage => imageOnlyPage !== undefined),
-      map(imageOnlyPage=>{
-
-        return imageOnlyPage.id;
-      }),
+      filter((imageOnlyPage) => imageOnlyPage !== undefined),
+      map((imageOnlyPage)=>imageOnlyPage.id),
   );
 
   pages$ = this.evtModelService.imageDoublePages$;
-
-  // currentSurfacesGrp$ = this.evtModelService.surfacesGrp$.pipe(
-  //     withLatestFrom(this.currentImageOnlyPage$),
-  //     map(([imageOnlyPages, currentPage])=>{
-  //       if (!currentPage) {
-  //         return imageOnlyPages[0];
-  //       }
-  //
-  //       return imageOnlyPages.find(sGrp => {
-  //         const id = sGrp.surfaces.reduce((pv, cv) => {
-  //           if (pv.length === 0) {
-  //             return pv + cv.corresp.replace('#', '');
-  //           }
-  //           return pv + '-' + cv.corresp.replace('#', '');
-  //
-  //         }, '');
-  //         return id === currentPage.id;
-  //       });
-  //     })
-  // )
-
-  // currentSurfaces$ = this.currentSurfacesGrp$.pipe(
-  //     filter(sg => sg !== undefined),
-  //   map(sg=> sg.surfaces[0])
-  // );
 
   @Output() pageChange: Observable<Page> = merge(
     this.updatePageNumber$.pipe(
@@ -120,11 +100,8 @@ private unsubscribeAll$ = new Subject<void>();
   constructor(
     private evtModelService: EVTModelService,
      private linesHighlightService: EvtLinesHighlightService,
-  ) {
+  ) {}
 
-
-
-  }
   ngOnDestroy(): void {
     this.linesHighlightService.lineBeginningSelected$.next([]);
     this.linesHighlightService.syncTextImage$.next(false);
@@ -137,17 +114,15 @@ private unsubscribeAll$ = new Subject<void>();
 
     if (this.indipendentNavBar){
       this.evtModelService.imageDoublePages$.pipe(
-         // delay(50),
           first(),
       ).subscribe((imageOnlyPages)=>{
-        const idx = this.panelNumber > imageOnlyPages.length ? 0: this.panelNumber;
-        const cp = imageOnlyPages[idx];
-        this.currentPage$.next(cp);
-        this.updatePageNumber$.next(idx);
-        this.pageID = cp?.id ?? '';
-        // setTimeout(()=>{
-        //   this.updatePageNumber$.next(idx);
-        // },100)
+        if (imageOnlyPages){
+          const idx = this.panelNumber > imageOnlyPages?.length ? 0: this.panelNumber;
+          const cp = imageOnlyPages[idx];
+          this.currentPage$.next(cp);
+          this.updatePageNumber$.next(idx);
+          this.pageID = cp?.id ?? '';
+        }
       });
 
       this.pageChange.pipe(
@@ -173,23 +148,12 @@ private unsubscribeAll$ = new Subject<void>();
       });
     }
   }
-  ngOnInit(): void{
-
-
-  }
-  // syncTextImage() {
-  //   this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
-  //   if (this.isSyncButtonActive === ''){
-  //     this.linesHighlightService.lineBeginningSelected$.next([]);
-  //   }
-  //   this.linesHighlightService.syncTextImage$.next(this.isSyncButtonActive === 'active');
-  // }
 
   updatePage(viewerPage: number) {
     this.updatePageNumber$.next(viewerPage > 0 ? viewerPage - 1 : 0);
     this.evtModelService.imageDoublePages$.pipe(
         first(),
-    ).subscribe(imageOnlyPages=>{
+    ).subscribe((imageOnlyPages)=>{
       const page = imageOnlyPages[viewerPage-1];
       this.currentPage$.next(page)
     })
@@ -199,19 +163,12 @@ private unsubscribeAll$ = new Subject<void>();
     this.pageID = pageId;
     this.evtModelService.imageDoublePages$.pipe(
         first(),
-    ).subscribe(imageOnlyPages=>{
-      const page = imageOnlyPages.find(p => p.id === pageId)
+    ).subscribe((imageOnlyPages)=>{
+      const page = imageOnlyPages.find((p) => p.id === pageId)
       this.currentPage$.next(page)
     })
 
   }
-  // setMsDescOpen(isOpen: boolean) {
-  //   this.msDescOpen = isOpen;
-  // }
-  //
-  // setMsDescID(msDescId: string) {
-  //   this.currentMsDescId$.next(msDescId);
-  // }
 
   onChangedCurrentPage(page:number) {
 
@@ -220,7 +177,9 @@ private unsubscribeAll$ = new Subject<void>();
       first(),
     ).subscribe(
       (currentPage:Page ) => {
-          this.currentPage$.next(currentPage);
+          if (currentPage){
+            this.currentPage$.next(currentPage);
+          }
 
         },
       );

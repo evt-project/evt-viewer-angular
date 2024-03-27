@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { Page,  ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
@@ -11,7 +11,7 @@ import { AppConfig } from 'src/app/app.config';
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent implements OnDestroy, OnInit, AfterViewInit{
+export class ImagePanelComponent implements OnDestroy, AfterViewInit{
 
   @Input() panelNumber:number;
 
@@ -21,10 +21,8 @@ export class ImagePanelComponent implements OnDestroy, OnInit, AfterViewInit{
 
   @Input() showHeader = true;
   @Input() indipendentNavBar = false;
-  // @Input() sync = false;
-private _showSyncButton = true;
-
-private unsubscribeAll$ = new Subject<void>();
+  private _showSyncButton = true;
+  private unsubscribeAll$ = new Subject<void>();
   @Input()
   public get showSyncButton() {
     return this._showSyncButton;
@@ -76,11 +74,8 @@ private unsubscribeAll$ = new Subject<void>();
   constructor(
     private evtModelService: EVTModelService,
      private linesHighlightService: EvtLinesHighlightService,
-  ) {
+  ) {}
 
-
-
-  }
   ngOnDestroy(): void {
     this.linesHighlightService.lineBeginningSelected$.next([]);
     this.linesHighlightService.syncTextImage$.next(false);
@@ -117,10 +112,7 @@ private unsubscribeAll$ = new Subject<void>();
       }));
     }
   }
-  ngOnInit(): void{
 
-
-  }
   syncTextImage() {
     this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
     if (this.isSyncButtonActive === ''){

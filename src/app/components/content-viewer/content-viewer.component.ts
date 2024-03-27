@@ -11,20 +11,21 @@ import { EntitiesSelectItem } from '../entities-select/entities-select.component
 import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
 import { AdditionComponent } from '../addition/addition.component';
 
+
 @Component({
   selector: 'evt-content-viewer',
   templateUrl: './content-viewer.component.html',
 })
 export class ContentViewerComponent implements OnDestroy {
-  private v: GenericElement;
+  private _content: GenericElement;
 
   @Input() catturaMouse = false;
 
-  @Input() set content(v: GenericElement) {
-    this.v = v;
-    this.contentChange.next(v);
+  @Input() set content(genericElement: GenericElement) {
+    this._content = genericElement;
+    this.contentChange.next(genericElement);
   }
-  get content() { return this.v; }
+  get content() { return this._content; }
 
   private ith: EntitiesSelectItem[];
   @Input() set itemsToHighlight(i: EntitiesSelectItem[]) {
@@ -130,35 +131,40 @@ export class ContentViewerComponent implements OnDestroy {
       highlightColor: this.entitiesSelectService.getHighlightColor(data?.attributes ?? {}, data?.class, ith),
     };
   }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   @HostListener('click',['$event']) mouseClick($event: any) {
 
-    if (!this.v.content){
+    if (!this._content.content){
 
-      if (this.v.type.name === AdditionComponent.name){
+      if (this._content.type.name === AdditionComponent.name){
           return;
       }
-      if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const lbId = (this._content as any).lbId;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const correspId =  (this._content as any).correspId;
+
+      if ((lbId === '' || correspId === '')){
         return;
       }
-      if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
-          (this.v as any).type.name === Verse.name ||
-          (this.v as any).type.name === Paragraph.name
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((this._content as any).text === '' || (this._content as any).text === ' ' ||
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this._content as any).type.name === Verse.name ||
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this._content as any).type.name === Paragraph.name
           ){
         return;
       }
 
-      const lbId = (this.v as any).lbId;
-      const corresp =  (this.v as any).correspId;
-
       const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
       const findElement = elementsSelected
-          .find((e)=>e.corresp === corresp && e.id === lbId);
+          .find((e)=>e.corresp === correspId && e.id === lbId);
 
 
       if (findElement){
         this.evtHighlineService.lineBeginningSelected$.next(
-          elementsSelected.filter((e)=>e.corresp !== corresp && e.id !== lbId),
+          elementsSelected.filter((e)=>e.corresp !== correspId && e.id !== lbId),
         );
 
 
@@ -167,22 +173,31 @@ export class ContentViewerComponent implements OnDestroy {
         this.evtHighlineService.lineBeginningSelected$.next([
           ...elementsSelected,
           {
-            id: lbId, corresp: corresp, selected: true,
+            id: lbId, corresp: correspId, selected: true,
           }]);
       }
     }
     $event.preventDefault();
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @HostListener('mouseover',['$event']) mouseOver($event: any) {
-    if (this.v.type.name === AdditionComponent.name){
+    if (this._content.type.name === AdditionComponent.name){
       return;
     }
-    if ((this.v as any).lbId === '' || (this.v as any).correspId === ''){
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lbId = (this._content as any).lbId;
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const correspId = (this._content as any).correspId;
+
+    if ((lbId === '' ||correspId  === '') ){
       return;
     }
-    if ((this.v as any).text === '' || (this.v as any).text === ' ' ||
-        (this.v as any).type.name === Verse.name ||
-         (this.v as any).type.name === Paragraph.name
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const textComponent = (this._content as any).text;
+
+    if (textComponent === '' || textComponent === ' ' ||
+        ((this._content as GenericElement).type.name === Verse.name && !(this._content as GenericElement).attributes['facs'] ) ||
+         (this._content as GenericElement).type.name === Paragraph.name
         ){
       return;
     }
@@ -190,12 +205,26 @@ export class ContentViewerComponent implements OnDestroy {
     $event.preventDefault();
     const elementsSelected = this.evtHighlineService.lineBeginningSelected$.getValue().filter( (e) => e.selected);
 
-    this.evtHighlineService.lineBeginningSelected$.next([
-      {
-      id: (this.v as any).lbId, corresp: (this.v as any).correspId, selected: undefined,
-    }, ...elementsSelected]);
+    if ((this._content as GenericElement).type.name === Verse.name && (this._content as GenericElement).attributes['facs'] ){
+
+      const facsId = (this._content as GenericElement).attributes['facs'].replace('#', '');
+      const id = (this._content as GenericElement).attributes['id'];
+      this.evtHighlineService.lineBeginningSelected$.next([
+        {
+        id: facsId, corresp: id, selected: undefined,
+      }, ...elementsSelected]);
+
+
+    } else {
+
+      this.evtHighlineService.lineBeginningSelected$.next([
+        {
+        id: lbId, corresp: correspId, selected: undefined,
+      }, ...elementsSelected]);
+    }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @HostListener('mouseleave', ['$event']) mouseLeave($event: any) {
 
     $event.preventDefault();

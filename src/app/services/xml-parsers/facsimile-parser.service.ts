@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { parse } from '.';
-import {Facsimile, Graphic, Surface, SurfaceGrp, XMLElement, } from '../../models/evt-models';
-import {FacsimileParser, GraphicParser, SurfaceGrpParser, SurfaceParser, } from './facsimile-parser';
+import { Facsimile, Graphic, Surface, SurfaceGrp, XMLElement } from '../../models/evt-models';
+import { FacsimileParser, GraphicParser, SurfaceGrpParser, SurfaceParser } from './facsimile-parser';
 import { createParser } from './parser-models';
 
 @Injectable({
@@ -38,7 +38,5 @@ export class FacsimileParserService {
 
         return Array.from(xml.querySelectorAll<XMLElement>('facsimile')).map((s) => this.facSimileParser.parse(s));
     }
-
-
 
 }

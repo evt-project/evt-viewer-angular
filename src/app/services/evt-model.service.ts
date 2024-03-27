@@ -187,7 +187,7 @@ export class EVTModelService {
   public readonly imageDoublePages$: Observable<Page[]> = this.facsimileImageDouble$.pipe(
       combineLatestWith(this.pages$),
       map(([ facsSimile, pages])=>{
-        if (facsSimile.graphics?.length > 0){
+        if (facsSimile?.graphics?.length > 0){
           // Qui abbiamo i graphics
           return facsSimile.graphics.map((_g, index)=>{
             const p : Page={
@@ -204,7 +204,7 @@ export class EVTModelService {
           });
         }
 
-        return facsSimile.surfaceGrps.map((sGrp)=> {
+        return facsSimile?.surfaceGrps.map((sGrp)=> {
           const titleName = sGrp.surfaces.reduce((pv, cv) => {
             const fp: Page = pages.find((p)=>p.id === cv.corresp);
             if (pv.length === 0) {
@@ -227,8 +227,9 @@ export class EVTModelService {
                 return pv + cv.corresp.replace('#', '');
             }
 
-            return pv + '-' + cv.corresp.replace('#', '');}, ''
-          );
+            return pv + '-' + cv.corresp.replace('#', '');
+          }, '');
+
           const p : Page={
               url: '',
               parsedContent: undefined,
@@ -249,7 +250,7 @@ export class EVTModelService {
   public readonly imageDouble$: Observable<{ type: string, value:{ xmlImages:XMLImagesValues[]}} | undefined > =
       this.facsimileImageDouble$.pipe(
         map((fs)=> {
-            if (fs.graphics?.length > 0){
+            if (fs?.graphics?.length > 0){
               //const editionImages = AppConfig.evtSettings.files.editionImagesSource;
               const result: XMLImagesValues[] = fs.graphics.map((g) => {
 
@@ -272,7 +273,7 @@ export class EVTModelService {
               xmlImages: result,
             },
           };
-        } else if (fs.surfaceGrps?.length > 0) {
+        } else if (fs?.surfaceGrps?.length > 0) {
           const editionImages = AppConfig.evtSettings.files.editionImagesSource;
           console.log(editionImages);
 
