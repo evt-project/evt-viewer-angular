@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--SVG file generated on: 14 July 2022 at 16:37:07 using SAXON version HE 9.9.1.5-->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" preserveAspectRatio="xMidYMid meet" viewBox="0 0 272 60"><title>Collation diagram of quire 12 for Biblioteca Capitolare di Vercelli, Codex CXVII composed of 6 leaves</title><defs><style type="text/css">/* style.css */
+
+
+@font-face{
+    font-family: 'Archivo Narrow', sans-serif;
+    src: url('https://fonts.googleapis.com/css?family=Archivo+Narrow&amp;display=swap');
+}
+
+@font-face{
+    font-family: 'Archivo', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Archivo&amp;display=swap');
+}
+
+.gatheringNumber {
+    font-family: 'Archivo', sans-serif;
+    font-size: 6px;
+    alignment-baseline:hanging;
+}
+
+.gatheringNumber_L-R {
+    text-anchor: end;
+}
+
+.folioNumber {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 5px;
+    alignment-baseline:middle;
+}
+
+.folioNumber_R-L {
+    text-anchor: end;
+}
+
+.base {
+stroke-width:1pt;
+fill:none;
+stroke-linecap:round;
+}
+
+.leaf {
+    stroke:#000000;
+}
+
+.current{
+stroke:red;
+}
+
+.goatskin {
+stroke:#CC6D68;
+}
+
+.sheepskin {
+stroke:#DBBD68;
+}
+
+.calfskin {
+stroke:#4F81BD;
+}
+
+.missingLeaf{
+    stroke-width:0.8pt;
+    stroke:#000000;
+    stroke-dasharray:1,2;
+}
+
+.replacedLeaf{
+    stroke:#DCDCDC;
+}
+
+.addedLeaf{
+    stroke:#000000;
+    stroke-dasharray:0.25, 3, 4, 3;
+}
+
+.fleshside {
+}
+
+.hairside{
+    stroke-dasharray:0.5,2;
+}
+
+.glued{
+    stroke:grey;
+    stroke-width:0.5;
+    stroke-linecap:round;
+}
+</style><filter id="f1" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceGraphic" stdDeviation="0"/></filter><filter id="f2" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceGraphic" stdDeviation="1"/></filter><filter id="f3" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceGraphic" stdDeviation="2"/></filter><pattern xmlns:xlink="http://www.w3.org/1999/xlink" id="gluedPattern" patternUnits="userSpaceOnUse" width="2" height="6" xlink:type="simple" xlink:show="other" xlink:actuate="onLoad" preserveAspectRatio="xMidYMid meet"><desc>Glue pattern</desc><path d="M 0,0 L 4,12" class="glued"/></pattern></defs><desc>Collation diagram of quire 12 for Biblioteca Capitolare di Vercelli, Codex CXVII composed of 6 leaves</desc><svg x="0" y="0"><g transform="translate(6 0)"><g id="Leaf_618a48fbb8d9ad0001cce2cb"><desc>Folio #1</desc><g><g><desc>Folio #1: arc</desc><g class="base leaf leaf g12-1-6_leaf"><path d="M36,9 Q19,9 19,27"/></g></g><g><desc>Folio #1: line</desc><g class="base leaf leaf g12-1-6_leaf"><path d="M104,9 L36,9"/></g></g></g><text dy="9" dx="107" class="folioNumber" transform="translate(0 0)">111</text></g><g id="Leaf_618a48fbb8d9ad0001cce2ce"><desc>Folio #2</desc><g><g><desc>Folio #2: arc</desc><g class="base leaf leaf g12-2-5_leaf"><path d="M36,15 Q25,15 25,27"/></g></g><g><desc>Folio #2: line</desc><g class="base leaf leaf g12-2-5_leaf"><path d="M104,15 L36,15"/></g></g></g></g><g id="Leaf_618a48fbb8d9ad0001cce2d1"><desc>Folio #3</desc><g><g><desc>Folio #3: arc</desc><g class="base leaf leaf g12-3-4_leaf"><path d="M36,21 Q31,21 31,27"/></g></g><g><desc>Folio #3: line</desc><g class="base leaf leaf g12-3-4_leaf"><path d="M104,21 L36,21"/></g></g></g></g><g id="Leaf_618a48fbb8d9ad0001cce2d4"><desc>Folio #4</desc><g><g><desc>Folio #4: arc</desc><g class="base leaf leaf g12-3-4_leaf"><path d="M36,33 Q31,33 31,27"/></g></g><g><desc>Folio #4: line</desc><g class="base leaf leaf g12-3-4_leaf"><path d="M104,33 L36,33"/></g></g></g></g><g id="Leaf_618a48fbb8d9ad0001cce2d7"><desc>Folio #5</desc><g><g><desc>Folio #5: arc</desc><g class="base leaf leaf g12-2-5_leaf"><path d="M36,39 Q25,39 25,27"/></g></g><g><desc>Folio #5: line</desc><g class="base leaf leaf g12-2-5_leaf"><path d="M104,39 L36,39"/></g></g></g></g><g id="Leaf_618a48fbb8d9ad0001cce2da"><desc>Folio #6</desc><g><g><desc>Folio #6: arc</desc><g class="base leaf leaf g12-1-6_leaf"><path d="M36,45 Q19,45 19,27"/></g></g><g><desc>Folio #6: line</desc><g class="base leaf leaf g12-1-6_leaf"><path d="M104,45 L36,45"/></g></g></g><text dy="45" dx="107" class="folioNumber" transform="translate(0 0)">116</text></g></g></svg></svg>
