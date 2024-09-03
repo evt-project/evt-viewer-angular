@@ -131,6 +131,7 @@ import { SubstitutionComponent } from './components/substitution/substitution.co
 import { SuppliedComponent } from './components/supplied/supplied.component';
 import { SurplusComponent } from './components/surplus/surplus.component';
 import { TagsDeclComponent } from './components/tags-decl/tags-decl.component';
+import { TextAnnotatorComponent } from './components/annotator/text-annotator/text-annotator.component';
 import { TextComponent } from './components/text/text.component';
 import { TextPanelComponent } from './panels/text-panel/text-panel.component';
 import { TextSourcesComponent } from './view-modes/text-sources/text-sources.component';
@@ -269,6 +270,11 @@ const DynamicComponents = [
     SourcesComponent,
     SourcesPanelComponent,
     StartsWithPipe,
+    SuppliedComponent,
+    SurplusComponent,
+    TagsDeclComponent,
+    TextAnnotatorComponent,
+    TextComponent,
     StyledBiblioEntryComponent,
     SubstitutionComponent,
     TextPanelComponent,

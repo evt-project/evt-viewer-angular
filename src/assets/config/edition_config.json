@@ -170,5 +170,9 @@
     }
   },
   "defaultImageZoomLevel": 0.8,
-  "multiPageEngineForCriticalEdition": false
+  "multiPageEngineForCriticalEdition": false,
+  "annotatorColors": {
+		"note": "blue",
+		"highlights": ["#F2CB05", "#F29F05", "#4FC756"]
+	}
 }

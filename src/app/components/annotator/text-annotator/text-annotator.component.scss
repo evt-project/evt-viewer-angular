@@ -1,0 +1,127 @@
+@import "../../../../assets/scss/colors";
+
+
+$buttonColor: get-anno-color(buttonColors);
+$noteColor: get-anno-color(noteColor);
+
+
+.evt-adder-annotation {
+    font-family: Junicode, Times, serif;
+    display: block;
+    position: absolute;
+    z-index: 999;
+    height: auto;
+    border-radius: 5px;
+}
+
+.evt-annotate {
+    border-right: 1px solid #ccc;
+}
+
+.evt-annotator-option {
+    background: $buttonColor;
+    padding: 8px 5px;
+    cursor: pointer;
+}
+
+.evt-annotator-option span {
+    margin: 0;
+}
+
+.evt-adder-toolbar {
+    all: initial;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+    box-shadow: 0px 0px 9px 0 rgb(0 0 0 / 33%);
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.evt-adder-toolbar::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin-left: -0.5em;
+    bottom: 25px;
+    left: 15%;
+    box-sizing: border-box;
+    border: 5px solid #ccc;
+    border-color: transparent transparent #fff #fff;
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+    box-shadow: -3px 3px 3px 0 rgb(0 0 0 / 14%);
+}
+
+.evt-highlight-colors div {
+    width: 20px;
+    height: 20px;
+    float: left;
+}
+
+
+.evt-annotate-creator {
+    width: 280px;
+    height: auto;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-placeholder);
+    color:grey;
+    font-style:italic;
+}
+
+.evt-annotate-creator {
+    margin-top: 15px;
+    background: $buttonColor;
+    overflow: hidden;
+    box-shadow: 0px 0px 9px 0 rgb(0 0 0 / 33%);
+}
+
+.evt-annotate-creator::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    margin-left: -0.5em;
+    bottom: 92%;
+    left: 15%;
+    box-sizing: border-box;
+    border: 5px solid #ccc;
+    border-color: transparent transparent #E4EBF6 #E4EBF6;
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+    box-shadow: -3px 3px 3px 0 rgb(0 0 0 / 14%);
+}
+
+.evt-note-header {
+    background-color: $noteColor;
+    padding: 10px;
+}
+
+.evt-note.evt-note-body {
+    padding: 20px;
+}
+
+.note-title,
+.note-body {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.note-title:focus,
+.note-body:focus {
+    outline: none;
+    border: 1px solid #000;
+}
+
+.note-body {
+    height: 100px;
+}
+
+.evt-note-footer {
+    padding: 0 20px 20px 0;
+}

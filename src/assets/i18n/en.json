@@ -202,5 +202,12 @@
     "corrSeq": "Correction sequence",
     "criticalNote": "Critical note",
     "showsDeletions": "Show deletions",
-    "hidesDeletions": "Hide deletions"
+    "hidesDeletions": "Hide deletions",
+    "annotate": "Annotation",
+    "highlight": "Highlight",
+    "annotatorNote": "Note",
+    "noteTitle": "Title",
+    "noteBody": "Enter the note",
+    "noteCancel": "Cancel",
+    "noteSave": "Save"
 }

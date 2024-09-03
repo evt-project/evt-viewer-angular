@@ -1,0 +1,35 @@
+<div class="evt-adder-annotation" [ngStyle]="{'left.px': annotator.options.position.x, 'top.px':annotator.options.position.y}">
+    <div class="evt-adder-toolbar" *ngIf="annotator.options.showAdder">
+        <div class="evt-annotator-option evt-annotate" (click)="openCreation('annotate')">
+            <span>{{'annotate' | translate}}   <evt-icon [iconInfo] = "{icon:'annotate', iconSet:'evt'}"></evt-icon></span>
+        </div>
+        <div class="evt-annotator-option evt-highlight"  (click)="openCreation('highlight')">
+            <span>{{'highlight' | translate}}   <evt-icon [iconInfo] = "{icon:'highlight', iconSet:'evt'}"></evt-icon></span>
+        </div>
+        <ng-container *ngIf="annotator.values.type === 'highlight' then createHighlight"></ng-container>
+    </div>
+    <ng-container *ngIf="annotator.values.type === 'annotate' then createAnnotation"></ng-container>
+</div>
+
+<ng-template #createHighlight>
+    <div class="evt-annotator-option evt-highlight-colors" *ngFor="let color of annotator.options.highlightColors.highlights">
+        <div class="evt-highlighter" [ngStyle]="{'background-color': color}"></div>
+    </div>  
+</ng-template>
+
+<ng-template #createAnnotation>
+    <div class="evt-annotate-creator">
+        <div class="evt-note evt-note-header">
+            <span><evt-icon [iconInfo] = "{icon:'note', iconSet:'evt'}"></evt-icon>   {{'annotatorNote' | translate}}</span>
+            <evt-icon [iconInfo]="{icon:'close', iconSet:'evt'}" [ngStyle]="{'float': 'right', 'cursor': 'pointer'}" (click)="closeAdder()"></evt-icon>
+        </div>
+        <div class="evt-note evt-note-body">
+            <div class="note-title" attr.contenteditable="{{annotator.options.updateMode}}" attr.data-placeholder="{{'noteTitle' | translate}}"></div>
+            <div class="note-body" attr.contenteditable="{{annotator.options.updateMode}}" attr.data-placeholder="{{'noteBody' | translate}}"></div>
+        </div>
+        <div class="evt-note evt-note-footer" [ngStyle]="{'float': 'right'}">
+            <evt-button class="btn-anno" label="{{'noteCancel' | translate}}" additionalClasses="btn-annotator"></evt-button>
+            <evt-button class="btn-anno" label="{{'noteSave' | translate}}"  additionalClasses="btn-annotator-light"></evt-button>
+        </div>
+    </div>
+</ng-template>
