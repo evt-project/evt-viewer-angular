@@ -28,12 +28,28 @@ export class StructureXmlParserService {
   private frontOrigContentAttr = 'document_front';
   private readonly frontTagName = 'front';
   private readonly backTagName = 'back';
-  private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators;
+  private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators.join(',');
   private readonly bodyTagName = 'body';
 
   allApps: XMLElement[] = [];
   groupedByWitLacunas = new Map<string, LacunaPair[]>();
-  back: Element = null;
+
+  private _front: XMLElement | null = null;
+  get front(): XMLElement | null { return this.front };
+  get parsedFront(): ParseResult<GenericElement> | null {
+    if(!this._front) return null;
+
+    const tempFront = this._front.cloneNode(true) as HTMLElement;
+    tempFront.querySelectorAll(this.structureSeparators).forEach(x => x.remove());
+    const result = this.genericParserService.parse(tempFront);
+    return result;
+  };
+
+  private _body: XMLElement = null;
+  get body(): XMLElement { return this._body };
+
+  private _back: XMLElement = null;
+  get back(): XMLElement { return this._back };
 
   readonly appExponents: Map<string, ApparatusEntryExponent> = new Map();
 
@@ -45,12 +61,11 @@ export class StructureXmlParserService {
 
     if (!source) return editionStructure;
 
-    const front: XMLElement = source.querySelector(this.frontTagName);
-    const body: XMLElement = source.querySelector(this.bodyTagName);
-    this.back = source.querySelector(this.backTagName);
+    this._front = source.querySelector(this.frontTagName);
+    this._body = source.querySelector(this.bodyTagName);
+    this._back = source.querySelector(this.backTagName);
 
-    const selector = this.structureSeparators.join(',');
-    const pbs = Array.from(source.querySelectorAll(selector));//.filter((p) => !p.getAttribute('ed'));
+    const pbs = Array.from(source.querySelectorAll(this.structureSeparators));//.filter((p) => !p.getAttribute('ed'));
     const frontPbs = pbs.filter((p) => isNestedInElem(p, this.frontTagName));
     const bodyPbs = pbs.filter((p) => isNestedInElem(p, this.bodyTagName));
     const doc = source.firstElementChild.ownerDocument;
@@ -60,12 +75,12 @@ export class StructureXmlParserService {
       editionStructure.pages.push(...pages);
     }
     else {
-      const frontPages = frontPbs.length === 0 && front && this.isMarkedAsOrigContent(front)
-        ? [this.parseSinglePage(imagesSource, doc, front, `page_front_${uuidv4()}`, this.frontTagName, 'facs_front')]
+      const frontPages = frontPbs.length === 0 && this._front && this.isMarkedAsOrigContent(this._front)
+        ? [this.parseSinglePage(imagesSource, doc, this._front, `page_front_${uuidv4()}`, this.frontTagName, 'facs_front')]
         : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
 
       const bodyPages = bodyPbs.length === 0
-        ? [this.parseSinglePage(imagesSource, doc, body, `page1_${uuidv4()}`, 'mainText', 'facs1')] // TODO: translate mainText
+        ? [this.parseSinglePage(imagesSource, doc, this._body, `page1_${uuidv4()}`, 'mainText', 'facs1')] // TODO: translate mainText
         : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.bodyTagName));
 
       editionStructure.pages.push(...frontPages, ...bodyPages);

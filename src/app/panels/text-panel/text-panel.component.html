@@ -1,4 +1,4 @@
-<evt-panel [showSecondaryContent]="isSecondaryContentOpened()" (scrollContent)="updatePageFromScroll$.next()">
+<evt-panel [showSecondaryContent]="isSecondaryContentShown()" (scrollContent)="updatePageFromScroll$.next()">
     <div header-left class="no-drag d-flex align-items-center">
         <evt-button
             ariaLabel="{{ 'ariaLabels.openInfoTab' | translate }}"
@@ -6,8 +6,8 @@
             label="Info"
             [iconLeft]="{icon: 'info-circle', additionalClasses: 'me-1'}"
             additionalClasses="btn-primary me-1"
-            (btnClick)="toggleSecondaryContent('INFO')"
-            [active]="secondaryContent === 'INFO'"></evt-button>
+            (btnClick)="toggleSecondaryContent('info')"
+            [active]="secondaryContent === 'info'"></evt-button>
         <evt-edition-selector></evt-edition-selector>
         <evt-page-selector [pageID]="pageID" (selectionChange)="updatePage$.next($event)"></evt-page-selector>
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
@@ -35,7 +35,29 @@
         </ng-container>
     </div>
     <div secondary-content>
-        {{ getSecondaryContent() }}
+        <ng-container [ngSwitch]="secondaryContent">
+
+            <ng-container *ngSwitchCase="'info'">
+                <evt-content-viewer
+                *ngIf="front; else noFront"
+                [mouseCapture]="true"
+                [content]="front">
+                </evt-content-viewer>
+
+                <ng-template #noFront>
+                    This edition has no <span class="fw-bold">front</span> content
+                </ng-template>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'search'">
+                Search results
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+                Unsupported content
+            </ng-container>
+
+            </ng-container>
     </div>
 
     <div footer class="d-flex align-items-center" >
@@ -45,8 +67,8 @@
             [iconLeft]="{icon: 'search'}"
             label="Search"
             additionalClasses="me-1"
-            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
-            [active]="secondaryContent === 'SEARCH_RESULTS'">
+            (btnClick)="toggleSecondaryContent('search')"
+            [active]="secondaryContent === 'search'">
         </evt-button>
         <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
         <evt-verse-prose-select *ngIf="enableProseVersesToggler" (textModeSelectionChange)="toggleProseVerses($event)"></evt-verse-prose-select>

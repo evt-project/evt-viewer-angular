@@ -1,7 +1,9 @@
-import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
-import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { Component, ElementRef, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscription } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, shareReplay, skip, tap, withLatestFrom } from 'rxjs/operators';
 import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
+import { KeyboardService } from 'src/app/services/keyboard.service';
+import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
 import { Page } from '../../models/evt-models';
@@ -9,12 +11,14 @@ import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
+type SecondaryContent = 'search' | 'info';
+
 @Component({
   selector: 'evt-text-panel',
   templateUrl: './text-panel.component.html',
   styleUrls: ['./text-panel.component.scss'],
 })
-export class TextPanelComponent {
+export class TextPanelComponent implements OnDestroy {
   // tslint:disable-next-line: variable-name
   private _mc: ElementRef;
   @ViewChild('mainContent')
@@ -31,7 +35,7 @@ export class TextPanelComponent {
   public selLayer: string;
   @Input() set selectedLayer(layer: string) {
     this.selLayer = layer;
-    this.evtStatus.updateLayer$.next(layer);
+    this.evtStatusService.updateLayer$.next(layer);
   }
   get selectedLayer() { return this.selLayer; }
 
@@ -47,7 +51,7 @@ export class TextPanelComponent {
 
   public currentPage$ = merge(
     this.updatePageFromScroll$.pipe(
-      withLatestFrom(this.evtModelService.pages$, this.evtStatus.currentPage$),
+      withLatestFrom(this.evtModelService.pages$, this.evtStatusService.currentPage$),
       map(([, pages, currentPage]) => {
         if (this.mainContent && this.editionLevelID === 'critical') {
           const mainContentEl: HTMLElement = this.mainContent.nativeElement;
@@ -116,7 +120,7 @@ export class TextPanelComponent {
     this.evtModelService.pages$,
     this.currentPage$,
     this.currentEdLevel$,
-    this.evtStatus.currentViewMode$,
+    this.evtStatusService.currentViewMode$,
   ]).pipe(
     delay(0),
     filter(([pages, currentPage, editionLevel, currentViewMode]) => !!pages && !!currentPage && !!editionLevel && !!currentViewMode),
@@ -126,8 +130,8 @@ export class TextPanelComponent {
   );
 
   public itemsToHighlight$ = new Subject<EntitiesSelectItem[]>();
-  public secondaryContent = '';
-  private showSecondaryContent = false;
+  secondaryContent: SecondaryContent | null = null;
+  isSecondaryContentShown = () => !!this.secondaryContent;
 
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   get defaultTextFlow() {
@@ -170,29 +174,30 @@ export class TextPanelComponent {
 
   private updatingPageFromScroll = false;
 
+  front = this.structureService.parsedFront;
+  private readonly hideSecondaryContentSub: Subscription;
+
   constructor(
     public evtModelService: EVTModelService,
-    public evtStatus: EVTStatusService,
-    public highlightService: EvtLinesHighlightService
+    public evtStatusService: EVTStatusService,
+    public highlightService: EvtLinesHighlightService,
+    public structureService: StructureXmlParserService,
+    public keyboardService: KeyboardService,
   ) {
+    this.hideSecondaryContentSub = merge(
+      this.keyboardService.escape$,
+      this.evtStatusService.currentPage$.pipe(
+        skip(1)
+      )
+    ).subscribe((_) => this.secondaryContent = null);
   }
 
-  getSecondaryContent(): string {
-    return this.secondaryContent;
-  }
-
-  isSecondaryContentOpened(): boolean {
-    return this.showSecondaryContent;
-  }
-
-  toggleSecondaryContent(newContent: string) {
-    if (this.secondaryContent !== newContent) {
-      this.showSecondaryContent = true;
-      this.secondaryContent = newContent;
+  toggleSecondaryContent(content: SecondaryContent) {
+    if (this.secondaryContent !== content) {
+      this.secondaryContent = content;
     }
     else {
-      this.showSecondaryContent = false;
-      this.secondaryContent = '';
+      this.secondaryContent = null;
     }
   }
 
@@ -224,5 +229,9 @@ export class TextPanelComponent {
         mainContentEl.parentElement.scrollTop = 0;
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.hideSecondaryContentSub.unsubscribe();
   }
 }

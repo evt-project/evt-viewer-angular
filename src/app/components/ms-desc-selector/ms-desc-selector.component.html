@@ -5,7 +5,7 @@
 
     <ng-template #select>
         <ng-select class="me-1" [(ngModel)]="msDescId" [items]="items" bindLabel="label" bindValue="id"
-            [closeOnSelect]="true" [searchable]="false" (clear)="resetMsDesc();" [disabled]="items.length === 0"
+            [closeOnSelect]="true" [searchable]="false" (clear)="hideMsDesc();" [disabled]="items.length === 0"
             [placeholder]="(items.length === 0 ? 'noMsDescAvailable' : 'selectMsDesc') | translate"
             (change)="openMsDescContent()">
         </ng-select>

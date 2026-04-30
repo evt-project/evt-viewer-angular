@@ -1,10 +1,11 @@
 import { EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { filter, fromEvent, merge, skip, Subscription } from 'rxjs';
+import { merge, skip, Subscription } from 'rxjs';
 import { MsDesc } from 'src/app/models/evt-models';
 import { EVTModelService } from 'src/app/services/evt-model.service';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 
 @Component({
   selector: 'evt-ms-desc-selector',
@@ -14,7 +15,7 @@ import { EVTStatusService } from 'src/app/services/evt-status.service';
 export class MsDescSelectorComponent implements OnInit, OnDestroy {
 
   public msDesc$ = this.evtModelService.msDesc$;
-  private resetMsDescSub: Subscription;
+  private hideMsDescSub: Subscription;
   msDescId: string;
 
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
@@ -23,27 +24,24 @@ export class MsDescSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     public evtModelService: EVTModelService,
-    public evitStatusService: EVTStatusService
+    public evtStatusService: EVTStatusService,
+    public keyboardService: KeyboardService,
   ) {
   }
 
   ngOnInit(): void {
-    const escape$ = fromEvent<KeyboardEvent>(document, 'keydown')
-      .pipe(
-        filter(event => event.key === 'Escape')
-      )
-    this.resetMsDescSub = merge(
-      escape$,
-      this.evitStatusService.currentPage$.pipe(
+    this.hideMsDescSub = merge(
+      this.keyboardService.escape$,
+      this.evtStatusService.currentPage$.pipe(
         skip(1)
       )
-    ).subscribe((_) => this.resetMsDesc());
+    ).subscribe((_) => this.hideMsDesc());
   }
 
   onMsDescBtnClick(item: MsDesc) {
     if (this.msDescId) {
       this.msDescId = null;
-      this.resetMsDesc();
+      this.hideMsDesc();
     }
     else {
       this.msDescId = item.id;
@@ -57,13 +55,13 @@ export class MsDescSelectorComponent implements OnInit, OnDestroy {
     this.msDescOpen.emit(true);
   }
 
-  resetMsDesc() {
+  hideMsDesc() {
     this.msDescId = null;
     this.selectionChange.emit(this.msDescId);
     this.msDescOpen.emit(false);
   }
 
   ngOnDestroy(): void {
-    this.resetMsDescSub?.unsubscribe();
+    this.hideMsDescSub?.unsubscribe();
   }
 }
