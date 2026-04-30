@@ -35,7 +35,7 @@ export class StructureXmlParserService {
   groupedByWitLacunas = new Map<string, LacunaPair[]>();
 
   private _front: XMLElement | null = null;
-  get front(): XMLElement | null { return this.front };
+  get front(): XMLElement | null { return this._front };
   get parsedFront(): ParseResult<GenericElement> | null {
     if(!this._front) return null;
 
