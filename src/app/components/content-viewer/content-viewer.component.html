@@ -4,6 +4,6 @@
 
 <ng-template #dynamicTemplate let-parsedContent="parsedContent" let-inputs="inputs" let-outputs="outputs"
     let-attributes="attributes">
-    <ndc-dynamic [ndcDynamicComponent]="parsedContent.type" [ndcDynamicInputs]="inputs" [ndcDynamicOutputs]="outputs"
-        [ndcDynamicAttributes]="attributes" [ngClass]="parsedContent.class" [style]="parsedContent.attributes.style"></ndc-dynamic>
+    <ndc-dynamic *ngIf="parsedContent" [ndcDynamicComponent]="parsedContent?.type" [ndcDynamicInputs]="inputs" [ndcDynamicOutputs]="outputs"
+        [ndcDynamicAttributes]="attributes" [ngClass]="parsedContent?.class" [style]="parsedContent?.attributes?.style"></ndc-dynamic>
 </ng-template>
