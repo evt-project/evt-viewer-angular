@@ -28,19 +28,20 @@ export class StructureXmlParserService {
   private frontOrigContentAttr = 'document_front';
   private readonly frontTagName = 'front';
   private readonly backTagName = 'back';
-  private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators.join(',');
+  private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators;
+  private readonly joinedStructureSeparators = this.structureSeparators.join(',');
   private readonly bodyTagName = 'body';
 
   allApps: XMLElement[] = [];
   groupedByWitLacunas = new Map<string, LacunaPair[]>();
 
   private _front: XMLElement | null = null;
-  get front(): XMLElement | null { return this.front };
+  get front(): XMLElement | null { return this._front };
   get parsedFront(): ParseResult<GenericElement> | null {
     if(!this._front) return null;
 
     const tempFront = this._front.cloneNode(true) as HTMLElement;
-    tempFront.querySelectorAll(this.structureSeparators).forEach(x => x.remove());
+    tempFront.querySelectorAll(this.joinedStructureSeparators).forEach(x => x.remove());
     const result = this.genericParserService.parse(tempFront);
     return result;
   };
@@ -65,7 +66,7 @@ export class StructureXmlParserService {
     this._body = source.querySelector(this.bodyTagName);
     this._back = source.querySelector(this.backTagName);
 
-    const pbs = Array.from(source.querySelectorAll(this.structureSeparators));//.filter((p) => !p.getAttribute('ed'));
+    const pbs = Array.from(source.querySelectorAll(this.joinedStructureSeparators));//.filter((p) => !p.getAttribute('ed'));
     const frontPbs = pbs.filter((p) => isNestedInElem(p, this.frontTagName));
     const bodyPbs = pbs.filter((p) => isNestedInElem(p, this.bodyTagName));
     const doc = source.firstElementChild.ownerDocument;
