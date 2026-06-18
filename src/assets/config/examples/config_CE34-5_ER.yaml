@@ -266,7 +266,6 @@ edition:
   #
   structureSeparators:
     - pb
-    - "div[type='chapter']"
   #
   exponentEnumerateBy: pb
   #
