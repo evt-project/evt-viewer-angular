@@ -47,7 +47,7 @@ editionTextSourcesConfig:
 # General configuration options for the edition
 edition:
   # The edition title. If you leave this ﬁeld empty, the default "EVT Viewer" title will be shown
-  editionTitle: Progetto Saba1919
+  editionTitle: "Cicero: Lucullus"
   # The badge text to be visualized following the edition title, it should be a short text string such as alpha, experimental
   badge: beta
   # If available, insert the URL of the web home page for the edition: if you specify an external web site there will be a
@@ -59,7 +59,7 @@ edition:
   logoUrl: "data/images/logo/logo.png"
 
   # Default edition level
-  defaultEditionLevel: changesView
+  defaultEditionLevel: critical
 
   # Choose the edition levels for your edition using boolean values (true|false), note that
   #   enable: enable the desired edition level or not
@@ -70,13 +70,13 @@ edition:
       # Note that "label" the fallback value, EVT is going to look into the localization files (i18n folder) for the actual text
       label: diplomatic
       # Enable this edition level
-      enable: true
+      enable: false
       # Make it visible in the selector
       hidden: false
 
     - id: interpretative
       label: interpretative
-      enable: true
+      enable: false
       hidden: false
 
     - id: critical
@@ -86,14 +86,14 @@ edition:
 
     - id: changesView
       label: changes
-      enable: true
+      enable: false
       hidden: true
 
   mainMenuConfig:
     # Set this to true or to false to enable/disable download of the TEI/XML ﬁle
     downloadableXMLSource: true
     # Show the named entities lists (true|false) if false then no lists will be shown
-    showEntitiesLists: true
+    showEntitiesLists: false
     # Configure download links
     # Allow the user to download other edition documents, e.g. a PDF version of the edition
     downloadLinks:
@@ -223,7 +223,7 @@ edition:
   # that the verse number will only be shown every five verses.
   verseNumberPrinter: 5
   #
-  readingColorLight: "rgb(255 241 208)"
+  readingColorLight: "rgb(208, 220, 255)"
   #
   readingColorDark: "rgb(101, 138, 255)"
 
@@ -252,18 +252,19 @@ edition:
     showVarSeqAttr: false
     showSeqAttr: false
     layerColors:
-      strato-0: "#d4a03b"
-      strato-1: "#d99102"
-      strato-2: "#ac7301"
-      strato-3: "#855801"
-      strato-4: "#5f3f01"
-      strato-5: "#352400"
+      strato-0: "#71e5fa"
+      strato-1: "#609cf4"
+      strato-2: "#0d6efd"
+      strato-3: "#7B66FF"
+      strato-4: "#3e22f32"
+      strato-5: "#100077"
 
   #
   multiPageEngineForCriticalEdition: false
   #
   structureSeparators:
     - pb
+    - seg
   #
   exponentEnumerateBy: pb
   #
@@ -283,7 +284,7 @@ edition:
 #######################################
 ui:
   # Select which view mode you want to your edition to open on. Note that it must be an active mode!
-  defaultViewMode: documentalMixed
+  defaultViewMode: readingText
 
   # Select which view modes you want to be available in your edition.
   availableViewModes:
@@ -369,12 +370,12 @@ ui:
       iconUrl: assets/images/it.png
 
   # Select if you want to activate (true) or not (false) the navigation bar at the bottom of the screen.
-  enableNavBar: true
+  enableNavBar: false
   # If the navigation bar is active (see previous setting), sets its initial status: with true it will
   # be shown when the edition is loaded, with false it will be hidden until the user decides to show it.
-  initNavBarOpened: true
+  initNavBarOpened: false
   # Select if you want to activate (true) or not (false) the thumbnail button in the navigation bar.
-  thumbnailsButton: true
+  thumbnailsButton: false
   # Select if you want to activate (true) or not (false) the VisColl button in the navigation bar.
   # Note that VisColl functionality is still a work in progress, so it is set to "false" by default.
   viscollButton: false
@@ -383,13 +384,13 @@ ui:
   # Size of the main font
   mainFontSize: "1.1rem"
   # The secondary font to be used, in order by availability
-  secondaryFontFamily: "Junicode, Times, serif"
+  secondaryFontFamily: "Arial, sans-serif"
   # Size of the secondary font
   secondaryFontSize: "0.8rem"
   # Select the default theme to be used when loading your edition.
   theme: cmodernc
   # Button to activate the text-image linking
-  syncZonesHighlightButton: true
+  syncZonesHighlightButton: false
   # Default image zoom level
   defaultImageZoomLevel: 0.8
   # Maximum image zoom level
