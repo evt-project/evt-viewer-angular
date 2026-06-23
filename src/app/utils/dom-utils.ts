@@ -187,10 +187,10 @@ export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const range = document.createRange();
   range.setStart(start, 0);
   range.setEnd(end, end.length || end.childNodes.length);
-  const commonAncestorChild = Array.from((range.commonAncestorContainer as XMLElement).children);
-  const startIdx = commonAncestorChild.indexOf(start);
-  const endIdx = commonAncestorChild.indexOf(end);
-  const rangeNodes = commonAncestorChild.slice(startIdx, endIdx).filter((c) => c !== start);
+  const commonAncestorChildren = Array.from((range.commonAncestorContainer as XMLElement).children);
+  const startIdx = commonAncestorChildren.indexOf(start);
+  const endIdx = commonAncestorChildren.indexOf(end);
+  const rangeNodes = commonAncestorChildren.slice(startIdx, endIdx).filter((c) => c !== start);
   rangeNodes.forEach((c: XMLElement) => c.setAttribute('xpath', xpath(c).replace(/-/g, '/')));
   const fragment = range.cloneContents();
   const nodes = Array.from(fragment.childNodes);
