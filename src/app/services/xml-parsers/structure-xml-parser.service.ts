@@ -27,10 +27,11 @@ export class StructureXmlParserService {
   private appParser = AppParser.create();
   private frontOrigContentAttr = 'document_front';
   private readonly frontTagName = 'front';
+  private readonly bodyTagName = 'body';
   private readonly backTagName = 'back';
   private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators;
-  private readonly joinedStructureSeparators = this.structureSeparators.join(',');
-  private readonly bodyTagName = 'body';
+  private readonly structureSeparatorSelector = this.structureSeparators.join(',');
+  private readonly textualNodes = ["p", "l", "seg"];
 
   allApps: XMLElement[] = [];
   groupedByWitLacunas = new Map<string, LacunaPair[]>();
@@ -38,10 +39,10 @@ export class StructureXmlParserService {
   private _front: XMLElement | null = null;
   get front(): XMLElement | null { return this._front };
   get parsedFront(): ParseResult<GenericElement> | null {
-    if(!this._front) return null;
+    if (!this._front) return null;
 
     const tempFront = this._front.cloneNode(true) as HTMLElement;
-    tempFront.querySelectorAll(this.joinedStructureSeparators).forEach(x => x.remove());
+    tempFront.querySelectorAll(this.structureSeparatorSelector).forEach(x => x.remove());
     const result = this.genericParserService.parse(tempFront);
     return result;
   };
@@ -66,23 +67,23 @@ export class StructureXmlParserService {
     this._body = source.querySelector(this.bodyTagName);
     this._back = source.querySelector(this.backTagName);
 
-    const pbs = Array.from(source.querySelectorAll(this.joinedStructureSeparators));//.filter((p) => !p.getAttribute('ed'));
-    const frontPbs = pbs.filter((p) => isNestedInElem(p, this.frontTagName));
-    const bodyPbs = pbs.filter((p) => isNestedInElem(p, this.bodyTagName));
+    const nodes = Array.from(source.querySelectorAll(this.structureSeparatorSelector));//.filter((p) => !p.getAttribute('ed'));
+    const frontNodes = nodes.filter((p) => isNestedInElem(p, this.frontTagName));
+    const bodyNodes = nodes.filter((p) => isNestedInElem(p, this.bodyTagName));
     const doc = source.firstElementChild.ownerDocument;
 
-    if (frontPbs.length > 0 && bodyPbs.length > 0) {
-      const pages = pbs.map((pb: XMLElement, idx, arr: XMLElement[]) => this.parseDocumentPage(imagesSource, doc, pb, arr[idx + 1], 'text'));
+    if (frontNodes.length > 0 && bodyNodes.length > 0) {
+      const pages = nodes.map((pb: XMLElement, idx, arr: XMLElement[]) => this.parseDocumentPage(imagesSource, doc, pb, arr[idx + 1], 'text'));
       editionStructure.pages.push(...pages);
     }
     else {
-      const frontPages = frontPbs.length === 0 && this._front && this.isMarkedAsOrigContent(this._front)
+      const frontPages = frontNodes.length === 0 && this._front && this.isMarkedAsOrigContent(this._front)
         ? [this.parseSinglePage(imagesSource, doc, this._front, `page_front_${uuidv4()}`, this.frontTagName, 'facs_front')]
-        : frontPbs.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
+        : frontNodes.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.frontTagName));
 
-      const bodyPages = bodyPbs.length === 0
+      const bodyPages = bodyNodes.length === 0
         ? [this.parseSinglePage(imagesSource, doc, this._body, `page1_${uuidv4()}`, 'mainText', 'facs1')] // TODO: translate mainText
-        : bodyPbs.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.bodyTagName));
+        : bodyNodes.map((pb, idx, arr) => this.parseDocumentPage(imagesSource, doc, pb as HTMLElement, arr[idx + 1] as HTMLElement, this.bodyTagName));
 
       editionStructure.pages.push(...frontPages, ...bodyPages);
     }
@@ -92,7 +93,7 @@ export class StructureXmlParserService {
       parent.content = [...page.parsedContent];
       const shouldSubstitute = this.processCbRecursive(parent, page.parsedContent as GenericElement[]);
       if (shouldSubstitute) {
-        page.parsedContent = [parent];
+        page.parsedContent = [parent];             
       }
     }
 
@@ -559,22 +560,10 @@ export class StructureXmlParserService {
     /* If there is a next page we retrieve the elements between two page nodes
     otherweise we retrieve the nodes between the page node and the last node of the body node */
     // TODO: check if querySelectorAll can return an empty array in this case
-    if (pb.tagName !== 'pb') {
-      return {
-        id: getID(pb, 'page'),
-        label: getNOrDefaultFromElement(pb) || 'page',
-        facs: (pb.getAttribute('facs') || 'page').split('#').slice(-1)[0],
-        originalContent: [pb],
-        parsedContent: this.parsePageContent(doc, [pb]),
-        url: this.getPageUrl(imagesSource, getID(pb, 'page')),
-        facsUrl: this.getPageUrl(imagesSource, (pb.getAttribute('facs') || getID(pb, 'page')).split('#').slice(-1)[0]),
-      };
-    }
-
     const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
-    const originalContent = getElementsBetweenTreeNode(pb, nextNode)
-      .filter((n) => !this.structureSeparators.includes(n.tagName))
-      .filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
+    let originalContent = getElementsBetweenTreeNode(pb, nextNode);
+    originalContent = originalContent.filter((n) => !this.structureSeparators.includes(n.tagName))
+    originalContent = originalContent.filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
 
     return {
       id: getID(pb, 'page'),
@@ -688,7 +677,7 @@ export class StructureXmlParserService {
 
         if (origEl.nodeName === this.frontTagName || isNestedInElem(origEl, this.frontTagName)) {
           if (this.hasOriginalContent(origEl)) {
-            return Array.from(origEl.querySelectorAll(`[type=${this.frontOrigContentAttr}]`))
+            return Array.from(this.getOriginalContent(origEl))
               .map((c) => this.genericParserService.parse(c as XMLElement));
           }
           if (this.isMarkedAsOrigContent(origEl)) {
@@ -716,6 +705,15 @@ export class StructureXmlParserService {
   private normalizeTree(node: GenericElement): void {
     if (!node.content?.length) return;
 
+    if (this.isTextualNode(node)) {
+      const separatorIndex = node.content.findIndex(
+        child => this.isSeparatorNode((child as GenericElement))
+      );
+      if (separatorIndex !== -1) {
+        node.content = node.content.slice(0, separatorIndex);
+      }
+    }
+
     node.content = node.content
       .filter(child => !this.isIgnorableNode(child as GenericElement))
       .map(child => {
@@ -724,8 +722,20 @@ export class StructureXmlParserService {
       });
   }
 
+  private isTextualNode(node: GenericElement): boolean {
+    return this.textualNodes.includes(node.class);
+  }
+
+  private isSeparatorNode(node: GenericElement): boolean {
+    return this.structureSeparators.includes(node.class);
+  }
+
   hasOriginalContent(el: XMLElement): boolean {
-    return el.querySelectorAll(`[type=${this.frontOrigContentAttr}]`).length > 0;
+    return this.getOriginalContent(el).length > 0;
+  }
+
+  private getOriginalContent(el: HTMLElement) {
+    return el.querySelectorAll(`[type=${this.frontOrigContentAttr}]`);
   }
 
   isMarkedAsOrigContent(el: XMLElement): boolean {
@@ -736,8 +746,6 @@ export class StructureXmlParserService {
       );
   }
 }
-
-
 
 //this function is only momentarily commented, waiting for issue #228 to be better addressed
 function getEditionOrigNode(el: XMLElement, doc: Document) {

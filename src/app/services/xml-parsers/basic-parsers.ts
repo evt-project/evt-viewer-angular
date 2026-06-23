@@ -311,6 +311,7 @@ export class VerseParser extends EmptyParser implements Parser<XMLElement> {
             source: this.source,
             analogue: this.analogue,
             xPath: getXPath(xml),
+            class: getClass(xml),
         };
 
         return lineComponent;
@@ -425,7 +426,7 @@ export class AdditionParser extends EmptyParser implements Parser<XMLElement> {
             xPath: getXPath(xml),
             content: parseChildren(xml, this.genericParse),
             attributes: this.attributeParser.parse(xml),
-            class: xml.tagName.toLowerCase(),
+            class: getClass(xml),
         };
     }
 }
