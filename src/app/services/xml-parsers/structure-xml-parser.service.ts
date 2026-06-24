@@ -31,7 +31,7 @@ export class StructureXmlParserService {
   private readonly backTagName = 'back';
   private readonly structureSeparators = AppConfig.evtSettings.edition.structureSeparators;
   private readonly structureSeparatorSelector = this.structureSeparators.join(',');
-  private readonly textualNodes = ["p", "l", "seg"];
+  private readonly textualNodes = ["p", "l", "seg", "sic", "lg"];
 
   allApps: XMLElement[] = [];
   groupedByWitLacunas = new Map<string, LacunaPair[]>();
