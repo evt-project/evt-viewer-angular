@@ -140,6 +140,13 @@ export class StructureXmlParserService {
     return text.trim().length === 0;
   }
 
+  // A whitespace-only text node (e.g. collapsed source indentation) is only a meaningful separator  when it sits between two real siblings
+  private isRemovableWhitespaceNode(node: GenericElement, index: number, siblings: GenericElement[]): boolean {
+    if (!this.isIgnorableNode(node)) return false;
+
+    return index === 0 || index === siblings.length - 1;
+  }
+
   private loadLacunas(backElements: HTMLCollectionOf<Element>, source: HTMLElement) {
     const lacunasStart = Array.from(backElements[0].querySelectorAll('lacunaStart')).map(x => x as HTMLElement);
     const lacunasEnd = Array.from(backElements[0].querySelectorAll('lacunaEnd')).map(x => x as HTMLElement);
@@ -716,7 +723,7 @@ export class StructureXmlParserService {
     if (!node.content?.length) return;
 
     node.content = node.content
-      .filter(child => !this.isIgnorableNode(child as GenericElement))
+      .filter((child, index, arr) => !this.isRemovableWhitespaceNode(child as GenericElement, index, arr as GenericElement[]))
       .map(child => {
         this.normalizeTree(child as GenericElement);
         return child;
