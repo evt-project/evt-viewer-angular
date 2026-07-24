@@ -45,9 +45,16 @@ import { ModParser } from './mod-parser';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (_: any) => class extends _ {
+    return (_: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        @Injectable({
+            providedIn: 'root',
+        })
+        class ParsersExtended extends _ {
             declarations = declarations;
-        };
+        }
+        return ParsersExtended;
+    };
 }
 
 @Injectable({

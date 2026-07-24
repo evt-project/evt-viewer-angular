@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { GenericElement, Lb, Word } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
@@ -10,10 +10,13 @@ export interface WordComponent extends EditionlevelSusceptible, Highlightable { 
   selector: 'evt-word',
   templateUrl: './word.component.html',
   styleUrls: ['./word.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @register(Word)
 export class WordComponent {
   @Input() data: Word;
+
+  readonly Lb = Lb;
 
   get word() {
     if (this.editionLevel === 'diplomatic') {

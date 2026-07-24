@@ -1,4 +1,4 @@
-<span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes">
+<span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes" [evtHighlight]="highlightData">
 	<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel" 
 		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
 	</evt-content-viewer>
