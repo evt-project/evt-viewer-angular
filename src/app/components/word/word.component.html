@@ -1,6 +1,5 @@
 <span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes" [evtHighlight]="highlightData">
-	<ng-container *ngFor="let el of word">
-		<evt-lb *ngIf="el.type === Lb" [data]="el"></evt-lb>
-		<ng-container *ngIf="el.type !== Lb">{{ el.text }}</ng-container>
-	</ng-container>
+	<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel" 
+		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
+	</evt-content-viewer>
 </span>
