@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { GenericElement, Lb, Word } from '../../models/evt-models';
+import { GenericElement, Lb, Text, Word } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtLinesHighlightService } from '../../services/evt-lines-highlight.service';
 import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
 
 export interface WordComponent extends EditionlevelSusceptible, Highlightable { }
@@ -18,20 +19,60 @@ export class WordComponent {
 
   readonly Lb = Lb;
 
-  get word() {
+  constructor(private evtHighlineService: EvtLinesHighlightService) { }
+
+  get isPlainText(): boolean {
+    return this.word.every((el) => el.type === Text);
+  }
+
+  get plainTextWord(): Text[] {
+    return this.word as Text[];
+  }
+
+  onWordMouseOver($event: MouseEvent) {
+    const textNode = this.plainTextWord[0];
+    const { lbId, correspId } = textNode as any;
+    if (!lbId || !correspId) return;
+    if (textNode.text === '' || textNode.text === ' ') return;
+
+    $event.preventDefault();
+    this.evtHighlineService.setHovered({ id: lbId, corresp: correspId });
+  }
+
+  onWordMouseLeave($event: MouseEvent) {
+    $event.preventDefault();
+    this.evtHighlineService.setHovered(null);
+  }
+
+  onWordClick($event: MouseEvent) {
+    $event.stopPropagation();
+
+    const textNode = this.plainTextWord[0];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { lbId, correspId } = textNode as any;
+    if (!lbId || !correspId) return;
+    if (textNode.text === '' || textNode.text === ' ') return;
+
+    $event.preventDefault();
+    this.evtHighlineService.setSelected({ id: lbId, corresp: correspId });
+  }
+
+  get word(): GenericElement[] {
+    const content = this.data.content as GenericElement[];
+
     if (this.editionLevel === 'diplomatic') {
-      return this.data.content;
+      return content;
     }
 
-    const lbIndex = this.data.content.findIndex((el: GenericElement) => el.type === Lb);
+    const lbIndex = content.findIndex((el) => el.type === Lb);
     if (lbIndex >= 0) {
-      const wordContent = [...this.data.content];
+      const wordContent = [...content];
       wordContent.splice(lbIndex, 1);
-      wordContent.push(this.data.content[lbIndex]);
+      wordContent.push(content[lbIndex]);
 
       return wordContent;
     }
 
-    return this.data.content;
+    return content;
   }
 }
