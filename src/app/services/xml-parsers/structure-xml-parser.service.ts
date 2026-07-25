@@ -262,6 +262,15 @@ export class StructureXmlParserService {
 
   private checkDepaErrors(source: HTMLElement) {
     this.errorService.loadingStart();
+    const elementById = new Map<string, Element | null>();
+    const findById = (id: string): Element | null => {
+      if (elementById.has(id)) {
+        return elementById.get(id)!;
+      }
+      const element = source.querySelector(`[*|id='${id}']`);
+      elementById.set(id, element);
+      return element;
+    };
 
     for (const app of this.allApps.filter(x => AppParser.isDepa(x))) {
       const from = Attribute.createFromOrDefault(app);
@@ -273,19 +282,20 @@ export class StructureXmlParserService {
       const to = Attribute.createToOrDefault(app);
       if (!to) continue;
 
-      const fromElement = source.querySelector(`[*|id='${from.valueWithoutRef}']`);
-      const toElement = source.querySelector(`[*|id='${to.valueWithoutRef}']`);
+      const fromElement = findById(from.valueWithoutRef);
+      const toElement = findById(to.valueWithoutRef);
 
       if (!fromElement || !toElement) continue;
 
       // instead of loading all errors right away, this avoid blocking the ui
       setTimeout(() => {
-        const otherApps = this.allApps.filter(x => !x.isEqualNode(app));
-        for (const otherApp of otherApps) {
+        for (const otherApp of this.allApps) {
+          if (otherApp === app) continue;
+
           const otherFrom = Attribute.createFromOrDefault(otherApp);
           if (!otherFrom) continue;
 
-          const otherElement = source.querySelector(`[*|id='${otherFrom.valueWithoutRef}']`);
+          const otherElement = findById(otherFrom.valueWithoutRef);
           if (!otherElement) {
             this.errorService.logError(
               `No element found with xml:id ${otherFrom.valueWithoutRef}`,
