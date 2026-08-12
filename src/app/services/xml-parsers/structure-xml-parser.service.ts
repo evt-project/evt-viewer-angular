@@ -564,13 +564,9 @@ export class StructureXmlParserService {
   }
 
   parseDocumentPage(imagesSource: ImagesSource, doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): Page {
-    /* If there is a next page we retrieve the elements between two page nodes
-    otherweise we retrieve the nodes between the page node and the last node of the body node */
-    // TODO: check if querySelectorAll can return an empty array in this case
-    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
-    let originalContent = getElementsBetweenTreeNode(pb, nextNode);
-    originalContent = originalContent.filter((n) => !this.structureSeparators.includes(n.tagName))
-    originalContent = originalContent.filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
+    const originalContent = this.isMilestoneSeparator(pb)
+      ? this.getContentAfterMilestone(doc, pb, nextPb, ancestorTagName)
+      : [pb];
 
     return {
       id: getID(pb, 'page'),
@@ -581,6 +577,24 @@ export class StructureXmlParserService {
       url: this.getPageUrl(imagesSource, getID(pb, 'page')),
       facsUrl: this.getPageUrl(imagesSource, (pb.getAttribute('facs') || getID(pb, 'page')).split('#').slice(-1)[0]),
     };
+  }
+
+  /* A milestone separator (<pb/>) is an empty marker: it only says where a page starts, so the page content is made of the nodes that follow it.
+  A container separator instead (<seg>) contains part of the page! */
+  private isMilestoneSeparator(separator: XMLElement): boolean {
+    return separator.childNodes.length === 0;
+  }
+
+  private getContentAfterMilestone(doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): XMLElement[] {
+    /* If there is a next page we retrieve the elements between two page nodes
+    otherweise we retrieve the nodes between the page node and the last node of the body node */
+    // TODO: check if querySelectorAll can return an empty array in this case
+    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
+    let originalContent = getElementsBetweenTreeNode(pb, nextNode);
+    originalContent = originalContent.filter((n) => !this.structureSeparators.includes(n.tagName))
+    originalContent = originalContent.filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
+
+    return originalContent;
   }
 
   private parseSinglePage(imagesSource: ImagesSource, doc: Document, el: XMLElement, id: string, label: string, facs: string): Page {
