@@ -17,8 +17,15 @@ export interface ApparatusEntryExponentComponent extends EditionlevelSusceptible
 })
 
 export class ApparatusEntryExponentComponent implements OnDestroy {
-  @Input() data: ApparatusEntryExponent;
+  private _data: ApparatusEntryExponent;
+  @Input() set data(v: ApparatusEntryExponent) {
+    this._data = v;
+    this.exponentId = v?.id().valueWithoutRef;
+  }
+  get data() { return this._data; }
   @ViewChild('evtExponent', { read: ElementRef }) evtExponent!: ElementRef;
+
+  exponentId: string;
 
   noteType: string = 'critical'; // Temp, it's probably correct but needs confirmation
   apparatusDetailsShown$ = combineLatest([
