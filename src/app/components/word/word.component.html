@@ -1,5 +1,15 @@
-<span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes" [evtHighlight]="highlightData">
-	<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel" 
-		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
-	</evt-content-viewer>
+<span class="word {{data.class}}" [evtHtmlAttributes]="data.attributes" [evtHighlight]="highlightData"
+	(mouseover)="isPlainText && onWordMouseOver($event)" (mouseleave)="isPlainText && onWordMouseLeave($event)"
+	(click)="isPlainText && onWordClick($event)">
+
+	<ng-container *ngIf="isPlainText; else dynamicWord">
+		<ng-container *ngFor="let el of plainTextWord">{{ el.text }}</ng-container>
+	</ng-container>
+	
+	<ng-template #dynamicWord>
+		<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel"
+			[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
+		</evt-content-viewer>
+	</ng-template>
+	
 </span>
