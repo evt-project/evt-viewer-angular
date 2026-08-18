@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppConfig, ImagesSource } from '../../app.config';
 import { Anchor, ApparatusEntry, ApparatusEntryExponent, Attribute, Cb, DocumentApparatusEntries, EditionStructure, ElementApparatusEntries, GenericElement, LacunaPair, OriginalEncodingNodeType, Page, Text, XMLElement } from '../../models/evt-models';
-import { createNsResolver, deepSearch, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
+import { createNsResolver, deepSearch, getElementsBetweenTreeNode, getXPath, isNestedInElem } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
 import { getID, getNOrDefaultFromElement, ParseResult } from './parser-models';
 import { getFromAttributeOrDefault, getToAttributeOrDefault } from 'src/app/extensions/apparatus.extensions';
-import { FROM_ATTRIBUTE, TO_ATTRIBUTE } from 'src/app/models/constants';
+import { FROM_ATTRIBUTE, TO_ATTRIBUTE, XMLID_ATTRIBUTE } from 'src/app/models/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { AlphabetService } from '../alphabet.service';
 import { AppParser } from './app-parser';
@@ -206,18 +206,21 @@ export class StructureXmlParserService {
     });
 
     const enumerateBy = AppConfig.evtSettings.edition.exponentEnumerateBy;
-    const enumeratedByJsonElements: string[] = [];
+    const enumeratedByIds = new Set<string>();
+    const enumeratedByXPaths = new Set<string>();
     if (enumerateBy) {
       const enumeratedByElements = Array.from(source.querySelectorAll(enumerateBy));
       for (let enumeratedByElement of enumeratedByElements) {
-        const enumeratedByParsed = this.genericParserService.parse(enumeratedByElement as XMLElement);
-        const enumerateByJson = JSON.stringify(enumeratedByParsed);
-        enumeratedByJsonElements.push(enumerateByJson);
+        const enumeratedById = enumeratedByElement.getAttribute(XMLID_ATTRIBUTE);
+        if (enumeratedById) {
+          enumeratedByIds.add(enumeratedById);
+        }
+        enumeratedByXPaths.add(getXPath(enumeratedByElement));
       }
     }
 
-    const resetCounterCallback: (item: GenericElement, enumerateBy: string[]) => void
-      = enumerateBy ? (item) => resetCounter(item, enumeratedByJsonElements)
+    const resetCounterCallback: (item: GenericElement) => void
+      = enumerateBy ? (item) => resetCounter(item)
         : (_) => { };
     for (let i = 0; i < editionStructure.pages.length; i++) {
       const page = editionStructure.pages[i];
@@ -225,7 +228,7 @@ export class StructureXmlParserService {
         page.parsedContent,
         (app, exponent) => onApparatusEntryReplaced(page, app, exponent),
         () => exponentLabelFactory(this.alphabetService),
-        (item) => resetCounterCallback(item, enumeratedByJsonElements)
+        (item) => resetCounterCallback(item)
       );
     }
 
@@ -251,9 +254,12 @@ export class StructureXmlParserService {
       return label;
     }
 
-    function resetCounter(item: GenericElement, enumeratedBy: string[]): void {
-      const currentItemJson = JSON.stringify(item);
-      const matchesSelector = enumeratedBy.some(x => x === currentItemJson);
+    /* The item is matched by identity (its xml:id, or its xPath when it has none).
+    Before we did this by comparing serialized subtrees, but the parsed content of a page
+    goes through normalizeTree while the element parsed for comparison does not so they very hardly match */
+    function resetCounter(item: GenericElement): void {
+      const itemId = item.attributes?.['id'];
+      const matchesSelector = itemId ? enumeratedByIds.has(itemId) : enumeratedByXPaths.has(item.xPath);
       if (enumerateBy !== 'global' && matchesSelector) {
         counter = 0;
       }
