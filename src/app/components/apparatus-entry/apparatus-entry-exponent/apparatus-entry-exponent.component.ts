@@ -51,14 +51,20 @@ export class ApparatusEntryExponentComponent implements OnDestroy {
       return isSelected;
     }),
     tap(isSelected => {
-      if (isSelected) {
-        const el = this.evtExponent?.nativeElement;
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => {
-          el.classList.toggle("flash-highlight");
-        }, 1000);
-      }
+      const FLASH_CLASS = 'flash-highlight';
+      const FLASH_DURATION_MS = 3_000;
+      const el = this.evtExponent?.nativeElement;
+      if (!el) return;
+      clearTimeout(this.flashTimeout);
+      el.classList.remove(FLASH_CLASS);
+      if (!isSelected) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      void el.offsetWidth; // reflow, so the animation restarts when the same exponent is selected again
+      el.classList.add(FLASH_CLASS);
+      this.flashTimeout = setTimeout(() => el.classList.remove(FLASH_CLASS), FLASH_DURATION_MS);
     }));
+
+  private flashTimeout: ReturnType<typeof setTimeout>;
 
   isHighlighted$ = combineLatest([
     this.updateHovered$,
@@ -110,5 +116,6 @@ export class ApparatusEntryExponentComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearTimeout(this.flashTimeout);
   }
 }
