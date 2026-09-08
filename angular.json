@@ -132,13 +132,13 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "evt-viewer-angular:build:production"
+              "buildTarget": "evt-viewer-angular:build:production"
             },
             "release": {
-              "browserTarget": "evt-viewer-angular:build:release"
+              "buildTarget": "evt-viewer-angular:build:release"
             },
             "development": {
-              "browserTarget": "evt-viewer-angular:build:development"
+              "buildTarget": "evt-viewer-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -146,7 +146,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "evt-viewer-angular:build"
+            "buildTarget": "evt-viewer-angular:build"
           }
         },
         "test": {
