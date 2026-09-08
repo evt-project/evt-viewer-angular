@@ -38,8 +38,8 @@
                         [label]="'dismiss' | translate" (btnClick)="dismiss(error)"></evt-button>
                 </div>
                 <div *ngFor="let outerHTML of error.outerHTMLs">
-                    <handy-syntax-highlighter language="markup"
-                        [content]="outerHTML | xmlBeautify"></handy-syntax-highlighter>
+                    <evt-syntax-highlighter language="markup"
+                        [content]="outerHTML | xmlBeautify"></evt-syntax-highlighter>
                 </div>
             </div>
         </ng-container>
