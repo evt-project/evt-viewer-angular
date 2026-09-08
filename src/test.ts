@@ -29,8 +29,6 @@ import { GenericParserService } from './app/services/xml-parsers/generic-parser.
 import { XMLParsers } from './app/services/xml-parsers/xml-parsers';
 import { TEST_ELEMENT } from './app/test-utils/test-data';
 import { TEST_EVT_CONFIG } from './app/test-utils/test-evt-config';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const require: any;
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -71,11 +69,6 @@ beforeEach(() => {
     schemas: [NO_ERRORS_SCHEMA],
   });
 });
-
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);
 
 const KEEP_DATA_UNSET = new Set(['BiblioListComponent', 'MsFragComponent', 'MsPartComponent']);
 

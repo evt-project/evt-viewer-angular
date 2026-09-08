@@ -14,7 +14,7 @@ export function mapToArray<T>(m: Map<T>) {
 
 export function arrayToMap<T, K extends keyof T>(arr: T[], key: K): Map<T> {
     const map: Map<T> = {};
-    arr.forEach((x) => map[x[`${key}`]] = x);
+    arr.forEach((x) => map[x[String(key)]] = x);
 
     return map;
 }

@@ -24,7 +24,7 @@ const appRoutes: Routes = [
   { path: 'synopticEdition', component: SynopsisComponent },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(appRoutes, {})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {
