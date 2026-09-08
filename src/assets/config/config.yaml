@@ -9,7 +9,7 @@ editionTextSourcesConfig:
   # In case your edition includes more files you can have different values for "type" besides main, e.g. you could have
   # "type: witness" or "type: translation" or other values
   - type: main
-    url: assets/data/saba.xml
+    url: assets/data/Lucullus_FLa.xml
     enable: true
 
     # A friendly name displayed instead of the url
@@ -267,7 +267,7 @@ edition:
   multiPageEngineForCriticalEdition: false
   #
   structureSeparators:
-    - pb
+    - seg
   #
   exponentEnumerateBy: seg
   #

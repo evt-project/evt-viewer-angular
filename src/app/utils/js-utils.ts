@@ -131,3 +131,7 @@ export function distinctBy<T, K>(array: T[], keySelector: (item: T) => K): T[] {
         return true;
     })
 }
+
+export function isLetterOrDigit(char: string): boolean {
+    return !!char && ((char >= '0' && char <= '9') || char.toLowerCase() !== char.toUpperCase());
+}
