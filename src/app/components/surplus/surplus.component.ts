@@ -2,9 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 import { Surplus } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface SurplusComponent extends EditionlevelSusceptible, Highlightable { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-surplus',
@@ -12,7 +10,7 @@ export interface SurplusComponent extends EditionlevelSusceptible, Highlightable
   styleUrls: ['./surplus.component.scss'],
 })
 @register(Surplus)
-export class SurplusComponent {
+export class SurplusComponent extends EvtDynamicComponent {
   @Input() data: Surplus;
 
   get editorialConventionData(): EditorialConventionLayoutData {

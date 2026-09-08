@@ -6,6 +6,7 @@ import { Rendition } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { snakeToCamelCased } from '../../utils/js-utils';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-rendition',
@@ -13,7 +14,7 @@ import { snakeToCamelCased } from '../../utils/js-utils';
   styleUrls: ['./rendition.component.scss'],
 })
 @register(Rendition)
-export class RenditionComponent {
+export class RenditionComponent extends EvtDynamicComponent {
   @Input() data: Rendition;
 
   get scopeDescription$() {
@@ -51,5 +52,7 @@ export class RenditionComponent {
   constructor(
     private translateService: TranslateService,
     private evtModelService: EVTModelService,
-  ) { }
+  ) {
+    super();
+  }
 }

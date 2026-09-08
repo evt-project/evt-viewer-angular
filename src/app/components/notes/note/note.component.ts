@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Note } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
-import { EditionLevelType } from 'src/app/app.config';
+import { EvtDynamicComponent } from '../../components-mixins';
 
 @Component({
   selector: 'evt-note',
@@ -10,11 +10,8 @@ import { EditionLevelType } from 'src/app/app.config';
   styleUrls: ['./note.component.scss'],
 })
 @register(Note)
-export class NoteComponent {
+export class NoteComponent extends EvtDynamicComponent {
   @Input() data: Note;
-  @Input() editionLevel: EditionLevelType;
-  @Input() withDeletions: boolean;
-  @Input() selectedLayer: string;
   @ViewChild('popover', { static: true }) popover: NgbPopover;
 
   public pinnerStyle = {

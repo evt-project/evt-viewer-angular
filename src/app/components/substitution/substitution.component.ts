@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Subst } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { AppConfig } from 'src/app/app.config';
 import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
-
-export interface SubstitutionComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-substitution',
@@ -15,13 +13,12 @@ export interface SubstitutionComponent extends EditionlevelSusceptible, Highligh
 })
 
 @register(Subst)
-export class SubstitutionComponent {
+export class SubstitutionComponent extends EvtDynamicComponent {
 
   public substMarker = AppConfig.evtSettings.edition.showSubstitutionMarker;
 
   @Input() data: Subst;
 
-  @Input() selectedLayer: string;
 
   get editorialAddConventionData(): EditorialConventionLayoutData {
     return {

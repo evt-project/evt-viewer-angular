@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { VersesGroup } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface VersesGroupComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-verses-group',
@@ -14,9 +12,8 @@ export interface VersesGroupComponent extends EditionlevelSusceptible, Highlight
   styleUrls: ['./verses-group.component.scss'],
 })
 @register(VersesGroup)
-export class VersesGroupComponent {
+export class VersesGroupComponent extends EvtDynamicComponent {
   @Input() data: VersesGroup;
-  @Input() selectedLayer: string;
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(
@@ -39,6 +36,7 @@ export class VersesGroupComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 
 }

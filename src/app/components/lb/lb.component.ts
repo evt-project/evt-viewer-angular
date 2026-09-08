@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { Lb } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface LbComponent extends EditionlevelSusceptible, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(Lb)
 @Component({
@@ -14,7 +12,7 @@ export interface LbComponent extends EditionlevelSusceptible, TextFlowSusceptibl
   templateUrl: './lb.component.html',
   styleUrls: ['./lb.component.scss'],
 })
-export class LbComponent {
+export class LbComponent extends EvtDynamicComponent {
   @Input() data: Lb;
 
   get displayBlock$() {
@@ -50,5 +48,6 @@ export class LbComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Namespace } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-namespace',
@@ -8,6 +9,6 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./namespace.component.scss'],
 })
 @register(Namespace)
-export class NamespaceComponent {
+export class NamespaceComponent extends EvtDynamicComponent {
   @Input() data: Namespace;
 }

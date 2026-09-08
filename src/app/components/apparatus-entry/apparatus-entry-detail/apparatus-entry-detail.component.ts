@@ -6,7 +6,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { ApparatusEntryDetailService } from './apparatus-entry-detail.service';
 import { WitnessPanelService } from 'src/app/panels/witness-panel/witness-panel.service';
-import { EditionLevelType } from 'src/app/app.config';
+import { EvtDynamicComponent } from '../../components-mixins';
 
 @Component({
   selector: 'evt-apparatus-entry-detail',
@@ -17,18 +17,16 @@ import { EditionLevelType } from 'src/app/app.config';
 })
 
 @register(ApparatusEntryDetailComponent)
-export class ApparatusEntryDetailComponent implements OnInit, OnDestroy {
+export class ApparatusEntryDetailComponent extends EvtDynamicComponent implements OnInit, OnDestroy {
   private subscriptions;
 
   @Input() data: ApparatusEntry;
   @Input() isSelected: boolean = false;
 
-  @Input() editionLevel: EditionLevelType;
 
   nestedApps: ApparatusEntry[] = [];
   rdgHasCounter = false;
 
-  @Input() selectedLayer: string;
 
   public orderedLayers: string[];
 
@@ -57,6 +55,7 @@ export class ApparatusEntryDetailComponent implements OnInit, OnDestroy {
     private apparatusEntryDetailService: ApparatusEntryDetailService,
     @Optional() private witnessPanelService?: WitnessPanelService,
   ) {
+    super();
   }
 
   ngOnInit() {

@@ -3,9 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 import { Deletion } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
-
-export interface DeletionComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(Deletion)
 @Component({
@@ -14,7 +12,7 @@ export interface DeletionComponent extends EditionlevelSusceptible, Highlightabl
   styleUrls: ['./deletion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeletionComponent {
+export class DeletionComponent extends EvtDynamicComponent {
   @Input() data: Deletion;
 
   get editorialConventionData(): EditorialConventionLayoutData {

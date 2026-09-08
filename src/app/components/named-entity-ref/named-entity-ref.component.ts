@@ -6,9 +6,7 @@ import { NamedEntityRef } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-named-entity-ref',
@@ -16,9 +14,8 @@ export interface NamedEntityRefComponent extends EditionlevelSusceptible, Highli
   styleUrls: ['./named-entity-ref.component.scss'],
 })
 @register(NamedEntityRef)
-export class NamedEntityRefComponent {
+export class NamedEntityRefComponent extends EvtDynamicComponent {
   @Input() data: NamedEntityRef;
-  @Input() selectedLayer: string;
   availableEntities$ = this.evtModelService.namedEntities$.pipe(
     map((ne) => ne.all.entities.length > 0),
   );
@@ -47,6 +44,7 @@ export class NamedEntityRefComponent {
     public evtStatusService: EVTStatusService,
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 
 }
