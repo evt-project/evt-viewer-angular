@@ -5,7 +5,7 @@ import './app/extensions/array.extensions';
 import './app/extensions/string.extensions';
 import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   BrowserDynamicTestingModule,
@@ -29,6 +29,7 @@ import { GenericParserService } from './app/services/xml-parsers/generic-parser.
 import { XMLParsers } from './app/services/xml-parsers/xml-parsers';
 import { TEST_ELEMENT } from './app/test-utils/test-data';
 import { TEST_EVT_CONFIG } from './app/test-utils/test-evt-config';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -40,34 +41,31 @@ getTestBed().initTestEnvironment(
 beforeEach(() => {
   AppConfig.evtSettings = TEST_EVT_CONFIG;
   TestBed.configureTestingModule({
-    imports: [
-      HttpClientTestingModule,
-      TranslateModule.forRoot(),
-      NgbModule,
-      RouterTestingModule,
-    ],
     declarations: [
-      DisplayFriendlyNamePipe,
-      FilterPipe,
-      HumanizePipe,
-      StartsWithPipe,
-      VisibleAttributesPipe,
-      XmlBeautifyPipe,
-    ],
-    // the same providers AppModule declares: the services below are not `providedIn: 'root'`,
-    // so without them every component reaching EVTStatusService fails to inject
-    providers: [
-      AnnotatorService,
-      AppConfig,
-      ApparatusEntryDetailService,
-      WitnessPanelService,
-      GenericParserService,
-      IdbService,
-      ThemesService,
-      XMLParsers,
+        DisplayFriendlyNamePipe,
+        FilterPipe,
+        HumanizePipe,
+        StartsWithPipe,
+        VisibleAttributesPipe,
+        XmlBeautifyPipe,
     ],
     schemas: [NO_ERRORS_SCHEMA],
-  });
+    imports: [TranslateModule.forRoot(),
+        NgbModule,
+        RouterTestingModule],
+    providers: [
+        AnnotatorService,
+        AppConfig,
+        ApparatusEntryDetailService,
+        WitnessPanelService,
+        GenericParserService,
+        IdbService,
+        ThemesService,
+        XMLParsers,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 });
 
 const KEEP_DATA_UNSET = new Set(['BiblioListComponent', 'MsFragComponent', 'MsPartComponent']);
