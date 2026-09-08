@@ -19,7 +19,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
 
-import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
 
 import { AdditionalComponent } from './components/additional/additional.component';
@@ -340,7 +339,6 @@ const DynamicComponents = [
     FormsModule,
     GridsterModule,
     HttpClientModule,
-    Ng2HandySyntaxHighlighterModule,
     NgbModule,
     NgbPopoverModule,
     NgxSliderModule,
