@@ -8,9 +8,8 @@ import { Note, QuoteEntry, SourceClass } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EvtDynamicComponent } from '../components-mixins';
 
-export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlightable {}
 @register(QuoteEntry)
 @Component({
   selector: 'evt-quote-entry',
@@ -18,9 +17,8 @@ export interface QuoteEntryComponent extends EditionlevelSusceptible, Highlighta
   styleUrls: ['./quote-entry.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteEntryComponent implements OnInit {
+export class QuoteEntryComponent extends EvtDynamicComponent implements OnInit {
   public _data: QuoteEntry;
-  private edLevel: EditionLevelType;
   public sourceClass = SourceClass;
   public dataForNote = {};
   public opened = false;
@@ -29,12 +27,12 @@ export class QuoteEntryComponent implements OnInit {
     this._data = dt;
   }
 
-  @Input() set editionLevel(el: EditionLevelType) {
+  @Input() override set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
     this.editionLevelChange.next(el);
   }
 
-  get editionLevel() { return this.edLevel; }
+  override get editionLevel() { return this.edLevel; }
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
   get editorialConventionData(): EditorialConventionLayoutData {
@@ -81,7 +79,9 @@ export class QuoteEntryComponent implements OnInit {
 
   constructor(
     public evtStatusService: EVTStatusService,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     if ((this.data.isNoteView) || ((this.data.text.length === 0) && ((this.data.extElements.length !== 0) || (this.data.extSources.length !== 0)))) {

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MsContents } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-ms-contents',
@@ -9,6 +10,6 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(MsContents)
-export class MsContentsComponent {
+export class MsContentsComponent extends EvtDynamicComponent {
   @Input() data: MsContents;
 }

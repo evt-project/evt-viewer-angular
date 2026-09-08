@@ -6,6 +6,7 @@ import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EditionInfo, NamedEntitiesService } from '../../services/named-entities.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(NamedEntity)
 @Component({
@@ -13,7 +14,7 @@ import { EditionInfo, NamedEntitiesService } from '../../services/named-entities
   templateUrl: './named-entity.component.html',
   styleUrls: ['./named-entity.component.scss'],
 })
-export class NamedEntityComponent implements OnInit {
+export class NamedEntityComponent extends EvtDynamicComponent implements OnInit {
   @Input() data: NamedEntity;
   @Input() inList: boolean;
 
@@ -95,6 +96,7 @@ export class NamedEntityComponent implements OnInit {
     private evtModelService: EVTModelService,
     private namedEntitiesService: NamedEntitiesService,
   ) {
+    super();
   }
 
   ngOnInit() {

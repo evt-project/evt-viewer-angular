@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Identifier } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-identifier',
@@ -9,7 +10,7 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(Identifier)
-export class IdentifierComponent {
+export class IdentifierComponent extends EvtDynamicComponent {
   @Input() data: Identifier;
   @Input() listClass: boolean;
 }

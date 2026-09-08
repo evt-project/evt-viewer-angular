@@ -5,9 +5,7 @@ import { EVTModelService } from '../../services/evt-model.service';
 import { AppConfig } from '../../app.config';
 import { Verse } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface VerseComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-verse',
@@ -16,9 +14,8 @@ export interface VerseComponent extends EditionlevelSusceptible, Highlightable, 
 })
 
 @register(Verse)
-export class VerseComponent {
+export class VerseComponent extends EvtDynamicComponent {
   @Input() data: Verse;
-  @Input() selectedLayer: string;
 
   get displayBlock$() {
     return this.evtModelService.lines$.pipe(
@@ -57,5 +54,6 @@ export class VerseComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 }

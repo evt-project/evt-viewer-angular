@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { History } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-history',
@@ -9,7 +10,7 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(History)
-export class HistoryComponent {
+export class HistoryComponent extends EvtDynamicComponent {
   @Input() data: History;
 
 }

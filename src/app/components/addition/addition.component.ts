@@ -3,9 +3,7 @@ import { Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 import { Addition } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
-
-export interface AdditionComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(Addition)
 @Component({
@@ -13,9 +11,8 @@ export interface AdditionComponent extends EditionlevelSusceptible, Highlightabl
   templateUrl: './addition.component.html',
   styleUrls: ['./addition.component.scss'],
 })
-export class AdditionComponent {
+export class AdditionComponent extends EvtDynamicComponent {
   @Input() data: Addition;
-  @Input() selectedLayer: string;
 
   get editorialConventionData(): EditorialConventionLayoutData {
     return {

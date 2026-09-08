@@ -3,9 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GenericElement, Lb, Text, Word } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EvtLinesHighlightService } from '../../services/evt-lines-highlight.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface WordComponent extends EditionlevelSusceptible, Highlightable { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-word',
@@ -14,12 +12,14 @@ export interface WordComponent extends EditionlevelSusceptible, Highlightable { 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @register(Word)
-export class WordComponent {
+export class WordComponent extends EvtDynamicComponent {
   @Input() data: Word;
 
   readonly Lb = Lb;
 
-  constructor(private evtHighlineService: EvtLinesHighlightService) { }
+  constructor(private evtHighlineService: EvtLinesHighlightService) {
+    super();
+  }
 
   get isPlainText(): boolean {
     return this.word.every((el) => el.type === Text);

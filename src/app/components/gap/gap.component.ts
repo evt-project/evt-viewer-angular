@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { Gap } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-gap',
@@ -10,7 +11,7 @@ import { register } from 'src/app/services/component-register.service';
   styleUrls: ['./gap.component.scss'],
 })
 @register(Gap)
-export class GapComponent {
+export class GapComponent extends EvtDynamicComponent {
   @Input() data: Gap;
 
   get content() {
@@ -54,5 +55,6 @@ export class GapComponent {
   constructor(
     private translateService: TranslateService,
   ) {
+    super();
   }
 }
