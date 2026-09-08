@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppConfig, ImagesSource } from '../../app.config';
 import { Anchor, ApparatusEntry, ApparatusEntryExponent, Attribute, Cb, DocumentApparatusEntries, EditionStructure, ElementApparatusEntries, GenericElement, LacunaPair, OriginalEncodingNodeType, Page, Text, XMLElement } from '../../models/evt-models';
-import { createNsResolver, deepSearch, getElementsBetweenTreeNode, isNestedInElem } from '../../utils/dom-utils';
+import { createNsResolver, deepSearch, getElementsBetweenTreeNode, getXPath, isNestedInElem } from '../../utils/dom-utils';
 import { GenericParserService } from './generic-parser.service';
 import { getID, getNOrDefaultFromElement, ParseResult } from './parser-models';
 import { getFromAttributeOrDefault, getToAttributeOrDefault } from 'src/app/extensions/apparatus.extensions';
-import { FROM_ATTRIBUTE, TO_ATTRIBUTE } from 'src/app/models/constants';
+import { FROM_ATTRIBUTE, TO_ATTRIBUTE, XMLID_ATTRIBUTE } from 'src/app/models/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { AlphabetService } from '../alphabet.service';
 import { AppParser } from './app-parser';
@@ -142,6 +142,13 @@ export class StructureXmlParserService {
     return text.trim().length === 0;
   }
 
+  // A whitespace-only text node (e.g. collapsed source indentation) is only a meaningful separator  when it sits between two real siblings
+  private isRemovableWhitespaceNode(node: GenericElement, index: number, siblings: GenericElement[]): boolean {
+    if (!this.isIgnorableNode(node)) return false;
+
+    return index === 0 || index === siblings.length - 1;
+  }
+
   private loadLacunas(backElements: HTMLCollectionOf<Element>, source: HTMLElement) {
     const lacunasStart = Array.from(backElements[0].querySelectorAll('lacunaStart')).map(x => x as HTMLElement);
     const lacunasEnd = Array.from(backElements[0].querySelectorAll('lacunaEnd')).map(x => x as HTMLElement);
@@ -199,18 +206,21 @@ export class StructureXmlParserService {
     });
 
     const enumerateBy = AppConfig.evtSettings.edition.exponentEnumerateBy;
-    const enumeratedByJsonElements: string[] = [];
+    const enumeratedByIds = new Set<string>();
+    const enumeratedByXPaths = new Set<string>();
     if (enumerateBy) {
       const enumeratedByElements = Array.from(source.querySelectorAll(enumerateBy));
       for (let enumeratedByElement of enumeratedByElements) {
-        const enumeratedByParsed = this.genericParserService.parse(enumeratedByElement as XMLElement);
-        const enumerateByJson = JSON.stringify(enumeratedByParsed);
-        enumeratedByJsonElements.push(enumerateByJson);
+        const enumeratedById = enumeratedByElement.getAttribute(XMLID_ATTRIBUTE);
+        if (enumeratedById) {
+          enumeratedByIds.add(enumeratedById);
+        }
+        enumeratedByXPaths.add(getXPath(enumeratedByElement));
       }
     }
 
-    const resetCounterCallback: (item: GenericElement, enumerateBy: string[]) => void
-      = enumerateBy ? (item) => resetCounter(item, enumeratedByJsonElements)
+    const resetCounterCallback: (item: GenericElement) => void
+      = enumerateBy ? (item) => resetCounter(item)
         : (_) => { };
     for (let i = 0; i < editionStructure.pages.length; i++) {
       const page = editionStructure.pages[i];
@@ -218,7 +228,7 @@ export class StructureXmlParserService {
         page.parsedContent,
         (app, exponent) => onApparatusEntryReplaced(page, app, exponent),
         () => exponentLabelFactory(this.alphabetService),
-        (item) => resetCounterCallback(item, enumeratedByJsonElements)
+        (item) => resetCounterCallback(item)
       );
     }
 
@@ -244,9 +254,12 @@ export class StructureXmlParserService {
       return label;
     }
 
-    function resetCounter(item: GenericElement, enumeratedBy: string[]): void {
-      const currentItemJson = JSON.stringify(item);
-      const matchesSelector = enumeratedBy.some(x => x === currentItemJson);
+    /* The item is matched by identity (its xml:id, or its xPath when it has none).
+    Before we did this by comparing serialized subtrees, but the parsed content of a page
+    goes through normalizeTree while the element parsed for comparison does not so they very hardly match */
+    function resetCounter(item: GenericElement): void {
+      const itemId = item.attributes?.['id'];
+      const matchesSelector = itemId ? enumeratedByIds.has(itemId) : enumeratedByXPaths.has(item.xPath);
       if (enumerateBy !== 'global' && matchesSelector) {
         counter = 0;
       }
@@ -255,6 +268,15 @@ export class StructureXmlParserService {
 
   private checkDepaErrors(source: HTMLElement) {
     this.errorService.loadingStart();
+    const elementById = new Map<string, Element | null>();
+    const findById = (id: string): Element | null => {
+      if (elementById.has(id)) {
+        return elementById.get(id)!;
+      }
+      const element = source.querySelector(`[*|id='${id}']`);
+      elementById.set(id, element);
+      return element;
+    };
 
     for (const app of this.allApps.filter(x => AppParser.isDepa(x))) {
       const from = Attribute.createFromOrDefault(app);
@@ -266,19 +288,20 @@ export class StructureXmlParserService {
       const to = Attribute.createToOrDefault(app);
       if (!to) continue;
 
-      const fromElement = source.querySelector(`[*|id='${from.valueWithoutRef}']`);
-      const toElement = source.querySelector(`[*|id='${to.valueWithoutRef}']`);
+      const fromElement = findById(from.valueWithoutRef);
+      const toElement = findById(to.valueWithoutRef);
 
       if (!fromElement || !toElement) continue;
 
       // instead of loading all errors right away, this avoid blocking the ui
       setTimeout(() => {
-        const otherApps = this.allApps.filter(x => !x.isEqualNode(app));
-        for (const otherApp of otherApps) {
+        for (const otherApp of this.allApps) {
+          if (otherApp === app) continue;
+
           const otherFrom = Attribute.createFromOrDefault(otherApp);
           if (!otherFrom) continue;
 
-          const otherElement = source.querySelector(`[*|id='${otherFrom.valueWithoutRef}']`);
+          const otherElement = findById(otherFrom.valueWithoutRef);
           if (!otherElement) {
             this.errorService.logError(
               `No element found with xml:id ${otherFrom.valueWithoutRef}`,
@@ -557,13 +580,9 @@ export class StructureXmlParserService {
   }
 
   parseDocumentPage(imagesSource: ImagesSource, doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): Page {
-    /* If there is a next page we retrieve the elements between two page nodes
-    otherweise we retrieve the nodes between the page node and the last node of the body node */
-    // TODO: check if querySelectorAll can return an empty array in this case
-    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
-    let originalContent = getElementsBetweenTreeNode(pb, nextNode);
-    originalContent = originalContent.filter((n) => !this.structureSeparators.includes(n.tagName))
-    originalContent = originalContent.filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
+    const originalContent = this.isMilestoneSeparator(pb)
+      ? this.getContentAfterMilestone(doc, pb, nextPb, ancestorTagName)
+      : [pb];
 
     return {
       id: getID(pb, 'page'),
@@ -574,6 +593,24 @@ export class StructureXmlParserService {
       url: this.getPageUrl(imagesSource, getID(pb, 'page')),
       facsUrl: this.getPageUrl(imagesSource, (pb.getAttribute('facs') || getID(pb, 'page')).split('#').slice(-1)[0]),
     };
+  }
+
+  /* A milestone separator (<pb/>) is an empty marker: it only says where a page starts, so the page content is made of the nodes that follow it.
+  A container separator instead (<seg>) contains part of the page! */
+  private isMilestoneSeparator(separator: XMLElement): boolean {
+    return separator.childNodes.length === 0;
+  }
+
+  private getContentAfterMilestone(doc: Document, pb: XMLElement, nextPb: XMLElement, ancestorTagName: string): XMLElement[] {
+    /* If there is a next page we retrieve the elements between two page nodes
+    otherweise we retrieve the nodes between the page node and the last node of the body node */
+    // TODO: check if querySelectorAll can return an empty array in this case
+    const nextNode = nextPb || Array.from(doc.querySelectorAll(ancestorTagName)).reverse()[0].lastChild;
+    let originalContent = getElementsBetweenTreeNode(pb, nextNode);
+    originalContent = originalContent.filter((n) => !this.structureSeparators.includes(n.tagName))
+    originalContent = originalContent.filter((c) => ![4, 7, 8].includes(c.nodeType)); // Filter comments, CDATAs, and processing instructions
+
+    return originalContent;
   }
 
   private parseSinglePage(imagesSource: ImagesSource, doc: Document, el: XMLElement, id: string, label: string, facs: string): Page {
@@ -715,7 +752,7 @@ export class StructureXmlParserService {
     }
 
     node.content = node.content
-      .filter(child => !this.isIgnorableNode(child as GenericElement))
+      .filter((child, index, arr) => !this.isRemovableWhitespaceNode(child as GenericElement, index, arr as GenericElement[]))
       .map(child => {
         this.normalizeTree(child as GenericElement);
         return child;
