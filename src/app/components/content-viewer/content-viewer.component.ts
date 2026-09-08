@@ -172,9 +172,8 @@ export class ContentViewerComponent implements OnDestroy {
 
 
   @HostListener('click', ['$event'])
-  mouseClick($event: any) {
-    // parent component will clear selection unless propagation is stopped
-    $event.stopPropagation();
+  mouseClick(_: any) {
+    // Do not stop event propagation here because outer components needs it
     
     if (!this._content.content) {
 
@@ -194,7 +193,6 @@ export class ContentViewerComponent implements OnDestroy {
         return;
       }
 
-      $event.preventDefault();
       this.evtHighlineService.setSelected({
         id: lbId,
         corresp: correspId
