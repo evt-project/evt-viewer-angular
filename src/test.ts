@@ -1,11 +1,34 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
+import './app/extensions/array.extensions';
+import './app/extensions/string.extensions';
+import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
+import { ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DisplayFriendlyNamePipe } from './app/pipes/displayFriendlyName.pipe';
+import { FilterPipe } from './app/pipes/filter.pipe';
+import { HumanizePipe } from './app/pipes/humanize.pipe';
+import { StartsWithPipe } from './app/pipes/starts-with.pipe';
+import { VisibleAttributesPipe } from './app/pipes/visibleAttributes.pipe';
+import { XmlBeautifyPipe } from './app/pipes/xml-beautify.pipe';
+import { AppConfig } from './app/app.config';
+import { ApparatusEntryDetailService } from './app/components/apparatus-entry/apparatus-entry-detail/apparatus-entry-detail.service';
+import { WitnessPanelService } from './app/panels/witness-panel/witness-panel.service';
+import { AnnotatorService } from './app/services/annotator/annotator.service';
+import { IdbService } from './app/services/idb.service';
+import { ThemesService } from './app/services/themes.service';
+import { GenericParserService } from './app/services/xml-parsers/generic-parser.service';
+import { XMLParsers } from './app/services/xml-parsers/xml-parsers';
+import { TEST_ELEMENT } from './app/test-utils/test-data';
+import { TEST_EVT_CONFIG } from './app/test-utils/test-evt-config';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const require: any;
 
@@ -16,7 +39,53 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false },
 },
 );
+beforeEach(() => {
+  AppConfig.evtSettings = TEST_EVT_CONFIG;
+  TestBed.configureTestingModule({
+    imports: [
+      HttpClientTestingModule,
+      TranslateModule.forRoot(),
+      NgbModule,
+      RouterTestingModule,
+    ],
+    declarations: [
+      DisplayFriendlyNamePipe,
+      FilterPipe,
+      HumanizePipe,
+      StartsWithPipe,
+      VisibleAttributesPipe,
+      XmlBeautifyPipe,
+    ],
+    // the same providers AppModule declares: the services below are not `providedIn: 'root'`,
+    // so without them every component reaching EVTStatusService fails to inject
+    providers: [
+      AnnotatorService,
+      AppConfig,
+      ApparatusEntryDetailService,
+      WitnessPanelService,
+      GenericParserService,
+      IdbService,
+      ThemesService,
+      XMLParsers,
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+  });
+});
+
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+
+const KEEP_DATA_UNSET = new Set(['BiblioListComponent', 'MsFragComponent', 'MsPartComponent']);
+
+const createComponent = TestBed.createComponent;
+TestBed.createComponent = function <T>(component: Type<T>): ComponentFixture<T> {
+  const fixture = createComponent.call(this, component) as ComponentFixture<T>;
+  const instance = fixture.componentInstance as { data?: unknown };
+  if (instance && instance.data === undefined && !KEEP_DATA_UNSET.has(component.name)) {
+    instance.data = TEST_ELEMENT;
+  }
+
+  return fixture;
+};
