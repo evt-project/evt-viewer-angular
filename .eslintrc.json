@@ -104,7 +104,7 @@
           {
             "properties": "always",
             "ignoreImports": true,
-            "ignoreGlobals": true 
+            "ignoreGlobals": true
           }
         ],
         "comma-dangle": [
