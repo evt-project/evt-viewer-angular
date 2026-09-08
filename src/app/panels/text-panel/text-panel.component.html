@@ -1,4 +1,6 @@
-<evt-panel [showSecondaryContent]="isSecondaryContentShown()" (scrollContent)="updatePageFromScroll$.next()">
+<evt-panel [showSecondaryContent]="isSecondaryContentShown()" 
+           (scrollContent)="updatePageFromScroll$.next()" 
+           (click)="onPanelClicked($event)">
     <div header-left class="no-drag d-flex align-items-center">
         <evt-button
             ariaLabel="{{ 'ariaLabels.openInfoTab' | translate }}"
@@ -13,7 +15,7 @@
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
         <evt-change-layer-selector [class.hidden]="!(showChangeLayerSelector)" [selLayer]="selLayer" (layerChange)="updateSelectedLayer($event)"></evt-change-layer-selector>
     </div>
-    <div content evtAnnotator #mainContent (click)="onMainContentClicked($event)">
+    <div content evtAnnotator #mainContent>
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
             <ng-container *ngIf="isMultiplePageFlow$ | async">
                 <evt-page *ngFor="let page of currentStatus.pages"

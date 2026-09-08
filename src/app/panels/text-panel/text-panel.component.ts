@@ -213,8 +213,15 @@ export class TextPanelComponent implements OnDestroy {
     this.selectedLayer = layer;
   }
 
-  onMainContentClicked(_: MouseEvent) {
-    this.highlightService.clearHighlight();
+  onPanelClicked(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+
+    // If a part of a line is clicked, we don't want to clear the highlight
+    // Before I've stopped propagation on the content viewer component, but
+    // other components that uses it, like the named entity ref, needs the event propagation to open
+    if (!target.closest('evt-text')) {
+      this.highlightService.clearHighlight();
+    }
   }
 
   private _scrollToPage(pageId: string) {
