@@ -252,98 +252,144 @@ export class StructureXmlParserService {
       }
     }
   }
+  
+private async checkDepaErrors(source: HTMLElement) {
+  this.errorService.loadingStart();
 
-  private checkDepaErrors(source: HTMLElement) {
-    this.errorService.loadingStart();
+  const apps = this.allApps;
+  const depaApps = apps.filter(AppParser.isDepa);
 
-    for (const app of this.allApps.filter(x => AppParser.isDepa(x))) {
-      const from = Attribute.createFromOrDefault(app);
-      if (!from) {
-        this.errorService.logError('From attribute is missing:', [app]);
-        continue;
-      }
+  // Resolve all xml:id elements once instead of doing querySelector()
+  // for every app pair.
+  const elementsById = new Map<string, Element>();
 
-      const to = Attribute.createToOrDefault(app);
-      if (!to) continue;
-
-      const fromElement = source.querySelector(`[*|id='${from.valueWithoutRef}']`);
-      const toElement = source.querySelector(`[*|id='${to.valueWithoutRef}']`);
-
-      if (!fromElement || !toElement) continue;
-
-      // instead of loading all errors right away, this avoid blocking the ui
-      setTimeout(() => {
-        const otherApps = this.allApps.filter(x => !x.isEqualNode(app));
-        for (const otherApp of otherApps) {
-          const otherFrom = Attribute.createFromOrDefault(otherApp);
-          if (!otherFrom) continue;
-
-          const otherElement = source.querySelector(`[*|id='${otherFrom.valueWithoutRef}']`);
-          if (!otherElement) {
-            this.errorService.logError(
-              `No element found with xml:id ${otherFrom.valueWithoutRef}`,
-              [otherApp]
-            );
-            continue;
-          }
-
-          if (isIntersecting(fromElement, toElement, otherElement)) {
-            const duplicates = findDuplicateWitnesses(app, otherApp);
-            if (duplicates.length) {
-              this.errorService.logError(
-                `Duplicated witness found in intersecting elements: ${duplicates.join(', ')}`,
-                [app, otherApp]
-              );
-            }
-          }
-        }
-      }, 1);
-    }
-
-    this.errorService.loadingEnd();
-
-    function isIntersecting(fromElement: Element, toElement: Element, otherElement: Element) {
-      const isAfterFromInclusive = (fromElement.compareDocumentPosition(otherElement) & Node.DOCUMENT_POSITION_FOLLOWING) ||
-        otherElement.isEqualNode(fromElement);
-
-      const isBeforeToInclusive = (otherElement.compareDocumentPosition(toElement) & Node.DOCUMENT_POSITION_FOLLOWING) ||
-        otherElement.isEqualNode(toElement);
-
-      return isAfterFromInclusive && isBeforeToInclusive;
-    }
-
-    function findDuplicateWitnesses(app: HTMLElement, otherApp: HTMLElement): string[] {
-      const wit = 'wit';
-      const withSelector = `[${wit}]`;
-      const exceptParent = 'lem';
-
-      const extractWits = (element: HTMLElement) => Array.from(element.querySelectorAll(withSelector))
-        .filter(x => !x.closest(exceptParent))
-        .flatMap(x => x.getAttribute(wit)?.split(' ') || []);
-
-      const appWits = extractWits(app);
-      const otherAppWits = extractWits(otherApp);
-
-      return findDuplicates([...appWits, ...otherAppWits]);
-    }
-
-
-    function findDuplicates(array: string[]): string[] {
-      const uniqueElements = new Set();
-      const duplicates = [];
-
-      array.forEach(item => {
-        if (uniqueElements.has(item)) {
-          duplicates.push(item);
-        } else {
-          uniqueElements.add(item);
-        }
-      });
-
-      return duplicates;
+  for (const element of Array.from(source.querySelectorAll('*'))) {
+    const id = element.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id');
+    if (id) {
+      elementsById.set(id, element);
     }
   }
 
+  const reportedErrors = new Set<string>();
+
+  for (const app of depaApps) {
+    const from = Attribute.createFromOrDefault(app);
+    if (!from) {
+      this.errorService.logError('From attribute is missing:', [app]);
+      continue;
+    }
+
+    const to = Attribute.createToOrDefault(app);
+    if (!to) continue;
+
+    const fromElement = elementsById.get(from.valueWithoutRef);
+    const toElement = elementsById.get(to.valueWithoutRef);
+
+    if (!fromElement || !toElement) continue;
+
+    for (const otherApp of apps) {
+      if (otherApp === app) continue;
+
+      const otherFrom = Attribute.createFromOrDefault(otherApp);
+      if (!otherFrom) continue;
+
+      const otherElement = elementsById.get(otherFrom.valueWithoutRef);
+
+      if (!otherElement) {
+        const key = `missing:${otherFrom.valueWithoutRef}`;
+
+        if (!reportedErrors.has(key)) {
+          reportedErrors.add(key);
+
+          this.errorService.logError(
+            `No element found with xml:id ${otherFrom.valueWithoutRef}`,
+            [otherApp]
+          );
+        }
+
+        continue;
+      }
+
+      if (isIntersecting(fromElement, toElement, otherElement)) {
+        const duplicates = findDuplicateWitnesses(app, otherApp);
+
+        if (duplicates.length) {
+          const ids = [
+            app.getAttribute('id'),
+            otherApp.getAttribute('id')
+          ].sort();
+
+          const key = `duplicate:${ids.join('|')}:${duplicates.join('|')}`;
+
+          if (!reportedErrors.has(key)) {
+            reportedErrors.add(key);
+
+            this.errorService.logError(
+              `Duplicated witness found in intersecting elements: ${duplicates.join(', ')}`,
+              [app, otherApp]
+            );
+          }
+        }
+      }
+    }
+
+    // Yield to the browser between DEPA apps instead of creating
+    // one setTimeout() for every DEPA.
+    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+  }
+
+  this.errorService.loadingEnd();
+
+  function isIntersecting(
+    fromElement: Element,
+    toElement: Element,
+    otherElement: Element
+  ) {
+    const isAfterFromInclusive =
+      (fromElement.compareDocumentPosition(otherElement) & Node.DOCUMENT_POSITION_FOLLOWING) ||
+      otherElement.isEqualNode(fromElement);
+
+    const isBeforeToInclusive =
+      (otherElement.compareDocumentPosition(toElement) & Node.DOCUMENT_POSITION_FOLLOWING) ||
+      otherElement.isEqualNode(toElement);
+
+    return isAfterFromInclusive && isBeforeToInclusive;
+  }
+
+  function findDuplicateWitnesses(
+    app: HTMLElement,
+    otherApp: HTMLElement
+  ): string[] {
+    const wit = 'wit';
+    const withSelector = `[${wit}]`;
+    const exceptParent = 'lem';
+
+    const extractWits = (element: HTMLElement) =>
+      Array.from(element.querySelectorAll(withSelector))
+        .filter(x => !x.closest(exceptParent))
+        .flatMap(x => x.getAttribute(wit)?.split(' ') || []);
+
+    const appWits = extractWits(app);
+    const otherAppWits = extractWits(otherApp);
+
+    return findDuplicates([...appWits, ...otherAppWits]);
+  }
+
+  function findDuplicates(array: string[]): string[] {
+    const uniqueElements = new Set<string>();
+    const duplicates: string[] = [];
+
+    for (const item of array) {
+      if (uniqueElements.has(item)) {
+        duplicates.push(item);
+      } else {
+        uniqueElements.add(item);
+      }
+    }
+
+    return duplicates;
+  }
+}
   /**
    * This function adds the apparatus exponents on the parsed content of the body
    * based on many different cases for inline and standoff apparatuses.
