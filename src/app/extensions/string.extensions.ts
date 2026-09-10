@@ -20,11 +20,13 @@ declare global {
 
 
 String.prototype.withoutSelectorCharacter = function (this: string) {
-    return this.startsWith(ID_SELECTOR_PREFIX) ? this.slice(1) : this;
+    const normalized = this.trim();
+    return normalized.startsWith(ID_SELECTOR_PREFIX) ? normalized.slice(1) : normalized;
 };
 
 String.prototype.withSelectorCharacter = function (this: string) {
-    return this.startsWith(ID_SELECTOR_PREFIX) ? this : ID_SELECTOR_PREFIX + this;
+    const normalized = this.trim();
+    return normalized.startsWith(ID_SELECTOR_PREFIX) ? normalized : ID_SELECTOR_PREFIX + normalized;
 };
 
 export { };
