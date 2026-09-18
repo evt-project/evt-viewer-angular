@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GenericElement, Lb, Text, Word } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EvtLinesHighlightService } from '../../services/evt-lines-highlight.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, TextFlowSusceptible } from '../components-mixins';
 
-export interface WordComponent extends EditionlevelSusceptible, Highlightable { }
+export interface WordComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-word',

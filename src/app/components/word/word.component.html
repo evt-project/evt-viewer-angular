@@ -7,7 +7,7 @@
 	</ng-container>
 	
 	<ng-template #dynamicWord>
-		<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel"
+		<evt-content-viewer *ngFor="let el of word" [content]="el" [editionLevel]="editionLevel" [textFlow]="textFlow"
 			[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData">
 		</evt-content-viewer>
 	</ng-template>

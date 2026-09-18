@@ -1,8 +1,11 @@
 <span class="verse l " [evtHtmlAttributes]="data.attributes"
 	[class.display-block]="displayBlock$ | async" [class]="data.class" >
-	<span *ngIf="!plainTextFlow" class="verse-num" [class.verse-baloon]="baloon" [class.hidden]="(displayBlock$ | async) && showNumber">{{data.n}}</span>
+	<evt-content-viewer *ngFor="let el of openingLineBeginnings" [content]="el" [editionLevel]="editionLevel"
+		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer">
+	</evt-content-viewer>
+	<span *ngIf="!plainTextFlow && !(baloon && data.continued)" class="verse-num" [class.verse-baloon]="baloon" [class.hidden]="(displayBlock$ | async) && (showNumber || data.continued)">{{data.n}}</span>
 	<evt-source-note *ngIf="data.source !== null || data.analogue !== null" [data]="data"></evt-source-note>
-	<evt-content-viewer *ngFor="let el of data.content" [content]="el" [editionLevel]="editionLevel"
+	<evt-content-viewer *ngFor="let el of verseContent" [content]="el" [editionLevel]="editionLevel"
 		[itemsToHighlight]="itemsToHighlight" [evtHighlight]="highlightData" [textFlow]="textFlow" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer">
 	</evt-content-viewer>
 </span>

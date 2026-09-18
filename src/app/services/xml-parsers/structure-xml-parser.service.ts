@@ -625,7 +625,7 @@ private async checkDepaErrors(source: HTMLElement) {
       label: getNOrDefaultFromElement(pb) || 'page',
       facs: (pb.getAttribute('facs') || 'page').split('#').slice(-1)[0],
       originalContent,
-      parsedContent: this.parsePageContent(doc, originalContent),
+      parsedContent: this.parsePageContent(doc, originalContent, pb),
       url: this.getPageUrl(imagesSource, getID(pb, 'page')),
       facsUrl: this.getPageUrl(imagesSource, (pb.getAttribute('facs') || getID(pb, 'page')).split('#').slice(-1)[0]),
     };
@@ -737,7 +737,7 @@ private async checkDepaErrors(source: HTMLElement) {
   // quando trovi un lbId allora lbId = 'qualcosa'
 
 
-  parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[]): Array<ParseResult<GenericElement>> {
+  parsePageContent(doc: Document, pageContent: OriginalEncodingNodeType[], pageSeparator?: XMLElement): Array<ParseResult<GenericElement>> {
     const content = pageContent
       .map((node) => {
 
@@ -767,18 +767,28 @@ private async checkDepaErrors(source: HTMLElement) {
         return [this.genericParserService.parse(origEl)];
       })
       .reduce((x, y) => x.concat(y), [])
-      .filter(c => !this.isIgnorableNode(c as GenericElement));
+      // whitespace between two nodes is kept: it can be all that separates them, for example in two verses flowing as prose
+      .filter((c, index, arr) => !this.isRemovableWhitespaceNode(c as GenericElement, index, arr as GenericElement[]));
 
     content.forEach(c => {
-      this.normalizeTree(c as GenericElement);
+      this.normalizeTree(c as GenericElement, pageSeparator);
     });
     return content;
   }
 
-  private normalizeTree(node: GenericElement): void {
+  private normalizeTree(node: GenericElement, pageSeparator?: XMLElement): void {
     if (!node.content?.length) return;
 
+    // A textual node with a nested separator goes on across two pages: this page only has what follows its own separator
     if (this.isTextualNode(node)) {
+      const pageSeparatorIndex = node.content.findIndex(
+        child => this.isSameSeparator(child as GenericElement, pageSeparator)
+      );
+      if (pageSeparatorIndex !== -1) {
+        node.content = node.content.slice(pageSeparatorIndex + 1);
+        node.continued = true;
+      }
+
       const separatorIndex = node.content.findIndex(
         child => this.isSeparatorNode((child as GenericElement))
       );
@@ -790,7 +800,7 @@ private async checkDepaErrors(source: HTMLElement) {
     node.content = node.content
       .filter((child, index, arr) => !this.isRemovableWhitespaceNode(child as GenericElement, index, arr as GenericElement[]))
       .map(child => {
-        this.normalizeTree(child as GenericElement);
+        this.normalizeTree(child as GenericElement, pageSeparator);
         return child;
       });
   }
@@ -801,6 +811,13 @@ private async checkDepaErrors(source: HTMLElement) {
 
   private isSeparatorNode(node: GenericElement): boolean {
     return this.structureSeparators.includes(node.class);
+  }
+
+  private isSameSeparator(node: GenericElement, pageSeparator?: XMLElement): boolean {
+    if (!pageSeparator) return false;
+
+    const id = pageSeparator.getAttribute(XMLID_ATTRIBUTE);
+    return id ? node.attributes?.id === id : node.xPath === getXPath(pageSeparator);
   }
 
   hasOriginalContent(el: XMLElement): boolean {
