@@ -23,14 +23,14 @@ export class VersesGroupComponent {
       map((lines) => lines.length > 0),
       map((hasLines) => {
         // In diplomatic and interpretative edition, if the text doesn't have any line, verses group are shown as block items
-        // In critical edition verses are always shown as block items
         switch (this.editionLevel) {
           case 'changesView':
           case 'diplomatic':
           case 'interpretative':
             return !hasLines;
           case 'critical':
-            return true;
+            //return true;
+            return false;
         }
       }),
     );
