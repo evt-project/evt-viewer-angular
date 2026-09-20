@@ -222,34 +222,37 @@ edition:
   # This indicates the multiplier for visualising verse numbers. For example, a value of 5 means
   # that the verse number will only be shown every five verses.
   verseNumberPrinter: 5
-  #
+  # Accent color for the reading text in light themes
   readingColorLight: "rgb(208, 220, 255)"
-  #
+  # Accent color for the reading text in dark themes
   readingColorDark: "rgb(101, 138, 255)"
 
-  #
+  # Attribute name used in your TEI edition to mark up parallel passages.
+  # Setting this is important to allow the system to recognize and link parallel passages in the text.
   analogueMarkers:
     - ParallelPassage
     - parallelPassage
     - Parallel
     - parallel
 
-  #
+  # List of parent elements whose child nodes should be excluded from the list of sources
   sourcesExcludedFromListByParent:
     - desc
 
-  #
+  # Indicate whether to show the substitution marker in the text
   showSubstitutionMarker: true
-  #
+  # Indicate whether to show a separator between changes
   showSeparatorBetweenChanges: true
-  #
+  # Indicate which layer of the change sequence has to be selected when the documental view is opened:
+  # with true the last one (the definitive layer) is shown, with false the first one (the original layer).
   startingFromDefinitiveLayer: true
-  #
+  # Indicate whether to show the change layer marker in the text
   showChangeLayerMarkerInText: true
 
-  #
   changeSequenceView:
+    # Indicate whether to show the VarSeq attribute value in the change sequence view
     showVarSeqAttr: false
+    # Indicate whether to show the Seq attribute value in the change sequence view
     showSeqAttr: false
     layerColors:
       strato-0: "#71e5fa"
@@ -259,24 +262,60 @@ edition:
       strato-4: "#3e22f3"
       strato-5: "#100077"
 
-  #
+  # Critical edition view is multi page unless you se this to false. This is a performance-wise option.
   multiPageEngineForCriticalEdition: false
-  #
+  # List of elements that should be used to identify the structure of the edition text and divide it in pages. For example "pb", "div", "seg"
   structureSeparators:
     - pb
-  #
+  # Exponent number to be used to enumerate the pages of the edition text, for example "pb" or "cb". The exponents reset inside each parent element.
   exponentEnumerateBy: pb
-  #
-  transformWitnessId: true
 
-  #
+  # How the elements of the edition text are linked to the bibliographic entries (<bibl>, <biblStruct>,
+  # <listBibl>, <cit>) encoded elsewhere in the document. These values are used to resolve sources,
+  # quotations and parallel passages, and to retrieve the text they point to.
   externalBibliography:
-    #
+    # Attribute that carries the identifier on the bibliographic element being pointed to
     biblAttributeToMatch: xml:id
-    #
+    # Attributes that carry the pointer (e.g. "#biblId") on the element in the edition text
     elementAttributesToMatch:
       - target
       - source
+  # General configuration options
+  biblTab:
+    # Properties of bibliographic entries
+    propsToShow:
+      # Display information about authors, specifically those marked with the <author> tag in the TEI/XML encoding.
+      - author
+      # Display the title of the article, specifically those marked with the <title> tag in the TEI/XML encoding.
+      - title
+      # Display the publishing date article, specifically those marked with the <date> tag in the TEI/XML encoding.
+      - date
+      # Display the editor of the bibliographic entry, specifically those marked with the <editor> tag in the
+      # TEI/XML encoding.
+      - editor
+      # Display the publisher information of the bibliographic entry, specifically those marked with the <publisher>
+      # tag in the TEI/XML encoding.
+      - publisher
+      # Display the publication place of the bibliographic entry, specifically those marked with the <pubPlace> tag
+      # in the TEI/XML encoding.
+      - pubPlace
+      # Display the publication information of the bibliographic entry, with <citedRange> being the range of cited
+      # content, with @unit values such as volume, issue, page.
+      - citedRange
+      # Display the publication information of the bibliographic entry, with <biblScope> defining the scope of a
+      # bibliographic reference, with @unit values such as volume, issue, page.
+      - biblScope
+    # Indicate whether to prefix each value with the name of the property it comes from: "author: ..."
+    showAttrNames: false
+    # If showAttrNames is true, this indicate whether to list the properties above even when the entry has no value for them.
+    showEmptyValues: false
+    # Indicate whether to print all the properties on a single line; otherwise with false each attibute is followed by a line break
+    inline: true
+    # Add a comma between the values, best with inline set to true.
+    commaSeparated: true
+    # Indicate whether to show the plain text content of the bibliographic element when it is
+    # encoded inside a <cit> element
+    showMainElemTextContent: true
 
 #######################################
 # User interface customization
@@ -399,41 +438,6 @@ ui:
   # Bibliography management
   #######################################
 
-  # General configuration options
-  biblTab:
-    # Properties of bibliographic entries
-    propsToShow:
-      # Display information about authors, specifically those marked with the <author> tag in the TEI/XML encoding.
-      - author
-      # Display the title of the article, specifically those marked with the <title> tag in the TEI/XML encoding.
-      - title
-      # Display the publishing date article, specifically those marked with the <date> tag in the TEI/XML encoding.
-      - date
-      # Display the editor of the bibliographic entry, specifically those marked with the <editor> tag in the
-      # TEI/XML encoding.
-      - editor
-      # Display the publisher information of the bibliographic entry, specifically those marked with the <publisher>
-      # tag in the TEI/XML encoding.
-      - publisher
-      # Display the publication place of the bibliographic entry, specifically those marked with the <pubPlace> tag
-      # in the TEI/XML encoding.
-      - pubPlace
-      # Display the publication information of the bibliographic entry, with <citedRange> being the range of cited
-      # content, with @unit values such as volume, issue, page.
-      - citedRange
-      # Display the publication information of the bibliographic entry, with <biblScope> defining the scope of a
-      # bibliographic reference, with @unit values such as volume, issue, page.
-      - biblScope
-    #
-    showAttrNames: false
-    #
-    showEmptyValues: false
-    #
-    inline: true
-    #
-    commaSeparated: true
-    #
-    showMainElemTextContent: true
 
   # Select the default bibliographic style (choosing the value of the corresponding id property, see below) to be used
   # when visualizing the bibliographic entries in the Project Info window.
