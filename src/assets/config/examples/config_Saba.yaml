@@ -218,7 +218,7 @@ edition:
   # Indicate whether to activate or not the button to toggle text from prose flow to verses flow.
   proseVersesToggler: true
   # Indicate which flow you want to activate for the text as default.
-  defaultTextFlow: prose
+  defaultTextFlow: verses
   # This indicates the multiplier for visualising verse numbers. For example, a value of 5 means
   # that the verse number will only be shown every five verses.
   verseNumberPrinter: 5

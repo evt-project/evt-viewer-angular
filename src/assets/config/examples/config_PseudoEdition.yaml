@@ -216,7 +216,7 @@ edition:
     - "type=orthographic"
 
   # Indicate whether to activate or not the button to toggle text from prose flow to verses flow.
-  proseVersesToggler: true
+  proseVersesToggler: false
   # Indicate which flow you want to activate for the text as default.
   defaultTextFlow: prose
   # This indicates the multiplier for visualising verse numbers. For example, a value of 5 means
@@ -266,10 +266,9 @@ edition:
   multiPageEngineForCriticalEdition: false
   # List of elements that should be used to identify the structure of the edition text and divide it in pages. For example "pb", "div", "seg"
   structureSeparators:
-    - pb
     - div
   # Exponent number to be used to enumerate the pages of the edition text, for example "pb" or "cb". The exponents reset inside each parent element.
-  exponentEnumerateBy: pb
+  exponentEnumerateBy: p
 
   # How the elements of the edition text are linked to the bibliographic entries (<bibl>, <biblStruct>,
   # <listBibl>, <cit>) encoded elsewhere in the document. These values are used to resolve sources,

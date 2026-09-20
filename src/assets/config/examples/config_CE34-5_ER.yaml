@@ -9,7 +9,7 @@ editionTextSourcesConfig:
   # In case your edition includes more files you can have different values for "type" besides main, e.g. you could have
   # "type: witness" or "type: translation" or other values
   - type: main
-    url: assets/data/igitur.xml
+    url: assets/data/CE34-5_ER_diplomatic.xml
     enable: true
 
     # A friendly name displayed instead of the url
@@ -47,12 +47,12 @@ editionTextSourcesConfig:
 # General configuration options for the edition
 edition:
   # The edition title. If you leave this ﬁeld empty, the default "EVT Viewer" title will be shown
-  editionTitle: LegesLangobardorum
+  editionTitle: Leges Langobardorum
   # The badge text to be visualized following the edition title, it should be a short text string such as alpha, experimental
   badge: beta
   # If available, insert the URL of the web home page for the edition: if you specify an external web site there will be a
   # link pointing to it.
-  editionHome: "http://pelavicino.labcd.unipi.it/"
+  editionHome: ""
 
   # You can add a custom logo which will precede the edition title, to do this just insert the
   # relative path to the logo image
@@ -70,7 +70,7 @@ edition:
       # Note that "label" the fallback value, EVT is going to look into the localization files (i18n folder) for the actual text
       label: diplomatic
       # Enable this edition level
-      enable: false
+      enable: true
       # Make it visible in the selector
       hidden: false
 
@@ -98,7 +98,7 @@ edition:
     # Allow the user to download other edition documents, e.g. a PDF version of the edition
     downloadLinks:
       - label: example
-        url: value
+        url: http://example.com/
 
   # Customize the list of available named entities to be highlighted and to be shown
   # among entities lists, by changing the default list label (to be shown when no <head>
@@ -140,15 +140,11 @@ edition:
       listSelector: listEvent
       namedEntityType: event
 
-    # CHECK "entries" è un po' vago, "glossary"? Tecnicamente un elemento <entry> non è una named entity
     entries:
       enable: true
       label: Entries
       listSelector: "div[type='glossary']"
       namedEntityType: entry
-
-  # MISSING
-  # Come si gestisce la lista semplice?
 
   # TEI elements used in the edition text to mark up named entities, and the attribute used for the linking
   entitiesOccurrenceSelectors:
@@ -218,7 +214,7 @@ edition:
     - "type=orthographic"
 
   # Indicate whether to activate or not the button to toggle text from prose flow to verses flow.
-  proseVersesToggler: true
+  proseVersesToggler: false
   # Indicate which flow you want to activate for the text as default.
   defaultTextFlow: prose
   # This indicates the multiplier for visualising verse numbers. For example, a value of 5 means
@@ -356,13 +352,13 @@ ui:
       iconSet: evt
       id: textText
       label: Text Text
-      enable: true
+      enable: false
 
     - icon: collation
       iconSet: evt
       id: collation
       label: Collation
-      enable: true
+      enable: false
 
     - icon: srcTxt
       iconSet: evt
@@ -380,13 +376,13 @@ ui:
       iconSet: evt
       id: documentalMixed
       label: Documental
-      enable: true
+      enable: false
 
     - icon: versions
       iconSet: evt
       id: synopticEdition
       label: Synoptic edition
-      enable: true
+      enable: false
 
   # Decide whether to have localization buttons to allow language change at runtime.
   localization: true
@@ -426,11 +422,11 @@ ui:
   # The secondary font to be used, in order by availability
   secondaryFontFamily: "Arial, sans-serif"
   # Size of the secondary font
-  secondaryFontSize: "1.1em"
+  secondaryFontSize: "0.8rem"
   # Select the default theme to be used when loading your edition.
-  theme: modern
+  theme: classic
   # Button to activate the text-image linking
-  syncZonesHighlightButton: true
+  syncZonesHighlightButton: false
   # Default image zoom level
   defaultImageZoomLevel: 0.8
   # Maximum image zoom level

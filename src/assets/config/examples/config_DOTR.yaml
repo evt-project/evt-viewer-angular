@@ -384,7 +384,7 @@ ui:
       iconSet: evt
       id: synopticEdition
       label: Synoptic edition
-      enable: true
+      enable: false
 
   # Decide whether to have localization buttons to allow language change at runtime.
   localization: true
