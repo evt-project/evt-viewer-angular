@@ -218,10 +218,17 @@
             }
         }
     },
-    "sicCrux": {
+    "sic": {
         "markup": {
             "element": "sic",
             "attributes": []
+        },
+        "layouts": {}
+    },
+    "sicCrux": {
+        "markup": {
+            "element": "sic",
+            "attributes": [{"type": ["crux"]}]
         },
         "layouts": {
             "diplomatic": {

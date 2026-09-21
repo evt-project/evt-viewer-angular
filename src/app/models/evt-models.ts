@@ -39,6 +39,7 @@ export class GenericElement {
     attributes: Attributes;
     content: Array<ParseResult<GenericElement>>;
     xPath: string;
+    continued?: boolean; // the element started on the previous page, here there is only what follows the page separator
 }
 
 export type XMLElement = HTMLElement;
