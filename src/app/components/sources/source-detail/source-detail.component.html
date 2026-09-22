@@ -35,7 +35,7 @@
             <li ngbNavItem="externalElements" *ngIf="source.extElements.length > 0">
                 <a class="source-detail-btn" ngbNavLink href="#">{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <h3 class="sources-cat">{{'corresps' | translate}}</h3>
+                    <h4 class="sources-cat">{{'corresps' | translate}}</h4>
                     <ng-container *ngFor="let extElem of source.extElements">
                         <evt-content-viewer *ngFor="let el of extElem.content" [content]="el"></evt-content-viewer>
                     </ng-container>
@@ -46,12 +46,12 @@
                 <ng-template ngbNavContent>
                     <!-- disambiguation between different structures -->
                     <ng-container *ngIf="source.sources.length > 0">
-                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
+                        <h4 class="sources-cat">{{'quotedSources' | translate}}</h4>
                         <evt-biblio-list [data]="source.sources"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="source.extSources.length > 0">
-                        <h3 class="sources-cat">{{'references' | translate}}</h3>
+                        <h4 class="sources-cat">{{'references' | translate}}</h4>
                         <evt-biblio-list [data]="source.extSources"></evt-biblio-list>
                     </ng-container>
 

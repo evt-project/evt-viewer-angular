@@ -280,42 +280,6 @@ edition:
     elementAttributesToMatch:
       - target
       - source
-  # General configuration options
-  biblTab:
-    # Properties of bibliographic entries
-    propsToShow:
-      # Display information about authors, specifically those marked with the <author> tag in the TEI/XML encoding.
-      - author
-      # Display the title of the article, specifically those marked with the <title> tag in the TEI/XML encoding.
-      - title
-      # Display the publishing date article, specifically those marked with the <date> tag in the TEI/XML encoding.
-      - date
-      # Display the editor of the bibliographic entry, specifically those marked with the <editor> tag in the
-      # TEI/XML encoding.
-      - editor
-      # Display the publisher information of the bibliographic entry, specifically those marked with the <publisher>
-      # tag in the TEI/XML encoding.
-      - publisher
-      # Display the publication place of the bibliographic entry, specifically those marked with the <pubPlace> tag
-      # in the TEI/XML encoding.
-      - pubPlace
-      # Display the publication information of the bibliographic entry, with <citedRange> being the range of cited
-      # content, with @unit values such as volume, issue, page.
-      - citedRange
-      # Display the publication information of the bibliographic entry, with <biblScope> defining the scope of a
-      # bibliographic reference, with @unit values such as volume, issue, page.
-      - biblScope
-    # Indicate whether to prefix each value with the name of the property it comes from: "author: ..."
-    showAttrNames: false
-    # If showAttrNames is true, this indicate whether to list the properties above even when the entry has no value for them.
-    showEmptyValues: false
-    # Indicate whether to print all the properties on a single line; otherwise with false each attibute is followed by a line break
-    inline: true
-    # Add a comma between the values, best with inline set to true.
-    commaSeparated: true
-    # Indicate whether to show the plain text content of the bibliographic element when it is
-    # encoded inside a <cit> element
-    showMainElemTextContent: true
 
 #######################################
 # User interface customization
@@ -438,6 +402,42 @@ ui:
   # Bibliography management
   #######################################
 
+  # General configuration options
+  biblTab:
+    # Properties of bibliographic entries
+    propsToShow:
+      # Display information about authors, specifically those marked with the <author> tag in the TEI/XML encoding.
+      - author
+      # Display the title of the article, specifically those marked with the <title> tag in the TEI/XML encoding.
+      - title
+      # Display the publishing date article, specifically those marked with the <date> tag in the TEI/XML encoding.
+      - date
+      # Display the editor of the bibliographic entry, specifically those marked with the <editor> tag in the
+      # TEI/XML encoding.
+      - editor
+      # Display the publisher information of the bibliographic entry, specifically those marked with the <publisher>
+      # tag in the TEI/XML encoding.
+      - publisher
+      # Display the publication place of the bibliographic entry, specifically those marked with the <pubPlace> tag
+      # in the TEI/XML encoding.
+      - pubPlace
+      # Display the publication information of the bibliographic entry, with <citedRange> being the range of cited
+      # content, with @unit values such as volume, issue, page.
+      - citedRange
+      # Display the publication information of the bibliographic entry, with <biblScope> defining the scope of a
+      # bibliographic reference, with @unit values such as volume, issue, page.
+      - biblScope
+    # Indicate whether to prefix each value with the name of the property it comes from: "author: ..."
+    showAttrNames: false
+    # If showAttrNames is true, this indicate whether to list the properties above even when the entry has no value for them.
+    showEmptyValues: false
+    # Indicate whether to print all the properties on a single line; otherwise with false each attibute is followed by a line break
+    inline: true
+    # Add a comma between the values, best with inline set to true.
+    commaSeparated: true
+    # Indicate whether to show the plain text content of the bibliographic element when it is
+    # encoded inside a <cit> element
+    showMainElemTextContent: true
 
   # Select the default bibliographic style (choosing the value of the corresponding id property, see below) to be used
   # when visualizing the bibliographic entries in the Project Info window.

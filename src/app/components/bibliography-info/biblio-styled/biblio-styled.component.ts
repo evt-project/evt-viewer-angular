@@ -25,11 +25,11 @@ export class StyledBiblioEntryComponent implements OnChanges, AfterViewInit {
 
   public biblEntry: any;
   public showList: string[];
-  public showAttrNames = AppConfig.evtSettings.edition.biblTab.showAttrNames;
-  public showEmptyValues = AppConfig.evtSettings.edition.biblTab.showEmptyValues;
-  public inline = AppConfig.evtSettings.edition.biblTab.inline;
-  public isCommaSeparated = AppConfig.evtSettings.edition.biblTab.commaSeparated;
-  public showMainElemTextContent = AppConfig.evtSettings.edition.biblTab.showMainElemTextContent;
+  public showAttrNames = AppConfig.evtSettings.ui.biblTab.showAttrNames;
+  public showEmptyValues = AppConfig.evtSettings.ui.biblTab.showEmptyValues;
+  public inline = AppConfig.evtSettings.ui.biblTab.inline;
+  public isCommaSeparated = AppConfig.evtSettings.ui.biblTab.commaSeparated;
+  public showMainElemTextContent = AppConfig.evtSettings.ui.biblTab.showMainElemTextContent;
   public styleProperties : BibliographicStyle;
 
   flattenBiblStruct(entry: BibliographicStructEntry): BibliographicEntry[] {
