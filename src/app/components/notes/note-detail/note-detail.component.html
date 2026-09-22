@@ -24,7 +24,7 @@
                 <a class="source-detail-btn" ngbNavLink href="#">{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
                     <ng-container *ngIf="note.source">
-                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
+                        <h4 class="sources-cat">{{'quotedSources' | translate}}</h4>
                         <evt-biblio-list [data]="note.source"></evt-biblio-list>
                     </ng-container>
                 </ng-template>
