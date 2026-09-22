@@ -204,6 +204,14 @@ export interface UiConfig {
     initNavBarOpened: boolean;
     thumbnailsButton: boolean;
     viscollButton: boolean;
+    biblTab: Partial<{
+        propsToShow: string[];
+        showAttrNames: boolean;
+        showEmptyValues: boolean;
+        inline: boolean;
+        commaSeparated: boolean;
+        showMainElemTextContent: boolean;
+    }>;
     defaultBibliographicStyle: string;
     allowedBibliographicStyles: {
         [key: string]: {
@@ -282,14 +290,6 @@ export interface EditionConfig {
     externalBibliography: Partial<{
         biblAttributeToMatch: string;
         elementAttributesToMatch: string[];
-    }>;
-    biblTab: Partial<{
-        propsToShow: string[];
-        showAttrNames: boolean;
-        showEmptyValues: boolean;
-        inline: boolean;
-        commaSeparated: boolean;
-        showMainElemTextContent: boolean;
     }>;
     analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
