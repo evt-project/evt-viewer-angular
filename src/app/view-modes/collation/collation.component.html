@@ -1,28 +1,41 @@
 <gridster [options]="options">
     <gridster-item [item]="textPanelItem">
-        <evt-text-panel
-            [pageID]="currentPageID$ | async" 
-            (pageChange)="changePage($event)"       
-            [hideEditionLevelSelector]="true" 
-            [editionLevelID]="'critical'"
-        ></evt-text-panel>
+        <evt-text-panel [pageID]="currentPageID$ | async" (pageChange)="changePage($event.id)"
+            [hideEditionLevelSelector]="true" [editionLevelID]="'critical'"></evt-text-panel>
     </gridster-item>
     <gridster-item [item]="collationPanelItem">
-        <div class="collationPanel" #collationPanel
-        [class.align-self-center]="getWitnesses().length === 0" 
-        [class.empty]="getWitnesses().length === 0">
-            <gridster [options]="collationOptions" *ngIf="getWitnesses().length > 0">
-                <gridster-item [item]="witness.itemConfig" 
-                *ngFor="let witness of getWitnesses(); let i = index">
-                <evt-witness-panel
-                    (hide)="removeWitness(i)" [witness]="witness.label">
-                </evt-witness-panel>
+        <div class="collationPanel" #collationPanel *ngIf="currentWitnesses$ | async as witnesses"
+            [class.align-self-center]="witnesses.length === 0" [class.empty]="witnesses.length === 0">
+            <gridster [options]="collationOptions" *ngIf="witnesses.length > 0">
+                <gridster-item [item]="witness.itemConfig" *ngFor="let witness of currentWitnesses$ | async">
+                    <evt-witness-panel [witnessItem]="witness" (hide)="removeWitness(witness.id)"
+                        (changePage)="changePage($event)">
+                    </evt-witness-panel>
                 </gridster-item>
             </gridster>
-            <evt-button class="btn" [class.btn-float-right]="getWitnesses().length > 0"
-                [additionalClasses]="witnessBtn?.additionalClasses"
-                [label]="witnessBtn?.label | translate" [iconLeft]="witnessBtn?.icon" [title]="witnessBtn?.title | translate"
-                (btnClick)="addWitness()"></evt-button>
-        </div> 
+            <ng-container *ngIf="witnessBtn$ | async as witnessBtn">
+                <evt-button class="btn" [class.btn-float-right]="witnessBtn.floatRight"
+                    ariaLabel="{{ 'addWitness' | translate }}" aria-role="button"
+                    [additionalClasses]="witnessBtn?.additionalClasses" [label]="witnessBtn?.label | translate"
+                    [iconLeft]="witnessBtn?.icon" [title]="witnessBtn?.title | translate" (click)="openModal(content)">
+                </evt-button>
+            </ng-container>
+        </div>
     </gridster-item>
 </gridster>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ 'addWitness' | translate }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click'); onSearchChanged('')"></button>
+    </div>
+    <div class="modal-body overflow-auto" style="max-height: 80vh;">
+        <input id="search-input" type="text" class="form-control mb-2" placeholder="{{'searchWitness' | translate }}" [ngModel]="searchWitness" (ngModelChange)="onSearchChanged($event)"  />
+        
+        <ng-container *ngIf="modalWitnesses$ | async as modalWitnesses">
+            <div *ngIf="!modalWitnesses.length">{{ 'noWitnessesAvailable' | translate }}</div>
+            <evt-modal-witness-item *ngFor="let witness of (modalWitnesses$ | async)" [witness]="witness"
+                (onSelect)="addWitness($event)" (onRemove)="removeWitness($event)"></evt-modal-witness-item>
+        </ng-container>
+    </div>
+</ng-template>

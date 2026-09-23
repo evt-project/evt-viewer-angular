@@ -1,0 +1,519 @@
+#######################################
+# File management options
+#######################################
+
+# A list of the paths to the XML file(s) of your encoded edition. Each path can
+# point either to an internal folder or to an external online resource.
+editionTextSourcesConfig:
+  # The main file for your edition. May be the only one it is based on a single XML/TEI file
+  # In case your edition includes more files you can have different values for "type" besides main, e.g. you could have
+  # "type: witness" or "type: translation" or other values
+  - type: main
+    url: assets/data/Lucullus_FLa.xml
+    enable: true
+
+    # A friendly name displayed instead of the url
+    # friendlyName: Saba
+
+    # You can specify the glossary url which entries will be shown in lists
+    # glossaryUrl: value
+
+    # Paths to the edition images
+    imagesSources:
+      - kind: IiifManifest
+        url: https://www.e-codices.unifr.ch/metadata/iiif/csg-0730/manifest.json
+        enable: false
+
+      - kind: ExternalXml
+        url: url
+        enable: false
+        imagesFolderUrls:
+          single: assets/data/images/single/
+          double: assets/data/images/double/
+
+      - kind: EditionXml
+        enable: true
+        imagesFolderUrls:
+          single: assets/data/images/single/
+          double: assets/data/images/double/
+
+    # Path to editorial conventions config
+    editorialConventionsUrl: assets/config/editorial_conventions_config.json
+
+#######################################
+# Edition customization
+#######################################
+
+# General configuration options for the edition
+edition:
+  # The edition title. If you leave this ﬁeld empty, the default "EVT Viewer" title will be shown
+  editionTitle: "Cicero: Lucullus"
+  # The badge text to be visualized following the edition title, it should be a short text string such as alpha, experimental
+  badge: beta
+  # If available, insert the URL of the web home page for the edition: if you specify an external web site there will be a
+  # link pointing to it.
+  editionHome: ""
+
+  # You can add a custom logo which will precede the edition title, to do this just insert the
+  # relative path to the logo image
+  logoUrl: "data/images/logo/logo.png"
+
+  # Default edition level
+  defaultEditionLevel: critical
+
+  # Choose the edition levels for your edition using boolean values (true|false), note that
+  #   enable: enable the desired edition level or not
+  #   hidden: make it visible in the selector or not
+  availableEditionLevels:
+    # Diplomatic level
+    - id: diplomatic
+      # Note that "label" the fallback value, EVT is going to look into the localization files (i18n folder) for the actual text
+      label: diplomatic
+      # Enable this edition level
+      enable: false
+      # Make it visible in the selector
+      hidden: false
+
+    - id: interpretative
+      label: interpretative
+      enable: false
+      hidden: false
+
+    - id: critical
+      label: critical
+      enable: true
+      hidden: false
+
+    - id: changesView
+      label: changes
+      enable: false
+      hidden: true
+
+  mainMenuConfig:
+    # Set this to true or to false to enable/disable download of the TEI/XML ﬁle
+    downloadableXMLSource: true
+    # Show the named entities lists (true|false) if false then no lists will be shown
+    showEntitiesLists: false
+    # Configure download links
+    # Allow the user to download other edition documents, e.g. a PDF version of the edition
+    downloadLinks:
+      - label: example
+        url: http://example.com
+
+  # Customize the list of available named entities to be highlighted and to be shown
+  # among entities lists, by changing the default list label (to be shown when no <head>
+  # is defined for the list) and/or by (de)activating one or more element in the list, again
+  # using boolean values (true|false)
+  namedEntitiesLists:
+    # List of people
+    persons:
+      # Label to be shown if the list has no <head> element
+      label: Persons
+      # Enable / disable with true / false
+      enable: true
+      # Name of the TEI element
+      listSelector: listPerson
+      # Type of named entity
+      namedEntityType: person
+
+    places:
+      enable: true
+      label: Places
+      listSelector: listPlace
+      namedEntityType: place
+
+    organizations:
+      enable: true
+      label: Organizations
+      listSelector: listOrg
+      namedEntityType: org
+
+    relations:
+      enable: true
+      label: Relations
+      listSelector: listRelation
+      namedEntityType: relation
+
+    events:
+      enable: true
+      label: Events
+      listSelector: listEvent
+      namedEntityType: event
+
+    entries:
+      enable: true
+      label: Entries
+      listSelector: "div[type='glossary']"
+      namedEntityType: entry
+
+    objects:
+      enable: true
+      label: Objects
+      listSelector: listObject
+      namedEntityType: object
+
+  # TEI elements used in the edition text to mark up named entities, and the attribute used for the linking
+  entitiesOccurrenceSelectors:
+    - persName[ref]
+    - placeName[ref]
+    - orgName[ref]
+    - geogName[ref]
+    - event[ref]
+    - term[ref]
+
+  # Labels for the entities to be shown in the selector
+  entitiesSelectItems:
+    # Actual named entities
+    - label: Named Entities
+      enable: true
+      items:
+        # Name of the TEI element
+        - value: persName
+          # Label to be shown in the selector
+          label: persons
+          # Background color for this label
+          color: "#ffcdd2"
+          # Enable true|false
+          enable: true
+
+        # You can also specify attributes and specific values to further refine the search and highlighting
+        - value: "persName[type='episcopus']"
+          label: bishops
+          color: "rgb(139, 98, 236)"
+          enable: true
+
+        - value: placeName,geogName
+          label: places
+          color: "#A5D6A7"
+          enable: true
+
+        - value: orgName
+          label: organizations
+          color: "#FFB74D"
+          enable: true
+
+    # Other entities
+    - label: Other
+      enable: true
+      items:
+        - value: event
+          label: events
+          color: "#fcfc60"
+          enable: true
+        - value: rolename
+          label: roles
+          enable: true
+        - value: measure
+          label: measures
+          enable: true
+
+  # Miscellaneous configuration options
+
+  # Array of entries that should be used to identify not significant variants: element(s) or attribute(s)
+  # you used to encode variants that are not significant and you do not want to appear in the main critical
+  # apparatus (f.i. ​<orig>​, ​<sic> or ​@type=orthographic​).
+  notSignificantVariants:
+    - "type=orthographic"
+
+  # Indicate whether to activate or not the button to toggle text from prose flow to verses flow.
+  proseVersesToggler: false
+  # Indicate which flow you want to activate for the text as default.
+  defaultTextFlow: prose
+  # This indicates the multiplier for visualising verse numbers. For example, a value of 5 means
+  # that the verse number will only be shown every five verses.
+  verseNumberPrinter: 5
+  # Accent color for the reading text in light themes
+  readingColorLight: "rgb(208, 220, 255)"
+  # Accent color for the reading text in dark themes
+  readingColorDark: "rgb(101, 138, 255)"
+
+  # Attribute name used in your TEI edition to mark up parallel passages.
+  # Setting this is important to allow the system to recognize and link parallel passages in the text.
+  analogueMarkers:
+    - ParallelPassage
+    - parallelPassage
+    - Parallel
+    - parallel
+
+  # List of parent elements whose child nodes should be excluded from the list of sources
+  sourcesExcludedFromListByParent:
+    - desc
+
+  # Indicate whether to show the substitution marker in the text
+  showSubstitutionMarker: true
+  # Indicate whether to show a separator between changes
+  showSeparatorBetweenChanges: true
+  # Indicate which layer of the change sequence has to be selected when the documental view is opened:
+  # with true the last one (the definitive layer) is shown, with false the first one (the original layer).
+  startingFromDefinitiveLayer: true
+  # Indicate whether to show the change layer marker in the text
+  showChangeLayerMarkerInText: true
+
+  changeSequenceView:
+    # Indicate whether to show the VarSeq attribute value in the change sequence view
+    showVarSeqAttr: false
+    # Indicate whether to show the Seq attribute value in the change sequence view
+    showSeqAttr: false
+    layerColors:
+      strato-0: "#71e5fa"
+      strato-1: "#609cf4"
+      strato-2: "#0d6efd"
+      strato-3: "#7B66FF"
+      strato-4: "#3e22f32"
+      strato-5: "#100077"
+
+  # Critical edition view is multi page unless you se this to false. This is a performance-wise option.
+  multiPageEngineForCriticalEdition: false
+  # List of elements that should be used to identify the structure of the edition text and divide it in pages. For example "pb", "div", "seg"
+  structureSeparators:
+    - pb
+    - seg
+  # Exponent number to be used to enumerate the pages of the edition text, for example "pb" or "cb". The exponents reset inside each parent element.
+  exponentEnumerateBy: seg
+
+  # How the elements of the edition text are linked to the bibliographic entries (<bibl>, <biblStruct>,
+  # <listBibl>, <cit>) encoded elsewhere in the document. These values are used to resolve sources,
+  # quotations and parallel passages, and to retrieve the text they point to.
+  externalBibliography:
+    # Attribute that carries the identifier on the bibliographic element being pointed to
+    biblAttributeToMatch: xml:id
+    # Attributes that carry the pointer (e.g. "#biblId") on the element in the edition text
+    elementAttributesToMatch:
+      - target
+      - source
+
+#######################################
+# User interface customization
+#######################################
+ui:
+  # Select which view mode you want to your edition to open on. Note that it must be an active mode!
+  defaultViewMode: readingText
+
+  # Select which view modes you want to be available in your edition.
+  availableViewModes:
+    - icon: images
+      iconSet: fas
+      id: imageImage
+      label: Image-Image
+      enable: false
+
+    - icon: image
+      iconSet: fas
+      id: imageOnly
+      label: Image only
+      enable: false
+
+    - icon: txt
+      iconSet: evt
+      id: readingText
+      label: Reading Text
+      enable: true
+
+    - icon: imgTxt
+      iconSet: evt
+      id: imageText
+      label: Image Text
+      enable: false
+
+    - icon: txtTxt
+      iconSet: evt
+      id: textText
+      label: Text Text
+      enable: false
+
+    - icon: collation
+      iconSet: evt
+      id: collation
+      label: Collation
+      enable: true
+
+    - icon: srcTxt
+      iconSet: evt
+      id: textSources
+      label: Text Sources
+      enable: false
+
+    - icon: versions
+      iconSet: evt
+      id: textVersions
+      label: Text Versions
+      enable: false
+
+    - icon: documix
+      iconSet: evt
+      id: documentalMixed
+      label: Documental
+      enable: false
+
+    - icon: versions
+      iconSet: evt
+      id: synopticEdition
+      label: Synoptic edition
+      enable: false
+
+  # Decide whether to have localization buttons to allow language change at runtime.
+  localization: true
+  # Choose which language should be used as the default.
+  defaultLocalization: en
+  # Choose the languages you want to set as available for the translation of the User
+  # Interface (just the UI!) by adding their codes in this list. The codes correspond
+  # to localization files in the i18n folder, e.g. "en" loads the en.json file.
+  availableLanguages:
+    - code: en
+      label: languageEn
+      enable: true
+      iconUrl: assets/images/en.png
+    - code: fr
+      label: languageFr
+      enable: true
+      iconUrl: assets/images/fr.png
+    - code: it
+      label: languageIt
+      enable: true
+      iconUrl: assets/images/it.png
+
+  # Select if you want to activate (true) or not (false) the navigation bar at the bottom of the screen.
+  enableNavBar: false
+  # If the navigation bar is active (see previous setting), sets its initial status: with true it will
+  # be shown when the edition is loaded, with false it will be hidden until the user decides to show it.
+  initNavBarOpened: false
+  # Select if you want to activate (true) or not (false) the thumbnail button in the navigation bar.
+  thumbnailsButton: false
+  # Select if you want to activate (true) or not (false) the VisColl button in the navigation bar.
+  # Note that VisColl functionality is still a work in progress, so it is set to "false" by default.
+  viscollButton: false
+  # The main font to be used, in order by availability
+  mainFontFamily: "Junicode, Times, serif"
+  # Size of the main font
+  mainFontSize: "1.1rem"
+  # The secondary font to be used, in order by availability
+  secondaryFontFamily: "Arial, sans-serif"
+  # Size of the secondary font
+  secondaryFontSize: "0.8rem"
+  # Select the default theme to be used when loading your edition.
+  theme: cmodernc
+  # Button to activate the text-image linking
+  syncZonesHighlightButton: false
+  # Default image zoom level
+  defaultImageZoomLevel: 0.8
+  # Maximum image zoom level
+  maxImageZoomLevel: 2
+
+  #######################################
+  # Bibliography management
+  #######################################
+
+  # General configuration options
+  biblTab:
+    # Properties of bibliographic entries
+    propsToShow:
+      # Display information about authors, specifically those marked with the <author> tag in the TEI/XML encoding.
+      - author
+      # Display the title of the article, specifically those marked with the <title> tag in the TEI/XML encoding.
+      - title
+      # Display the publishing date article, specifically those marked with the <date> tag in the TEI/XML encoding.
+      - date
+      # Display the editor of the bibliographic entry, specifically those marked with the <editor> tag in the
+      # TEI/XML encoding.
+      - editor
+      # Display the publisher information of the bibliographic entry, specifically those marked with the <publisher>
+      # tag in the TEI/XML encoding.
+      - publisher
+      # Display the publication place of the bibliographic entry, specifically those marked with the <pubPlace> tag
+      # in the TEI/XML encoding.
+      - pubPlace
+      # Display the publication information of the bibliographic entry, with <citedRange> being the range of cited
+      # content, with @unit values such as volume, issue, page.
+      - citedRange
+      # Display the publication information of the bibliographic entry, with <biblScope> defining the scope of a
+      # bibliographic reference, with @unit values such as volume, issue, page.
+      - biblScope
+    # Indicate whether to prefix each value with the name of the property it comes from: "author: ..."
+    showAttrNames: false
+    # If showAttrNames is true, this indicate whether to list the properties above even when the entry has no value for them.
+    showEmptyValues: false
+    # Indicate whether to print all the properties on a single line; otherwise with false each attibute is followed by a line break
+    inline: true
+    # Add a comma between the values, best with inline set to true.
+    commaSeparated: true
+    # Indicate whether to show the plain text content of the bibliographic element when it is
+    # encoded inside a <cit> element
+    showMainElemTextContent: true
+
+  # Select the default bibliographic style (choosing the value of the corresponding id property, see below) to be used
+  # when visualizing the bibliographic entries in the Project Info window.
+  defaultBibliographicStyle: chicago
+
+  # Available bibliographic styles
+  allowedBibliographicStyles:
+    # Chicago bibliography style
+    chicago:
+      id: chicago
+      label: "Chicago (Author-Date)"
+      enabled: true
+      propsOrder:
+        - author
+        - date
+        - title
+        - editor
+        - publication
+        - pubPlace
+        - publisher
+        - doi
+      properties:
+        titleQuotes: true
+        emphasized:
+          - publisher
+
+    # APA (American Psychological Association)
+    apa:
+      id: apa
+      label: APA
+      enabled: true
+      propsOrder:
+        - author
+        - date
+        - title
+        - publication
+        - publisher
+        - doi
+      properties:
+        authorStyle:
+          delimiter: ","
+          forenameInitials: true
+          maxAuthors: 3
+        publicationStyle:
+          citingAcronym: none
+          inBrackets:
+            - issue
+        propsDelimiter: "."
+        titleQuotes: false
+        emphasized:
+          - publication
+        inBrackets:
+          - date
+
+    # MLA (Modern Language Association)
+    mla:
+      id: mla
+      label: MLA
+      enabled: true
+      propsOrder:
+        - author
+        - title
+        - publication
+        - publisher
+        - doi
+      properties:
+        propsDelimiter: "."
+        authorStyle:
+          delimiter: ","
+        publicationStyle:
+          citingAcronym: all
+          inBrackets:
+            - issue
+          includeEditor: true
+        dateInsidePublication: true
+        titleQuotes: false
+        emphasized:
+          - publication

@@ -5,6 +5,7 @@ import { EvtIconInfo } from '../icon/icon.component';
   selector: 'evt-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
+  host: { class: "d-inline-block" }
 })
 export class ButtonComponent implements OnInit, OnChanges {
   @Input() public iconLeft: EvtIconInfo;
@@ -18,6 +19,7 @@ export class ButtonComponent implements OnInit, OnChanges {
   @Input() label: string;
   @Input() additionalClasses: string;
   @Input() type: 'button' | 'submit';
+  @Input() ariaLabel: string;
   @Output() btnClick: EventEmitter<EVTBtnClickEvent> = new EventEmitter();
 
   constructor(private cdRef: ChangeDetectorRef) { }

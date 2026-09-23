@@ -42,7 +42,6 @@ export class QuoteEntryComponent implements OnInit {
       name: 'sources',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel,
-      defaultsKey: 'sources',
     };
   }
 

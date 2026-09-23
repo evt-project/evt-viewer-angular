@@ -1,3 +1,4 @@
+import { getXPath } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import { Choice, ChoiceType, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
@@ -15,6 +16,7 @@ export class ChoiceParser extends EmptyParser implements Parser<XMLElement> {
             editorialInterventionType: this.getEditorialInterventionType(xml),
             originalContent: this.getOriginalContent(xml),
             normalizedContent: this.getNormalizedContent(xml),
+            xPath: getXPath(xml),
         };
 
         return choiceComponent;

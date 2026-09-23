@@ -1,17 +1,15 @@
-<div class="panel card" 
-    [class.comparable]="comparable"
-    [class.secondary]="secondary">
+<div class="panel card" [class.comparable]="comparable" [class.secondary]="secondary">
     <div class="panel-header header card-header" *ngIf="!hideHeader">
-    	<nav class="navbar">
+        <nav class="navbar">
             <div><ng-content select="[header-left]"></ng-content></div>
             <div><ng-content select="[header-right]"></ng-content></div>
-            <evt-button *ngIf="closable" additionalClasses="rounded-circle btn-close" 
+            <evt-button *ngIf="closable" additionalClasses="rounded-circle btn-close"
+                ariaLabel="{{ 'ariaLabels.hidePanel' | translate }}" aria-role="button"
                 (btnClick)="emitHide()" [iconLeft]="{icon: 'times'}">
             </evt-button>
         </nav>
     </div>
-    <div class="panel-content content card-content" (scroll)="onScroll($event)"
-        [ngClass]="{
+    <div class="panel-content content card-content edition-font" (scroll)="onScroll($event)" [ngClass]="{
             noFooter: hideFooter,
             noHeader: hideHeader,
             'p-4': !noPadding && (!hideHeader || !hideFooter),
@@ -19,9 +17,7 @@
         }">
         <ng-content select="[content]"></ng-content>
     </div>
-    <div class="secondary-content card-content" 
-        [class.open]="isSecondaryContentOpened()"
-        [class.noFooter]="hideFooter">
+    <div class="secondary-content card-content" [class.open]="isSecondaryContentOpened()" [class.noFooter]="hideFooter">
         <ng-content select="[secondary-content]"></ng-content>
     </div>
     <div class="footer card-footer" *ngIf="!hideFooter">

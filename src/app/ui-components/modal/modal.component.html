@@ -1,4 +1,4 @@
-<div class="modal fade show" [class.fixed-height]="fixedHeight" tabindex="-1" role="dialog" aria-hidden="true"
+<div class="modal fade show" [class.fixed-height]="fixedHeight" tabindex="-1" role="dialog" aria-hidden="true" aria-role="button"
   (escape)="handleEscape()">
   <div class="modal-dialog modal-dialog-centered" role="document" #modalDialog [class.wider]="wider">
     <div class="modal-content">
@@ -8,7 +8,7 @@
           {{title | translate}}
           <ng-content select="[title]"></ng-content>
         </span>
-        <evt-button [type]="'button'" data-dismiss="modal" aria-label="Close" [toggler]="true"
+        <evt-button [type]="'button'" data-dismiss="modal" ariaLabel="{{ 'ariaLabels.closeModal' | translate }}" [toggler]="true"
           (btnClick)="closeDialog()" additionalClasses="rounded-circle btn-close p-0" 
           [iconLeft]="{icon: 'times'}"></evt-button>
       </div>

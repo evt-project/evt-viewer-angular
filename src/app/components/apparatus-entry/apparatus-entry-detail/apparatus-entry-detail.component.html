@@ -1,28 +1,80 @@
-<div class="card app-detail-container">
-    <div class="card-body app-detail-content">
-        <span>
-            <evt-apparatus-entry-readings class="app-detail-readings" [data]="data" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
+<div class="card app-detail-container" [class.selected]="this.isSelected">
+    <div class="card-body app-detail-content" [class.bg-white]="this.isSelected">
+        <div class="container-fluid">
+            <div class="row" style="overflow-x: auto;">
+                <div class="col">
+                    <span class="fw-bold me-1">{{ data.exponent }}</span>
+                    <evt-reading class="info-rdg" *ngIf="this.showLemma; else criticalContent" [data]="data.lemma"
+                        [editionLevel]="editionLevel"></evt-reading>
+                    <ng-template #criticalContent>
+                        <span class="me-1" *ngFor="let content of data.criticalContent">
+                            <evt-content-viewer [content]="content" [editionLevel]="editionLevel"></evt-content-viewer>
+                        </span>
+                    </ng-template>
+                    <span>]</span>
+                </div>
+                <div class="col-1">
+                    <evt-pinner [item]="data" renderer="ApparatusEntryReadings" pinType="ApparatusEntry"></evt-pinner>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center" *ngFor="let readingItem of readingItems">
+                        <div class="info-rdg pe-2 fw-semibold align-self-start">
+                            <evt-reading *ngIf="readingItem.reading.content.length !== 0" [data]="readingItem.reading"
+                                [withDeletions]="true" [editionLevel]="editionLevel"></evt-reading>
+                            <span *ngIf="readingItem.reading.content.length === 0" class="font-italic">{{ 'omit' |
+                                translate }}</span>
+                        </div>
+                        <span *ngIf="readingItem.reading.attributes.wit" class="d-block">
+                            <evt-witness-metadata
+                                [witnessMetadata]="readingItem.reading.attributes.wit"></evt-witness-metadata>
+                        </span>
+                        <span *ngIf="readingItem.reading.attributes.resp" class="d-flex align-items-start">
+                            <span class="info-label px-2 fw-bold">Resp:</span>
+                            <evt-witness-resp-metadata
+                                [ids]="readingItem.reading.attributes.resp"></evt-witness-resp-metadata>
+                        </span>
+                        <span *ngFor="let corresp of readingItem.reading.correspList.corresps" class="px-1 clickable"
+                            [title]="corresp.value" (click)="navigateToSynoptic(corresp)">
+                            {{ corresp.editionId }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <span>
+             <evt-apparatus-entry-readings class="app-detail-readings" [data]="data"
+                [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="true"></evt-apparatus-entry-readings>
             <div *ngIf="data.nestedAppsIDs.length > 0" class="app-detail-nested-readings-container">
                 <span *ngFor="let nesApp of nestedApps; let i = index" class="app-detail-nested-readings">
                     <sup>{{ i + 1 }} </sup>
-                    <evt-apparatus-entry-readings [data]="nesApp" [template]="nestedAppsReadingsTemplate" [rdgHasCounter]="false"></evt-apparatus-entry-readings>
+                    <evt-apparatus-entry-readings [data]="nesApp" [template]="nestedAppsReadingsTemplate"
+                        [rdgHasCounter]="false"></evt-apparatus-entry-readings>
                 </span>
-            </div>
-        </span>
-        <evt-pinner [item]="data" renderer="ApparatusEntryReadings" pinType="ApparatusEntry"></evt-pinner>
+            </div> 
+        </span> -->
     </div>
+
+    <!-- Relevant tabs are only shown if their content is available -->
     <div class="card-footer app-detail-tabs">
-        <ul ngbNav #appEntryTab="ngbNav" class="nav-pills">
+        <ul ngbNav #appEntryTab="ngbNav" class="nav-pills" (click)="$event.stopPropagation()">
             <li ngbNavItem="criticalNotes" *ngIf="data.notes.length > 0">
-                <a class="app-detail-btn" ngbNavLink>{{'criticalNotes' | translate}}</a>
+                <a class="app-detail-btn" [class.active]="this.currentTab === 'criticalNotes'" ngbNavLink
+                    (click)="onTabClicked('criticalNotes')">{{'criticalNotes' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <evt-note *ngFor="let note of data.notes" [data]="note"></evt-note>
+                    <div *ngFor="let note of data.notes">
+                        <evt-note [data]="note"></evt-note>
+                    </div>
                 </ng-template>
             </li>
-            <li ngbNavItem="notSignificantRdg" *ngIf="notSignificantRdg.length > 0">
-                <a class="app-detail-btn" ngbNavLink>{{'ortographicVariants' | translate}}</a>
+
+            <li ngbNavItem="notSignificantRdg" *ngIf="this.notSignificantReadings.length > 0">
+                <a class="app-detail-btn" ngbNavLink [class.active]="this.currentTab === 'ortographicVariants'"
+                    (click)="onTabClicked('ortographicVariants')">{{'ortographicVariants' | translate}}</a>
+
                 <ng-template ngbNavContent>
-                    <span class="d-block" *ngFor="let el of notSignificantRdg">
+                    <span class="d-block" *ngFor="let el of this.notSignificantReadings">
                         <evt-reading [data]="el"></evt-reading>
                         <span *ngFor="let witID of el.witIDs" class="font-italic"> {{ witID }} </span>
                     </span>
@@ -30,69 +82,101 @@
             </li>
 
             <li ngbNavItem="corrSeq" *ngIf="data.changes.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+                <a class="source-detail-btn" [class.active]="this.currentTab === 'corrSeq'" ngbNavLink
+                    (click)="onTabClicked('corrSeq')">{{'corrSeq' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <evt-mod-sequence 
-                        [data]="data.changes" 
-                        [orderedLayers]="orderedLayers"
+                    <evt-mod-sequence [data]="data.changes" [orderedLayers]="orderedLayers"
                         [selectedLayer]="selectedLayer">
                     </evt-mod-sequence>
                 </ng-template>
             </li>
 
-            <li ngbNavItem="info">
-                <a class="app-detail-btn" ngbNavLink>{{'info' | translate}}</a>
+            <li ngbNavItem="varSeq" *ngIf="editionLevel == 'changesView' && readings.length > 0">
+                <a class="source-detail-btn" [class.active]="this.currentTab === 'varSeq'" ngbNavLink
+                    (click)="onTabClicked('varSeq')">{{'varSeq' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <div class="info-lemma-wrapper" *ngIf="data.lemma">
-                        <span>{{'metadataForLemma' | translate}} </span>
-                        <evt-reading *ngIf="data.nestedAppsIDs.length === 0" class="info-rdg" [data]="data.lemma"></evt-reading>
-                        <span *ngIf="data.nestedAppsIDs.length > 0" class="info-rdg">
-                            <ng-container *ngTemplateOutlet="nestedAppsReadingsTemplate; context: { rdgHasCounter: rdgHasCounter }"></ng-container>
-                        </span>
-                        <span class="d-block ms-2" *ngFor="let metadata of rdgMetadata | keyvalue">
-                            <span class="info-label" *ngIf="metadata.key !== 'id'">{{ metadata.key }}:</span> {{ metadata.value }}
-                        </span>
-                        <span class="d-block ms-2" *ngIf="(rdgMetadata | keyvalue).length === 0">
-                            <span class="font-italic">{{'noDataAvailable' | translate}}</span>
-                        </span>
-                    </div>
-                    <div>
-                        <span class="more-info-label">{{'moreInfoAboutApp' | translate}}</span>
-                        <ng-container *ngFor="let rdg of readings">
-                            <div *ngIf="(rdg.attributes | keyvalue).length !== 0" class="mb-2">
-                                <span>{{'metadataFor' | translate}} </span>
-                                <ng-container *ngIf="rdg.content.length !== 0">
-                                    <evt-reading *ngIf="data.nestedAppsIDs.length === 0" class="info-rdg" [data]="rdg"></evt-reading>
-                                    <ng-container *ngIf="data.nestedAppsIDs.length > 0">
-                                        <ng-container *ngFor="let c of rdg.content">
-                                            <evt-content-viewer class="info-rdg" *ngIf="!isAppEntry(c)" [content]="c"></evt-content-viewer>
-                                            <evt-reading class="info-rdg" *ngIf="isAppEntry(c)" [data]="c.lemma"></evt-reading>
-                                        </ng-container>
+                    <evt-readings-sequence [data]="readings">
+                    </evt-readings-sequence>
+                </ng-template>
+            </li>
+
+            <li ngbNavItem="info">
+                <a class="app-detail-btn" [class.active]="this.currentTab === 'info'" ngbNavLink
+                    (click)="onTabClicked('info')">{{'info' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let readingItem of readingItems">
+                        <div class="mb-2">
+                            <ng-container *ngIf="readingItem.isLemma; else readingLabel">
+                                <span class="fw-semibold">{{'LEMMA' | translate}}: </span>
+                                <span class="me-1 info-rdg">
+                                    <evt-content-viewer [content]="data.lemma.content"
+                                        [editionLevel]="editionLevel"></evt-content-viewer>
+                                </span>
+                            </ng-container>
+                            <ng-template #readingLabel>
+                                <div class="mb-2">
+                                    <evt-hr *ngIf="!readingItem.isFirst"></evt-hr>
+                                </div>
+                                <span class="fw-semibold">{{'READING' | translate}}: </span>
+                            </ng-template>
+                            <ng-container>
+                                <evt-reading *ngIf="data.nestedAppsIDs.length === 0" class="info-rdg"
+                                    [data]="readingItem.reading" [editionLevel]="editionLevel"></evt-reading>
+                                <ng-container *ngIf="data.nestedAppsIDs.length > 0">
+                                    <ng-container *ngFor="let c of readingItem.reading.content">
+                                        <evt-content-viewer class="info-rdg" *ngIf="!isAppEntry(c)" [content]="c"
+                                            [editionLevel]="editionLevel"></evt-content-viewer>
+                                        <evt-reading class="info-rdg" *ngIf="isAppEntry(c)" [data]="c.lemma"
+                                            [editionLevel]="editionLevel"></evt-reading>
                                     </ng-container>
                                 </ng-container>
-                                <span *ngIf="rdg.content.length === 0" class="font-italic info-rdg">{{'omit' | translate}}</span>
-                                <span *ngIf="rdg.attributes.wit" class="d-block ms-2">
-                                    <span class="info-label">{{'wit' | translate}}</span> {{rdg.attributes.wit}}
-                                </span>
-                                <ng-container *ngFor="let metadata of rdgMetadata | keyvalue">
-                                    <span class="d-block ms-2" *ngIf="metadata.key !== 'wit'">
-                                        <span class="info-label">{{ metadata.key }}:</span> {{ metadata.value }}
-                                    </span>
+                            </ng-container>
+                            <ng-container *ngFor="let note of readingItem.reading.notes">
+                                <div>{{'notes' | translate | uppercase }}:
+                                    <evt-content-viewer *ngFor="let element of note.content" [content]="element"
+                                        [editionLevel]="editionLevel"></evt-content-viewer>
+                                </div>
+                            </ng-container>
+                            <span *ngIf="readingItem.reading.excludedWitIDs.length">
+                                <span class="fw-bold ps-3">Exclude: </span>
+                                <ng-container *ngFor="let excludedWitId of readingItem.reading.excludedWitIDs">
+                                    <evt-witness-id [witnessId]="excludedWitId"></evt-witness-id>
                                 </ng-container>
-                            </div>
-                        </ng-container>
-                    </div>
+                            </span>
+                            <span *ngIf="readingItem.reading.content.length === 0"
+                                class="font-italic info-rdg">{{'omit'| translate}}</span>
+                            <span *ngIf="readingItem.reading.attributes.wit" class="d-flex align-items-start">
+                                <span class="info-label pe-2">{{'wit' | translate}}</span>
+                                <evt-witness-metadata
+                                    [witnessMetadata]="readingItem.reading.attributes.wit"></evt-witness-metadata>
+                            </span>
+                            <span *ngIf="readingItem.reading.attributes.resp" class="d-flex align-items-start">
+                                <span class="info-label pe-2">Resp:</span>
+                                <evt-witness-resp-metadata
+                                    [ids]="readingItem.reading.attributes.resp"></evt-witness-resp-metadata>
+                            </span>
+
+                            <ng-container *ngFor="let metadata of readingItem.reading.attributes | visibleAttributes">
+                                <span class="d-block pe-2" *ngIf="metadata.key !== 'wit' && metadata.key !== 'resp'">
+                                    <evt-reading-metadata [metadata]="metadata"></evt-reading-metadata>
+                                </span>
+                            </ng-container>
+                        </div>
+                    </ng-container>
                 </ng-template>
             </li>
 
             <li ngbNavItem="xml">
-                <a class="app-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <a class="app-detail-btn" [class.active]="this.currentTab === 'xml'" ngbNavLink
+                    (click)="onTabClicked('xml')">{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding"></evt-original-encoding-viewer>
+                    <evt-original-encoding-viewer
+                        [originalEncoding]="data.originalEncoding"></evt-original-encoding-viewer>
                 </ng-template>
             </li>
         </ul>
-        <div [ngbNavOutlet]="appEntryTab" class="tab-content"></div>
+        <div [ngbNavOutlet]="appEntryTab" *ngIf="isTabContentExpanded" class="tab-content"
+            [class.bg-white]="this.isSelected" (click)="$event.stopPropagation()"></div>
     </div>
 </div>
 

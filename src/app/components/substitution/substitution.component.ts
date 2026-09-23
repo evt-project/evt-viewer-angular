@@ -3,6 +3,7 @@ import { Subst } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { AppConfig } from 'src/app/app.config';
+import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
 
 export interface SubstitutionComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
@@ -22,5 +23,19 @@ export class SubstitutionComponent {
 
   @Input() selectedLayer: string;
 
+  get editorialAddConventionData(): EditorialConventionLayoutData {
+    return {
+      name: 'add',
+      attributes: this.data.add.attributes,
+      editionLevel: this.editionLevel,
+    };
+  }
 
+  get editorialDelConventionData(): EditorialConventionLayoutData {
+    return {
+      name: 'del',
+      attributes: this.data.del.attributes,
+      editionLevel: this.editionLevel,
+    };
+  }
 }

@@ -1,2 +1,348 @@
 {
+    "addition": {
+        "markup": {
+            "element": "add",
+            "attributes": []
+        },
+        "layouts": {
+            "critical": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            },
+            "diplomatic": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            }
+        }
+    },
+    "additionAbove": {
+        "markup": {
+            "element": "add",
+            "attributes": [
+                {
+                    "place": [
+                        "above",
+                        "sup",
+                        "superscript"
+                    ]
+                }
+            ]
+        },
+        "layouts": {
+            "interpretative": {
+                "pre": "\\",
+                "post": "/"
+            },
+            "critical": {
+                "style": {
+                    "vertical-align": "super",
+                    "font-size": ".7rem",
+                    "background-color": "#bdecb6"
+                }
+            },
+            "diplomatic": {
+                "style": {
+                    "vertical-align": "super",
+                    "font-size": ".7rem",
+                    "background-color": "#bdecb6"
+                }
+            },
+            "changesView": {
+                "style": {
+                    "vertical-align": "super",
+                    "font-size": "1rem"
+                }
+            }
+        }
+    },
+    "additionBelow": {
+        "markup": {
+            "element": "add",
+            "attributes": [
+                {
+                    "place": [
+                        "below",
+                        "under",
+                        "sub"
+                    ]
+                }
+            ]
+        },
+        "layouts": {
+            "interpretative": {
+                "pre": "/",
+                "post": "\\"
+            },
+            "diplomatic": {
+                "style": {
+                    "vertical-align": "bottom",
+                    "font-size": ".7rem",
+                    "background-color": "#bdecb6"
+                }
+            },
+            "changesView": {
+                "style": {
+                    "vertical-align": "bottom",
+                    "font-size": "1rem"
+                }
+            }
+        }
+    },
+    "additionInline": {
+        "markup": {
+            "element": "add",
+            "attributes": [
+                {
+                    "place": [
+                        "end",
+                        "inline",
+                        "inspace"
+                    ]
+                }
+            ]
+        },
+        "layouts": {
+            "interpretative": {
+                "pre": "|",
+                "post": "|"
+            },
+            "diplomatic": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            }
+        }
+    },
+    "additionLeft": {
+        "markup": {
+            "element": "add",
+            "attributes": [
+                {
+                    "place": [
+                        "left"
+                    ]
+                }
+            ]
+        },
+        "layouts": {
+            "interpretative": {
+                "post": "| |",
+                "style": {
+                    "margin-right": "-0.3rem"
+                }
+            },
+            "diplomatic": {
+                "style": {
+                    "margin-left": "-1rem",
+                    "background-color": "#bdecb6"
+                }
+            },
+            "changesView": {
+                "style": {
+                    "margin-left": "-1rem"
+                }
+            }
+        }
+    },
+    "additionRight": {
+        "markup": {
+            "element": "add",
+            "attributes": [
+                {
+                    "place": [
+                        "right"
+                    ]
+                }
+            ]
+        },
+        "layouts": {
+            "interpretative": {
+                "pre": "| |",
+                "style": {
+                    "margin-left": "-0.3rem"
+                }
+            },
+            "diplomatic": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            }
+        }
+    },
+    "damage": {
+        "markup": {
+            "element": "damage",
+            "attributes": []
+        },
+        "layouts": {
+            "diplomatic": {
+                "style": {
+                    "background-color": "rgba(193, 193, 193, 0.7)"
+                }
+            },
+            "changesView": {
+                "style": {
+                    "background-color": "rgba(193, 193, 193, 0.7)"
+                }
+            }
+        }
+    },
+    "deletion": {
+        "markup": {
+            "element": "del",
+            "attributes": []
+        },
+        "layouts": {
+            "critical": {
+                "style": {
+                    "background-color": "#fdd3d1",
+                    "text-decoration": "line-through"
+                }
+            },
+            "diplomatic": {
+                "style": {
+                    "background-color": "#fdd3d1",
+                    "text-decoration": "line-through"
+                }
+            },
+            "interpretative": {
+                "pre": "[[",
+                "post": "]]"
+            },
+            "changesView": {
+                "style": {
+                    "text-decoration": "line-through"
+                }
+            }
+        }
+    },
+    "sic": {
+        "markup": {
+            "element": "sic",
+            "attributes": []
+        },
+        "layouts": {}
+    },
+    "sicCrux": {
+        "markup": {
+            "element": "sic",
+            "attributes": [{"type": ["crux"]}]
+        },
+        "layouts": {
+            "diplomatic": {
+                "pre": "&dagger;",
+                "post": "&dagger;"
+            },
+            "interpretative": {
+                "pre": "&dagger;",
+                "post": "&dagger;"
+            },
+            "critical": {
+                "pre": "&dagger;",
+                "post": "&dagger;"
+            },
+            "changesView": {
+                "pre": "&dagger;",
+                "post": "&dagger;"
+            }
+        }
+    },
+    "surplus": {
+        "markup": {
+            "element": "surplus",
+            "attributes": []
+        },
+        "layouts": {
+            "diplomatic": {
+                "pre": "{",
+                "post": "}",
+                "style": {
+                    "background-color": "#f6b26a"
+                }
+            }
+        }
+    },
+    "sources": {
+        "markup": {
+            "element": "sources",
+            "attributes": []
+        },
+        "layouts": {
+            "diplomatic": {
+                "style": {
+                    "font-style": "italic",
+                    "font-size": "104%"
+                }
+            },
+            "interpretative": {
+                "style": {
+                    "font-style": "italic",
+                    "font-size": "104%"
+                }
+            },
+            "critical": {
+                "style": {
+                    "font-style": "italic",
+                    "font-size": "104%"
+                }
+            }
+        }
+    },
+    "analogues": {
+        "markup": {
+            "element": "analogues",
+            "attributes": []
+        },
+        "layouts": {
+            "diplomatic": {
+                "pre": "🗎",
+                "style": {
+                    "text-decoration": "underline dotted from-font"
+                }
+            },
+            "interpretative": {
+                "pre": "🗎",
+                "style": {
+                    "text-decoration": "underline dotted from-font"
+                }
+            },
+            "critical": {
+                "pre": "🗎",
+                "style": {
+                    "text-decoration": "underline dotted from-font"
+                }
+            },
+            "changesView": {
+                "pre": "🗎",
+                "style": {
+                    "text-decoration": "underline dotted from-font"
+                }
+            }
+        }
+    },
+    "mod": {
+        "markup": {
+            "element": "mod",
+            "attributes": []
+        },
+        "layouts": {
+            "diplomatic": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            },
+            "critical": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            },
+            "interpretative": {
+                "style": {
+                    "background-color": "#bdecb6"
+                }
+            }
+        }
+    }
 }

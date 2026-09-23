@@ -6,35 +6,72 @@ import {
 import { isNestedInElem } from '../../utils/dom-utils';
 import { Map } from '../../utils/js-utils';
 import { GenericElemParser } from './basic-parsers';
-import { getListsToParseTagNames, namedEntitiesListsTagNamesMap } from './named-entity-parsers';
-import { createParser } from './parser-models';
+import { createParser, getID, getNOrDefaultFromElement } from './parser-models';
+import { EditionSource } from '../named-entities.service';
+import { AppConfig } from 'src/app/app.config';
+import { ErrorsService } from '../errors.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NamedEntitiesParserService {
-  private tagNamesMap = namedEntitiesListsTagNamesMap;
+  private entitiesOccurrenceSelectors: string[];
 
-  public parseLists(document: XMLElement) {
-    const listsToParse = getListsToParseTagNames();
+  constructor(private errorsService: ErrorsService) {
+    this.entitiesOccurrenceSelectors = AppConfig.evtSettings.edition.entitiesOccurrenceSelectors;
+    if (!this.entitiesOccurrenceSelectors.length) {
+      this.errorsService.logError("No namedEntitiesOccurrenceSelector found in edition config");
+    }
+  }
+
+  public parseLists(editionSources: EditionSource[]) {
+    const listsToParse = AppConfig.getListsToParseTagNames();
     const listParser = ParserRegister.get('evt-named-entities-list-parser');
     // We consider only first level lists; inset lists will be considered
-    const lists = (listsToParse.toString() ? Array.from(document.querySelectorAll<XMLElement>(listsToParse.toString())) : [])
+    const listsSelector = listsToParse.map(x => x.listSelector).toString();
+    const lists = editionSources.flatMap(ed => Array.from(ed.editionData.querySelectorAll<XMLElement>(listsSelector)));
+    const glossaryLists = editionSources.flatMap(ed => ed.glossary ? Array.from(ed.glossary.querySelectorAll<XMLElement>(listsSelector)) : []);
+    const allLists = [...lists, ...glossaryLists]
       .filter((list) => !isNestedInElem(list, list.tagName))
       .map((l) => listParser.parse(l) as NamedEntitiesList);
 
+    const mergedLists: NamedEntitiesList[] = [];
+    const map = new Map<string, NamedEntitiesList>();
+    for (const list of allLists) {
+      const storedList = map.get(list.label);
+      if (!storedList) {
+        map.set(list.label, list);
+        mergedLists.push(list);
+      }
+      else {
+        storedList.content.push(...list.content);
+        const result = storedList.content.countBy(x => x.id);
+        result.forEach(x => {
+          if (x.count > 1) {
+            const duplicatedElements = x.items.map(y => y.originalEncoding);
+            this.errorsService.logError("More than one named entity has the same xml:id, keeping first one", duplicatedElements);
+            const first = x.items[0];
+            storedList.content = storedList.content.filter(entity => {
+              return entity.id !== x.key || entity === first;
+            });
+          }
+        });
+      }
+    }
+
     return {
-      lists,
-      entities: lists.map(({ content }) => content).reduce((a, b) => a.concat(b), []),
-      relations: lists.map(({ relations }) => relations).reduce((a, b) => a.concat(b), []),
+      lists: mergedLists,
+      entities: mergedLists.flatMap(({ content }) => content),
+      relations: mergedLists.flatMap(({ relations }) => relations)
     };
   }
 
-  public getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string[]) {
-    return {
-      lists: lists.filter((list) => type.indexOf(list.namedEntityType) >= 0),
-      entities: entities.filter((entity) => type.indexOf(entity.namedEntityType) >= 0),
+  public getResultsByType(lists: NamedEntitiesList[], entities: NamedEntity[], type: string) {
+    const result = {
+      lists: lists.filter((list) => type === list.namedEntityType),
+      entities: entities.filter((entity) => type === entity.namedEntityType),
     };
+    return result;
   }
 
   public parseNamedEntitiesOccurrences(pages: Page[]) {
@@ -59,11 +96,12 @@ export class NamedEntitiesParserService {
       .filter((e) => e.nodeType === 1)
       .map((e) => {
         const occurrences = [];
-        if (this.tagNamesMap.occurrences.indexOf(e.tagName) >= 0 && e.getAttribute('ref')) { // Handle first level page contents
+        if (this.entitiesOccurrenceSelectors.includes(e.tagName) && e.getAttribute('ref')) { // Handle first level page contents
           occurrences.push(this.parseNamedEntityOccurrence(e));
         }
 
-        return occurrences.concat(Array.from(e.querySelectorAll<XMLElement>(this.tagNamesMap.occurrences))
+        const selector = this.entitiesOccurrenceSelectors.join(',');
+        return occurrences.concat(Array.from(e.querySelectorAll<XMLElement>(selector))
           .map((el) => this.parseNamedEntityOccurrence(el)));
       })
       .filter((e) => e.length > 0)
@@ -100,8 +138,8 @@ export class NamedEntitiesParserService {
     return {
       ref: xml.getAttribute('ref').replace('#', ''),
       el: elementParser.parse(xml),
-      docId: doc ? doc.getAttribute('xml:id') : '', // TODO: get proper document id when missing
-      docLabel: doc ? doc.getAttribute('n') || doc.getAttribute('xml:id') : '', // TODO: get proper document label when attributes missing
+      docId: doc ? getID(doc) : '', // TODO: get proper document id when missing
+      docLabel: doc ?  (getNOrDefaultFromElement(doc) || getID(doc)) : '', // TODO: get proper document label when attributes missing
     };
   }
 }

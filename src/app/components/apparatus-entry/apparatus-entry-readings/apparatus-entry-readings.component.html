@@ -1,4 +1,4 @@
-<span class="app-entry-reading">
+<span class="app-entry-reading" *ngIf="data.lemma">
     <!--
         It's necessary to handle both readings with and without nested apps, because nested apps inside app-entry-detail have different behaviour,
         so we can't use apparatus-entry-component to render them.
@@ -12,11 +12,12 @@
     </ng-container>
     <span>] </span>
 </span>
-<span class="app-entry-reading" *ngFor="let el of significantRdg">
-    <evt-reading *ngIf="el.content.length !== 0" [data]="el" [selectedLayer]="selectedLayer"></evt-reading>
-    <span class="font-italic" *ngIf="el.content.length === 0">omit.</span>
+<span class="app-entry-reading" *ngFor="let reading of significantReading">
+    <evt-reading *ngIf="reading.content.length !== 0" [data]="reading" [selectedLayer]="selectedLayer"></evt-reading>
+    <span class="font-italic" *ngIf="reading.content.length === 0">omit.</span>
     <!-- TODO: handle lacunastart and lacunaend -->
-    <ng-container *ngFor="let witID of el.witIDs">
+     
+    <!-- <ng-container *ngFor="let witID of el.witIDs">
         <span *ngFor="let wit of getWits$(witID) | async" class="font-italic app-wit"> {{ wit }} </span>
-    </ng-container>
+    </ng-container> -->
 </span>

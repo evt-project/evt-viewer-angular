@@ -6,6 +6,7 @@ import { register } from 'src/app/services/component-register.service';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { distinctUntilChanged, map, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { AppConfig, EditionLevelType } from 'src/app/app.config';
 
 export interface ModComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
@@ -70,7 +71,6 @@ export class ModComponent {
       name: 'mod',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel || 'diplomatic',
-      defaultsKey: 'mod',
     };
   }
 
@@ -87,16 +87,22 @@ export class ModComponent {
     const layerColors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
     if ((this.data?.changeLayer) && (layerColors[this.data.changeLayer.replace('#','')])) {
       return layerColors[this.data.changeLayer.replace('#','')];
+    } else if (this.data.changeLayer !== null) {
+      this.errorService.logWarning(`Change layer ${this.data.changeLayer} color not defined in config file. Black is used.`);
     }
 
-    return null;
+    return 'black';
   }
 
   getLayerIndex(layer: string): number {
     if (layer) {
       layer = layer.replace('#','');
-
-      return this.orderedLayers.indexOf(layer);
+      const layerNumber = this.orderedLayers.indexOf(layer);
+      if (layerNumber == -1) {
+        this.errorService.logWarning(`Change layer ${layer} not found in listChange element.`);
+        return 0;
+      }
+      return layerNumber;
     }
 
     return 0;
@@ -127,6 +133,7 @@ export class ModComponent {
 
   constructor(
     public evtStatusService: EVTStatusService,
+    private errorService: ErrorsService,
   ) {}
 
 

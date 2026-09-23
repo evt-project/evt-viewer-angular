@@ -29,7 +29,7 @@
     .footer {
         height: $mainContainer-menu-height;
         min-height: $mainContainer-menu-height;
-        font-size: 16px;
+        //font-size: 16px;
         padding: 6px;
         .navbar {
             padding: 0;
@@ -55,7 +55,7 @@
         }
         padding: .4rem;
         overflow: auto;
-        font-size: 18px; //&.noBottomMenu {
+        //font-size: 18px; //&.noBottomMenu {
         //@include calc(height, #{setInsideFrameHeight($mainContainer-top-menu, $mainContainer-bottom-menu)} + $mainContainer-menu-height);
         //}
     }
@@ -98,6 +98,8 @@
         }
         .content {
             border: $mainContainer-border-width solid themed('baseColorDark');
+            background-color: themed('generalBackgroundColor');
+            color: themed('generalFontColor');
         }
         .secondary-content {
             background: themed('panelSecondaryBackgroundColor');

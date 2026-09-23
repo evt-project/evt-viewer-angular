@@ -6,6 +6,7 @@ import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from '../../utils/xml-utils';
 import { BibliographyParser } from './bibliography-parsers';
 import { BasicParser } from './quotes-parser';
+import { getXPath } from 'src/app/utils/dom-utils';
 
 @xmlParser('evt-analogue-entry-parser', AnalogueParser)
 export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
@@ -47,6 +48,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             extLinkedElements: sources.extLinkedElements,
             quotedElements: this.getQuotedTextFromElements(sources.sources.concat(sources.extSources), sources.extLinkedElements),
             originalEncoding: analogue,
+            xPath: getXPath(analogue),
         };
     }
 

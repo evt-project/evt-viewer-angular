@@ -25,6 +25,10 @@
     }
     &.display-block {
         display: block;
+        // The rest of a verse coming from the previous page has no number of its own: it is indented as wide as the number column
+        &.continued {
+            padding-left: 1rem; // roughly as wide as the number column
+        }
         .verse-num {
             @include themify($themes) {            
                 color: themed('secondaryColorDark')

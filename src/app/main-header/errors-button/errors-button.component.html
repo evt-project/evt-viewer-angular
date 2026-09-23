@@ -1,0 +1,50 @@
+<button class="btn btn-sm btn-secondary d-flex align-items-center" *ngIf="(errors$ | async) as errorsList"
+    (click)="openModal()">
+    <span>{{ "errors" | translate }}</span>
+    <div class="spinner-border spinner-border-sm text-tertiary ms-2" role="status" *ngIf="isLoading$ | async; else icon">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <ng-template #icon>
+        <evt-icon class="ms-2" [ngStyle]="{'color': getColor(errorsList)}"
+            [iconInfo]="{ icon: getIcon(errorsList), iconSet: 'fas' }">
+        </evt-icon>
+    </ng-template>
+</button>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ 'errors' | translate }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body overflow-auto" style="max-height: 80vh;" *ngIf="(errors$ | async) as errorsList">
+        <ng-container *ngIf="errorsList?.length > 0; else noErrors">
+            <div class="d-flex justify-content-between pb-3">
+                <div>{{ "errorsModalSubtitle" | translate }}:</div>
+                <evt-button type="button" class="ms-auto" additionalClasses="btn-sm btn-floating"
+                    [label]="'dismissAll' | translate " (btnClick)="dismissAll()"></evt-button>
+            </div>
+            <div *ngFor="let error of errorsList">
+                <div class="d-flex my-1">
+                    <evt-icon class="me-2" [iconInfo]="{ icon: getErrorIcon(error), iconSet: 'fas' }"
+                        [ngStyle]="{'color': getErrorColor(error)}">
+                    </evt-icon>
+                    <span>
+                        <span class="mr-1" [ngStyle]="{'color': getErrorColor(error)}"> 
+                            {{ error.type === 'error' ? 'Error' : 'Warning' }}:
+                        </span> 
+                        {{ error.errorMessage }}
+                    </span>
+                    <evt-button type="button" class="ms-auto" additionalClasses="btn-sm btn-floating"
+                        [label]="'dismiss' | translate" (btnClick)="dismiss(error)"></evt-button>
+                </div>
+                <div *ngFor="let outerHTML of error.outerHTMLs">
+                    <handy-syntax-highlighter language="markup"
+                        [content]="outerHTML | xmlBeautify"></handy-syntax-highlighter>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noErrors>
+            <p>{{ "noErrorFound" | translate }}</p>
+        </ng-template>
+    </div>
+</ng-template>

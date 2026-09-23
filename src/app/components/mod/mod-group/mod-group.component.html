@@ -1,4 +1,6 @@
+<!-- textflow -->
 <ng-container *ngFor="let orderedReading of orderedReadings; let i = index">
+    <span class="readingSeparator" *ngIf="changeSeparatorVisible && i !== 0"> > </span>
     <evt-reading class="app-entry-rdg" [ngClass]="{'first-mod': (i === 0)}" 
         [data]="orderedReading" 
         [editionLevel]="editionLevelChange.asObservable() | async" 
@@ -9,6 +11,8 @@
 </ng-container>
 
 <div class="source-container" *ngIf="opened">
+
+    <!-- header for mods -->
     <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="mods.length > 0">
         <span class="mod-symbol" (click)="toggleModGroupEntryBox()">🕐</span>
         <span class="mod-text">
@@ -31,18 +35,36 @@
         </span>
     </div>
 
+    <!-- header for readings -->
+    <div class="card-body ne-header app-detail-content source-detail-content" *ngIf="!(mods.length > 0) && orderedReadings.length > 0">
+        <span class="mod-symbol" (click)="toggleModGroupEntryBox()"></span>
+        <span class="mod-text">
+            <ng-container *ngFor="let reading of orderedReadings; index as i">
+                <span class="changeSeparator" *ngIf="changeSeparatorVisible"> > </span>
+                <ng-container *ngIf="showVarSeqAttr">{{ reading.varSeq || ''}}</ng-container>
+                <evt-content-viewer 
+                    [content]="reading" 
+                    [editionLevel]="editionLevelChange.asObservable() | async"
+                    [evtHtmlAttributes]="reading.attributes" 
+                    [attr.data-edition]="editionLevel">
+                </evt-content-viewer> 
+            </ng-container>
+        </span>
+    </div>
+
     <div class="card-footer app-detail-tabs">
         <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="criticalNote" *ngIf="containerElement.notes?.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'criticalNote' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'criticalNote' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-note *ngFor="let element of containerElement.notes" [data]="element"></evt-note>
                 </ng-template>
             </li>
 
-            <li ngbNavItem="corrSeq" *ngIf="mods.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+            <!-- sequence mods -->
+            <li ngbNavItem="varSeq" *ngIf="(mods.length > 0 && orderedLayers && orderedLayers.length > 0); else sequenceReadings">
+                <a class="source-detail-btn" ngbNavLink href="#">{{'varSeq' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-mod-sequence 
                         [data]="mods" 
@@ -51,9 +73,20 @@
                     </evt-mod-sequence>
                 </ng-template>
             </li>
+            <!-- sequence readings -->
+            <ng-template #sequenceReadings>
+                <li ngbNavItem="varSeq" *ngIf="orderedReadings.length > 0">
+                    <a class="source-detail-btn" ngbNavLink href="#">{{'varSeq' | translate}}</a>
+                    <ng-template ngbNavContent>
+                        <evt-readings-sequence 
+                            [data]="orderedReadings">
+                        </evt-readings-sequence>
+                    </ng-template>
+                </li> 
+            </ng-template>
 
             <li ngbNavItem="xml" *ngIf="containerElement.originalEncoding">
-                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-original-encoding-viewer [originalEncoding]="containerElement.originalEncoding">
                     </evt-original-encoding-viewer>

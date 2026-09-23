@@ -1,0 +1,21 @@
+<!--
+    display order atm (maybe we can provide a configuration array later):
+    1. lem/rdg ordered by @varSeq 
+    2. mod ordered by @change 
+    3. add/del/subst ordered by @seq
+-->
+    <ng-container *ngFor="let rdg of sequence">
+        <ng-container *ngIf="showVarSeqAttr && rdg?.varSeq">
+            <span class="mod-varSeq">{{rdg.varSeq}} </span>
+        </ng-container>
+
+        <ng-container *ngIf="rdg.type == Reading">
+            <evt-content-viewer 
+                [content]="rdg" 
+                [editionLevel]="'changesView'"
+                [evtHtmlAttributes]="rdg?.attributes" 
+                [attr.data-edition]="'changesView'">
+            </evt-content-viewer>
+            <br/>
+        </ng-container>
+    </ng-container>

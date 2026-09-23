@@ -21,6 +21,7 @@ export class ImageOnlyComponent {
       enabled: false,
       ignoreContent: true,
       dragHandleClass: 'panel-header',
+      ignoreContentClass: 'no-drag'
     },
     resizable: {
       enabled: false,

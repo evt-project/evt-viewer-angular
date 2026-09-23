@@ -1,0 +1,16 @@
+<div *ngIf="this.error">{{ this.error }}</div>
+
+<gridster [options]="this.gridsterOptions">
+    <div class="h-100" #otherEditionsPanel [class.align-self-center]="this.editionsItems.length === 0"
+        [class.empty]="this.editionsItems.length === 0">
+        <gridster-item [item]="editionItem.gridsterItem" *ngFor="let editionItem of this.editionsItems; let i = index">
+            <evt-synopsis-text-panel [edition]="editionItem.edition" [secondary]="true" (onPageChanged)="this.changePageAndSetItsFirstXmlId($event)"
+                (onXmlIdChanged)="this.changeXmlId($event)" (onEditionLevelChanged)="this.changeEditionLevel($event)"></evt-synopsis-text-panel>
+        </gridster-item>
+
+        <!-- <evt-button class="btn" [class.btn-float-right]="getWitnesses().length > 0"
+                [additionalClasses]="witnessBtn?.additionalClasses" [label]="witnessBtn?.label | translate"
+                [iconLeft]="witnessBtn?.icon" [title]="witnessBtn?.title | translate"
+                (btnClick)="addWitness()"></evt-button> -->
+    </div>
+</gridster>

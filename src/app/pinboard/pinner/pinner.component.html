@@ -1,3 +1,4 @@
 <evt-button [iconLeft]="{icon: 'thumbtack'}" [title]="'PinItem' | translate" class="evt-pinner"
     [ngStyle]="additionalStyle" [toggler]="true" [transparent]="true" [active]="isItemPinned()"
+    ariaLabel="{{ 'ariaLabels.pinItem' | translate }}" aria-role="button"
     (btnClick)="togglePin($event)"></evt-button>

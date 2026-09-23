@@ -1,27 +1,36 @@
 import { Injectable } from '@angular/core';
 import { getEventKeyCode } from '../utils/js-utils';
+import { ViewMode } from '../models/evt-models';
+import { EVTStatusService } from '../services/evt-status.service';
+import { AppConfig } from '../app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShortcutsService {
+
+  constructor(
+    private evtStatusService: EVTStatusService,
+  ) {}
+
+  public viewModes: ViewMode[] = AppConfig.evtSettings.ui.availableViewModes?.filter(((e) => e.enable)) ?? [];
+
+  selectViewMode(viewMode: ViewMode) {
+    this.evtStatusService.updateViewMode$.next(viewMode);
+  }
+
   handleKeyboardEvent(e: KeyboardEvent) {
     const eKeyCode = getEventKeyCode(e);
+    const eKeyCodeStr = String(eKeyCode); 
     if (e.altKey) { // ALT pressed
+      if (/^[1-9]$/.test(eKeyCodeStr)) { 
+        const selectedViewIndex = this.viewModes[parseInt(eKeyCodeStr) - 1];
+        if (selectedViewIndex !== undefined) {
+          this.selectViewMode(selectedViewIndex);
+          return;
+        }
+      }
       switch (eKeyCode) {
-        // TODO: MODE VIEW
-        case 49: // alt+1
-          // First view mode
-          break;
-        case 50: // alt+2
-          // Second view mode
-          break;
-        case 51: // alt+3
-          // Third view mode
-          break;
-        case 52: // alt+1
-          // Fourth view mode
-          break;
         // other useful
         case 73: // alt+i
           // Open PROJECT INFO

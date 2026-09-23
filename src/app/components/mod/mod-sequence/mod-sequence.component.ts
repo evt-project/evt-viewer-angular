@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
 import { Mod } from 'src/app/models/evt-models';
 
@@ -6,7 +6,6 @@ import { Mod } from 'src/app/models/evt-models';
   selector: 'evt-mod-sequence',
   templateUrl: './mod-sequence.component.html',
   styleUrls: ['./mod-sequence.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModSequenceComponent {
 
@@ -18,6 +17,8 @@ export class ModSequenceComponent {
   public showSeqAttr = AppConfig.evtSettings.edition.changeSequenceView.showSeqAttr;
   public showVarSeqAttr = AppConfig.evtSettings.edition.changeSequenceView.showVarSeqAttr;
   public colors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
+
+  public Mod = Mod;
 
   @Input() set orderedLayers(layers: string[]) {
     this.ordLayers = layers;

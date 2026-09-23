@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, map, of, shareReplay } from 'rxjs';
 import { EditionLevel } from '../../app.config';
 import { Page } from '../../models/evt-models';
 import { EntitiesSelectItem } from '../entities-select/entities-select.component';
@@ -20,10 +20,14 @@ export class PageComponent {
   private d: Page;
   @Input() set data(v: Page) {
     this.d = v;
-    this.pageDataChange.next(this.d);
+    this.pageDataChange$.next(this.d);
   }
   get data() { return this.d; }
-  pageDataChange = new BehaviorSubject<Page>(undefined);
+  pageDataChange$ = new BehaviorSubject<Page>(undefined);
+  elementsOrEmpty$ = this.pageDataChange$.pipe(
+    map(page => page.parsedContent ?? []),
+    shareReplay(1)
+  )
 
   busy = of<boolean>(false); // TODO: manage loading
 }

@@ -7,11 +7,10 @@
         <ng-container *ngFor="let element of data.content">
             <evt-content-viewer [content]="element"></evt-content-viewer>
             <ul class="attributes-list">
-                <li *ngFor="let item of element.attributes | keyvalue">
+                <li *ngFor="let item of element.attributes | visibleAttributes">
                     <span class="label">{{ item.key }}:</span> {{ item.value }}
                 </li>
             </ul>
         </ng-container>
-
     </span>
 </div>

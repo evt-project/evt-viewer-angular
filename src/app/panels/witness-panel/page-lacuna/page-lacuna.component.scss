@@ -1,0 +1,11 @@
+.lacuna {
+    width: 100%;
+    height: 100%; 
+    background: linear-gradient(to bottom, #888888 0%, #ffffff 40%, #ffffff 60%, #888888 100%);
+    
+    --mask-top: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 20px 51% repeat-x;
+    --mask-bottom: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 20px 51% repeat-x;
+
+    -webkit-mask: var(--mask-top), var(--mask-bottom);
+            mask: var(--mask-top), var(--mask-bottom);
+}

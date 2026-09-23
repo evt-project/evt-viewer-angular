@@ -19,7 +19,7 @@
     <div class="card-body ne-content" *ngIf="contentOpened">
         <ul ngbNav #entityDetails="ngbNav" class="entity-details" [activeId]="selectedSection">
             <li [ngbNavItem]="'info_'+data.id" [disabled]="data.content.length === 0">
-                <a ngbNavLink class="ui-font">{{'Info' | translate}}</a>
+                <a ngbNavLink class="ui-font" href="#">{{'Info' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content">
                         <evt-content-viewer *ngFor="let detail of data.content" [content]="detail">
@@ -29,25 +29,70 @@
             </li>
             <li [ngbNavItem]="'occurrences_'+data.id">
                 <a ngbNavLink class="ui-font">{{'Occurrences' | translate}}</a>
-                <ng-template ngbNavContent>
-                    <div class="ne-detail-content ui-font" *ngIf="occurrences$ | async as occurrences">
-                        <span *ngIf="occurrences.length === 0">{{'noOccurrences' | translate}}</span>
-                        <evt-named-entity-occurrence *ngFor="let occurrence of occurrences" [occurrence]="occurrence" [entityId]="data.id"></evt-named-entity-occurrence>
+                <ng-template ngbNavContent *ngIf="(activeOccurrencesView$ | async) as activeOccurrencesView">
+                    <div class="ne-detail-content ui-font">
+                        <div class="d-flex pb-2">
+                            <div class="me-auto" *ngIf="occurrencesFoundLabel$ | async as occurrenceFoundLabel">
+                                {{ 'occurrencesFoundLabel' | translate: occurrenceFoundLabel }}
+                            </div>
+                            <evt-button class="px-1" [iconLeft]="{icon: 'object-group'}" [title]="'Form' | translate"
+                                [toggler]="true" [transparent]="false" [active]="activeOccurrencesView === 'form'"
+                                (btnClick)="activeOccurrencesView$.next('form')"></evt-button>
+                            <evt-button class="px-1" [iconLeft]="{icon: 'layer-group'}" [title]="'Edition' | translate"
+                                [toggler]="true" [transparent]="false" [active]="activeOccurrencesView === 'edition'"
+                                (btnClick)="activeOccurrencesView$.next('edition')"></evt-button>
+                        </div>
+                        <div *ngIf="activeOccurrencesView === 'form'">
+                            <ng-container *ngIf="(occurrences$ | async) as editionOccurrences">
+                                <ng-container *ngFor="let editionOccurrence of editionOccurrences">
+                                    <span *ngIf="editionOccurrence.occurrences.length === 0">{{'noOccurrences' |
+                                        translate}}</span>
+                                    <evt-named-entity-occurrence
+                                        *ngFor="let occurrence of editionOccurrence.occurrences"
+                                        [occurrence]="occurrence" [entityId]="data.id"
+                                        [editionInfo]="editionOccurrence.editionInfo">
+                                    </evt-named-entity-occurrence>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="container-fluid" *ngIf="activeOccurrencesView === 'edition' && (occurrencesForms$ | async) as occurrencesForms">
+                            <div class="row align-items-start">
+                                <div class="col-auto ne-occurrence text-center"
+                                    *ngFor="let occurrenceForm of occurrencesForms">
+                                    <div class="fw-bold">{{ occurrenceForm.form }}</div>
+                                    <div *ngFor="let editionOccurrence of occurrenceForm.editionOccurrences">
+                                        <span *ngIf="editionOccurrence.occurrences.length === 0">
+                                            {{ 'noOccurrences' | translate }}
+                                        </span>
+                                        <div>{{ editionOccurrence.editionInfo | displayFriendlyName:'editionTitle':'editionFriendlyName' }}</div>
+                                        <ng-container *ngIf="editionOccurrence.occurrences.length > 0">
+                                            <div class="fst-italic">
+                                                {{ editionOccurrence.pageOccurrenceCount }} occurrences
+                                            </div>
+                                            <evt-named-entity-occurrence-pages-list
+                                                (onItemClicked)="goToOccurrenceRef($event)"
+                                                [occurrences]="editionOccurrence.occurrences">
+                                            </evt-named-entity-occurrence-pages-list>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </ng-template>
             </li>
             <li [ngbNavItem]="'relations_'+data.id">
-                <a ngbNavLink class="ui-font">{{'Relations' | translate}}</a>
+                <a ngbNavLink class="ui-font" href="#">{{'Relations' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content" *ngIf="relations$ | async as relations">
                         <span *ngIf="relations.length === 0" class="ui-font">{{'noRelations' | translate}}</span>
-                        <evt-named-entity-relation *ngFor="let relation of relations" 
-                            [data]="relation" [inEntity]="true"></evt-named-entity-relation>
+                        <evt-named-entity-relation *ngFor="let relation of relations" [data]="relation"
+                            [inEntity]="true"></evt-named-entity-relation>
                     </div>
                 </ng-template>
             </li>
             <li [ngbNavItem]="'xml_'+data.id">
-                <a ngbNavLink class="ui-font">{{'XMLSource' | translate}}</a>
+                <a ngbNavLink class="ui-font" href="#">{{'XMLSource' | translate}}</a>
                 <ng-template ngbNavContent>
                     <div class="ne-detail-content no-padding">
                         <evt-original-encoding-viewer [originalEncoding]="data.originalEncoding">

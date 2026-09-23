@@ -29,6 +29,9 @@
   &.event {
     @include namedEntityRefColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
   }
+  &.entry {
+    @include namedEntityRefColors(get-ne-color(entryBase), get-ne-color(entryMiddle), get-ne-color(entryDarker));
+  }
 }
 
 .namedEntityRefDetail {
@@ -43,6 +46,9 @@
   }
   &.event {
     background: get-ne-color(eventBase);
+  }
+  &.entry {
+    background: get-ne-color(entryBase);
   }
 }
 .not-found-msg {

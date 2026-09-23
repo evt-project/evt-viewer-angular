@@ -1,3 +1,4 @@
+import { getXPath } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import { Sic, Surplus, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
@@ -16,6 +17,7 @@ export class SurplusParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
+            xPath: getXPath(xml),
         };
     }
 }
@@ -33,6 +35,7 @@ export class SicParser extends EmptyParser implements Parser<XMLElement> {
             class: getClass(xml),
             content: parseChildren(xml, this.genericParse),
             attributes,
+            xPath: getXPath(xml),
         };
     }
 }

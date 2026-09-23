@@ -22,7 +22,6 @@ export class DeletionComponent {
       name: 'del',
       attributes: this.data.attributes,
       editionLevel: this.editionLevel,
-      defaultsKey: 'deletion',
     };
   }
 }

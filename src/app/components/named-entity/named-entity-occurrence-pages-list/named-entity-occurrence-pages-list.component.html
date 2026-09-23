@@ -1,0 +1,9 @@
+<ul class="neo-pages-list" *ngIf="occurrences">
+    <ng-container *ngFor="let occurrence of occurrences">
+        <li class="neo-pages-list-item"
+            *ngFor="let refByDoc of occurrence.refsByDoc"
+            (click)="itemClicked(refByDoc)">
+            {{ occurrence.pageLabel }} {{ refByDoc.docLabel ? '(' + refByDoc.docLabel + ')' : '' }}
+        </li>
+    </ng-container>
+</ul>

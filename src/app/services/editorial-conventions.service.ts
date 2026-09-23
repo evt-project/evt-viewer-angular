@@ -1,251 +1,42 @@
 import { Injectable } from '@angular/core';
 import { AttributesMap } from 'ng-dynamic-component';
 import { AppConfig } from '../app.config';
-import { EditorialConvention, EditorialConventionLayouts } from '../models/evt-models';
-
-// List of handled editorial convention
-export type EditorialConventionDefaults = 'addition' | 'additionAbove' | 'additionBelow' | 'additionInline' | 'additionLeft' | 'additionRight' |
-  'damage' | 'deletion' | 'sicCrux' | 'surplus' | 'sources' | 'analogues' | 'mod' ;
+import { EditorialConvention } from '../models/evt-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EditorialConventionsService {
-  defaultLayouts: { [T in EditorialConventionDefaults]: Partial<EditorialConventionLayouts> } = {
-    addition: {
-      diplomatic: {
-        style: {
-          'background-color': '#bdecb6',
-        },
-      },
-    },
-    additionAbove: {
-      interpretative: {
-        pre: '\\',
-        post: '/',
-      },
-      diplomatic: {
-        style: {
-          'vertical-align': 'super',
-          'font-size': '.7rem',
-          'background-color': '#bdecb6',
-        },
-      },
-      changesView: {
-        style: {
-          'vertical-align': 'super',
-          'font-size': '1rem',
-        },
-      },
-    },
-    additionBelow: {
-      interpretative: {
-        pre: '/',
-        post: '\\',
-      },
-      diplomatic: {
-        style: {
-          'vertical-align': 'bottom',
-          'font-size': '.7rem',
-          'background-color': '#bdecb6',
-        },
-      },
-      changesView: {
-        style: {
-          'vertical-align': 'bottom',
-          'font-size': '1rem',
-        },
-      },
-    },
-    additionInline: {
-      interpretative: {
-        pre: '|',
-        post: '|',
-      },
-      diplomatic: {
-        style: {
-          'background-color': '#bdecb6',
-        },
-      },
-    },
-    additionLeft: {
-      interpretative: {
-        post: '| |',
-        style: {
-          'margin-right': '-0.3rem',
-        },
-      },
-      diplomatic: {
-        style: {
-          'margin-left': '-1rem',
-          'background-color': '#bdecb6',
-        },
-      },
-      changesView: {
-        style: {
-          'margin-left': '-1rem',
-        },
-      },
-    },
-    additionRight: {
-      interpretative: {
-        pre: '| |',
-        style: {
-          'margin-left': '-0.3rem',
-        },
-      },
-      diplomatic: {
-        style: {
-          'background-color': '#bdecb6',
-        },
-      },
-    },
-    damage: {
-      diplomatic: {
-        style: {
-          'background-color': 'rgba(193, 193, 193, 0.7)',
-        },
-      },
-      changesView: {
-        style: {
-          'background-color': 'rgba(193, 193, 193, 0.7)',
-        },
-      },
-    },
-    deletion: {
-      diplomatic: {
-        style: {
-          'background-color': '#fdd3d1',
-          'text-decoration': 'line-through',
-        },
-      },
-      interpretative: {
-        pre: '[[',
-        post: ']]',
-      },
-      changesView: {
-        style: {
-          'text-decoration': 'line-through',
-        },
-      },
-    },
-    sicCrux: {
-      diplomatic: {
-        pre: '&dagger;',
-        post: '&dagger;',
-      },
-      interpretative: {
-        pre: '&dagger;',
-        post: '&dagger;',
-      },
-      critical: {
-        pre: '&dagger;',
-        post: '&dagger;',
-      },
-      changesView: {
-        pre: '&dagger;',
-        post: '&dagger;',
-      },
-    },
-    surplus: {
-      diplomatic: {
-        pre: '{',
-        post: '}',
-        style: {
-          'background-color': '#f6b26a',
-        },
-      },
-    },
-    'sources': {
-      diplomatic: {
-        style: {
-          'font-style': 'italic',
-          'font-size': '104%',
-        },
-      },
-      interpretative: {
-        style: {
-          'font-style': 'italic',
-          'font-size': '104%',
-        },
-      },
-      critical: {
-        style: {
-          'font-style': 'italic',
-          'font-size': '104%',
-        },
-      },
-    },
-    'analogues': {
-      diplomatic: {
-        pre: '🗎',
-        style: {
-          'text-decoration': 'underline dotted from-font',
-        },
-      },
-      interpretative: {
-        pre: '🗎',
-        style: {
-          'text-decoration': 'underline dotted from-font',
-        },
-      },
-      critical: {
-        pre: '🗎',
-        style: {
-          'text-decoration': 'underline dotted from-font',
-        },
-      },
-      changesView: {
-        pre: '🗎',
-        style: {
-          'text-decoration': 'underline dotted from-font',
-        },
-      },
-    },
-    mod: {
-      diplomatic: {
-          style: {
-          'background-color': '#bdecb6',
-        },
-      },
-      critical: {
-        style: {
-          'background-color': '#bdecb6',
-        },
-      },
-      interpretative: {
-        style: {
-          'background-color': '#bdecb6',
-        },
-      },
-    },
-  };
+  getConfigOrDefault(name: string, attributes: AttributesMap): EditorialConvention {
+    const externalConfigs = this.getExternalConfigsOrEmpty().filter(x => x.element === name);
+    if (!externalConfigs.length) return null;
 
-  getLayouts(name: string, attributes: AttributesMap, defaultsKey: EditorialConventionDefaults) {
-    const excludedFromAttributeControl = ['sources', 'analogues'];
-    const defaultKeys = this.defaultLayouts[defaultsKey];
-    let layouts: Partial<EditorialConventionLayouts> = defaultKeys;
-
-    const externalLayouts = this._getExternalConfigs().find((c) => c.element === name &&
-      (excludedFromAttributeControl.includes(name) || !attributes || Object.keys(attributes).concat(
-        Object.keys(c.attributes)).every((k) => attributes[k] === c.attributes[k])))?.layouts ?? undefined;
-
-    if (externalLayouts) {
-      layouts = {
-        ...externalLayouts || {},
+    for (const config of externalConfigs) {
+      for (const cAttribute of Object.values(config.attributes)) {
+        const keys = Object.keys(cAttribute);
+        const isMatch = keys.every(key => {
+          const cValue = cAttribute[key];
+          const value = attributes[key];
+          return cValue.includes(value);
+        });
+        if (isMatch) return config;
       }
     }
-
-    return layouts;
+    return externalConfigs[0];
   }
 
-  private _getExternalConfigs(): EditorialConvention[] {
-    const customs = AppConfig.evtSettings.editorialConventions;
+  private getExternalConfigsOrEmpty(): EditorialConvention[] {
+    const customsArray = AppConfig.evtSettings.editionTextSources.map(x => x.editorialConventionsConfig);
+    if (!customsArray) return [];
 
-    return Object.keys(customs).map((key) => ({
-      element: customs[key].markup?.element ?? key,
-      attributes: customs[key].markup?.attributes ?? {},
-      layouts: customs[key].layouts ?? {},
-    }));
+    return customsArray.reduce((acc, customs) => {
+      if (!customs) return acc;
+      const mapped = Object.keys(customs).map((key) => ({
+        element: customs[key].markup.element,
+        attributes: customs[key].markup.attributes,
+        layouts: customs[key].layouts ?? {},
+      }));
+      return acc.concat(mapped);
+    }, [] as EditorialConvention[]);
   }
 }

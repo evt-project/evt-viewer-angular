@@ -10,7 +10,7 @@ import {
 } from '../../models/evt-models';
 import { GenericElemParser, queryAndParseElement, queryAndParseElements } from './basic-parsers';
 import { GParser } from './character-declarations-parser';
-import { createParser, getClass, getDefaultN, getID, parseChildren, Parser, unhandledElement } from './parser-models';
+import { createParser, getClass, getNOrDefault, getID, parseChildren, Parser, unhandledElement, getNOrDefaultFromElement } from './parser-models';
 import { BibliographicList } from '../../models/evt-models';
 
 class GAttrParser extends GenericElemParser {
@@ -475,7 +475,7 @@ export class SealParser extends GenericElemParser implements Parser<XMLElement> 
             contemporary: isBoolString(xml.getAttribute('contemporary')),
             decoNote: queryAndParseElement(xml, 'decoNote'),
             sealType,
-            n: getDefaultN(n),
+            n: getNOrDefault(n),
             pEl: queryAndParseElements(xml, 'p'),
             ab: unhandledElement(xml, 'ab', this.genericParse),
         };
@@ -690,7 +690,7 @@ export class MsItemStructParser extends GenericElemParser implements Parser<XMLE
         return {
             ...genericElem,
             type: MsItemStruct,
-            n: getDefaultN(n),
+            n: getNOrDefault(n),
             defective: isBoolString(xml.getAttribute('defective')),
             authors: unhandledElement(xml, 'author', this.genericParse),
             titles: unhandledElement(xml, 'title', this.genericParse),
@@ -958,7 +958,7 @@ export class HeadParser extends GenericElemParser implements Parser<XMLElement> 
         return {
             ...genericElem,
             type: Head,
-            n: getDefaultN(n),
+            n: getNOrDefault(n),
             place,
             rend,
             rendition,
@@ -1009,33 +1009,39 @@ export class MsPartParser extends MsFragParser implements Parser<XMLElement> {
 export class MsDescParser extends MsPartParser implements Parser<XMLElement> {
     private msDescCounter = 0;
     parse(xml: XMLElement): MsDesc {
-        const genericElem = super.parse(xml);
-        const { n, label } = genericElem.attributes;
-        let firstIdnoValue = '';
-
+        const n = getNOrDefaultFromElement(xml); 
         const msDesc: MsDesc = {
             ...super.parse(xml),
             type: MsDesc,
             id: getID(xml),
-            n: getDefaultN(n),
-            label,
+            n: getNOrDefault(n),
+            label: getNOrDefaultFromElement(xml) || xml.getAttribute('xml:id'),
             msFrags: queryAndParseElements(xml, 'msFrag'),
         };
-        firstIdnoValue = this.getFirstIdnoValue(msDesc);
-        msDesc.label = xml.getAttribute('n') || xml.getAttribute('xml:id') || firstIdnoValue;
-
+        if (!msDesc.label) {
+            msDesc.label = this.getFirstIdnoValue(msDesc);
+        }
+        
         return msDesc;
     }
 
-    getFirstIdnoValue(ms) {
+    getFirstIdnoValue(ms: any): string {
         this.msDescCounter++;
         if (ms.msIdentifier.idnos.length > 0) {
             const item = ms.msIdentifier.idnos[0].filter((el: Text) => el.text?.trim() || el.content?.length > 0);
+
+
+            if (!item[0]) {
+                // Here we should decide if it is an error in the xml or a case that needs handling
+                console.warn("Missing idno content", ms.msIdentifier.idnos);
+                return `MS Desc ${this.msDescCounter}`;
+            }
+
             if (item[0].text) {
                 return item[0].text.trim();
             }
 
-            if (item[0].content.length > 0){
+            if (item[0].content.length > 0) {
                 return (item[0].content[0].text);
             }
         }

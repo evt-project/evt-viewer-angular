@@ -1,20 +1,20 @@
 <div class="card border-0 ne-list">
     <div class="card-header p-0 m-0" *ngIf="data?.content?.length > 0">
         <form class="input-group p-1" *ngIf="searchOpened">
-            <input type="input" name="search" class="form-control form-control-sm ne-list-search"
+            <input type="input" name="search" class="form-control form-control-sm ne-list-search" aria-role="search" aria-label="Search entity"
                 [placeholder]="'search' | translate" [(ngModel)]="querySearch" />
             <div class="input-group-append">
-                <evt-button [type]="'submit'" [toggler]="true" [active]="caseSensitiveSearch" [label]="'aA'"
+                <evt-button [type]="'submit'" [toggler]="true" [active]="caseSensitiveSearch" [label]="'aA'" ariaLabel="{{ 'submitNamedEntity' | translate }}"
                     (btnClick)="toggleCaseSensitiveSearch($event)" additionalClasses="border"></evt-button>
-                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'" [disabled]="!querySearch"
+                <evt-button [iconLeft]="{icon: 'search'}" [type]="'submit'" [disabled]="!querySearch" ariaLabel="{{ 'submitNamedEntity' | translate }}"
                     additionalClasses="border"> </evt-button>
-                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'times'}" additionalClasses="border">
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'times'}" additionalClasses="border" aria-role="button" ariaLabel="{{ 'ariaLabels.searchNamedEntity' | translate }}">
                 </evt-button>
             </div>
         </form>
         <nav *ngIf="!searchOpened">
             <ul class="pagination pagination-sm justify-content-center m-0 p-1">
-                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="me-2">
+                <evt-button (btnClick)="toggleSearch()" [iconLeft]="{icon: 'search'}" additionalClasses="me-2" aria-role="button" ariaLabel="{{ 'ariaLabels.searchNamedEntity' | translate }}">
                 </evt-button>
                 <li class="page-item" *ngFor="let key of navigationKeys" [class.active]="selectedKey === key">
                     <span class="page-link" (click)="selectedKey=key">{{key}}</span>

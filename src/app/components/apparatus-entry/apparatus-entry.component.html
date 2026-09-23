@@ -1,18 +1,32 @@
 <!--
    Check if the app entry is inside an app detail (nested app). In the app detail it's not necessary to render the entire app but only the lemma.
 -->
-<span *ngIf="!isInsideAppDetail" class="app-entry pointer" [attr.data-variance]="variance$ | async" [ngClass]="{ 'app-detail-opened': opened }">
+<span *ngIf="!isInsideAppDetail" class="app-entry pointer" [attr.data-variance]="variance$ | async"
+   [ngClass]="{ 'app-detail-opened': (isOpened$ | async) }">
 
    <ng-container *ngIf="editionLevel === 'changesView'">
       <!-- in changesView all readings are displayed in the textflow and, if present, ordered by @varSeq. 
          The onclick box is replaced with the specific mod-group element's one -->
-      <evt-mod-group [orderedReadings]="data?.orderedReadings" [modGroup]="data?.changes" [editionLevel]="editionLevel" [evtHighlight]="highlightData$ | async" [selectedLayer]="selectedLayer" [containerElement]="data" (click)="stopPropagation($event)" [withDeletions]="withDeletions"></evt-mod-group>
+      <evt-mod-group [orderedReadings]="data?.orderedReadings" [modGroup]="data?.changes" [editionLevel]="editionLevel"
+         [evtHighlight]="highlightData$ | async" [selectedLayer]="selectedLayer" [containerElement]="data"
+         (click)="stopPropagation($event)" [withDeletions]="withDeletions"></evt-mod-group>
    </ng-container>
 
    <ng-container *ngIf="editionLevel !== 'changesView'">
-      <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma" [evtHighlight]="highlightData$ | async" [editionLevel]="editionLevel" [withDeletions]="withDeletions" [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
-      <!-- The click event in "evt-apparatus-entry-detail" is used to manage nested apps -->
-      <evt-apparatus-entry-detail *ngIf="data?.lemma && opened" [data]="data" [selectedLayer]="selectedLayer" (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
-   </ng-container>
+      <ng-container *ngIf="isInWitnessPanel">
+         <evt-reading class="app-entry-lem" *ngIf="selectedReading" [data]="selectedReading"
+            [evtHighlight]="highlightData$ | async" [editionLevel]='editionLevel' [withDeletions]="withDeletions"
+            [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+         <evt-lacuna *ngIf="lacunaStart" [data]="lacunaStart"></evt-lacuna>
+         <evt-lacuna *ngIf="lacunaEnd" [data]="lacunaEnd"></evt-lacuna>
+      </ng-container>
+      <ng-container *ngIf="!isInWitnessPanel">
+         <evt-reading class="app-entry-lem" *ngIf="data?.lemma" [data]="data.lemma"
+            [evtHighlight]="highlightData$ | async" [editionLevel]='editionLevel' [withDeletions]="withDeletions"
+            [selectedLayer]="selectedLayer" (click)="toggleAppEntryBox($event);"></evt-reading>
+      </ng-container>
 
+      <evt-apparatus-entry-detail *ngIf="isOpened$ | async" [data]="data" [selectedLayer]="selectedLayer" [editionLevel]='editionLevel'
+         (click)="stopPropagation($event)"></evt-apparatus-entry-detail>
+   </ng-container>
 </span>

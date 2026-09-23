@@ -11,12 +11,12 @@ import { BibliographicEntry } from 'src/app/models/evt-models';
 export class BiblioEntryComponent {
   @Input() data: BibliographicEntry;
 
-  public showList = AppConfig.evtSettings.edition.biblView.propsToShow;
-  public showAttrNames = AppConfig.evtSettings.edition.biblView.showAttrNames;
-  public showEmptyValues = AppConfig.evtSettings.edition.biblView.showEmptyValues;
-  public inline = AppConfig.evtSettings.edition.biblView.inline;
-  public isCommaSeparated = AppConfig.evtSettings.edition.biblView.commaSeparated;
-  public showMainElemTextContent = AppConfig.evtSettings.edition.biblView.showMainElemTextContent;
+  public showList = AppConfig.evtSettings.ui.biblTab.propsToShow;
+  public showAttrNames = AppConfig.evtSettings.ui.biblTab.showAttrNames;
+  public showEmptyValues = AppConfig.evtSettings.ui.biblTab.showEmptyValues;
+  public inline = AppConfig.evtSettings.ui.biblTab.inline;
+  public isCommaSeparated = AppConfig.evtSettings.ui.biblTab.commaSeparated;
+  public showMainElemTextContent = AppConfig.evtSettings.ui.biblTab.showMainElemTextContent;
 
 }
 

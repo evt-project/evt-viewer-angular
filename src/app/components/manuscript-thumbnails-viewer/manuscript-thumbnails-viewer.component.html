@@ -17,9 +17,9 @@
   </ng-container>
   <ng-container>
     <div class="change-page-container" [hidden]="grid.length <= 1">
-      <evt-button [iconRight]="{icon: 'caret-left'}" (btnClick)="goToPrevPage()"></evt-button>
+      <evt-button [iconRight]="{icon: 'caret-left'}" (btnClick)="goToPrevPage()" aria-role="button" ariaLabel="{{ 'ariaLabels.goToPrevPage' | translate }}"></evt-button>
       <p class="current-page">{{indexPage+1}}/{{grid.length}}</p>
-      <evt-button [iconLeft]="{icon: 'caret-right'}" (btnClick)="goToNextPage()"></evt-button>
+      <evt-button [iconLeft]="{icon: 'caret-right'}" (btnClick)="goToNextPage()" aria-role="button" ariaLabel="{{ 'ariaLabels.goToNextPage'| translate }}"></evt-button>
     </div>
   </ng-container>
 </ng-template>

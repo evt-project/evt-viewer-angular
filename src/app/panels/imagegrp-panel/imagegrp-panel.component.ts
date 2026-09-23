@@ -103,7 +103,7 @@ export class ImageGrpPanelComponent implements OnDestroy, AfterViewInit{
   ) {}
 
   ngOnDestroy(): void {
-    this.linesHighlightService.lineBeginningSelected$.next([]);
+    this.linesHighlightService.clearHighlight();
     this.linesHighlightService.syncTextImage$.next(false);
 
     this.unsubscribeAll$.next();

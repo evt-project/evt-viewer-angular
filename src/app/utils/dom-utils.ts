@@ -187,10 +187,10 @@ export function getElementsBetweenTreeNode(start: any, end: any): XMLElement[] {
   const range = document.createRange();
   range.setStart(start, 0);
   range.setEnd(end, end.length || end.childNodes.length);
-  const commonAncestorChild = Array.from((range.commonAncestorContainer as XMLElement).children);
-  const startIdx = commonAncestorChild.indexOf(start);
-  const endIdx = commonAncestorChild.indexOf(end);
-  const rangeNodes = commonAncestorChild.slice(startIdx, endIdx).filter((c) => c !== start);
+  const commonAncestorChildren = Array.from((range.commonAncestorContainer as XMLElement).children);
+  const startIdx = commonAncestorChildren.indexOf(start);
+  const endIdx = commonAncestorChildren.indexOf(end);
+  const rangeNodes = commonAncestorChildren.slice(startIdx, endIdx).filter((c) => c !== start);
   rangeNodes.forEach((c: XMLElement) => c.setAttribute('xpath', xpath(c).replace(/-/g, '/')));
   const fragment = range.cloneContents();
   const nodes = Array.from(fragment.childNodes);
@@ -233,12 +233,29 @@ export function updateCSS(rules: Array<[string, string]>) {
 }
 
 /**
+ * It applies a multiplier to a given css size
+ * @param value - CSS units such as '1rem', '5em', '5px', '6wh'.
+ * @params multiplier - Multiplier such as 0.8, 2 ...
+ * @returns The resulting units
+ */
+export function reduceCssUnit(value: string, multiplier: number): string {
+  const match = value.match(/^(\d*\.?\d+)([a-zA-Z%]+)$/);
+  if (!match) {
+    throw new Error("Invalid css unit provided");
+  }
+  const [, number, unit] = match;
+  const numberFloat = parseFloat(number);
+  const numberReduced = numberFloat * multiplier;
+  return `${numberReduced.toFixed(2)}${unit}`;
+}
+
+/**
  * This function searches inside every property of an object for the provided attribute
  * it has one of the provided list of values. It stops after a customizable number of iterations to avoid waste of resources.
  * The limit counter could be inserted in a config, same as the ignoredProperties
  * The types defined in loopAttributes are elements to be ignored because their methods of "dom navigation" generate loops
  */
-export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: number = 4000, ignoredProperties = []) {
+export function deepSearch(obj, attrToMatch: string, valuesToMatch: string[], counter: number = 4000, ignoredProperties = []) {
   const loopAttributes = [DOMTokenList, NodeList, NamedNodeMap, HTMLCollection, HTMLElement]
   let results = [];
   for (const key in obj) {
@@ -248,8 +265,17 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: num
         results.push(obj);
       }
 
+      if (key === 'attributes') {
+        for (const attrKey in value) {
+          if (attrKey === attrToMatch && valuesToMatch.includes(value[attrKey])) {
+            results.push(obj);
+          }
+        }
+        continue;
+      }
+
       let excludedForType = false;
-      for (let i=0; i < loopAttributes.length; i++) {
+      for (let i = 0; i < loopAttributes.length; i++) {
         if (value instanceof loopAttributes[i]) {
           excludedForType = true;
           break;
@@ -269,4 +295,176 @@ export function deepSearch(obj, attrToMatch: string, valuesToMatch, counter: num
   }
 
   return results;
+}
+
+/**
+ * Recursively filter items
+ * 
+ * @param content the array to filter
+ * @param filterExpression the expression that items must satisfy to be included in the result
+ * @returns the filtered array
+ */
+export function deepFilter(content: any[], filterExpression: (item: any) => boolean, parentId: string | null)
+  : { content: any[], filteredItems: { parentId: string, item: any }[] } {
+
+  const filteredItems: { parentId: string, item: any }[] = []
+
+  content = content.filter((item: any) => {
+    if (!filterExpression(item)) {
+      filteredItems.push({ parentId, item })
+      return false;
+    }
+
+    if (item.content) {
+      const result = deepFilter(item.content, filterExpression, item.attributes['id']);
+
+      item.content = result.content;
+      filteredItems.push(...result.filteredItems);
+    }
+
+    return true;
+  });
+
+  return { content, filteredItems };
+}
+
+/**
+ * Search recursively an object for properties with a given name,
+ * inside children objects and children arrays of objects. Useful for debugging.
+ * @param obj the object in which to search.
+ * @param propertyName the name of the property to find.
+ * @returns an array with the found objects or empty.
+ */
+export function deepSearchByKey(obj: object, propertyName: string): object[] {
+  const results: object[] = [];
+
+  function recurse(current: any) {
+    if (Array.isArray(current)) {
+      current.forEach(item => recurse(item));
+    } else if (typeof current === 'object' && current !== null) {
+      for (const key in current) {
+        if (current.hasOwnProperty(key)) {
+          if (key === propertyName) {
+            results.push(current[key]);
+          }
+          recurse(current[key]);
+        }
+      }
+    }
+  }
+
+  recurse(obj);
+  return results;
+}
+
+export function getTopMostAncestor(element: HTMLElement): HTMLElement {
+  let current = element;
+  while (current.parentElement) {
+    current = current.parentElement;
+  }
+  return current;
+}
+
+export function isElementBetween(fromEl: HTMLElement, element: HTMLElement, toEl: HTMLElement): boolean {
+  if (!fromEl || !element || !toEl || !(fromEl instanceof Node) || !(element instanceof Node) || !(toEl instanceof Node)) {
+    return false;
+  }
+  try {
+    const isAfterFrom = fromEl.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING;
+    const isBeforeTo = element.compareDocumentPosition(toEl) & Node.DOCUMENT_POSITION_FOLLOWING;
+    const isBetween = isAfterFrom && isBeforeTo;
+    return !!isBetween;
+  }
+  catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+/**
+ * Get absolute xPath position from dom element
+ * xPath position will does not contain any id, class or attribute, etc selector
+ * Because, Some page use random id and class. This function should ignore that kind problem, so we're not using any selector
+ * 
+ * @param {Element} element element to get position
+ * @returns {String} xPath string
+ */
+export function getXPath(el: any): string {
+  try {
+    let sames = [];
+    if (el.parentNode) {
+      sames = [].filter.call(el.parentNode.children, (x) => x.tagName === el.tagName);
+    }
+    let countIndex = sames.length > 1 ? ([].indexOf.call(sames, el) + 1) : 1;
+    countIndex = `[${countIndex}]`;
+    const tagName = el.tagName !== 'tei' ? '-' + el.tagName : '';
+
+    return `${xpath(el.parentNode)}${tagName}${countIndex}`;
+  } catch (e) {
+    totIdsGenerated++; // TODO: remove side effects
+
+    return `-id${totIdsGenerated}`;
+  }
+  // // Selector
+  // let selector = '';
+  // // Loop handler
+  // let foundRoot;
+  // // Element handler
+  // let currentElement = element;
+
+  // // Do action until we reach html element
+  // do {
+  //     // Get element tag name 
+  //     const tagName = currentElement.tagName.toLowerCase();
+  //     // Get parent element
+  //     if(!currentElement.parentElement) {
+  //       console.log('asd')
+  //     }
+  //     const parentElement = currentElement.parentElement;
+
+  //     // Count children
+  //     if (parentElement.childElementCount > 1) {
+  //         // Get children of parent element
+  //         const parentsChildren = [...parentElement.children];
+  //         // Count current tag 
+  //         let tag = [];
+  //         parentsChildren.forEach(child => {
+  //             if (child.tagName.toLowerCase() === tagName) tag.push(child) // Append to tag
+  //         })
+
+  //         // Is only of type
+  //         if (tag.length === 1) {
+  //             // Append tag to selector
+  //             selector = `/${tagName}${selector}`;
+  //         } else {
+  //             // Get position of current element in tag
+  //             const position = tag.indexOf(currentElement) + 1;
+  //             // Append tag to selector
+  //             selector = `/${tagName}[${position}]${selector}`;
+  //         }
+
+  //     } else {
+  //         //* Current element has no siblings
+  //         // Append tag to selector
+  //         selector = `/${tagName}${selector}`;
+  //     }
+
+  //     // Set parent element to current element
+  //     currentElement = parentElement;
+  //     // Is root  
+  //     foundRoot = parentElement.tagName.toLowerCase() === 'html';
+  //     // Finish selector if found root element
+  //     if(foundRoot) selector = `/html${selector}`;
+  // }
+  // while (foundRoot === false);
+
+  // // Return selector
+  // return selector;
+}
+
+export function findBy(elements: HTMLElement[], selector: string) {
+  const el = document.createElement("div");
+  el.append(...elements);
+  const result = el.querySelector(selector);
+  return result;
 }

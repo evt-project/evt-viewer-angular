@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { NamedEntitiesList } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
+import { SearchService } from 'src/app/services/search.service';
+import { Subscription } from 'rxjs';
 
 @register(NamedEntitiesList)
 @Component({
@@ -9,7 +11,7 @@ import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
   templateUrl: './named-entities-list.component.html',
   styleUrls: ['./named-entities-list.component.scss'],
 })
-export class NamedEntitiesListComponent implements OnInit, OnChanges {
+export class NamedEntitiesListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data: NamedEntitiesList;
   @Output() searchedEntities: EventEmitter<string> = new EventEmitter();
   // tslint:disable-next-line: variable-name
@@ -24,6 +26,18 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
   public querySearch = '';
   public querySearchSubmitted = '';
   public caseSensitiveSearch = false;
+  private readonly searchQuerySub: Subscription;
+
+  constructor(
+    private searchService: SearchService
+  ) {
+    this.searchQuerySub = this.searchService.searchQuery$.subscribe(s => {
+      this.searchOpened = true;
+      this.querySearch = s;
+      this.querySearchSubmitted = s;
+      this.searchedEntities.emit(this.querySearch);
+    });
+  }
 
   ngOnInit() {
     this.initKeys();
@@ -31,6 +45,10 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.initKeys();
+  }
+
+  ngOnDestroy(): void {
+    this.searchQuerySub.unsubscribe();
   }
 
   toggleSearch() {

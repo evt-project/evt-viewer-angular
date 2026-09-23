@@ -44,7 +44,9 @@
         font-size: 2rem;
     }
     &.active {
-        color: #ffcc00 !important; // TEMP
+        @include themify($themes) {
+            color: themed('toolsColorActive') !important;
+        }
     }
 }
 
@@ -64,4 +66,10 @@
     }
     font-size: .9rem;
     vertical-align: text-bottom;
+}
+
+.edition-title {
+    font-size: initial;
+    display: inline-block;
+    line-height: 0.2;
 }

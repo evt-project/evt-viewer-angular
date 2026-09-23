@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { AppConfig } from '../app.config';
-import { isUrl } from '../utils/js-utils';
+import { EditionXmlSource, ExternalXmlSource, IiifManifestSource, ImagesSource, ImagesSourceNotSupported } from '../app.config';
 import { Surface, ViewerDataType, XMLImagesValues } from './evt-models';
 
 export interface OsdTileSource {
@@ -18,44 +17,36 @@ export interface OsdTileSource {
 
 export type ViewerDataInput = string | XMLImagesValues[];
 
-interface ViewerSource {
-    getDataType(key: string, data?: Surface[]): ViewerDataType;
-    getSource(source: ViewerDataType): ViewerDataInput;
-    getTileSource(change: BehaviorSubject<ViewerDataInput>, http?: HttpClient): Observable<OsdTileSource[]>;
+export abstract class ViewerSource {
+    abstract getDataType(data?: Surface[]): ViewerDataType;
+    abstract getSource(source: ViewerDataType): ViewerDataInput;
+    abstract getTileSource(change: BehaviorSubject<ViewerDataInput>, http?: HttpClient): Observable<OsdTileSource[]>;
 }
 
-type ViewerConstructors<T> = {
-    [K in keyof T]: new () => T[K];
-};
-
-class ViewerController<T extends Record<string, ViewerSource>> {
-    private factories: T;
-
-    constructor(classes: ViewerConstructors<T>) {
-        this.factories = Object.fromEntries(
-            Object.entries(classes).map(
-                ([key, value]) => ([key, new value()]),
-            ),
-        ) as T;
-    }
-    getSource<K extends keyof T>(source: ViewerDataType, type: string | K): ReturnType<T[K]['getSource']> {
-        return this.factories[type].getSource(source) as ReturnType<T[K]['getSource']>;
-    }
-    getTileSource<K extends keyof T>(change: BehaviorSubject<ViewerDataInput>, type: string | K, http?: HttpClient)
-        : ReturnType<T[K]['getTileSource']> {
-        return this.factories[type].getTileSource(change, http) as ReturnType<T[K]['getTileSource']>;
-    }
-    getDataType<K extends keyof T>(type: string, data?: Surface[]): ReturnType<T[K]['getDataType']> {
-        return this.factories[type].getDataType(type, data) as ReturnType<T[K]['getDataType']>;
+export class ViewSourceFactory {
+    public static create(imagesSource: ImagesSource) {
+        switch (imagesSource.kind) {
+            case 'IiifManifest':
+                return new ManifestSource(imagesSource);
+            case 'ExternalXml':
+            case 'EditionXml':
+                return new EditionSource(imagesSource);
+            case 'null':
+                throw new ImagesSourceNotSupported(imagesSource)
+        }
     }
 }
 
-class ManifestSource {
-    getDataType(key: string): ViewerDataType {
+class ManifestSource extends ViewerSource {
+    constructor(private imagesSource: IiifManifestSource) {
+        super();
+    }
+
+    getDataType(): ViewerDataType {
         return {
-            type: key,
+            source: this,
             value: {
-                manifestURL: AppConfig.evtSettings.files.editionImagesSource[key].value,
+                manifestURL: this.imagesSource.url,
             },
         };
     }
@@ -92,21 +83,30 @@ class ManifestSource {
     }
 }
 
-class XMLSource {
-    getDataType(key: string, data: Surface[]): ViewerDataType {
+class EditionSource extends ViewerSource {
+    constructor(private imagesSource: ExternalXmlSource | EditionXmlSource) {
+        super();
+    }
 
-        const localImagesFolder = AppConfig.evtSettings.files.imagesFolderUrls.single;
-        const xmlImages: XMLImagesValues[] = data.map((s) =>
-            s[AppConfig.evtSettings.files.editionImagesSource[key].value]
-                ? {
-                    url: isUrl(s.corresp) ? s.corresp : localImagesFolder + s.corresp,
-                } : {
-                    width: s[key][0]?.width,
-                    height: s[key][0]?.height,
-                    url: isUrl(s[key][0]?.url) ? s[key][0]?.url : localImagesFolder + s[key][0]?.url,
-                });
-
-        return { type: key, value: { xmlImages } };
+    getDataType(data: Surface[]): ViewerDataType {
+        const imagesFolder = this.imagesSource.imagesFolderUrls.single;
+        const xmlImages: XMLImagesValues[] = data.map((s) => {
+            const url = s.graphics[0].url;
+            if (this.imagesSource.kind === 'ExternalXml') {
+                return { url: this.imagesSource.url + imagesFolder + url };
+            }
+            else {
+                const graphic = s.graphics[0];
+                if (!graphic) throw new Error('A Graphic object is required');
+                
+                return {
+                    url: imagesFolder + url,
+                    width: parseInt(graphic.width),
+                    height: parseInt(graphic.height),
+                };
+            }
+        });
+        return { source: this, value: { xmlImages } };
     }
 
     getSource(source: ViewerDataType): XMLImagesValues[] {
@@ -131,12 +131,3 @@ class XMLSource {
         };
     }
 }
-
-const ViewerModels = Object.freeze({
-    manifest: ManifestSource,
-    graphics: XMLSource,
-    default: XMLSource,
-
-});
-
-export const ViewerSource = new ViewerController(ViewerModels);

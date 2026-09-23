@@ -28,13 +28,14 @@ export class LbComponent {
         // Otherwise:
         // - in diplomatic and interpretative edition, if the text has at least one line,
         // those are show as block items, unless current text flow is verses
-        // - in critical editionm lines are always shown as inline items, unless current text flow is prose
+        // - in critical edition lines are shown as block items, unless current text flow is prose
         switch (this.editionLevel) {
+          case 'changesView':
           case 'diplomatic':
           case 'interpretative':
             return this.textFlow === 'verses' ? false : hasLines;
           case 'critical':
-            return this.textFlow === 'prose';
+            return this.textFlow !== 'prose';
         }
       }),
     );

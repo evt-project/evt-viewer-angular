@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { map, shareReplay, withLatestFrom } from 'rxjs/operators';
-import { AppConfig } from '../../app.config';
-import { Page, XMLImagesValues } from '../../models/evt-models';
-import { ViewerSource } from '../../models/evt-polymorphic-models';
+import { map, shareReplay } from 'rxjs/operators';
+import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
 
@@ -25,32 +23,14 @@ export class ImageImageComponent {
       enabled: false,
       ignoreContent: true,
       dragHandleClass: 'panel-header',
+      ignoreContentClass: 'no-drag'
     },
     resizable: {
       enabled: false,
     },
   };
-  public imagePanelItem: GridsterItem[] = [{ cols: 1, rows: 1, y: 0, x: 0 },{ cols: 1, rows: 1, y: 0, x: 1 }];
-  public imageViewer$ = this.evtModelService.surfaces$.pipe(
-    withLatestFrom(this.evtModelService.pages$),
-    map(([surface, pages]) => {
-      const editionImages = AppConfig.evtSettings.files.editionImagesSource;
-      console.log(editionImages);
-      for (const key of Object.keys(editionImages)) {
-        if (editionImages[key].enable) {
-          return ViewerSource.getDataType(key, surface);
-        }
-      }
-
-      return {
-        type: 'default',
-        value: {
-          xmlImages: pages.map((page) => ({ url: page.facsUrl })) as XMLImagesValues[],
-        },
-      };
-    }),
-  );
-
+  public imagePanelItem: GridsterItem[] = [{ cols: 1, rows: 1, y: 0, x: 0 }, { cols: 1, rows: 1, y: 0, x: 1 }];
+  public imageViewer$ = this.evtModelService.imageViewer$;
   public currentEditionLevel$ = this.evtStatusService.currentStatus$.pipe(
     map(({ editionLevels }) => editionLevels[0]),
     shareReplay(1),

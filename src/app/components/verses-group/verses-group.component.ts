@@ -4,9 +4,9 @@ import { map } from 'rxjs/operators';
 import { VersesGroup } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
+import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 
-export interface VersesGroupComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
+export interface VersesGroupComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible { }
 
 @Component({
   selector: 'evt-verses-group',
@@ -23,14 +23,14 @@ export class VersesGroupComponent {
       map((lines) => lines.length > 0),
       map((hasLines) => {
         // In diplomatic and interpretative edition, if the text doesn't have any line, verses group are shown as block items
-        // In critical edition verses are always shown as block items
         switch (this.editionLevel) {
           case 'changesView':
           case 'diplomatic':
           case 'interpretative':
             return !hasLines;
           case 'critical':
-            return true;
+            //return true;
+            return false;
         }
       }),
     );

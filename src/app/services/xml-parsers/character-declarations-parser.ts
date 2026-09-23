@@ -1,3 +1,4 @@
+import { getXPath } from 'src/app/utils/dom-utils';
 import { xmlParser } from '.';
 import { Char, CharMapping, CharProp, G, Graphic, XMLElement } from '../../models/evt-models';
 import { AttributeParser, EmptyParser } from './basic-parsers';
@@ -18,6 +19,7 @@ export class CharParser extends EmptyParser implements Parser<XMLElement> {
             mappings: this.getMappings(xml),
             localProps: this.getLocalProps(xml),
             graphics: this.graphicsParser(xml),
+            xPath: getXPath(xml),
         };
     }
 
@@ -79,6 +81,7 @@ export class GlyphParser extends CharParser implements Parser<XMLElement> {
             mappings: this.getMappings(xml),
             localProps: this.getLocalProps(xml),
             graphics: this.graphicsParser(xml),
+            xPath: getXPath(xml),
         };
     }
 
@@ -104,6 +107,7 @@ export class GParser extends EmptyParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(xml),
             content: parseChildren(xml, this.genericParse),
             charId: getDefaultAttr(xml.getAttribute('ref')).replace('#', ''),
+            xPath: getXPath(xml),
         };
     }
 

@@ -1,5 +1,7 @@
-<button type="button" (click)="clickButton($event)" 
-    class="btn btn-sm {{additionalClasses}}" 
+<button type="button" (click)="clickButton($event)"
+    aria-role="button"
+    attr.aria-label="{{ ariaLabel ?? '' }}"
+    class="btn btn-sm d-flex align-items-center {{additionalClasses}}" 
     [disabled]="disabled"
     [ngClass]="{
         'btn-light': !transparent,
