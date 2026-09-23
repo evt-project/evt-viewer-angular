@@ -1,0 +1,11 @@
+<ng-select class="me-1" style="max-width: 200px;" [items]="this.pageList.pages" [title]="this.selectedPage.pageLabel"
+    bindLabel="pageLabel" bindValue="pageId" [clearable]="false" [searchable]="true"
+    [ngModel]="this.selectedPage?.pageId" (change)="this.changePage($event.pageId)">
+    <ng-template ng-label-tmp let-item="item">
+        <evt-icon [iconInfo]="{icon: 'file-alt', additionalClasses: 'me-2'}" label-left></evt-icon>
+        <span class="px-2">{{ item.pageLabel | translate: {value: this.pageList.pages.indexOf(item) + 1} }}</span>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+        <div class="text-truncate" [title]="item.pageLabel">{{ item.pageLabel }}</div>
+    </ng-template>
+</ng-select>

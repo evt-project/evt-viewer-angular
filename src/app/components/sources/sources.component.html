@@ -1,4 +1,4 @@
-<ng-container *ngFor="let source of entries"> 
+<ng-container *ngFor="let source of (sources$ | async)"> 
     <evt-source-detail 
         [source]="source" 
         [editionLevel]="editionLevel">

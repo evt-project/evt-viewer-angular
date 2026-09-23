@@ -9,19 +9,29 @@
     @include themify($themes) {
         background-color: themed("appEntryBoxBackground");
     }
+
+    &:hover {
+        box-shadow: 0px 10px 10px -10px rgba(26, 23, 23, 0.8);
+    }
+
+    &.selected {
+        box-shadow: 3px 3px 6px 3px #a5a1a1;
+    }
 }
 
 .app-detail-content,
 .app-detail-tabs {
     background-color: transparent;
-    font-size: 1.063rem;
+    //font-size: 1.063rem;
 }
 
 .app-detail-content {
     display: flex;
     justify-content: space-between;
     padding: 0.2em 0 0 0;
-    background-color: rgba(32, 66, 81, 0.18);
+    @include themify($themes) {
+        background-color: themed("appHeaderBackground");
+    }
 }
 
 .app-detail-readings {
@@ -31,16 +41,16 @@
 .app-detail-nested-readings {
     display: block;
     margin-left: 0.938rem;
-    font-size: 1rem;
+    //font-size: 1rem;
 }
 
 .app-detail-tabs {
-    font-size: 1rem;
+    //font-size: 1rem;
     margin: 0;
     padding: 0 0.4em 0 0.4em;
     border-top: 3px double #000 !important;
     .nav-link {
-        font-size: 0.85em;
+        //font-size: 0.85em;
         padding-top: 0.8em;
         display:inline-block;
         background-color: transparent;
@@ -62,12 +72,14 @@
     .tab-content {
         @include themify($themes) {
             background-color: themed("appEntryBoxActiveTabBg");
+            color: themed("tabFontColor")
         }
     }
     .tab-content {
         padding: 0.4rem 0.813rem;
         max-height: 12.5rem;
         overflow: auto;
+        margin-top:-0.2em;
         .info-lemma-wrapper {
             @include themify($themes) {
                 border-bottom: 1px solid themed("baseBorder");
@@ -78,23 +90,23 @@
         .info-rdg {
             font-style: italic;
             font-weight: 600;
-            font-size: 1.063rem;
+            //font-size: 1.063rem;
         }
         .info-label {
-            font-size: 0.813rem;
+            //font-size: 0.813rem;
             text-transform: uppercase;
             font-weight: 600;
         }
         .more-info-label {
             display: block;
-            font-size: 0.813rem;
+            //font-size: 0.813rem;
             font-weight: 600;
             text-transform: uppercase;
             margin-bottom: 0.25rem;
         }
         pre {
             white-space: pre-wrap;
-            font-size: 75%;
+            //font-size: 75%;
             margin-bottom: 0;
             margin-top: -1rem;
         }

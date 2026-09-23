@@ -1,0 +1,10 @@
+<ng-container *ngFor="let id of itemIds; index as i">
+    <span class="resp">
+        <span *ngIf="i === 0">{{ ' ' }}</span>
+        <span class="metadata" (click)="onItemClicked(id)">
+            {{ id }}
+        </span>
+        <span *ngIf="i !== (this.ids.length - 1)">{{ ' ' }}</span>
+    </span>
+</ng-container>
+

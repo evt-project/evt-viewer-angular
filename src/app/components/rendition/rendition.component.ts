@@ -33,7 +33,7 @@ export class RenditionComponent {
       return of(this.data.scheme);
     }
 
-    return this.evtModelService.styleDefaults$.pipe((map((styleDefaults) => styleDefaults?.scheme ?? '')));
+    return this.evtModelService.currentEditionStyleDefaults$.pipe((map((styleDefaults) => styleDefaults?.scheme ?? '')));
   }
 
   get schemeVersion$() {
@@ -41,7 +41,7 @@ export class RenditionComponent {
       return of(this.data.schemeVersion);
     }
 
-    return this.evtModelService.styleDefaults$.pipe((map((styleDefaults) => styleDefaults?.schemeVersion ?? '')));
+    return this.evtModelService.currentEditionStyleDefaults$.pipe((map((styleDefaults) => styleDefaults?.schemeVersion ?? '')));
   }
 
   get noDetails$() {

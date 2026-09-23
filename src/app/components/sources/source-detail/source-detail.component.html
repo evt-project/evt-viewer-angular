@@ -17,7 +17,7 @@
     <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
         <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
             <li ngbNavItem="quotedText" *ngIf="source.quotedText.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
                     <ng-container *ngFor="let quoteTxt of source.quotedText">
                         {{quoteTxt.quote}}
@@ -25,7 +25,7 @@
                 </ng-template>
             </li>
             <li ngbNavItem="analoguesView" *ngIf="source.analogues.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'analogues' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'analogues' | translate}}</a>
                 <ng-template ngbNavContent>
                     <ng-container *ngFor="let analogue of source.analogues">
                         <evt-content-viewer *ngFor="let el of analogue" [content]="el"></evt-content-viewer>
@@ -33,32 +33,32 @@
                 </ng-template>
             </li>
             <li ngbNavItem="externalElements" *ngIf="source.extElements.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
-                    <h3 class="sources-cat">{{'corresps' | translate}}</h3>
+                    <h4 class="sources-cat">{{'corresps' | translate}}</h4>
                     <ng-container *ngFor="let extElem of source.extElements">
                         <evt-content-viewer *ngFor="let el of extElem.content" [content]="el"></evt-content-viewer>
                     </ng-container>
                 </ng-template>
             </li>
             <li ngbNavItem="refBibl" *ngIf="source.sources.length > 0 || source.extSources.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
                     <!-- disambiguation between different structures -->
                     <ng-container *ngIf="source.sources.length > 0">
-                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
+                        <h4 class="sources-cat">{{'quotedSources' | translate}}</h4>
                         <evt-biblio-list [data]="source.sources"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="source.extSources.length > 0">
-                        <h3 class="sources-cat">{{'references' | translate}}</h3>
+                        <h4 class="sources-cat">{{'references' | translate}}</h4>
                         <evt-biblio-list [data]="source.extSources"></evt-biblio-list>
                     </ng-container>
 
                 </ng-template>
             </li>
             <li ngbNavItem="xml" *ngIf="source.originalEncoding">
-                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-original-encoding-viewer [originalEncoding]="source.originalEncoding">
                     </evt-original-encoding-viewer>

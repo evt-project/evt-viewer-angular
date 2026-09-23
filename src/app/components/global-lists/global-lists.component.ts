@@ -16,8 +16,10 @@ interface GlobalList extends NamedEntitiesList {
   styleUrls: ['./global-lists.component.scss'],
 })
 export class GlobalListsComponent {
+  noNamedEntities$ = this.evtModelService.noNamedEntities$;
+  
   lists$: Observable<GlobalList[]> = this.evtModelService.namedEntities$.pipe(
-    map((ne) => (ne.persons.lists.concat(ne.places.lists, ne.organizations.lists, ne.events.lists))),
+    map((ne) => (ne.persons.lists.concat(ne.places.lists, ne.organizations.lists, ne.events.lists, ne.entries.lists, ne.objects.lists))),
     map((lists) => (lists.map((list) => ({
       ...list,
       icon: this.listsIcons[list.namedEntityType] || 'list',

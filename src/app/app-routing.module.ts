@@ -9,6 +9,7 @@ import { TextSourcesComponent } from './view-modes/text-sources/text-sources.com
 import { TextTextComponent } from './view-modes/text-text/text-text.component';
 import { TextVersionsComponent } from './view-modes/text-versions/text-versions.component';
 import { ImageImageComponent } from './view-modes/image-image/image-image.component';
+import { SynopsisComponent } from './view-modes/synopsis/synopsis.component';
 
 const appRoutes: Routes = [
   { path: 'imageText', component: ImageTextComponent },
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'textSources', component: TextSourcesComponent },
   { path: 'textVersions', component: TextVersionsComponent },
   { path: 'documentalMixed', component: DocumentalMixedComponent },
+  { path: 'synopticEdition', component: SynopsisComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' })],

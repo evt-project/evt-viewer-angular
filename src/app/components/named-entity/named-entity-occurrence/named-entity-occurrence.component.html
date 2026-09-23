@@ -1,18 +1,7 @@
-<span class="ne-occurrence" *ngFor="let refByDoc of occurrence.refsByDoc" (click)="goToOccurrenceRef(refByDoc)">
-    {{ occurrence.pageLabel }} {{ refByDoc.docLabel ? '(' + refByDoc.docLabel + ')' : '' }}
-    <span class="badge badge-info badge-light ne-occurrence-count"
-        #popover="ngbPopover" 
-        [ngbPopover]="popContent" 
-        [autoClose]="'outside'" 
-        popoverClass="evt-note"
-        container="body" 
-        (click)="stopPropagation($event)"
-        [placement]="['auto']">
-        {{refByDoc.refs?.length}}
-    </span>
-    <ng-template #popContent>
-        <div *ngFor="let ref of refByDoc.refs">
-            <evt-content-viewer [content]="ref"></evt-content-viewer>
-        </div>
-    </ng-template>
+<span class="ne-occurrence text-center" *ngFor="let refByDoc of occurrence.refsByDoc">
+    <div class="fw-bold">{{ occurrenceContent }}</div>
+    <div>{{ editionInfo | displayFriendlyName:'editionTitle':'editionFriendlyName' }}</div>
+    <div class="fst-italic">{{refByDoc.refs?.length}} occurrences</div>
+    <evt-named-entity-occurrence-pages-list [occurrences]="[occurrence]" (onItemClicked)="goToOccurrenceRef(refByDoc)">
+    </evt-named-entity-occurrence-pages-list>
 </span>

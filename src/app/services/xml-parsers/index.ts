@@ -18,12 +18,12 @@ export class ParserRegister {
         return createParser(ParserRegister.PARSER_MAP[name], parse) as Parser<T>;
     }
 
-    private static mapName(tagName) {
-        const nes = ['event', 'geogname', 'orgname', 'persname', 'placename'];
+    private static mapName(tagName: string): string {
+        const nes = ['event', 'geogname', 'orgname', 'persname', 'placename', 'term', 'objectname'];
         if (nes.includes(tagName)) {
             return 'evt-named-entity-parser';
         }
-        const nels = ['listPerson', 'listPlace', 'listOrg', 'listEvent'];
+        const nels = ['listPerson', 'listPlace', 'listOrg', 'listEvent', 'listEntry', 'listObject'];
         if (nels.includes(tagName)) {
             return 'evt-named-entities-list-parser';
         }

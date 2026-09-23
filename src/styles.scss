@@ -47,7 +47,6 @@ body {
   position: relative;
   display: inline-flex !important;
   vertical-align: middle;
-  font-size: 0.875rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 
@@ -56,7 +55,7 @@ body {
     position: relative !important;
   }
 
-  &.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
     border: none;
   }
 
@@ -70,6 +69,10 @@ body {
       background-color: themed("toolsBackground") !important;
       color: themed("toolsColor");
     }
+  }
+
+  .ng-select-container .ng-clear {
+    font-size: 1.5rem !important;
   }
 
   .ng-arrow-wrapper {
@@ -97,7 +100,7 @@ body {
     }
   }
 
-  &.ng-select-opened > .ng-select-container {
+  &.ng-select-opened>.ng-select-container {
     .ng-arrow-wrapper {
       opacity: 1;
 
@@ -115,6 +118,7 @@ body {
       color: themed("toolsColor");
     }
   }
+
   .ng-dropdown-panel-items {
     @include set("box-shadow", "0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)");
 
@@ -123,11 +127,13 @@ body {
         background-color: themed("toolsBackground") !important;
         color: themed("toolsColor");
       }
+
       &.ng-option-marked {
         @include themify($themes) {
           background-color: rgba(themed("baseColorDark"), 0.1) !important;
         }
       }
+
       &.ng-option-selected {
         @include themify($themes) {
           background-color: themed("baseColorDark") !important;
@@ -171,7 +177,7 @@ body {
   width: 1.25rem !important;
   line-height: 0.8rem;
   padding: 0;
-  font-size: 0.9rem;
+  //font-size: 0.9rem;
 }
 
 evt-biblio-entry span:last-of-type {
@@ -181,16 +187,16 @@ evt-biblio-entry span:last-of-type {
 evt-biblio-list .msIdentifier {
   margin-bottom: 2rem;
   margin-left: 1em;
-  font-size: 90%;
+  //font-size: 90%;
   line-height: 1.4rem;
 }
 
-evt-quote-entry evt-source-detail > div {
+evt-quote-entry evt-source-detail>div {
   box-shadow: none !important;
   margin: 0 !important;
 }
 
-evt-analogue-entry evt-analogue-detail > div {
+evt-analogue-entry evt-analogue-detail>div {
   box-shadow: none !important;
   margin: 0 !important;
 }
@@ -230,20 +236,12 @@ evt-quote-entry evt-paragraph p {
 
 evt-apparatus-entry-detail evt-original-encoding-viewer pre,
 evt-mod-detail evt-original-encoding-viewer pre,
-evt-mod-group  evt-original-encoding-viewer pre,
+evt-mod-group evt-original-encoding-viewer pre,
 evt-source-detail evt-original-encoding-viewer pre,
 evt-analogue-detail evt-original-encoding-viewer pre {
-  margin-top:-1% !important;
+  margin-top: -1% !important;
   padding: 0 !important;
   background-color: transparent !important;
-}
-
-evt-apparatus-entry-detail evt-original-encoding-viewer code,
-evt-mod-detail evt-original-encoding-viewer code,
-evt-mod-group evt-original-encoding-viewer code,
-evt-source-detail evt-original-encoding-viewer code,
-evt-analogue-detail evt-original-encoding-viewer code {
-  font-size: 85%;
 }
 
 .mod-highlighted {
@@ -258,12 +256,13 @@ evt-analogue-detail evt-original-encoding-viewer code {
   border-radius: 0;
 }
 
-.highlightverse{
+.highlightverse {
   cursor: pointer;
-  background-color: rgba(230,206,160,0.8);
+  background-color: rgba(230, 206, 160, 0.8);
   color: #000000;
   padding: 3px 0px;
-  &.selected{
+
+  &.selected {
     background-color: rgb(248, 230, 191);
   }
 }
@@ -273,7 +272,7 @@ evt-analogue-detail evt-original-encoding-viewer code {
   border-radius: 25%;
   padding: 0 0.2em 0 0.2em;
   line-height: 1.2em;
-  font-size: 95%;
+  //font-size: 95%;
   font-weight: 600;
   font-family: serif;
   border: 1px solid #80808033;
@@ -289,8 +288,18 @@ evt-analogue-detail evt-original-encoding-viewer code {
   font-weight: 600;
 }
 
-.changeSeparator, .changeGroupSeparator {
+.changeSeparator,
+.changeGroupSeparator {
   display: none;
+  font-family: cursive;
+  font-weight: 600;
+  margin: 0 0.2em 0 0.1em;
+  line-height: 1rem;
+  font-size: 1.3rem;
+}
+
+.readingSeparator {
+  display: inline-block;
   font-family: cursive;
   font-weight: 600;
   margin: 0 0.2em 0 0.1em;
@@ -310,7 +319,8 @@ evt-analogue-detail evt-original-encoding-viewer code {
   display: none;
 }
 
-.first-mod .changeGroupSeparator, .app-detail-content .changeGroupSeparator {
+.first-mod .changeGroupSeparator,
+.app-detail-content .changeGroupSeparator {
   display: none;
 }
 
@@ -322,12 +332,18 @@ evt-mod-group .substMarker {
   display: none !important;
 }
 
+.subst {
+  @include themify($themes) {
+    color: themed("generalFontColor");
+  }
+}
+
 .mod-text {
   font-style: normal;
 }
 
-evt-mod-group .tab-content > .active,
-evt-mod-detail .tab-content > .active {
+evt-mod-group .tab-content>.active,
+evt-mod-detail .tab-content>.active {
   display: inline-block;
 }
 
@@ -341,6 +357,34 @@ evt-page :not(evt-apparatus-entry-detail) .head {
   padding: 0.5em 0.1em 0.5em 0em;
 }
 
+evt-page :not(evt-apparatus-entry-detail) .closer {
+  display: block;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .signed {
+  display: inline-block;
+  /* font-style: italic; */
+}
+
+evt-page :not(evt-apparatus-entry-detail) .retrace {
+  font-weight: bolder;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .verse-num {
+  color: black !important;
+}
+
+evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
+  border: none !important;
+  background: none !important;
+}
+
 [ng-reflect-text-flow="verses"] evt-verse {
   display: block;
+}
+
+.note-tab-pinner {
+  margin-right: 0.65rem;
+  margin-top: 0.35rem;
+  float: right;
 }

@@ -1,13 +1,12 @@
 import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 import { EditionLevelType } from '../app.config';
 import { Attributes, EditorialConventionLayouts } from '../models/evt-models';
-import { EditorialConventionDefaults, EditorialConventionsService } from '../services/editorial-conventions.service';
+import { EditorialConventionsService } from '../services/editorial-conventions.service';
 
 export interface EditorialConventionLayoutData {
   name: string;
   attributes: Attributes;
   editionLevel: EditionLevelType;
-  defaultsKey?: EditorialConventionDefaults;
 }
 
 @Directive({
@@ -41,10 +40,10 @@ export class EditorialConventionLayoutDirective implements OnInit, OnChanges {
   }
 
   private _setLayout() {
-    const layouts = this.editorialConventionsService.getLayouts(this.data.name, this.data.attributes, this.data.defaultsKey);
+    const config = this.editorialConventionsService.getConfigOrDefault(this.data.name, this.data.attributes);
     this._cleanPreviousLayout();
-    if (layouts && this.data.editionLevel) {
-      const editionLayout = layouts[this.data.editionLevel];
+    if (config && this.data.editionLevel) {
+      const editionLayout = config.layouts[this.data.editionLevel];
       if (editionLayout) {
         if (editionLayout.pre) {
           const preEl = document.createElement('span');

@@ -1,4 +1,4 @@
-<ng-container *ngFor="let analogue of analogues"> 
+<ng-container *ngFor="let analogue of (analogues$ | async);"> 
     <evt-analogue-detail 
         [analogue]="analogue"
         [editionLevel]="editionLevel"

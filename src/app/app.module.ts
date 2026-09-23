@@ -97,7 +97,9 @@ import { NamedEntityRelationComponent } from './components/named-entity-relation
 import { NamespaceComponent } from './components/namespace/namespace.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NavBarImageComponent } from './nav-bar-image/nav-bar-image.component';
-import { NoteComponent } from './components/note/note.component';
+import { NotesComponent } from './components/notes/notes.component';
+import { NoteComponent } from './components/notes/note/note.component';
+import { NoteDetailComponent } from './components/notes/note-detail/note-detail.component';
 import { NotesStmtComponent } from './components/notes-stmt/notes-stmt.component';
 import { OriginalEncodingViewerComponent } from './components/original-encoding-viewer/original-encoding-viewer.component';
 import { OsdComponent } from './components/osd/osd.component';
@@ -114,6 +116,7 @@ import { PublicationStmtComponent } from './components/publication-stmt/publicat
 import { QuoteEntryComponent } from './components/quote-entry/quote-entry.component';
 import { ReadingComponent } from './components/reading/reading.component';
 import { ReadingTextComponent } from './view-modes/reading-text/reading-text.component';
+import { ReadingsSequenceComponent } from './components/apparatus-entry/readings-sequence/readings-sequence.component';
 import { RenditionComponent } from './components/rendition/rendition.component';
 import { RespStmtComponent } from './components/resp-stmt/resp-stmt.component';
 import { SamplingDeclComponent } from './components/sampling-decl/sampling-decl.component';
@@ -146,6 +149,27 @@ import { WordComponent } from './components/word/word.component';
 import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.component';
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { XMLParsers } from './services/xml-parsers/xml-parsers';
+import { SynopsisComponent } from './view-modes/synopsis/synopsis.component';
+import { SynopsisTextPanelComponent } from './view-modes/synopsis/synopsis-text-panel/synopsis-text-panel.component';
+import { SynopsisPageSelector } from './view-modes/synopsis/synopsis-page-selector/synopsis-page-selector.component';
+import { SynopsisXmlIdSelectorComponent } from './view-modes/synopsis/synopsis-xml-id-selector/synopsis-xml-id-selector.component';
+import { SynopsisEditionLevelSelectorComponent } from './view-modes/synopsis/synopsis-edition-level-selector/synopsis-edition-level-selector.component';
+import { NamedEntityOccurrencePagesListComponent } from './components/named-entity/named-entity-occurrence-pages-list/named-entity-occurrence-pages-list.component';
+import { DisplayFriendlyNamePipe } from './pipes/displayFriendlyName.pipe';
+import { ApparatusEntryExponentComponent } from './components/apparatus-entry/apparatus-entry-exponent/apparatus-entry-exponent.component';
+import { NoteButtonComponent } from './components/note-button/note-button.component';
+import { ModalWitnessItemComponent } from './view-modes/collation/modal-witness-item/modal-witness-item.component';
+import { WitnessIdComponent } from './components/witness-id/witness-id.component';
+import { WitnessMetadataComponent } from './components/witness-metadata/witness-metadata.component';
+import { HrComponent } from './ui-components/hr/hr.component';
+import { ErrorsButtonComponent } from './main-header/errors-button/errors-button.component';
+import { ReadingMetadataComponent } from './components/reading-metadata/reading-metadata.component';
+import { LabelComponent } from './components/label/label.component';
+import { LacunaComponent } from './components/lacuna/lacuna.component';
+import { PageLacunaComponent } from './panels/witness-panel/page-lacuna/page-lacuna.component';
+import { WitnessRespMetadataComponent } from './components/witness-metadata/witness-resp-metadata/witness-resp-metadata.component';
+import { EditionSelectorComponent } from './components/edition-selector/edition-selector.component';
+import { VisibleAttributesPipe } from './pipes/visibleAttributes.pipe';
 
 const routes: Routes = [
 ];
@@ -161,6 +185,7 @@ const DynamicComponents = [
   ApparatusEntryComponent,
   ApparatusEntryDetailComponent,
   ApparatusEntryReadingsComponent,
+  ApparatusEntryExponentComponent,
   CharComponent,
   ChoiceComponent,
   DamageComponent,
@@ -210,10 +235,12 @@ const DynamicComponents = [
   VerseComponent,
   VersesGroupComponent,
   WordComponent,
+  LacunaComponent,
 ];
 
 @NgModule({
   declarations: [
+    ...DynamicComponents,
     AnalogueDetailComponent,
     AnaloguesComponent,
     AnnotatorDirective,
@@ -254,6 +281,8 @@ const DynamicComponents = [
     NamedEntityOccurrenceComponent,
     NavBarComponent,
     NavBarImageComponent,
+    NotesComponent,
+    NoteDetailComponent,
     OriginalEncodingViewerComponent,
     OsdComponent,
     PageComponent,
@@ -263,6 +292,7 @@ const DynamicComponents = [
     PinnerComponent,
     ProjectInfoComponent,
     ReadingTextComponent,
+    ReadingsSequenceComponent,
     ShortcutsComponent,
     SourceDetailComponent,
     SourceNoteComponent,
@@ -279,7 +309,25 @@ const DynamicComponents = [
     VerseProseSelectComponent,
     WitnessPanelComponent,
     XmlBeautifyPipe,
-    ...DynamicComponents,
+    SynopsisComponent,
+    SynopsisTextPanelComponent,
+    SynopsisPageSelector,
+    SynopsisXmlIdSelectorComponent,
+    SynopsisEditionLevelSelectorComponent,
+    NamedEntityOccurrencePagesListComponent,
+    DisplayFriendlyNamePipe,
+    NoteButtonComponent,
+    ModalWitnessItemComponent,
+    WitnessIdComponent,
+    WitnessMetadataComponent,
+    HrComponent,
+    ErrorsButtonComponent,
+    ReadingMetadataComponent,
+    LabelComponent,
+    PageLacunaComponent,
+    WitnessRespMetadataComponent,
+    EditionSelectorComponent,
+    VisibleAttributesPipe
   ],
   imports: [
     AppRoutingModule,

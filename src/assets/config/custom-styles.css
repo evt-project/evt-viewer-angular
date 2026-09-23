@@ -1,7 +1,3 @@
-.w .lb {
-    display: none;
-}
-
 .ab[rend="align-center"] {
     display: block;
     text-align: center;
@@ -37,36 +33,12 @@
     display: block;
 }
 
-*[place="superscript"] {
+*[rend="sup"] {
     vertical-align: text-bottom;
 }
 
-evt-page :not(evt-apparatus-entry-detail) .head {
-    font-weight: bold;
-    display: inline-block;
-    padding: 0.5em 0.1em 0.5em 0em;
-}
-
-evt-page :not(evt-apparatus-entry-detail) .closer {
-    display: block;
-}
-
-evt-page :not(evt-apparatus-entry-detail) .signed {
-    display: inline-block;
-    /* font-style: italic; */
-}
-
-evt-page :not(evt-apparatus-entry-detail) .retrace {
-    font-weight: bolder;
-}
-
-evt-page :not(evt-apparatus-entry-detail) .verse-num {
-    color:black !important;
-}
-
-evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
-    border:none !important;
-    background: none !important;
+*[place="superscript"] {
+    vertical-align: text-bottom;
 }
 
 .metamark[rend="line"] {
@@ -76,11 +48,6 @@ evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
     margin-right:70%;
 }
 
-evt-reading evt-note,
-evt-addition evt-note {
-  display: none;
-}
-
 .fw {
     display: block;
 }
@@ -88,4 +55,30 @@ evt-addition evt-note {
 [type="pageNum"][place="top_right"] {
     float:right;
     margin-top: -1.5rem;
+}
+
+evt-reading evt-note,
+evt-addition evt-note {
+  display: none;
+}
+
+.flash-highlight {
+  animation: flash-bg 1s ease-in-out 3, hold-yellow 0.4s ease forwards;
+  animation-delay: 0s, 3s; /* second animation starts after the 3 flashes */
+}
+
+@keyframes flash-bg {
+  0%   { background-color: transparent; }
+  50%  { background-color: #ffeb3b80; }
+  100% { background-color: transparent; }
+}
+
+@keyframes hold-yellow {
+  from { background-color: transparent; }
+  to   { background-color: #ffeb3b80; }
+}
+
+.clickable:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }

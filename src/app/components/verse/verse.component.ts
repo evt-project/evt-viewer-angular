@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { EVTModelService } from '../../services/evt-model.service';
 
 import { AppConfig } from '../../app.config';
-import { Verse } from '../../models/evt-models';
+import { GenericElement, Lb, Text, Verse } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 
@@ -48,6 +48,20 @@ export class VerseComponent {
 
   get baloon() {
     return this.textFlow !== 'verses';
+  }
+
+  // In the flow of the text the number goes next to the first words of the verse, after the line beginnings it opens with
+  get openingLineBeginnings(): GenericElement[] {
+    if (!this.baloon) return [];
+
+    const content = this.data.content as GenericElement[];
+    const wordsIdx = content.findIndex((el) => el.type !== Lb && !(el.type === Text && !(el as Text).text.trim()));
+    const opening = wordsIdx === -1 ? content : content.slice(0, wordsIdx);
+    return opening.some((el) => el.type === Lb) ? opening : [];
+  }
+
+  get verseContent() {
+    return this.data.content.slice(this.openingLineBeginnings.length);
   }
 
   get plainTextFlow() {

@@ -16,7 +16,7 @@
     <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
         <ul ngbNav #analogueEntryTab="ngbNav" class="nav-pills">
             <li ngbNavItem="quotedText" *ngIf="analogue.quotedElements.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'quotedText' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'quotedText' | translate}}</a>
                 <ng-template ngbNavContent>
                     <ng-container *ngFor="let quoteTxt of analogue.quotedElements">
                         <ng-container *ngIf="quoteTxt.quote.type">
@@ -27,23 +27,23 @@
                 </ng-template>
             </li>
             <li ngbNavItem="refBibl" *ngIf="analogue.sources.length > 0 || analogue.extSources.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'refBibl' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'refBibl' | translate}}</a>
                 <ng-template ngbNavContent>
 
                     <ng-container *ngIf="analogue.sources.length > 0">
-                        <h3 class="sources-cat">{{'quotedSources' | translate}}</h3>
+                        <h4 class="sources-cat">{{'quotedSources' | translate}}</h4>
                         <evt-biblio-list [data]="analogue.sources"></evt-biblio-list>
                     </ng-container>
 
                     <ng-container *ngIf="analogue.extSources.length > 0">
-                        <h3 class="sources-cat">{{'analogueIn' | translate}}</h3>
+                        <h4 class="sources-cat">{{'analogueIn' | translate}}</h4>
                         <evt-biblio-list [data]="analogue.extSources"></evt-biblio-list>
                     </ng-container>
 
                 </ng-template>
             </li>
             <li ngbNavItem="xml" *ngIf="analogue.originalEncoding">
-                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-original-encoding-viewer [originalEncoding]="analogue.originalEncoding">
                     </evt-original-encoding-viewer>

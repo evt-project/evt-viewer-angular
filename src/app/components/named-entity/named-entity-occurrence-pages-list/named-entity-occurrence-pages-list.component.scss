@@ -1,0 +1,14 @@
+.neo-pages-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .neo-pages-list-item {
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            font-weight: bold;
+        }
+    }
+}

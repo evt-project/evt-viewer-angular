@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ParserRegister } from '.';
 import { ApparatusEntry, Reading, Witness, XMLElement } from '../../models/evt-models';
+import { AppParser } from './app-parser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApparatusEntriesParserService {
   private appEntryTagName = 'app';
+  private appParser = AppParser.create();
 
   public parseAppEntries(document: XMLElement) {
-    const appParser = ParserRegister.get('evt-apparatus-entry-parser');
-
     return Array.from(document.querySelectorAll<XMLElement>(this.appEntryTagName))
-      .map((appEntry) => appParser.parse(appEntry) as ApparatusEntry);
+      .map((appEntry) => this.appParser.parse(appEntry) as ApparatusEntry);
   }
 
   public getSignificantReadings(apps: ApparatusEntry[]) {

@@ -1,6 +1,10 @@
+@import "../../../../assets/scss/themes";
+
 .mod-symbol {
     font-size: 1em;
-    color: #263238;
+    @include themify($themes) {
+        color: themed("baseColorDark");
+    }
     margin: 0;
     padding: 0 0.3em 0 0;
     display: inline;

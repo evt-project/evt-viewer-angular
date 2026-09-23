@@ -11,8 +11,12 @@ export class ThemesService {
     constructor() {
         this.themes = [
             {
-                value: 'neutral',
-                label: 'themeNeutral',
+                value: 'high_contrast',
+                label: 'themeHighContrast',
+            },
+            {
+                value: 'high_contrast_inverted',
+                label: 'themeHighContrastInverted',
             },
             {
                 value: 'modern',
@@ -22,6 +26,11 @@ export class ThemesService {
                 value: 'classic',
                 label: 'themeClassic',
             },
+            {
+                value: 'color_blind',
+                label: 'themeColorBlind',
+            },
+
         ];
         this.selectTheme(this.themes.find((t) => t.value === AppConfig.evtSettings.ui.theme) ?? this.themes[0]);
     }

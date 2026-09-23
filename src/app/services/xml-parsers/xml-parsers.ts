@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { AppParser, RdgParser } from './app-parser';
 import {
-    AdditionParser, AnchorParser, AttributeMapParser, AttributeParser, DamageParser, DeletionParser, GapParser,
+    AdditionParser, AnchorParser, AttributeMapParser, AttributeParser, CBParser, DamageParser, DeletionParser, GapParser,
     GenericElemParser, LBParser, MilestoneParser, NoteParser, ParagraphParser, PtrParser, SpanParser, SuppliedParser,
     TermParser, TextParser, VerseParser, VersesGroupParser, WordParser,
 } from './basic-parsers';
@@ -36,7 +36,7 @@ import {
 } from './msdesc-parser';
 import {
     NamedEntitiesListParser, NamedEntityRefParser, OrganizationParser,
-    PersonGroupParser, PersonParser, PlaceParser, RelationParser,
+    PersonGroupParser, PersonParser, PlaceParser, RelationParser, EntryParser, ObjectParser
 } from './named-entity-parsers';
 import { QuoteParser } from './quotes-parser';
 import { AnalogueParser } from './analogue-parser';
@@ -45,9 +45,16 @@ import { ModParser } from './mod-parser';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ParsersDecl(declarations: Array<Type<any>>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (_: any) => class extends _ {
+    return (_: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        @Injectable({
+            providedIn: 'root',
+        })
+        class ParsersExtended extends _ {
             declarations = declarations;
-        };
+        }
+        return ParsersExtended;
+    };
 }
 
 @Injectable({
@@ -130,6 +137,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     LangUsageParser,
     LayoutDescParser,
     LayoutParser,
+    CBParser,
     LBParser,
     ListChangeParser,
     ListTransposeParser,
@@ -154,6 +162,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     NotesStmtParser,
     ObjectDescParser,
     OrganizationParser,
+    ObjectParser,
     OrigDateParser,
     OriginParser,
     OrigPlaceParser,
@@ -223,6 +232,7 @@ export function ParsersDecl(declarations: Array<Type<any>>) {
     WidthParser,
     WordParser,
     ZoneParser,
+    EntryParser
 ])
 export class XMLParsers {
 }

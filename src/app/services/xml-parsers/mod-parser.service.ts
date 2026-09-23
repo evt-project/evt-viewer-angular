@@ -20,7 +20,7 @@ export class ModParserService {
     const parsedList = Array.from(list).filter((el) => el).map((el) => listChangeParser.parse(el));
     let layerOrder = [];
 
-    for(let i=0; i < parsedList.length-1; i++) {
+    for(let i=0; i < parsedList.length; i++) {
       if (parsedList[i].ordered) {
         layerOrder = parsedList[i].content.map((change) => change.id);
       }

@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, first, map, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { Page,  ViewerDataType } from '../../models/evt-models';
+import { Page, ViewerDataType } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EvtLinesHighlightService  } from '../../services/evt-lines-highlight.service';
+import { EvtLinesHighlightService } from '../../services/evt-lines-highlight.service';
 import { AppConfig } from 'src/app/app.config';
 
 @Component({
@@ -11,9 +11,9 @@ import { AppConfig } from 'src/app/app.config';
   templateUrl: './image-panel.component.html',
   styleUrls: ['./image-panel.component.scss'],
 })
-export class ImagePanelComponent implements OnDestroy, AfterViewInit{
+export class ImagePanelComponent implements OnDestroy, AfterViewInit {
 
-  @Input() panelNumber:number;
+  @Input() panelNumber: number;
 
   @Input() viewerData: ViewerDataType;
 
@@ -28,7 +28,7 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
     return this._showSyncButton;
   }
   public set showSyncButton(value) {
-    if (!value){
+    if (!value) {
       this.isSyncButtonActive = '';
       this.linesHighlightService.syncTextImage$.next(false);
     }
@@ -49,7 +49,7 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
 
   currentSurfaces$ = this.currentPageId$.pipe(
     withLatestFrom(this.evtModelService.surfaces$),
-    map(([pageId, surfaces]) =>  surfaces.find((surface) => surface.corresp === pageId)),
+    map(([pageId, surfaces]) => surfaces.find((surface) => surface.corresp === pageId)),
   );
 
   @Output() pageChange: Observable<Page> = merge(
@@ -73,25 +73,25 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
 
   constructor(
     private evtModelService: EVTModelService,
-     private linesHighlightService: EvtLinesHighlightService,
-  ) {}
+    private linesHighlightService: EvtLinesHighlightService,
+  ) { }
 
   ngOnDestroy(): void {
-    this.linesHighlightService.lineBeginningSelected$.next([]);
+    this.linesHighlightService.clearHighlight();
     this.linesHighlightService.syncTextImage$.next(false);
 
     this.unsubscribeAll$.next();
     this.unsubscribeAll$.complete();
   }
 
-  ngAfterViewInit(): void{
+  ngAfterViewInit(): void {
 
-    if (this.indipendentNavBar){
+    if (this.indipendentNavBar) {
       this.evtModelService.pages$.pipe(
-         // delay(50),
-          first(),
-      ).subscribe((pages)=>{
-        const idx = this.panelNumber > pages.length ? 0: this.panelNumber;
+        // delay(50),
+        first(),
+      ).subscribe((pages) => {
+        const idx = this.panelNumber > pages.length ? 0 : this.panelNumber;
         const cp = pages[idx];
         this.currentPage$.next(cp);
         this.updatePageNumber$.next(idx);
@@ -102,8 +102,8 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
       });
 
       this.pageChange.pipe(
-          takeUntil(this.unsubscribeAll$),
-      ).subscribe(( (currentPage) => {
+        takeUntil(this.unsubscribeAll$),
+      ).subscribe(((currentPage) => {
 
         if (this.indipendentNavBar && currentPage) {
 
@@ -115,8 +115,8 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
 
   syncTextImage() {
     this.isSyncButtonActive = this.isSyncButtonActive === 'active' ? '' : 'active';
-    if (this.isSyncButtonActive === ''){
-      this.linesHighlightService.lineBeginningSelected$.next([]);
+    if (this.isSyncButtonActive === '') {
+      this.linesHighlightService.clearHighlight();
     }
     this.linesHighlightService.syncTextImage$.next(this.isSyncButtonActive === 'active');
   }
@@ -133,16 +133,16 @@ export class ImagePanelComponent implements OnDestroy, AfterViewInit{
     this.currentMsDescId$.next(msDescId);
   }
 
-  onChangedCurrentPage(page:number) {
+  onChangedCurrentPage(page: number) {
 
     this.evtModelService.pages$.pipe(
       map((pages) => page < 0 ? pages[pages.length - 1] : pages[page]),
       first(),
     ).subscribe(
-      (currentPage:Page ) => {
-          this.currentPage$.next(currentPage);
+      (currentPage: Page) => {
+        this.currentPage$.next(currentPage);
 
-        },
-      );
+      },
+    );
   }
 }

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { combineLatestWith, map, shareReplay, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatestWith, distinctUntilChanged, map, shareReplay, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   ChangeLayerData,
+  EditionStructure,
   Facsimile,
   NamedEntities,
   NamedEntityOccurrence,
   OriginalEncodingNodeType,
   Page,
+  Witness,
   XMLImagesValues,
   ZoneHotSpot,
   ZoneLine,
@@ -25,54 +27,92 @@ import { StructureXmlParserService } from './xml-parsers/structure-xml-parser.se
 import { WitnessesParserService } from './xml-parsers/witnesses-parser.service';
 import { SourceEntriesParserService } from './xml-parsers/source-entries-parser.service';
 import { AnalogueEntriesParserService } from './xml-parsers/analogues-entries-parser.service';
-import { AppConfig } from '../app.config';
+import { AppConfig, ImagesSourceNotSupported } from '../app.config';
 import { BibliographicEntriesParserService } from './xml-parsers/bibliographic-entries-parser.service';
 import { ModParserService } from './xml-parsers/mod-parser.service';
+import { EditionSource } from './named-entities.service';
+import { ViewSourceFactory } from '../models/evt-polymorphic-models';
+import { N_ATTRIBUTE } from '../models/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EVTModelService {
-  public readonly editionSource$: Observable<OriginalEncodingNodeType> = this.editionDataService.parsedEditionSource$
-    .pipe(
-      shareReplay(1),
-    );
+  public readonly editionSources$: Observable<EditionSource[]> = this.editionDataService.allEditionSources$.pipe(
+    shareReplay(1),
+  );
+  public readonly updateEditionId$: BehaviorSubject<string> = new BehaviorSubject('');
+  public readonly currentEdition$: Observable<EditionSource> = combineLatest([
+    this.updateEditionId$,
+    this.editionSources$
+  ]).pipe(
+    map(([id, sources]) => {
+      return id ? sources.find(s => s.editionInfo.editionId == id) : sources[0];
+    }),
+    distinctUntilChanged(),
+    shareReplay(1),
+  );
 
-  public readonly title$ = this.editionSource$.pipe(
+  public readonly currentEditionData$: Observable<OriginalEncodingNodeType> = this.currentEdition$.pipe(
+    map(ed => ed.editionData),
+    shareReplay(1)
+  );
+
+  public readonly currentEditionTitle$ = this.currentEditionData$.pipe(
     map((source) => this.prefatoryMatterParser.parseEditionTitle(source)),
     shareReplay(1),
   );
 
-  public readonly projectInfo$ = this.prefatoryMatterParser.projectInfo$.pipe(
+  public readonly currentEditionProjectInfo$ = this.currentEditionData$.pipe(
+    map((source) => this.prefatoryMatterParser.parseProjectInfo(source)),
     shareReplay(1),
   );
 
-  public readonly styleDefaults$ = this.prefatoryMatterParser.projectInfo$.pipe(
+  public readonly currentEditionStyleDefaults$ = this.currentEditionProjectInfo$.pipe(
     map((projectInfo) => projectInfo?.encodingDesc?.styleDefDecl),
     shareReplay(1),
   );
 
-  public readonly pages$: Observable<Page[]> = this.editionSource$.pipe(
-    map((source) => this.editionStructureParser.parsePages(source).pages),
+  public readonly currentEditionStructure$: Observable<EditionStructure> = this.currentEditionData$.pipe(
+    withLatestFrom(this.currentEdition$),
+    map(([source, edition]) => {
+      return {
+        source: source,
+        edition: this.editionStructureParser.parsePages(edition.editionSource.imagesSource, source)
+      };
+    }),
+    map(({ source, edition }) => {
+      this.editionStructureParser.processCriticalApparatus(source, edition)
+      return edition;
+    }),
+    shareReplay(1),
+  );
+
+  public readonly pages$: Observable<Page[]> = this.currentEditionStructure$.pipe(
+    map((source) => source.pages),
     shareReplay(1),
   );
 
   // NAMED ENTITIES
-  public readonly parsedLists$ = this.editionSource$.pipe(
-    map((source) => this.namedEntitiesParser.parseLists(source)),
+  public readonly parsedLists$ = this.editionSources$.pipe(
+    map((editionSources) => this.namedEntitiesParser.parseLists(editionSources)),
     shareReplay(1),
   );
 
   public readonly persons$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => (this.namedEntitiesParser.getResultsByType(lists, entities, ['person', 'personGrp']))),
+    map(({ lists, entities }) => (
+      this.namedEntitiesParser.getResultsByType(
+        lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.persons.namedEntityType))),
   );
 
   public readonly places$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(lists, entities, ['place'])),
+    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(
+      lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.places.namedEntityType)),
   );
 
   public readonly organizations$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(lists, entities, ['org'])),
+    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(
+      lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.organizations.namedEntityType)),
   );
 
   public readonly relations$ = this.parsedLists$.pipe(
@@ -80,15 +120,26 @@ export class EVTModelService {
   );
 
   public readonly events$ = this.parsedLists$.pipe(
-    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(lists, entities, ['event'])),
+    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(
+      lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.events.namedEntityType)),
   );
 
-  public readonly verses$ = this.editionSource$.pipe(
+  public readonly entries$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(
+      lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.entries.namedEntityType)),
+  );
+
+  public readonly objects$ = this.parsedLists$.pipe(
+    map(({ lists, entities }) => this.namedEntitiesParser.getResultsByType(
+      lists, entities, AppConfig.evtSettings.edition.namedEntitiesLists.objects.namedEntityType)),
+  );
+
+  public readonly verses$ = this.currentEditionData$.pipe(
     map((source) => this.linesVersesParser.parseVerses(source)),
     shareReplay(1),
   );
 
-  public readonly lines$ = this.editionSource$.pipe(
+  public readonly lines$ = this.currentEditionData$.pipe(
     map((source) => this.linesVersesParser.parseLines(source)),
     shareReplay(1),
   );
@@ -99,18 +150,27 @@ export class EVTModelService {
     this.organizations$,
     this.relations$,
     this.events$,
+    this.entries$,
+    this.objects$
   ]).pipe(
-    map(([persons, places, organizations, relations, events]) => ({
+    map(([persons, places, organizations, relations, events, entries, objects]) => ({
       all: {
-        lists: [...persons.lists, ...places.lists, ...organizations.lists, ...events.lists],
-        entities: [...persons.entities, ...places.entities, ...organizations.entities, ...events.entities],
+        lists: [...persons.lists, ...places.lists, ...organizations.lists, ...events.lists, ...entries.lists, ...objects.lists],
+        entities: [...persons.entities, ...places.entities, ...organizations.entities, ...events.entities, ...entries.entities, ...objects.entities],
       },
       persons,
       places,
       organizations,
       relations,
       events,
+      entries,
+      objects
     })),
+    shareReplay(1),
+  );
+
+  public readonly noNamedEntities$: Observable<boolean> = this.namedEntities$.pipe(
+    map(ne => !ne.all.entities.length),
     shareReplay(1),
   );
 
@@ -119,30 +179,24 @@ export class EVTModelService {
     shareReplay(1),
   );
 
-  // WITNESSES
-  public readonly witnessesData$ = this.editionSource$.pipe(
-    map((source) => this.witnessesParser.parseWitnessesData(source)),
+  public readonly witnesses$ = this.currentEditionData$.pipe(
+    map((source) => this.witnessesParser.parseWitnesses(source)),
     shareReplay(1),
   );
 
-  public readonly witnesses$ = this.witnessesData$.pipe(
-    map(({ witnesses }) => witnesses),
-    shareReplay(1),
-  );
-
-  public readonly groups$ = this.witnessesData$.pipe(
-    map(({ groups }) => groups),
+  public readonly flattenedWitnesses$ = this.witnesses$.pipe(
+    map((witnesses) => this.flattenWitnesses(witnesses)),
     shareReplay(1),
   );
 
   // CHANGES
-  public changeData$: Observable<ChangeLayerData> = this.editionSource$.pipe(
+  public changeData$: Observable<ChangeLayerData> = this.currentEditionData$.pipe(
     map((source) => this.modParser.buildChangeList(source)),
     shareReplay(1),
   );
 
   // APPARATUS ENTRIES
-  public readonly appEntries$ = this.editionSource$.pipe(
+  public readonly appEntries$ = this.currentEditionData$.pipe(
     map((source) => this.apparatusParser.parseAppEntries(source)),
     shareReplay(1),
   );
@@ -157,136 +211,137 @@ export class EVTModelService {
     shareReplay(1),
   );
 
-  public readonly appVariance$ = this.witnesses$.pipe(
+  public readonly appVariance$ = this.flattenedWitnesses$.pipe(
     switchMap((witList) => this.significantReadingsNumber$.pipe(
-        map((signRdgsNum) => this.apparatusParser.getAppVariance(signRdgsNum, witList)),
-      )),
+      map((signRdgsNum) => this.apparatusParser.getAppVariance(signRdgsNum, witList)),
+    )),
     shareReplay(1),
   );
 
   //QUOTED SOURCES
-  public readonly sourceEntries$ = this.editionSource$.pipe(
+  public readonly sourceEntries$ = this.currentEditionData$.pipe(
     map((source) => this.sourceParser.parseSourceEntries(source)),
     shareReplay(1),
   );
 
   // PARALLEL PASSAGES
-  public readonly analogueEntries$ = this.editionSource$.pipe(
+  public readonly analogueEntries$ = this.currentEditionData$.pipe(
     map((source) => this.analogueParser.parseAnaloguesEntries(source)),
     shareReplay(1),
   );
 
   // FACSIMILE
-  public readonly facsimile$ : Observable<Facsimile[]> = this.editionSource$.pipe(
-      map((source) => this.facsimileParser.parseFacsimile(source)),
-      shareReplay(1),
+  public readonly facsimile$: Observable<Facsimile[]> = this.currentEditionData$.pipe(
+    map((source) => this.facsimileParser.parseFacsimile(source)),
+    shareReplay(1),
   );
 
   public readonly facsimileImageDouble$: Observable<Facsimile | undefined> = this.facsimile$.pipe(
-      map((facSimiles)=>{
-        const fcRendDouble = facSimiles.find((fs) => fs.attributes['rend'] === 'double');
-        if (fcRendDouble) {return fcRendDouble;}
+    map((facSimiles) => {
+      const fcRendDouble = facSimiles.find((fs) => fs.attributes['rend'] === 'double');
+      if (fcRendDouble) { return fcRendDouble; }
 
-        const fcWithSurfacesGrp = facSimiles.find((fs)=> fs.surfaceGrps?.length > 0);
-        if (fcWithSurfacesGrp) {return fcWithSurfacesGrp;}
+      const fcWithSurfacesGrp = facSimiles.find((fs) => fs.surfaceGrps?.length > 0);
+      if (fcWithSurfacesGrp) { return fcWithSurfacesGrp; }
 
-        return undefined;
-      }),
+      return undefined;
+    }),
   );
 
   public readonly imageDoublePages$: Observable<Page[]> = this.facsimileImageDouble$.pipe(
-      combineLatestWith(this.pages$),
-      map(([ facsSimile, pages])=>{
-        if (facsSimile?.graphics?.length > 0){
-          // Qui abbiamo i graphics
-          return facsSimile.graphics.map((_g, index)=>{
-            const p : Page={
-              url: '',
-              parsedContent: undefined,
-              originalContent: undefined,
-              label: _g.attributes['n'],
-              id: index.toString(),
-              facsUrl: '',
-              facs: '',
-            };
-
-            return p;
-          });
-        }
-
-        return facsSimile?.surfaceGrps.map((sGrp)=> {
-          const titleName = sGrp.surfaces.reduce((pv, cv) => {
-            const fp: Page = pages.find((p)=>p.id === cv.corresp);
-            if (pv.length === 0) {
-
-              if (fp){
-                return pv + fp.label;
-              }
-
-              return pv + cv.corresp.replace('#', '');
-            }
-            if (fp){
-              return pv + ' ' + fp.label;
-            }
-
-            return pv + ' ' + cv.corresp.replace('#', '');
-
-            }, '');
-          const id = sGrp.surfaces.reduce((pv, cv) => {
-            if (pv.length === 0) {
-                return pv + cv.corresp.replace('#', '');
-            }
-
-            return pv + '-' + cv.corresp.replace('#', '');
-          }, '');
-
-          const p : Page={
-              url: '',
-              parsedContent: undefined,
-              originalContent: undefined,
-              label: titleName,
-              id: id,
-              facsUrl: '',
-              facs: '',
+    combineLatestWith(this.pages$),
+    map(([facsSimile, pages]) => {
+      if (facsSimile?.graphics?.length > 0) {
+        // Qui abbiamo i graphics
+        return facsSimile.graphics.map((_g, index) => {
+          const p: Page = {
+            url: '',
+            parsedContent: undefined,
+            originalContent: undefined,
+            label: _g.attributes[N_ATTRIBUTE],
+            id: index.toString(),
+            facsUrl: '',
+            facs: '',
           };
 
           return p;
         });
+      }
+
+      return facsSimile?.surfaceGrps.map((sGrp) => {
+        const titleName = sGrp.surfaces.reduce((pv, cv) => {
+          const fp: Page = pages.find((p) => p.id === cv.corresp);
+          if (pv.length === 0) {
+
+            if (fp) {
+              return pv + fp.label;
+            }
+
+            return pv + cv.corresp.replace('#', '');
+          }
+          if (fp) {
+            return pv + ' ' + fp.label;
+          }
+
+          return pv + ' ' + cv.corresp.replace('#', '');
+
+        }, '');
+        const id = sGrp.surfaces.reduce((pv, cv) => {
+          if (pv.length === 0) {
+            return pv + cv.corresp.replace('#', '');
+          }
+
+          return pv + '-' + cv.corresp.replace('#', '');
+        }, '');
+
+        const p: Page = {
+          url: '',
+          parsedContent: undefined,
+          originalContent: undefined,
+          label: titleName,
+          id: id,
+          facsUrl: '',
+          facs: '',
+        };
+
+        return p;
+      });
 
 
     }),
   );
 
-  public readonly imageDouble$: Observable<{ type: string, value:{ xmlImages:XMLImagesValues[]}} | undefined > =
-      this.facsimileImageDouble$.pipe(
-        map((fs)=> {
-            if (fs?.graphics?.length > 0){
-              //const editionImages = AppConfig.evtSettings.files.editionImagesSource;
-              const result: XMLImagesValues[] = fs.graphics.map((g) => {
+  public readonly imageDouble$: Observable<{ type: string, value: { xmlImages: XMLImagesValues[] } } | undefined> =
+    this.facsimileImageDouble$.pipe(
+      withLatestFrom(this.currentEdition$),
+      map(([fs, edition]) => {
+        const imagesSource = edition.editionSource.imagesSource;
+        if (imagesSource.kind !== 'EditionXml' && imagesSource.kind !== 'ExternalXml')
+          throw new ImagesSourceNotSupported(imagesSource);
 
-                const fileName = g.url;
+        const imagesFolderUrl = imagesSource.imagesFolderUrls.double;
+        if (fs?.graphics?.length > 0) {
+          //const editionImages = AppConfig.evtSettings.files.editionImagesSource;
+          const result: XMLImagesValues[] = fs.graphics.map((g) => {
 
-                const imagesFolderUrl = AppConfig.evtSettings.files.imagesFolderUrls.double;
-                const url = `${imagesFolderUrl}${fileName}`;
-                const r: XMLImagesValues = {
-                  url: url,
-                  width: g.width?parseInt(g.width) : 910,
-                  height: g.height?parseInt(g.height) : 720,
-                };
+            const fileName = g.url;
+            const url = `${imagesFolderUrl}${fileName}`;
+            const r: XMLImagesValues = {
+              url: url,
+              width: g.width ? parseInt(g.width) : 910,
+              height: g.height ? parseInt(g.height) : 720,
+            };
 
-                return r;
+            return r;
           });
 
-            return {
+          return {
             type: 'default',
             value: {
               xmlImages: result,
             },
           };
         } else if (fs?.surfaceGrps?.length > 0) {
-          const editionImages = AppConfig.evtSettings.files.editionImagesSource;
-          console.log(editionImages);
-
           const result: XMLImagesValues[] = fs.surfaceGrps.map((sGrp) => {
 
             const fileName = sGrp.surfaces.reduce((pv, cv) => {
@@ -297,7 +352,6 @@ export class EVTModelService {
               return pv + '-' + cv.corresp.replace('#', '');
             }, '');
 
-            const imagesFolderUrl = AppConfig.evtSettings.files.imagesFolderUrls.double;
             const url = `${imagesFolderUrl}${fileName}.jpg`;
             const r: XMLImagesValues = {
               url: url,
@@ -318,11 +372,23 @@ export class EVTModelService {
 
         return undefined;
       }),
-  );
+    );
 
-  public readonly surfaces$ = this.editionSource$.pipe(
+  public readonly surfaces$ = this.currentEditionData$.pipe(
     map((source) => this.facsimileParser.parseSurfaces(source)),
     shareReplay(1),
+  );
+
+  public readonly imageViewer$ = combineLatest([
+    this.surfaces$,
+    this.currentEdition$
+  ]).pipe(
+    map(([surfaces, edition]) => {
+      const imagesSource = edition.editionSource.imagesSource;
+      if (!imagesSource) throw new Error("Image source is required");
+
+      return ViewSourceFactory.create(imagesSource).getDataType(surfaces);
+    }),
   );
 
   public readonly hsLines$ = this.surfaces$.pipe(
@@ -336,52 +402,62 @@ export class EVTModelService {
   );
 
   // CHAR DECL
-  public readonly characters$ = this.editionSource$.pipe(
+  public readonly characters$ = this.currentEditionData$.pipe(
     map((source) => this.characterDeclarationsParser.parseChars(source)),
     shareReplay(1),
   );
 
-  public readonly glyphs$ = this.editionSource$.pipe(
+  public readonly glyphs$ = this.currentEditionData$.pipe(
     map((source) => this.characterDeclarationsParser.parseGlyphs(source)),
     shareReplay(1),
   );
 
   public readonly specialChars$ = combineLatest([
-      this.characters$,
-      this.glyphs$,
-    ]).pipe(
-      map(([chars, glyphs]) => chars.concat(glyphs)),
-    );
+    this.characters$,
+    this.glyphs$,
+  ]).pipe(
+    map(([chars, glyphs]) => chars.concat(glyphs)),
+  );
 
-  public readonly msDesc$ = this.editionSource$.pipe(
+  public readonly msDesc$ = this.currentEditionData$.pipe(
     map((source) => this.msDescParser.parseMsDesc(source)),
     shareReplay(1),
   );
 
-  public readonly bibliographicEntries$ = this.editionSource$.pipe(
+  public readonly bibliographicEntries$ = this.currentEditionData$.pipe(
     map((source) => this.bibliographicEntriesParser.parseBibliographicEntries(source)),
     shareReplay(1),
   )
 
-  constructor(
-    private analogueParser: AnalogueEntriesParserService,
-    private editionDataService: EditionDataService,
-    private editionStructureParser: StructureXmlParserService,
-    private namedEntitiesParser: NamedEntitiesParserService,
-    private prefatoryMatterParser: PrefatoryMatterParserService,
-    private witnessesParser: WitnessesParserService,
-    private apparatusParser: ApparatusEntriesParserService,
-    private facsimileParser: FacsimileParserService,
-    private characterDeclarationsParser: CharacterDeclarationsParserService,
-    private linesVersesParser: LinesVersesParserService,
-    private msDescParser: MsDescParserService,
-    private sourceParser: SourceEntriesParserService,
-    private bibliographicEntriesParser: BibliographicEntriesParserService,
-    private modParser: ModParserService,
-  ) {
-  }
+constructor(
+  private analogueParser: AnalogueEntriesParserService,
+  private editionDataService: EditionDataService,
+  private editionStructureParser: StructureXmlParserService,
+  private namedEntitiesParser: NamedEntitiesParserService,
+  private prefatoryMatterParser: PrefatoryMatterParserService,
+  private witnessesParser: WitnessesParserService,
+  private apparatusParser: ApparatusEntriesParserService,
+  private facsimileParser: FacsimileParserService,
+  private characterDeclarationsParser: CharacterDeclarationsParserService,
+  private linesVersesParser: LinesVersesParserService,
+  private msDescParser: MsDescParserService,
+  private sourceParser: SourceEntriesParserService,
+  private bibliographicEntriesParser: BibliographicEntriesParserService,
+  private modParser: ModParserService,
+) {
+}
 
-  getPage(pageId: string): Observable<Page> {
-    return this.pages$.pipe(map((pages) => pages.find((page) => page.id === pageId)));
-  }
+getPage(pageId: string): Observable < Page > {
+  return this.pages$.pipe(map((pages) => pages.find((page) => page.id === pageId)));
+}
+
+  private flattenWitnesses(witnesses: Witness[]): Witness[] {
+  return witnesses.reduce((acc, witness) => {
+    acc.push(witness);
+    if (witness.witnesses && Array.isArray(witness.witnesses)) {
+      acc.push(...this.flattenWitnesses(witness.witnesses));
+    }
+    return acc;
+  }, []);
+}
 }

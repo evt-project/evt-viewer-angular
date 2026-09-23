@@ -62,7 +62,7 @@
     font-size: .7rem;
     margin-bottom: 3px;
     display: inline-block !important;
-    cursor: pointer;
+    cursor: default;
     line-height: 0.9rem;
 
     .ne-occurrence-count {
@@ -72,14 +72,13 @@
       border: 1px solid transparent;
     }
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.8) !important;
+    // &:hover {
+    //   background: rgba(255, 255, 255, 0.8) !important;
 
-      .ne-occurrence-count {
-        border: 1px solid #ccc;
-      }
-    }
-
+    //   .ne-occurrence-count {
+    //     border: 1px solid #ccc;
+    //   }
+    // }
   }
 }
 
@@ -108,17 +107,17 @@
     &.person {
       @include namedEntityColors(get-ne-color(personBase), get-ne-color(personMiddle), get-ne-color(personDarker));
     }
-
     &.place {
       @include namedEntityColors(get-ne-color(placeBase), get-ne-color(placeMiddle), get-ne-color(placeDarker));
     }
-
     &.org {
       @include namedEntityColors(get-ne-color(orgBase), get-ne-color(orgMiddle), get-ne-color(orgDarker));
     }
-
     &.event {
       @include namedEntityColors(get-ne-color(eventBase), get-ne-color(eventMiddle), get-ne-color(eventDarker));
+    }
+    &.entry {
+      @include namedEntityColors(get-ne-color(entryBase), get-ne-color(entryMiddle), get-ne-color(entryDarker));
     }
   }
 
@@ -156,7 +155,7 @@
 
   /* background: #fff;*/
   code {
-    font-size: 85% !important;
+    //font-size: 85% !important;
   }
 }
 

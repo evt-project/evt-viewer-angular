@@ -1,37 +1,66 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
-import { Attributes, EditorialConventionLayout } from './models/evt-models';
-import { updateCSS } from './utils/dom-utils';
+import { EditorialConventionLayout } from './models/evt-models';
+import { reduceCssUnit, updateCSS } from './utils/dom-utils';
+import * as yaml from 'js-yaml';
+import { isAbsoluteUrl } from './utils/js-utils';
 
 @Injectable()
 export class AppConfig {
     static evtSettings: EVTConfig;
-    private readonly uiConfigUrl = 'assets/config/ui_config.json';
-    private readonly fileConfigUrl = 'assets/config/file_config.json';
-    private readonly editionConfigUrl = 'assets/config/edition_config.json';
+    private readonly defaultFileConfigUrl = 'assets/config/config.yaml';
     private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
+    private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json");
+    public readonly fileConfigUrl$: Observable<string> = this.hostConfig$.pipe(
+        map(config => config.allowedEVTAASConfigBaseUrls),
+        map(allowedUrls => {
+            const params = new URLSearchParams(window.location.hash)
+            const paramsUrl = params.get("fileConfigUrl");
+            if (!paramsUrl || paramsUrl === this.defaultFileConfigUrl) return this.defaultFileConfigUrl;
+
+            const prefixesMatched = allowedUrls.filter(x => paramsUrl.includes(x))
+            console.log("matched prefix: " + prefixesMatched)
+            if (!prefixesMatched.length) throw new Error(paramsUrl + " not allowed");
+            return paramsUrl;
+        }),
+        shareReplay(1)
+    );
 
     constructor(
         public translate: TranslateService,
         private http: HttpClient,
-    ) { }
+    ) {
+    }
 
     load() {
         return new Promise<void>((resolve) => {
-            this.http.get<FileConfig>(this.fileConfigUrl).pipe(
-                switchMap((files: FileConfig) => forkJoin([
-                    this.http.get<UiConfig>(files.configurationUrls?.ui ?? this.uiConfigUrl),
-                    this.http.get<EditionConfig>(files.configurationUrls?.edition ?? this.editionConfigUrl),
-                    this.http.get<EditorialConventionsConfig>(
-                        files.configurationUrls?.editorialConventions ?? this.editorialConventionsConfigUrl),
-                ]).pipe(
-                    map(([ui, edition, editorialConventions]) => {
-                        console.log(ui, edition, files);
+            this.fileConfigUrl$.pipe(
+                switchMap(mainConfigUrl => this.http.get(mainConfigUrl, { responseType: 'text' }).pipe(
+                    map((yamlText: string) => {
+                        try {
+                            const parsed = yaml.load(yamlText) as EVTConfigRaw;
+                            return parsed;
+                        } catch (e) {
+                            console.error('Error parsing YAML config file:', e);
+                            throw e;
+                        }
+                    }),
+                    catchError((err) => {
+                        alert("Config file not found \n" + err.message);
+                        return throwError(() => err);
+                    }),
+                    switchMap((configFile) => {
+                        const { edition, ui, editionTextSourcesConfig } = configFile;
+
+                        edition.mainMenuConfig.downloadLinks?.forEach(x => {
+                            if (!isAbsoluteUrl(x.url)) throw new Error(`Donwload link should be absolute: ${x.url}`);
+                        });
+
                         this.updateStyleFromConfig(edition, ui);
                         // Handle default values => TODO: Decide how to handle defaults!!
                         if (ui.defaultLocalization) {
@@ -45,9 +74,41 @@ export class AppConfig {
                             }
                         }
 
-                        return { ui, edition, files, editorialConventions };
-                    }),
-                )),
+                        const sourcesRequests = editionTextSourcesConfig.map(sourceConfig =>
+                            this.http.get<EditorialConventionsConfig>(
+                                sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl
+                            ).pipe(
+                                map(editorialConventionsConfig => {
+                                    let imagesSource: ImagesSource = { kind: 'null' };
+                                    if (sourceConfig.imagesSources) {
+                                        const imagesSources = sourceConfig.imagesSources.filter(x => x.kind !== 'null' && x.enable);
+                                        if (imagesSources.length > 1) {
+                                            console.error('Only one image source config should be enabled per edition', sourceConfig);
+                                            throw new Error();
+                                        }
+
+                                        imagesSource = imagesSources[0];
+                                        if (imagesSource.kind === 'ExternalXml' || imagesSource.kind === 'IiifManifest')
+                                            if (!isAbsoluteUrl(imagesSource.url))
+                                                throw new Error(`Url is not absolute: ${imagesSource.url}`);
+                                    }
+
+                                    return {
+                                        ...sourceConfig,
+                                        editorialConventionsConfig,
+                                        imagesSource: imagesSource
+                                    }
+                                })
+                            ));
+                        return forkJoin(sourcesRequests).pipe(
+                            map((editionTextSources: EditionTextSource[]): EVTConfig => ({
+                                edition,
+                                ui,
+                                editionTextSources,
+                            }))
+                        );
+                    }))
+                ),
             ).subscribe((evtConfig) => {
                 AppConfig.evtSettings = evtConfig;
                 console.log('evtConfig', evtConfig);
@@ -63,27 +124,73 @@ export class AppConfig {
      */
     updateStyleFromConfig(edition: EditionConfig, ui: UiConfig) {
         const rules = [];
-        rules['.edition-font'] = `font-family: ${ui.mainFontFamily}; font-size: ${ui.mainFontSize};`;
+        rules['html'] = `font-size: ${ui.mainFontSize};`;
+        rules['.edition-font'] = `font-family: ${ui.mainFontFamily};`;
+        rules['.ng-select'] = `font-size: ${ui.secondaryFontSize};`;
+        rules['.nav-link'] = `font-size: ${ui.secondaryFontSize} !important;`;
+        rules['.tab-content'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.75)}`;
+        rules['.apparatus-nav .nav-link'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)} !important;`;
+        rules['evt-biblio-list .msIdentifier, .btn-close, .layerMarker, .app-wit'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
+        rules['.code, .label, .relation-description, .source-detail-btn'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
+        rules['.mod-layer'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)};`;
+        rules['evt-original-encoding-viewer code'] = `font-size: ${ui.secondaryFontSize};`;
         rules['.app-detail-tabs .nav-link'] = `font-family: ${ui.secondaryFontFamily};`;
         rules['.ui-font'] = `font-family: ${ui.secondaryFontFamily}; font-size: ${ui.secondaryFontSize};`;
         rules['.app-detail-tabs'] = `font-family: ${ui.secondaryFontFamily};`;
+        //rules['.app-detail-content'] = `font-family: ${ui.mainFontFamily}; font-size: ${ui.secondaryFontSize};`;
         rules['.' + AnalogueClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
         rules['.' + SourceClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
         rules['.' + AnalogueClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
         rules['.' + SourceClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
-        Object.entries(rules).forEach(([selector,style]) => { updateCSS([[selector,style]]) });
+
+        Object.entries(rules).forEach(([selector, style]) => { updateCSS([[selector, style]]) });
+        console.log('Style applied from config', rules);
     }
 
+    static getListsToParseTagNames(): NamedEntitiesListConfig[] {
+        const neLists = AppConfig.evtSettings.edition.namedEntitiesLists || {};
+        const enabledLists: NamedEntitiesListConfig[] = Object.keys(neLists)
+            .map((i) => neLists[i].enable ? neLists[i] : undefined)
+            .filter((ne) => !!ne);
+        return enabledLists;
+    }
+
+    static getNamedEntityType(tagName: string): string {
+        const lists = AppConfig.getListsToParseTagNames();
+        const list = lists.find(list =>
+            list.listSelector.toLowerCase().includes(tagName.toLowerCase())
+            || list.namedEntityType.toLowerCase() === tagName.toLowerCase());
+        return list.namedEntityType;
+    }
 }
 
-export interface EVTConfig {
-    ui: UiConfig;
+export type EVTConfig = Omit<EVTConfigRaw, 'editionTextSourcesConfig'> & {
+    editionTextSources: EditionTextSource[];
+}
+
+export type EditionTextSource = Omit<EditionTextSourceConfigRaw, "editorialConventionsUrl" | "imagesSources"> & {
+    editorialConventionsConfig: EditorialConventionsConfig;
+    imagesSource: ImagesSource;
+}
+
+// Raw types are for parsing, but then the app doesn't need all properties
+type EVTConfigRaw = {
+    editionTextSourcesConfig: EditionTextSourceConfigRaw[];
     edition: EditionConfig;
-    files: FileConfig;
-    editorialConventions: EditorialConventionsConfig;
+    ui: UiConfig;
+}
+
+type EditionTextSourceConfigRaw = {
+    url: string;
+    enable: boolean;
+    friendlyName?: string;
+    glossaryUrl?: string;
+    imagesSources?: ImagesSource[];
+    editorialConventionsUrl: string;
 }
 
 export interface UiConfig {
+    defaultViewMode: ViewModeId;
     availableViewModes: ViewMode[];
     localization: boolean;
     defaultLocalization: string;
@@ -91,30 +198,39 @@ export interface UiConfig {
         code: string;
         label: string;
         enable: boolean;
+        iconUrl: string;
     }>;
     enableNavBar: boolean;
     initNavBarOpened: boolean;
     thumbnailsButton: boolean;
     viscollButton: boolean;
+    biblTab: Partial<{
+        propsToShow: string[];
+        showAttrNames: boolean;
+        showEmptyValues: boolean;
+        inline: boolean;
+        commaSeparated: boolean;
+        showMainElemTextContent: boolean;
+    }>;
     defaultBibliographicStyle: string;
-	  allowedBibliographicStyles: {
-      [key: string]: {
-              id: string;
-        label: string;
-        enabled: boolean;
-              propsOrder: BibliographicProperties[];
-              properties: BibliographicStyle;
+    allowedBibliographicStyles: {
+        [key: string]: {
+            id: string;
+            label: string;
+            enabled: boolean;
+            propsOrder: BibliographicProperties[];
+            properties: BibliographicStyle;
         }
     };
     mainFontFamily: string;
     mainFontSize: string;
     secondaryFontFamily: string;
     secondaryFontSize: string;
-    theme: 'neutral' | 'modern' | 'classic';
+    theme: string;
     syncZonesHighlightButton: boolean;
 }
 export type CitingRanges = 'issue' | 'volume' | 'page';
-export type BibliographicProperties = 'author'| 'date'| 'title'| 'editor' | 'publication' | 'pubPlace' | 'publisher' | 'doi';
+export type BibliographicProperties = 'author' | 'date' | 'title' | 'editor' | 'publication' | 'pubPlace' | 'publisher' | 'doi';
 export type BibliographicStyle = Partial<{
     propsDelimiter: string;
     authorStyle: Partial<{
@@ -135,24 +251,37 @@ export type BibliographicStyle = Partial<{
     inBrackets: BibliographicProperties[];
 }>;
 
+export interface DownloadLinks {
+    label: string;
+    url: string;
+}
+
+export interface MainMenuConfig {
+    downloadableXMLSource: boolean;
+    showEntitiesLists: boolean;
+    downloadLinks: DownloadLinks[]
+}
+
 export interface EditionConfig {
     editionTitle: string;
     badge: string;
     editionHome: string;
-    showLists: boolean;
-    downloadableXMLSource: boolean;
+    logoUrl?: string;
+    defaultEditionLevel: EditionLevelType;
     availableEditionLevels: EditionLevel[];
+    mainMenuConfig: MainMenuConfig;
     namedEntitiesLists: Partial<{
-        persons: NamedEntitiesListsConfig;
-        places: NamedEntitiesListsConfig;
-        organizations: NamedEntitiesListsConfig;
-        relations: NamedEntitiesListsConfig;
-        events: NamedEntitiesListsConfig;
+        persons: NamedEntitiesListConfig;
+        places: NamedEntitiesListConfig;
+        organizations: NamedEntitiesListConfig;
+        relations: NamedEntitiesListConfig;
+        events: NamedEntitiesListConfig;
+        entries: NamedEntitiesListConfig;
+        objects: NamedEntitiesListConfig;
     }>;
+    entitiesOccurrenceSelectors: string[];
     entitiesSelectItems: EntitiesSelectItemGroup[];
     notSignificantVariants: string[];
-    defaultEdition: EditionLevelType;
-    defaultViewMode: ViewModeId;
     proseVersesToggler: boolean;
     defaultTextFlow: TextFlow;
     verseNumberPrinter: number;
@@ -162,14 +291,6 @@ export interface EditionConfig {
         biblAttributeToMatch: string;
         elementAttributesToMatch: string[];
     }>;
-    biblView: Partial<{
-		propsToShow: string[];
-		showAttrNames: boolean;
-		showEmptyValues: boolean;
-		inline: boolean;
-        commaSeparated: boolean;
-        showMainElemTextContent: boolean;
-	}>;
     analogueMarkers: string[];
     sourcesExcludedFromListByParent: string[];
     showChangeLayerMarkerInText: boolean;
@@ -184,37 +305,59 @@ export interface EditionConfig {
     maxImageZoomLevel: number;
     showSubstitutionMarker: boolean;
     multiPageEngineForCriticalEdition: boolean;
+    structureSeparators: string[];
+    exponentEnumerateBy: string | 'global';
 }
 
-export type EditionImagesSources = 'manifest' | 'graphics';
-
-export interface FileConfig {
-    editionUrls: string[];
-    editionImagesSource: {
-        [T in EditionImagesSources]: EditionImagesConfig;
-    };
-    logoUrl?: string;
-    imagesFolderUrls?: {
-        single: string;
-        double: string;
-    };
-    configurationUrls?: {
-        edition: string;
-        ui: string;
-        editorialConventions: string;
-    };
+export interface HostConfig {
+    allowedEVTAASConfigBaseUrls: string[];
 }
 
-export interface EditionImagesConfig {
-    value: string;
+export type IiifManifestSource = {
+    kind: "IiifManifest"
+    url: string;
     enable: boolean;
 }
 
-export interface NamedEntitiesListsConfig {
-    defaultLabel: string;
+export type ExternalXmlSource = {
+    kind: "ExternalXml",
+    url: string;
     enable: boolean;
+    imagesFolderUrls: ImageFolderUrls
 }
+
+export type EditionXmlSource = {
+    kind: "EditionXml",
+    enable: boolean;
+    imagesFolderUrls: ImageFolderUrls;
+}
+
+export type ImageFolderUrls = {
+    single: string;
+    double: string;
+}
+
+export type NullSource = {
+    kind: 'null';
+}
+
+export class ImagesSourceNotSupported extends Error {
+    constructor(imagesSource: ImagesSource) {
+        super(`Images source is not supported: ${imagesSource.kind}`);
+    }
+}
+
+export type ImagesSource = IiifManifestSource | ExternalXmlSource | EditionXmlSource | NullSource;
+
+export interface NamedEntitiesListConfig {
+    label: string;
+    enable: boolean;
+    listSelector: string;
+    namedEntityType: string;
+}
+
 export type EditionLevelType = 'diplomatic' | 'interpretative' | 'critical' | 'changesView';
+
 export interface EditionLevel {
     id: EditionLevelType;
     label: string;
@@ -227,13 +370,15 @@ export interface EditorialConventionsConfig {
     [key: string]: CustomEditorialConvention;
 }
 
+export interface EditorialConventionAttributes { [key: string]: string[]; }
+
 export interface CustomEditorialConvention {
     layouts: { // indicate the output style to be assigned for the indicated encoding for each edition level
         [key in EditionLevelType]: EditorialConventionLayout;
     };
     markup: { // Identifies the element depending on its encoding
         element: string;
-        attributes: Attributes;
+        attributes: EditorialConventionAttributes;
     };
 }
 

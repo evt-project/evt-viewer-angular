@@ -13,18 +13,20 @@
     <gridster-item *ngIf="apparatusesOpened" [item]="apparatusesItem">
         <evt-panel class="apparatuses" [secondary]="true" [hideFooter]="true" [hideHeader]="true">
             <div content>
-                <ul ngbNav #apparatuses="ngbNav" class="nav-tabs nav-fill">
+                <ul ngbNav #apparatuses="ngbNav" class="nav-tabs nav-fill apparatus-nav">
                     <li [ngbNavItem]="'critical'">
-                        <a ngbNavLink>{{'criticalApparatus' | translate}}</a>
+                        <a ngbNavLink href="#">{{'criticalApparatus' | translate}}</a>
                         <ng-template ngbNavContent>
                             <evt-critical-apparatus
                                 [pageID]="currentPageID$ | async"
-                                (pageChange)="changePage($event)">
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
                             </evt-critical-apparatus>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'sources'">
-                        <a ngbNavLink>{{ 'sources' | translate }}</a>
+                        <a ngbNavLink href="#">{{ 'sources' | translate }}</a>
                         <ng-template ngbNavContent>
                             <evt-sources
                                 [pageID]="currentPageID$ | async"
@@ -35,7 +37,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'analogues'">
-                        <a ngbNavLink>{{ 'analogues' | translate }}</a>
+                        <a ngbNavLink href="#">{{ 'analogues' | translate }}</a>
                         <ng-template ngbNavContent>
                             <evt-analogues
                                 [pageID]="currentPageID$ | async"
@@ -46,9 +48,14 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="'notes'">
-                        <a ngbNavLink>{{ 'notes' | translate }}</a>
+                        <a ngbNavLink href="#">{{ 'notes' | translate }}</a>
                         <ng-template ngbNavContent>
-
+                            <evt-notes
+                                [pageID]="currentPageID$ | async"
+                                (pageChange)="changePage($event)"
+                                [editionLevel]="currentEditionLevel$ | async"
+                                (editionLevelChange)="changeEditionLevel($event)">
+                            </evt-notes>
                         </ng-template>
                     </li>
                 </ul>  
@@ -59,9 +66,11 @@
 </gridster>
 <div class="global-tools">
     <evt-button [type]="'button'" [toggler]="true" [active]="apparatusesOpened"
+        ariaLabel="{{ 'ariaLabels.openApparatusTab' | translate }}" aria-role="button"
         (btnClick)="toggleApparatuses()" additionalClasses="btn-primary shadow rounded-circle me-1" 
         [iconLeft]="{icon: 'list'}"></evt-button>
     <evt-button [type]="'button'" [toggler]="true" [active]="pinnedBoardOpened"
+        ariaLabel="{{ 'ariaLabels.openPinBoard' | translate }}" aria-role="button"
         (btnClick)="togglePinnedBoard()" additionalClasses="btn-primary shadow rounded-circle" 
         [iconLeft]="{icon: 'thumbtack'}"></evt-button>
 </div>

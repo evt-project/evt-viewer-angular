@@ -1,0 +1,7 @@
+<ng-container *ngFor="let note of (notes$ | async)"> 
+    <evt-note-detail
+        [note]="note" 
+        [editionLevel]="editionLevel">
+    </evt-note-detail>
+</ng-container>
+

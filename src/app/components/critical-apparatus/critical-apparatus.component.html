@@ -1,4 +1,10 @@
-<ng-container *ngFor="let element of entries"> 
-    <evt-apparatus-entry-detail *ngIf="element?.lemma && true" [data]="element" (click)="stopPropagation($event)" class="app-list">
-    </evt-apparatus-entry-detail>
+<ng-container *ngIf="(entries$ | async) as entries">
+        <ng-container *ngIf="entries.length">
+                <ng-container *ngFor="let entry of entries">
+                        <div #appDetails style="scroll-margin-top: 100px;" (click)="selectApparatusEntry(entry.entry)">
+                                <evt-apparatus-entry-detail [data]="entry.entry" class="app-list" [editionLevel]="'critical'"
+                                [isSelected]="entry.isSelected"></evt-apparatus-entry-detail>
+                        </div>
+                </ng-container>
+        </ng-container>
 </ng-container>

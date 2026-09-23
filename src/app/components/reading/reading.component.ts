@@ -20,8 +20,8 @@ export class ReadingComponent extends Highlightable {
 
   getLayerColor(changeLayer) {
     const layerColors = AppConfig.evtSettings.edition.changeSequenceView.layerColors;
-    if ((changeLayer) && (layerColors[changeLayer.replace('#','')])) {
-      return layerColors[changeLayer.replace('#','')];
+    if ((changeLayer) && (layerColors[changeLayer.replace('#', '')])) {
+      return layerColors[changeLayer.replace('#', '')];
     }
 
     return 'black';

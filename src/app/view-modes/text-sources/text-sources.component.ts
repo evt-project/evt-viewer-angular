@@ -52,6 +52,7 @@ export class TextSourcesComponent implements OnInit {
         enabled: true,
         ignoreContent: true,
         dragHandleClass: 'panel-header',
+        ignoreContentClass: 'no-drag'
       },
       resizable: {
         enabled: false,

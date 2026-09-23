@@ -1,4 +1,5 @@
 import { AttributesMap } from 'ng-dynamic-component';
+import { N_ATTRIBUTE, XMLID_ATTRIBUTE } from 'src/app/models/constants';
 import { Attributes, Description, GenericElement, HTML, XMLElement } from '../../models/evt-models';
 import { xpath } from '../../utils/dom-utils';
 
@@ -11,12 +12,13 @@ export interface Parser<T> { parse(data: T): ParseResult<GenericElement>; }
 export type ParseFn = (d: XMLElement) => ParseResult<GenericElement>;
 export function createParser<U, T extends Parser<U>>(c: new (raw: ParseFn) => T, data: ParseFn): T { return new c(data); }
 
-export function getID(xml: XMLElement, prefix: string = '') { return xml.getAttribute('xml:id') || prefix + xpath(xml); }
+export function getID(xml: Element, prefix: string = '') { return xml.getAttribute(XMLID_ATTRIBUTE) || prefix + xpath(xml); }
 export function getClass(xml: XMLElement) { return xml.tagName ? xml.tagName.toLowerCase() : ''; }
 export function parseChildren(xml: XMLElement, parseFn: ParseFn, excludeEmptyText?: boolean) {
     return complexElements(xml.childNodes, excludeEmptyText).map((child) => parseFn(child as XMLElement));
 }
-export function getDefaultN(n: string) { return n || ''; }
+export function getNOrDefault(n: string) { return n || ''; }
+export function getNOrDefaultFromElement(el: Element) { return el.getAttribute(N_ATTRIBUTE) ?? ''; }
 export function getDefaultAttr(attr: string) { return attr || ''; }
 
 export function unhandledElement(xml: XMLElement, name: string, parseFn: ParseFn) {

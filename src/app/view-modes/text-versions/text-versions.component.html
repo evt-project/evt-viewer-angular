@@ -19,6 +19,7 @@
                 </gridster-item>
             </gridster>
             <evt-button class="btn" [class.btn-float-right]="getVersions().length > 0"
+                ariaLabel="Add version" aria-role="button"
                 [additionalClasses]="versionBtn?.additionalClasses"
                 [label]="versionBtn?.label | translate" [iconLeft]="versionBtn?.icon" [title]="versionBtn?.title | translate"
                 (btnClick)="addVersion()"></evt-button>

@@ -28,7 +28,7 @@
                 <div class="ng-value" *ngFor="let item of items | slice:0:1">
                     <evt-icon [iconInfo]="iconColor" [style.color]="item.color"></evt-icon>
                     <span class="ng-value-label">{{item.label}}</span>
-                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true" aria-role="button">×</span>
                 </div>
             </ng-container>
             <div class="ng-value" *ngIf="items.length > 1">

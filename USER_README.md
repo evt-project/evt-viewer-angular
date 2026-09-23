@@ -55,7 +55,7 @@ In the `assets/data` folder you can create one folder for each type of data (ima
 * `data/models` => put your 3D models here, again you will find the `​multires` and `singleres`​ subfolders.
 * `data/viscoll` => put all VisColl-related files here.
 
-To have your edition parsed and loaded in the browser by EVT you have to point to it explicitly modifying the file_config.json file in the ​config directory and specifying the name of the main file: `"dataUrls": ["data/text/My_edition.xml"]`.
+To have your edition parsed and loaded in the browser by EVT you have to point to it explicitly modifying the config.yml file in the ​config directory and specifying the name of the main file: `"dataUrls": ["data/text/My_edition.xml"]`.
 While this is the most important configuration option, since it tells EVT where to start with your edition, note that there are several other options available in that file, so that you can customize the layout and appearance of your edition (see the (Configuration)[https://github.com/evt-project/evt-viewer-angular/wiki/Configuration] section). Also note that some configuration options may be necessary to make desired features available, for instance to add a required edition level, so make sure you read the following section and check the default configuration file.
 
 ### 3.2 - Open your edition
@@ -87,13 +87,11 @@ Note again that this problem, however, only affects local testing: after the edi
 
 There are several configuration options, ranging from setting the folders where edition data is stored to choosing the User Interface layout and the tools to be made available for the final user, that can be set by editing the configuration files in the `assets/config` directory.
 
-To facilitate the configuration work, configuration options are divided into three macro groups:
+To facilitate the configuration work, configuration options are divided into macro groups:
 
-* Edition Configuration (`edition_config.json`), where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Edition-Configuration).
+* Edition Configuration section where to set the configurations closely related to the digital edition, such as the title, the edition level(s), etc. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Edition-Configuration).
 
-* File Configuration (`file_config.json`), where to set the path(s) to the file(s) of the digital edition. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/File-Configuration).
-
-* UI Configuration (`ui_config.json`), where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
+* UI Configuration section where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
 
 It is also possible to configurate the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.json`. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
 

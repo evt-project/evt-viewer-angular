@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 import { parse } from '.';
-import { Description, Witness, Witnesses, WitnessGroup, XMLElement } from '../../models/evt-models';
-import { isNestedInElem, xpath } from '../../utils/dom-utils';
-import { replaceNotWordChar } from '../../utils/xml-utils';
+import { Description, GenericElement, Witness, XMLElement } from '../../models/evt-models';
 import { AttributeParser } from './basic-parsers';
 import { GenericParserService } from './generic-parser.service';
-import { createParser, getID } from './parser-models';
+import { createParser, getID, ParseResult } from './parser-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WitnessesParserService {
-  private witListTagName = 'listWit';
-  private witTagName = 'witness';
-  private witNameAttr = 'type="siglum"';
-  private groupTagName = 'head';
   private attributeParser = createParser(AttributeParser, parse);
 
   constructor(
@@ -22,96 +16,87 @@ export class WitnessesParserService {
   ) {
   }
 
-  public parseWitnessesData(document: XMLElement): Witnesses {
-    const lists = Array.from(document.querySelectorAll<XMLElement>(this.witListTagName));
-
-    return {
-      witnesses: this.parseWitnessesList(lists),
-      groups: this.parseWitnessesGroups(lists),
-    };
+  public parseWitnesses(document: XMLElement): Witness[] {
+    return this.parseWitnessesInternal(document);
   }
 
-  private parseWitnessesList(lists: XMLElement[]) {
-    const parsedList = lists.filter((list) => !isNestedInElem(list, list.tagName))
-      .map((list) => this.parseWitnesses(list))
-      .reduce((x, y) => x.concat(y), []);
-
-    return parsedList;
+  // At the time of TEI version: P5 Version 4.8.1. Last updated on 1st November 2024, revision 0a2bff95a,
+  // a wit can only be contained by a listWit. So we can start from the "top level" listWit's.
+  private parseWitnessesInternal(element: XMLElement): Witness[] {
+    // Since we want to get the listWit's from everywhere in the document, we use querySelectorAll
+    // which returns them flattened, regardless of their hierarchical position.
+    let lists = this.getTopLevelListWits(element);
+    const witnesses = lists.flatMap(list => this.parseList(list));
+    return witnesses;
   }
 
-  private parseWitnesses(list: XMLElement) {
-    return Array.from(list.querySelectorAll<XMLElement>(this.witTagName))
-      .map((wit) => this.parseWitness(wit));
+  private getTopLevelListWits(element: HTMLElement) {
+    let lists = Array.from(element.querySelectorAll<XMLElement>('listWit'));
+    // Why don't we care to also check if the top level listWit is contained by a witness? 
+    // Because a witness can only be contained by a listWit, so we will never encounter a top level witness on its own
+    lists = lists.filter((list) => {
+      // list.closest('listWit') would return the list itself, so we search from its parentElement
+      const parentListWit = list.parentElement.closest('listWit');
+      return parentListWit === null;
+    });
+    return lists;
+  }
+
+  private parseList(list: HTMLElement): Witness[] {
+    const witnesses: Witness[] = [];
+    for (const child of Array.from(list.childNodes) as XMLElement[]) {
+      if (child.nodeName === 'witness') {
+        const witness = this.parseWitness(child);
+        witnesses.push(witness);
+      }
+      else if (child.nodeName === 'listWit') {
+        const witness = this.parseList(child);
+        witnesses.push(...witness);
+      }
+    }
+    return witnesses;
   }
 
   private parseWitness(wit: XMLElement): Witness {
     const id = getID(wit);
-
-    return {
+    const lists = Array.from(wit.childNodes).filter(child => child.nodeName === 'listWit');
+    const anchestorIds: string[] = [];
+    this.getWitnessAnchestorsIds(wit, anchestorIds);
+    const witness: Witness = {
       id,
-      name: this.parseWitnessName(wit) || id,
+      name: id,
+      label: this.parseLabelOrDefault(wit),
       attributes: this.attributeParser.parse(wit),
       content: this.parseWitnessContent(wit),
-      groupId: this.parseParentGroupId(wit),
+      witnesses: lists.flatMap(list => this.parseList(list as XMLElement)),
+      anchestorWitnessesIds: anchestorIds
     };
+    return witness;
   }
 
-  private parseWitnessName(wit: XMLElement) {
-    // TODO use ‘?’ operator after update tu angular 9
-    const witNameEl = wit.querySelector<XMLElement>(`*[${this.witNameAttr}]`);
+  private parseLabelOrDefault(wit: XMLElement): ParseResult<GenericElement> | null {
+    const label = wit.querySelector(':scope > label'); // we search only in the children, not all the children heriarchy
+    if (!label) return null;
+    const result = this.genericParserService.parse(label as XMLElement);
+    return result;
+  }
 
-    if (witNameEl) {
-      return Array.from(witNameEl.childNodes)
-        .map((child: XMLElement) => this.genericParserService.parse(child));
+  private getWitnessAnchestorsIds(wit: HTMLElement, anchestorIds: string[]): void {
+    if (wit.parentElement === null) return;
+
+    if (wit.parentElement.nodeName !== "witness") {
+      this.getWitnessAnchestorsIds(wit.parentElement, anchestorIds);
     }
-
-    return witNameEl;
+    else if (wit.parentElement.nodeName === "witness") {
+      const parentId = wit.parentElement.getAttribute('xml:id');
+      anchestorIds.push(parentId);
+      this.getWitnessAnchestorsIds(wit.parentElement, anchestorIds);
+    }
   }
 
   private parseWitnessContent(wit: XMLElement): Description {
     return Array.from(wit.childNodes)
-      .filter((child) => child.nodeName !== this.witListTagName && child.textContent.trim().length !== 0)
+      .filter((child) => child.nodeName !== 'listWit')
       .map((child: XMLElement) => this.genericParserService.parse(child));
-  }
-
-  private parseWitnessesGroups(lists: XMLElement[]) {
-    const parsedGroups = lists.filter((list) => isNestedInElem(list, list.tagName))
-      .map((list) => this.parseWitnessGroup(list));
-
-    return parsedGroups;
-  }
-
-  private parseWitnessGroup(list: XMLElement): WitnessGroup {
-    return {
-      id: list.getAttribute('xml:id') || xpath(list),
-      name: this.parseGroupName(list) || replaceNotWordChar(list.getAttribute('xml:id')) || xpath(list),
-      attributes: this.attributeParser.parse(list),
-      witnesses: this.parseGroupWitnesses(list),
-      groupId: this.parseParentGroupId(list),
-    };
-  }
-
-  private parseGroupName(list: XMLElement) {
-    const groupEl = Array.from(list.children)
-      .find((child) => child.nodeName === this.groupTagName);
-
-    return groupEl && groupEl.textContent;
-  }
-
-  private parseGroupWitnesses(list: XMLElement) {
-    return Array.from(list.children)
-      .filter(({ nodeName }) => nodeName === this.witListTagName || nodeName === this.witTagName)
-      .map((child) => child.getAttribute('xml:id'));
-  }
-
-  private parseParentGroupId(element: XMLElement) {
-    let parentEl = element.parentElement;
-
-    do {
-      if (isNestedInElem(parentEl, this.witListTagName) && parentEl.tagName === this.witListTagName) {
-        return parentEl.getAttribute('xml:id') || xpath(parentEl);
-      }
-      parentEl = parentEl.parentElement;
-    } while (parentEl.matches(this.witListTagName));
   }
 }

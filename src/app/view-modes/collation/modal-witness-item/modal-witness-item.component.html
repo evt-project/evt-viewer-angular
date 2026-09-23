@@ -1,0 +1,21 @@
+<div style="cursor: pointer;">
+    <div class="modal-item d-flex justify-content-between align-items-center py-1" (click)="toggleCollapse()">
+        <evt-icon role="button" *ngIf="witness.witnesses.length" [iconInfo]="chevronIcon"
+            [attr.aria-expanded]="!isCollapsed"></evt-icon>
+        <!-- <span class="ms-2 fs-5">{{ witness.label }}</span> -->
+        <evt-witness-id class="ms-2 fs-5" [witnessId]="witness.id"></evt-witness-id>
+
+        <evt-button *ngIf="witness.canSelect" type="button" class="ms-auto" additionalClasses="btn-sm btn-floating"
+            [label]="'add' | translate" (btnClick)="onSelectClicked(this.witness.id)"></evt-button>
+        <evt-button *ngIf="!witness.canSelect" type="button" class="ms-auto" additionalClasses="btn-sm ms-auto"
+            [label]="'remove' | translate" (btnClick)="onRemoveClicked(this.witness.id)"></evt-button>
+    </div>
+
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+        <div class="ms-3">
+            <evt-modal-witness-item *ngFor="let childWitness of witness.witnesses; trackBy:childrenWitnessesTrackBy"
+                [witness]="childWitness" (onSelect)="onSelectClicked(childWitness.id)"
+                (click)="onRemoveClicked(childWitness.id)"></evt-modal-witness-item>
+        </div>
+    </div>
+</div>

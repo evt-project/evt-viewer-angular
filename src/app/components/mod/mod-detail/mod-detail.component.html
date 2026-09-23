@@ -18,24 +18,25 @@
         <ul ngbNav #modEntryTab="ngbNav" class="nav-pills">
 
             <li ngbNavItem="criticalNote" *ngIf="mod.notes?.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'criticalNote' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'criticalNote' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-note  *ngFor="let element of mod?.notes" [data]="element"></evt-note>
                 </ng-template>
             </li>
 
             <li ngbNavItem="corrSeq" *ngIf="mod.content.length > 0">
-                <a class="source-detail-btn" ngbNavLink>{{'corrSeq' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'corrSeq' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-mod-sequence 
                         [data]="[mod]" 
                         [orderedLayers]="ordLayers"
-                        [selectedLayer]="selLayer"></evt-mod-sequence>
+                        [selectedLayer]="selLayer">
+                    </evt-mod-sequence>
                 </ng-template>
             </li>
 
             <li ngbNavItem="xml" *ngIf="mod.originalEncoding">
-                <a class="source-detail-btn" ngbNavLink>{{'xml' | translate}}</a>
+                <a class="source-detail-btn" ngbNavLink href="#">{{'xml' | translate}}</a>
                 <ng-template ngbNavContent>
                     <evt-original-encoding-viewer [originalEncoding]="mod.originalEncoding">
                     </evt-original-encoding-viewer>

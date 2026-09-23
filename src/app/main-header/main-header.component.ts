@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
@@ -6,18 +6,19 @@ import { ViewMode } from '../models/evt-models';
 import { EVTModelService } from '../services/evt-model.service';
 import { EVTStatusService } from '../services/evt-status.service';
 import { ThemesService } from '../services/themes.service';
-import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 import { normalizeUrl } from '../utils/js-utils';
+import { EVTBtnClickEvent } from '../ui-components/button/button.component';
 
 @Component({
   selector: 'evt-main-header',
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainHeaderComponent {
   public title$ = combineLatest([
     of(AppConfig?.evtSettings?.edition?.editionTitle),
-    this.evtModelService.title$,
+    this.evtModelService.currentEditionTitle$,
   ]).pipe(
     map(([configTitle, editionTitle]) => configTitle ?? editionTitle ?? 'defaultTitle'),
   );
@@ -26,17 +27,18 @@ export class MainHeaderComponent {
   public currentViewMode$ = this.evtStatusService.currentViewMode$;
   public mainMenuOpened = false;
   public editionConfig: EditionConfig = AppConfig.evtSettings.edition;
-  get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
-
-  get logoUrl() {
-    return AppConfig?.evtSettings?.files?.logoUrl ?? 'assets/images/logo_white.png';
-  }
+  editionHome = normalizeUrl(this.editionConfig.editionHome);
+  logoUrl = AppConfig.evtSettings.edition.logoUrl;
 
   constructor(
     public themes: ThemesService,
     private evtModelService: EVTModelService,
     private evtStatusService: EVTStatusService,
   ) {
+  }
+
+  setDefaultLogo() {
+    this.logoUrl = 'assets/images/logo_white.png';
   }
 
   selectViewMode(viewMode: ViewMode) {
@@ -64,5 +66,4 @@ export class MainHeaderComponent {
       window.open(this.editionHome, '_blank');
     }
   }
-
 }

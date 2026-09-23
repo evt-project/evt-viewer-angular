@@ -33,7 +33,8 @@ schematypens="http://purl.oclc.org/dsdl/schematron"?>
       </publicationStmt>
       <sourceDesc>
         <listWit>
-          <witness xml:id="MS_C19">Manoscritto del Canzoniere 1919. <msDesc>
+          <witness xml:id="MS_C19">Manoscritto del Canzoniere 1919. 
+            <msDesc>
               <msIdentifier>
                 <settlement>Trieste</settlement>
                 <repository>Biblioteca Civica Attilio Hortis</repository>

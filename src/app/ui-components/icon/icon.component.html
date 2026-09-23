@@ -1,7 +1,7 @@
 <ng-container *ngIf="iconInfo">
     <ng-container [ngSwitch]="true">
         <ng-container *ngSwitchCase="iconInfo.iconSet === 'evt'">
-            <span class="evt-icon-{{iconInfo.icon}} {{iconInfo.additionalClasses}}"></span>
+            <span aria-label="icon" aria-role="icon" class="evt-icon-{{iconInfo.icon}} {{iconInfo.additionalClasses}}"></span>
         </ng-container>
         <ng-container *ngSwitchCase="iconInfo.iconSet === 'fas' || iconInfo.iconSet === 'far'">
             <!-- fas, far-->

@@ -21,7 +21,6 @@ export class DamageComponent {
       name: 'damage',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel,
-      defaultsKey: 'damage',
     };
   }
 }

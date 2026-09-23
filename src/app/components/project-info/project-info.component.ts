@@ -9,7 +9,7 @@ import { EVTModelService } from '../../services/evt-model.service';
   styleUrls: ['./project-info.component.scss'],
 })
 export class ProjectInfoComponent {
-  public projectInfo$ = this.evtModelService.projectInfo$.pipe(
+  public projectInfo$ = this.evtModelService.currentEditionProjectInfo$.pipe(
     first(),
     tap((info) => this.openSection('fileDesc', info.fileDesc)),
   );

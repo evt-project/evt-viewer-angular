@@ -1,0 +1,9 @@
+<ng-container *ngIf="data.appEntry">
+    <span #evtExponent [id]="exponentId" class="evt-exponent" [class.text-decoration-underline]="isHighlighted$ | async"
+        style="scroll-margin-top: 100px;" (click)="onExponentButtonClicked()" (mouseenter)="onHover(true)"
+        (mouseleave)="onHover(false)">{{data.label}}</span>
+
+    <ng-container *ngIf="apparatusDetailsShown$ | async">
+        <evt-apparatus-entry-detail [data]="data.appEntry" [editionLevel]="editionLevel"></evt-apparatus-entry-detail>
+    </ng-container>
+</ng-container>

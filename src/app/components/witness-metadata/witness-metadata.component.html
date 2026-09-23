@@ -1,0 +1,5 @@
+<ng-container *ngFor="let id of this.ids; index as i">
+    <span *ngIf="i === 0">{{ ' ' }}</span>
+    <evt-witness-id style="font-size: 90%;" [witnessId]="id" (witnessClicked)="onWitnessClicked($event)"></evt-witness-id>
+    <span *ngIf="i !== (this.ids.length - 1)">{{ ' ' }}</span>
+</ng-container>

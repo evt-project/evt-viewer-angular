@@ -1,0 +1,22 @@
+<ng-select
+    class="me-1"
+    [items]="selectableEditionLevels"
+    bindLabel="label"
+    bindValue="id"
+    [clearable]="false"
+    [searchable]="true"
+    [ngModel]="editionLevel.id"
+    (click)="stopPropagation($event)"
+    (change)="changeEditionLevel($event)">
+    <ng-template
+        ng-label-tmp
+        let-item="item">
+        <evt-icon
+            [iconInfo]="icon"
+            label-left></evt-icon>
+        {{item.label | translate}}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+        {{item.label | translate}}
+    </ng-template>
+</ng-select>

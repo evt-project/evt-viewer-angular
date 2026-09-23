@@ -3,7 +3,14 @@
         <ng-container *ngFor="let item of dynamicItems; trackBy: trackMenuItem">
             <li *ngIf="item.enabled$ | async">
                 <span (click)="item.callback()">
-                    <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{item.label | translate}}
+                    <evt-icon [iconInfo]="item.iconInfo"></evt-icon>{{ item.label | translate }}
+                </span>
+            </li>
+        </ng-container>
+        <ng-container *ngFor="let link of downloadLinks;">
+            <li>
+                <span (click)="download(link)">
+                    <evt-icon [iconInfo]="{icon: 'download', additionalClasses: 'icon'}"></evt-icon>{{ link.label | translate }}
                 </span>
             </li>
         </ng-container>
@@ -14,10 +21,9 @@
             <span class="no-action" data-prevent-close="true">
                 <evt-icon [iconInfo]="{icon: 'language', additionalClasses: 'icon'}"></evt-icon>
                 {{ 'changeLanguage' | translate }}
-                <img *ngFor="let language of getAvailableLanguages(); trackBy: trackLanguages"
-                    src="../../assets/images/{{language.code}}.png" class="flag"
-                    [class.active]="translate.currentLang === language.code" [title]="language.label | translate"
-                    (click)="selectLanguage($event, language);" />
+                <img *ngFor="let language of availableLangs; trackBy: trackLanguages" [src]="language.iconUrl"
+                    class="flag" alt="language icon" [class.active]="translate.currentLang === language.code"
+                    [title]="language.label | translate" (click)="selectLanguage($event, language);" />
             </span>
         </li>
         <li>

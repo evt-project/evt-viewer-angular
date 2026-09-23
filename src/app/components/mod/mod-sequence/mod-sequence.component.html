@@ -5,27 +5,60 @@
     2. mod ordered by @change 
     3. add/del/subst ordered by @seq
 -->
-<ng-container *ngFor="let orderedLayer of orderedLayers">
-    <ng-container *ngFor="let mod of sequence">
-        <ng-container *ngIf="((showVarSeqAttr) && (mod?.varSeq))">
-            <span class="mod-varSeq">{{mod.varSeq}} </span>
-        </ng-container>
 
-        <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
-            <span class="mod-layer">{{orderedLayer}}: </span>
-            <ng-container *ngFor="let element of mod?.content">
-                <ng-container *ngIf="showSeqAttr && element.attributes?.seq">
-                    <span class="mod-seq">{{element.attributes.seq}} </span>
-                </ng-container>
-                <evt-content-viewer 
-                    [content]="element" 
-                    [editionLevel]="'changesView'"
-                    [evtHtmlAttributes]="element?.attributes" 
-                    [attr.data-edition]="'changesView'">
-                </evt-content-viewer>
+
+    <!-- default -->
+    <ng-container *ngIf="!orderedLayers || (orderedLayers && orderedLayers.length == 0)">
+        <ng-container *ngFor="let mod of sequence">
+            
+            <ng-container *ngIf="((showVarSeqAttr) && (mod?.varSeq))">
+                <span class="mod-varSeq">{{mod.varSeq}} </span>
             </ng-container>
-            <br/>
-        <ng-container>
 
+            <ng-container *ngIf="mod.type == Mod">
+                <ng-container *ngFor="let element of mod?.content">
+                    <ng-container *ngIf="showSeqAttr && element.attributes?.seq">
+                        <span class="mod-seq">{{element.attributes.seq}} </span>
+                    </ng-container>
+                    <evt-content-viewer 
+                        [content]="element" 
+                        [editionLevel]="'changesView'"
+                        [evtHtmlAttributes]="element?.attributes" 
+                        [attr.data-edition]="'changesView'">
+                    </evt-content-viewer>
+                    </ng-container>
+                <br/>
+            </ng-container>
+        </ng-container>
     </ng-container>
-</ng-container>
+
+
+    <!-- listChange is present and orderedLayers is formed -->
+    <ng-container *ngIf="orderedLayers && orderedLayers.length > 0">
+        <ng-container *ngFor="let orderedLayer of orderedLayers">
+            <ng-container *ngFor="let mod of sequence">
+
+                <ng-container *ngIf="((showVarSeqAttr) && (mod?.varSeq))">
+                    <span class="mod-varSeq">{{mod.varSeq}} </span>
+                </ng-container>
+
+                <ng-container *ngIf="mod.type == Mod">
+                    <ng-container *ngIf="mod.changeLayer?.replace('#','') === orderedLayer">
+                        <span class="mod-layer">{{orderedLayer}}: </span>
+                        <ng-container *ngFor="let element of mod?.content">
+                            <ng-container *ngIf="showSeqAttr && element.attributes?.seq">
+                                <span class="mod-seq">{{element.attributes.seq}} </span>
+                            </ng-container>
+                            <evt-content-viewer 
+                                [content]="element" 
+                                [editionLevel]="'changesView'"
+                                [evtHtmlAttributes]="element?.attributes" 
+                                [attr.data-edition]="'changesView'">
+                            </evt-content-viewer>
+                        </ng-container>
+                        <br/>
+                    <ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ng-container>

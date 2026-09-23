@@ -1,0 +1,9 @@
+<ng-select style="max-width: 200px;" [items]="this.xmlIds" [title]="this.selectedXmlId"
+    (change)="this.changeXmlId($event)" [ngModel]="this.selectedXmlId" [clearable]="false" [searchable]="true">
+    <ng-template ng-label-tmp let-item="item">
+        <span class="px-2">{{ item }}</span>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+        <div class="text-truncate" [title]="item">{{ item }}</div>
+    </ng-template>
+</ng-select>

@@ -1,11 +1,14 @@
-<ng-select
-    class="me-1"
-    [closeOnSelect]="true" 
-    [searchable]="false"
-    bindLabel="label" 
-    bindValue="id"
-    [items]="msDesc$ | async" #ngSelectComponent
-    (clear)="resetMsDesc();"
-    [placeholder]="'selectMsDesc' | translate" 
-    (change)="msDescID = $event?.id; openMsDescContent()">     
-</ng-select>
+<ng-container *ngIf="(msDesc$ | async) as items">
+
+    <evt-button *ngIf="items.length === 1; else select" [additionalClasses]="'my-button'" [label]="'showMsDesc' | translate"
+        [active]="!!this.msDescId" (btnClick)="onMsDescBtnClick(items[0])" aria-role="button"></evt-button>
+
+    <ng-template #select>
+        <ng-select class="me-1" [(ngModel)]="msDescId" [items]="items" bindLabel="label" bindValue="id"
+            [closeOnSelect]="true" [searchable]="false" (clear)="hideMsDesc();" [disabled]="items.length === 0"
+            [placeholder]="(items.length === 0 ? 'noMsDescAvailable' : 'selectMsDesc') | translate"
+            (change)="openMsDescContent()">
+        </ng-select>
+    </ng-template>
+
+</ng-container>

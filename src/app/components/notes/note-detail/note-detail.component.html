@@ -1,0 +1,35 @@
+
+<div class="source-container">
+    <div class="card-body app-detail-content source-detail-content" *ngIf="note.content.length > 0">
+        <span class="btn btn-sm transparent source-quote-button"></span>
+        <span class="source-quote-symbol">&#10077;</span>
+        <span class="source-text-container">
+            <evt-content-viewer *ngFor="let element of note.content" [content]="element" 
+                [editionLevel]="editionLevel" [withDeletions]="true">
+            </evt-content-viewer>
+        </span>
+    </div>
+    <evt-pinner class="note-tab-pinner" [item]="note" pinType="Notes"></evt-pinner>
+    <div class="card-footer app-detail-tabs" *ngIf="detailVisible">
+        <ul ngbNav #quoteEntryTab="ngbNav" class="nav-pills">
+            <li ngbNavItem="analoguesView" *ngIf="note.analogue">
+                <a class="source-detail-btn" ngbNavLink href="#">{{'analogues' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngFor="let analogue of note.analogue">
+                        <evt-content-viewer *ngFor="let el of analogue" [content]="el"></evt-content-viewer>
+                    </ng-container>
+                </ng-template>
+            </li>
+            <li ngbNavItem="refBibl" *ngIf="note.source">
+                <a class="source-detail-btn" ngbNavLink href="#">{{'refBibl' | translate}}</a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngIf="note.source">
+                        <h4 class="sources-cat">{{'quotedSources' | translate}}</h4>
+                        <evt-biblio-list [data]="note.source"></evt-biblio-list>
+                    </ng-container>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="quoteEntryTab" class="tab-content"></div>
+    </div>
+</div>

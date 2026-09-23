@@ -1,0 +1,52 @@
+<evt-panel [secondary]="secondary">
+    <div header-left>
+        <div class="d-flex align-items-center">
+            <div class="panel-title text-truncate me-1" style="min-width: 200px;"
+                [title]="edition.editionInfo.editionFriendlyName ?? edition.editionInfo.editionTitle">{{
+                edition.editionInfo.editionFriendlyName ?? edition.editionInfo.editionTitle }}</div>
+            <div class="mx-1" (mousedown)="$event.stopPropagation()" (touchstart)="$event.stopPropagation()">
+                <evt-synopsis-page-selector [pageList]="edition.selectedPage.pageSelectionList"
+                    [selectedPage]="edition.selectedPage.pageSelectionList.selectedPage"
+                    (onSelectionChanged)="changePage($event)"></evt-synopsis-page-selector>
+            </div>
+            <div class="mx-1" (mousedown)="$event.stopPropagation()" (touchstart)="$event.stopPropagation()">
+                <evt-synopsis-xml-id-selector [xmlIds]="edition.selectedPage.xmlIds"
+                    [selectedXmlId]="edition.selectedPage.selectedXmlId"
+                    (onXmlIdChanged)="changeXmlId($event)"></evt-synopsis-xml-id-selector>
+            </div>
+        </div>
+        <!-- <div class="mx-1" (mousedown)="$event.stopPropagation()" (touchstart)="$event.stopPropagation()">
+            <evt-synopsis-edition-level-selector [editionLevel]="edition.editionLevel"
+                (onEditionLevelChanged)="changeEditionLevel($event)"></evt-synopsis-edition-level-selector>
+        </div> -->
+    </div>
+    <div content evtAnnotator>
+        <evt-page *ngIf="edition" [attr.data-id]="edition.selectedPage.page.id" [data]="edition.selectedPage.page"
+            [editionLevel]="edition.editionLevel" [textFlow]="false"
+            [itemsToHighlight]="itemsToHighlight$ | async"></evt-page>
+    </div>
+
+    <div footer>
+        <!-- <evt-button
+            [iconLeft]="{icon: 'search'}"
+            label="Search"
+            additionalClasses="me-1"
+            (btnClick)="toggleSecondaryContent('SEARCH_RESULTS')"
+            [active]="secondaryContent === 'SEARCH_RESULTS'">
+        </evt-button> -->
+        <evt-entities-select (selectionChange)="changeSelection($event)"></evt-entities-select>
+        <!-- <evt-button *ngIf="enableProseVersesToggler"
+            [iconLeft]="proseVersesTogglerIcon"
+            [label]="textFlow | translate"
+            additionalClasses="ms-1"
+            (btnClick)="toggleProseVerses()">
+        </evt-button>
+        <evt-button *ngIf="enableHideDeletionsToggler"
+            [iconLeft]="hideDeletionsTogglerIcon"
+            [label]="'showsDeletions' | translate "
+            [active]="showDeletions"
+            additionalClasses="ms-1"
+            (btnClick)="toggleHideDeletions()">
+        </evt-button> -->
+    </div>
+</evt-panel>

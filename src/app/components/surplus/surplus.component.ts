@@ -20,7 +20,6 @@ export class SurplusComponent {
       name: 'surplus',
       attributes: this.data?.attributes || {},
       editionLevel: this.editionLevel,
-      defaultsKey: 'surplus',
     };
   }
 }
