@@ -32,6 +32,14 @@ export class StyledBiblioEntryComponent implements OnChanges, AfterViewInit {
   public showMainElemTextContent = AppConfig.evtSettings.ui.biblTab.showMainElemTextContent;
   public styleProperties : BibliographicStyle;
 
+  get isEntry(): boolean {
+    return this.biblEntry?.type === BibliographicEntry;
+  }
+
+  get isStructEntry(): boolean {
+    return this.biblEntry?.type === BibliographicStructEntry;
+  }
+
   flattenBiblStruct(entry: BibliographicStructEntry): BibliographicEntry[] {
     return entry.analytic.concat(entry.monogrs.concat(entry.series));
   }

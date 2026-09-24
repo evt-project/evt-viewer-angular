@@ -1,4 +1,4 @@
-<ng-container *ngIf="biblEntry.type && (biblEntry.type.name === 'BibliographicEntry')">
+<ng-container *ngIf="isEntry">
     <ng-container *ngIf="isStructured(biblEntry); else plainText">
         <ng-container *ngFor="let element of showList">
             <ng-template *ngTemplateOutlet="styledBiblioTemplate; context: { element, entries: [biblEntry] }"></ng-template>
@@ -6,7 +6,7 @@
     </ng-container>
     <ng-template #plainText>{{ biblEntry.text }}</ng-template>
 </ng-container>
-<ng-container *ngIf="biblEntry.type && (biblEntry.type.name === 'BibliographicStructEntry')">
+<ng-container *ngIf="isStructEntry">
     <ng-container *ngFor="let element of showList">
         <ng-template *ngTemplateOutlet="styledBiblioTemplate; context: { element, entries: getContextForElement(element, biblEntry)}"></ng-template>
     </ng-container>
