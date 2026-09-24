@@ -2,7 +2,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ApplicationRef, DoBootstrap, NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -178,7 +178,7 @@ export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
 
-const DynamicComponents = [
+const DynamicComponents: Type<unknown>[] = [
   AdditionalComponent,
   AdditionComponent,
   AnalogueEntryComponent,
@@ -186,6 +186,7 @@ const DynamicComponents = [
   ApparatusEntryDetailComponent,
   ApparatusEntryReadingsComponent,
   ApparatusEntryExponentComponent,
+  BibliographyInfoComponent,
   CharComponent,
   ChoiceComponent,
   DamageComponent,
@@ -227,6 +228,7 @@ const DynamicComponents = [
   SeriesStmtComponent,
   SicComponent,
   SpaceComponent,
+  SubstitutionComponent,
   SuppliedComponent,
   SurplusComponent,
   TagsDeclComponent,
@@ -246,7 +248,6 @@ const DynamicComponents = [
     AnnotatorDirective,
     AppComponent,
     BiblioEntryComponent,
-    BibliographyInfoComponent,
     BibliographicStyleSelectorComponent,
     BiblioListComponent,
     ChangeLayerSelectorComponent,
@@ -300,7 +301,6 @@ const DynamicComponents = [
     SourcesPanelComponent,
     StartsWithPipe,
     StyledBiblioEntryComponent,
-    SubstitutionComponent,
     TextPanelComponent,
     TextSourcesComponent,
     TextTextComponent,
