@@ -204,5 +204,30 @@
   "showsDeletions": "Afficher les suppressions",
   "hidesDeletions": "Cacher les suppressions",
   "noRelations": "Aucune relation",
-  "noNamedEntities": "Il n’y a aucune entité nommée à afficher"
+  "ariaLabels": {
+    "goToPrevPage": "Aller à la page précédente",
+    "goToNextPage": "Aller à la page suivante",
+    "submitNamedEntity": "Soumettre la recherche d'entité nommée",
+    "searchNamedEntity": "Rechercher une entité nommée",
+    "switchToViewMode": "Passer en mode visualisation",
+    "showOptions": "Afficher le menu des options",
+    "stepBackward": "Reculer d’un pas",
+    "stepForward": "Avancer d’un pas",
+    "caretLeft": "Chevron gauche",
+    "caretRight": "Chevron droit",
+    "openInfoTab": "Ouvrir l’onglet informations",
+    "searchResults": "Résultats de la recherche",
+    "hideDeletionsFromText": "Masquer les suppressions dans le texte",
+    "removePinned": "Retirer l’élément épinglé",
+    "pinItem": "Épingler l’élément",
+    "closeModal": "Fermer la fenêtre modale",
+    "hidePanel": "Masquer ce panneau",
+    "openApparatusTab": "Ouvrir l’onglet Apparatus",
+    "openPinBoard": "Ouvrir le tableau d’épingles"
+  },
+  "noNamedEntities": "Il n’y a aucune entité nommée à afficher",
+  "syncTextWithImage": "Synchroniser le texte avec l’image",
+  "sourceFileNotFound": "Aucun fichier source trouvé",
+  "noMsDescAvailable": "Aucune description de manuscrit disponible",
+  "showMsDesc": "Afficher la description du manuscrit"
 }
