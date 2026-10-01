@@ -1,7 +1,7 @@
 import { AppConfig } from 'src/app/app.config';
 import { ParserRegister, xmlParser } from '.';
 import { Analogue, BibliographicEntry, BibliographicList, BibliographicStructEntry,
-    GenericElement, Note, Paragraph, Ptr, QuoteEntry, SourceClass, Verse, VersesGroup,
+    GenericElement, MsDesc, Note, Paragraph, Ptr, QuoteEntry, SourceClass, Verse, VersesGroup,
     XMLElement } from '../../models/evt-models';
 import { AnalogueParser } from './analogue-parser';
 import { createParser, getID, parseChildren, ParseFn, Parser } from './parser-models';
@@ -33,8 +33,8 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
     exceptionParentElements = AppConfig.evtSettings.edition.sourcesExcludedFromListByParent;
     elementsAllowedForSources = 'bibl, cit, note, seg'; // bibliography
     elementsAllowedForLink = 'seg, ref, quote, cit, div'; // nested quote elements
-    notDisplayedInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry',
-    'BibliographicStructEntry', 'Analogue', 'MsDesc'];
+    notDisplayedInTextFlow = [Note, BibliographicList, BibliographicEntry,
+    BibliographicStructEntry, Analogue, MsDesc];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
     evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
 
@@ -124,7 +124,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             isInsideCit: isInCit,
             isNoteView: ((quote.tagName === 'note') || (quote.tagName === 'ptr')) ? true : false,
             content: content,
-            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
+            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type']))),
             originalEncoding: this.getXML(quote, isInCit),
         };
     }
@@ -305,7 +305,7 @@ export class QuoteParser extends BasicParser implements Parser<XMLElement> {
             isInsideCit: false,
             isNoteView: true,
             content: content,
-            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type'].name))),
+            contentToShow: content.filter((el) => !(this.notDisplayedInTextFlow.includes(el['type']))),
             originalEncoding: this.getXML(quote, false),
         };
     }
