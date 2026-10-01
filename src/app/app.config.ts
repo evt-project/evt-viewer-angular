@@ -13,6 +13,8 @@ import { isAbsoluteUrl } from './utils/js-utils';
 @Injectable()
 export class AppConfig {
     static evtSettings: EVTConfig;
+    // Element names already reported by getNamedEntityType, to warn about each of them only once
+    private static unlistedEntityTags = new Set<string>();
     private readonly defaultFileConfigUrl = 'assets/config/config.yaml';
     private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
     private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json");
@@ -123,7 +125,7 @@ export class AppConfig {
      * @param edition EditionConfig
      */
     updateStyleFromConfig(edition: EditionConfig, ui: UiConfig) {
-        const rules = [];
+        const rules: { [selector: string]: string } = {};
         rules['html'] = `font-size: ${ui.mainFontSize};`;
         rules['.edition-font'] = `font-family: ${ui.mainFontFamily};`;
         rules['.ng-select'] = `font-size: ${ui.secondaryFontSize};`;
@@ -156,10 +158,25 @@ export class AppConfig {
     }
 
     static getNamedEntityType(tagName: string): string {
+        const neTagNameMap: { [key: string]: string } = {
+            persongrp: 'person',
+        };
+        const name = neTagNameMap[tagName.toLowerCase()] || tagName.toLowerCase();
         const lists = AppConfig.getListsToParseTagNames();
         const list = lists.find(list =>
-            list.listSelector.toLowerCase().includes(tagName.toLowerCase())
-            || list.namedEntityType.toLowerCase() === tagName.toLowerCase());
+            list.listSelector.toLowerCase().includes(name)
+            || list.namedEntityType.toLowerCase() === name);
+
+        // No enabled list matches this element: keep its own name so that it is simply not listed
+        if (!list) {
+            if (!AppConfig.unlistedEntityTags.has(name)) {
+                AppConfig.unlistedEntityTags.add(name);
+                console.warn(`<${tagName}> does not belong to any enabled list in "namedEntitiesLists": `+'its entities will not be shown among the entities lists');
+            }
+
+            return name;
+        }
+
         return list.namedEntityType;
     }
 }
