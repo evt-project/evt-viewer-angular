@@ -41,7 +41,7 @@ The configuration file contains sections like:
 * File Configuration, where to set the path(s) to the file(s) of the digital edition. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/File-Configuration).
 * UI Configuration, where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
 
-It is also possible to configure the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.json`. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
+It is also possible to configure the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.yaml`. [See details in the Wiki page](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
 
 For more information please refer to the [Configuration section](https://github.com/evt-project/evt-viewer-angular/wiki/Configuration) on the Wiki.
 

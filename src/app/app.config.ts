@@ -16,7 +16,7 @@ export class AppConfig {
     // Element names already reported by getNamedEntityType, to warn about each of them only once
     private static unlistedEntityTags = new Set<string>();
     private readonly defaultFileConfigUrl = 'assets/config/config.yaml';
-    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
+    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.yaml';
     private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json");
     public readonly fileConfigUrl$: Observable<string> = this.hostConfig$.pipe(
         map(config => config.allowedEVTAASConfigBaseUrls),
@@ -77,9 +77,12 @@ export class AppConfig {
                         }
 
                         const sourcesRequests = editionTextSourcesConfig.map(sourceConfig =>
-                            this.http.get<EditorialConventionsConfig>(
-                                sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl
+                            this.http.get(
+                                sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl,
+                                { responseType: 'text' }
                             ).pipe(
+                                // JSON is valid YAML, so editorial conventions files in the old JSON format are still supported
+                                map((yamlText: string) => yaml.load(yamlText) as EditorialConventionsConfig),
                                 map(editorialConventionsConfig => {
                                     let imagesSource: ImagesSource = { kind: 'null' };
                                     if (sourceConfig.imagesSources) {
