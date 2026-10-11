@@ -4,9 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
-import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
+import { ViewMode, ViewModeId } from './models/evt-models';
 import { EditorialConventionLayout } from './models/evt-models';
-import { reduceCssUnit, updateCSS } from './utils/dom-utils';
 import * as yaml from 'js-yaml';
 import { isAbsoluteUrl } from './utils/js-utils';
 
@@ -128,28 +127,17 @@ export class AppConfig {
      * @param edition EditionConfig
      */
     updateStyleFromConfig(edition: EditionConfig, ui: UiConfig) {
-        const rules: { [selector: string]: string } = {};
-        rules['html'] = `font-size: ${ui.mainFontSize};`;
-        rules['.edition-font'] = `font-family: ${ui.mainFontFamily};`;
-        rules['.ng-select'] = `font-size: ${ui.secondaryFontSize};`;
-        rules['.nav-link'] = `font-size: ${ui.secondaryFontSize} !important;`;
-        rules['.tab-content'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.75)}`;
-        rules['.apparatus-nav .nav-link'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)} !important;`;
-        rules['evt-biblio-list .msIdentifier, .btn-close, .layerMarker, .app-wit'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
-        rules['.code, .label, .relation-description, .source-detail-btn'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
-        rules['.mod-layer'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)};`;
-        rules['evt-original-encoding-viewer code'] = `font-size: ${ui.secondaryFontSize};`;
-        rules['.app-detail-tabs .nav-link'] = `font-family: ${ui.secondaryFontFamily};`;
-        rules['.ui-font'] = `font-family: ${ui.secondaryFontFamily}; font-size: ${ui.secondaryFontSize};`;
-        rules['.app-detail-tabs'] = `font-family: ${ui.secondaryFontFamily};`;
-        //rules['.app-detail-content'] = `font-family: ${ui.mainFontFamily}; font-size: ${ui.secondaryFontSize};`;
-        rules['.' + AnalogueClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
-        rules['.' + SourceClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
-        rules['.' + AnalogueClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
-        rules['.' + SourceClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
-
-        Object.entries(rules).forEach(([selector, style]) => { updateCSS([[selector, style]]) });
-        console.log('Style applied from config', rules);
+        const properties = {
+            '--main-font-family': ui.mainFontFamily,
+            '--main-font-size': ui.mainFontSize,
+            '--secondary-font-family': ui.secondaryFontFamily,
+            '--secondary-font-size': ui.secondaryFontSize,
+            '--reading-color-light': edition.readingColorLight,
+            '--reading-color-dark': edition.readingColorDark,
+        };
+        Object.entries(properties).filter(([, value]) => value)
+            .forEach(([property, value]) => document.documentElement.style.setProperty(property, value));
+        console.log('Style properties applied from config', properties);
     }
 
     static getListsToParseTagNames(): NamedEntitiesListConfig[] {
