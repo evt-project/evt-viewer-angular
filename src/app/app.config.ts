@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Observable, throwError } from 'rxjs';
-import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { ViewMode, ViewModeId } from './models/evt-models';
 import { EditorialConventionLayout } from './models/evt-models';
 import * as yaml from 'js-yaml';
-import { isAbsoluteUrl } from './utils/js-utils';
+import { isAbsoluteUrl, noCacheParams } from './utils/js-utils';
 
 @Injectable()
 export class AppConfig {
@@ -16,12 +16,11 @@ export class AppConfig {
     private static unlistedEntityTags = new Set<string>();
     private readonly defaultFileConfigUrl = 'assets/config/config.yaml';
     private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.yaml';
-    private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json");
+    private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json", { params: noCacheParams });
     public readonly fileConfigUrl$: Observable<string> = this.hostConfig$.pipe(
         map(config => config.allowedEVTAASConfigBaseUrls),
         map(allowedUrls => {
-            const params = new URLSearchParams(window.location.hash)
-            const paramsUrl = params.get("fileConfigUrl");
+            const paramsUrl = AppConfig.getHashFileConfigUrl();
             if (!paramsUrl || paramsUrl === this.defaultFileConfigUrl) return this.defaultFileConfigUrl;
 
             const prefixesMatched = allowedUrls.filter(x => paramsUrl.includes(x))
@@ -38,10 +37,33 @@ export class AppConfig {
     ) {
     }
 
+    /**
+     * Reads fileConfigUrl starting from the query part of the hash
+     */
+    private static getHashFileConfigUrl(): string | null {
+        const hash = window.location.hash;
+        const query = hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
+
+        return new URLSearchParams(query).get('fileConfigUrl');
+    }
+
+    /**
+     * Listener that checks if the fileConfigUrl in the hash has changed, and if so it reloads the page
+     */
+    private reloadOnFileConfigUrlChange(loadedUrl: string) {
+        window.addEventListener('hashchange', () => {
+            const paramsUrl = AppConfig.getHashFileConfigUrl();
+            if (paramsUrl && paramsUrl !== loadedUrl) {
+                window.location.reload();
+            }
+        });
+    }
+
     load() {
         return new Promise<void>((resolve) => {
             this.fileConfigUrl$.pipe(
-                switchMap(mainConfigUrl => this.http.get(mainConfigUrl, { responseType: 'text' }).pipe(
+                tap((mainConfigUrl) => this.reloadOnFileConfigUrlChange(mainConfigUrl)),
+                switchMap(mainConfigUrl => this.http.get(mainConfigUrl, { responseType: 'text', params: noCacheParams }).pipe(
                     map((yamlText: string) => {
                         try {
                             const parsed = yaml.load(yamlText) as EVTConfigRaw;
@@ -78,7 +100,7 @@ export class AppConfig {
                         const sourcesRequests = editionTextSourcesConfig.map(sourceConfig =>
                             this.http.get(
                                 sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl,
-                                { responseType: 'text' }
+                                { responseType: 'text', params: noCacheParams }
                             ).pipe(
                                 // JSON is valid YAML, so editorial conventions files in the old JSON format are still supported
                                 map((yamlText: string) => yaml.load(yamlText) as EditorialConventionsConfig),

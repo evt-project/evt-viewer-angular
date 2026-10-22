@@ -8,6 +8,7 @@ import { PrefatoryMatterParserService } from './xml-parsers/prefatory-matter-par
 import { EditionInfo, EditionSource } from './named-entities.service';
 import { v4 as uuidv4 } from 'uuid';
 import { EVT_PREFIX, TEI_TAG, XMLID_ATTRIBUTE } from '../models/constants';
+import { noCacheParams } from '../utils/js-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class EditionDataService {
 
   private loadAndParseEditionData(source: EditionTextSource): Observable<EditionSource> {
     const { url, friendlyName, glossaryUrl } = source;
-    return this.http.get(url, { responseType: 'text' }).pipe(
+    return this.http.get(url, { responseType: 'text', params: noCacheParams }).pipe(
       map((source) => parseXml(source)),
       tap(source => {
         const setBodyElementsId = (elements: Element[]) => {
@@ -56,7 +57,7 @@ export class EditionDataService {
       mergeMap(editionData =>
         forkJoin({
           editionData: of(editionData),
-          glossary: glossaryUrl ? this.http.get(glossaryUrl, { responseType: 'text' }) : of(''),
+          glossary: glossaryUrl ? this.http.get(glossaryUrl, { responseType: 'text', params: noCacheParams }) : of(''),
         })
       ),
       map(({ editionData, glossary }) => {
@@ -80,7 +81,7 @@ export class EditionDataService {
   loadXIinclude(doc: HTMLElement, baseUrlPath: string) {
     const filesToInclude = Array.from(doc.getElementsByTagName('xi:include'));
     const xiIncludeLoadsSubs = filesToInclude.map((element) =>
-      this.http.get(baseUrlPath + element.getAttribute('href'), { responseType: 'text' })
+      this.http.get(baseUrlPath + element.getAttribute('href'), { responseType: 'text', params: noCacheParams })
         .pipe(
           tap((fileData) => {
             const includedDoc = parseXml(fileData);

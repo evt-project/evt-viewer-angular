@@ -97,6 +97,13 @@ export function snakeToCamelCased(str) {
     return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
+/**
+ * Query params for config and edition files requests: the timestamp changes at every page load,
+ * so the browser never reuses a cached copy of a file that has been modified
+ * or that belonged to another edition served at the same url
+ */
+export const noCacheParams = { t: Date.now() };
+
 export function isAbsoluteUrl(path: string): boolean {
   try {
     new URL(path);
