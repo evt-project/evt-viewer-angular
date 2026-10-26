@@ -80,23 +80,7 @@
                 "input": "src/index.html",
                 "output": "./../index.html"
               },
-              "assets": [
-                {
-                  "glob": "favicon.ico",
-                  "input": "src/",
-                  "output": "./../"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "src/assets/",
-                  "ignore": [
-                    "fonts/evt-icons-project.json",
-                    "scss/**",
-                    "data/**"
-                  ],
-                  "output": "./../assets/"
-                }
-              ],
+              "assets": [],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
