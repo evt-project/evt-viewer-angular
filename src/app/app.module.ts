@@ -63,6 +63,7 @@ import { HandleImgErrorDirective } from './directives/handle-img-error.directive
 import { HighlightDirective } from './directives/highlight.directive';
 import { HistoryComponent } from './components/history/history.component';
 import { HtmlAttributesDirective } from './directives/html-attributes.directive';
+import { TextSearchHighlightDirective } from './directives/text-search-highlight.directive';
 import { HumanizePipe } from './pipes/humanize.pipe';
 import { IdbService } from './services/idb.service';
 import { IdentifierComponent } from './components/identifier/identifier.component';
@@ -301,6 +302,7 @@ const DynamicComponents: Type<unknown>[] = [
     StartsWithPipe,
     StyledBiblioEntryComponent,
     TextPanelComponent,
+    TextSearchHighlightDirective,
     TextSourcesComponent,
     TextTextComponent,
     TextVersionsComponent,

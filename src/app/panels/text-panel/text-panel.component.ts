@@ -1,14 +1,17 @@
 import { Component, ElementRef, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, Subject, Subscription } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, shareReplay, skip, tap, withLatestFrom } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, map, shareReplay, skip, take, tap, withLatestFrom } from 'rxjs/operators';
 import { EvtLinesHighlightService } from 'src/app/services/evt-lines-highlight.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
 import { StructureXmlParserService } from 'src/app/services/xml-parsers/structure-xml-parser.service';
 import { AppConfig, EditionLevel, EditionLevelType, TextFlow } from '../../app.config';
 import { EntitiesSelectItem } from '../../components/entities-select/entities-select.component';
+import { TextSearchFocus } from '../../directives/text-search-highlight.directive';
 import { Page } from '../../models/evt-models';
 import { EVTModelService } from '../../services/evt-model.service';
 import { EVTStatusService } from '../../services/evt-status.service';
+import { TextSearchResult, TextSearchResults, TextSearchService } from '../../services/text-search.service';
+import { createSearchRegExp } from '../../utils/text-search-utils';
 import { EvtIconInfo } from '../../ui-components/icon/icon.component';
 
 type SecondaryContent = 'search' | 'info';
@@ -133,6 +136,18 @@ export class TextPanelComponent implements OnDestroy {
   secondaryContent: SecondaryContent | null = null;
   isSecondaryContentShown = () => !!this.secondaryContent;
 
+  @ViewChild('textSearchInput') textSearchInput: ElementRef<HTMLInputElement>;
+  public textSearchOpen = false;
+  public textSearchQuery = '';
+  public textSearchIsRegExp = false;
+  public textSearchRegExp: RegExp;
+  public textSearchError: string;
+  /** Occurrences of the query in the page (or pages) shown */
+  public textSearchMatches = 0;
+  /** Occurrences of the query in all the pages, shown in the secondary content */
+  public textSearchResults: TextSearchResults;
+  public textSearchFocus: TextSearchFocus;
+
   public enableProseVersesToggler = AppConfig.evtSettings.edition.proseVersesToggler;
   get defaultTextFlow() {
     if (!this.enableProseVersesToggler) {
@@ -183,6 +198,7 @@ export class TextPanelComponent implements OnDestroy {
     public highlightService: EvtLinesHighlightService,
     public structureService: StructureXmlParserService,
     public keyboardService: KeyboardService,
+    private textSearchService: TextSearchService,
   ) {
     this.hideSecondaryContentSub = merge(
       this.keyboardService.escape$,
@@ -199,6 +215,62 @@ export class TextPanelComponent implements OnDestroy {
     else {
       this.secondaryContent = null;
     }
+  }
+
+  toggleTextSearch() {
+    this.textSearchOpen = !this.textSearchOpen;
+    if (this.textSearchOpen) {
+      setTimeout(() => this.textSearchInput?.nativeElement.focus());
+    } else {
+      this.textSearchQuery = '';
+      this.textSearchResults = undefined;
+      this.onTextSearchChange();
+    }
+  }
+
+  toggleTextSearchRegExp() {
+    this.textSearchIsRegExp = !this.textSearchIsRegExp;
+    this.onTextSearchChange();
+  }
+
+  onTextSearchChange() {
+    try {
+      this.textSearchRegExp = createSearchRegExp(this.textSearchQuery, this.textSearchIsRegExp);
+      this.textSearchError = undefined;
+    } catch (e) {
+      this.textSearchRegExp = undefined;
+      this.textSearchError = e.message;
+    }
+    // Results of the previous query would hide the occurrences highlighted while typing
+    if (this.secondaryContent === 'search') {
+      this.secondaryContent = null;
+    }
+  }
+
+  onTextSearchEscape() {
+    // When results are shown, Escape closes them (see hideSecondaryContentSub), otherwise it closes the search
+    if (this.secondaryContent !== 'search') {
+      this.toggleTextSearch();
+    }
+  }
+
+  searchInAllPages() {
+    if (!this.textSearchRegExp) {
+      return;
+    }
+    const query = this.textSearchIsRegExp ? this.textSearchQuery : this.textSearchQuery.trim();
+    this.currentStatus$.pipe(take(1)).subscribe(({ pages, editionLevel }) => {
+      this.textSearchResults = this.textSearchService.searchInPages(pages, query, this.textSearchIsRegExp, editionLevel.id);
+      this.secondaryContent = 'search';
+    });
+  }
+
+  goToSearchResult(result: TextSearchResult) {
+    this.textSearchQuery = this.textSearchResults.query;
+    this.textSearchIsRegExp = this.textSearchResults.isRegExp;
+    this.onTextSearchChange();
+    this.textSearchFocus = { pageId: result.page.id, occurrenceId: result.occurrence };
+    this.updatePage$.next(result.page);
   }
 
   toggleProseVerses(mode: TextFlow) {

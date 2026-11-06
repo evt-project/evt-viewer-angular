@@ -15,7 +15,10 @@
         <evt-edition-level-selector [class.hidden]="hideEditionLevelSelector" [editionLevelID]="editionLevelID" (selectionChange)="currentEdLevel$.next($event)"></evt-edition-level-selector>
         <evt-change-layer-selector [class.hidden]="!(showChangeLayerSelector)" [selLayer]="selLayer" (layerChange)="updateSelectedLayer($event)"></evt-change-layer-selector>
     </div>
-    <div content evtAnnotator #mainContent>
+    <div content evtAnnotator #mainContent
+        [evtTextSearchHighlight]="textSearchRegExp"
+        [textSearchFocus]="textSearchFocus"
+        (textSearchMatchesChange)="textSearchMatches = $event">
         <ng-container *ngIf="(currentStatus$ | async) as currentStatus">
             <ng-container *ngIf="isMultiplePageFlow$ | async">
                 <evt-page *ngFor="let page of currentStatus.pages"
@@ -52,7 +55,26 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'search'">
-                Search results
+                <div class="text-search-results" *ngIf="textSearchResults as results">
+                    <div class="fw-bold">
+                        <ng-container *ngIf="results.total; else noTextSearchResults">
+                            {{ 'textSearchResults' | translate: { count: results.total, query: results.query } }}
+                            <span *ngIf="results.total > results.items.length" class="fw-normal">
+                                ({{ 'textSearchResultsLimited' | translate: { limit: results.items.length } }})
+                            </span>
+                        </ng-container>
+                        <ng-template #noTextSearchResults>{{ 'noMatches' | translate }}</ng-template>
+                    </div>
+                    <evt-hr class="d-block my-2"></evt-hr>
+                    <ul class="text-search-results-list mb-0">
+                        <li *ngFor="let result of results.items">
+                            <button type="button" class="btn btn-link text-search-result" (click)="goToSearchResult(result)">
+                                <span class="text-search-result-page">{{ 'page' | translate: { value: result.page.label } }}</span>
+                                <span>{{ result.before }}<mark>{{ result.match }}</mark>{{ result.after }}</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </ng-container>
 
             <ng-container *ngSwitchDefault>
@@ -64,14 +86,37 @@
 
     <div footer class="d-flex align-items-center" >
         <evt-button
-            ariaLabel="{{ 'ariaLabels.searchResult' | translate }}"
+            ariaLabel="{{ 'ariaLabels.searchInText' | translate }}"
             aria-role="button"
             [iconLeft]="{icon: 'search'}"
-            label="Search"
+            [label]="'search' | translate"
             additionalClasses="me-1"
-            (btnClick)="toggleSecondaryContent('search')"
-            [active]="secondaryContent === 'search'">
+            (btnClick)="toggleTextSearch()"
+            [active]="textSearchOpen">
         </evt-button>
+        <div *ngIf="textSearchOpen" class="text-search me-1">
+            <!-- keyup is stopped so that arrow keys move the caret instead of changing page (see PageSelectorComponent) -->
+            <input #textSearchInput type="text" class="form-control"
+                [class.invalid]="textSearchError"
+                [(ngModel)]="textSearchQuery"
+                (ngModelChange)="onTextSearchChange()"
+                (keydown.enter)="searchInAllPages()"
+                (keydown.escape)="onTextSearchEscape()"
+                (keyup)="$event.stopPropagation()"
+                [placeholder]="'searchInText' | translate"
+                [title]="textSearchError ?? ('searchInTextHint' | translate)"
+                [attr.aria-label]="'ariaLabels.searchInText' | translate"
+                [attr.aria-invalid]="!!textSearchError">
+            <span *ngIf="textSearchRegExp" class="text-search-count">{{ textSearchMatches }}</span>
+            <!-- mousedown is prevented to keep the focus in the input -->
+            <button type="button" class="text-search-regexp"
+                [class.active]="textSearchIsRegExp"
+                [attr.aria-pressed]="textSearchIsRegExp"
+                [title]="'useRegularExpression' | translate"
+                [attr.aria-label]="'useRegularExpression' | translate"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleTextSearchRegExp()">Regex</button>
+        </div>
         <evt-entities-select (selectionChange)="itemsToHighlight$.next($event)"></evt-entities-select>
         <evt-verse-prose-select *ngIf="enableProseVersesToggler" (textModeSelectionChange)="toggleProseVerses($event)"></evt-verse-prose-select>
         <evt-button *ngIf="enableHideDeletionsToggler"
