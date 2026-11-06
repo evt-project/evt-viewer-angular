@@ -1,0 +1,70 @@
+// Styles depending on the edition config: the values of the custom properties are set by AppConfig.updateStyleFromConfig.
+// This file is imported before Bootstrap and the other global styles, so that they keep precedence over these rules.
+
+html {
+  font-size: var(--main-font-size);
+}
+
+.edition-font {
+  font-family: var(--main-font-family);
+}
+
+.ng-select {
+  font-size: var(--secondary-font-size);
+}
+
+.nav-link {
+  font-size: var(--secondary-font-size) !important;
+}
+
+.tab-content {
+  font-size: calc(var(--main-font-size) * 0.75);
+}
+
+.apparatus-nav .nav-link {
+  font-size: calc(var(--main-font-size) * 0.8) !important;
+}
+
+evt-biblio-list .msIdentifier,
+.btn-close,
+.layerMarker,
+.app-wit,
+.code,
+.label,
+.relation-description,
+.source-detail-btn {
+  font-size: calc(var(--main-font-size) * 0.9);
+}
+
+.mod-layer {
+  font-size: calc(var(--main-font-size) * 0.8);
+}
+
+evt-original-encoding-viewer code {
+  font-size: var(--secondary-font-size);
+}
+
+.app-detail-tabs .nav-link {
+  font-family: var(--secondary-font-family);
+}
+
+.ui-font {
+  font-family: var(--secondary-font-family);
+  font-size: var(--secondary-font-size);
+}
+
+.app-detail-tabs {
+  font-family: var(--secondary-font-family);
+}
+
+// AnalogueClass and SourceClass in evt-models.ts
+.analogueEntry .opened,
+.sourceEntry .opened {
+  background-color: var(--reading-color-dark);
+}
+
+.analogueEntry:hover,
+.sourceEntry:hover {
+  background-color: var(--reading-color-light);
+  cursor: pointer;
+}

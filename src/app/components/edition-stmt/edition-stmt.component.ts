@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { EditionStmt } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-edition-stmt',
@@ -9,6 +10,6 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./edition-stmt.component.scss'],
 })
 @register(EditionStmt)
-export class EditionStmtComponent {
+export class EditionStmtComponent extends EvtDynamicComponent {
   @Input() data: EditionStmt;
 }

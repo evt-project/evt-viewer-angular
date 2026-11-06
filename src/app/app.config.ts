@@ -2,25 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Observable, throwError } from 'rxjs';
-import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
-import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
+import { ViewMode, ViewModeId } from './models/evt-models';
 import { EditorialConventionLayout } from './models/evt-models';
-import { reduceCssUnit, updateCSS } from './utils/dom-utils';
 import * as yaml from 'js-yaml';
-import { isAbsoluteUrl } from './utils/js-utils';
+import { isAbsoluteUrl, noCacheParams } from './utils/js-utils';
 
 @Injectable()
 export class AppConfig {
     static evtSettings: EVTConfig;
+    // Element names already reported by getNamedEntityType, to warn about each of them only once
+    private static unlistedEntityTags = new Set<string>();
     private readonly defaultFileConfigUrl = 'assets/config/config.yaml';
-    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
-    private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json");
+    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.yaml';
+    private readonly hostConfig$: Observable<HostConfig> = this.http.get<HostConfig>("assets/config/host_config.json", { params: noCacheParams });
     public readonly fileConfigUrl$: Observable<string> = this.hostConfig$.pipe(
         map(config => config.allowedEVTAASConfigBaseUrls),
         map(allowedUrls => {
-            const params = new URLSearchParams(window.location.hash)
-            const paramsUrl = params.get("fileConfigUrl");
+            const paramsUrl = AppConfig.getHashFileConfigUrl();
             if (!paramsUrl || paramsUrl === this.defaultFileConfigUrl) return this.defaultFileConfigUrl;
 
             const prefixesMatched = allowedUrls.filter(x => paramsUrl.includes(x))
@@ -37,10 +37,33 @@ export class AppConfig {
     ) {
     }
 
+    /**
+     * Reads fileConfigUrl starting from the query part of the hash
+     */
+    private static getHashFileConfigUrl(): string | null {
+        const hash = window.location.hash;
+        const query = hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
+
+        return new URLSearchParams(query).get('fileConfigUrl');
+    }
+
+    /**
+     * Listener that checks if the fileConfigUrl in the hash has changed, and if so it reloads the page
+     */
+    private reloadOnFileConfigUrlChange(loadedUrl: string) {
+        window.addEventListener('hashchange', () => {
+            const paramsUrl = AppConfig.getHashFileConfigUrl();
+            if (paramsUrl && paramsUrl !== loadedUrl) {
+                window.location.reload();
+            }
+        });
+    }
+
     load() {
         return new Promise<void>((resolve) => {
             this.fileConfigUrl$.pipe(
-                switchMap(mainConfigUrl => this.http.get(mainConfigUrl, { responseType: 'text' }).pipe(
+                tap((mainConfigUrl) => this.reloadOnFileConfigUrlChange(mainConfigUrl)),
+                switchMap(mainConfigUrl => this.http.get(mainConfigUrl, { responseType: 'text', params: noCacheParams }).pipe(
                     map((yamlText: string) => {
                         try {
                             const parsed = yaml.load(yamlText) as EVTConfigRaw;
@@ -75,9 +98,12 @@ export class AppConfig {
                         }
 
                         const sourcesRequests = editionTextSourcesConfig.map(sourceConfig =>
-                            this.http.get<EditorialConventionsConfig>(
-                                sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl
+                            this.http.get(
+                                sourceConfig.editorialConventionsUrl ?? this.editorialConventionsConfigUrl,
+                                { responseType: 'text', params: noCacheParams }
                             ).pipe(
+                                // JSON is valid YAML, so editorial conventions files in the old JSON format are still supported
+                                map((yamlText: string) => yaml.load(yamlText) as EditorialConventionsConfig),
                                 map(editorialConventionsConfig => {
                                     let imagesSource: ImagesSource = { kind: 'null' };
                                     if (sourceConfig.imagesSources) {
@@ -123,28 +149,17 @@ export class AppConfig {
      * @param edition EditionConfig
      */
     updateStyleFromConfig(edition: EditionConfig, ui: UiConfig) {
-        const rules = [];
-        rules['html'] = `font-size: ${ui.mainFontSize};`;
-        rules['.edition-font'] = `font-family: ${ui.mainFontFamily};`;
-        rules['.ng-select'] = `font-size: ${ui.secondaryFontSize};`;
-        rules['.nav-link'] = `font-size: ${ui.secondaryFontSize} !important;`;
-        rules['.tab-content'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.75)}`;
-        rules['.apparatus-nav .nav-link'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)} !important;`;
-        rules['evt-biblio-list .msIdentifier, .btn-close, .layerMarker, .app-wit'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
-        rules['.code, .label, .relation-description, .source-detail-btn'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.9)};`;
-        rules['.mod-layer'] = `font-size: ${reduceCssUnit(ui.mainFontSize, 0.8)};`;
-        rules['evt-original-encoding-viewer code'] = `font-size: ${ui.secondaryFontSize};`;
-        rules['.app-detail-tabs .nav-link'] = `font-family: ${ui.secondaryFontFamily};`;
-        rules['.ui-font'] = `font-family: ${ui.secondaryFontFamily}; font-size: ${ui.secondaryFontSize};`;
-        rules['.app-detail-tabs'] = `font-family: ${ui.secondaryFontFamily};`;
-        //rules['.app-detail-content'] = `font-family: ${ui.mainFontFamily}; font-size: ${ui.secondaryFontSize};`;
-        rules['.' + AnalogueClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
-        rules['.' + SourceClass + ' .opened'] = `background-color: ${edition.readingColorDark};`;
-        rules['.' + AnalogueClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
-        rules['.' + SourceClass + ':hover'] = `background-color: ${edition.readingColorLight}; cursor:pointer;`;
-
-        Object.entries(rules).forEach(([selector, style]) => { updateCSS([[selector, style]]) });
-        console.log('Style applied from config', rules);
+        const properties = {
+            '--main-font-family': ui.mainFontFamily,
+            '--main-font-size': ui.mainFontSize,
+            '--secondary-font-family': ui.secondaryFontFamily,
+            '--secondary-font-size': ui.secondaryFontSize,
+            '--reading-color-light': edition.readingColorLight,
+            '--reading-color-dark': edition.readingColorDark,
+        };
+        Object.entries(properties).filter(([, value]) => value)
+            .forEach(([property, value]) => document.documentElement.style.setProperty(property, value));
+        console.log('Style properties applied from config', properties);
     }
 
     static getListsToParseTagNames(): NamedEntitiesListConfig[] {
@@ -156,10 +171,25 @@ export class AppConfig {
     }
 
     static getNamedEntityType(tagName: string): string {
+        const neTagNameMap: { [key: string]: string } = {
+            persongrp: 'person',
+        };
+        const name = neTagNameMap[tagName.toLowerCase()] || tagName.toLowerCase();
         const lists = AppConfig.getListsToParseTagNames();
         const list = lists.find(list =>
-            list.listSelector.toLowerCase().includes(tagName.toLowerCase())
-            || list.namedEntityType.toLowerCase() === tagName.toLowerCase());
+            list.listSelector.toLowerCase().includes(name)
+            || list.namedEntityType.toLowerCase() === name);
+
+        // No enabled list matches this element: keep its own name so that it is simply not listed
+        if (!list) {
+            if (!AppConfig.unlistedEntityTags.has(name)) {
+                AppConfig.unlistedEntityTags.add(name);
+                console.warn(`<${tagName}> does not belong to any enabled list in "namedEntitiesLists": `+'its entities will not be shown among the entities lists');
+            }
+
+            return name;
+        }
+
         return list.namedEntityType;
     }
 }

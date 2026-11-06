@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MsItem } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-ms-item',
@@ -9,7 +10,7 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(MsItem)
-export class MsItemComponent {
+export class MsItemComponent extends EvtDynamicComponent {
   @Input() data: MsItem;
   @Input() nested1: boolean;
   @Input() nested2: boolean;

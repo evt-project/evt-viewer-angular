@@ -5,25 +5,15 @@ import { EntitiesSelectItem } from './entities-select/entities-select.component'
 
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
-export class Highlightable {
+export class EvtDynamicComponent {
   @Input() highlightData: HighlightData;
   @Input() itemsToHighlight: EntitiesSelectItem[];
-}
-
-@Directive()
-// tslint:disable-next-line: directive-class-suffix
-export class EditionlevelSusceptible {
-  @Input() editionLevel: EditionLevelType;
-}
-
-@Directive()
-// tslint:disable-next-line: directive-class-suffix
-export class TextFlowSusceptible {
   @Input() textFlow: TextFlow;
-}
-
-@Directive()
-// tslint:disable-next-line: directive-class-suffix
-export class ShowDeletionsSusceptible {
   @Input() withDeletions: boolean;
+  @Input() selectedLayer: string;
+
+  protected edLevel: EditionLevelType;
+
+  @Input() set editionLevel(el: EditionLevelType) { this.edLevel = el; }
+  get editionLevel(): EditionLevelType { return this.edLevel; }
 }

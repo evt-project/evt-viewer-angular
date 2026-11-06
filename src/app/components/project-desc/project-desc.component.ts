@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ProjectDesc } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-project-desc',
@@ -8,6 +9,6 @@ import { register } from '../../services/component-register.service';
   styleUrls: ['./project-desc.component.scss'],
 })
 @register(ProjectDesc)
-export class ProjectDescComponent {
+export class ProjectDescComponent extends EvtDynamicComponent {
   @Input() data: ProjectDesc;
 }

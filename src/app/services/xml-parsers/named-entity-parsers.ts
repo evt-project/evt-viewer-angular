@@ -5,6 +5,7 @@ import {
     NamedEntityRef, Relation, XMLElement,
 } from '../../models/evt-models';
 import { getXPath, xpath } from '../../utils/dom-utils';
+import { isLetterOrDigit } from '../../utils/js-utils';
 import { getXmlIdRequired, replaceNewLines } from '../../utils/xml-utils';
 import { AttributeMapParser, AttributeParser, EmptyParser, GenericElemParser, TextParser } from './basic-parsers';
 import { createParser, parseChildren, Parser } from './parser-models';
@@ -114,7 +115,7 @@ export class EntityParser extends EmptyParser implements Parser<XMLElement> {
         const entity: NamedEntity = {
             type: NamedEntity,
             id: elId,
-            sortKey: xml.getAttribute('sortKey') || (label ? label[0] : '') || xml.getAttribute('xml:id') || xpath(xml),
+            sortKey: getSortKey(xml, label),
             originalEncoding: xml,
             label,
             namedEntityType: AppConfig.getNamedEntityType(xml.tagName),
@@ -309,6 +310,17 @@ export class RelationParser extends EmptyParser implements Parser<XMLElement> {
 }
 
 function getEntityID(ref: string) { return ref ? ref.replace(/#/g, '') : ''; }
+
+function getSortKey(xml: XMLElement, label: NamedEntityLabel): string {
+    const encodedKey = xml.getAttribute('sortKey');
+    if (encodedKey) { return encodedKey; }
+    const indexable = removeDiacritics(`${label || ''}`);
+
+    return Array.from(indexable).find(isLetterOrDigit) || xml.getAttribute('xml:id') || xpath(xml);
+}
+
+function removeDiacritics(text: string) { return text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
 function textLabel(elemName: string, xml: XMLElement) {
     const el = xml.querySelector<XMLElement>(elemName);
 

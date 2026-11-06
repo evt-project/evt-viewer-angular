@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MsDesc } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-ms-desc',
@@ -9,6 +10,6 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(MsDesc)
-export class MsDescComponent {
+export class MsDescComponent extends EvtDynamicComponent {
   @Input() data: MsDesc;
 }

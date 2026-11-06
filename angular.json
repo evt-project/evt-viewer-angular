@@ -80,23 +80,7 @@
                 "input": "src/index.html",
                 "output": "./../index.html"
               },
-              "assets": [
-                {
-                  "glob": "favicon.ico",
-                  "input": "src/",
-                  "output": "./../"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "src/assets/",
-                  "ignore": [
-                    "fonts/evt-icons-project.json",
-                    "scss/**",
-                    "data/**"
-                  ],
-                  "output": "./../assets/"
-                }
-              ],
+              "assets": [],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -132,13 +116,13 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "evt-viewer-angular:build:production"
+              "buildTarget": "evt-viewer-angular:build:production"
             },
             "release": {
-              "browserTarget": "evt-viewer-angular:build:release"
+              "buildTarget": "evt-viewer-angular:build:release"
             },
             "development": {
-              "browserTarget": "evt-viewer-angular:build:development"
+              "buildTarget": "evt-viewer-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -146,7 +130,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "evt-viewer-angular:build"
+            "buildTarget": "evt-viewer-angular:build"
           }
         },
         "test": {
@@ -199,9 +183,18 @@
       }
     }
   },
-  "defaultProject": "evt-viewer-angular",
   "cli": {
     "analytics": "c373e515-eb44-4b1b-85c7-56dd668954af",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }

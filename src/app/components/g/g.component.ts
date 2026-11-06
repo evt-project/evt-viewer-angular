@@ -5,9 +5,7 @@ import { map } from 'rxjs/operators';
 import { G } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface GComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-g',
@@ -15,9 +13,8 @@ export interface GComponent extends EditionlevelSusceptible, Highlightable, Text
   styleUrls: ['./g.component.scss'],
 })
 @register(G)
-export class GComponent {
+export class GComponent extends EvtDynamicComponent {
   @Input() data: G;
-  @Input() selectedLayer: string;
 
   specialChars$ = this.evtModelService.specialChars$.pipe(
     map((specialChars) => specialChars.find((char) => char.id === this.data.charId)),
@@ -42,6 +39,7 @@ export class GComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 
 }

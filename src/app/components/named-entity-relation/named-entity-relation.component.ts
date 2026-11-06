@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { NamedEntity, Relation } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(Relation)
 @Component({
@@ -11,7 +12,7 @@ import { EVTModelService } from '../../services/evt-model.service';
   templateUrl: './named-entity-relation.component.html',
   styleUrls: ['./named-entity-relation.component.scss'],
 })
-export class NamedEntityRelationComponent {
+export class NamedEntityRelationComponent extends EvtDynamicComponent {
   @Input() data: Relation;
   @Input() inEntity: boolean;
 
@@ -24,6 +25,7 @@ export class NamedEntityRelationComponent {
   constructor(
     private evtModelService: EVTModelService,
   ) {
+    super();
   }
 
   toggleEntity(entity: NamedEntity) {

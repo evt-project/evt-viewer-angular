@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MsFrag } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-ms-frag',
@@ -9,6 +10,6 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(MsFrag)
-export class MsFragComponent {
+export class MsFragComponent extends EvtDynamicComponent {
   @Input() data: MsFrag;
 }

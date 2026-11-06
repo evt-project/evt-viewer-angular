@@ -3,13 +3,11 @@ import { Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from 'src/app/directives/editorial-convention-layout.directive';
 import { ChangeLayerData, GenericElement, Mod, Note } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
 import { distinctUntilChanged, map, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { ErrorsService } from 'src/app/services/errors.service';
-import { AppConfig, EditionLevelType } from 'src/app/app.config';
-
-export interface ModComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { AppConfig } from 'src/app/app.config';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-mod',
@@ -18,13 +16,9 @@ export interface ModComponent extends EditionlevelSusceptible, Highlightable, Te
 })
 
 @register(Mod)
-export class ModComponent {
+export class ModComponent extends EvtDynamicComponent {
 
   @Input() data: Mod;
-
-  @Input() editionLevel: EditionLevelType;
-
-  @Input() withDeletions: boolean;
 
   public alwaysShow: boolean;
 
@@ -41,15 +35,15 @@ export class ModComponent {
 
   public orderedLayers: string[];
 
-  public selectedLayer: string;
+  public activeLayer: string;
 
   public selectedLayer$ = this.evtStatusService.currentChanges$.pipe(
     distinctUntilChanged(),
     map(({ selectedLayer, layerOrder }) => {
-      this.selectedLayer = selectedLayer;
+      this.activeLayer = selectedLayer;
       this.orderedLayers = layerOrder;
       if (layerOrder.length > 0) {
-        this.selectedLayer = this.selectedLayer ?? layerOrder[layerOrder.length-1];
+        this.activeLayer = this.activeLayer ?? layerOrder[layerOrder.length-1];
       }
 
       return selectedLayer;
@@ -76,10 +70,10 @@ export class ModComponent {
 
   setLayerData(data: ChangeLayerData) {
     this.orderedLayers = data?.layerOrder;
-    this.selectedLayer = data?.selectedLayer;
+    this.activeLayer = data?.selectedLayer;
     if (this.orderedLayers.length > 0) {
       // default selected layer
-      this.selectedLayer = this.selectedLayer ?? this.orderedLayers[this.orderedLayers.length-1];
+      this.activeLayer = this.activeLayer ?? this.orderedLayers[this.orderedLayers.length-1];
     }
   }
 
@@ -113,13 +107,13 @@ export class ModComponent {
       return false;
     }
     this.evtStatusService.currentChanges$.subscribe(({ next: (data) => this.setLayerData(data) }));
-    if ((this.selectedLayer !== undefined) && (this.data.changeLayer !== undefined)) {
+    if ((this.activeLayer !== undefined) && (this.data.changeLayer !== undefined)) {
       // we are always showing deletions regardless of mod change layer
       if (!this.data.insideApp[0] && subEl.class === 'del') {
         return false;
       }
       // generic content managament
-      if (this.getLayerIndex(this.selectedLayer) < this.getLayerIndex(this.data.changeLayer)) {
+      if (this.getLayerIndex(this.activeLayer) < this.getLayerIndex(this.data.changeLayer)) {
         return true;
       }
     }
@@ -134,7 +128,9 @@ export class ModComponent {
   constructor(
     public evtStatusService: EVTStatusService,
     private errorService: ErrorsService,
-  ) {}
+  ) {
+    super();
+  }
 
 
 }
