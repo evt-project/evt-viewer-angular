@@ -18,6 +18,9 @@ $themes: (
         generalBackground: white,
         generalFontColor: black,
         tabFontColor: black,
+        searchMatchBackground: #ffe066,
+        searchCurrentMatchBackground: #ff9632,
+        searchMatchColor: #000,
     ),
     high_contrast_inverted: (
         baseColorDark: #000,
@@ -38,6 +41,9 @@ $themes: (
         generalBackgroundColor: black,
         generalFontColor: white,
         tabFontColor: black,
+        searchMatchBackground: #ffe066,
+        searchCurrentMatchBackground: #ff9632,
+        searchMatchColor: #000,
     ),
     modern: (
         baseColorDark: #263238,
@@ -58,6 +64,9 @@ $themes: (
         generalBackground: white,
         generalFontColor: black,
         tabFontColor: black,
+        searchMatchBackground: #ffe066,
+        searchCurrentMatchBackground: #ff9632,
+        searchMatchColor: #000,
     ),
     classic: (
         baseColorDark: rgb(54, 45, 40),
@@ -78,6 +87,9 @@ $themes: (
         generalBackground: white,
         generalFontColor: black,
         tabFontColor: black,
+        searchMatchBackground: #ffe066,
+        searchCurrentMatchBackground: #ff9632,
+        searchMatchColor: #000,
     ),
     color_blind: (
         baseColorDark: #750a31,
@@ -98,6 +110,9 @@ $themes: (
         generalBackground: white,
         generalFontColor: black,
         tabFontColor: black,
+        searchMatchBackground: #ffe066,
+        searchCurrentMatchBackground: #ff9632,
+        searchMatchColor: #000,
     )
 );
 

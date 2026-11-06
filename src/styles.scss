@@ -389,3 +389,16 @@ evt-page :not(evt-apparatus-entry-detail) .verse-num:before {
   margin-top: 0.35rem;
   float: right;
 }
+
+// Not themify: its :host-context() selector is unknown to Firefox and Safari, which would drop the whole rule
+@each $theme, $map in $themes {
+  [data-theme="#{$theme}"] ::highlight(evt-search-match) {
+    background-color: map-get($map, searchMatchBackground);
+    color: map-get($map, searchMatchColor);
+  }
+
+  [data-theme="#{$theme}"] ::highlight(evt-search-current) {
+    background-color: map-get($map, searchCurrentMatchBackground);
+    color: map-get($map, searchMatchColor);
+  }
+}
