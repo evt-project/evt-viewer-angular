@@ -5,15 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.1.0-beta] - XXXX-XX-XX
+
 ### Added
-- 
-- 
+- Update to Angular 18
+- Updated xml syntax highlighter
+- Updated dynamic component
+
 ### Changed
-- 
-- 
+- Converted editorial conventions from json to yaml
+- Refresh on url changing and preventing caching of js file
+  
 ### Fixed
-- 
-- 
+- Fix class name comparisons 
+- Syntactical fix to release script
 
 ## [2.0.0-beta] - 2026-09-23
 
