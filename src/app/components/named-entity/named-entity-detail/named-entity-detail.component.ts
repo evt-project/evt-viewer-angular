@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NamedEntityInfo } from '../../../models/evt-models';
 import { register } from '../../../services/component-register.service';
+import { EvtDynamicComponent } from '../../components-mixins';
 
 @Component({
   selector: 'evt-named-entity-detail',
@@ -8,7 +9,7 @@ import { register } from '../../../services/component-register.service';
   styleUrls: ['./named-entity-detail.component.scss'],
 })
 @register(NamedEntityInfo)
-export class NamedEntityDetailComponent {
+export class NamedEntityDetailComponent extends EvtDynamicComponent {
   @Input() data: NamedEntityInfo;
 
   iconData = {

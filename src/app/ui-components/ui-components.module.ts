@@ -14,6 +14,7 @@ import { HeaderSectionComponent } from './header-section/header-section.componen
 import { IconComponent } from './icon/icon.component';
 import { ModalComponent } from './modal/modal.component';
 import { PanelComponent } from './panel/panel.component';
+import { SyntaxHighlighterComponent } from './syntax-highlighter/syntax-highlighter.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { PanelComponent } from './panel/panel.component';
         IconComponent,
         ModalComponent,
         PanelComponent,
+        SyntaxHighlighterComponent,
     ],
     imports: [
         CommonModule,
@@ -43,6 +45,7 @@ import { PanelComponent } from './panel/panel.component';
         ModalComponent,
         NgSelectModule,
         PanelComponent,
+        SyntaxHighlighterComponent,
     ],
 })
 export class UiComponentsModule {

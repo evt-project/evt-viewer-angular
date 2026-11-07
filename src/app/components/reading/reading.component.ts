@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Mod, Reading } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { Highlightable } from '../components-mixins';
-import { AppConfig, EditionLevelType } from 'src/app/app.config';
+import { AppConfig } from 'src/app/app.config';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-reading',
@@ -10,11 +10,8 @@ import { AppConfig, EditionLevelType } from 'src/app/app.config';
   styleUrls: ['./reading.component.scss'],
 })
 @register(Reading)
-export class ReadingComponent extends Highlightable {
+export class ReadingComponent extends EvtDynamicComponent {
   @Input() data: Reading;
-  @Input() editionLevel: EditionLevelType;
-  @Input() withDeletions: boolean;
-  @Input() selectedLayer: string;
 
   public ModType = Mod;
 

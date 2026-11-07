@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { NamedEntitiesList } from '../../models/evt-models';
+import { isLetterOrDigit } from '../../utils/js-utils';
 import { register } from '../../services/component-register.service';
 import { EVTBtnClickEvent } from '../../ui-components/button/button.component';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @register(NamedEntitiesList)
 @Component({
@@ -11,7 +13,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './named-entities-list.component.html',
   styleUrls: ['./named-entities-list.component.scss'],
 })
-export class NamedEntitiesListComponent implements OnInit, OnChanges, OnDestroy {
+export class NamedEntitiesListComponent extends EvtDynamicComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data: NamedEntitiesList;
   @Output() searchedEntities: EventEmitter<string> = new EventEmitter();
   // tslint:disable-next-line: variable-name
@@ -31,7 +33,9 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges, OnDestroy 
   constructor(
     private searchService: SearchService
   ) {
+    super();
     this.searchQuerySub = this.searchService.searchQuery$.subscribe(s => {
+      if (!s) { return; }
       this.searchOpened = true;
       this.querySearch = s;
       this.querySearchSubmitted = s;
@@ -68,8 +72,8 @@ export class NamedEntitiesListComponent implements OnInit, OnChanges, OnDestroy 
         .filter((el) => el.namedEntityType === this.data.namedEntityType)
         .map((el) => el.sortKey?.substr(0, 1).toLowerCase())
         .filter((item, i, ar) => item && ar.indexOf(item) === i)
-        .sort();
-      this.selectedKey = this.navigationKeys[0] || '';
+        .sort((a, b) => a.localeCompare(b));
+      this.selectedKey = this.navigationKeys.find(isLetterOrDigit) || this.navigationKeys[0] || '';
     }
   }
 }

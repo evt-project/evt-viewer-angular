@@ -5,9 +5,7 @@ import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { BehaviorSubject, combineLatest, map, tap } from 'rxjs';
 import { HoverService } from 'src/app/services/hover.service';
 import { isElementBetween } from 'src/app/utils/dom-utils';
-import { EditionlevelSusceptible } from '../../components-mixins';
-
-export interface ApparatusEntryExponentComponent extends EditionlevelSusceptible { }
+import { EvtDynamicComponent } from '../../components-mixins';
 
 @register(ApparatusEntryExponent)
 @Component({
@@ -16,7 +14,7 @@ export interface ApparatusEntryExponentComponent extends EditionlevelSusceptible
   styleUrls: ['./apparatus-entry-exponent.component.scss']
 })
 
-export class ApparatusEntryExponentComponent implements OnDestroy {
+export class ApparatusEntryExponentComponent extends EvtDynamicComponent implements OnDestroy {
   private _data: ApparatusEntryExponent;
   @Input() set data(v: ApparatusEntryExponent) {
     this._data = v;
@@ -101,6 +99,7 @@ export class ApparatusEntryExponentComponent implements OnDestroy {
     private statusService: EVTStatusService,
     private hoverService: HoverService,
   ) {
+    super();
   }
 
   ngOnInit(): void {

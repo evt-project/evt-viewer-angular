@@ -2,9 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 import { Sic } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface SicComponent extends EditionlevelSusceptible, Highlightable { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-sic',
@@ -12,7 +10,7 @@ export interface SicComponent extends EditionlevelSusceptible, Highlightable { }
   styleUrls: ['./sic.component.scss'],
 })
 @register(Sic)
-export class SicComponent {
+export class SicComponent extends EvtDynamicComponent {
 
   @Input() data: Sic;
 

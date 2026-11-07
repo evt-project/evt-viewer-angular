@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ImageTextComponent } from './image-text.component';
+import { ImageOnlyComponent } from './image-only.component';
 
-describe('ImageTextComponent', () => {
-  let component: ImageTextComponent;
-  let fixture: ComponentFixture<ImageTextComponent>;
+describe('ImageOnlyComponent', () => {
+  let component: ImageOnlyComponent;
+  let fixture: ComponentFixture<ImageOnlyComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageTextComponent ],
+      declarations: [ ImageOnlyComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageTextComponent);
+    fixture = TestBed.createComponent(ImageOnlyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

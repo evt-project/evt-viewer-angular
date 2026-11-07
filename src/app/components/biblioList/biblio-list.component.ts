@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BibliographicList } from '../../models/evt-models';
+import { BibliographicEntry, BibliographicList, BibliographicStructEntry, MsDesc } from '../../models/evt-models';
 @Component({
   selector: 'evt-biblio-list',
   templateUrl: './biblio-list.component.html',
@@ -8,4 +8,10 @@ import { BibliographicList } from '../../models/evt-models';
 })
 export class BiblioListComponent {
   @Input() data: BibliographicList;
+
+  readonly MsDesc = MsDesc;
+  readonly BibliographicStructEntry = BibliographicStructEntry;
+  readonly BibliographicList = BibliographicList;
+  readonly BibliographicEntry = BibliographicEntry;
+  readonly PlainObject = Object;
 }

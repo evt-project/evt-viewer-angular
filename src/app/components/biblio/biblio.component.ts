@@ -11,6 +11,8 @@ import { BibliographicEntry } from 'src/app/models/evt-models';
 export class BiblioEntryComponent {
   @Input() data: BibliographicEntry;
 
+  readonly BibliographicEntry = BibliographicEntry;
+
   public showList = AppConfig.evtSettings.ui.biblTab.propsToShow;
   public showAttrNames = AppConfig.evtSettings.ui.biblTab.showAttrNames;
   public showEmptyValues = AppConfig.evtSettings.ui.biblTab.showEmptyValues;
