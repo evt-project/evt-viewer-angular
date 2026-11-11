@@ -213,7 +213,8 @@ export class EVTStatusService {
             if (!currentViewMode) {
                 const pathMatch = event.url.match(/(?<!\?.+)(?<=\/)[\w-]+(?=[/\r\n?]|$)/gm);
                 if (pathMatch) {
-                    this.updateViewMode$.next(this.availableViewModes.find((vm) => vm.id === pathMatch[0]));
+                    // A URL can point to a view mode disabled in the config after it was bookmarked
+                    this.updateViewMode$.next(this.availableViewModes.find((vm) => vm.id === pathMatch[0]) ?? this.defaultViewMode);
                 } else {
                     this.updateViewMode$.next(this.defaultViewMode);
                 }

@@ -15,6 +15,7 @@
   "bookmark": "Bookmark",
   "downloadXML": "Download XML",
   "pinboard": "Pinboard",
+  "loading": "Loading...",
   "pinboardLoading": "Pinboard Loading...",
   "pinboardEmpty": "Your pinboard is empty.",
   "filteredPinboardEmpty": "No pin found for selected types.",

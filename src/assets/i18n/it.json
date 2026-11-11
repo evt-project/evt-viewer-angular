@@ -14,6 +14,7 @@
   "bookmark": "Segnalibro",
   "downloadXML": "Scarica XML",
   "pinboard": "Bacheca appunti",
+  "loading": "Caricamento...",
   "pinboardLoading": "Caricamento appunti...",
   "pinboardEmpty": "Nessun appunto trovato.",
   "filteredPinboardEmpty": "Nessun appunto trovato per i filtri impostati.",

@@ -14,6 +14,7 @@
   "bookmark": "Signet",
   "downloadXML": "Télécharger le XML",
   "pinboard": "Liste des notes",
+  "loading": "Chargement…",
   "pinboardLoading": "Chargement des notes…",
   "pinboardEmpty": "Aucune note",
   "filteredPinboardEmpty": "Aucune note avec les filtres activés",
