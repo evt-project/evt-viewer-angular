@@ -4,16 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0-beta] - XXXX-XX-XX
+## [2.1.0-beta] - 2026-12-01
+This is a technical release focused on upgrading Angular, serving as a preparatory step for upcoming development sessions.
+
 ### Added
-- 
-- 
+- Added cache-busting for configuration and edition file requests.
+- Added support for YAML editorial convention configuration files.
+- Added a dedicated syntax highlighter component.
+
 ### Changed
-- 
-- 
+- Upgraded Angular from version 13 to version 18 and updated related dependencies.
+- Updated Angular routing and HTTP configuration for Angular 18.
+- Updated dynamic components and templates to use the shared `EvtDynamicComponent` base class.
+- Updated release asset handling and configuration file loading.
+- Updated TypeScript and Angular ESLint configuration and dependencies.
+
 ### Fixed
-- 
-- 
+- Fixed entity sorting and navigation to better handle alphanumeric and diacritic characters.
+- Fixed named entity handling for elements that do not belong to an enabled entity list.
+- Restored compatibility with existing JSON editorial convention configuration files.
 
 ## [2.0.0-beta] - 2026-09-23
 
