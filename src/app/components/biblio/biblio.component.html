@@ -1,4 +1,4 @@
-<ng-container *ngIf="data.type && (data.type.name === 'BibliographicEntry')">
+<ng-container *ngIf="data.type === BibliographicEntry">
     <ng-container *ngFor="let element of showList | keyvalue; let i = index">
         <ng-container *ngIf="showEmptyValues || (data[element.value] && data[element.value].length > 0)">
             <ng-container *ngIf="showAttrNames">{{element.value}}: </ng-container>

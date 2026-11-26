@@ -2,9 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Paragraph } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface ParagraphComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-paragraph',
@@ -13,7 +11,6 @@ export interface ParagraphComponent extends EditionlevelSusceptible, Highlightab
 })
 
 @register(Paragraph)
-export class ParagraphComponent {
+export class ParagraphComponent extends EvtDynamicComponent {
   @Input() data: Paragraph;
-  @Input() selectedLayer: string;
 }

@@ -38,7 +38,7 @@ editionTextSourcesConfig:
           double: assets/data/images/double/
 
     # Path to editorial conventions config
-    editorialConventionsUrl: assets/config/editorial_conventions_config.json
+    editorialConventionsUrl: assets/config/editorial_conventions_config.yaml
 
 #######################################
 # Edition customization

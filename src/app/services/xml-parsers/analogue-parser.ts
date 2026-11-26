@@ -1,6 +1,7 @@
 import { AppConfig } from 'src/app/app.config';
 import { parse, ParserRegister, xmlParser } from '.';
-import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, GenericElement, Milestone, XMLElement } from '../../models/evt-models';
+import { Analogue, AnalogueClass, BibliographicEntry, BibliographicList, BibliographicStructEntry,
+    GenericElement, Milestone, MsDesc, Note, XMLElement } from '../../models/evt-models';
 import { AnchorParser, AttributeParser, GenericElemParser, MilestoneParser } from './basic-parsers';
 import { createParser, getID, parseChildren, Parser } from './parser-models';
 import { chainFirstChildTexts, getExternalElements, normalizeSpaces } from '../../utils/xml-utils';
@@ -19,8 +20,8 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     analogueMarker = AppConfig.evtSettings.edition.analogueMarkers;
     biblAttributeToMatch = AppConfig.evtSettings.edition.externalBibliography.biblAttributeToMatch;
     elemAttributesToMatch = AppConfig.evtSettings.edition.externalBibliography.elementAttributesToMatch;
-    notDisplayedInTextFlow = ['Note', 'BibliographicList', 'BibliographicEntry', 'BibliographicStructEntry',
-    'Analogue', 'MsDesc'];
+    notDisplayedInTextFlow = [Note, BibliographicList, BibliographicEntry, BibliographicStructEntry,
+    Analogue, MsDesc];
     evtTextComplexElements = ['choice', 'app', 'l', 'quote', 'p', 'lg'];
     evtInnerTextElements = ['#text', 'reg', 'corr', 'rdg'];
 
@@ -42,7 +43,7 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
             attributes: this.attributeParser.parse(analogue),
             text: normalizeSpaces(chainFirstChildTexts(analogue, this.evtTextComplexElements, this.evtInnerTextElements)),
             content: content,
-            contentToShow: content.filter((x) => !(this.notDisplayedInTextFlow.includes(x['type'].name))),
+            contentToShow: content.filter((x) => !(this.notDisplayedInTextFlow.includes(x['type']))),
             sources: sources.sources,
             extSources: sources.extSources,
             extLinkedElements: sources.extLinkedElements,
@@ -127,9 +128,8 @@ export class AnalogueParser extends BasicParser implements Parser<XMLElement> {
     private getQuotedTextFromElements(sources: BibliographicEntry[], elements: XMLElement[]): [{id: string, quote: string}] {
         // eslint-disable-next-line prefer-const
         let quotesInSources = this.getQuotedTextFromSources(sources);
-        const notDisplayedInText = ['Note','BibliographicList','BibliographicEntry','BibliographicStructEntry','Analogue','MsDesc'];
         elements.forEach((el: XMLElement) => {
-            if (!notDisplayedInText.includes(el['type'])) {
+            if (!this.notDisplayedInTextFlow.includes(el['type'])) {
                 quotesInSources.push( { id: el.id, quote: el })
             }
         });

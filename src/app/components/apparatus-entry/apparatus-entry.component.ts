@@ -5,13 +5,11 @@ import { AppConfig } from 'src/app/app.config';
 import { ApparatusEntry, Reading } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
 import { EVTModelService } from '../../services/evt-model.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible } from '../components-mixins';
 import { ApparatusEntryDetailComponent } from './apparatus-entry-detail/apparatus-entry-detail.component';
 import { WitnessPanelService } from 'src/app/panels/witness-panel/witness-panel.service';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 import { ActivatedRoute } from '@angular/router';
-
-export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-apparatus-entry',
@@ -20,9 +18,8 @@ export interface ApparatusEntryComponent extends EditionlevelSusceptible, Highli
   changeDetection: ChangeDetectionStrategy.Default,
 })
 @register(ApparatusEntry)
-export class ApparatusEntryComponent implements OnInit {
+export class ApparatusEntryComponent extends EvtDynamicComponent implements OnInit {
   @Input() data: ApparatusEntry;
-  @Input() selectedLayer: string;
 
   public updateIsOpened$ = new BehaviorSubject<boolean>(undefined);
   public isOpened$ = combineLatest([
@@ -102,6 +99,7 @@ export class ApparatusEntryComponent implements OnInit {
     @Optional() @SkipSelf() private parentAppComponent?: ApparatusEntryComponent,
     @Optional() private witnessPanelService?: WitnessPanelService,
   ) {
+    super();
     this.isInsideAppDetail = !!this.parentDetailComponent;
     this.isNestedApp = !!this.parentAppComponent;
   }

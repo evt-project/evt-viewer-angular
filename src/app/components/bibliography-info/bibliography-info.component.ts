@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BibliographicEntry, BibliographicStructEntry, BibliographyInfo } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-bibliography-info',
@@ -9,7 +10,7 @@ import { register } from 'src/app/services/component-register.service';
 })
 
 @register(BibliographyInfo)
-export class BibliographyInfoComponent {
+export class BibliographyInfoComponent extends EvtDynamicComponent {
   biblList : Array<BibliographicEntry | BibliographicStructEntry>;
   currentStyle : string;
 

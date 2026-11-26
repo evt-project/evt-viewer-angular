@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular
 import { ApparatusEntry, Reading } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
 import { EVTModelService } from 'src/app/services/evt-model.service';
+import { EvtDynamicComponent } from '../../components-mixins';
 
 @Component({
   selector: 'evt-apparatus-entry-readings',
@@ -11,16 +12,16 @@ import { EVTModelService } from 'src/app/services/evt-model.service';
 })
 
 @register(ApparatusEntryReadingsComponent)
-export class ApparatusEntryReadingsComponent {
+export class ApparatusEntryReadingsComponent extends EvtDynamicComponent {
   @Input() data: ApparatusEntry;
   @Input() rdgHasCounter: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() template: TemplateRef<any>;
-  @Input() selectedLayer: string;
 
   constructor(
     public evtModelService: EVTModelService,
   ) {
+    super();
   }
 
   get significantReading(): Reading[] {

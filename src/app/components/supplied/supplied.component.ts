@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Supplied } from 'src/app/models/evt-models';
 import { register } from 'src/app/services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface SuppliedComponent extends EditionlevelSusceptible, Highlightable { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-supplied',
@@ -11,7 +9,7 @@ export interface SuppliedComponent extends EditionlevelSusceptible, Highlightabl
   styleUrls: ['./supplied.component.scss'],
 })
 @register(Supplied)
-export class SuppliedComponent {
+export class SuppliedComponent extends EvtDynamicComponent {
   @Input() data: Supplied;
 
 }

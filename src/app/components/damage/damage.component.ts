@@ -3,9 +3,7 @@ import { Component, Input } from '@angular/core';
 import { EditorialConventionLayoutData } from '../../directives/editorial-convention-layout.directive';
 import { Damage } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable } from '../components-mixins';
-
-export interface DamageComponent extends EditionlevelSusceptible, Highlightable { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-damage',
@@ -13,7 +11,7 @@ export interface DamageComponent extends EditionlevelSusceptible, Highlightable 
   styleUrls: ['./damage.component.scss'],
 })
 @register(Damage)
-export class DamageComponent {
+export class DamageComponent extends EvtDynamicComponent {
   @Input() data: Damage;
 
   get editorialConventionData(): EditorialConventionLayoutData {

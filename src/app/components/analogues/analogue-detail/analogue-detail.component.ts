@@ -1,4 +1,4 @@
-import { Analogue } from 'src/app/models/evt-models';
+import { Analogue, BibliographicList } from 'src/app/models/evt-models';
 import { BehaviorSubject } from 'rxjs';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { EditionLevelType } from 'src/app/app.config';
@@ -12,6 +12,7 @@ import { EditionLevelType } from 'src/app/app.config';
 export class AnalogueDetailComponent {
   private edLevel: EditionLevelType;
   public analogueEntry: Analogue;
+  readonly BibliographicList = BibliographicList;
   public headVisible: boolean;
   public detailVisible: boolean;
 

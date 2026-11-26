@@ -102,7 +102,7 @@ export class ContentViewerComponent implements OnDestroy {
     this.withDeletionsChange,
     this.selectedLayerChange,
   ]).pipe(
-    map(([data, itemsToHighlight, editionLevel, textFlow, withDeletions, selLayer]) => {
+    map(([data, itemsToHighlight, editionLevel, textFlow, withDeletions, selectedLayer]) => {
       if (this.toBeHighlighted()) {
         return {
           data,
@@ -111,7 +111,7 @@ export class ContentViewerComponent implements OnDestroy {
           editionLevel,
           textFlow,
           withDeletions,
-          selLayer,
+          selectedLayer,
         };
       }
 
@@ -120,7 +120,7 @@ export class ContentViewerComponent implements OnDestroy {
         editionLevel,
         textFlow,
         withDeletions,
-        selLayer,
+        selectedLayer,
       };
     }),
     shareReplay(1),

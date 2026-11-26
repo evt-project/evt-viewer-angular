@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 import { Mod, Reading } from 'src/app/models/evt-models';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../../components-mixins';
+import { EvtDynamicComponent } from '../../components-mixins';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { AppConfig, EditionLevelType } from 'src/app/app.config';
 import { BehaviorSubject, distinctUntilChanged, map, scan, startWith, Subject } from 'rxjs';
 import { EVTStatusService } from 'src/app/services/evt-status.service';
 
-export interface ModGroupComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
 
 @Component({
   selector: 'evt-mod-group',
@@ -16,7 +15,7 @@ export interface ModGroupComponent extends EditionlevelSusceptible, Highlightabl
   changeDetection: ChangeDetectionStrategy.Default,
 })
 
-export class ModGroupComponent {
+export class ModGroupComponent extends EvtDynamicComponent {
 
   public changeSeparatorVisible = AppConfig.evtSettings.edition.showSeparatorBetweenChanges;
   public showVarSeqAttr = AppConfig.evtSettings.edition.changeSequenceView.showVarSeqAttr;
@@ -24,8 +23,6 @@ export class ModGroupComponent {
   public mods: Mod[];
 
   public orderedLayers: string[];
-
-  public selLayer: string|undefined;
 
   public opened = false;
 
@@ -44,23 +41,20 @@ export class ModGroupComponent {
     } ),
   );
 
-  @Input() withDeletions: boolean;
-
   @Input() orderedReadings: Reading[]
 
-  @Input() set selectedLayer(layer: string|undefined) {
-    this.selLayer = layer;
-  }
-  get selectedLayers() { return this.selLayer; }
+  get selLayer() { return this.selectedLayer; }
 
   @Input() set modGroup(el: Mod[]) {
     this.mods = el;
   }
   get modGroup() { return this.mods; }
 
-  @Input() set editionLevel(el: EditionLevelType) {
+  @Input() override set editionLevel(el: EditionLevelType) {
+    this.edLevel = el;
     this.editionLevelChange.next(el);
   }
+  override get editionLevel() { return this.edLevel; }
 
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
@@ -83,6 +77,8 @@ export class ModGroupComponent {
 
   constructor(
     public evtStatusService: EVTStatusService,
-  ) {}
+  ) {
+    super();
+  }
 
 }

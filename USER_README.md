@@ -93,7 +93,7 @@ To facilitate the configuration work, configuration options are divided into mac
 
 * UI Configuration section where to set the configuration closely related to the UI, such as the default language, the default/available theme(s), etc. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Ui-Configuration).
 
-It is also possible to configurate the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.json`. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
+It is also possible to configurate the style of editorial phenomena (e.g. addition, deletion, etc), in order to override the EVT default layouts. This particular configuration should be defined in the file `editorial_conventions_config.yaml`. [See details here](https://github.com/evt-project/evt-viewer-angular/wiki/Editorial-Conventions-Configuration)
 
 5 - Style customization
 --------------------

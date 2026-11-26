@@ -6,6 +6,7 @@ import { map, Observable, of, shareReplay } from 'rxjs';
 import { HoverService } from 'src/app/services/hover.service';
 import { WitnessPanelService } from 'src/app/panels/witness-panel/witness-panel.service';
 import { isElementBetween } from 'src/app/utils/dom-utils';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-text',
@@ -13,7 +14,7 @@ import { isElementBetween } from 'src/app/utils/dom-utils';
   styleUrls: ['./text.component.scss'],
 })
 @register(Text)
-export class TextComponent implements OnInit {
+export class TextComponent extends EvtDynamicComponent implements OnInit {
   @Input() data: Text;
 
   id: string = uuidv4();
@@ -24,7 +25,9 @@ export class TextComponent implements OnInit {
     private hoverService: HoverService,
     private elementRef: ElementRef<HTMLElement>,
     @Optional() private witnessPanelService?: WitnessPanelService,
-  ) { }
+  ) {
+    super();
+  }
 
   private exponentMemo = new Map<string, UnderlineData>();
 

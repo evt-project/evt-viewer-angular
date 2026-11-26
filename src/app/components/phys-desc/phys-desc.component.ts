@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PhysDesc } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-phys-desc',
@@ -9,6 +10,6 @@ import { register } from '../../services/component-register.service';
 })
 
 @register(PhysDesc)
-export class PhysDescComponent {
+export class PhysDescComponent extends EvtDynamicComponent {
   @Input() data: PhysDesc;
 }

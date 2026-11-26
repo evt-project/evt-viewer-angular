@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { GenericElement } from '../../models/evt-models';
 import { register } from '../../services/component-register.service';
-import { EditionlevelSusceptible, Highlightable, ShowDeletionsSusceptible, TextFlowSusceptible } from '../components-mixins';
-
-export interface GenericElementComponent extends EditionlevelSusceptible, Highlightable, TextFlowSusceptible, ShowDeletionsSusceptible { }
+import { EvtDynamicComponent } from '../components-mixins';
 
 @Component({
   selector: 'evt-generic-element',
@@ -11,7 +9,6 @@ export interface GenericElementComponent extends EditionlevelSusceptible, Highli
   styleUrls: ['./generic-element.component.scss'],
 })
 @register(GenericElement)
-export class GenericElementComponent {
+export class GenericElementComponent extends EvtDynamicComponent {
   @Input() data: GenericElement;
-  @Input() selectedLayer: string;
 }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BiblioEntryComponent } from './biblio.component';
+import { StyledBiblioEntryComponent } from './biblio-styled.component';
 
-describe('BiblioComponent', () => {
-  let component: BiblioEntryComponent;
-  let fixture: ComponentFixture<BiblioEntryComponent>;
+describe('StyledBiblioEntryComponent', () => {
+  let component: StyledBiblioEntryComponent;
+  let fixture: ComponentFixture<StyledBiblioEntryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BiblioEntryComponent ],
+      declarations: [ StyledBiblioEntryComponent ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BiblioEntryComponent);
+    fixture = TestBed.createComponent(StyledBiblioEntryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

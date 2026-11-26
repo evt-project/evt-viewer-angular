@@ -14,7 +14,7 @@ export function mapToArray<T>(m: Map<T>) {
 
 export function arrayToMap<T, K extends keyof T>(arr: T[], key: K): Map<T> {
     const map: Map<T> = {};
-    arr.forEach((x) => map[x[`${key}`]] = x);
+    arr.forEach((x) => map[x[String(key)]] = x);
 
     return map;
 }
@@ -97,6 +97,13 @@ export function snakeToCamelCased(str) {
     return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
+/**
+ * Query params for config and edition files requests: the timestamp changes at every page load,
+ * so the browser never reuses a cached copy of a file that has been modified
+ * or that belonged to another edition served at the same url
+ */
+export const noCacheParams = { t: Date.now() };
+
 export function isAbsoluteUrl(path: string): boolean {
   try {
     new URL(path);
@@ -130,4 +137,8 @@ export function distinctBy<T, K>(array: T[], keySelector: (item: T) => K): T[] {
         seen.add(key);
         return true;
     })
+}
+
+export function isLetterOrDigit(char: string): boolean {
+    return !!char && ((char >= '0' && char <= '9') || char.toLowerCase() !== char.toUpperCase());
 }

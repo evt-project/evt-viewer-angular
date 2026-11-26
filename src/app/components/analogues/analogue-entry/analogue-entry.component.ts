@@ -8,8 +8,8 @@ import { Analogue, AnalogueClass, Note, NoteClass } from '../../../models/evt-mo
 import { register } from '../../../services/component-register.service';
 import { EVTStatusService } from '../../../services/evt-status.service';
 import { EditionLevelType } from 'src/app/app.config';
+import { EvtDynamicComponent } from '../../components-mixins';
 
-export interface AnalogueEntryComponent {}
 @register(Analogue)
 @Component({
   selector: 'evt-analogue-entry',
@@ -17,20 +17,19 @@ export interface AnalogueEntryComponent {}
   styleUrls: ['./analogue-entry.component.scss','../../sources/sources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnalogueEntryComponent implements OnInit {
+export class AnalogueEntryComponent extends EvtDynamicComponent implements OnInit {
 
   public _data: Analogue;
-  private edLevel: EditionLevelType;
 
   @Input() set data(dt: Analogue) {
     this._data = dt;
   }
 
-  @Input() set editionLevel(el: EditionLevelType) {
+  @Input() override set editionLevel(el: EditionLevelType) {
     this.edLevel = el;
     this.editionLevelChange.next(el);
   }
-  get editionLevel() { return this.edLevel; }
+  override get editionLevel() { return this.edLevel; }
   editionLevelChange = new BehaviorSubject<EditionLevelType | ''>('');
 
   get editorialConventionData(): EditorialConventionLayoutData {
@@ -81,7 +80,9 @@ export class AnalogueEntryComponent implements OnInit {
 
   constructor(
     public evtStatusService: EVTStatusService,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     if (this.data.text.length === 0) {
